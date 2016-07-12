@@ -9,6 +9,7 @@ import Media from './media';
 import MediaCategories from './mediaCategories';
 import Setting from './setting';
 import VerificationToken from './verification';
+import { verifyPassword, generateSaltAndHash } from '../../lib';
 
 Article.belongsToMany(Tag, {
   through: {
@@ -86,7 +87,20 @@ User.hasOne(VerificationToken, {
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
-
+const codes = generateSaltAndHash('password');
+User.sync().then(() => {
+  User.find({ where: { displayName: 'admin' } }).then((user) => {
+    if (!user) {
+      User.createWithPass({
+        email: 'admin@boldr.io',
+        name: 'Admin User',
+        displayName: 'admin',
+        password: 'password',
+        role: 'admin'
+      });
+    }
+  });
+});
 VerificationToken.belongsTo(User, {
   foreignKey: 'userId'
 });

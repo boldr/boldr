@@ -180,4 +180,11 @@ function findByUserId(userid) {
   return this.find({ where: { id: userid } });
 }
 
+function findByDisplayName(displayName) {
+  return this.find({
+    include: [{ all: true }],
+    where: { displayName }
+  });
+}
+
 export default User;
