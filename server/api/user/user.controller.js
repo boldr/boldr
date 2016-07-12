@@ -54,9 +54,9 @@ function updateUser(req, res, next) {
     .catch(handleError(res));
 }
 function changePassword(req, res, next) {
-  var userId = req.user.id;
-  var oldPass = String(req.body.oldPassword);
-  var newPass = String(req.body.newPassword);
+  const userId = req.user.id;
+  const oldPass = String(req.body.oldPassword);
+  const newPass = String(req.body.newPassword);
 
   return User.find({
     where: {

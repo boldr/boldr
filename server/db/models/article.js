@@ -1,7 +1,7 @@
 import moment from 'moment';
 import DataTypes from 'sequelize';
-import Model, { correctTime } from '../sequelize';
 import uuid from 'node-uuid';
+import Model from '../sequelize';
 
 /**
  * Creates a UUID for the User if it's not given.
@@ -13,6 +13,14 @@ function createUUIDIfNotExist(instance) {
     instance.id = uuid.v4();
   }
 }
+
+/**
+ * Articles Table
+ * Articles have one author and belong to many tags.
+ * @param sequelize
+ * @param DataTypes
+ * @returns {*|{}|Model}
+ */
 const Article = Model.define('articles', {
   id: {
     type: DataTypes.UUID,
@@ -33,6 +41,10 @@ const Article = Model.define('articles', {
     defaultValue: ''
   },
   content: {
+    type: DataTypes.TEXT,
+    defaultValue: ''
+  },
+  excerpt: {
     type: DataTypes.TEXT,
     defaultValue: ''
   },
@@ -80,6 +92,16 @@ const Article = Model.define('articles', {
     },
     shortDescription() {
       return this.content.length > 30 ? `${this.content.substr(0, 30)}...` : this.content;
+    },
+    getArticles(args) {
+      const { limit = 10, skip = 0 } = args;
+      return Article.findAll({
+        where: {
+          status: 'published'
+        },
+        limit,
+        offset: skip
+      });
     }
   }
 });

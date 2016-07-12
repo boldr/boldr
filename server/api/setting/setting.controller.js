@@ -32,4 +32,18 @@ const createSettings = (req, res, next) => {
     .catch(handleError(res));
 };
 
-export { getSettings, createSettings };
+const updateSettings = (req, res, next) => {
+  const settingsId = req.params.id;
+
+  return Setting.find({
+    where: {
+      id: settingsId
+    }
+  })
+    .then(handleEntityNotFound(res))
+    .then(saveUpdates(req.body))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+};
+
+export { getSettings, createSettings, updateSettings };

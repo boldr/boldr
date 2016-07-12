@@ -24,6 +24,10 @@ module.exports = {
           type: DataType.TEXT,
           defaultValue: ''
         },
+        excerpt: {
+          type: DataType.TEXT,
+          defaultValue: ''
+        },
         markup: {
           type: DataType.JSON,
           defaultValue: '',

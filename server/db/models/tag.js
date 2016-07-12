@@ -11,6 +11,13 @@ function createUUIDIfNotExist(instance) {
     instance.id = uuid.v4();
   }
 }
+/**
+ * Tags Table
+ * Tags for content
+ * @param sequelize
+ * @param DataTypes
+ * @returns {*|{}|Model}
+ */
 const Tag = Model.define('tags', {
   id: {
     type: DataType.UUID,
