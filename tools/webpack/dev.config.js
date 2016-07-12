@@ -7,9 +7,11 @@ const webpack = require('webpack');
 const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
+
 const WebpackHelpers = require('./helpers');
 const babelish = require('./loaders/babel.loader');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
+const styling = require('./loaders/styling.loader');
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const assetsPath = path.resolve(__dirname, '../../static/dist');
@@ -60,7 +62,7 @@ const webpackConfig = module.exports = {
       createSourceLoader({
         happy: { id: 'sass' },
         test: /\.scss$/,
-        loader: 'style-loader!css-loader!postcss-loader!sass-loader'
+        loader: 'style-loader!css-loader!postcss-loader!resolve-url!sass-loader'
       }),
 
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
@@ -93,11 +95,7 @@ const webpackConfig = module.exports = {
       path.resolve(ROOT_DIR, 'src/styles')
     ]
   },
-  postcss: [
-    autoprefixer({
-      browsers: ['last 2 versions']
-    })
-  ],
+  postcss: styling,
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),

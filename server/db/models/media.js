@@ -44,7 +44,7 @@ const Media = Model.define('media', {
     allowNull: false
   },
   ownerId: {
-    type: DataType.INTEGER
+    type: DataType.UUID
   },
   categoryId: {
     type: DataType.INTEGER

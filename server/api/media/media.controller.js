@@ -1,13 +1,65 @@
+import path from 'path';
 import Boom from 'boom';
 import AWS from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
 import { config } from '../../config/boldr';
+import { logger } from '../../lib';
+import { multerOptions, multerAvatar, multerArticle } from './media.service';
 
 const s3 = new AWS.S3({
   accessKeyId: config.aws.id,
   secretAccessKey: config.aws.secret,
   region: 'us-west-1'
 });
+
+export const upload = multer({
+  storage: multerS3({
+    s3,
+    bucket: config.aws.bucket,
+    acl: 'public-read',
+    metadata(req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key(req, file, cb) {
+      cb(null, `uploads/files/${file.fieldname}-${Date.now().toString()}${path.extname(file.originalname)}`);
+    }
+  })
+});
+
+export const uploadFiles = multer(multerOptions);
+export const uploadAvatar = multer(multerAvatar);
+export const uploadArticle = multer(multerArticle);
+
+/*
+{ fieldname: 'photos',
+[2]      originalname: 'Screen Shot 2016-07-11 at 1.30.34 AM.png',
+[2]      encoding: '7bit',
+[2]      mimetype: 'image/png',
+[2]      size: 174670,
+[2]      bucket: 'boldr',
+[2]      key: 'uploads/files/photos-1468342955875.png',
+[2]      acl: 'public-read',
+[2]      contentType: 'application/octet-stream',
+[2]      metadata: { fieldName: 'photos' },
+[2]      location: 'https://boldr.s3-us-west-1.amazonaws.com/uploads/files/photos-1468342955875.png',
+[2]      etag: '"f6f716d2cc6c25a57b9a39ffd27477df"' }
+ */
+export function generalUpload(req, res, next) {
+  logger.info(req.files);
+
+  const fileFields = {
+    s3url: req.files[0].location,
+    ownerId: req.user.id,
+    key: req.files[0].key
+  };
+  Media.create(fileFields).then(function(data) {
+    res.status(201).json(data);
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+}
 // const params = {
 //   Bucket: config.aws.bucket,
 //   Key: attachments[0].filename,

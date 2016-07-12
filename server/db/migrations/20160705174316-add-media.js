@@ -34,10 +34,10 @@ module.exports = {
           allowNull: false
         },
         ownerId: {
-          type: DataTypes.INTEGER
+          type: DataTypes.UUID
         },
         categoryId: {
-          type: DataTypes.INTEGER
+          type: DataTypes.UUID
         },
         createdAt: {
           type: DataTypes.DATE
