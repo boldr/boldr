@@ -21,25 +21,18 @@ import { signToken } from '../../middleware/auth/authService';
  *   {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI...."}
  */
 export function login(req, res, next) {
-  // Do email and password validation for the server
-  passport.authenticate('local', (authErr, user, info) => {
-    if (authErr) {
-      console.log(authErr);
-      return next(authErr);
+  passport.authenticate('local', (err, user, info) => {
+    const error = err || info;
+    if (error) {
+      return res.status(401).json(error);
     }
     if (!user) {
-      return Boom.unauthorized(info.message);
+      return res.status(404).json({ message: 'Something went wrong, please try again.' });
     }
 
-    return req.logIn(user, (loginErr) => {
-      if (loginErr) {
-        return Boom.unauthorized(loginErr);
-      }
-
-      signToken(user.id, user.role).then(token => {
-        req.user = user;
-        return res.status(200).json({ token });
-      });
+    signToken(user.id, user.role).then(token => {
+      req.user = user;
+      return res.status(200).json({ token });
     });
   })(req, res, next);
 }
@@ -75,7 +68,7 @@ export async function signUp(req, res, next) {
       website: req.body.website,
       provider: 'local'
     };
-    const user = await User.createWithPass(userData);
+    const user = await User.create(userData);
     // Generate the verification token.
     const verificationToken = await generateVerifyCode();
     // Send the verification email.

@@ -1,6 +1,7 @@
 import Boom from 'boom';
 import { User } from '../../db/models';
-import { respondWithResult, handleError, saveUpdates, handleEntityNotFound, removeEntity } from '../../lib/helpers';
+import { respondWithResult, handleError, saveUpdates,
+  handleEntityNotFound, removeEntity } from '../../lib/helpers';
 
 /**
  * Load user and append to req.
@@ -53,25 +54,27 @@ function updateUser(req, res, next) {
     .catch(handleError(res));
 }
 function changePassword(req, res, next) {
-  const userId = req.params.id;
+  var userId = req.user.id;
+  var oldPass = String(req.body.oldPassword);
+  var newPass = String(req.body.newPassword);
 
   return User.find({
     where: {
       id: userId
     }
   })
-  .then(user => {
-    if (user) {
-      const pw = req.body.password;
-      user.updatePassword(pw)
-         .then(() => {
-           res.status(204).end();
-         })
-         .catch(handleError(res));
-    } else {
-      return res.status(403).end();
-    }
-  });
+    .then(user => {
+      if (user.authenticate(oldPass)) {
+        user.password = newPass;
+        return user.save()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+      } else {
+        return res.status(403).end();
+      }
+    });
 }
 function destroyUser(req, res) {
   const userId = req.params.id;

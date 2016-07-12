@@ -1,9 +1,13 @@
+import crypto from 'crypto';
 import DataTypes from 'sequelize';
 import boom from 'boom';
 import uuid from 'node-uuid';
+import Promise from 'bluebird';
+import bcryptNode from 'bcrypt-nodejs';
 import Model from '../sequelize';
 import { verifyPassword, generateSaltAndHash } from '../../lib';
 
+const bcrypt = Promise.promisifyAll(bcryptNode);
 /**
  * Creates a UUID for the User if it's not given.
  * @param  {Object} instance Instance object of the User
@@ -40,7 +44,7 @@ const User = Model.define('users', {
       isEmail: true
     }
   },
-  passwordHash: {
+  password: {
     type: DataTypes.STRING(4096)
   },
   salt: {
@@ -106,9 +110,6 @@ const User = Model.define('users', {
   freezeTableName: true,
 
   classMethods: {
-    verifyUser,
-    createWithPass,
-    updatePassword,
     findByDisplayName,
     findByUserId
   },
@@ -127,54 +128,77 @@ const User = Model.define('users', {
           role: this.role
         }
       };
-    }
-  }
-});
+    },
+    authenticate(password, callback) {
+      if (!callback) {
+        return this.password === this.encryptPassword(password);
+      }
 
-/**
- * Verify if the user can be found in db or not
- * @param  {string} email    Email of the user
- * @param  {string} password Password of the user
- * @return {Promise<Boolean,Error>} Returns a true if information is valid
- * throws an Error if not.
- * */
-async function verifyUser(email, password) {
-  const user = await User.findOne({ where: { email } }); // eslint-disable-line no-use-before-define
-  if (!user) {
-    throw boom.unauthorized('Could not find an account with matching data.');
-  }
-  const verify = await verifyPassword(user, password);
-  if (!verify) {
-    throw boom.unauthorized('Bad email or password combo.');
-  }
-  return user;
-}
-/**
- * Creates a user with the give userData object
- * @param  {Object} userData Object which contains a password and email field.
- * @return {Promise<Object, Error>}  Returns promise about the creatd user
- * or throws an error.
- */
-async function createWithPass(userData, { transaction } = {}) {
-  if (!userData || !userData.password || !userData.email) {
-    throw new Error('User can not be created without email and password.');
-  }
-  const codes = await generateSaltAndHash(userData.password);
-  const user = await User.create({  // eslint-disable-line no-use-before-define
-    email: userData.email,
-    passwordHash: codes.hashCode,
-    salt: codes.salt,
-    displayName: userData.displayName,
-    name: userData.name,
-    gender: userData.gender,
-    location: userData.location,
-    website: userData.website,
-    bio: userData.bio,
-    picture: userData.picture,
-    role: userData.role
-  }, { transaction });
-  return user;
-}
+      const _this = this;
+      this.encryptPassword(password, (err, pwdGen) => {
+        if (err) {
+          callback(err);
+        }
+
+        if (_this.password === pwdGen) {
+          callback(null, true);
+        } else {
+          callback(null, false);
+        }
+      });
+    },
+    makeSalt(byteSize, callback) {
+      const defaultByteSize = 16;
+
+      if (typeof arguments[0] === 'function') { // eslint-disable-line
+        callback = arguments[0]; // eslint-disable-line
+        byteSize = defaultByteSize;
+      }
+      else if (typeof arguments[1] === 'function') { // eslint-disable-line
+        callback = arguments[1]; // eslint-disable-line
+      }
+
+      if (!byteSize) {
+        byteSize = defaultByteSize;
+      }
+
+      if (!callback) {
+        return crypto.randomBytes(byteSize).toString('base64');
+      }
+
+      return crypto.randomBytes(byteSize, (err, salt) => {
+        if (err) {
+          callback(err);
+        }
+        return callback(null, salt.toString('base64'));
+      });
+    },
+    encryptPassword(password, callback) {
+      if (!password || !this.salt) {
+        if (!callback) {
+          return null;
+        }
+        return callback(null);
+      }
+
+      const defaultIterations = 10000;
+      const defaultKeyLength = 64;
+      const salt = new Buffer(this.salt, 'base64');
+
+      if (!callback) {
+        return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
+                 .toString('base64');
+      }
+
+      return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength,
+    (err, key) => {
+      if (err) {
+        callback(err);
+      }
+      return callback(null, key.toString('base64'));
+    });
+    },
+
 /**
  * Update password field
  *
@@ -182,14 +206,60 @@ async function createWithPass(userData, { transaction } = {}) {
  * @return {String}
  * @api public
  */
-async function updatePassword(password) {
-  console.log('made it');
-  const codes = await generateSaltAndHash(password);
-  this.update({
-    passwordHash: codes.hashCode,
-    salt: codes.salt
-  });
-}
+    updatePassword(fn) {
+  // Handle new/update passwords
+      if (this.password) {
+        if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1) {
+          fn(new Error('Invalid password'));
+        }
+
+    // Make salt with a callback
+        const _this = this;
+        this.makeSalt((saltErr, salt) => {
+          if (saltErr) {
+            fn(saltErr);
+          }
+          _this.salt = salt;
+          _this.encryptPassword(_this.password, (encryptErr, hashedPassword) => {
+            if (encryptErr) {
+              fn(encryptErr);
+            }
+            _this.password = hashedPassword;
+            fn(null);
+          });
+        });
+      } else {
+        fn(null);
+      }
+    }
+  },
+  hooks: {
+    beforeBulkCreate(users, fields, fn) {
+      let totalUpdated = 0;
+      users.forEach((user) => {
+        user.updatePassword((err) => {
+          if (err) {
+            return fn(err);
+          }
+          totalUpdated += 1;
+          if (totalUpdated === users.length) {
+            return fn();
+          }
+        });
+      });
+    },
+    beforeCreate(user, fields, fn) {
+      user.updatePassword(fn);
+    },
+    beforeUpdate(user, fields, fn) {
+      if (user.changed('password')) {
+        return user.updatePassword(fn);
+      }
+      fn();
+    }
+  }
+});
+
 /**
  * Finds a user by userid
  * returns the model of the  user

@@ -1,14 +1,30 @@
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { User } from '../../../db/models';
 import { logger } from '../../../lib';
 
-export default async(email, password, done) =>
-  User.verifyUser(email, password).then((user) => {
-    if (!user) {
-      return done(null, false, { message: `There is no record of the email ${email}.` });
+export default function localAuthenticate(User, email, password, done) {
+  User.find({
+    where: {
+      email: email.toLowerCase()
     }
-
-    return done(null, user);
-  }).catch((err) => {
-    logger.error(err);
-    done(null, false, { message: 'Something went wrong trying to authenticate' });
-  });
+  })
+    .then(user => {
+      if (!user) {
+        return done(null, false, {
+          message: 'This email is not registered.'
+        });
+      }
+      user.authenticate(password, (authError, authenticated) => {
+        if (authError) {
+          return done(authError);
+        }
+        if (!authenticated) {
+          return done(null, false, { message: 'This password is not correct.' });
+        } else {
+          return done(null, user);
+        }
+      });
+    })
+    .catch(err => done(err));
+}

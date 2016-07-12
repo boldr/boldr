@@ -87,7 +87,7 @@ User.hasOne(VerificationToken, {
 User.sync().then(() => {
   User.find({ where: { displayName: 'admin' } }).then((user) => {
     if (!user) {
-      User.createWithPass({
+      User.create({
         email: 'admin@boldr.io',
         name: 'Admin User',
         displayName: 'admin',

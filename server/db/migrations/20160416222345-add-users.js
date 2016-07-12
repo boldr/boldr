@@ -15,7 +15,7 @@ module.exports = {
           type: DataTypes.STRING,
           allowNull: true
         },
-        passwordHash: {
+        password: {
           type: DataTypes.STRING(4096)
         },
         salt: {
