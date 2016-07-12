@@ -1,6 +1,8 @@
 ![boldr](static/favicon-96x96.png) Boldr
 ====
 
+[![Join the chat at https://gitter.im/strues/boldr](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
 
