@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 import { config } from '../../config/boldr';
+import logger from '../logger';
 
 const auth = {
   auth: {
@@ -18,31 +19,28 @@ export function generateVerifyCode() {
   return crypto.createHash('sha256').update(content, 'utf8').digest('hex');
 }
 
-export function sendEmail(to, subject, html) {
-  return nodemailerMailgun.sendMail({
-    from: config.mail.from,
-    to,
-    subject,
-    html
-  },
-  (err, info) => {
-    if (err) {
-      console.log('Error: ' + err);
-    }
-    else {
-      console.log('Response: ' + info);
-    }
-  });
-}
+export function handleMail(email, subj, verificationToken) {
+  if (config.mail === undefined) { // Env variables are strings. :S
+    logger.warn('Attempted to mail, but no credentials were present.');
+    return new Promise((resolve, reject) => { return resolve(); });
+  } else {
+      // If we can!
+    const to = email;
+    const title = subj;
+    const verifyCode = verificationToken;
 
-export function sendVerifyEmail(email, verifyCode) {
-  const subject = '[Boldr] Confirmation mail';
-  const to = email;
-  const html = `
-    <p>
-      Click link: https://boldr.io/account/register/email-check?code=${verifyCode}
-    </p>
-  `;
-
-  return sendEmail(to, subject, html);
+    if (!to || !title || !verifyCode) {
+      throw new Error('Incorrect mailing parameters');
+    }
+    return nodemailerMailgun.sendMail({
+      from: config.mail.from,
+      to,
+      subject: title,
+      html: `
+        <p>
+          Click link: https://boldr.io/account/register/email-check?code=${verifyCode}
+        </p>
+      `
+    });
+  }
 }

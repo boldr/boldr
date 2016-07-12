@@ -1,7 +1,7 @@
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-import { config } from '../../../config/boldr';
-import { User } from '../../../db/models';
-import sequelize from '../../../db/sequelize';
+import { config } from '../../config/boldr';
+import { User } from '../../db/models';
+import sequelize from '../../db/sequelize';
 
 export default (passport) => {
   passport.use(new FacebookStrategy.Strategy({

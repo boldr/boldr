@@ -7,7 +7,7 @@ import expressWinston from 'express-winston';
 
 import { config } from './config/boldr';
 import { logger } from './lib';
-import authMiddleware from './middleware/auth';
+import authMiddleware from './auth';
 import middleware from './middleware';
 import routes from './api/routes';
 import models from './db/models';

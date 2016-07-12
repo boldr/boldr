@@ -1,14 +1,14 @@
-import { isAuthenticated, hasRole } from '../../middleware/auth/authService';
-import * as usersController from './user.controller';
+import { isAuthenticated, hasRole } from '../../auth/authService';
+import * as ctrl from './user.controller';
 
 export default (app, router) => {
-  router.get('/users', usersController.getAllUsers);
-  router.get('/users/me', isAuthenticated(), usersController.me);
-  router.get('/users/:id', usersController.showUser);
-  router.put('/users/:id', isAuthenticated(), usersController.updateUser);
-  router.put('/users/:id/password', isAuthenticated(), usersController.changePassword);
-  router.delete('/users/:id', hasRole('admin'), usersController.destroyUser);
+  router.get('/users', ctrl.getAllUsers);
+  router.get('/users/me', isAuthenticated(), ctrl.me);
+  router.get('/users/:id', ctrl.showUser);
+  router.put('/users/:id', isAuthenticated(), ctrl.updateUser);
+  router.put('/users/:id/password', isAuthenticated(), ctrl.changePassword);
+  router.delete('/users/:id', hasRole('admin'), ctrl.destroyUser);
 
   // Load user when API with userId route parameter is hit
-  router.param('userId', usersController.load);
+  router.param('userId', ctrl.load);
 };

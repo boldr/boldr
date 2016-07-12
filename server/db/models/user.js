@@ -2,12 +2,9 @@ import crypto from 'crypto';
 import DataTypes from 'sequelize';
 import boom from 'boom';
 import uuid from 'node-uuid';
-import Promise from 'bluebird';
-import bcryptNode from 'bcrypt-nodejs';
 import Model from '../sequelize';
-import { verifyPassword, generateSaltAndHash } from '../../lib';
+import { handleMail } from '../../lib/mailer';
 
-const bcrypt = Promise.promisifyAll(bcryptNode);
 /**
  * Creates a UUID for the User if it's not given.
  * @param  {Object} instance Instance object of the User

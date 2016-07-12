@@ -1,7 +1,6 @@
 import passport from 'passport';
+import { isAuthenticated } from '../../auth/authService';
 import * as authController from './auth.controller';
-
-import { isAuthenticated } from '../../middleware/auth/authService';
 
 export default (app, router) => {
   router.post('/auth/login', authController.login);

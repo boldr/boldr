@@ -1,9 +1,9 @@
-import * as tagCtrl from './tag.controller';
+import * as ctrl from './tag.controller';
 
 export default (app, router) => {
-  router.get('/tags', tagCtrl.getAllTags);
-  router.post('/tags', tagCtrl.createTag);
-  router.get('/tags/:id', tagCtrl.showTag);
-  router.put('/tags/:id', tagCtrl.updateTag);
-  router.delete('/tags/:id', tagCtrl.destroyTag);
+  router.get('/tags', ctrl.getAllTags);
+  router.post('/tags', ctrl.createTag);
+  router.get('/tags/:id', ctrl.showTag);
+  router.put('/tags/:id', ctrl.updateTag);
+  router.delete('/tags/:id', ctrl.destroyTag);
 };

@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { User } from '../../../db/models';
-import { logger } from '../../../lib';
+import { User } from '../../db/models';
+import { logger } from '../../lib';
 
 export default function localAuthenticate(User, email, password, done) {
   User.find({

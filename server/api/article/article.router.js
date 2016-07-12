@@ -1,9 +1,9 @@
-import * as articleController from './article.controller';
 import { processQuery } from '../../lib';
-import { isAuthenticated, hasRole } from '../../middleware/auth/authService';
+import { isAuthenticated, hasRole } from '../../auth/authService';
+import * as ctrl from './article.controller';
 
 export default (app, router) => {
-  router.get('/articles', processQuery, articleController.getAllArticles);
-  router.get('/articles/:id', articleController.showArticle);
-  router.post('/articles', isAuthenticated(), articleController.createArticle);
+  router.get('/articles', processQuery, ctrl.getAllArticles);
+  router.get('/articles/:id', ctrl.showArticle);
+  router.post('/articles', isAuthenticated(), ctrl.createArticle);
 };

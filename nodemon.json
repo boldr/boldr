@@ -17,5 +17,5 @@
       "server/**/*.js",
       "tools/webpack/"
     ],
-    "exec": "node server/index.js"
+    "exec": "node --debug=5858 server/index.js"
 }

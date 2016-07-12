@@ -65,7 +65,7 @@ const conf = convict({
       doc: 'The Mailgun API key',
       format: String,
       default: 'key-',
-      env: 'MG_KEY',
+      env: 'MG_API',
       arg: 'mgkey'
     },
     domain: {

@@ -1,5 +1,5 @@
-import { User } from '../../../db/models';
-import sequelize from '../../../db/sequelize';
+import { User } from '../../db/models';
+import sequelize from '../../db/sequelize';
 
 /* eslint-disable no-param-reassign */
 function attachGoogleAccount(user, profile, accessToken, done) {

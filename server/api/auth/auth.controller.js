@@ -2,9 +2,9 @@ import passport from 'passport';
 import Boom from 'boom';
 import moment from 'moment';
 
-import { sendVerifyEmail, generateVerifyCode } from '../../lib';
+import { handleMail, generateVerifyCode } from '../../lib';
 import { User, VerificationToken } from '../../db/models';
-import { signToken } from '../../middleware/auth/authService';
+import { signToken } from '../../auth/authService';
 
 /**
  * @api {post} /auth/login          Login to a registered account.
@@ -72,7 +72,9 @@ export async function signUp(req, res, next) {
     // Generate the verification token.
     const verificationToken = await generateVerifyCode();
     // Send the verification email.
-    sendVerifyEmail(user.email, verificationToken);
+    const subj = '[Boldr] Confirmation mail';
+    handleMail(user.email, subj, verificationToken);
+    // sendVerifyEmail(user.email, verificationToken);
     // Store the verification token, userId and expiration date in the db.
     const verificationStorage = await VerificationToken.create({
       userId: user.id,

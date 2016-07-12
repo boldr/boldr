@@ -1,15 +1,12 @@
 import logger from './logger';
-import { generateSaltAndHash, verifyPassword, processQuery } from './helpers';
+import { processQuery } from './helpers';
 import { responseHandler } from './handlers';
-import { generateVerifyCode, sendEmail, sendVerifyEmail } from './mailer';
+import { generateVerifyCode, handleMail } from './mailer';
 
 export {
   logger,
-  generateSaltAndHash,
-  verifyPassword,
+  handleMail,
   responseHandler,
   processQuery,
-  generateVerifyCode,
-  sendEmail,
-  sendVerifyEmail
+  generateVerifyCode
 };
