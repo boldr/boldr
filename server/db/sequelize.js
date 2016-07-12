@@ -10,7 +10,7 @@ export const db = process.env[dbConfig.use_env_variable] ||
 `${dbConfig.dialect}://${dbConfig.username}:${dbConfig.password}@${dbConfig.host}/${dbConfig.database}`;
 
 const sequelize = new Sequelize(db, {
-  logging: false, // set to console.log to see the raw SQL queries
+  logging: true, // set to console.log to see the raw SQL queries
   timezone: config.timezone,
   omitNull: true,
   define: {

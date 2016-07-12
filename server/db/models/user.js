@@ -14,6 +14,11 @@ function createUUIDIfNotExist(instance) {
     instance.id = uuid.v4();
   }
 }
+const authTypes = ['github', 'twitter', 'facebook', 'google'];
+
+const validatePresenceOf = function(value) {
+  return value && value.length;
+};
 
 const User = Model.define('users', {
   id: {
@@ -103,6 +108,8 @@ const User = Model.define('users', {
   classMethods: {
     verifyUser,
     createWithPass,
+    updatePassword,
+    findByDisplayName,
     findByUserId
   },
   instanceMethods: {
@@ -167,6 +174,21 @@ async function createWithPass(userData, { transaction } = {}) {
     role: userData.role
   }, { transaction });
   return user;
+}
+/**
+ * Update password field
+ *
+ * @param {Function} fn
+ * @return {String}
+ * @api public
+ */
+async function updatePassword(password) {
+  console.log('made it');
+  const codes = await generateSaltAndHash(password);
+  this.update({
+    passwordHash: codes.hashCode,
+    salt: codes.salt
+  });
 }
 /**
  * Finds a user by userid

@@ -9,13 +9,13 @@ import Media from './media';
 import MediaCategories from './mediaCategories';
 import Setting from './setting';
 import VerificationToken from './verification';
-import { verifyPassword, generateSaltAndHash } from '../../lib';
 
 Article.belongsToMany(Tag, {
   through: {
     model: ArticlesTags,
     unique: true
   },
+  as: 'articles',
   foreignKey: {
     name: 'articleId',
     allowNull: true
@@ -24,17 +24,12 @@ Article.belongsToMany(Tag, {
   onDelete: 'cascade'
 });
 
-
 Article.belongsTo(User, {
   foreignKey: 'authorId'
 });
 
-Category.belongsToMany(Media, {
-  through: {
-    model: MediaCategories,
-    foreignKey: 'categoryId',
-    unique: true
-  },
+Category.hasMany(Media, {
+  foreignKey: 'categoryId',
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
@@ -52,6 +47,7 @@ Tag.belongsToMany(Article, {
     model: ArticlesTags,
     unique: true
   },
+  as: 'tags',
   foreignKey: {
     name: 'tagId',
     allowNull: true
@@ -87,7 +83,7 @@ User.hasOne(VerificationToken, {
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
-const codes = generateSaltAndHash('password');
+
 User.sync().then(() => {
   User.find({ where: { displayName: 'admin' } }).then((user) => {
     if (!user) {

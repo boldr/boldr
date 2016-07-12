@@ -52,7 +52,27 @@ function updateUser(req, res, next) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+function changePassword(req, res, next) {
+  const userId = req.params.id;
 
+  return User.find({
+    where: {
+      id: userId
+    }
+  })
+  .then(user => {
+    if (user) {
+      const pw = req.body.password;
+      user.updatePassword(pw)
+         .then(() => {
+           res.status(204).end();
+         })
+         .catch(handleError(res));
+    } else {
+      return res.status(403).end();
+    }
+  });
+}
 function destroyUser(req, res) {
   const userId = req.params.id;
   return User.find({
@@ -86,6 +106,7 @@ export {
   getAllUsers,
   showUser,
   updateUser,
+  changePassword,
   destroyUser,
   me
 };
