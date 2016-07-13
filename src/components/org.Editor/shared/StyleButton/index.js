@@ -20,6 +20,7 @@ class StyleButton extends Component {
   }
 
   render() {
+    const Icon = this.props.icon;
     let className;
     if (this.props.active) {
       className = 'active';
@@ -29,7 +30,7 @@ class StyleButton extends Component {
 
     return (
       <span className={ className } onMouseDown={ this.handleToggle }>
-        { this.props.label }
+        <Icon className="dropdown__item__icon" />
       </span>
     );
   }

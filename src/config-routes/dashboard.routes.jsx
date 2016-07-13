@@ -10,8 +10,10 @@ import Collections from 'scenes/Dashboard/Collections';
 import Users from 'scenes/Dashboard/Users';
 import Media from 'scenes/Dashboard/Media';
 import Pages from 'scenes/Dashboard/Pages';
+import RequireAuth from './RequireAuth';
 import Settings from 'scenes/Dashboard/Settings';
 import Setup from 'scenes/Dashboard/components/pg.Setup';
+
 
 export default (
   <Route path="/dashboard" component={ DashboardLayout }>
