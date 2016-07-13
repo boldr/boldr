@@ -15,7 +15,7 @@ conditionalPsqlCreate () {
 
 # create database
 
-database="travis"
+database="circle_test"
 conditionalPsqlCreate \
 "pg_database WHERE datname = '$database'" \
 "DATABASE $database" \
