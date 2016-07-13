@@ -6,7 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
-
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
@@ -141,6 +141,7 @@ const webpackConfig = module.exports = {
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
+    new LodashModuleReplacementPlugin(),
     new webpack.ProvidePlugin({
       fetch: 'exports?self.fetch!whatwg-fetch',
       React: 'react'
