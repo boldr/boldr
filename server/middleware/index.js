@@ -4,6 +4,7 @@ import passport from 'passport';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import flash from 'express-flash';
+import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import morgan from 'morgan';
 import lusca from 'lusca';
@@ -23,6 +24,7 @@ export default (app, io) => {
   app.disable('x-powered-by');
   app.use(compression());
   app.use(morgan('dev'));
+  app.use(cookieParser());
   app.use(hpp());
   app.use(cors());
   app.use(bodyParser.json());

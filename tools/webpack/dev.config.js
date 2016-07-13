@@ -8,7 +8,6 @@ const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
-const styling = require('./loaders/styling.loader');
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const assetsPath = path.resolve(__dirname, '../../static/dist');

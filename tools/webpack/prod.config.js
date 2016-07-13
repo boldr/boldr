@@ -21,6 +21,22 @@ module.exports = {
   entry: {
     main: [
       path.resolve(ROOT_DIR, './src/client.js')
+    ],
+    vendor: [
+      'react',
+      'react-dom',
+      'redux',
+      'react-router',
+      'react-router-redux',
+      'react-redux',
+      'superagent',
+      'redux-thunk',
+      'redux-form',
+      'material-ui',
+      'react-tap-event-plugin',
+      'redial',
+      'react-router-scroll',
+      'webfontloader'
     ]
   },
   output: {
@@ -58,13 +74,6 @@ module.exports = {
       server: path.resolve(ROOT_DIR, 'server')
     }
   },
-  resolveLoader: { fallback: path.join(ROOT_DIR, 'node_modules') },
-  sassLoader: {
-    includePaths: [
-      path.resolve(ROOT_DIR, 'node_modules'),
-      path.resolve(ROOT_DIR, 'src')
-    ]
-  },
   postcss: [
     autoprefixer({
       browsers: ['last 2 versions']
@@ -81,8 +90,7 @@ module.exports = {
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: false,
-      __DEVTOOLS__: false,
-      __DLLS__: false
+      __DEVTOOLS__: false
     }),
     new webpack.LoaderOptionsPlugin({
       // Indicates to our loaders that they should minify their output

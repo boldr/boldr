@@ -3,7 +3,7 @@ import http from 'http';
 import Express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-
+import cookieParser from 'cookie-parser';
 import favicon from 'serve-favicon';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
@@ -16,6 +16,7 @@ import { Provider } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { trigger } from 'redial';
+import cookie from 'react-cookie';
 
 import BoldrTheme from './styles/theme';
 import createStore from './utils-redux/createStore';
@@ -34,6 +35,7 @@ const proxy = httpProxy.createProxyServer({
   target: targetUrl,
   ws: true
 });
+app.use(cookieParser());
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 

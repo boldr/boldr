@@ -16,7 +16,7 @@ const SetupFormPage1 = (props) => {
       <Col sm="7">
         <Heading size={ 1 }>Welcome to <BoldrLogo width="150" /> Boldr</Heading>
       </Col>
-      <Col sm="5" align="flex-end">
+      <Col sm="5">
         <Heading size={ 2 }>Please answer a few questions in order to setup your site.</Heading>
         <form onSubmit={ handleSubmit }>
           <TextField

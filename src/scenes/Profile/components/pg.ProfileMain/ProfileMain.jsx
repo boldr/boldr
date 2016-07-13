@@ -16,7 +16,7 @@ class ProfileMain extends Component {
                 subtitle="Subtitle"
                 avatar="http://lorempixel.com/100/100/nature/"
               />
-              <CardTitle title="Card title" subtitle="Card subtitle" />
+              <CardTitle title="Card" subtitle="Card subtitle" />
               <CardText>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.

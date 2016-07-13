@@ -3,6 +3,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
+import cookie from 'react-cookie';
 
 import { API_BASE } from '../../config-api';
 
@@ -18,6 +19,7 @@ const beginLogin = () => {
 };
 // Login Success
 export function loginSuccess(response:Object) {
+  cookie.save('boldr:jwt', response.body.token, { path: '/' });
   localStorage.setItem('boldr:jwt', response.body.token);
   const decoded = decode(response.body.token);
   return {

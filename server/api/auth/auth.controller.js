@@ -1,7 +1,7 @@
 import passport from 'passport';
 import Boom from 'boom';
 import moment from 'moment';
-
+import cookie from 'react-cookie';
 import { handleMail, generateVerifyCode } from '../../lib';
 import { User, VerificationToken } from '../../db/models';
 import { signToken } from '../../auth/authService';
@@ -31,6 +31,7 @@ export function login(req, res, next) {
     }
 
     signToken(user.id, user.role).then(token => {
+      cookie.save('boldr:jwt', token, { path: '/' });
       req.user = user;
       return res.status(200).json({ token });
     });

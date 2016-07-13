@@ -1,4 +1,5 @@
 import request from 'superagent';
+import cookie from 'react-cookie';
 import { API_BASE } from '../../config-api';
 
 const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
@@ -47,7 +48,7 @@ export function loadBoldrSettings(data) {
     dispatch(loadSettings());
     return request
       .get(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${localStorage.getItem('boldr:jwt')}`)
+      .set('Authorization', `Bearer ${cookie.load('boldr:jwt')}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(loadSettingsSuccess(response));
@@ -86,7 +87,7 @@ export function saveBoldrSetup(data) {
     dispatch(startSaveSetup());
     return request
       .post(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${localStorage.getItem('boldr:jwt')}`)
+      .set('Authorization', `Bearer ${cookie.load('boldr:jwt')}`)
       .send(data)
       .then(response => {
         if (response.status === 201) {
