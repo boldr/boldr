@@ -9,6 +9,7 @@ import match from 'react-router/lib/match';
 import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { trigger } from 'redial';
+import cookie from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import useScroll from 'react-router-scroll';
@@ -36,7 +37,7 @@ const store = createStore(browserHistory, client, window.__data);
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = createRoutes(store);
 
-const token = localStorage.getItem('boldr:jwt') || undefined;
+const token = localStorage.getItem('boldr:jwt') || cookie.load('boldr:jwt') || undefined;
 if (token) {
   store.dispatch(checkTokenValidity());
 }

@@ -163,7 +163,7 @@ function checkTokenValidityFailure(error) {
 }
 
 export function checkTokenValidity() {
-  const token = localStorage.getItem('boldr:jwt');
+  const token = localStorage.getItem('boldr:jwt') || cookie.load('boldr:jwt');
   return (dispatch:Function) => {
     if (!token || token === '') { return; }
     dispatch(checkTokenValidityRequest());

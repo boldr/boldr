@@ -69,7 +69,8 @@ const webpackConfig = module.exports = {
       'react-tap-event-plugin',
       'redial',
       'react-router-scroll',
-      'webfontloader'
+      'webfontloader',
+      'react-cookie'
     ]
   },
   output: {
