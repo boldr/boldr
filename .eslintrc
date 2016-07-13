@@ -7,8 +7,7 @@
     "node": true
   },
   "plugins": [
-    "flowtype",
-    "flow-vars"
+    "flowtype"
   ],
   "ecmaFeatures": {
     "defaultParams": true
@@ -23,5 +22,15 @@
     "babel/new-cap": 0,
     "babel/arrow-parens": 0,
     "import/no-unresolved": 0
+  },
+  "globals": {
+    "__DEVELOPMENT__": true,
+    "__CLIENT__": true,
+    "__SERVER__": true,
+    "__DISABLE_SSR__": true,
+    "__DEVTOOLS__": true,
+    "__DLLS__": true,
+    "socket": true,
+    "webpackIsomorphicTools": true
   }
 }

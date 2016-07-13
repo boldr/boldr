@@ -3,7 +3,7 @@
 .*/config
 .*/node_modules
 .*/tools
-.*/src/shared/styles/.*
+.*/src/styles/.*
 .*/node_modules/react-tap-event-plugin
 .*/node_modules/fbjs
 
@@ -33,8 +33,8 @@ module.ignore_non_literal_requires=true
 module.file_ext=.scss
 module.name_mapper='.*\.\(scss\|css\)$' -> 'CSSModule'
 module.name_mapper='.*\.\(jpg\|jpeg\|gif\|svg\|png\)$' -> 'Image'
-module.name_mapper='^styles\/\(.*\)$' -> '<PROJECT_ROOT>/src/shared/styles/\1'
-module.name_mapper='^state\/\(.*\)$' -> '<PROJECT_ROOT>/src/shared/state/\1'
+module.name_mapper='^styles\/\(.*\)$' -> '<PROJECT_ROOT>/src/styles/\1'
+module.name_mapper='^state\/\(.*\)$' -> '<PROJECT_ROOT>/src/state/\1'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe

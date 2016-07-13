@@ -5,8 +5,7 @@
     "ignore": [
       "backup",
       "docs",
-      "src/app",
-      "src/common",
+      "src/",
       "static",
       "tools"
     ],
@@ -15,8 +14,8 @@
       "DEBUG":"boldr*"
     },
     "watch": [
-      "src/server/**/*.js",
+      "server/**/*.js",
       "tools/webpack/"
     ],
-    "exec": "babel-node -- src/server/index.js"
+    "exec": "node --debug=5858 server/index.js"
 }

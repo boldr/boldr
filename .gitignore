@@ -4,7 +4,8 @@
 # Build output folders
 build/
 public/
-
+.happypack/
+static/dist
 # Webpack build output of the js client
 backend/assets/client/
 

@@ -1,0 +1,59 @@
+$white: #fff;
+$snow: rgba(237, 237, 237, 1);
+$grape: rgba(64, 64, 78, 1);
+$mirage: rgba(27, 27, 37, 1);
+$pinkish: rgb(229, 0, 80);
+
+$shadow-color: rgba(0, 0, 0, .2);
+$box-shadow: 0 0 5px $shadow-color;
+
+$main-color: $grape;
+$accent-color: $pinkish;
+
+$link-color: $accent-color;
+$text-color: rgba(34, 34, 34, .87);
+
+$font-size-base: 1em;
+$line-height-base: 1.5em;
+$font-weight-base: 400;
+
+$heading-weight: 300;
+$heading-case: none;
+$window-medium: 768px;
+$window-large: 992px;
+$window-xlarge: 1200px;
+
+$padding: 4px;
+$transition-function: cubic-bezier(.25, .8, .25, 1);
+$transition-duration: .25s;
+$error-color: rgb(244, 67, 54);
+
+$toolbar-height: 64px;
+$toolbar-z-index: 6;
+
+$grid-breakpoints: ( xs: 0, sm: 544px, md: 768px, lg: 992px, xl: 1200px );
+$container-max-widths: ( sm: 576px, md: 720px, lg: 940px, xl: 1140px );
+$grid-columns: 12;
+$grid-gutter-width: 1.875rem;
+
+$enable-flex: false;
+@mixin _assert-ascending($map, $map-name) {
+  $prev-key: null;
+  $prev-num: null;
+  @each $key, $num in $map {
+    @if $prev-num == null {
+      // Do nothing
+    } @else if not comparable($prev-num, $num) {
+      @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+    } @else if $prev-num >= $num {
+      @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+    }
+    $prev-key: $key;
+    $prev-num: $num;
+  }
+}
+@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+@include _assert-ascending($container-max-widths, "$container-max-widths");
+$grid-columns: 12;
+$grid-gutter-width: 30px;
+$enable-grid-classes: true;

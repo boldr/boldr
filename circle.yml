@@ -1,0 +1,23 @@
+machine:
+  node:
+    version: 6
+  timezone:
+    America/Denver
+  services:
+    - redis
+
+  environment:
+    CIRCLE_ENV: test
+    DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
+    DB_NAME: circle_test
+    DB_USER: ubuntu
+    SERVER_PORT: 8000
+
+dependencies:
+  cache_directories:
+    - node_modules
+  override:
+    - npm prune && npm install
+test:
+  pre:
+    - npm run migrate
