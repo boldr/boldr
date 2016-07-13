@@ -1,10 +1,11 @@
-// const config = require('../config/boldr');
+const config = require('../config/boldr').config;
+
 module.exports = {
   development: {
-    username: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'password',
-    database: process.env.DB_NAME || 'boldr_development',
-    host: process.env.DB_HOST || 'localhost',
+    username: config.db.user || 'postgres',
+    password: config.db.password || 'password',
+    database: config.db.name || 'boldr_development',
+    host: config.db.host || 'localhost',
     dialect: 'postgres'
   },
   test: {
@@ -17,10 +18,10 @@ module.exports = {
   },
   production: {
     use_env_variable: 'POSTGRES_DB_URL',
-    username: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'boldr_development',
-    host: process.env.DB_HOST || 'localhost',
+    username: config.db.user || 'postgres',
+    password: config.db.password || 'password',
+    database: config.db.name || 'boldr_development',
+    host: config.db.host || 'localhost',
     dialect: 'postgres'
   }
 };
