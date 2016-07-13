@@ -4,7 +4,8 @@ node_js:
 sudo: required
 
 services:
-  - docker
+  - postgresql
+  - redis-server
 
 env:
   - CXX=g++-4.8
@@ -16,12 +17,8 @@ addons:
     packages:
       - g++-4.8
 
-before_install:
-- docker-compose build
-- docker-compose up -d
-- docker ps -a
-
 before_script:
+  - psql -c 'create database boldr_test;' -U postgres
   - npm run db:init
   - npm run migrate
 
