@@ -4,12 +4,9 @@ require('babel-polyfill');
 // Webpack config for development
 const path = require('path');
 const webpack = require('webpack');
-const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
 
-const WebpackHelpers = require('./helpers');
-const babelish = require('./loaders/babel.loader');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
 const styling = require('./loaders/styling.loader');
 
@@ -17,7 +14,6 @@ const ROOT_DIR = path.join(__dirname, '..', '..');
 const assetsPath = path.resolve(__dirname, '../../static/dist');
 const host = (process.env.HOST || 'localhost');
 const port = (+process.env.PORT + 1) || 3001;
-const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 const cssChunkNaming = '[name]__[local]___[hash:base64:5]';
 
@@ -57,8 +53,24 @@ const webpackConfig = module.exports = {
   entry: {
     main: [
       'react-hot-loader/patch',
-      'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
-      path.resolve(ROOT_DIR, './src/client.js')
+      'webpack-hot-middleware/client?reload=true&path=http://' + host + ':' + port + '/__webpack_hmr',
+      path.resolve(ROOT_DIR, 'src/client.js')
+    ],
+    vendor: [
+      'react',
+      'react-dom',
+      'redux',
+      'react-router',
+      'react-router-redux',
+      'react-redux',
+      'superagent',
+      'redux-thunk',
+      'redux-form',
+      'material-ui',
+      'react-tap-event-plugin',
+      'redial',
+      'react-router-scroll',
+      'webfontloader'
     ]
   },
   output: {
@@ -69,25 +81,36 @@ const webpackConfig = module.exports = {
   },
   module: {
     loaders: [
-      createSourceLoader({
-        happy: { id: 'jsx' },
+      {
         test: /\.jsx?$/,
-        loaders: ['babel?' + JSON.stringify(babelish)]
-      }),
-
-      createSourceLoader({
-        happy: { id: 'json' },
+        loader: 'babel-loader',
+        exclude: /node_modules|\.git/,
+        babelrc: false,
+        query: {
+          cacheDirectory: true,
+          presets: ['react-hmre', 'es2015', 'react', 'stage-0'],
+          plugins: [
+            'transform-decorators-legacy',
+            'transform-runtime',
+            'transform-flow-strip-types',
+            'lodash',
+            'react-hot-loader/babel'
+          ]
+        }
+      },
+      {
         test: /\.json$/,
         loader: 'json-loader'
-      }),
+      },
 
-      createSourceLoader({
-        happy: { id: 'sass' },
+      {
         test: /\.scss$/,
-        loaders: [
-          'style', 'css', 'postcss', 'sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true'
-        ]
-      }),
+        loader: 'style!css!postcss!sass'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css!postcss'
+      },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
@@ -104,13 +127,17 @@ const webpackConfig = module.exports = {
     ],
     alias: {
       components: path.resolve(ROOT_DIR, 'src/components'),
-      src: path.resolve(ROOT_DIR, 'src'),
+      src: path.join(ROOT_DIR, 'src'),
       state: path.resolve(ROOT_DIR, 'src/state'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
-      server: path.resolve(ROOT_DIR, 'server')
+      server: path.join(ROOT_DIR, 'server')
     }
   },
   postcss: postCSSConfig,
+  node: {
+    global: true,
+    fs: 'empty'
+  },
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
@@ -123,20 +150,11 @@ const webpackConfig = module.exports = {
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true,
-      __DLLS__: process.env.WEBPACK_DLLS === '1'
+      __DEVTOOLS__: true
     }),
-    webpackIsomorphicToolsPlugin.development(),
-
-    createHappyPlugin('jsx'),
-    createHappyPlugin('json'),
-    createHappyPlugin('sass')
+    webpackIsomorphicToolsPlugin.development()
   ]
 };
-
-if (process.env.WEBPACK_DLLS === '1') {
-  WebpackHelpers.installVendorDLL(webpackConfig, 'vendor');
-}
 
 // restrict loader to files under /src
 function createSourceLoader(spec) {
@@ -146,21 +164,5 @@ function createSourceLoader(spec) {
     return x;
   }, {
     include: [path.resolve(ROOT_DIR, 'src')]
-  });
-}
-
-function createHappyPlugin(id) {
-  return new HappyPack({
-    id,
-    threadPool: happyThreadPool,
-
-    // disable happypack with HAPPY=0
-    enabled: process.env.HAPPY !== '0',
-
-    // disable happypack caching with HAPPY_CACHE=0
-    cache: process.env.HAPPY_CACHE !== '0',
-
-    // make happypack more verbose with HAPPY_VERBOSE=1
-    verbose: process.env.HAPPY_VERBOSE === '1'
   });
 }
