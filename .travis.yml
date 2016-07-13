@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+  - "6.2.0"
+sudo: required
+
+services:
+  - docker
+
+env:
+  - CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+before_install:
+- docker-compose build
+- docker-compose up -d
+- docker ps -a
+
+before_script:
+  - npm run db:init
+  - npm run migrate
+
+cache:
+  directories:
+    - node_modules

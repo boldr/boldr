@@ -19,7 +19,7 @@
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start-prod",
     "start:server": "node server/index.js",
-    "start:test": "NODE_PATH=./src ./node_modules/.bin/mocha --compilers js:./compiler.babel --opts ./mocha.opts './src/**/*.test.js'",
+    "test": "NODE_PATH=./src ./node_modules/.bin/mocha --compilers js:./compiler.babel --opts ./mocha.opts './src/**/*.test.js'",
     "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'",
     "watch:client": "better-npm-run watch:client",
     "validate": "./node_modules/.bin/webpack-validator tools/webpack/dev.config.js"
