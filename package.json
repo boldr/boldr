@@ -1,6 +1,6 @@
 {
   "name": "boldr",
-  "version": "0.1.0-alpha.3",
+  "version": "0.3.0",
   "description": "a bold cms.",
   "main": "tools/scripts/server.js",
   "engines": {
@@ -9,7 +9,6 @@
   },
   "scripts": {
     "build": "better-npm-run build",
-    "build-dlls": "./node_modules/.bin/webpack --config tools/webpack/dlls/vendor/webpack.config.js",
     "clean": "rimraf build static/dist",
     "db:init": "./tools/scripts/db-init.sh",
     "dev": "concurrently --kill-others \"npm run watch:client\" \"npm run start:dev\" \"npm run start:server\"",
