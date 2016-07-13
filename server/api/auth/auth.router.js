@@ -1,12 +1,12 @@
 import passport from 'passport';
 import { isAuthenticated } from '../../auth/authService';
-import * as authController from './auth.controller';
+import * as ctrl from './auth.controller';
 
 export default (app, router) => {
-  router.post('/auth/login', authController.login);
-  router.post('/auth/signup', authController.signUp);
-  router.post('/auth/logout', authController.logout);
-  router.get('/auth/check', isAuthenticated(), authController.checkUser);
+  router.post('/auth/login', ctrl.login);
+  router.post('/auth/signup', ctrl.signUp);
+  router.post('/auth/logout', ctrl.logout);
+  router.get('/auth/check', isAuthenticated(), ctrl.checkUser);
   router.get('/auth/google', passport.authenticate('google', {
     scope: [
       'https://www.googleapis.com/auth/userinfo.profile',
@@ -29,4 +29,5 @@ export default (app, router) => {
       failureRedirect: '/auth/login'
     })
   );
+  router.post('/auth/verify-email', ctrl.verifyEmail);
 };

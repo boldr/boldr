@@ -77,7 +77,7 @@ User.hasMany(Media, {
 });
 
 User.hasOne(VerificationToken, {
-  foreignKey: 'verificationTokenId',
+  foreignKey: 'token',
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });

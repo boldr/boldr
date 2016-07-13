@@ -17,7 +17,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { trigger } from 'redial';
 import cookie from 'react-cookie';
-
+import dotenv from 'dotenv';
 import BoldrTheme from './styles/theme';
 import createStore from './utils-redux/createStore';
 import ApiClient from './config-api/ApiClient';
@@ -29,13 +29,13 @@ import config from './config'; // eslint-disable-line
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
-
+dotenv.config();
 const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort; // eslint-disable-line
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
   ws: true
 });
-app.use(cookieParser());
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.all('/*', function(req, res, next) {

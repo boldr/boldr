@@ -3,7 +3,7 @@ import Model from '../sequelize';
 
 const VerificationToken = Model.define('verification_tokens', {
   token: DataTypes.STRING,
-  userId: DataTypes.INTEGER,
+  userId: DataTypes.UUID,
   expiresAt: DataTypes.DATE
 }, {
   timestamps: false,

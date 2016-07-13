@@ -28,7 +28,7 @@ export function handleMail(email, subj, verificationToken) {
     const to = email;
     const title = subj;
     const verifyCode = verificationToken;
-
+    const DEFAULT_URL = 'http://localhost:3000';
     if (!to || !title || !verifyCode) {
       throw new Error('Incorrect mailing parameters');
     }
@@ -37,9 +37,12 @@ export function handleMail(email, subj, verificationToken) {
       to,
       subject: title,
       html: `
-        <p>
-          Click link: https://boldr.io/account/register/email-check?code=${verifyCode}
-        </p>
+        <div style='margin: 0; padding: 0; width: 100%; font-family: Trebuchet MS, sans-serif;'>
+        <div style='background-color: #f2f2f2; padding: 45px;'>
+        <div style='background-color: #ffffff; padding: 40px; text-align: center;'>
+        <p style='color: #5f5f5f;'>Click the big button below to activate your account.</p>
+        <a href="${DEFAULT_URL}/verify-email/?email=${email}&token=${verifyCode}" style='background-color: #288feb; color: #fff; padding: 14px; text-decoration: none; border-radius: 5px; margin-top: 20px; display: inline-block;'>Activate Account</a>
+        </div> <h3 style='color: #5f5f5f; text-align: center; margin-top: 30px;'>BoldrCMS Team</h3></div></div>
       `
     });
   }

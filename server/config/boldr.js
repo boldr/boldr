@@ -1,6 +1,6 @@
-import path from 'path';
-import convict from 'convict';
-import dotenv from 'dotenv';
+const path = require('path');
+const convict = require('convict');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
