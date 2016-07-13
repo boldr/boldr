@@ -136,7 +136,6 @@
     "react-cookie": "^0.4.7",
     "react-dom": "15.2.1",
     "react-helmet": "^3.1.0",
-    "react-materialui-notifications": "^0.3.2",
     "react-redux": "^4.4.5",
     "react-router": "2.5.2",
     "react-router-redux": "^4.0.5",
