@@ -108,14 +108,7 @@ module.exports = {
       __DEVELOPMENT__: false,
       __DEVTOOLS__: false
     }),
-    new webpack.LoaderOptionsPlugin({
-      // Indicates to our loaders that they should minify their output
-      // if they have the capability to do so.
-      minimize: true,
-      // Indicates to our loaders that they should enter into debug mode
-      // should they support it.
-      debug: false
-    }),
+
     // ignore dev config
     new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
     new webpack.ProvidePlugin({
