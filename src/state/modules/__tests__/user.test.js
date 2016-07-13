@@ -3,8 +3,7 @@ import sinon from 'sinon';
 import expect from 'expect';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { polyfill } from 'es6-promise';
-import axios from 'axios';
+import request from 'supertest';
 import reducer, {
 LOGIN_USER_REQUEST,
 LOGIN_USER_SUCCESS,
@@ -16,86 +15,22 @@ LOGOUT_USER,
 LOGOUT_USER_SUCCESS,
 LOGOUT_USER_FAIL, manualLogin } from '../user';
 
-polyfill();
-
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
+// request = request('http://localhost:8000/api/v1/articles');
 
-describe('Users Async Actions', () => {
-  let sandbox;
-
-  const initialState = {
-    message: '',
-    isLoading: false,
-    authenticated: false,
-    token: undefined,
-    users: [],
-    currentUser: {}
-  };
-
-  const response = {
-    data: {
-      message: 'Success'
-    },
-    status: 200
-  };
-
-  const data = {
-    email: 'test@test.com',
-    password: 'password'
-  };
-
-  const errMsg = {
-    data: {
-      message: 'Oops! Something went wrong!'
-    }
-  };
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create(); // eslint-disable-line
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
-  describe('User Login', () => {
-    it('dispatches LOGIN_USER_REQUEST and LOGIN_USER_SUCCESS when Login returns status of 200 and routes user to /', (done) => {
-      const expectedActions = [
-        {
-          type: LOGIN_USER_REQUEST
-        },
-        {
-          type: LOGIN_USER_SUCCESS,
-          payload: response.data
-        },
-        {
-          payload: {
-            args: ['/'],
-            method: 'push'
-          },
-          type: '@@router/CALL_HISTORY_METHOD'
-        }];
-
-      sandbox.stub(axios, 'post').returns(Promise.resolve(response));
-
-      const store = mockStore(initialState);
-      store.dispatch(manualLogin(data))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        }).then(done).catch(done);
-    });
-  });
-});
 
 describe('Users reducer', () => {
   const initialState = {
-    message: '',
     isLoading: false,
     authenticated: false,
-    token: undefined,
     users: [],
-    currentUser: {}
+    currentUser: {
+      name: '',
+      email: '',
+      role: '',
+      token: undefined
+    }
   };
 
   it('should return the initial state', () => {
@@ -109,8 +44,14 @@ describe('Users reducer', () => {
       reducer(undefined, { type: LOGIN_USER_REQUEST })
     ).toEqual(Object.assign({}, initialState, {
       isLoading: true,
-      message: '',
-      token: undefined
+      authenticated: false,
+      users: [],
+      currentUser: {
+        name: '',
+        email: '',
+        role: '',
+        token: undefined
+      }
     }));
   });
 
@@ -120,7 +61,10 @@ describe('Users reducer', () => {
     ).toEqual(Object.assign({}, initialState, {
       isLoading: false,
       authenticated: true,
-      message: ''
+      currentUser: {
+        token: undefined,
+        role: undefined
+      }
     }));
   });
 
@@ -130,8 +74,7 @@ describe('Users reducer', () => {
       reducer(undefined, { type: LOGIN_USER_FAIL, message })
     ).toEqual(Object.assign({}, initialState, {
       isLoading: false,
-      authenticated: false,
-      message
+      authenticated: false
     }));
   });
 
@@ -139,8 +82,7 @@ describe('Users reducer', () => {
     expect(
       reducer(undefined, { type: SIGNUP_USER_REQUEST })
     ).toEqual(Object.assign({}, initialState, {
-      isLoading: true,
-      message: ''
+      isLoading: true
     }));
   });
 
@@ -159,8 +101,7 @@ describe('Users reducer', () => {
       reducer(undefined, { type: SIGNUP_USER_FAIL, message })
     ).toEqual(Object.assign({}, initialState, {
       isLoading: false,
-      authenticated: false,
-      message
+      authenticated: false
     }));
   });
 
@@ -168,8 +109,7 @@ describe('Users reducer', () => {
     expect(
       reducer(undefined, { type: LOGOUT_USER })
     ).toEqual(Object.assign({}, initialState, {
-      isLoading: true,
-      message: ''
+      isLoading: true
     }));
   });
 

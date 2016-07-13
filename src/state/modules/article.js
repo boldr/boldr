@@ -1,7 +1,7 @@
 /* @flow */
 import request from 'superagent';
 import { push } from 'react-router-redux';
-
+import cookie from 'react-cookie';
 import { API_ARTICLES } from '../../config-api';
 
 /**
@@ -52,7 +52,7 @@ export function createArticle(articleData:Object) {
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${localStorage.getItem('boldr:jwt')}`)
+      .set('Authorization', `Bearer ${cookie.load('boldr:jwt')}`)
       .send({
         title: articleData.title,
         content: articleData.content,
@@ -74,7 +74,6 @@ export function createArticle(articleData:Object) {
 export const INITIAL_STATE = {
   isLoading: false,
   error: undefined,
-  message: '',
   articles: [],
   articleList: [
     {

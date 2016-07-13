@@ -20,7 +20,7 @@ const beginLogin = () => {
 // Login Success
 export function loginSuccess(response:Object) {
   cookie.save('boldr:jwt', response.body.token, { path: '/' });
-  localStorage.setItem('boldr:jwt', response.body.token);
+  // localStorage.setItem('boldr:jwt', response.body.token);
   const decoded = decode(response.body.token);
   return {
     type: LOGIN_USER_SUCCESS,
@@ -163,7 +163,7 @@ function checkTokenValidityFailure(error) {
 }
 
 export function checkTokenValidity() {
-  const token = localStorage.getItem('boldr:jwt') || cookie.load('boldr:jwt');
+  const token = cookie.load('boldr:jwt');
   return (dispatch:Function) => {
     if (!token || token === '') { return; }
     dispatch(checkTokenValidityRequest());
@@ -175,7 +175,7 @@ export function checkTokenValidity() {
     })
     .catch(() => {
       dispatch(checkTokenValidityFailure('Token is invalid'));
-      localStorage.removeItem('boldr:jwt');
+      cookie.remove('boldr:jwt');
     });
   };
 }
