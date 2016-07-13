@@ -14,7 +14,12 @@ class Settings extends Component {
   render() {
     return (
       <div>
-
+        { this.props.boldr.siteName }
+        { this.props.boldr.logo }
+        { this.props.boldr.favicon }
+        { this.props.boldr.description }
+        { this.props.boldr.siteUrl }
+        { this.props.boldr.allowRegistration }
       </div>
     );
   }
