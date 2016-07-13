@@ -13,6 +13,11 @@ machine:
     DB_USER: ubuntu
     SERVER_PORT: 8000
 
+dependencies:
+  cache_directories:
+    - node_modules
+  override:
+    - npm prune && npm install
 test:
   pre:
     - npm run migrate

@@ -147,6 +147,7 @@ const webpackConfig = module.exports = {
       React: 'react'
     }),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __SERVER__: false,
