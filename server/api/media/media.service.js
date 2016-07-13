@@ -53,5 +53,53 @@ const multerArticle = {
     }
   })
 };
+function checkTrailingSlash(path) {
+  if (path && path[path.length - 1] !== '/') {
+    path += '/';
+  }
+  return path;
+}
 
-export { multerOptions, multerAvatar, multerArticle };
+function s3SignService(req, res, next) {
+  const filename = uuid.v4() + '_' + req.query.objectName;
+  const mimeType = req.query.contentType;
+  const fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
+
+  const s3 = new AWS.S3({
+    accessKeyId: config.aws.id,
+    secretAccessKey: config.aws.secret,
+    region: 'us-west-1'
+  });
+  const params = {
+    Bucket: config.aws.bucket,
+    Key: fileKey,
+    Expires: 60,
+    ContentType: mimeType,
+    ACL: 'public-read'
+  };
+
+  s3.getSignedUrl('putObject', params, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.send(500, 'Cannot create S3 signed URL');
+    }
+    res.json({
+      signedUrl: data,
+      publicUrl: '/s3/uploads/' + filename,
+      filename
+    });
+  });
+}
+
+function tempRedirect(req, res) {
+  const params = {
+    Bucket: config.aws.bucket,
+    Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
+  };
+  const s3 = new AWS.S3();
+  s3.getSignedUrl('getObject', params, (err, url) => {
+    res.redirect(url);
+  });
+}
+
+export { multerOptions, multerAvatar, multerArticle, tempRedirect, s3SignService };

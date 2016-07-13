@@ -1,4 +1,5 @@
 import Boom from 'boom';
+import s3router from '../lib/s3/s3router';
 import userRouter from './user/user.router';
 import authRouter from './auth/auth.router';
 import mediaRouter from './media/media.router';
@@ -15,6 +16,11 @@ export default (app, router, passport) => {
   mediaRouter(app, router, passport);
   tagRouter(app, router, passport);
   settingRouter(app, router, passport);
+
+  app.use('/s3', s3router({
+    headers: { 'Access-Control-Allow-Origin': '*' }, // optional
+    ACL: 'public-read' // this is default
+  }));
   // Use Boom for 404 error handling.
   router.use((req, res, next) => {
     next(Boom.notFound('Looks like you might be lost...'));

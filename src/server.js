@@ -38,7 +38,21 @@ const proxy = httpProxy.createProxyServer({
 app.use(cookieParser());
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
-
+app.all('/*', function(req, res, next) {
+  // CORS headers
+  res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  // Set custom headers for CORS
+  res.header('Access-Control-Allow-Headers', 'Content-type,Accept');
+  // If someone calls with method OPTIONS, let's display the allowed methods on our API
+  if (req.method === 'OPTIONS') {
+    res.status(200);
+    res.write('Allow: GET,PUT,POST,DELETE,OPTIONS');
+    res.end();
+  } else {
+    next();
+  }
+});
 app.use(Express.static(path.join(__dirname, '..', 'static')));
 app.use('/api', (req, res) => {
   proxy.web(req, res, { target: targetUrl });
