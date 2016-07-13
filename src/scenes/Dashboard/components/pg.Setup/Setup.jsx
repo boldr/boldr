@@ -18,13 +18,14 @@ class Setup extends Component {
   render() {
     return (
       <div>
-        <Toolbar style={ { backgroundColor: 'rgb(64, 64, 78)' } }>
+        <Toolbar style={ { backgroundColor: 'rgb(64, 64, 78)', marginBottom: '1em' } }>
           <ToolbarGroup>
             <ToolbarTitle text="Setup" style={ { color: 'rgba(237, 237, 237, 1)' } } />
           </ToolbarGroup>
         </Toolbar>
-        <SetupForm onSubmit={ ::this.handleSubmit } />
-
+        <Row>
+          <SetupForm onSubmit={ ::this.handleSubmit } />
+        </Row>
       </div>
     );
   }

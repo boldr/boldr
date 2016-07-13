@@ -27,7 +27,7 @@ module.exports = {
       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
     },
     style_modules: {
-      extensions: ['scss'],
+      extensions: ['css', 'scss'],
       filter: function(module, regex, options, log) {
         if (options.development) {
           return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log);

@@ -3,13 +3,7 @@ import { reduxForm } from 'redux-form';
 import RenderField from 'components/atm.RenderField';
 import MenuItem from 'material-ui/MenuItem';
 import { RadioButton } from 'material-ui/RadioButton';
-import {
-  Checkbox,
-  RadioButtonGroup,
-  SelectField,
-  TextField,
-  Toggle
-} from 'redux-form-material-ui';
+
 import { Col, Row, Container } from 'components/index';
 
 export const fields = ['description', 'logo', 'favicon', 'analyticsId', 'allowRegistration'];

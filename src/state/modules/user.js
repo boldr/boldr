@@ -1,23 +1,10 @@
 /* @flow */
-import { polyfill } from 'es6-promise';
-import request from 'axios';
+
+import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
-import { API_BASE } from '../../config.api';
-polyfill();
 
-/*
- * Utility function to make AJAX requests using isomorphic fetch.
- * You can also use jquery's $.ajax({}) if you do not want to use the
- * /fetch API.
- * @param Object Data you wish to pass to the server
- * @param String HTTP method, e.g. post, get, put, delete
- * @param String endpoint - defaults to /login
- * @return Promise
- */
-function makeUserRequest(method, data, api = `${API_BASE}/auth/login`) {
-  return request[method](api, data);
-}
+import { API_BASE } from '../../config-api';
 
 /**
  * LOGIN ACTIONS
@@ -31,37 +18,34 @@ const beginLogin = () => {
 };
 // Login Success
 export function loginSuccess(response:Object) {
-  localStorage.setItem('boldr:jwt', response.data.token);
-  const decoded = decode(response.data.token);
+  localStorage.setItem('boldr:jwt', response.body.token);
+  const decoded = decode(response.body.token);
   return {
     type: LOGIN_USER_SUCCESS,
-    payload: response.data.token,
+    payload: response.body.token,
     role: decoded.role
   };
 }
 // Login Error
-export function loginError(message:string) {
+export function loginError(err:string) {
   return {
     type: LOGIN_USER_FAIL,
-    message
+    error: err
   };
 }
 // Login Action
 export function manualLogin(data:Object) {
   return (dispatch:Function) => {
     dispatch(beginLogin());
-
-    return makeUserRequest('post', data, `${API_BASE}/auth/login`)
+    return request
+      .post(`${API_BASE}/auth/login`)
+      .send(data)
       .then(response => {
-        if (response.status === 200) {
-          dispatch(loginSuccess(response));
-          dispatch(push('/'));
-        } else {
-          dispatch(loginError('Oops! Something went wrong!'));
-        }
+        dispatch(loginSuccess(response));
+        dispatch(push('/'));
       })
       .catch(err => {
-        dispatch(loginError(err.data.message));
+        dispatch(loginError(err));
       });
   };
 }
@@ -96,7 +80,9 @@ export function signUp(data:Object) {
   return (dispatch:Function) => {
     dispatch(beginSignUp());
 
-    return makeUserRequest('post', data, `${API_BASE}/auth/signup`)
+    return request
+      .post(`${API_BASE}/auth/signup`)
+      .send(data)
       .then(response => {
         if (response.status === 200) {
           dispatch(signUpSuccess(response));
@@ -135,13 +121,11 @@ export function logOut() {
   return (dispatch:Function) => {
     dispatch(beginLogout());
 
-    return makeUserRequest('post', null, `${API_BASE}/auth/logout`)
+    return request
+      .post(`${API_BASE}/auth/logout`)
+      .send({})
       .then(response => {
-        if (response.status === 200) {
-          dispatch(logoutSuccess());
-        } else {
-          dispatch(logoutError());
-        }
+        dispatch(logoutSuccess());
       });
   };
 }
@@ -161,11 +145,11 @@ function checkTokenValiditySuccess(response, token) {
   const decoded = decode(token);
   return {
     type: CHECK_TOKEN_VALIDITY_SUCCESS,
-    payload: response.data,
+    payload: response.body,
     role: decoded.role,
     token,
-    email: response.data.email,
-    name: response.data.profile.name
+    email: response.body.email,
+    name: response.body.profile.name
   };
 }
 
@@ -181,9 +165,9 @@ export function checkTokenValidity() {
   return (dispatch:Function) => {
     if (!token || token === '') { return; }
     dispatch(checkTokenValidityRequest());
-    request.get(`${API_BASE}/auth/check`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    request
+      .get(`${API_BASE}/auth/check`)
+      .set('Authorization', `Bearer ${token}`)
     .then(response => {
       dispatch(checkTokenValiditySuccess(response, token));
     })

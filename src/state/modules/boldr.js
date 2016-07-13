@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { API_BASE } from '../../config.api';
+import request from 'superagent';
+import { API_BASE } from '../../config-api';
 
 const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
 const DONE_LOADING = 'DONE_LOADING';
@@ -26,13 +26,13 @@ const loadSettings = () => ({
 
 const loadSettingsSuccess = (response) => ({
   type: LOAD_SETTINGS_SUCCESS,
-  siteName: response.data[0].siteName,
-  description: response.data[0].description,
-  logo: response.data[0].logo,
-  siteUrl: response.data[0].siteUrl,
-  favicon: response.data[0].favicon,
-  analyticsId: response.data[0].analyticsId,
-  allowRegistration: response.data[0].allowRegistration
+  siteName: response.body[0].siteName,
+  description: response.body[0].description,
+  logo: response.body[0].logo,
+  siteUrl: response.body[0].siteUrl,
+  favicon: response.body[0].favicon,
+  analyticsId: response.body[0].analyticsId,
+  allowRegistration: response.body[0].allowRegistration
 });
 
 // Fail receivers
@@ -45,10 +45,9 @@ const failedToLoadSettings = (data) => ({
 export function loadBoldrSettings(data) {
   return dispatch => {
     dispatch(loadSettings());
-    return axios.get(`${SETTINGS_ENDPOINT}`, {
-      timeout: 5000,
-      responseType: 'json'
-    })
+    return request
+      .get(SETTINGS_ENDPOINT)
+      .set('Authorization', `Bearer ${localStorage.getItem('boldr:jwt')}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(loadSettingsSuccess(response));
@@ -71,7 +70,7 @@ const startSaveSetup = () => ({
 
 const saveSetupSuccess = (response) => ({
   type: SAVE_SETUP_SUCCESS,
-  payload: response.data,
+  payload: response.body,
   message: 'Boldr did its thing, now you do yours.'
 });
 
@@ -85,10 +84,10 @@ const failedToSaveSetup = (data) => ({
 export function saveBoldrSetup(data) {
   return dispatch => {
     dispatch(startSaveSetup());
-    return axios.post(`${SETTINGS_ENDPOINT}`, data, {
-      timeout: 5000,
-      responseType: 'json'
-    })
+    return request
+      .post(SETTINGS_ENDPOINT)
+      .set('Authorization', `Bearer ${localStorage.getItem('boldr:jwt')}`)
+      .send(data)
       .then(response => {
         if (response.status === 201) {
           dispatch(saveSetupSuccess(response));

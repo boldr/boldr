@@ -18,11 +18,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { trigger } from 'redial';
 
 import BoldrTheme from './styles/theme';
-import createStore from './utils.redux/configureStore';
-import ApiClient from './config.api/ApiClient';
+import createStore from './utils-redux/createStore';
+import ApiClient from './config-api/ApiClient';
 import Html from './components/tpl.Html';
 
-import getRoutes from './config.routes';
+import getRoutes from './config-routes';
 import config from './config'; // eslint-disable-line
 
 const pretty = new PrettyError();

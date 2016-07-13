@@ -46,17 +46,19 @@ class Login extends Component {
         <Container fluid>
           <Helmet title="Login" />
           <Row>
-            <Col sm="12" md={ { size: 8, offset: 2 } }>
-              <Card className="auth-login__card">
+
+            <Card className="auth-login__card">
+              <Col sm="12" md={ { size: 4, offset: 4 } }>
                 { this.renderHeader() }
                 <div>
                   <p>{ message }</p>
                   <LoginForm onSubmit={ ::this.handleOnSubmit } />
 
-                  <a href="/api/v1/auth/facebook">Login with Facebook</a>
+                  <a href="http://localhost:8000/api/v1/auth/facebook">Login with Facebook</a>
                 </div>
+              </Col>
               </Card>
-            </Col>
+
           </Row>
         </Container>
     );

@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { API_USERS } from '../../../config.api';
+import request from 'superagent';
+import { API_USERS } from '../../../config-api';
 
 
 export const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';
@@ -13,24 +13,22 @@ const loadUsers = () => ({
 const loadUsersSuccess = (response) => ({
   type: LOAD_USERS_SUCCESS,
   isLoading: false,
-  payload: response.data
+  payload: response.body
 });
 
 // Fail receivers
-const failedToLoadUsers = (data) => ({
+const failedToLoadUsers = (err) => ({
   type: LOAD_USERS_FAIL,
   isLoading: false,
-  data
+  error: err
 });
 
 // Public action creators
 export function loadSiteUsers(data) {
   return dispatch => {
     dispatch(loadUsers());
-    return axios.get(`${API_USERS}`, {
-      timeout: 5000,
-      responseType: 'json'
-    })
+    return request
+      .get(API_USERS)
       .then(response => {
         if (response.status === 200) {
           dispatch(loadUsersSuccess(response));

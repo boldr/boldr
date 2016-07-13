@@ -15,7 +15,6 @@ Article.belongsToMany(Tag, {
     model: ArticlesTags,
     unique: true
   },
-  as: 'articles',
   foreignKey: {
     name: 'articleId',
     allowNull: true
@@ -47,7 +46,6 @@ Tag.belongsToMany(Article, {
     model: ArticlesTags,
     unique: true
   },
-  as: 'tags',
   foreignKey: {
     name: 'tagId',
     allowNull: true

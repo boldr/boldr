@@ -1,7 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextField, RadioButtonGroup } from 'redux-form-material-ui';
 import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';

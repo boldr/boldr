@@ -1,4 +1,4 @@
-require('babel-polyfill');
+
 
 const environment = {
   development: {

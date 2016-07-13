@@ -27,7 +27,29 @@ const cssLoader = [
   'importLoaders=2',
   `localIdentName=${cssChunkNaming}`
 ].join('&');
-
+const postCSSConfig = function() {
+  return [
+    require('postcss-import')({
+      path: path.join(ROOT_DIR, 'src', 'styles'),
+      // addDependencyTo is used for hot-reloading in webpack
+      addDependencyTo: webpack
+    }),
+    // Note: you must set postcss-mixins before simple-vars and nested
+    require('postcss-mixins')(),
+    require('postcss-simple-vars')(),
+    // Unwrap nested rules like how Sass does it
+    require('postcss-nested')(),
+    //  parse CSS and add vendor prefixes to CSS rules
+    require('autoprefixer')({
+      browsers: ['last 2 versions', 'IE > 8']
+    }),
+    // A PostCSS plugin to console.log() the messages registered by other
+    // PostCSS plugins
+    require('postcss-reporter')({
+      clearMessages: true
+    })
+  ];
+};
 const webpackConfig = module.exports = {
   devtool: 'cheap-module-eval-source-map',
   target: 'web',
@@ -62,9 +84,10 @@ const webpackConfig = module.exports = {
       createSourceLoader({
         happy: { id: 'sass' },
         test: /\.scss$/,
-        loader: 'style-loader!css-loader!postcss-loader!resolve-url!sass-loader'
+        loaders: [
+          'style', 'css', 'postcss', 'sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true'
+        ]
       }),
-
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
@@ -79,7 +102,6 @@ const webpackConfig = module.exports = {
       'src',
       'node_modules'
     ],
-    fallback: path.join(ROOT_DIR, 'node_modules'),
     alias: {
       components: path.resolve(ROOT_DIR, 'src/components'),
       src: path.resolve(ROOT_DIR, 'src'),
@@ -88,14 +110,7 @@ const webpackConfig = module.exports = {
       server: path.resolve(ROOT_DIR, 'server')
     }
   },
-  resolveLoader: { fallback: path.join(ROOT_DIR, 'node_modules') },
-  sassLoader: {
-    includePaths: [
-      path.resolve(ROOT_DIR, 'node_modules'),
-      path.resolve(ROOT_DIR, 'src/styles')
-    ]
-  },
-  postcss: styling,
+  postcss: postCSSConfig,
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),

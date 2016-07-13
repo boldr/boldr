@@ -3,7 +3,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
-import axios from 'axios';
 import Router from 'react-router/lib/Router';
 import browserHistory from 'react-router/lib/browserHistory';
 import match from 'react-router/lib/match';
@@ -18,11 +17,11 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // Non-vendor
 import { checkTokenValidity } from 'state/modules/user';
 import BoldrTheme from './styles/theme';
-import createRoutes from './config.routes/index';
-import createStore from './utils.redux/configureStore';
-// import preRenderMiddleware from 'utils.redux/preRenderMiddleware';
-import ApiClient from './config.api/ApiClient';
+import createRoutes from './config-routes/index';
+import createStore from './utils-redux/createStore';
+import ApiClient from './config-api/ApiClient';
 import './styles/main.scss';
+
 WebFontLoader.load({
   google: {
     families: ['Roboto:300,400,500,700', 'Roboto Condensed:400,300']
@@ -42,7 +41,6 @@ if (token) {
   store.dispatch(checkTokenValidity());
 }
 // If its available, always send the token in the header.
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;  // eslint-disable-line
 injectTapEventPlugin();
 
 function renderApp() {
@@ -54,7 +52,7 @@ function renderApp() {
         <AppContainer>
           <Provider store={ store } key="provider">
             <MuiThemeProvider muiTheme={ muiTheme }>
-              <Router routes={ routes } history={ browserHistory } key={ Math.random() } />
+              <Router routes={ routes } history={ browserHistory } />
             </MuiThemeProvider>
           </Provider>
         </AppContainer>,
@@ -94,7 +92,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
   module.hot.accept();
   // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('./config.routes', renderApp);
+  module.hot.accept('./config-routes', renderApp);
 }
 
 renderApp();

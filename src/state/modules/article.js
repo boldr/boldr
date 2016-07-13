@@ -1,15 +1,8 @@
 /* @flow */
-import { polyfill } from 'es6-promise';
-import axios from 'axios';
+import request from 'superagent';
 import { push } from 'react-router-redux';
 
-import { API_ARTICLES } from '../../config.api';
-
-polyfill();
-
-function makeArticleRequest(method, data, api = `${API_ARTICLES}`) {
-  return axios[method](api, data);
-}
+import { API_ARTICLES } from '../../config-api';
 
 /**
  * GET ARTICLE ACTIONS
@@ -17,33 +10,7 @@ function makeArticleRequest(method, data, api = `${API_ARTICLES}`) {
 export const FETCH_ARTICLES_REQUEST:string = 'FETCH_ARTICLES_REQUEST';
 export const FETCH_ARTICLES_SUCCESS:string = 'FETCH_ARTICLES_SUCCESS';
 export const FETCH_ARTICLES_FAIL:string = 'FETCH_ARTICLES_FAIL';
-//
-// const beginFetchingArticles = () => {
-//   return { type: FETCH_ARTICLES_REQUEST };
-// };
-// // Fetch Articles Success
-// export function fetchedArticles(response:Object) {
-//   return {
-//     type: FETCH_ARTICLES_SUCCESS,
-//     payload: response.data
-//   };
-// }
-// // Fetch Articles Error
-// export function errorFetchingArticles(err:Object) {
-//   return {
-//     type: FETCH_ARTICLES_FAIL,
-//     error: err.data
-//   };
-// }
-//
-// export function isValidEmail(data) {
-//   return {
-//     types: [IS_VALID, IS_VALID_SUCCESS, IS_VALID_FAIL],
-//     promise: (client) => client.post('/survey/isValid', {
-//       data
-//     })
-//   };
-// }
+
 // Fetch Articles Action
 
 export function loadArticles() {
@@ -52,21 +19,6 @@ export function loadArticles() {
     promise: (client) => client.get('/articles') // params not used, just shown as demonstration
   };
 }
-// export function fetchArticles(data:Object) {
-//   return (dispatch:Function) => {
-//     dispatch(beginFetchingArticles());
-//
-//     return makeArticleRequest('get', data, `${API_ARTICLES}`)
-//       .then(response => {
-//         if (response.status === 200) {
-//           dispatch(fetchedArticles(response));
-//         }
-//       })
-//       .catch(err => {
-//         dispatch(errorFetchingArticles(err));
-//       });
-//   };
-// }
 
 /**
  * CREATE` ARTICLE ACTIONS
@@ -84,29 +36,30 @@ const beginCreateArticle = () => {
 export function createArticleSuccess(response:Object) {
   return {
     type: CREATE_ARTICLE_SUCCESS,
-    payload: response.data
+    payload: response.body
   };
 }
 // Fetch Articles Error
 export function errorCreatingArticle(err:Object) {
   return {
     type: CREATE_ARTICLE_FAIL,
-    error: err.data
+    error: err
   };
 }
 // Fetch Articles Action
 export function createArticle(articleData:Object) {
   return (dispatch:Function) => {
     dispatch(beginCreateArticle());
-
-    return axios({ method: 'post', url: `${API_ARTICLES}`, headers: {
-      'Authorization': `Bearer ${localStorage.getItem('boldr:jwt')}`
-    }, data: {
-      title: articleData.title,
-      content: articleData.content,
-      tags: [
-    { tagname: articleData.tag }
-      ], status: articleData.status } })
+    return request
+      .post(API_ARTICLES)
+      .set('Authorization', `Bearer ${localStorage.getItem('boldr:jwt')}`)
+      .send({
+        title: articleData.title,
+        content: articleData.content,
+        tags: [
+          { tagname: articleData.tag }
+        ], status: articleData.status
+      })
       .then(response => {
         if (response.status === 201) {
           dispatch(createArticleSuccess(response));
