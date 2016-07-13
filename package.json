@@ -3,6 +3,10 @@
   "version": "0.1.0-alpha.3",
   "description": "a bold cms.",
   "main": "tools/scripts/server.js",
+  "engines": {
+     "node": "6.2.0",
+     "npm": "3.7.3"
+  },
   "scripts": {
     "build": "better-npm-run build",
     "build-dlls": "./node_modules/.bin/webpack --config tools/webpack/dlls/vendor/webpack.config.js",
@@ -20,6 +24,7 @@
     "start:prod": "better-npm-run start-prod",
     "start:server": "node server/index.js",
     "test": "NODE_PATH=./src ./node_modules/.bin/mocha --compilers js:./compiler.babel --opts ./mocha.opts './src/**/*.test.js'",
+    "test:db-init": "./tools/scripts/testdb-init.sh",
     "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'",
     "watch:client": "better-npm-run watch:client",
     "validate": "./node_modules/.bin/webpack-validator tools/webpack/dev.config.js"

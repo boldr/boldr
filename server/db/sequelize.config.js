@@ -10,7 +10,7 @@ module.exports = {
   test: {
     username: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'boldr_test',
+    database: process.env.DB_NAME || 'travis',
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres'
   },

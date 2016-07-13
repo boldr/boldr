@@ -18,8 +18,7 @@ addons:
       - g++-4.8
 
 before_script:
-  - psql -c 'create database boldr_test;' -U postgres
-  - npm run db:init
+  - npm run testdb:init
   - npm run migrate
 
 cache:
