@@ -5,11 +5,8 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const strip = require('strip-loader');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
-
-const babelish = require('./loaders/babel.loader');
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const assetsPath = path.resolve(ROOT_DIR, './static/dist');
@@ -36,7 +33,8 @@ module.exports = {
       'react-tap-event-plugin',
       'redial',
       'react-router-scroll',
-      'webfontloader'
+      'webfontloader',
+      'react-cookie'
     ]
   },
   output: {
@@ -47,8 +45,26 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel'] },
-      { test: /\.json$/, loader: 'json-loader' },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules|\.git/,
+        babelrc: false,
+        query: {
+          cacheDirectory: true,
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: [
+            'transform-decorators-legacy',
+            'transform-runtime',
+            'transform-flow-strip-types',
+            'lodash'
+          ]
+        }
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap!postcss!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },

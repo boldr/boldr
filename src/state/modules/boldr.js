@@ -2,12 +2,12 @@ import request from 'superagent';
 import cookie from 'react-cookie';
 import { API_BASE } from '../../config-api';
 
-const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
-const DONE_LOADING = 'DONE_LOADING';
-const LOAD_SETTINGS = 'LOAD_SETTINGS';
-const LOAD_SETTINGS_SUCCESS = 'LOAD_SETTINGS_SUCCESS';
-const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
-const SETTINGS_ENDPOINT = `${API_BASE}/settings`;
+export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
+export const DONE_LOADING = 'DONE_LOADING';
+export const LOAD_SETTINGS = 'LOAD_SETTINGS';
+export const LOAD_SETTINGS_SUCCESS = 'LOAD_SETTINGS_SUCCESS';
+export const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
+export const SETTINGS_ENDPOINT = `${API_BASE}/settings`;
 
 export const finishLoading = status => {
   return {
@@ -102,7 +102,7 @@ export function saveBoldrSetup(data) {
 }
 
 const INITIAL_STATE = {
-  isLoading: false,
+  isLoading: true,
   siteName: '',
   description: '',
   logo: '',
