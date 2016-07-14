@@ -317,4 +317,5 @@ conf.validate({
 });
 
 // console.log(`ENV ${env}`);
-export const config = conf.getProperties();
+const config = conf.getProperties();
+module.exports = config;

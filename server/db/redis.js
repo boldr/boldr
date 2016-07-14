@@ -1,6 +1,6 @@
 import Redis from 'ioredis';
 import logger from '../lib/logger';
-import { config } from '../config/boldr';
+import config from '../config/boldr';
 
 const redisClient = new Redis({
   host: config.redis.host,

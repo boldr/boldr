@@ -12,7 +12,7 @@ class ProfileMain extends Component {
           <Col xs="4">
             <Card>
               <CardHeader
-                title={ this.props.currentUser.name }
+                title={ this.props.currentUser.firstName }
                 subtitle="Subtitle"
                 avatar="http://lorempixel.com/100/100/nature/"
               />
@@ -32,7 +32,7 @@ class ProfileMain extends Component {
           <Col xs="8">
             <Card>
               <CardHeader
-                title={ this.props.currentUser.name }
+                title={ this.props.currentUser.firstName }
                 subtitle="Subtitle"
                 avatar="http://lorempixel.com/100/100/nature/"
               />

@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import moment from 'moment';
 import pg from 'pg';
 import sequelizeConfig from './sequelize.config'; // eslint-disable-line
-import { config } from '../config/boldr';// eslint-disable-line
+import config from '../config/boldr';// eslint-disable-line
 
 const ENV = config.env;
 const dbConfig = sequelizeConfig[ENV];

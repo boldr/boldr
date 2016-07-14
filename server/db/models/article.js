@@ -28,11 +28,11 @@ const Article = Model.define('articles', {
     defaultValue: DataTypes.UUIDV4
   },
   title: {
-    type: DataTypes.STRING(256),
+    type: DataTypes.STRING(128),
     allowNull: false
   },
   slug: {
-    type: DataTypes.STRING(256),
+    type: DataTypes.STRING(128),
     allowNull: false,
     unique: true
   },
@@ -60,7 +60,7 @@ const Article = Model.define('articles', {
     type: DataTypes.ENUM,
     allowNull: false,
     values: ['draft', 'published', 'archived'],
-    defaultValue: 'draft'
+    defaultValue: 'published'
   },
   views: {
     type: DataTypes.INTEGER,

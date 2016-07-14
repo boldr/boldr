@@ -9,6 +9,7 @@ import Media from './media';
 import MediaCategories from './mediaCategories';
 import Setting from './setting';
 import VerificationToken from './verification';
+import Role from './Role';
 
 Article.belongsToMany(Tag, {
   through: {
@@ -40,7 +41,7 @@ Media.belongsTo(Category, {
 Media.belongsTo(User, {
   foreignKey: 'ownerId'
 });
-
+Role.belongsToMany(User, { through: 'user_roles' });
 Tag.belongsToMany(Article, {
   through: {
     model: ArticlesTags,
@@ -56,6 +57,10 @@ Tag.belongsToMany(Article, {
 
 Token.belongsTo(User, {
   foreignKey: 'userId'
+});
+
+User.belongsToMany(Role, {
+  through: 'user_roles'
 });
 
 User.hasMany(Token, {
@@ -77,31 +82,41 @@ User.hasMany(Media, {
 });
 
 User.hasOne(VerificationToken, {
-  foreignKey: 'token',
+  foreignKey: 'verificationTokenId',
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
-
+VerificationToken.belongsTo(User, {
+  foreignKey: 'userId'
+});
 User.sync().then(() => {
   User.find({ where: { displayName: 'admin' } }).then((user) => {
     if (!user) {
       User.create({
         email: 'admin@boldr.io',
-        name: 'Admin User',
+        firstName: 'Admin',
+        lastName: 'User',
         displayName: 'admin',
-        password: 'password',
-        role: 'admin'
+        password: 'password'
       });
     }
   });
 });
-VerificationToken.belongsTo(User, {
-  foreignKey: 'userId'
+Role.sync().then(() => {
+  Role.find({ where: { name: 'user' } }).then((role) => {
+    if (!role) {
+      Role.create({
+        name: 'user',
+        description: 'The user class'
+      });
+    }
+  });
 });
+
 
 function sync(...args) {
   return sequelize.sync(...args);
 }
 
 export default { sync };
-export { User, Token, Article, Tag, Media, ArticlesTags, Category, Setting, VerificationToken };
+export { User, Token, Article, Tag, Media, ArticlesTags, Category, Setting, VerificationToken, Role };

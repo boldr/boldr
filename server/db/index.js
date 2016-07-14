@@ -1,5 +1,5 @@
 import session from './session';
-import { db, sequelize } from './sequelize';
+import sequelize, { db } from './sequelize';
 
 export { session, db, sequelize };
 

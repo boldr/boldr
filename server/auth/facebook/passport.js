@@ -1,5 +1,5 @@
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-import { config } from '../../config/boldr';
+import config from '../../config/boldr';
 import { User } from '../../db/models';
 import sequelize from '../../db/sequelize';
 
@@ -16,7 +16,8 @@ export default (passport) => {
       } else {
         User.sync().then(() => {
           return User.create({
-            name: profile.name.givenName + ' ' + profile.name.familyName,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
             facebook: profile.id,
             email: profile.emails[0].value
           });

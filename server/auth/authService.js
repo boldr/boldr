@@ -4,7 +4,7 @@ import expressJwt from 'express-jwt';
 import _ from 'lodash';
 
 import { User } from '../db/models';
-import { config } from '../config/boldr';
+import config from '../config/boldr';
 
 const validateJwt = expressJwt({ secret: config.jwt.secret });
 

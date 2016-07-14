@@ -1,4 +1,4 @@
-const config = require('../config/boldr').config;
+const config = require('../config/boldr');
 
 module.exports = {
   development: {

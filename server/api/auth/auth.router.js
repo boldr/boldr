@@ -4,7 +4,7 @@ import * as ctrl from './auth.controller';
 
 export default (app, router) => {
   router.post('/auth/login', ctrl.login);
-  router.post('/auth/signup', ctrl.signUp);
+  router.post('/auth/signup', ctrl.signup);
   router.post('/auth/logout', ctrl.logout);
   router.get('/auth/check', isAuthenticated(), ctrl.checkUser);
   router.get('/auth/google', passport.authenticate('google', {

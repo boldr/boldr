@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
-import { config } from '../../config/boldr';
+import config from '../../config/boldr';
 import logger from '../logger';
 
 const auth = {

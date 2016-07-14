@@ -1,6 +1,7 @@
 import DataType from 'sequelize';
-import Model from '../sequelize';
 import uuid from 'node-uuid';
+import Model from '../sequelize';
+
 /**
  * Creates a UUID for the User if it's not given.
  * @param  {Object} instance Instance object of the User

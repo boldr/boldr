@@ -26,7 +26,8 @@ describe('Users reducer', () => {
     authenticated: false,
     users: [],
     currentUser: {
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       role: '',
       token: undefined
@@ -47,7 +48,8 @@ describe('Users reducer', () => {
       authenticated: false,
       users: [],
       currentUser: {
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         role: '',
         token: undefined

@@ -15,7 +15,7 @@ import errorHandler from 'errorhandler';
 import winston from 'winston';
 import expressWinston from 'express-winston';
 import { session as dbSession } from '../db';
-import { config } from '../config/boldr';
+import config from '../config/boldr';
 import { logger } from '../lib';
 
 export default (app, io) => {

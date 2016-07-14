@@ -5,7 +5,7 @@ import express from 'express';
 import winston from 'winston';
 import expressWinston from 'express-winston';
 
-import { config } from './config/boldr';
+import config from './config/boldr';
 import { logger } from './lib';
 import authMiddleware from './auth';
 import middleware from './middleware';

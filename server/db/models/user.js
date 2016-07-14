@@ -54,22 +54,49 @@ const User = Model.define('users', {
     }
   },
   password: {
-    type: DataTypes.STRING(4096)
+    type: DataTypes.STRING(4096),
+    allowNull() {
+      const isLocal = this.provider === 'local';
+      return isLocal;
+    }
   },
   salt: {
     type: DataTypes.STRING(4096)
   },
-  name: {
+  firstName: {
     type: DataTypes.STRING,
-    defaultValue: ''
+    allowNull: false,
+    validate: {
+      is: {
+        args: /^([ \u00c0-\u01ffa-zA-Z'\-])+$/i,
+        msg: 'name must only contain letters'
+      },
+      notEmpty: {
+        msg: 'name is required'
+      }
+    }
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      is: {
+        args: /^([ \u00c0-\u01ffa-zA-Z'\-])+$/i,
+        msg: 'name must only contain letters'
+      }
+    }
   },
   bio: {
     type: DataTypes.TEXT,
     defaultValue: ''
   },
   gender: {
-    type: DataTypes.STRING,
-    defaultValue: ''
+    type: DataTypes.ENUM('male', 'female'),
+    allowNull: true
+  },
+  birthday: {
+    type: DataTypes.DATE,
+    allowNull: true
   },
   location: {
     type: DataTypes.STRING,
@@ -108,10 +135,6 @@ const User = Model.define('users', {
   google: {
     type: DataTypes.STRING,
     defaultValue: ''
-  },
-  role: {
-    type: DataTypes.ENUM('user', 'staff', 'admin'),
-    defaultValue: 'user'
   }
 }, {
   timestamps: false,
@@ -138,7 +161,15 @@ const User = Model.define('users', {
     profile() {
       return {
         name: this.name,
-        role: this.role
+        role: this.role,
+        displayName: this.displayName,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        gender: this.gender,
+        birthday: this.birthday,
+        location: this.location,
+        website: this.website,
+        picture: this.picture
       };
     },
     // Non-sensitive info we'll be putting in the token
@@ -147,6 +178,11 @@ const User = Model.define('users', {
         id: this.id,
         role: this.role
       };
+    },
+    age() {
+      const today = new Date();
+      const birthday = new Date(this.birthday);
+      return today.getFullYear() - birthday.getFullYear();
     }
   },
   hooks: {
@@ -186,12 +222,13 @@ function toJSON() {
     email: this.email,
     profile: {
       displayName: this.displayName,
-      name: this.name,
+      firstName: this.firstName,
+      lastName: this.lastName,
       gender: this.gender,
+      birthday: this.birthday,
       location: this.location,
       website: this.website,
-      picture: this.picture,
-      role: this.role
+      picture: this.picture
     }
   };
 }
@@ -334,7 +371,7 @@ function updatePassword(fn) {
  * @returns {Promise} Promise user model
 */
 function findByUserId(userid) {
-  return this.find({ where: { id: userid } });
+  return this.find({ include: [{ all: true }], where: { id: userid } });
 }
 
 

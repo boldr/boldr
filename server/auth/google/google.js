@@ -4,7 +4,7 @@ import sequelize from '../../db/sequelize';
 /* eslint-disable no-param-reassign */
 function attachGoogleAccount(user, profile, accessToken, done) {
   user.google = profile.id;
-  user.name = user.name || profile.displayName;
+  user.firstName = user.firstName || profile.displayName;
   user.gender = user.gender || profile._json.gender;
   user.picture = user.picture || profile._json.picture;
 
@@ -26,7 +26,8 @@ function createUserWithToken(profile, accessToken, done) {
     User.create({
       email: profile._json.emails[0].value,
       google: profile.id,
-      name: profile.displayName,
+      firstName: profile.displayName,
+      displayName: profile.displayName,
       role: 'user',
       provider: 'google',
       gender: profile._json.gender,

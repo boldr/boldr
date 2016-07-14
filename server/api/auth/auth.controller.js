@@ -3,7 +3,7 @@ import Boom from 'boom';
 import moment from 'moment';
 import cookie from 'react-cookie';
 import { handleMail, generateVerifyCode } from '../../lib';
-import { User, VerificationToken } from '../../db/models';
+import { User, VerificationToken, Role } from '../../db/models';
 import { signToken } from '../../auth/authService';
 
 /**
@@ -22,19 +22,35 @@ import { signToken } from '../../auth/authService';
  */
 export function login(req, res, next) {
   passport.authenticate('local', (err, user, info) => {
-    const error = err || info;
-    if (error) {
-      return res.status(401).json(error);
-    }
-    if (!user) {
-      return res.status(404).json({ message: 'Something went wrong, please try again.' });
-    }
+    if (err || !user) {
+      Boom.badRequest(info);
+    } else {
+      req.login(user, (err) => {
+        if (err) {
+          Boom.unauthorized(err);
+        } else {
+          user
+            .getRoles()
+            .then((roles) => {
+              const rolesArray = [];
 
-    signToken(user.id, user.role).then(token => {
-      cookie.save('boldr:jwt', token, { path: '/' });
-      req.user = user;
-      return res.status(200).json({ token });
-    });
+              roles.map((dataValues) => {
+                rolesArray.push(dataValues.name);
+              });
+
+              user.dataValues.roles = rolesArray;
+              signToken(user.id).then(token => {
+                cookie.save('boldr:jwt', token, { path: '/' });
+                req.user = user;
+                return res.status(200).json({ token });
+              });
+            })
+            .catch((err) => {
+              return Boom.badRequest(err);
+            });
+        }
+      });
+    }
   })(req, res, next);
 }
 
@@ -55,21 +71,27 @@ export function logout(req, res) {
  * @apiName signup
  * @apiGroup Auth
  */
-export async function signUp(req, res, next) {
-  try {
-    const userData = {
-      email: req.body.email,
-      password: req.body.password,
-      displayName: req.body.displayName,
-      name: req.body.name,
-      location: req.body.location,
-      bio: req.body.bio,
-      picture: req.body.picture,
-      gender: req.body.gender,
-      website: req.body.website,
-      provider: 'local'
-    };
-    const user = await User.create(userData);
+export function signup(req, res) {
+  // For security measurement we remove the roles from the req.body object
+  delete req.body.roles;
+  // Add missing user fields
+  const provider = 'local';
+
+  // Save user
+  User.create({
+    email: req.body.email,
+    password: req.body.password,
+    displayName: req.body.displayName,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    birthday: req.body.birthday,
+    location: req.body.location,
+    bio: req.body.bio,
+    picture: req.body.picture,
+    gender: req.body.gender,
+    website: req.body.website,
+    provider
+  }).then(async (user) => {
     // Generate the verification token.
     const verificationToken = await generateVerifyCode();
     // Send the verification email.
@@ -84,19 +106,46 @@ export async function signUp(req, res, next) {
     });
     // Save token.
     verificationStorage.save();
-    req.logIn(user, (err) => {
-      if (err) {
-        return Boom.unauthorized({ message: err });
+    // Find role
+    Role.findOne({
+      where: {
+        name: 'user'
       }
-      return res.status(200).json({
-        message: 'You have been successfully logged in.'
-      });
-    });
-  } catch (err) {
-    return next(err);
-  }
-}
+    }).then((role) => {
+          // Add role
+      user.addRoles(role).then((role) => {
+        user.dataValues.roles = ['user'];
 
+        user.dataValues.password = null;
+        user.dataValues.salt = null;
+
+        user._previousDataValues.password = null;
+        user._previousDataValues.salt = null;
+        // Login
+        req.login(user, (err) => {
+          if (err) {
+            return Boom.unauthorized(err);
+          } else {
+            return res.status(201).json(user);
+          }
+        });
+
+        return null;
+      })
+      .catch((err) => {
+        return Boom.badRequest(err);
+      });
+      return null;
+    })
+    .catch((err) => {
+      return Boom.badRequest(err);
+    });
+
+    return null;
+  }).catch((err) => {
+    return Boom.badRequest(err);
+  });
+}
 export function checkUser(req, res, next) {
   const userId = req.user.id;
   return User.find({
@@ -105,14 +154,19 @@ export function checkUser(req, res, next) {
     },
     attributes: [
       'id',
-      'name',
+      'firstName',
+      'lastName',
       'email',
       'displayName',
-      'role',
       'provider'
+    ],
+    include: [
+      {
+        model: Role
+      }
     ]
   })
-    .then(user => { // don't ever give out the password or salt
+    .then(user => {
       if (!user) {
         return res.status(401).end();
       }
@@ -162,7 +216,6 @@ export function verifyEmail(req, res, next) {
 export default {
   login,
   logout,
-  signUp,
-  checkUser,
+  signup,
   verifyEmail
 };

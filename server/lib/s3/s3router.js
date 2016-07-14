@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
 import aws from 'aws-sdk';
 import express from 'express';
-import { config } from '../../config/boldr';
+import config from '../../config/boldr';
 
 function checkTrailingSlash(path) {
   if (path && path[path.length - 1] !== '/') {

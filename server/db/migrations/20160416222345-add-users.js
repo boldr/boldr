@@ -21,7 +21,11 @@ module.exports = {
         salt: {
           type: DataTypes.STRING(4096)
         },
-        name: {
+        firstName: {
+          type: DataTypes.STRING,
+          defaultValue: ''
+        },
+        lastName: {
           type: DataTypes.STRING,
           defaultValue: ''
         },
@@ -32,6 +36,9 @@ module.exports = {
         bio: {
           type: DataTypes.TEXT,
           defaultValue: ''
+        },
+        birthday: {
+          type: DataTypes.DATE
         },
         location: {
           type: DataTypes.STRING,
@@ -65,10 +72,6 @@ module.exports = {
         },
         github: {
           type: DataTypes.STRING
-        },
-        role: {
-          type: DataTypes.ENUM('user', 'staff', 'admin'),
-          defaultValue: 'user'
         }
       }
     ).then(() =>

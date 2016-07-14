@@ -1,5 +1,5 @@
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import { config } from '../../config/boldr';
+import config from '../../config/boldr';
 import googleAuthenticate from './google';
 
 export default (passport) => {

@@ -4,7 +4,7 @@ import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
-import { config } from '../../config/boldr';
+import config from '../../config/boldr';
 import { logger } from '../../lib';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
 

@@ -6,7 +6,8 @@
  */
 
 import winston from 'winston';
-import { config } from '../../config/boldr';
+import config from '../../config/boldr';
+
 const transports = [];
 if (config.logger.console) {
   transports.push(
