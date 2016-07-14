@@ -10,10 +10,10 @@ module.exports = {
   },
   test: {
     use_env_variable: 'DATABASE_URL',
-    username: process.env.DB_USER || 'ubuntu',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'circle_test',
-    host: process.env.DB_HOST || '127.0.0.1',
+    username: 'ubuntu',
+    password: '',
+    database: 'circle_test',
+    host: '127.0.0.1',
     dialect: 'postgres'
   },
   production: {
