@@ -18,9 +18,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // Non-vendor
 import { checkTokenValidity } from 'state/modules/user';
 import BoldrTheme from './styles/theme';
-import createRoutes from './config-routes/index';
-import createStore from './utils-redux/createStore';
-import ApiClient from './config-api/ApiClient';
+import createRoutes from './config/routes/index';
+import createStore from './core/redux/createStore';
+import ApiClient from './config/api/ApiClient';
+
 import './styles/main.scss';
 
 WebFontLoader.load({
@@ -99,7 +100,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
   module.hot.accept();
   // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('./config-routes/index', renderApp);
+  module.hot.accept('./config/routes/index', renderApp);
 }
 
 renderApp();

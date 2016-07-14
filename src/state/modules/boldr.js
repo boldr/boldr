@@ -1,6 +1,6 @@
 import request from 'superagent';
 import cookie from 'react-cookie';
-import { API_BASE } from '../../config-api';
+import { API_BASE } from '../../config/api';
 
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
 export const DONE_LOADING = 'DONE_LOADING';

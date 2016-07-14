@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import cookie from 'react-cookie';
 
-import { API_BASE } from '../../config-api';
+import { API_BASE } from '../../config/api';
 
 /**
  * LOGIN ACTIONS

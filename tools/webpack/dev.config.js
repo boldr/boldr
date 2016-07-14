@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
 

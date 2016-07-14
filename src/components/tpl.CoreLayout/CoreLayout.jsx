@@ -1,12 +1,15 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Paper from 'material-ui/Paper';
 import Helmet from 'react-helmet';
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+
 import Message from 'components/atm.Message';
 import TopBar from 'components/mol.TopBar';
 import '../../styles/main.scss';
 
-const CoreLayout = ({ children }) => {
-  return (
+class CoreLayout extends Component {
+  render() {
+    return (
     <div>
       <Helmet
         title="Boldr"
@@ -14,10 +17,11 @@ const CoreLayout = ({ children }) => {
       />
       <TopBar />
       <Message />
-      { children }
+      { this.props.children }
     </div>
   );
-};
+  }
+}
 
 CoreLayout.propTypes = {
   children: PropTypes.node

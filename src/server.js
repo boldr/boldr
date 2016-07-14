@@ -1,12 +1,9 @@
-import path from 'path';
+/* @flow */
 import http from 'http';
-import dotenv from 'dotenv';
-import Express from 'express';
-import cookieParser from 'cookie-parser';
-import favicon from 'serve-favicon';
-import compression from 'compression';
-import httpProxy from 'http-proxy';
-import PrettyError from 'pretty-error';
+import _debug from 'debug';
+import express from 'express';
+import winston from 'winston';
+import expressWinston from 'express-winston';
 
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -22,67 +19,44 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import BoldrTheme from './styles/theme';
-import createStore from './utils-redux/createStore';
-import ApiClient from './config-api/ApiClient';
+import createStore from './core/redux/createStore';
+import ApiClient from './config/api/ApiClient';
 import Html from './components/tpl.Html';
 
-import getRoutes from './config-routes';
-import config from './config'; // eslint-disable-line
+import getRoutes from './config/routes';
 
-const pretty = new PrettyError();
-const app = new Express();
-const server = new http.Server(app);
-dotenv.config();
-const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort; // eslint-disable-line
-const proxy = httpProxy.createProxyServer({
-  target: targetUrl,
-  ws: false
-});
-app.use(cookieParser(process.env.JWT_SECRET));
-app.use(compression());
-app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+import config from './config/boldr';
+import { logger } from './core';
+import authMiddleware from './auth';
+import middleware from './core/middleware';
+import routes from './api/routes';
+import models from './db/models';
 
-app.all('/*', (req, res, next) => {
-  // CORS headers
-  res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  // Set custom headers for CORS
-  res.header('Access-Control-Allow-Headers', 'Content-type,Accept');
-  // If someone calls with method OPTIONS, let's display the allowed methods on our API
-  if (req.method === 'OPTIONS') {
-    res.status(200);
-    res.write('Allow: GET,PUT,POST,DELETE,OPTIONS');
-    res.end();
-  } else {
-    next();
-  }
-});
-app.use(Express.static(path.join(__dirname, '..', 'static')));
+const debug = _debug('boldr:server');
+const ENV = config.env;
+// Create our express server.
+const app = express();
+// Create an http server and listener
+const server = http.createServer(app);
+// Create socket listener
+const port = normalizePort(config.port);
+// Get an instance of the express Router
+const router = express.Router(); // eslint-disable-line
 
-app.use('/api', (req, res) => {
-  proxy.web(req, res, {
-    target: targetUrl
-  });
-});
+middleware(app);
+authMiddleware();
+routes(app, router);
 
-// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
-proxy.on('error', (error, req, res) => {
-  let json;
-  if (error.code !== 'ECONNRESET') {
-    console.error('proxy error', error);
-  }
-  if (!res.headersSent) {
-    res.writeHead(500, {
-      'content-type': 'application/json'
-    });
-  }
-
-  json = {
-    error: 'proxy_error',
-    reason: error.message
-  }; // eslint-disable-line
-  res.end(JSON.stringify(json));
-});
+if (config.env === 'development') {
+  app.use(expressWinston.errorLogger({
+    transports: [
+      new winston.transports.Console({
+        json: true,
+        colorize: true
+      })
+    ]
+  }));
+}
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
@@ -111,7 +85,7 @@ app.use((req, res) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
-      console.error('ROUTER ERROR:', pretty.render(error));
+      logger.error('ROUTER ERROR:', error);
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
@@ -137,10 +111,10 @@ app.use((req, res) => {
         });
         const component = (
         <Provider store={ store } key="provider">
-            <MuiThemeProvider muiTheme={ muiTheme }>
-              <RouterContext { ...renderProps } />
-            </MuiThemeProvider>
-          </Provider>
+          <MuiThemeProvider muiTheme={ muiTheme }>
+            <RouterContext { ...renderProps } />
+          </MuiThemeProvider>
+        </Provider>
         );
 
         res.status(200);
@@ -160,14 +134,71 @@ app.use((req, res) => {
   });
 });
 
-if (config.port) {
-  server.listen(config.port, (err) => {
-    if (err) {
-      console.error(err);
-    }
-    console.info('----\n==> ✅  %s is running, talking to API server on %s.', config.app.title, config.apiPort);
-    console.info('==> 💻  Open http://%s:%s in a browser to view the app.', config.host, config.port);
-  });
-} else {
-  console.error('==>     ERROR: No PORT environment variable has been specified');
+models.sync().catch(err => logger.error(err.stack)).then(() => {
+  server.listen(process.env.SERVER_PORT);
+  logger.info(`==> 💚  API Server listening on ${process.env.SERVER_PORT}`);
+});
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+process.on('uncaughtException', err => {
+  logger.error(err);
+  logger.verbose(err.stack);
+});
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
 }
+
+/**
+ * Event listener for HTTP server "error" event.
+ * @param error   the error object
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port; // eslint-disable-line
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      logger.error(`${bind} requires elevated privileges.`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      logger.error(`${bind} is already in use.`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? `pipe ${addr}`
+    : `pipe ${addr.port}`;
+}
+export default server;

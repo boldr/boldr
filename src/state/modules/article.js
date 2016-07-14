@@ -2,7 +2,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import cookie from 'react-cookie';
-import { API_ARTICLES } from '../../config-api';
+import { API_ARTICLES } from '../../config/api';
 
 /**
  * GET ARTICLE ACTIONS

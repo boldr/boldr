@@ -1,6 +1,6 @@
 {
   "name": "boldr",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "a bold cms.",
   "main": "tools/scripts/server.js",
   "engines": {
@@ -11,7 +11,7 @@
     "build": "better-npm-run build",
     "clean": "rimraf build static/dist",
     "db:init": "./tools/scripts/db-init.sh",
-    "dev": "concurrently --kill-others \"npm run watch:client\" \"npm run start:dev\" \"npm run start:server\"",
+    "dev": "concurrently --kill-others \"npm run watch:client\" \"npm run start:dev\"",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "lint": "eslint -c .eslintrc src server",
     "migrate": "node_modules/.bin/sequelize db:migrate",
@@ -21,7 +21,7 @@
     "start": "npm run start:prod",
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start-prod",
-    "start:server": "node server/index.js",
+    "start:server": "node src/server/server.js",
     "test": "NODE_PATH=./src ./node_modules/.bin/mocha --compilers js:./compiler.babel --opts ./mocha.opts './src/**/*.test.js'",
     "testdb:init": "./tools/scripts/testdb-init.sh",
     "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'",
@@ -49,8 +49,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
-        "PORT": 3000,
-        "APIPORT": 8000
+        "PORT": 3000
       }
     },
     "watch:client": {
@@ -58,8 +57,7 @@
       "env": {
         "UV_THREADPOOL_SIZE": 100,
         "NODE_PATH": "./src",
-        "PORT": 3000,
-        "APIPORT": 3030
+        "PORT": 3000
       }
     }
   },
@@ -99,11 +97,13 @@
     "draft-js-multidecorators": "^1.0.0",
     "draft-js-prism": "^1.0.3",
     "errorhandler": "^1.4.3",
+    "eventemitter3": "^1.2.0",
     "express": "4.14.0",
     "express-flash": "0.0.2",
     "express-jwt": "^3.4.0",
     "express-session": "^1.14.0",
     "express-winston": "^1.4.2",
+    "fbjs": "^0.8.3",
     "history": "^3.0.0",
     "hpp": "0.2.1",
     "http-proxy": "^1.14.0",
@@ -121,6 +121,7 @@
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "multer-s3": "^2.3.2",
+    "node-fetch": "^1.5.3",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.5.0",
     "nodemailer-mailgun-transport": "^1.2.1",
@@ -192,7 +193,7 @@
     "eslint-plugin-import": "1.10.2",
     "eslint-plugin-react": "5.2.2",
     "expect": "^1.20.2",
-    "extract-text-webpack-plugin": "1.0.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "flow-bin": "^0.28.0",
     "fs-extra": "^0.30.0",
