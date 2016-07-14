@@ -13,6 +13,7 @@ import cors from 'cors';
 import compression from 'compression';
 import errorHandler from 'errorhandler';
 import winston from 'winston';
+import uuid from 'node-uuid';
 import expressWinston from 'express-winston';
 import { session as dbSession } from '../db';
 import config from '../config/boldr';
@@ -72,7 +73,7 @@ export default (app, io) => {
       colorStatus: true   // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
     }));
   }
-  app.all('/*', function(req, res, next) {
+  app.all('/*', (req, res, next) => {
     // CORS headers
     res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -98,7 +99,19 @@ export default (app, io) => {
   app.use(session(sess));
   app.use(passport.initialize());
   app.use(passport.session());
-
+  app.use((req, res, next) => {
+    let sessionId = req.cookies['boldr:jwt'];
+    if (!sessionId) {
+      sessionId = uuid.v4();
+      res.cookie('boldr:jwt', sessionId, {
+        expires: new Date(Date.now() + 60000 * 30),
+        secure: req.protocol === 'https',
+        path: '/'
+      });
+    }
+    res.locals.sessionId = sessionId;
+    next();
+  });
   app.use(flash());
   app.use((req, res, next) => {
     if (!req.session) {

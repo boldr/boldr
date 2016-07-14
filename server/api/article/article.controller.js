@@ -1,7 +1,7 @@
 import slug from 'limax';
 import Boom from 'boom';
 
-import { Article, User, Tag } from '../../db/models';
+import { Article, User, Tag, Role } from '../../db/models';
 
 const MAX_TAGS = 15;
 /**
@@ -21,11 +21,15 @@ export const getAllArticles = async (req, res, next) => {
       order: [['createdAt', 'DESC']],
       include: [{
         model: User,
-        attributes: ['id', 'name', 'displayName', 'picture', 'email', 'role']
+        attributes: ['id', 'firstName', 'lastName', 'displayName', 'picture', 'email']
       }, {
         model: Tag,
         attributes: ['tagname', 'id']
-      }]
+      }, {
+        model: Role,
+        attributes: ['name', 'description']
+      }
+    ]
     });
 
     return res.status(200).json(articles);

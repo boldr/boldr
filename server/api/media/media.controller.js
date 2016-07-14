@@ -82,7 +82,7 @@ export const getAllMedia = async (req, res, next) => {
     const medias = await Media.findAll({
       include: [{
         model: User,
-        attributes: ['id', 'name', 'displayName', 'picture', 'email', 'role']
+        attributes: ['id', 'firstName', 'lastName', 'displayName', 'picture', 'email']
       }]
     });
 
@@ -113,7 +113,7 @@ export const showMedia = async (req, res, next) => {
       },
       include: [{
         model: User,
-        attributes: ['id', 'name', 'displayName', 'picture', 'email', 'role']
+        attributes: ['id', 'firstName', 'lastName', 'displayName', 'picture', 'email']
       }]
     });
     return res.status(200).json(media);

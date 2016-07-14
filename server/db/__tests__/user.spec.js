@@ -4,7 +4,8 @@ let user;
 const genUser = function() {
   user = User.build({
     provider: 'local',
-    name: 'Fake User',
+    firstName: 'Fake',
+    lastName: 'User',
     email: 'test@example.com',
     password: 'password',
     displayName: 'Fake'
