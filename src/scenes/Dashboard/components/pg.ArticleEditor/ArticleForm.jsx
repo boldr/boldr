@@ -5,6 +5,7 @@ import Toggle from 'material-ui/Toggle';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Editor, EditorState } from 'draft-js';
+
 import Paper from 'material-ui/Paper';
 // import BoldrEditor from 'components/org.BoldrEditor';
 import TextEditor from 'components/org.Editor/Editor/Editor';
@@ -43,7 +44,13 @@ class NewArticleForm extends Component {
     this.renderReturnedContent = (value) => this._renderReturnedContent(value);
 
     this.state = {
+      tags: []
     };
+  }
+  handleChange(tags) {
+    this.setState({
+      tags
+    });
   }
   render() {
     const { fields: { title, tags, content, status }, handleSubmit } = this.props;
@@ -54,7 +61,9 @@ class NewArticleForm extends Component {
           <div className="col-md-3">
             <Paper
               zDepth={ 3 }
-              style={ { padding: 40 } }
+              style={ {
+                padding: 40
+              } }
             >
 
               <div className="row">
@@ -92,7 +101,9 @@ class NewArticleForm extends Component {
               zDepth={ 3 }
             >
               <TextEditor placeholder="Tell your story" { ...content }
-                handleUpdate={ (value) => { content.onChange(value); } }
+                handleUpdate={ (value) => {
+                  content.onChange(value);
+                } }
               />
             </Paper>
           </div>

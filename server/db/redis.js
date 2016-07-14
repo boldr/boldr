@@ -4,7 +4,8 @@ import config from '../config/boldr';
 
 const redisClient = new Redis({
   host: config.redis.host,
-  port: config.redis.port
+  port: config.redis.port,
+  db: 2
 });
 
 redisClient.on('connect', () => {

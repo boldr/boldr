@@ -1,23 +1,26 @@
 import path from 'path';
 import http from 'http';
+import dotenv from 'dotenv';
 import Express from 'express';
-import React from 'react';
-import ReactDOM from 'react-dom/server';
 import cookieParser from 'cookie-parser';
 import favicon from 'serve-favicon';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
 import PrettyError from 'pretty-error';
-import { syncHistoryWithStore } from 'react-router-redux';
+
+import React from 'react';
+import ReactDOM from 'react-dom/server';
 import match from 'react-router/lib/match';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import RouterContext from 'react-router/lib/RouterContext';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { trigger } from 'redial';
 import cookie from 'react-cookie';
-import dotenv from 'dotenv';
+
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import BoldrTheme from './styles/theme';
 import createStore from './utils-redux/createStore';
 import ApiClient from './config-api/ApiClient';
@@ -33,12 +36,13 @@ dotenv.config();
 const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort; // eslint-disable-line
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
-  ws: true
+  ws: false
 });
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
-app.all('/*', function(req, res, next) {
+
+app.all('/*', (req, res, next) => {
   // CORS headers
   res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -54,8 +58,11 @@ app.all('/*', function(req, res, next) {
   }
 });
 app.use(Express.static(path.join(__dirname, '..', 'static')));
+
 app.use('/api', (req, res) => {
-  proxy.web(req, res, { target: targetUrl });
+  proxy.web(req, res, {
+    target: targetUrl
+  });
 });
 
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
@@ -65,10 +72,15 @@ proxy.on('error', (error, req, res) => {
     console.error('proxy error', error);
   }
   if (!res.headersSent) {
-    res.writeHead(500, { 'content-type': 'application/json' });
+    res.writeHead(500, {
+      'content-type': 'application/json'
+    });
   }
 
-  json = { error: 'proxy_error', reason: error.message }; // eslint-disable-line
+  json = {
+    error: 'proxy_error',
+    reason: error.message
+  }; // eslint-disable-line
   res.end(JSON.stringify(json));
 });
 app.use((req, res) => {
@@ -82,7 +94,7 @@ app.use((req, res) => {
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {
-    res.send('<!doctype html>\n' +// eslint-disable-line
+    res.send('<!doctype html>\n' + // eslint-disable-line
       ReactDOM.renderToString(<Html assets={ webpackIsomorphicTools.assets() } store={ store } />));
   }
 
@@ -91,7 +103,11 @@ app.use((req, res) => {
     return;
   }
 
-  match({ history, routes: getRoutes(store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
+  match({
+    history,
+    routes: getRoutes(store),
+    location: req.originalUrl
+  }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
@@ -99,9 +115,7 @@ app.use((req, res) => {
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
-      const {
-        dispatch
-      } = store;
+      const { dispatch } = store;
 
       const locals = {
         path: renderProps.location.pathname,
@@ -109,20 +123,20 @@ app.use((req, res) => {
         params: renderProps.params,
         location: renderProps.location,
         store,
-        helpers: { client },
+        helpers: {
+          client
+        },
         dispatch
       };
 
-      const {
-        components
-      } = renderProps;
+      const { components } = renderProps;
       trigger('fetch', components, locals).then(() => {
         const initialState = store.getState();
         const muiTheme = getMuiTheme(BoldrTheme, {
           userAgent: req.headers['user-agent']
         });
         const component = (
-          <Provider store={ store } key="provider">
+        <Provider store={ store } key="provider">
             <MuiThemeProvider muiTheme={ muiTheme }>
               <RouterContext { ...renderProps } />
             </MuiThemeProvider>
@@ -130,7 +144,7 @@ app.use((req, res) => {
         );
 
         res.status(200);
-        res.send('<!doctype html>\n' +// eslint-disable-line
+        res.send('<!doctype html>\n' + // eslint-disable-line
           ReactDOM.renderToString(
             <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />
           ));

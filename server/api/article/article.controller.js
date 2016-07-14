@@ -56,7 +56,7 @@ export const showArticle = async (req, res, next) => {
     const article = await Article.findById(req.params.id, {
       include: [{
         model: User,
-        attributes: ['id', 'name', 'displayName', 'picture', 'email', 'role']
+        attributes: ['id', 'firstName', 'lastName', 'displayName', 'picture', 'email', 'role']
       }, {
         model: Tag,
         attributes: ['tagname', 'id']
@@ -85,6 +85,7 @@ export const createArticle = (req, res, next) => {
   Article.create({
     title: req.body.title,
     slug: slug(req.body.title),
+    excerpt: req.body.excerpt,
     markup: req.body.markup,
     content: req.body.content,
     featureImage: req.body.featureImage,

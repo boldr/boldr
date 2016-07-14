@@ -33,7 +33,7 @@ export default (app, io) => {
   app.use(methodOverride('X-HTTP-Method-Override'));
   app.use(express.static(path.join(__dirname, '..', '..', '..', 'static')));
   app.set('trust proxy', 'loopback');
-
+  app.options('*', (req, res) => res.sendStatus(200));
   const sessionStore = dbSession();
 
   const sess = {

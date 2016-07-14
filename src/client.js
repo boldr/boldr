@@ -37,7 +37,7 @@ const store = createStore(browserHistory, client, window.__data);
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = createRoutes(store);
 
-const token = localStorage.getItem('boldr:jwt') || cookie.load('boldr:jwt') || undefined;
+const token = cookie.load('boldr:jwt') || undefined;
 if (token) {
   store.dispatch(checkTokenValidity());
 }
@@ -48,21 +48,27 @@ function renderApp() {
   const { pathname, search, hash } = window.location;
   const location = `${pathname}${search}${hash}`;
 
-  match({ routes, location }, () => {
+  match({
+    routes,
+    location
+  }, () => {
     render(
-        <AppContainer>
+      <AppContainer>
           <Provider store={ store } key="provider">
             <MuiThemeProvider muiTheme={ muiTheme }>
               <Router routes={ routes } history={ browserHistory } />
             </MuiThemeProvider>
           </Provider>
         </AppContainer>,
-        container
-      );
+      container
+    );
   });
   return browserHistory.listen(location => {
     // Match routes based on location object:
-    match({ routes, location }, (error, redirectLocation, renderProps) => {
+    match({
+      routes,
+      location
+    }, (error, redirectLocation, renderProps) => {
       if (error) {
         console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
       }
@@ -93,7 +99,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
   module.hot.accept();
   // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('./config-routes', renderApp);
+  module.hot.accept('./config-routes/index', renderApp);
 }
 
 renderApp();
