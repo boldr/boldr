@@ -1,14 +1,21 @@
+import { Router } from 'express';
 import { isAuthenticated, hasRole } from '../../auth/authService';
 import * as ctrl from './user.controller';
 
-export default (app, router) => {
-  router.get('/users', ctrl.getAllUsers);
-  router.get('/users/me', isAuthenticated(), ctrl.me);
-  router.get('/users/:id', ctrl.showUser);
-  router.put('/users/:id', isAuthenticated(), ctrl.updateUser);
-  router.put('/users/:id/password', isAuthenticated(), ctrl.changePassword);
-  router.delete('/users/:id', hasRole('admin'), ctrl.destroyUser);
+const router = Router();
 
-  // Load user when API with userId route parameter is hit
-  router.param('userId', ctrl.load);
-};
+router.route('/')
+	.get(ctrl.getAllUsers);
+
+router.get('/users/me', isAuthenticated(), ctrl.me);
+
+router.route('/:userId')
+  .get(ctrl.showUser)
+  .put(isAuthenticated(), ctrl.updateUser)
+	.delete(hasRole('admin'), ctrl.destroyUser);
+router.route('/:userId/password')
+  .put(isAuthenticated(), ctrl.changePassword);
+
+router.param('userId', ctrl.load);
+
+export default router;

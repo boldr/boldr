@@ -1,5 +1,8 @@
-import * as ctrl from './category.controller';
+import { Router } from 'express';
+import * as ctrl from './collection.controller';
 
-export default (app, router) => {
+const router = Router();
 
-};
+router.route('/');
+
+export default router;

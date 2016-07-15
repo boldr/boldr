@@ -39,7 +39,7 @@ services:
       - dbstore
 
   redis:
-    image: redis:3-alpine
+    build: tools/docker/redis
     container_name: ${PROJECT_ID}-redis
     ports:
       - "6379:6379"

@@ -42,7 +42,7 @@ middleware(app);
 debug('auth middleware');
 authMiddleware();
 debug('routes');
-routes(app, router);
+app.use('/api/v1', routes);
 app.use(responseHandler());
 app.use((req, res) => {
   if (__DEVELOPMENT__) {

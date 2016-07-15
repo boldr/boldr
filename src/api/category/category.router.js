@@ -1,6 +1,10 @@
+import { Router } from 'express';
 import * as ctrl from './category.controller';
 
-export default (app, router) => {
-  router.get('/category', ctrl.listAll);
-  router.post('/category', ctrl.createOne);
-};
+const router = Router();
+
+router.route('/')
+  .get(ctrl.listAll)
+  .post(ctrl.createOne);
+
+export default router;

@@ -1,9 +1,15 @@
+import { Router } from 'express';
 import * as ctrl from './tag.controller';
 
-export default (app, router) => {
-  router.get('/tags', ctrl.getAllTags);
-  router.post('/tags', ctrl.createTag);
-  router.get('/tags/:id', ctrl.showTag);
-  router.put('/tags/:id', ctrl.updateTag);
-  router.delete('/tags/:id', ctrl.destroyTag);
-};
+const router = Router();
+
+router.route('/')
+	.get(ctrl.getAllTags)
+  .post(ctrl.createTag);
+
+router.route('/:tagId')
+  .get(ctrl.showTag)
+  .put(ctrl.updateTag)
+  .delete(ctrl.destroyTag);
+
+export default router;
