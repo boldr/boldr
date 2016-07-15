@@ -187,4 +187,5 @@ function onListening() {
     ? `pipe ${addr}`
     : `pipe ${addr.port}`;
 }
-export default { app, server };
+export default { app };
+exports = module.exports = server;
