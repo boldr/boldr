@@ -1,5 +1,5 @@
 import request from 'superagent';
-import { API_USERS } from '../../../config-api';
+import { API_USERS } from '../../../config/api';
 
 
 export const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';

@@ -4,6 +4,7 @@ import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import {
   Editor,
   EditorState,
@@ -18,6 +19,7 @@ import { getBlockStyle } from '../shared/utilities';
 import { decorator } from '../shared/Decorator/index';
 import { BlockStyleControls } from '../shared/BlockStyleControl/index';
 import { InlineStyleControls } from '../shared/InlineStyleControl/index';
+import icons from '../shared/icons';
 // import styles from '../shared/styles';
 
 type Props = {
@@ -169,7 +171,7 @@ export default class TextEditor extends Component {
 
     return (
       <div onBlur={ this.handleUpdate } >
-        <div>
+        <Toolbar>
           <BlockStyleControls
             editorState={ editorState }
             onToggle={ this.handleToggleBlockType }
@@ -182,8 +184,8 @@ export default class TextEditor extends Component {
           />
           { this.renderURLField() }
           <Divider />
-        </div>
-        <div onClick={ this.handleFocus }>
+        </Toolbar>
+        <div onClick={ this.handleFocus } style={ { padding: 40 } }>
           <Editor
             onChange={ this.handleChange }
             blockStyleFn={ getBlockStyle }

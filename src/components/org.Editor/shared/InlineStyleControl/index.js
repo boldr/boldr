@@ -1,12 +1,13 @@
 import React from 'react';
 import StyleButton from '../StyleButton/index';
+import icons from '../icons';
 // import styles from './styles';
 
 
 const INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD' },
-  { label: 'Italic', style: 'ITALIC' },
-  { label: 'Underline', style: 'UNDERLINE' }
+  { type: 'inline', label: 'B', style: 'BOLD', icon: icons.BoldIcon },
+  { type: 'inline', label: 'I', style: 'ITALIC', icon: icons.ItalicIcon },
+  { type: 'entity', label: 'Link', style: 'link', icon: icons.LinkIcon }
 ];
 
 
@@ -19,6 +20,7 @@ export const InlineStyleControls = (props) => {
           key={ type.label }
           active={ currentStyle.has(type.style) }
           label={ type.label }
+          icon={ type.icon }
           onToggle={ props.onToggle }
           style={ type.style }
         />

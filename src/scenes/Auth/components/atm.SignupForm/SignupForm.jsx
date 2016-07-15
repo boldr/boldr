@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 const SignupForm = (props) => {
-  const { fields: { email, password, name, displayName }, handleSubmit, reset } = props;
+  const { fields: { email, password, firstName, lastName, displayName }, handleSubmit, reset } = props;
   return (
     <form onSubmit={ handleSubmit }>
       <CardText>
@@ -24,8 +24,14 @@ const SignupForm = (props) => {
         </div>
         <div>
           <TextField
-            floatingLabelText="Name"
-            { ...name }
+            floatingLabelText="First Name"
+            { ...firstName }
+          />
+        </div>
+        <div>
+          <TextField
+            floatingLabelText="Last Name"
+            { ...lastName }
           />
         </div>
         <div>
@@ -47,5 +53,5 @@ const SignupForm = (props) => {
 
 export default reduxForm({
   form: 'userSignupForm',
-  fields: ['email', 'password', 'name', 'displayName']
+  fields: ['email', 'password', 'firstName', 'lastName', 'displayName']
 })(SignupForm);

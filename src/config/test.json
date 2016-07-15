@@ -1,0 +1,10 @@
+{
+  "env": "test",
+  "db": {
+    "name": "circle_test",
+    "user": "ubuntu",
+    "password": "",
+    "port": 5432,
+    "host": "localhost"
+  }
+}

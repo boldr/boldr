@@ -18,7 +18,13 @@ class Signup extends Component {
 
   handleOnSubmit(values) {
     const { signUp } = this.props;
-    signUp({ email: values.email, password: values.password, name: values.name, displayName: values.displayName });
+    signUp({
+      email: values.email,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      displayName: values.displayName
+    });
   }
 
   renderHeader() {

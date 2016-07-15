@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import cookie from 'react-cookie';
 
-import { API_BASE } from '../../config-api';
+import { API_BASE } from '../../config/api';
 
 /**
  * LOGIN ACTIONS
@@ -86,7 +86,7 @@ export function signUp(data:Object) {
       .post(`${API_BASE}/auth/signup`)
       .send(data)
       .then(response => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           dispatch(signUpSuccess(response));
           dispatch(push('/'));
         } else {
@@ -151,7 +151,8 @@ function checkTokenValiditySuccess(response, token) {
     role: decoded.role,
     token,
     email: response.body.email,
-    name: response.body.profile.name
+    firstName: response.body.profile.firstName,
+    lastName: response.body.profile.lastName
   };
 }
 
@@ -189,7 +190,8 @@ export const INITIAL_USER_STATE = {
   authenticated: false,
   users: [],
   currentUser: {
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     role: '',
     token: undefined
@@ -233,7 +235,8 @@ export default function user(state:Object = INITIAL_USER_STATE, action:Object = 
         currentUser: {
           token: action.token,
           role: action.role,
-          name: action.name,
+          firstName: action.firstName,
+          lastName: action.lastName,
           email: action.email
         }
       });

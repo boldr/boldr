@@ -91,17 +91,14 @@ class DashboardLayout extends Component {
                   }
 
                 </p>
-                <Paper
-                  zDepth={ 3 }
-                  style={ { padding: 40 } }
-                >
-                  { this.props.children }
-                </Paper>
+
+                { this.props.children }
+
               </Row>
             </Container>
           </div>
         </Sidebar>
-    </div>
+      </div>
       );
   }
 }
