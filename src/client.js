@@ -55,7 +55,7 @@ function renderApp() {
   }, () => {
     ReactDOM.render(
       <AppContainer>
-          <Provider store={ store } key="provider">
+        <Provider store={ store } key="provider">
             <MuiThemeProvider muiTheme={ muiTheme }>
               <Router routes={ routes } history={ browserHistory } render={ applyRouterMiddleware(useScroll()) } />
             </MuiThemeProvider>

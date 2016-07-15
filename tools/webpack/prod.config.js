@@ -52,11 +52,10 @@ module.exports = {
         babelrc: false,
         query: {
           cacheDirectory: true,
-          presets: ['es2015', 'react', 'stage-0'],
+          presets: ['es2015', 'react', 'react-optimize', 'stage-0'],
           plugins: [
             'transform-decorators-legacy',
             'transform-runtime',
-            'transform-flow-strip-types',
             'lodash'
           ]
         }

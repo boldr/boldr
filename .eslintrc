@@ -7,15 +7,12 @@
     "node": true
   },
   "plugins": [
-    "flowtype"
   ],
   "ecmaFeatures": {
     "defaultParams": true
   },
   "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
-    }
+
   },
   "rules": {
     "no-unused-vars": 0,

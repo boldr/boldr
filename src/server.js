@@ -1,4 +1,3 @@
-/* @flow */
 import http from 'http';
 import _debug from 'debug';
 import express from 'express';

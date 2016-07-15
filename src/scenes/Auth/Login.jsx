@@ -1,4 +1,3 @@
-/* @flow */
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
@@ -9,15 +8,7 @@ import { manualLogin } from 'state/modules/user';
 import { Col, Row, Container } from 'components/index';
 import LoginForm from './components/atm.LoginForm';
 
-type Props = {
-  user: Object,
-  manualLogin: Function,
-  handleOnSubmit: Function
-};
-
 class Login extends Component {
-
-  props: Props;
 
   handleOnSubmit(values) {
     const { manualLogin } = this.props;
@@ -64,7 +55,11 @@ class Login extends Component {
     );
   }
 }
-
+Login.propTypes = {
+  user: PropTypes.object,
+  manualLogin: PropTypes.func,
+  handleOnSubmit: PropTypes.func
+};
 function mapStateToProps({ user }) {
   return {
     user

@@ -7,7 +7,6 @@ import flash from 'express-flash';
 import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressJwt from 'express-jwt';
-import morgan from 'morgan';
 import hpp from 'hpp';
 import cors from 'cors';
 import compression from 'compression';
@@ -21,7 +20,6 @@ export default (app, io) => {
 
   app.disable('x-powered-by');
   app.use(compression());
-  app.use(morgan('dev'));
   app.use(cookieParser());
   app.use(hpp());
   app.use(cors());

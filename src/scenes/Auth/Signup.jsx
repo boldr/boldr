@@ -1,4 +1,3 @@
-/* @flow */
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
@@ -7,14 +6,7 @@ import { Col, Row, Container } from 'components/index';
 import { signUp } from 'state/modules/user';
 import SignupForm from './components/atm.SignupForm';
 
-type Props = {
-  user: Object,
-  signUp: Function,
-  handleOnSubmit: Function
-};
-
 class Signup extends Component {
-  props: Props;
 
   handleOnSubmit(values) {
     const { signUp } = this.props;
@@ -57,7 +49,11 @@ Signup.propTypes = {
   user: PropTypes.object,
   signUp: PropTypes.func.isRequired
 };
-
+Signup.propTypes = {
+  user: PropTypes.object,
+  signUp: PropTypes.func,
+  handleOnSubmit: PropTypes.func
+};
 function mapStateToProps({ user }) {
   return {
     user
