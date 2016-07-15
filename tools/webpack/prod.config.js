@@ -84,10 +84,12 @@ module.exports = {
     fallback: path.join(ROOT_DIR, 'node_modules'),
     alias: {
       components: path.resolve(ROOT_DIR, 'src/components'),
-      src: path.resolve(ROOT_DIR, 'src'),
+      src: path.join(ROOT_DIR, 'src'),
       state: path.resolve(ROOT_DIR, 'src/state'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
-      server: path.resolve(ROOT_DIR, 'server')
+      core: path.resolve(ROOT_DIR, 'src/core'),
+      api: path.resolve(ROOT_DIR, 'src/api'),
+      db: path.resolve(ROOT_DIR, 'src/db')
     }
   },
   postcss: [

@@ -131,7 +131,9 @@ const webpackConfig = module.exports = {
       src: path.join(ROOT_DIR, 'src'),
       state: path.resolve(ROOT_DIR, 'src/state'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
-      server: path.join(ROOT_DIR, 'server')
+      core: path.resolve(ROOT_DIR, 'src/core'),
+      api: path.resolve(ROOT_DIR, 'src/api'),
+      db: path.resolve(ROOT_DIR, 'src/db')
     }
   },
   postcss: postCSSConfig,

@@ -14,28 +14,26 @@ router.post('/reset/:token', ctrl.resetPassword);
 router.route('/check')
   .get(isAuthenticated(), ctrl.checkUser);
 
-router.route('/google')
-  .get(passport.authenticate('google', {
-    scope: [
-      'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/userinfo.email'
-    ]
-  }));
-router.route('/google/callback')
-  .get(passport.authenticate('google', {
+router.get('/google', passport.authenticate('google', {
+  scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
+}));
+
+router.get('/google/callback', passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/auth/login'
+}));
+
+router.get('/facebook', passport.authenticate('facebook', {
+  scope: ['email']
+}));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', {
     successRedirect: '/',
-    failureRedirect: '/auth/login'
+    failureRedirect: '/login'
   })
 );
-
 export default router;
-
-// router.get('/auth/facebook', passport.authenticate('facebook', {
-//   scope: ['email']
-// }));
-// router.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', {
-//     successRedirect: '/',
-//     failureRedirect: '/auth/login'
-//   })
-// );
