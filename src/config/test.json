@@ -1,0 +1,10 @@
+{
+  "NODE_ENV": "development",
+  "JWT_SECRET": "secererer",
+  "TOKEN_EXPIRATION": "604800000",
+  "DB_USER": "ubuntu",
+  "DB_PASSWORD": "",
+  "DB_HOST": "localhost",
+  "DB_PORT": "5432",
+  "DB_NAME": "circle_test"
+}
