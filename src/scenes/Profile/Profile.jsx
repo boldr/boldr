@@ -8,7 +8,7 @@ class Profile extends Component {
   render() {
     return (
     <div>
-      <ProfileMain currentUser={ this.props.user.currentUser } />
+      <ProfileMain currentUser={ this.props.user } />
     </div>
   );
   }
@@ -16,8 +16,7 @@ class Profile extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     user: state.user,
-    isLoading: state.user.isLoading,
-    currentUser: state.user.currentUser
+    isLoading: state.user.isLoading
   };
 };
 

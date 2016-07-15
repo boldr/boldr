@@ -106,7 +106,8 @@ export function checkUser(req, res, next) {
     },
     attributes: [
       'id',
-      'name',
+      'firstName',
+      'lastName',
       'email',
       'displayName',
       'role',

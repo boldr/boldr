@@ -118,7 +118,7 @@ class TopBar extends React.Component {
                     <ActionDescription color={ iconColor } />
                   </IconButton>
                 </Link>
-                { this.props.user.currentUser.role === 'admin' ?
+                { this.props.user.role === 'admin' ?
                   <Link to="/dashboard" >
                     <IconButton>
                       <AvWeb color={ iconColor } />

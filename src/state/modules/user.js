@@ -188,14 +188,13 @@ export function checkTokenValidity() {
 export const INITIAL_USER_STATE = {
   isLoading: false,
   authenticated: false,
-  users: [],
-  currentUser: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    role: '',
-    token: undefined
-  }
+  firstName: '',
+  lastName: '',
+  displayName: '',
+  email: '',
+  role: '',
+  token: undefined,
+  hydrated: false
 };
 
 /**
@@ -204,6 +203,9 @@ export const INITIAL_USER_STATE = {
  * @param  {Object} action      The action object
  */
 export default function user(state:Object = INITIAL_USER_STATE, action:Object = {}) {
+  if (!state.hydrated) {
+    state = Object.assign({}, INITIAL_USER_STATE, state, { hydrated: true });
+  }
   switch (action.type) {
     case LOGIN_USER_REQUEST:
       return Object.assign({}, state, {
@@ -213,10 +215,7 @@ export default function user(state:Object = INITIAL_USER_STATE, action:Object = 
       return Object.assign({}, state, {
         isLoading: false,
         authenticated: true,
-        currentUser: {
-          token: action.payload,
-          role: action.role
-        }
+        token: action.payload
       });
     case LOGIN_USER_FAIL:
       return Object.assign({}, state, {
@@ -232,21 +231,17 @@ export default function user(state:Object = INITIAL_USER_STATE, action:Object = 
       return Object.assign({}, state, {
         isLoading: false,
         authenticated: true,
-        currentUser: {
-          token: action.token,
-          role: action.role,
-          firstName: action.firstName,
-          lastName: action.lastName,
-          email: action.email
-        }
+        token: action.token,
+        role: action.role,
+        firstName: action.firstName,
+        lastName: action.lastName,
+        email: action.email
       });
     case CHECK_TOKEN_VALIDITY_FAIL:
       return Object.assign({}, state, {
         isLoading: false,
         authenticated: false,
-        currentUser: {
-          token: ''
-        }
+        token: ''
       });
     case SIGNUP_USER_REQUEST:
       return Object.assign({}, state, {

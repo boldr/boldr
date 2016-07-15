@@ -2,6 +2,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import cookie from 'react-cookie';
+import fetch from '../../core/fetch';
 import { API_ARTICLES } from '../../config/api';
 
 /**
@@ -20,6 +21,26 @@ export function loadArticles() {
   };
 }
 
+function shouldFetchArticles(state) {
+  const article = state.article;
+  if (!article.articleList) {
+    return true;
+  }
+  if (article.isLoading) {
+    return false;
+  }
+  return article;
+}
+
+export function fetchArticlesIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchArticles(getState())) {
+      return dispatch(loadArticles());
+    }
+
+    return Promise.resolve();
+  };
+}
 /**
  * CREATE` ARTICLE ACTIONS
  * @TODO Before sending data, or in the server, split the tags by , and put them

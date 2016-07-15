@@ -1,6 +1,6 @@
 import Promise from 'bluebird';
 import fetch, { Request, Headers, Response } from 'node-fetch';
-import config from '../../server/config/boldr';
+import config from '../../config/boldr';
 
 fetch.Promise = Promise;
 Response.Promise = Promise;

@@ -44,14 +44,21 @@ authMiddleware();
 debug('routes');
 app.use('/api/v1', routes);
 app.use(responseHandler());
+
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
   }
+  const initialState = {
+    user: {
+      token: req.cookies.boldrToken
+    }
+  };
+
 
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
-  const store = createStore(memoryHistory, client);
+  const store = createStore(initialState, memoryHistory, client);
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {

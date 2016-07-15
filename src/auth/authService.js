@@ -97,8 +97,8 @@ function appendUser() {
 function addAuthHeaderFromCookie() {
   return compose()
     .use((req, res, next) => {
-      if (req.cookies.token) {
-        req.headers.authorization = `Bearer ${_.trim(req.cookies.token, '"')}`;
+      if (req.cookies.boldrToken) {
+        req.headers.authorization = `Bearer ${_.trim(req.cookies.boldrToken, '"')}`;
       }
       return next();
     });
@@ -127,7 +127,7 @@ function signToken(id, role) {
 function setTokenCookie(req, res) {
   if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.' });
   const token = signToken(req.user.id, req.user.role);
-  res.cookie('token', token);
+  res.cookie('boldrToken', token);
   res.redirect('/');
 }
 

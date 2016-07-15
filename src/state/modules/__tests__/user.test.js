@@ -24,14 +24,13 @@ describe('Users reducer', () => {
   const initialState = {
     isLoading: false,
     authenticated: false,
-    users: [],
-    currentUser: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      role: '',
-      token: undefined
-    }
+    firstName: '',
+    lastName: '',
+    displayName: '',
+    email: '',
+    role: '',
+    token: undefined,
+    hydrated: true
   };
 
   it('should return the initial state', () => {
@@ -46,14 +45,13 @@ describe('Users reducer', () => {
     ).toEqual(Object.assign({}, initialState, {
       isLoading: true,
       authenticated: false,
-      users: [],
-      currentUser: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        role: '',
-        token: undefined
-      }
+      firstName: '',
+      lastName: '',
+      displayName: '',
+      email: '',
+      role: '',
+      token: undefined,
+      hydrated: true
     }));
   });
 
@@ -63,10 +61,9 @@ describe('Users reducer', () => {
     ).toEqual(Object.assign({}, initialState, {
       isLoading: false,
       authenticated: true,
-      currentUser: {
-        token: undefined,
-        role: undefined
-      }
+      token: undefined,
+      role: '',
+      hydrated: true
     }));
   });
 

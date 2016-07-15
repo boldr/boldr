@@ -2,10 +2,10 @@ import { provideHooks } from 'redial';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadArticles, FETCH_ARTICLES_REQUEST } from 'state/modules/article';
+import { fetchArticlesIfNeeded, loadArticles, FETCH_ARTICLES_REQUEST } from 'state/modules/article';
 import BlogPost from './components/org.BlogPost';
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(loadArticles())
+  fetch: ({ dispatch }) => dispatch(fetchArticlesIfNeeded())
 })
 class Blog extends Component {
 
