@@ -2,7 +2,7 @@ const path = require('path');
 const convict = require('convict');
 const dotenv = require('dotenv');
 
-dotenv.config();
+dotenv.config({ silent: true });
 
 const conf = convict({
   version: {
