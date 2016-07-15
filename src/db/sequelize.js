@@ -1,12 +1,9 @@
 import Sequelize from 'sequelize';
-import sequelizeConfig from './sequelize.config'; // eslint-disable-line
 import config from '../config/boldr';// eslint-disable-line
 
-const ENV = config.env;
-const dbConfig = sequelizeConfig[ENV];
+const envVar = process.env[config.db.conn_string];
 
-export const db = process.env[dbConfig.use_env_variable] ||
-`${dbConfig.dialect}://${dbConfig.username}:${dbConfig.password}@${dbConfig.host}/${dbConfig.database}`;
+export const db = envVar || `postgres://${config.db.user}:${config.db.password}@${config.db.host}/${config.db.name}`;
 
 const sequelize = new Sequelize(db, {
   logging: false, // set to console.log to see the raw SQL queries

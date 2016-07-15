@@ -12,7 +12,7 @@ export default function errorHandler() {
     res.statusCode = err.status || 500;
     const resObj = {
       name: _.snakeCase(err.constructor && err.constructor.name || 'Error'),
-      message: err.message,
+      message: err.message
     };
 
     if (config.printStack) {

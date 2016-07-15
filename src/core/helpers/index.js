@@ -57,7 +57,7 @@ function removeEntity(res) {
 function handleEntityNotFound(res) {
   return function(entity) {
     if (!entity) {
-      Boom.notFound('Seems like someone lost the data you requested.')
+      Boom.notFound('Seems like someone lost the data you requested.');
       return null;
     }
     return entity;
@@ -83,4 +83,5 @@ function serverError(res, err) {
   return Boom.badImplementation(`The server is having some alone time ${err}`);
 }
 
-export { serverError, loggedIn, processQuery, handleError, handleEntityNotFound, removeEntity, respondWithResult, saveUpdates };
+export { serverError, loggedIn, processQuery, handleError, handleEntityNotFound,
+  removeEntity, respondWithResult, saveUpdates };

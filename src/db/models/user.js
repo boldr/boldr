@@ -272,7 +272,7 @@ function encryptPassword(password, callback) {
              .toString('base64');
   }
 
-  return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength,
+  return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha1',
 (err, key) => {
   if (err) {
     callback(err);

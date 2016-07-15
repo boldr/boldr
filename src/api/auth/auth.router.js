@@ -5,13 +5,12 @@ import * as ctrl from './auth.controller';
 
 const router = Router();
 
-router.route('/login')
-	.post(ctrl.login);
-router.route('/signup')
-  .post(ctrl.signUp);
+router.post('/login', ctrl.login);
+router.post('/signup', ctrl.signUp);
+router.post('/logout', ctrl.logout);
+router.post('/forgot', ctrl.forgottenPassword);
+router.post('/reset/:token', ctrl.resetPassword);
 
-router.route('/logout')
-  .post(ctrl.logout);
 router.route('/check')
   .get(isAuthenticated(), ctrl.checkUser);
 

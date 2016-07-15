@@ -1,8 +1,11 @@
+import crypto from 'crypto';
+import async from 'async';
 import passport from 'passport';
 import Boom from 'boom';
 import moment from 'moment';
+
 import cookies from 'react-cookie';
-import { handleMail, generateVerifyCode } from '../../core';
+import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../../core';
 import { User, VerificationToken } from '../../db/models';
 import { signToken } from '../../auth/authService';
 
@@ -24,10 +27,10 @@ export function login(req, res, next) {
   passport.authenticate('local', (err, user, info) => {
     const error = err || info;
     if (error) {
-      return res.status(401).json(error);
+      return res.status(400).json(error);
     }
     if (!user) {
-      return res.status(404).json({ message: 'Something went wrong, please try again.' });
+      return res.status(401).json({ message: 'Please verify your credentials and try again.' });
     }
 
     signToken(user.id, user.role).then(token => {
@@ -123,9 +126,60 @@ export function checkUser(req, res, next) {
     .catch(err => next(err));
 }
 
+export function forgottenPassword(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(16, (err, buf) => {
+        const token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    function(token, done) {
+      User.find({
+        where: {
+          email: req.body.email
+        }
+      })
+        .then((user) => {
+          if (!user) {
+            return res.status(400).json(`The email address ${req.body.email} is not associated with any account.`);
+          }
+          user.update({ resetPasswordToken: token });
+          user.update({ resetPasswordExpires: new Date(Date.now() + 3600000) }); // expire in 1 hour
+          return done(null, token, user.toJSON());
+        });
+    },
+    function(token, user, done) {
+      const subj = '[Boldr] Password Reset';
+      mailResetPassword(user.email, subj, token, (err) => {
+        done(err);
+      });
+      return res.status(200).json(user);
+    }
+  ]);
+}
+
+export async function resetPassword(req, res, next) {
+  const user = await User.find({ where: { resetPasswordToken: req.params.token } }).then(user => {
+    if (!user) {
+      return res.status(400).json('Password reset token is invalid or has expired.');
+    } else {
+      user.password = req.body.password;
+      user.resetPasswordToken = null;
+      user.resetPasswordExpires = null;
+      return user.save();
+    }
+  });
+  const subj = '[Boldr] Password Changed';
+  const sentMail = await mailPasswordConfirm(user.email, subj);
+  return res.status(200).json(sentMail);
+}
+
 export default {
   login,
   logout,
   signUp,
-  checkUser
+  checkUser,
+  forgottenPassword,
+  resetPassword
 };
