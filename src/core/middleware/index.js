@@ -8,14 +8,9 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressJwt from 'express-jwt';
 import morgan from 'morgan';
-import lusca from 'lusca';
 import hpp from 'hpp';
 import cors from 'cors';
 import compression from 'compression';
-import errorHandler from 'errorhandler';
-import winston from 'winston';
-import uuid from 'node-uuid';
-import expressWinston from 'express-winston';
 import { session as dbSession } from '../../db';
 import config from '../../config/boldr';
 
@@ -38,43 +33,19 @@ export default (app, io) => {
   app.options('*', (req, res) => res.sendStatus(200));
   const sessionStore = dbSession();
 
-  const sess = {
-    resave: false,
-    saveUninitialized: false,
+  const sessionOpts = {
     secret: config.jwt.secret,
+    resave: true,
+    saveUninitialized: false,
     proxy: true,
-    name: 'boldr:sid',
+    name: 'boldrToken',
     cookie: {
       httpOnly: true,
       secure: false
     },
     store: sessionStore
   };
-  app.use(lusca({
-    xframe: 'SAMEORIGIN',
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-      preload: true
-    },
-    xssProtection: true
-  }));
 
-  if (config.env === 'development') {
-    expressWinston.requestWhitelist.push('body');
-    expressWinston.responseWhitelist.push('body');
-    app.use(expressWinston.logger({
-      transports: [
-        new winston.transports.Console({
-          json: true,
-          colorize: true
-        })
-      ],
-      meta: true,   // optional: log meta data about request (defaults to true)
-      msg: 'HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms',
-      colorStatus: true   // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
-    }));
-  }
   app.all('/*', (req, res, next) => {
     // CORS headers
     res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
@@ -91,15 +62,13 @@ export default (app, io) => {
     }
   });
 
-  app.use(session(sess));
+  app.use(session(sessionOpts));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(expressJwt({
     secret: config.jwt.secret,
     credentialsRequired: false,
-  /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
     getToken: req => req.cookies.boldrToken
-  /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
   }));
   app.use(flash());
   app.use((req, res, next) => {
@@ -108,9 +77,6 @@ export default (app, io) => {
     }
     next(); // otherwise continue
   });
-  if (!config.env === 'production') {
-    app.use(errorHandler());
-  }
 
   logger.info('--------------------------');
   logger.info('===> 😊  Starting Boldr . . .');
@@ -118,6 +84,6 @@ export default (app, io) => {
   if (config.env === 'production') {
     logger.info('===> 🚦  Note: In order for authentication to work in production');
     logger.info('===>           you will need a secure HTTPS connection');
-    sess.cookie.secure = true;
+    sessionOpts.cookie.secure = true;
   }
 };

@@ -13,7 +13,7 @@ const conf = convict({
     arg: 'npmPackageVersion'
   },
   env: {
-    doc: 'The applicaton environment.',
+    doc: 'The application environment.',
     format: ['production', 'development', 'test', 'stage'],
     default: 'dev',
     env: 'NODE_ENV',
@@ -29,7 +29,7 @@ const conf = convict({
   port: {
     doc: 'The port to bind.',
     format: 'port',
-    default: 8000,
+    default: 3000,
     env: 'PORT',
     arg: 'port'
   },

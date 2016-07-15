@@ -77,7 +77,6 @@ const Article = Model.define('article', {
   }
 }, {
   tableName: 'article',
-  paranoid: true,
   freezeTableName: true,
   hooks: {
     beforeValidate: createUUIDIfNotExist
@@ -97,7 +96,7 @@ const Article = Model.define('article', {
     },
     getArticles(args) {
       const { limit = 10, skip = 0 } = args;
-      return Article.findAll({
+      return this.findAll({
         where: {
           status: 'published'
         },

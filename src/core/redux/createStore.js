@@ -8,12 +8,11 @@ import createMiddleware from './clientMiddleware';
 export default function createStore(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
-
-  const middleware = [thunkMiddleware, createMiddleware(client), reduxRouterMiddleware, createLogger()];
+  const logger = createLogger();
+  const middleware = [thunkMiddleware, createMiddleware(client), reduxRouterMiddleware, logger];
 
   let finalCreateStore;
   if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
-    middleware.push(createLogger());
     finalCreateStore = compose(
       applyMiddleware(...middleware),
       typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f // eslint-disable-line

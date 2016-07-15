@@ -1,5 +1,6 @@
 import DataTypes from 'sequelize';
 import Model from '../sequelize';
+import User from './user';
 
 const Token = Model.define('token', {
   kind: {
@@ -11,11 +12,14 @@ const Token = Model.define('token', {
     allowNull: false
   },
   userId: {
-    type: DataTypes.UUID
+    type: DataTypes.UUID,
+    references: {
+      model: User,
+      key: 'id'
+    }
   }
 }, {
   tableName: 'token',
-  paranoid: true,
   freezeTableName: true,
   timestamps: false
 });

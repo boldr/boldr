@@ -16,7 +16,7 @@ export const FETCH_ARTICLES_FAIL:string = 'FETCH_ARTICLES_FAIL';
 export function loadArticles() {
   return {
     types: [FETCH_ARTICLES_REQUEST, FETCH_ARTICLES_SUCCESS, FETCH_ARTICLES_FAIL],
-    promise: (client) => client.get('/articles') // params not used, just shown as demonstration
+    promise: (client) => client.get('/articles')
   };
 }
 
@@ -52,7 +52,7 @@ export function createArticle(articleData:Object) {
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${cookie.load('boldr:jwt')}`)
+      .set('Authorization', `Bearer ${cookie.load('boldrToken')}`)
       .send({
         title: articleData.title,
         content: articleData.content,

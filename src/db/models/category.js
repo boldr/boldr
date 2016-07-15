@@ -1,4 +1,4 @@
-import DataType from 'sequelize';
+import DataTypes from 'sequelize';
 import uuid from 'node-uuid';
 import Model from '../sequelize';
 /**
@@ -11,30 +11,45 @@ function createUUIDIfNotExist(instance) {
     instance.id = uuid.v4();
   }
 }
+/**
+ * Category Table
+ * Group different content types by this
+ * This simply stores the path and meta data in the database.
+ * @param sequelize
+ * @param DataTypes
+ * @returns {*|{}|Model}
+ */
 const Category = Model.define('category', {
   id: {
-    type: DataType.UUID,
+    type: DataTypes.UUID,
     primaryKey: true,
-    defaultValue: DataType.UUIDV4
+    defaultValue: DataTypes.UUIDV4
   },
   name: {
-    type: DataType.STRING(30),
+    type: DataTypes.STRING(30),
     allowNull: false
   },
   description: {
-    type: DataType.STRING(256),
+    type: DataTypes.STRING(256),
     allowNull: true
   },
   image: {
-    type: DataType.STRING(256),
+    type: DataTypes.STRING(256),
     allowNull: true
   }
 }, {
   tableName: 'category',
-  paranoid: true,
+  timestamps: false,
   freezeTableName: true,
   hooks: {
     beforeValidate: createUUIDIfNotExist
+  },
+  instanceMethods: {
+    initWithData(data) {
+      this.name = data.name;
+      this.description = data.description;
+      this.image = data.image;
+    }
   },
   indexes: [
     {

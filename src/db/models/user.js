@@ -3,7 +3,6 @@ import DataTypes from 'sequelize';
 import boom from 'boom';
 import uuid from 'node-uuid';
 import Model from '../sequelize';
-import { handleMail } from '../../core/mailer';
 
 /**
  * Creates a UUID for the User if it's not given.
@@ -124,8 +123,6 @@ const User = Model.define('user', {
   timestamps: false,
   tableName: 'user',
   freezeTableName: true,
-  paranoid: true,
-
   classMethods: {
     findByDisplayName,
     findByEmail,
@@ -136,7 +133,19 @@ const User = Model.define('user', {
     authenticate,
     updatePassword,
     makeSalt,
-    encryptPassword
+    encryptPassword,
+    initWithData(data) {
+      this.email = data.email;
+      this.password = data.password;
+      this.displayName = data.displayName;
+      this.firstName = data.firstName;
+      this.lastName = data.lastName;
+      this.gender = data.gender;
+      this.location = data.location;
+      this.website = data.website;
+      this.picture = data.picture;
+      this.role = data.role;
+    }
   },
   /**
    * Virtual Getters
@@ -259,7 +268,7 @@ function encryptPassword(password, callback) {
   const salt = new Buffer(this.salt, 'base64');
 
   if (!callback) {
-    return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
+    return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha1')
              .toString('base64');
   }
 

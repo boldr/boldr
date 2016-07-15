@@ -1,6 +1,12 @@
 import DataTypes from 'sequelize';
 import Model from '../sequelize';
-
+/**
+ * Media_Category Table
+ * Relationship mapping for Media and Category
+ * @param sequelize
+ * @param DataTypes
+ * @returns {*|{}|Model}
+ */
 const MediaCategory = Model.define('media_category', {
   mediaId: {
     type: DataTypes.UUID

@@ -11,6 +11,13 @@ function createUUIDIfNotExist(instance) {
     instance.id = uuid.v4();
   }
 }
+/**
+ * Setting Table
+ * The setting table contains information about site specific configuration values.
+ * @param sequelize
+ * @param DataTypes
+ * @returns {*|{}|Model}
+ */
 const Setting = Model.define('setting', {
   id: {
     type: DataTypes.UUID,
@@ -50,7 +57,6 @@ const Setting = Model.define('setting', {
   }
 }, {
   tableName: 'setting',
-  paranoid: true,
   freezeTableName: true,
   timestamps: false,
   hooks: {

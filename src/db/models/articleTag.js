@@ -1,11 +1,12 @@
 import DataTypes from 'sequelize';
 import Model from '../sequelize';
+import { Article, Tag } from './index';
 
 const ArticleTag = Model.define('article_tag', {
   tagId: {
     type: DataTypes.UUID,
     references: {
-      model: Model.Tag,
+      model: Tag,
       key: 'id'
     },
     allowNull: false,
@@ -14,7 +15,7 @@ const ArticleTag = Model.define('article_tag', {
   articleId: {
     type: DataTypes.UUID,
     references: {
-      model: Model.Article,
+      model: Article,
       key: 'id'
     },
     allowNull: false,

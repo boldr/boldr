@@ -1,12 +1,12 @@
 const Express = require('express');
 const webpack = require('webpack');
 
-const config = require('../../src/config');
+const config = require('../../src/config/boldr');
 const webpackConfig = require('./dev.config');
 
 const compiler = webpack(webpackConfig);
 
-const host = config.host || 'localhost';
+const host = config.ip || 'localhost';
 const port = (Number(config.port) + 1) || 3001;
 const serverOptions = {
   contentBase: 'http://' + host + ':' + port,

@@ -53,7 +53,7 @@ export const showArticle = async (req, res, next) => {
     const article = await Article.findById(req.params.id, {
       include: [{
         model: User,
-        attributes: ['id', 'firstName', 'lastName', 'displayName', 'picture', 'email', 'role']
+        attributes: ['firstName', 'lastName', 'displayName', 'picture', 'email', 'role']
       }, {
         model: Tag,
         attributes: ['tagname', 'id']

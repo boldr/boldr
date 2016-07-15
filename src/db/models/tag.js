@@ -1,4 +1,4 @@
-import DataType from 'sequelize';
+import DataTypes from 'sequelize';
 import uuid from 'node-uuid';
 import Model from '../sequelize';
 /**
@@ -20,22 +20,21 @@ function createUUIDIfNotExist(instance) {
  */
 const Tag = Model.define('tag', {
   id: {
-    type: DataType.UUID,
+    type: DataTypes.UUID,
     primaryKey: true,
-    defaultValue: DataType.UUIDV4
+    defaultValue: DataTypes.UUIDV4
   },
   tagname: {
-    type: DataType.STRING(20),
+    type: DataTypes.STRING(20),
     allowNull: false
   },
   description: {
-    type: DataType.STRING(256),
+    type: DataTypes.STRING(256),
     allowNull: true
   }
 }, {
   timestamps: false,
   tableName: 'tag',
-  paranoid: true,
   freezeTableName: true,
   hooks: {
     beforeValidate: createUUIDIfNotExist

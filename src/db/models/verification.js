@@ -8,8 +8,7 @@ const VerificationToken = Model.define('verification_token', {
 }, {
   timestamps: false,
   tableName: 'verification_token',
-  freezeTableName: true,
-  paranoid: true
+  freezeTableName: true
 });
 
 export default VerificationToken;

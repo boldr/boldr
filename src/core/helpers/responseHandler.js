@@ -10,7 +10,7 @@ export default function responseHandler() {
     res.finalize = function resFinalize(data, { count } = {}) {
       const response = {
         error: null,
-        data: null
+        data: null,
       };
 
       if (_.isNumber(count)) {
@@ -18,7 +18,7 @@ export default function responseHandler() {
       }
 
       if (data === 0) {
-        response.data = _.assign(response.data || {}, { item: data });
+        response.data = Object.assign(response.data || {}, { item: data });
         return res.json(response);
       }
 
@@ -27,11 +27,11 @@ export default function responseHandler() {
       }
 
       if (_.isArray(data)) {
-        response.data = _.assign(response.data || {}, { items: data });
+        response.data = Object.assign(response.data || {}, { items: data });
         return res.json(response);
       }
 
-      response.data = _.assign(response.data || {}, { item: data });
+      response.data = Object.assign(response.data || {}, { item: data });
 
       return res.json(response);
     };

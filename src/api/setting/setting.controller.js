@@ -32,7 +32,7 @@ const createSettings = (req, res, next) => {
     .catch(handleError(res));
 };
 
-const updateSettings = (req, res, next) => {
+const updateSettings = (req, res) => {
   const settingsId = req.params.id;
 
   return Setting.find({

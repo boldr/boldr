@@ -1,4 +1,6 @@
-export function processQuery(req, res, next) {
+import Boom from 'boom';
+
+function processQuery(req, res, next) {
   function getPagination(page) {
     page = page ? page : {};
     return {
@@ -23,7 +25,7 @@ export function processQuery(req, res, next) {
   next();
 }
 
-export function respondWithResult(res, statusCode) {
+function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {
@@ -32,7 +34,7 @@ export function respondWithResult(res, statusCode) {
   };
 }
 
-export function saveUpdates(updates) {
+function saveUpdates(updates) {
   return function(entity) {
     return entity.updateAttributes(updates)
       .then(updated => {
@@ -41,7 +43,7 @@ export function saveUpdates(updates) {
   };
 }
 
-export function removeEntity(res) {
+function removeEntity(res) {
   return function(entity) {
     if (entity) {
       return entity.destroy()
@@ -52,24 +54,24 @@ export function removeEntity(res) {
   };
 }
 
-export function handleEntityNotFound(res) {
+function handleEntityNotFound(res) {
   return function(entity) {
     if (!entity) {
-      res.status(404).end();
+      Boom.notFound('Seems like someone lost the data you requested.')
       return null;
     }
     return entity;
   };
 }
 
-export function handleError(res, statusCode) {
+function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
     res.status(statusCode).send(err);
   };
 }
 
-export function loggedIn(req, res, next) {
+function loggedIn(req, res, next) {
   if (req.user) {
     next();
   } else {
@@ -77,6 +79,8 @@ export function loggedIn(req, res, next) {
   }
 }
 
-export function errorCatcher(res, err) {
-  res.status(500).json({ error: true, data: { message: err.message } });
+function serverError(res, err) {
+  return Boom.badImplementation(`The server is having some alone time ${err}`);
 }
+
+export { serverError, loggedIn, processQuery, handleError, handleEntityNotFound, removeEntity, respondWithResult, saveUpdates };

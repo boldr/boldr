@@ -2,8 +2,6 @@
 import http from 'http';
 import _debug from 'debug';
 import express from 'express';
-import winston from 'winston';
-import expressWinston from 'express-winston';
 
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -13,8 +11,6 @@ import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
-import cookie from 'react-cookie';
-
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -26,14 +22,13 @@ import Html from './components/tpl.Html';
 import getRoutes from './config/routes';
 
 import config from './config/boldr';
-import { logger } from './core';
+import { logger, serverError, errorHandler, responseHandler } from './core';
 import authMiddleware from './auth';
 import middleware from './core/middleware';
 import routes from './api/routes';
 import models from './db/models';
 
 const debug = _debug('boldr:server');
-const ENV = config.env;
 // Create our express server.
 const app = express();
 // Create an http server and listener
@@ -42,21 +37,13 @@ const server = http.createServer(app);
 const port = normalizePort(config.port);
 // Get an instance of the express Router
 const router = express.Router(); // eslint-disable-line
-
+debug('express middleware');
 middleware(app);
+debug('auth middleware');
 authMiddleware();
+debug('routes');
 routes(app, router);
-
-if (config.env === 'development') {
-  app.use(expressWinston.errorLogger({
-    transports: [
-      new winston.transports.Console({
-        json: true,
-        colorize: true
-      })
-    ]
-  }));
-}
+app.use(responseHandler());
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
@@ -105,7 +92,6 @@ app.use((req, res) => {
 
       const { components } = renderProps;
       trigger('fetch', components, locals).then(() => {
-        const initialState = store.getState();
         const muiTheme = getMuiTheme(BoldrTheme, {
           userAgent: req.headers['user-agent']
         });
@@ -116,24 +102,24 @@ app.use((req, res) => {
           </MuiThemeProvider>
         </Provider>
         );
-
+        debug(req.user, '------- is req.user');
         res.status(200);
         res.send('<!doctype html>\n' + // eslint-disable-line
           ReactDOM.renderToString(
             <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />
           ));
       }).catch((mountError) => {
-        console.error('Application crash!');
-        console.error(mountError.message);
-        console.error(mountError.stack);
-        res.status(500).send('Server error! Please check the logs');
+        logger.error('Application crash!');
+        logger.error(mountError.message);
+        debug(mountError.stack);
+        return serverError();
       });
     } else {
       res.status(404).send('Not found');
     }
   });
 });
-
+app.use(errorHandler());
 models.sync().catch(err => logger.error(err.stack)).then(() => {
   server.listen(process.env.SERVER_PORT);
   logger.info(`==> 💚  API Server listening on ${process.env.SERVER_PORT}`);
@@ -201,4 +187,4 @@ function onListening() {
     ? `pipe ${addr}`
     : `pipe ${addr.port}`;
 }
-export default server;
+export default { app, server };

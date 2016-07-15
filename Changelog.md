@@ -1,7 +1,12 @@
-### Pre-Alpha 3
-7/13/2016  
+### 0.3.0
+> 7/14/2016
+- **Feature:** Created a DAO to allow for easier bootstrapping of models and their controller counterparts.
+- **Maintenance:** The server and client-side are now more tightly coupled together.
+- **Yeah:** More in the morning because its late...
 
-[-] **API Server**  The API server is now completely disconnected from the server-side rendering server. This is a huge benefit for developing because it's one less thing to compile.
+### 0.2.0
+> 7/03/2016  
+
 
 [-] **Setup and Settings**  Added a setup within the dashboard for settings and site customization. This is the first step in the process of loading / preloading various customizations before sending them down to the browser. At the moment the setup *wizard* contains the basic info like Website name, URL, etc... Additionally, a database creation script was made and an admin user is created if the database is empty the first time Boldr runs.
 
@@ -14,10 +19,10 @@
 
 [-] **Media Manager** Connecting to AWS S3. Uploading functionality as well as file management is coming along.
 
-### Pre-Alpha 2.1
-6/5/2016  
+### 0.1.0
+> 6/5/2016  
 
-**Alpha 2** is an appropriate title for the current state of Boldr. Lots has changed since the earlier versions, which to me,
+0.1.0 is an appropriate title for the current state of Boldr. Lots has changed since the earlier versions, which to me,
 feels like a worthy bump from Alpha 1 to Alpha 2. Dont be fooled into thinking this is **anywhere close** to being ready. There
 is still mountains of work to do before this is considered beta.  
 

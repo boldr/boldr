@@ -6,6 +6,7 @@ import mediaRouter from './media/media.router';
 import tagRouter from './tag/tag.router';
 import articleRouter from './article/article.router';
 import settingRouter from './setting/setting.router';
+import categoryRouter from './category/category.router';
 
 export default (app, router, passport) => {
   // ### Server Routes
@@ -16,6 +17,7 @@ export default (app, router, passport) => {
   mediaRouter(app, router, passport);
   tagRouter(app, router, passport);
   settingRouter(app, router, passport);
+  categoryRouter(app, router, passport);
 
   app.use('/s3', s3router({
     headers: { 'Access-Control-Allow-Origin': '*' }, // optional
