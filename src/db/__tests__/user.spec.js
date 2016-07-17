@@ -9,9 +9,7 @@ import {
   it
 } from 'mocha';
 import server from '../../server';
-import {
-  User
-} from '../models';
+import User from '../models/user';
 
 const chance = new Chance();
 
