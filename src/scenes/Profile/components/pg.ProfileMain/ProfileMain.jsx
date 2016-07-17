@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import { Col, Row, Container } from 'components/index';
 
 class ProfileMain extends Component {
   render() {
     return (
-      <Container>
-        <Row>
-          <Col xs="4">
+    <div>
             <Card>
               <CardHeader
                 title={ this.props.currentUser.firstName }
@@ -28,8 +25,7 @@ class ProfileMain extends Component {
                 <FlatButton label="Action2" />
               </CardActions>
             </Card>
-          </Col>
-          <Col xs="8">
+
             <Card>
               <CardHeader
                 title={ this.props.currentUser.firstName }
@@ -48,10 +44,7 @@ class ProfileMain extends Component {
                 <FlatButton label="Action2" />
               </CardActions>
             </Card>
-          </Col>
-
-        </Row>
-      </Container>
+    </div>
     );
   }
 }

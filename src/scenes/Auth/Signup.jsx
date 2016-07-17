@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { Col, Row, Container } from 'components/index';
+
 import { signUp } from 'state/modules/user';
 import SignupForm from './components/atm.SignupForm';
 
@@ -35,13 +35,13 @@ class Signup extends Component {
     const { isLoading, message } = this.props.user;
 
     return (
-        <Container>
+        <div>
           { this.renderHeader() }
           <p>{ message }</p>
-        <Col md={ { size: 4, offset: 4 } }>
+        <div>
           <SignupForm onSubmit={ ::this.handleOnSubmit } />
-        </Col>
-        </Container>
+        </div>
+        </div>
     );
   }
 }

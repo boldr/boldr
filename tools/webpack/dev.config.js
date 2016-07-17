@@ -17,14 +17,6 @@ const assetsPath = path.resolve(__dirname, '../../static/dist');
 const host = (process.env.HOST || 'localhost');
 const port = (+process.env.PORT + 1) || 3001;
 
-const cssChunkNaming = '[name]__[local]___[hash:base64:5]';
-
-const cssLoader = [
-  'css?modules',
-  'sourceMap',
-  'importLoaders=2',
-  `localIdentName=${cssChunkNaming}`
-].join('&');
 const postCSSConfig = function() {
   return [
     require('postcss-import')({
@@ -37,6 +29,9 @@ const postCSSConfig = function() {
     require('postcss-simple-vars')(),
     // Unwrap nested rules like how Sass does it
     require('postcss-nested')(),
+    require('postcss-custom-media')(),
+    require('postcss-media-minmax')(),
+    require('lost')(),
     //  parse CSS and add vendor prefixes to CSS rules
     require('autoprefixer')({
       browsers: ['last 2 versions', 'IE > 8']
@@ -111,11 +106,12 @@ const webpackConfig = module.exports = {
         happy: { id: 'sass' },
         test: /\.scss$/,
         loader: 'style!css!postcss!sass'
-       }),
-      {
+      }),
+      createSourceLoader({
+        happy: { id: 'css' },
         test: /\.css$/,
         loader: 'style!css!postcss'
-      },
+      }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
@@ -163,7 +159,8 @@ const webpackConfig = module.exports = {
     }),
     webpackIsomorphicToolsPlugin.development(),
     createHappyPlugin('jsx'),
-    createHappyPlugin('sass')
+    createHappyPlugin('sass'),
+    createHappyPlugin('css')
   ]
 };
 
@@ -179,7 +176,7 @@ function createSourceLoader(spec) {
 }
 function createHappyPlugin(id) {
   return new HappyPack({
-    id: id,
+    id,
     threadPool: happyThreadPool,
 
     // disable happypack with HAPPY=0
@@ -189,6 +186,6 @@ function createHappyPlugin(id) {
     cache: true,
 
     // make happypack more verbose with HAPPY_VERBOSE=1
-    verbose: true,
+    verbose: true
   });
 }

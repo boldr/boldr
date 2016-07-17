@@ -4,7 +4,6 @@ import RenderField from 'components/atm.RenderField';
 import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
-import { Col, Row, Container } from 'components/index';
 
 export const fields = ['description', 'logo', 'favicon', 'analyticsId', 'allowRegistration'];
 
