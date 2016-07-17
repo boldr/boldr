@@ -110,7 +110,7 @@ const webpackConfig = module.exports = {
       createSourceLoader({
         happy: { id: 'css' },
         test: /\.css$/,
-        loader: 'style!css!postcss'
+        loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
       }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },

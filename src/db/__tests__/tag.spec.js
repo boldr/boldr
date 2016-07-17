@@ -9,7 +9,7 @@ import {
   it
 } from 'mocha';
 import server from '../../server';
-import Tag from '../models/tag';
+import { Tag } from '../models';
 
 const chance = new Chance();
 
