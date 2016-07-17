@@ -5,8 +5,8 @@ import server from '../server';
 
 const agent = request.agent(server);
 
-describe('GET /api/users', function() {
-  it('returns users as JSON', function(done) {
+describe('GET /api/v1/health-check', function() {
+  it('returns OK', function(done) {
     agent
         .get('/api/v1/health-check')
         .expect(200)

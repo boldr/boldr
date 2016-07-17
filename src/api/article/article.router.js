@@ -8,7 +8,7 @@ const router = Router();
 
 router.route('/')
 	.get(processQuery, ctrl.getAllArticles)
-  .post(isAuthenticated(), ctrl.createArticle);
+  .post(isAuthenticated(), ctrl.createNewArticle);
 
 router.route('/:articleId')
   .get(ctrl.showArticle);
