@@ -35,6 +35,7 @@ const client = new ApiClient();
 const initialState = window.__INITIAL_STATE__;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
+
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = createRoutes(store, history);
 
@@ -57,7 +58,9 @@ function renderApp() {
       <AppContainer>
         <Provider store={ store } key="provider">
             <MuiThemeProvider muiTheme={ muiTheme }>
-              <Router routes={ routes } history={ browserHistory } render={ applyRouterMiddleware(useScroll()) } />
+              <Router routes={ routes } history={ browserHistory }
+                helpers={ client } render={ applyRouterMiddleware(useScroll()) }
+              />
             </MuiThemeProvider>
           </Provider>
         </AppContainer>,
@@ -94,7 +97,15 @@ function renderApp() {
     });
   });
 }
+if (process.env.NODE_ENV !== 'production') {
+  window.React = React; // enable debugger
 
+  if (!container || !container.firstChild || !container.firstChild.attributes ||
+    !container.firstChild.attributes['data-react-checksum']) {
+    console.error(`Server-side React render was discarded. Make sure that your
+      initial render does not contain any client-side code.`);
+  }
+}
 // The following is needed so that we can hot reload our App.
 if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.

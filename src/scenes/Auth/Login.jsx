@@ -37,9 +37,9 @@ class Login extends Component {
         <Container fluid>
           <Helmet title="Login" />
           <Row>
-
-            <Card className="auth-login__card">
               <Col sm="12" md={ { size: 4, offset: 4 } }>
+            <Card className="auth-login__card">
+
                 { this.renderHeader() }
                 <div>
                   <p>{ message }</p>
@@ -47,9 +47,9 @@ class Login extends Component {
 
                   <a href="http://localhost:8000/api/v1/auth/facebook">Login with Facebook</a>
                 </div>
-              </Col>
-              </Card>
 
+              </Card>
+              </Col>
           </Row>
         </Container>
     );

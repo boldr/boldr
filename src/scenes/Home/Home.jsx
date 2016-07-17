@@ -1,11 +1,14 @@
 import React from 'react';
-import { Hero } from 'components/index';
+import Helmet from 'react-helmet';
+import { Hero, Heading } from 'components/index';
 
 const Home = () => {
   return (
-  <div>
-    <h1 className="tagline">Welcome to the Home. Stay tuned...</h1>
+    <div>
+    <Helmet title="Home" />
+
     <Hero />
+    <Heading size={ 1 }>Welcome to the Home. Stay tuned...</Heading>
   </div>
 );
 };

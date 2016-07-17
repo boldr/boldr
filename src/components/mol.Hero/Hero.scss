@@ -1,0 +1,18 @@
+.hero {
+  margin-bottom: 0;
+  padding: 0;
+  text-align: left;
+  background: rgb(229, 0, 80);
+  overflow: hidden;
+  padding-top: 20px;
+  height: calc(100vh - 140px);
+  @media (min-width: 768px) {
+      padding: 40px 0 0 0;
+      max-height: 650px;
+    }
+  @media (min-width: 992px) {
+    padding: 115px 0 0 0;
+    min-height: 650px;
+    max-height: 880px;
+  }
+}

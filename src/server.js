@@ -57,7 +57,7 @@ app.use((req, res) => {
 
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
-  const store = createStore(initialState, memoryHistory, client);
+  const store = createStore(memoryHistory, client);
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {
@@ -72,9 +72,9 @@ app.use((req, res) => {
 
   match({
     history,
-    routes: getRoutes(store),
+    routes: getRoutes(store, client),
     location: req.originalUrl
-  }, (error, redirectLocation, renderProps) => {
+  }, (error, redirectLocation, renderProps, ...args) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
@@ -89,10 +89,6 @@ app.use((req, res) => {
         query: renderProps.location.query,
         params: renderProps.params,
         location: renderProps.location,
-        store,
-        helpers: {
-          client
-        },
         dispatch
       };
 

@@ -38,6 +38,7 @@ export default class Html extends Component {
     return (
       <html lang="en-us">
         <head>
+          <Helmet />
           { head.base.toComponent() }
           { head.title.toComponent() }
           { head.meta.toComponent() }
@@ -55,8 +56,11 @@ export default class Html extends Component {
           { this.styles }
         </head>
         <body>
-          <div id="content" dangerouslySetInnerHTML={ { __html: content } } />
-          <script dangerouslySetInnerHTML={ { __html: `window.__INITIAL_STATE__=${serialize(store.getState())};` } } charSet="UTF-8" />
+          <div id="content" style={ { minHeight: '100vh' } } dangerouslySetInnerHTML={ { __html: content } } />
+          <script dangerouslySetInnerHTML={ {
+            __html: `window.__INITIAL_STATE__=${serialize(store.getState())};` } }
+            charSet="UTF-8"
+          />
           <script src={ assets.javascript.vendor } charSet="UTF-8" />
           <script src={ assets.javascript.main } charSet="UTF-8" />
         </body>

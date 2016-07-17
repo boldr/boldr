@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import Checkbox from 'material-ui/Checkbox';
@@ -10,9 +10,6 @@ import { Col, Row, Container } from 'components/index';
 import { loadBoldrSettings, saveBoldrSetup } from 'state/modules/boldr';
 import SetupForm from '../atm.SetupForm';
 
-@provideHooks({
-  fetch: ({ dispatch }) => dispatch(loadBoldrSettings())
-})
 class Setup extends Component {
   handleSubmit(values) {
     this.props.dispatch(saveBoldrSetup(values));
@@ -32,6 +29,11 @@ class Setup extends Component {
     );
   }
 }
+
+Setup.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
+
 const mapStateToProps = (state, ownProps) => {
   return {
     boldr: state.boldr,

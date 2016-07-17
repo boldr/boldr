@@ -4,12 +4,14 @@ require('babel-polyfill');
 // Webpack config for development
 const path = require('path');
 const webpack = require('webpack');
+const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
 
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const assetsPath = path.resolve(__dirname, '../../static/dist');
 const host = (process.env.HOST || 'localhost');
@@ -82,7 +84,8 @@ const webpackConfig = module.exports = {
   },
   module: {
     loaders: [
-      {
+      createSourceLoader({
+        happy: { id: 'jsx' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules|\.git/,
@@ -98,16 +101,17 @@ const webpackConfig = module.exports = {
             'react-hot-loader/babel'
           ]
         }
-      },
+      }),
       {
         test: /\.json$/,
         loader: 'json-loader'
       },
 
-      {
+      createSourceLoader({
+        happy: { id: 'sass' },
         test: /\.scss$/,
         loader: 'style!css!postcss!sass'
-      },
+       }),
       {
         test: /\.css$/,
         loader: 'style!css!postcss'
@@ -157,7 +161,9 @@ const webpackConfig = module.exports = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true
     }),
-    webpackIsomorphicToolsPlugin.development()
+    webpackIsomorphicToolsPlugin.development(),
+    createHappyPlugin('jsx'),
+    createHappyPlugin('sass')
   ]
 };
 
@@ -169,5 +175,20 @@ function createSourceLoader(spec) {
     return x;
   }, {
     include: [path.resolve(ROOT_DIR, 'src')]
+  });
+}
+function createHappyPlugin(id) {
+  return new HappyPack({
+    id: id,
+    threadPool: happyThreadPool,
+
+    // disable happypack with HAPPY=0
+    enabled: true,
+
+    // disable happypack caching with HAPPY_CACHE=0
+    cache: true,
+
+    // make happypack more verbose with HAPPY_VERBOSE=1
+    verbose: true,
   });
 }

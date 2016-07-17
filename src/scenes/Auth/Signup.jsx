@@ -38,8 +38,9 @@ class Signup extends Component {
         <Container>
           { this.renderHeader() }
           <p>{ message }</p>
-
+        <Col md={ { size: 4, offset: 4 } }>
           <SignupForm onSubmit={ ::this.handleOnSubmit } />
+        </Col>
         </Container>
     );
   }
