@@ -1,0 +1,11 @@
+{
+  "env": "testing",
+  "db": {
+    "name": "boldr_testing",
+    "user": "postgres",
+    "password": "password",
+    "port": 5432,
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

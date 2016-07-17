@@ -20,8 +20,9 @@
     "start": "npm run start:prod",
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start-prod",
-    "test": "NODE_PATH=./src ./node_modules/.bin/mocha --compilers js:./compiler.babel --opts ./mocha.opts './src/**/*.test.js'",
-    "test:api": "NODE_PATH=./src ./node_modules/.bin/mocha --compilers js:./compiler.babel --require ignore-styles --opts ./mocha.opts './src/**/*.spec.js'",
+    "test": "better-npm-run test:client && better-npm-run test:api",
+    "test:api": "better-npm-run test:api",
+    "test:client": "better-npm-run test:client",
     "testdb:init": "./tools/scripts/testdb-init.sh",
     "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'",
     "watch:client": "better-npm-run watch:client"
@@ -54,6 +55,22 @@
       "command": "node tools/webpack/webpack-dev-server.js",
       "env": {
         "UV_THREADPOOL_SIZE": 100,
+        "NODE_PATH": "./src",
+        "PORT": 3000
+      }
+    },
+    "test:api": {
+      "command": "./node_modules/.bin/mocha --compilers js:./compiler.babel --require ignore-styles --opts ./mocha.opts './src/**/*.spec.js'",
+      "env": {
+        "NODE_ENV": "testing",
+        "NODE_PATH": "./src",
+        "PORT": 3000
+      }
+    },
+    "test:client": {
+      "command": "./node_modules/.bin/mocha --compilers js:./compiler.babel --require ignore-styles --opts ./mocha.opts './src/**/*.test.js'",
+      "env": {
+        "NODE_ENV": "testing",
         "NODE_PATH": "./src",
         "PORT": 3000
       }
@@ -172,6 +189,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
+    "chance": "^1.0.3",
     "concurrently": "^2.2.0",
     "css-loader": "0.23.1",
     "dotenv": "2.0.0",
