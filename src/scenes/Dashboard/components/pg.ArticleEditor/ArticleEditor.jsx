@@ -1,4 +1,4 @@
-/* @flow */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
@@ -8,21 +8,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { createArticle } from 'state/modules/article';
 import NewArticleForm from './ArticleForm';
 
-type Props = {
-  dispatch: Function,
-  createArticle: Function,
-  handleSubmit: Function
-};
-type articleType = {
-  title: string,
-  tags: Array<Object>,
-  status: string,
-  content: Object
-}
 class ArticleEditor extends Component {
-  props: Props;
   handleSubmit(values) {
-    const articleData: articleType = {
+    const articleData = {
       title: values.title,
       tags: values.tags,
       status: values.status,

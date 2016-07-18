@@ -1,6 +1,6 @@
 {
   "name": "boldr",
-  "version": "0.3.2",
+  "version": "0.3.5",
   "description": "a bold cms.",
   "main": "tools/scripts/server.js",
   "engines": {
@@ -150,6 +150,7 @@
     "react-dom": "15.2.1",
     "react-helmet": "^3.1.0",
     "react-redux": "^4.4.5",
+    "react-reformed": "^0.4.2",
     "react-router": "2.5.2",
     "react-router-redux": "^4.0.5",
     "react-router-scroll": "^0.2.1",

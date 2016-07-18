@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 import ArticleIcon from 'material-ui/svg-icons/action/description';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import FileManagerIcon from 'material-ui/svg-icons/file/folder-shared';
@@ -31,22 +33,41 @@ const styles = {
   }
 };
 
-const SidebarContent = (props) => {
-  const links = [];
+class SidebarContent extends React.Component {
+  constructor(props) {
+    super(props);
 
-  for (let ind = 0; ind < 10; ind++) {
-    links.push(
-      <a key={ ind } href="#" style={ styles.sidebarLink }>Mock menu item { ind }</a>);
+    this.state = {
+    };
+  }
+  handleOpenMenu = () => {
+    this.setState({
+      openMenu: true
+    });
   }
 
-  return (
+  handleOnRequestChange = (value) => {
+    this.setState({
+      openMenu: value
+    });
+  }
+
+  render() {
+    return (
       <div style={ styles.content }>
         <div style={ styles.divider } />
-        <Link style={ styles.sidebarLink } to="/dashboard/articles">
-          <IconButton tooltip="Articles">
-            <ArticleIcon color="#fff" />
-          </IconButton>
-        </Link>
+        <IconMenu
+          iconButtonElement={
+            <IconButton tooltip="Articles">
+              <ArticleIcon color="#fff" />
+            </IconButton>
+          }
+          open={ this.state.openMenu }
+          onRequestChange={ this.handleOnRequestChange }
+        >
+        <Link to="/dashboard/articles"><MenuItem value="1" primaryText="Articles" /></Link>
+        <Link to="/dashboard/articles/editor"><MenuItem value="2" primaryText="New Article" /></Link>
+        </IconMenu>
         <Link style={ styles.sidebarLink } to="/dashboard/settings">
           <IconButton tooltip="Settings">
             <SettingsIcon color="#fff" />
@@ -72,9 +93,10 @@ const SidebarContent = (props) => {
           <CollectionsIcon color="#fff" />
           </IconButton>
         </Link>
-      </div>
+    </div>
   );
-};
+  }
+}
 
 export default SidebarContent;
 

@@ -8,6 +8,7 @@ import TopBar from 'components/mol.TopBar';
 import '../../styles/main.scss';
 
 class CoreLayout extends Component {
+
   render() {
     return (
     <div>
@@ -16,7 +17,6 @@ class CoreLayout extends Component {
         titleTemplate={ '%s | powered by Boldr' }
       />
       <TopBar />
-      <Message />
       { this.props.children }
     </div>
   );

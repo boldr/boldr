@@ -43,7 +43,7 @@ export default (store) => {
         <Route path="login" onEnter={ skipIfAuthenticated } component={ Login } />
         <Route path="forgot" component={ Forgot } onEnter={ skipIfAuthenticated } />
         <Route path="reset/:token" component={ Reset } onEnter={ skipIfAuthenticated } />
-        <Route path="profile" onEnter={ ensureAuthenticated } />
+        <Route path="profile" onEnter={ ensureAuthenticated } component={ Profile } />
         <Route path="signup" component={ Signup } />
         <Route path="/dashboard" onEnter={ ensureAuthenticated } component={ DashboardLayout }>
           <IndexRoute component={ Dashboard } />

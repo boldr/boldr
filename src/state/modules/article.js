@@ -76,9 +76,8 @@ export function createArticle(articleData) {
       .send({
         title: articleData.title,
         content: articleData.content,
-        tags: [
-          { tagname: articleData.tag }
-        ], status: articleData.status
+        tags: articleData.tags,
+        status: articleData.status
       })
       .then(response => {
         if (response.status === 201) {

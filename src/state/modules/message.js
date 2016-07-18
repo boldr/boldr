@@ -1,7 +1,7 @@
 
-export const DISMISS_MESSAGE:String = 'DISMISS_MESSAGE';
-export const LOGIN_SUCCESS_USER:String = 'LOGIN_SUCCESS_USER';
-export const SIGNUP_SUCCESS_USER:String = 'SIGNUP_SUCCESS_USER';
+export const DISMISS_MESSAGE = 'DISMISS_MESSAGE';
+export const LOGIN_SUCCESS_USER = 'LOGIN_SUCCESS_USER';
+export const SIGNUP_SUCCESS_USER = 'SIGNUP_SUCCESS_USER';
 
 export function dismissMessage() {
   return { type: DISMISS_MESSAGE };

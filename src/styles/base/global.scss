@@ -3,7 +3,12 @@
 *::after {
   box-sizing: inherit;
 }
-
+span[type=button] {
+  appearance: none;
+}
+a[type=button] {
+  appearance: none;
+}
 html {
   font-size: $font-size-base;
   box-sizing: border-box;

@@ -56,7 +56,7 @@ Looking for an open source project to contribute to? We could use a hand develop
 [View Here](docs/api/apidocs.md)  
 
 #### Change Log
-[View Here](changelog.md)
+[View Here](Changelog.md)
 
 
 [logo]: https://boldr.io/favicon-96x96.png "Boldr"

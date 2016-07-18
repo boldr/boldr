@@ -23,7 +23,7 @@ class TextDisplay extends Component {
       this.state = { editorState: EditorState.createWithContent(blocks, decorator) };
     } else {
       this.state = {
-        editorState: EditorState.createEmpty(decorator),
+        editorState: EditorState.createEmpty(decorator)
       };
     }
   }
@@ -37,10 +37,10 @@ class TextDisplay extends Component {
 
   render() {
     return (
-      <div className={styles.root}>
+      <div className={ styles.root }>
         <Editor
-          blockStyleFn={getBlockStyle}
-          editorState={this.state.editorState}
+          blockStyleFn={ getBlockStyle }
+          editorState={ this.state.editorState }
           readOnly
         />
       </div>
@@ -51,4 +51,3 @@ class TextDisplay extends Component {
 TextDisplay.propTypes = propTypes;
 
 export default TextDisplay;
-

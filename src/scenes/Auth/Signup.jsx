@@ -1,11 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
+import { Card, CardHeader } from 'material-ui/Card';
 import { Link } from 'react-router';
-
+import classNames from 'classnames/bind';
+import cxN from 'classnames';
 import { signUp } from 'state/modules/user';
+import { Heading } from 'components/index';
 import SignupForm from './components/atm.SignupForm';
+import SocialLogin from './components/atm.SocialLogin';
+import styles from './Auth.css';
 
+const cx = styles::classNames;
 class Signup extends Component {
 
   handleOnSubmit(values) {
@@ -35,13 +42,23 @@ class Signup extends Component {
     const { isLoading, message } = this.props.user;
 
     return (
-        <div>
+        <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
+        <Helmet title="Login" />
+        <section className={ cx('root') }>
+
+          <Card className={ cx('auth-card') }>
+
           { this.renderHeader() }
           <p>{ message }</p>
         <div>
           <SignupForm onSubmit={ ::this.handleOnSubmit } />
+          <div className={ cx('auth-card__footer') }>
+            <SocialLogin />
+          </div>
         </div>
-        </div>
+      </Card>
+        </section>
+      </div>
     );
   }
 }
