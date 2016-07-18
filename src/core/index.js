@@ -5,6 +5,8 @@ import errorHandler from './helpers/errorHandler';
 import { generateVerifyCode, handleMail, mailResetPassword, mailPasswordConfirm } from './mailer';
 import BoldrDAO from './dao/BoldrDAO';
 import BaseModel from './dao/BaseModel';
+import middleware from './middleware/index';
+import boldrSSR from './middleware/boldrSSR';
 
 export {
   logger,
@@ -20,5 +22,7 @@ export {
   responseHandler,
   errorHandler,
   BoldrDAO,
-  BaseModel
+  BaseModel,
+  boldrSSR,
+  middleware
 };

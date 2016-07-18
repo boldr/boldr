@@ -130,6 +130,7 @@
     "material-ui": "^0.15.2",
     "method-override": "^2.3.6",
     "moment": "^2.14.1",
+    "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "multer-s3": "^2.3.2",
     "node-fetch": "^1.5.3",
@@ -169,7 +170,8 @@
     "webfontloader": "^1.6.26",
     "webpack-isomorphic-tools": "^2.3.2",
     "whatwg-fetch": "^1.0.0",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.1.5"
   },
   "devDependencies": {
     "assets-webpack-plugin": "3.4.0",
@@ -232,6 +234,7 @@
     "rimraf": "2.5.3",
     "sass-loader": "^4.0.0",
     "sequelize-cli": "^2.4.0",
+    "sequelize-mocking": "^0.2.0",
     "sinon": "^1.17.4",
     "style-loader": "0.13.1",
     "stylelint": "^7.0.2",

@@ -140,10 +140,10 @@ export function createNewArticle(req, res) {
     authorId: req.user.id,
     status: req.body.status
   }).then((article) => {
-    for (let tag in req.body.tags) {
+    for (let i = 0; i < req.body.tags.length; i++) {
       const newTag = Tag.findOrCreate({
         where: {
-          tagname: tag
+          tagname: req.body.tags[i]
         }
         // @FIXME Headers are being set after they have already been sent.
       }).spread(tag =>

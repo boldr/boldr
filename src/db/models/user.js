@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import DataTypes from 'sequelize';
 import boom from 'boom';
 import uuid from 'node-uuid';
+import { type, creation, resources, defaultResources } from '../../api/user/user.constants';
 import Model from '../sequelize';
 
 /**
@@ -118,6 +119,21 @@ const User = Model.define('user', {
   role: {
     type: DataTypes.ENUM('user', 'staff', 'admin'),
     defaultValue: 'user'
+  },
+  type: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: true
+  },
+  creation: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: creation.REGISTERED
+  },
+  resources: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    allowNull: true,
+    defaultValue: defaultResources
   }
 }, {
   timestamps: false,
@@ -164,6 +180,9 @@ const User = Model.define('user', {
         id: this.id,
         role: this.role
       };
+    },
+    isAdmin() {
+      return this.isValid() && this.type === type.ADMIN;
     }
   },
   hooks: {
@@ -375,5 +394,33 @@ function findByEmail(email) {
     where: { email }
   });
 }
+
+// function activateAccount(email, id) {
+//   return new Promise((resolve, reject) => {
+//     this.findByEmail(email)
+//     .then(httpUser => {
+//       if (!httpUser) {
+//         // return reject(Error(401, 'Email is not registered'));
+//       }
+//       if (email !== httpUser.email || uniqueId !== httpUser.uniqueId) {
+//         // return reject(Error(401, 'Email and unique Id does not match'));
+//       }
+//       if (httpUser.activated) {
+//         return reject(Error(409, 'Account was already activated'));
+//       }
+//       if (httpUser.deletedAt) {
+//         httpUser.restore()
+//         .then(() => {
+//           return resolve(httpUser.update({ activated: true }));
+//         });
+//       } else {
+//         return resolve(httpUser.update({ activated: true }));
+//       }
+//     })
+//     .catch(error => {
+//       return reject(error);
+//     });
+//   });
+// }
 
 export default User;
