@@ -1,6 +1,7 @@
 ![boldr](static/favicon-96x96.png) Boldr
 ====
-[![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)] || (https://circleci.com/gh/strues/boldr)
+[![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)](https://circleci.com/gh/strues/boldr)[![Gitter](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
 
