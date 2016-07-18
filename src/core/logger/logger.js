@@ -43,7 +43,11 @@ if (config.logger.files) {
 
 const logger = new winston.Logger({ transports });
 logger.exitOnError = false;
-
+logger.stream = {
+  write(message) {
+    logger.info(message);
+  }
+};
 process.on('unhandledRejection', (reason, promise) => {
   logger.warn(`Unhandled rejection at ${promise}\n`, reason);
 });

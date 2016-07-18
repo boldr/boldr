@@ -9,17 +9,19 @@ import methodOverride from 'method-override';
 import expressJwt from 'express-jwt';
 import hpp from 'hpp';
 import cors from 'cors';
+import morgan from 'morgan';
 import compression from 'compression';
 import { session as dbSession } from '../../db';
 import config from '../../config/boldr';
 
-import { logger } from '../';
+import logger from '../logger/logger';
 
 export default (app, io) => {
   app.set('port', config.port);
 
   app.disable('x-powered-by');
   app.use(compression());
+  app.use(morgan('dev', { stream: logger.stream }));
   app.use(cookieParser());
   app.use(hpp());
   app.use(cors());
@@ -76,12 +78,12 @@ export default (app, io) => {
     next(); // otherwise continue
   });
 
-  logger.info('--------------------------');
-  logger.info('===> 😊  Starting Boldr . . .');
-  logger.info(`===> 🌎  Environment: ${config.env}`);
+  logger.log('--------------------------');
+  logger.log('===> 😊  Starting Boldr . . .');
+  logger.log(`===> 🌎  Environment: ${config.env}`);
   if (config.env === 'production') {
-    logger.info('===> 🚦  Note: In order for authentication to work in production');
-    logger.info('===>           you will need a secure HTTPS connection');
+    logger.log('===> 🚦  Note: In order for authentication to work in production');
+    logger.log('===>           you will need a secure HTTPS connection');
     sessionOpts.cookie.secure = true;
   }
 };
