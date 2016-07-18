@@ -1,7 +1,12 @@
 import slug from 'limax';
 import Boom from 'boom';
 
-import { Article, User, Tag, ArticleTag } from '../../db/models';
+import {
+  Article,
+  User,
+  Tag,
+  ArticleTag
+} from '../../db/models';
 
 const MAX_TAGS = 15;
 /**
@@ -16,18 +21,19 @@ const MAX_TAGS = 15;
  * @apiSuccess {String}  id   The Article ID
  */
 
-export const getAllArticles = async (req, res, next) => {
+export const getAllArticles = async(req, res, next) => {
   try {
     const articles = await Article.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [
+        ['createdAt', 'DESC']
+      ],
       include: [{
         model: User,
         attributes: ['id', 'displayName', 'picture', 'email']
       }, {
         model: Tag,
         attributes: ['tagname', 'id']
-      }
-    ]
+      }]
     });
 
     return res.status(200).json(articles);
@@ -48,7 +54,7 @@ export const getAllArticles = async (req, res, next) => {
  *
  * @apiSuccess {String}  id   The Article ID
  */
-export const showArticle = async (req, res, next) => {
+export const showArticle = async(req, res, next) => {
   try {
     const article = await Article.findById(req.params.id, {
       include: [{
@@ -68,7 +74,9 @@ export const showArticle = async (req, res, next) => {
 export async function addTagToArticle(req, res) {
   const articleId = req.params.articleId;
   const alreadyAddedError = () => {
-    const error = { message: 'Could not add tag to the article. Is it already added?' };
+    const error = {
+      message: 'Could not add tag to the article. Is it already added?'
+    };
     console.log(res, error);
   };
   if (req.body.tagname !== undefined) {
@@ -77,17 +85,17 @@ export async function addTagToArticle(req, res) {
         tagname: req.body.tagname.toLowerCase().trim()
       }
     }).spread(tag =>
-        ArticleTag.create({
-          articleId,
-          tagId: tag.id
-        }).then(() => {
-          const json = tag.toJSON();
-          json.article_count = 1;
-          res.status(201).send(json);
-        }).catch(alreadyAddedError)
-      ).catch(err => {
-        console.log(res, err);
-      });
+      ArticleTag.create({
+        articleId,
+        tagId: tag.id
+      }).then(() => {
+        const json = tag.toJSON();
+        json.article_count = 1;
+        res.status(201).send(json);
+      }).catch(alreadyAddedError)
+    ).catch(err => {
+      console.log(res, err);
+    });
   } else if (req.body.id !== undefined) {
     const id = req.body.id;
     ArticleTag.create({
@@ -95,12 +103,16 @@ export async function addTagToArticle(req, res) {
       tagId: id
     }).then(obj => {
       const json = obj.toJSON();
-      res.status(201).send({ error: false, data: json });
+      res.status(201).send({
+        error: false,
+        data: json
+      });
     }).catch(alreadyAddedError);
   } else {
     console.log('err');
   }
 }
+
 /**
  * Creates a new article and saves it to the database.
  * @method createArticle
@@ -114,37 +126,38 @@ export async function addTagToArticle(req, res) {
  * @param {Date}    createdAt      the time the article was saved.
  * @return {Object}                the article object
  */
-export const createArticle = async(req, res, next) => {
+export function createNewArticle(req, res) {
   if (req.body.tags) {
     req.body.tags = req.body.tags.split(',', MAX_TAGS).map(tag => tag.substr(0, 15));
   }
-  try {
-    const article = await Article.create({
-      title: req.body.title,
-      slug: slug(req.body.title),
-      excerpt: req.body.excerpt,
-      markup: req.body.markup,
-      content: req.body.content,
-      featureImage: req.body.featureImage,
-      authorId: req.user.id,
-      status: req.body.status,
-      tags: []
-    }, { include: [{ model: Tag, as: 'tags' }] });
-    // creates a new "Tag" for every tag in ctx.request.body.tags
-    for (let i = 0; i < req.body.tags.length; i++) {
-      const newTag = await Tag.create({
-        tagname: req.body.tags[i]
+  return Article.create({
+    title: req.body.title,
+    slug: slug(req.body.title),
+    excerpt: req.body.excerpt,
+    markup: req.body.markup,
+    content: req.body.content,
+    featureImage: req.body.featureImage,
+    authorId: req.user.id,
+    status: req.body.status
+  }).then((article) => {
+    for (let tag in req.body.tags) {
+      const newTag = Tag.findOrCreate({
+        where: {
+          tagname: tag
+        }
+        // @FIXME Headers are being set after they have already been sent.
+      }).spread(tag =>
+        ArticleTag.create({
+          articleId: article.id,
+          tagId: tag.id
+        }).then((articleTag) => {
+          return res.status(201).json(articleTag);
+        }).catch(error => {
+          console.log(error);
+        })
+      ).catch(err => {
+        console.log(res, err);
       });
-      await article.addTag(newTag);
-      // Adds articleId of the previously created Article and
-      // adds the tagId of each created Tag to the ArticlesTags table.
     }
-    // Performs a quick get to save an api req.
-    if (req.body.tags) {
-      article.tags = req.body.tags.map(tag => ({ tagname: tag }));
-    }
-    return res.status(201).json(article);
-  } catch (error) {
-    return res.status(400).json(error);
-  }
-};
+  });
+}

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
-import { Col, Row, Container } from 'components/index';
+
 import Sidebar from '../mol.Sidebar/index';
 import SidebarContent from '../atm.SidebarContent/index';
 
@@ -81,8 +81,8 @@ class DashboardLayout extends Component {
       <div>
         <Sidebar { ...sidebarProps }>
           <div style={ styles.content }>
-            <Container fluid>
-              <Row>
+
+
                 <p>
                   {
                     !this.state.docked && <a onClick={ ::this.toggleOpen }
@@ -94,8 +94,7 @@ class DashboardLayout extends Component {
 
                 { this.props.children }
 
-              </Row>
-            </Container>
+      
           </div>
         </Sidebar>
       </div>

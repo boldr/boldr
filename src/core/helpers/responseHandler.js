@@ -10,7 +10,7 @@ export default function responseHandler() {
     res.finalize = function resFinalize(data, { count } = {}) {
       const response = {
         error: null,
-        data: null,
+        data: null
       };
 
       if (_.isNumber(count)) {

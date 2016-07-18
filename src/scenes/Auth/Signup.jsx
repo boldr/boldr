@@ -1,20 +1,19 @@
-/* @flow */
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
+import { Card, CardHeader } from 'material-ui/Card';
 import { Link } from 'react-router';
-import { Col, Row, Container } from 'components/index';
+import classNames from 'classnames/bind';
+import cxN from 'classnames';
 import { signUp } from 'state/modules/user';
+import { Heading } from 'components/index';
 import SignupForm from './components/atm.SignupForm';
+import SocialLogin from './components/atm.SocialLogin';
+import styles from './Auth.css';
 
-type Props = {
-  user: Object,
-  signUp: Function,
-  handleOnSubmit: Function
-};
-
+const cx = styles::classNames;
 class Signup extends Component {
-  props: Props;
 
   handleOnSubmit(values) {
     const { signUp } = this.props;
@@ -43,12 +42,23 @@ class Signup extends Component {
     const { isLoading, message } = this.props.user;
 
     return (
-        <Container>
+        <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
+        <Helmet title="Login" />
+        <section className={ cx('root') }>
+
+          <Card className={ cx('auth-card') }>
+
           { this.renderHeader() }
           <p>{ message }</p>
-
+        <div>
           <SignupForm onSubmit={ ::this.handleOnSubmit } />
-        </Container>
+          <div className={ cx('auth-card__footer') }>
+            <SocialLogin />
+          </div>
+        </div>
+      </Card>
+        </section>
+      </div>
     );
   }
 }
@@ -57,7 +67,11 @@ Signup.propTypes = {
   user: PropTypes.object,
   signUp: PropTypes.func.isRequired
 };
-
+Signup.propTypes = {
+  user: PropTypes.object,
+  signUp: PropTypes.func,
+  handleOnSubmit: PropTypes.func
+};
 function mapStateToProps({ user }) {
   return {
     user

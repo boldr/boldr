@@ -1,7 +1,13 @@
+import { Router } from 'express';
 import * as ctrl from './setting.controller';
 
-export default (app, router) => {
-  router.get('/settings', ctrl.getSettings);
-  router.post('/settings', ctrl.createSettings);
-  router.put('/settings/:id', ctrl.updateSettings);
-};
+const router = Router();
+
+router.route('/')
+	.get(ctrl.getSettings)
+  .post(ctrl.createSettings);
+
+router.route('/:tagId')
+  .put(ctrl.updateSettings);
+
+export default router;

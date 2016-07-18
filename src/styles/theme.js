@@ -3,7 +3,7 @@ import { cyan700, gray900, darkBlack, gray400, pinkA100, pinkA400, fullWhite, wh
 import zIndex from 'material-ui/styles/zIndex';
 
 const pinkish = '#DD144D';
-
+const fontColor = '#485558';
 export default {
   zIndex,
   spacing: {
@@ -28,7 +28,7 @@ export default {
     accent1Color: pinkish,
     accent2Color: pinkA400,
     accent3Color: pinkA100,
-    textColor: gray900,
+    textColor: fontColor,
     alternateTextColor: white,
     canvasColor: white,
     borderColor: gray400,

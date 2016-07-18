@@ -7,6 +7,8 @@ import Error404 from 'components/pg.Error404';
 import CoreLayout from 'components/tpl.CoreLayout';
 import Home from 'scenes/Home';
 import Login from 'scenes/Auth/Login';
+import Forgot from 'scenes/Auth/Forgot';
+import Reset from 'scenes/Auth/Reset';
 import Profile from 'scenes/Profile';
 import Signup from 'scenes/Auth/Signup';
 // import DashboardRoutes from './dashboard.routes';
@@ -21,18 +23,29 @@ import Media from 'scenes/Dashboard/Media';
 import Pages from 'scenes/Dashboard/Pages';
 import Settings from 'scenes/Dashboard/Settings';
 import Setup from 'scenes/Dashboard/components/pg.Setup';
-import RequireAuth from './RequireAuth';
 
 export default (store) => {
+  const ensureAuthenticated = (nextState, replace) => {
+    if (!store.getState().user.authenticated) {
+      replace('/login');
+    }
+  };
+  const skipIfAuthenticated = (nextState, replace) => {
+    if (store.getState().user.authenticated) {
+      replace('/');
+    }
+  };
   return (
       <Route path="/" component={ CoreLayout }>
         <IndexRoute component={ Home } />
         <Route path="about" component={ About } />
         <Route path="blog" component={ Blog } />
-        <Route path="login" component={ Login } />
-        <Route path="profile" component={ RequireAuth(Profile) } />
+        <Route path="login" onEnter={ skipIfAuthenticated } component={ Login } />
+        <Route path="forgot" component={ Forgot } onEnter={ skipIfAuthenticated } />
+        <Route path="reset/:token" component={ Reset } onEnter={ skipIfAuthenticated } />
+        <Route path="profile" onEnter={ ensureAuthenticated } component={ Profile } />
         <Route path="signup" component={ Signup } />
-        <Route path="/dashboard" component={ DashboardLayout }>
+        <Route path="/dashboard" onEnter={ ensureAuthenticated } component={ DashboardLayout }>
           <IndexRoute component={ Dashboard } />
           <Route path="articles" component={ Articles }>
             <IndexRoute component={ ArticlesList } />

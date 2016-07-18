@@ -2,6 +2,7 @@ import React from 'react';
 import { reduxForm } from 'redux-form';
 import RenderField from 'components/atm.RenderField';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 import { RadioButton } from 'material-ui/RadioButton';
 
 import Heading from 'components/atm.Heading';
@@ -17,8 +18,16 @@ const SetupFormPage3 = (props) => {
     <form onSubmit={ handleSubmit }>
       <Heading size={ 1 }>Temporarily empty placeholder page. Click the button below to finish</Heading>
       <div>
-        <button type="button" className="previous" onClick={ previousPage }>Previous</button>
-        <button type="submit" className="next">Save Settings</button>
+        <RaisedButton
+          label="Previous"
+          onClick={ previousPage }
+          style={ { marginTop: '1em', marginRight: '1em' } }
+        />
+        <RaisedButton
+          primary
+          label="Save Settings"
+          type="submit"
+        />
       </div>
     </form>
   );

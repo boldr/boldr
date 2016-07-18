@@ -4,7 +4,7 @@ import RenderField from 'components/atm.RenderField';
 import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
-import { Col, Row, Container } from 'components/index';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export const fields = ['description', 'logo', 'favicon', 'analyticsId', 'allowRegistration'];
 
@@ -37,8 +37,16 @@ const SetupFormPage2 = (props) => {
         { ...allowRegistration }
       />
       <div>
-        <button type="button" className="previous" onClick={ previousPage }>Previous</button>
-        <button type="submit" className="next">Next</button>
+        <RaisedButton
+          label="Previous"
+          onClick={ previousPage }
+          style={ { marginTop: '1em', marginRight: '1em' } }
+        />
+        <RaisedButton
+          primary
+          label="Next"
+          type="submit"
+        />
       </div>
     </form>
   );

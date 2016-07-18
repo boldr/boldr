@@ -1,73 +1,39 @@
+import {
+  expect
+} from 'chai';
+import Chance from 'chance';
+import {
+  before,
+  beforeEach,
+  describe,
+  it
+} from 'mocha';
+import server from '../../server';
 import { User } from '../models';
 
-let user;
-const genUser = function() {
-  user = User.build({
-    provider: 'local',
-    firstName: 'Fake',
-    lastName: 'User',
-    email: 'test@example.com',
-    password: 'password',
-    displayName: 'Fake'
-  });
-  return user;
-};
+const chance = new Chance();
 
-describe('User Model', function() {
-  before(function() {
-    // Sync and clear users before testing
-    return User.sync().then(function() {
-      return User.destroy({ where: {} });
-    });
-  });
-
-  beforeEach(function() {
-    genUser();
-  });
-
-  afterEach(function() {
-    return User.destroy({ where: {} });
-  });
-
-  it('should begin with no users', function() {
-    return expect(User.findAll()).to
-      .eventually.have.length(0);
-  });
-
-  it('should fail when saving a duplicate user', function() {
-    return expect(user.save()
-      .then(function() {
-        var userDup = genUser();
-        return userDup.save();
-      })).to.be.rejected;
-  });
-
-  describe('#email', function() {
-    it('should fail when saving without an email', function() {
-      user.email = '';
-      return expect(user.save()).to.be.rejected;
-    });
-  });
-
-  describe('#password', function() {
-    beforeEach(function() {
-      return user.save();
-    });
-
-    it('should authenticate user if valid', function() {
-      expect(user.authenticate('password')).to.be.true;
-    });
-
-    it('should not authenticate user if invalid', function() {
-      expect(user.authenticate('blah')).to.not.be.true;
-    });
-
-    it('should remain the same hash unless the password is updated', function() {
-      user.name = 'Test User';
-      return expect(user.save()
-        .then(function(u) {
-          return u.authenticate('password');
-        })).to.eventually.be.true;
-    });
+describe('User Model', () => {
+  it('should be able to create users', async function() {
+    const userData = {
+      firstName: chance.first(),
+      lastName: chance.last(),
+      email: chance.email(),
+      location: chance.state({ full: true }),
+      bio: chance.sentence(),
+      website: chance.url(),
+      role: 'user',
+      password: chance.word(),
+      picture: chance.avatar({ fileExtension: 'jpg' })
+    };
+    const createdUser = await User.create(userData);
+    expect(createdUser).to.have.property('firstName', userData.firstName);
+    expect(createdUser).to.have.property('lastName', userData.lastName);
+    expect(createdUser).to.have.property('email', userData.email);
+    expect(createdUser).to.have.property('location', userData.location);
+    expect(createdUser).to.have.property('bio', userData.bio);
+    expect(createdUser).to.have.property('role', userData.role);
+    expect(createdUser).to.have.property('website', userData.website);
+    expect(createdUser).to.have.property('picture', userData.picture);
   });
 });

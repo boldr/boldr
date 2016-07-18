@@ -8,11 +8,11 @@ module.exports = {
           defaultValue: DataTypes.UUIDV4
         },
         title: {
-          type: DataTypes.STRING(256),
+          type: DataTypes.STRING(150),
           allowNull: false
         },
         slug: {
-          type: DataTypes.STRING(256),
+          type: DataTypes.STRING(150),
           allowNull: false,
           unique: true
         },

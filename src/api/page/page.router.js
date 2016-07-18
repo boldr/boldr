@@ -1,5 +1,8 @@
+import { Router } from 'express';
 import * as ctrl from './page.controller';
 
-export default (app, router) => {
+const router = Router();
 
-};
+router.route('/');
+
+export default router;

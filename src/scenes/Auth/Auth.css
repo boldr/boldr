@@ -1,0 +1,24 @@
+@custom-media --medium-viewport (min-width: 30em);
+
+.root {
+  lost-center: 1140px 30px;
+  padding-top: 30px;
+}
+
+.auth-card {
+  padding: 2em;
+  text-align: center;
+  margin-bottom: -150px;
+  lost-column: 3/3;
+
+  @media (--medium-viewport) {
+    lost-column: 2/3;
+    lost-offset: -1/6;
+  }
+
+}
+
+.auth-card__footer {
+  width: 100%;
+  height: 40px;
+}

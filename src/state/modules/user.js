@@ -1,24 +1,23 @@
-/* @flow */
-
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import cookie from 'react-cookie';
-
+import browserHistory from 'react-router/lib/browserHistory';
+import fetch from '../../core/fetch';
 import { API_BASE } from '../../config/api';
 
 /**
  * LOGIN ACTIONS
  */
-export const LOGIN_USER_REQUEST:string = 'LOGIN_USER_REQUEST';
-export const LOGIN_USER_SUCCESS:string = 'LOGIN_USER_SUCCESS';
-export const LOGIN_USER_FAIL:string = 'LOGIN_USER_FAIL';
+export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
+export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
 
 const beginLogin = () => {
   return { type: LOGIN_USER_REQUEST };
 };
 // Login Success
-export function loginSuccess(response:Object) {
+export function loginSuccess(response) {
   cookie.save('boldr:jwt', response.body.token, { path: '/' });
   // localStorage.setItem('boldr:jwt', response.body.token);
   const decoded = decode(response.body.token);
@@ -29,15 +28,15 @@ export function loginSuccess(response:Object) {
   };
 }
 // Login Error
-export function loginError(err:string) {
+export function loginError(err) {
   return {
     type: LOGIN_USER_FAIL,
     error: err
   };
 }
 // Login Action
-export function manualLogin(data:Object) {
-  return (dispatch:Function) => {
+export function manualLogin(data) {
+  return (dispatch) => {
     dispatch(beginLogin());
     return request
       .post(`${API_BASE}/auth/login`)
@@ -55,31 +54,31 @@ export function manualLogin(data:Object) {
 /**
  * SIGNUP ACTIONS
  */
-export const SIGNUP_USER_REQUEST:string = 'SIGNUP_USER';
-export const SIGNUP_USER_SUCCESS:string = 'SIGNUP_USER_SUCCESS';
-export const SIGNUP_USER_FAIL:string = 'SIGNUP_USER_FAIL';
+export const SIGNUP_USER_REQUEST = 'SIGNUP_USER';
+export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS';
+export const SIGNUP_USER_FAIL = 'SIGNUP_USER_FAIL';
 
 // Signup
 const beginSignUp = () => {
   return { type: SIGNUP_USER_REQUEST };
 };
 // Signup Success
-export function signUpSuccess(response:Object) {
+export function signUpSuccess(response) {
   return {
     type: SIGNUP_USER_SUCCESS,
     payload: response
   };
 }
 // Signup Error
-export function signUpError(err:string) {
+export function signUpError(err) {
   return {
     type: SIGNUP_USER_FAIL,
     message: err
   };
 }
 // Signup Action
-export function signUp(data:Object) {
-  return (dispatch:Function) => {
+export function signUp(data) {
+  return (dispatch) => {
     dispatch(beginSignUp());
 
     return request
@@ -102,9 +101,9 @@ export function signUp(data:Object) {
 /**
  * LOGOUT ACTIONS
  */
-export const LOGOUT_USER:string = 'LOGOUT_USER';
-export const LOGOUT_USER_SUCCESS:string = 'LOGOUT_USER_SUCCESS';
-export const LOGOUT_USER_FAIL:string = 'LOGOUT_USER_FAIL';
+export const LOGOUT_USER = 'LOGOUT_USER';
+export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
+export const LOGOUT_USER_FAIL = 'LOGOUT_USER_FAIL';
 
 const beginLogout = () => {
   return { type: LOGOUT_USER };
@@ -120,15 +119,10 @@ export function logoutError() {
 
 // Logout Action
 export function logOut() {
-  return (dispatch:Function) => {
-    dispatch(beginLogout());
-
-    return request
-      .post(`${API_BASE}/auth/logout`)
-      .send({})
-      .then(response => {
-        dispatch(logoutSuccess());
-      });
+  cookie.remove('token');
+  browserHistory.push('/');
+  return {
+    type: 'LOGOUT_USER_SUCCESS'
   };
 }
 
@@ -165,7 +159,7 @@ function checkTokenValidityFailure(error) {
 
 export function checkTokenValidity() {
   const token = cookie.load('boldr:jwt');
-  return (dispatch:Function) => {
+  return (dispatch) => {
     if (!token || token === '') { return; }
     dispatch(checkTokenValidityRequest());
     request
@@ -181,21 +175,87 @@ export function checkTokenValidity() {
   };
 }
 
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
 
+export function forgotPassword(email) {
+  return (dispatch) => {
+    dispatch({
+      type: 'FORGOT_PASSWORD_REQUEST'
+    });
+    return fetch(`${API_BASE}/auth/forgot`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    }).then((response) => {
+      if (response.ok) {
+        return response.json().then((json) => {
+          dispatch({
+            type: 'FORGOT_PASSWORD_SUCCESS',
+            messages: [json]
+          });
+        });
+      } else {
+        return response.json().then((json) => {
+          dispatch({
+            type: 'FORGOT_PASSWORD_FAIL',
+            messages: Array.isArray(json) ? json : [json]
+          });
+        });
+      }
+    });
+  };
+}
+
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_FAIL = 'RESET_PASSWORD_FAIL';
+
+export function resetPassword(password, confirm, pathToken) {
+  return (dispatch) => {
+    dispatch({
+      type: 'RESET_PASSWORD_REQUEST'
+    });
+    return fetch(`${API_BASE}/auth/reset/${pathToken}`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        password
+      })
+    }).then((response) => {
+      if (response.ok) {
+        return response.json().then((json) => {
+          browserHistory.push('/login');
+          dispatch({
+            type: 'RESET_PASSWORD_SUCCESS',
+            messages: [json]
+          });
+        });
+      } else {
+        return response.json().then((json) => {
+          dispatch({
+            type: 'RESET_PASSWORD_FAIL',
+            messages: Array.isArray(json) ? json : [json]
+          });
+        });
+      }
+    });
+  };
+}
 /**
  * INITIAL STATE
  */
 export const INITIAL_USER_STATE = {
   isLoading: false,
   authenticated: false,
-  users: [],
-  currentUser: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    role: '',
-    token: undefined
-  }
+  firstName: '',
+  lastName: '',
+  displayName: '',
+  email: '',
+  role: '',
+  token: undefined,
+  hydrated: false
 };
 
 /**
@@ -203,7 +263,10 @@ export const INITIAL_USER_STATE = {
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
-export default function user(state:Object = INITIAL_USER_STATE, action:Object = {}) {
+export default function user(state = INITIAL_USER_STATE, action = {}) {
+  if (!state.hydrated) {
+    state = Object.assign({}, INITIAL_USER_STATE, state, { hydrated: true });
+  }
   switch (action.type) {
     case LOGIN_USER_REQUEST:
       return Object.assign({}, state, {
@@ -213,10 +276,7 @@ export default function user(state:Object = INITIAL_USER_STATE, action:Object = 
       return Object.assign({}, state, {
         isLoading: false,
         authenticated: true,
-        currentUser: {
-          token: action.payload,
-          role: action.role
-        }
+        token: action.payload
       });
     case LOGIN_USER_FAIL:
       return Object.assign({}, state, {
@@ -232,21 +292,17 @@ export default function user(state:Object = INITIAL_USER_STATE, action:Object = 
       return Object.assign({}, state, {
         isLoading: false,
         authenticated: true,
-        currentUser: {
-          token: action.token,
-          role: action.role,
-          firstName: action.firstName,
-          lastName: action.lastName,
-          email: action.email
-        }
+        token: action.token,
+        role: action.role,
+        firstName: action.firstName,
+        lastName: action.lastName,
+        email: action.email
       });
     case CHECK_TOKEN_VALIDITY_FAIL:
       return Object.assign({}, state, {
         isLoading: false,
         authenticated: false,
-        currentUser: {
-          token: ''
-        }
+        token: ''
       });
     case SIGNUP_USER_REQUEST:
       return Object.assign({}, state, {

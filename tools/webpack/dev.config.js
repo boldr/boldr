@@ -4,25 +4,19 @@ require('babel-polyfill');
 // Webpack config for development
 const path = require('path');
 const webpack = require('webpack');
+const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
 
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const assetsPath = path.resolve(__dirname, '../../static/dist');
 const host = (process.env.HOST || 'localhost');
 const port = (+process.env.PORT + 1) || 3001;
 
-const cssChunkNaming = '[name]__[local]___[hash:base64:5]';
-
-const cssLoader = [
-  'css?modules',
-  'sourceMap',
-  'importLoaders=2',
-  `localIdentName=${cssChunkNaming}`
-].join('&');
 const postCSSConfig = function() {
   return [
     require('postcss-import')({
@@ -35,6 +29,9 @@ const postCSSConfig = function() {
     require('postcss-simple-vars')(),
     // Unwrap nested rules like how Sass does it
     require('postcss-nested')(),
+    require('postcss-custom-media')(),
+    require('postcss-media-minmax')(),
+    require('lost')(),
     //  parse CSS and add vendor prefixes to CSS rules
     require('autoprefixer')({
       browsers: ['last 2 versions', 'IE > 8']
@@ -82,7 +79,8 @@ const webpackConfig = module.exports = {
   },
   module: {
     loaders: [
-      {
+      createSourceLoader({
+        happy: { id: 'jsx' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules|\.git/,
@@ -98,20 +96,22 @@ const webpackConfig = module.exports = {
             'react-hot-loader/babel'
           ]
         }
-      },
+      }),
       {
         test: /\.json$/,
         loader: 'json-loader'
       },
 
-      {
+      createSourceLoader({
+        happy: { id: 'sass' },
         test: /\.scss$/,
         loader: 'style!css!postcss!sass'
-      },
-      {
+      }),
+      createSourceLoader({
+        happy: { id: 'css' },
         test: /\.css$/,
-        loader: 'style!css!postcss'
-      },
+        loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
+      }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
@@ -131,7 +131,9 @@ const webpackConfig = module.exports = {
       src: path.join(ROOT_DIR, 'src'),
       state: path.resolve(ROOT_DIR, 'src/state'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
-      server: path.join(ROOT_DIR, 'server')
+      core: path.resolve(ROOT_DIR, 'src/core'),
+      api: path.resolve(ROOT_DIR, 'src/api'),
+      db: path.resolve(ROOT_DIR, 'src/db')
     }
   },
   postcss: postCSSConfig,
@@ -155,7 +157,10 @@ const webpackConfig = module.exports = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true
     }),
-    webpackIsomorphicToolsPlugin.development()
+    webpackIsomorphicToolsPlugin.development(),
+    createHappyPlugin('jsx'),
+    createHappyPlugin('sass'),
+    createHappyPlugin('css')
   ]
 };
 
@@ -167,5 +172,20 @@ function createSourceLoader(spec) {
     return x;
   }, {
     include: [path.resolve(ROOT_DIR, 'src')]
+  });
+}
+function createHappyPlugin(id) {
+  return new HappyPack({
+    id,
+    threadPool: happyThreadPool,
+
+    // disable happypack with HAPPY=0
+    enabled: true,
+
+    // disable happypack caching with HAPPY_CACHE=0
+    cache: true,
+
+    // make happypack more verbose with HAPPY_VERBOSE=1
+    verbose: true
   });
 }

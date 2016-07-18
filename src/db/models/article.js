@@ -28,11 +28,17 @@ const Article = Model.define('article', {
     defaultValue: DataTypes.UUIDV4
   },
   title: {
-    type: DataTypes.STRING(256),
-    allowNull: false
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: {
+        args: [5, 150],
+        msg: 'Please enter at title with at least 5 chars but no more than 150'
+      }
+    }
   },
   slug: {
-    type: DataTypes.STRING(256),
+    type: DataTypes.STRING(150),
     allowNull: false,
     unique: true
   },
@@ -42,7 +48,8 @@ const Article = Model.define('article', {
   },
   content: {
     type: DataTypes.TEXT,
-    defaultValue: ''
+    defaultValue: '',
+    allowNull: false
   },
   excerpt: {
     type: DataTypes.TEXT,

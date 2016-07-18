@@ -1,33 +1,39 @@
+import { Router } from 'express';
 import passport from 'passport';
 import { isAuthenticated } from '../../auth/authService';
 import * as ctrl from './auth.controller';
 
-export default (app, router) => {
-  router.post('/auth/login', ctrl.login);
-  router.post('/auth/signup', ctrl.signUp);
-  router.post('/auth/logout', ctrl.logout);
-  router.get('/auth/check', isAuthenticated(), ctrl.checkUser);
-  router.get('/auth/google', passport.authenticate('google', {
-    scope: [
-      'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/userinfo.email'
-    ]
-  }));
+const router = Router();
 
-  router.get('/auth/google/callback',
-    passport.authenticate('google', {
-      successRedirect: '/',
-      failureRedirect: '/auth/login'
-    })
-  );
-  router.get('/auth/facebook', passport.authenticate('facebook', {
-    scope: ['email']
-  }));
-  router.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-      successRedirect: '/',
-      failureRedirect: '/auth/login'
-    })
-  );
-  // router.post('/auth/verify-email', ctrl.verifyEmail);
-};
+router.post('/login', ctrl.login);
+router.post('/signup', ctrl.signUp);
+router.post('/logout', ctrl.logout);
+router.post('/forgot', ctrl.forgottenPassword);
+router.post('/reset/:token', ctrl.resetPassword);
+
+router.route('/check')
+  .get(isAuthenticated(), ctrl.checkUser);
+
+router.get('/google', passport.authenticate('google', {
+  scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
+}));
+
+router.get('/google/callback', passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/auth/login'
+}));
+
+router.get('/facebook', passport.authenticate('facebook', {
+  scope: ['email']
+}));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
+export default router;

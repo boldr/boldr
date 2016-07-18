@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
-
-import { Col, Row, Container } from 'components/index';
+import classNames from 'classnames/bind';
+import cxN from 'classnames';
 import { loadBoldrSettings, saveBoldrSetup } from 'state/modules/boldr';
 import SetupForm from '../atm.SetupForm';
+import styles from './Setup.css'
 
-@provideHooks({
-  fetch: ({ dispatch }) => dispatch(loadBoldrSettings())
-})
+const cx = styles::classNames;
+
 class Setup extends Component {
   handleSubmit(values) {
     this.props.dispatch(saveBoldrSetup(values));
@@ -25,13 +26,20 @@ class Setup extends Component {
             <ToolbarTitle text="Setup" style={ { color: 'rgba(237, 237, 237, 1)' } } />
           </ToolbarGroup>
         </Toolbar>
-        <Row>
+        <section className={ cx('root') }>
+          <Paper style={ { padding: '1em' } }>
           <SetupForm onSubmit={ ::this.handleSubmit } />
-        </Row>
+          </Paper>
+        </section>
       </div>
     );
   }
 }
+
+Setup.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
+
 const mapStateToProps = (state, ownProps) => {
   return {
     boldr: state.boldr,

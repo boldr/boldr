@@ -1,25 +1,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import Checkbox from 'material-ui/Checkbox';
-import { RadioButton } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import Paper from 'material-ui/Paper';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import { loadBoldrSettings, saveBoldrSetup } from 'state/modules/boldr';
+import GeneralTab from '../components/atm.GeneralTab';
+
+const iconButtonElement = (
+  <IconButton
+    touch
+    tooltip="more"
+  >
+    <MoreVertIcon />
+  </IconButton>
+);
+
+const rightIconMenu = (
+  <IconMenu iconButtonElement={ iconButtonElement }>
+    <MenuItem>View</MenuItem>
+    <MenuItem>Modify</MenuItem>
+  </IconMenu>
+);
+
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(loadBoldrSettings())
 })
 class Settings extends Component {
+  state = {
+    open: false
+  };
 
   render() {
     return (
       <div>
-        { this.props.boldr.siteName }
-        { this.props.boldr.logo }
-        { this.props.boldr.favicon }
-        { this.props.boldr.description }
-        { this.props.boldr.siteUrl }
-        { this.props.boldr.allowRegistration }
+      <Paper>
+        <Tabs>
+            <Tab label="General">
+              <div>
+              <GeneralTab settings={ this.props.boldr } />
+
+              </div>
+            </Tab>
+            <Tab label="Soon">
+              <div>
+                <p>
+                  This is empty
+                </p>
+              </div>
+            </Tab>
+            <Tab label="Soon">
+              <div>
+                <p>
+                  This is empty
+                </p>
+              </div>
+            </Tab>
+          </Tabs>
+          </Paper>
       </div>
     );
   }

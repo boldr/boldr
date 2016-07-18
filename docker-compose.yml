@@ -26,7 +26,7 @@ services:
   #     - db
   db:
     container_name: ${PROJECT_ID}-postgres
-    build: tools/docker/postgres
+    image: strues/postgres
     environment:
       - POSTGRES_PASSWORD=password
     ports:
@@ -39,7 +39,7 @@ services:
       - dbstore
 
   redis:
-    image: redis:3-alpine
+    image: strues/redis
     container_name: ${PROJECT_ID}-redis
     ports:
       - "6379:6379"

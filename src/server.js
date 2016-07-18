@@ -1,4 +1,3 @@
-/* @flow */
 import http from 'http';
 import _debug from 'debug';
 import express from 'express';
@@ -42,12 +41,19 @@ middleware(app);
 debug('auth middleware');
 authMiddleware();
 debug('routes');
-routes(app, router);
+app.use('/api/v1', routes);
 app.use(responseHandler());
+
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
   }
+  const initialState = {
+    user: {
+      token: req.cookies.boldrToken
+    }
+  };
+
 
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
@@ -66,9 +72,9 @@ app.use((req, res) => {
 
   match({
     history,
-    routes: getRoutes(store),
+    routes: getRoutes(store, client),
     location: req.originalUrl
-  }, (error, redirectLocation, renderProps) => {
+  }, (error, redirectLocation, renderProps, ...args) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
@@ -83,10 +89,6 @@ app.use((req, res) => {
         query: renderProps.location.query,
         params: renderProps.params,
         location: renderProps.location,
-        store,
-        helpers: {
-          client
-        },
         dispatch
       };
 
@@ -187,4 +189,5 @@ function onListening() {
     ? `pipe ${addr}`
     : `pipe ${addr.port}`;
 }
-export default { app, server };
+export default { app };
+exports = module.exports = server;

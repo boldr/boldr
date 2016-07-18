@@ -1,23 +1,20 @@
-/* @flow */
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Card, CardHeader } from 'material-ui/Card';
 import { Link } from 'react-router';
+import classNames from 'classnames/bind';
+import cxN from 'classnames';
+import { Heading } from 'components/index';
 import { manualLogin } from 'state/modules/user';
-import { Col, Row, Container } from 'components/index';
 import LoginForm from './components/atm.LoginForm';
+import SocialLogin from './components/atm.SocialLogin';
+import styles from './Auth.css';
 
-type Props = {
-  user: Object,
-  manualLogin: Function,
-  handleOnSubmit: Function
-};
+const cx = styles::classNames;
 
 class Login extends Component {
-
-  props: Props;
 
   handleOnSubmit(values) {
     const { manualLogin } = this.props;
@@ -26,11 +23,7 @@ class Login extends Component {
   renderHeader() {
     return (
       <div>
-        <CardHeader
-          title="Log in"
-          actAsExpander={ false }
-          showExpandableButton={ false }
-        />
+        <Heading size={ 1 }>Log in</Heading>
         <div>
           Not what you want?
           <Link to="/signup"> Register an Account</Link>
@@ -43,28 +36,31 @@ class Login extends Component {
     const { isLoading, message } = this.props.user;
 
     return (
-        <Container fluid>
+        <div style={{ backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px'}}>
           <Helmet title="Login" />
-          <Row>
+          <section className={ cx('root') }>
 
-            <Card className="auth-login__card">
-              <Col sm="12" md={ { size: 4, offset: 4 } }>
+            <Card className={ cx('auth-card') }>
+
                 { this.renderHeader() }
                 <div>
                   <p>{ message }</p>
                   <LoginForm onSubmit={ ::this.handleOnSubmit } />
-
-                  <a href="http://localhost:8000/api/v1/auth/facebook">Login with Facebook</a>
+                  <div className={ cx('auth-card__footer') }>
+                    <SocialLogin />
+                  </div>
                 </div>
-              </Col>
               </Card>
-
-          </Row>
-        </Container>
+            </section>
+        </div>
     );
   }
 }
-
+Login.propTypes = {
+  user: PropTypes.object,
+  manualLogin: PropTypes.func,
+  handleOnSubmit: PropTypes.func
+};
 function mapStateToProps({ user }) {
   return {
     user

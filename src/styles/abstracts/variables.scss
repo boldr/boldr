@@ -57,3 +57,6 @@ $enable-flex: false;
 $grid-columns: 12;
 $grid-gutter-width: 30px;
 $enable-grid-classes: true;
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-xs-max: ($screen-sm-min - 1);

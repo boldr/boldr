@@ -1,5 +1,6 @@
 import request from 'superagent';
 import cookie from 'react-cookie';
+import { push } from 'react-router-redux';
 import { API_BASE } from '../../config/api';
 
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
@@ -58,6 +59,7 @@ export function loadBoldrSettings(data) {
       })
       .catch(err => {
         dispatch(failedToLoadSettings(err));
+        dispatch(push('/dashboard/setup'));
       });
   };
 }

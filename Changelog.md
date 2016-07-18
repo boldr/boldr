@@ -1,12 +1,24 @@
+### 0.3.5
+> 7/17/2016
+
+- **Bug Fix:** Menu in the dashboard provides popover menu for sections with more than one route. At the moment this mainly affects the articles area. You can now choose to go directly to the editor.
+- **Bug Fix:** Entering the dashboard settings area redirects to the setup screen if there are not any settings for the site. This may or may not stick around because building customizable components that take their data from the settings would make more sense to preload the data from defaults in the database.  
+- **Bug Fix:** Creating an article with tags is now working.
+- **Minor Bug:** At the moment tag names are saving as their current index in the array. This will be resolved shortly.
+- **Bug Fix:**  Blog page now renders content from article posts. More to come with this later.
+- **Feature:** There is some route restrictions put in place to restrict certain areas like the dashboard from unauthenticated / non-admin users. Hopefully expanding upon this permission system at a later date.
+- **Feature:** Reset and Forgot password functionality has been built out and is working.
+
+
 ### 0.3.0
 > 7/14/2016
+
 - **Feature:** Created a DAO to allow for easier bootstrapping of models and their controller counterparts.
 - **Maintenance:** The server and client-side are now more tightly coupled together.
 - **Yeah:** More in the morning because its late...
 
 ### 0.2.0
 > 7/03/2016  
-
 
 [-] **Setup and Settings**  Added a setup within the dashboard for settings and site customization. This is the first step in the process of loading / preloading various customizations before sending them down to the browser. At the moment the setup *wizard* contains the basic info like Website name, URL, etc... Additionally, a database creation script was made and an admin user is created if the database is empty the first time Boldr runs.
 

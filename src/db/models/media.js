@@ -1,8 +1,8 @@
 import DataTypes from 'sequelize';
 import uuid from 'node-uuid';
 import Model from '../sequelize';
-import User from './User';
-import Category from './Category';
+import User from './user';
+import Category from './category';
 
 /**
  * Creates a UUID for the User if it's not given.
