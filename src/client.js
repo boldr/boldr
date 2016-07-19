@@ -39,7 +39,7 @@ const store = createStore(browserHistory, client, initialState);
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = createRoutes(store, history);
 
-const token = cookie.load('boldr:jwt') || undefined;
+const token = cookie.load('boldrToken') || undefined;
 if (token) {
   store.dispatch(checkTokenValidity());
 }

@@ -18,7 +18,7 @@ class BlogPost extends Component {
         </div>
 
         <div>
-          { this.props.user.displayName }
+          { this.props.displayName }
         </div>
       </div>
     );

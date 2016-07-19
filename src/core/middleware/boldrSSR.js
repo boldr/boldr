@@ -15,6 +15,7 @@ import createStore from '../redux/createStore';
 import ApiClient from '../../config/api/ApiClient';
 import Html from '../../components/tpl.Html';
 import getRoutes from '../../config/routes';
+import { checkTokenValidity } from '../../state/modules/user';
 
 export default (req, res) => {
   if (__DEVELOPMENT__) {
@@ -28,8 +29,10 @@ export default (req, res) => {
 
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
-  const store = createStore(memoryHistory, client);
+  const store = createStore(memoryHistory, client, initialState);
   const history = syncHistoryWithStore(memoryHistory, store);
+
+  store.dispatch(checkTokenValidity(req.cookies.boldrToken));
 
   function hydrateOnClient() {
     res.send('<!doctype html>\n' + // eslint-disable-line
@@ -41,11 +44,8 @@ export default (req, res) => {
     return;
   }
 
-  match({
-    history,
-    routes: getRoutes(store, client),
-    location: req.originalUrl
-  }, (error, redirectLocation, renderProps, ...args) => {
+  match({ history, routes: getRoutes(store, client), location: req.originalUrl },
+  (error, redirectLocation, renderProps, ...args) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {

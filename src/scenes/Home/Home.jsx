@@ -13,9 +13,11 @@ const Home = () => {
     <Helmet title="Home" />
 
     <Hero />
+    <div>
     <section className={ cx('root') }>
       <Heading size={ 1 }>Welcome to the Home. Stay tuned...</Heading>
     </section>
+    </div>
   </div>
 );
 };

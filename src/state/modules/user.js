@@ -158,7 +158,7 @@ function checkTokenValidityFailure(error) {
 }
 
 export function checkTokenValidity() {
-  const token = cookie.load('boldr:jwt');
+  const token = cookie.load('boldrToken');
   return (dispatch) => {
     if (!token || token === '') { return; }
     dispatch(checkTokenValidityRequest());
@@ -170,7 +170,7 @@ export function checkTokenValidity() {
     })
     .catch(() => {
       dispatch(checkTokenValidityFailure('Token is invalid'));
-      cookie.remove('boldr:jwt');
+      cookie.remove('boldrToken');
     });
   };
 }

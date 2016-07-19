@@ -91,7 +91,6 @@ const webpackConfig = module.exports = {
           plugins: [
             'transform-decorators-legacy',
             'transform-runtime',
-            'transform-flow-strip-types',
             'lodash',
             'react-hot-loader/babel'
           ]

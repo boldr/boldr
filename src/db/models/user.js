@@ -182,7 +182,7 @@ const User = Model.define('user', {
       };
     },
     isAdmin() {
-      return this.isValid() && this.type === type.ADMIN;
+      return this.type === type.ADMIN;
     }
   },
   hooks: {
