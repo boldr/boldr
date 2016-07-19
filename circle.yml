@@ -36,6 +36,6 @@ test:
     - npm run migrate
     - npm run test
 
-    post:
+  post:
     # Clean up old image and save the new one
     - mkdir -p ~/cache/docker; test '!' -e ~/cache/docker/image.tar || rm ~/cache/docker/image.tar; docker save boldr/test > ~/cache/docker/image.tar; ls -l ~/cache/docker
