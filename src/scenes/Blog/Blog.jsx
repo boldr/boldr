@@ -13,9 +13,9 @@ class Blog extends Component {
     this.createArticleCollection = (articleCollection) => this._createArticleCollection(articleCollection);
   }
 
-  _createArticleCollection(articleList) {
+  _createArticleCollection(articles) {
     const articleCollection = [];
-    for (let article of articleList) { // eslint-disable-line
+    for (let article of articles) { // eslint-disable-line
       articleCollection.push(
         <div key={ article.id }>
           <BlogPost { ...article } />
@@ -25,7 +25,7 @@ class Blog extends Component {
     return articleCollection;
   }
   render() {
-    let articleCollection = this.createArticleCollection(this.props.article.articleList);
+    let articleCollection = this.createArticleCollection(this.props.article.articles);
     return (
       <div>
         Blog

@@ -1,0 +1,11 @@
+.articleList {
+  lost-utility: clearfix;
+}
+
+.articleList__wrap {
+  lost-column: 1/3 0;
+}
+
+.articleList__preview {
+  lost-column: 2/3 0;
+}

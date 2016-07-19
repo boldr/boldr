@@ -18,12 +18,7 @@ describe('Article reducer', () => {
   const initialState = {
     isLoading: false,
     error: undefined,
-    articles: [],
-    articleList: [
-      {
-        title: ''
-      }
-    ]
+    articles: []
   };
 
   it('should return the initial state', () => {

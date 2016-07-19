@@ -229,3 +229,31 @@ export const updateArticleBySlug = (req, res, next) => {
     .catch(handleError(res));
   });
 };
+
+export const deleteArticleById = (req, res, next) => {
+  const articleId = req.params.articleId;
+  return Article.findById(articleId).then(article => {
+    if (!article) {
+      return Boom.notFound(article);
+    }
+    article.destroy()
+    .then(() => {
+      res.status(204).send({ error: false });
+    })
+    .catch(handleError(res));
+  });
+};
+
+export const deleteArticleBySlug = (req, res, next) => {
+  const slug = req.params.slug;
+  return Article.findBySlug(slug).then(article => {
+    if (!article) {
+      return Boom.notFound(article);
+    }
+    article.destroy()
+    .then(() => {
+      res.status(204).send({ error: false });
+    })
+    .catch(handleError(res));
+  });
+};

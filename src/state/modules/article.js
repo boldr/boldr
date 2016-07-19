@@ -93,12 +93,7 @@ export function createArticle(articleData) {
 export const INITIAL_STATE = {
   isLoading: false,
   error: undefined,
-  articles: [],
-  articleList: [
-    {
-      title: ''
-    }
-  ]
+  articles: []
 };
 
 /**
@@ -115,8 +110,7 @@ export default function article(state = INITIAL_STATE, action = {}) {
     case FETCH_ARTICLES_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        articleList: action.result,
-        articles: action.payload
+        articles: action.result
       });
     case FETCH_ARTICLES_FAIL:
       return Object.assign({}, state, {

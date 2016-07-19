@@ -15,7 +15,6 @@ import Signup from 'scenes/Auth/Signup';
 import DashboardLayout from 'scenes/Dashboard/components/tpl.DashboardLayout';
 import Dashboard from 'scenes/Dashboard/Dashboard';
 import Articles from 'scenes/Dashboard/Articles';
-import ArticlesList from 'scenes/Dashboard/components/pg.ArticleList';
 import ArticleEditor from 'scenes/Dashboard/components/pg.ArticleEditor';
 import Collections from 'scenes/Dashboard/Collections';
 import Users from 'scenes/Dashboard/Users';
@@ -44,12 +43,11 @@ export default (store) => {
         <Route path="forgot" component={ Forgot } onEnter={ skipIfAuthenticated } />
         <Route path="reset/:token" component={ Reset } onEnter={ skipIfAuthenticated } />
         <Route path="profile" onEnter={ ensureAuthenticated } component={ Profile } />
-        <Route path="signup" component={ Signup } />
+        <Route path="signup" onEnter={ skipIfAuthenticated } component={ Signup } />
         <Route path="/dashboard" onEnter={ ensureAuthenticated } component={ DashboardLayout }>
           <IndexRoute component={ Dashboard } />
           <Route path="articles" component={ Articles }>
-            <IndexRoute component={ ArticlesList } />
-            <Route path="editor" component={ ArticleEditor } />
+            <Route path="editor(/:slug)" component={ ArticleEditor } />
           </Route>
           <Route path="collections" component={ Collections } />
           <Route path="media" component={ Media } />
