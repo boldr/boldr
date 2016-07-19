@@ -3,7 +3,7 @@
 
   "plugins": [["transform-runtime", {
     "polyfill": false
-    }], "transform-decorators-legacy", "lodash"],
+    }], "transform-decorators-legacy"],
 
   "env": {
     "development": {

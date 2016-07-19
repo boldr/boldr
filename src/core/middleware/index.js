@@ -7,9 +7,9 @@ import flash from 'express-flash';
 import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressJwt from 'express-jwt';
-import hpp from 'hpp';
 import cors from 'cors';
 import morgan from 'morgan';
+
 import compression from 'compression';
 import { session as dbSession } from '../../db';
 import config from '../../config/boldr';
@@ -23,7 +23,6 @@ export default (app, io) => {
   app.use(compression());
   app.use(morgan('dev', { stream: logger.stream }));
   app.use(cookieParser());
-  app.use(hpp());
   app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));

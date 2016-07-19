@@ -1,7 +1,8 @@
 import _debug from 'debug';
+import errorHandler from 'errorhandler';
 import express from 'express';
 import {
-  middleware, boldrSSR, logger, serverError, errorHandler, responseHandler
+  middleware, boldrSSR, logger, serverError
 } from './core';
 import config from './config/boldr';
 import authMiddleware from './auth';
@@ -20,11 +21,9 @@ debug('auth middleware');
 authMiddleware();
 debug('routes');
 app.use('/api/v1', routes);
-app.use(responseHandler());
 
 // Server-side rendering
 app.use(boldrSSR);
 // Handle our errors.
-app.use(errorHandler());
-
+app.use(errorHandler);
 export default app;

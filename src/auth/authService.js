@@ -21,6 +21,9 @@ function isAuthenticated() {
     if (req.query && req.query.hasOwnProperty('access_token')) {
       req.headers.authorization = `Bearer ${req.query.access_token}`;
     }
+    if (req.query && req.cookies.hasOwnProperty('boldrToken')) {
+      req.headers.authorization = `Bearer ${req.cookies.boldrToken}`;
+    }
     validateJwt(req, res, next);
   })
   // Attach user to request
@@ -31,11 +34,11 @@ function isAuthenticated() {
       }
     }).then(user => {
       if (!user) {
-        return res.status(401).end();
+        res.status(401).end();
       }
       req.user = user;
       next();
-    }).catch(err => next(err));
+    });
   });
 }
 const userRoles = ['user', 'staff', 'admin'];

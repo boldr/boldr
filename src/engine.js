@@ -1,9 +1,8 @@
 import http from 'http';
-import Debug from 'debug';
 import app from './server';
 import models from './db/models';
 
-const debug = Debug(process.env.PROJECT_ID || 'boldr');
+const debug = require('debug')('boldr:engine');
 
 /**
  * Normalize a port into a number, string, or false.

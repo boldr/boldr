@@ -100,7 +100,9 @@ const Article = Model.define('article', {
     },
     shortDescription() {
       return this.content.length > 30 ? `${this.content.substr(0, 30)}...` : this.content;
-    },
+    }
+  },
+  classMethods: {
     getArticles(args) {
       const { limit = 10, skip = 0 } = args;
       return this.findAll({
@@ -110,6 +112,15 @@ const Article = Model.define('article', {
         limit,
         offset: skip
       });
+    },
+    findBySlug(slug) {
+      return this.findOne({ where: { slug } });
+    },
+    findByAuthor(authorId) {
+      return this.findAll({ where: { authorId } });
+    },
+    findById(articleId) {
+      return this.findAll({ where: { id: articleId } });
     }
   }
 });

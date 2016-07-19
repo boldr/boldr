@@ -2,7 +2,7 @@ machine:
   node:
     version: 6
   timezone:
-    America/Denver
+    - America/Denver
   services:
     - redis
 

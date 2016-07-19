@@ -1,5 +1,7 @@
 import Boom from 'boom';
 
+const debug = require('debug')('boldr:helpers');
+
 function processQuery(req, res, next) {
   function getPagination(page) {
     page = page ? page : {};
@@ -35,6 +37,7 @@ function respondWithResult(res, statusCode) {
 }
 
 function saveUpdates(updates) {
+  debug('saveUpdates', updates);
   return function(entity) {
     return entity.updateAttributes(updates)
       .then(updated => {
@@ -67,6 +70,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
+    debug(err);
     res.status(statusCode).send(err);
   };
 }

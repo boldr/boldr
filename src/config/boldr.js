@@ -308,7 +308,10 @@ const conf = convict({
 });
 
 // Load environment dependent configuration
-const env = conf.get('env');
+let env = conf.get('env');
+if (env === 'debug') {
+  env = 'development';
+}
 conf.loadFile(path.normalize(`${__dirname}/${env}.json`));
 
 // Perform validation
