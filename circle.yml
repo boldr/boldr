@@ -2,7 +2,7 @@ machine:
   node:
     version: 6
   timezone:
-    - America/Denver
+    America/Denver
   services:
     - redis
 
@@ -11,7 +11,7 @@ machine:
     DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
     DB_NAME: circle_test
     DB_USER: ubuntu
-    DB_PASSWORD: 
+    DB_PASSWORD:
     SERVER_PORT: 8000
 
 dependencies:
