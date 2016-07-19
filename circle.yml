@@ -32,7 +32,7 @@ dependencies:
 test:
   override:
     - docker run -d --name db -e POSTGRES_PASSWORD=password --net host boldr/test
-    - docker run -d --name redis --net host strues/redis
+    - docker run -d --name boldr_redis --net host strues/redis
     - npm run migrate
     - npm run test
 
