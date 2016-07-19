@@ -1,7 +1,7 @@
 {
   "env": "testing",
   "db": {
-    "name": "boldr_testing",
+    "name": "postgres",
     "user": "postgres",
     "password": "password",
     "port": 5432,
