@@ -29,14 +29,19 @@ export const VENDOR_PREFIXES = [
 export const VENDOR = [
   'react',
   'react-dom',
-  'react-router',
   'redux',
-  'react-redux',
+  'react-router',
   'react-router-redux',
-  'react-helmet',
+  'react-redux',
+  'superagent',
   'redux-thunk',
+  'redux-form',
+  'material-ui',
+  'react-tap-event-plugin',
   'redial',
-  'superagent'
+  'react-router-scroll',
+  'webfontloader',
+  'react-cookie'
 ];
 export const NODE_MODULES_DIR = constants.NODE_MODULES_DIR;
 export const BUILD_DIR = constants.BUILD_DIR;

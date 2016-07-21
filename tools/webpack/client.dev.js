@@ -4,12 +4,13 @@ import path from 'path';
 import Debug from 'debug';
 import webpack from 'webpack';
 import dotenv from 'dotenv';
+const HappyPack = require('happypack');
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 
 import { ROOT_DIR, SRC_DIR, WP_DS, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, BUILD_DIR } from '../constants';
 
 import isomorphicConfig from './isomorphic.config';
-
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 const debug = Debug('boldr:webpack:client');
 dotenv.config({ silent: true });
 
@@ -54,7 +55,7 @@ const postCSSConfig = function() {
 };
 const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${WP_DS}/__webpack_hmr`;
 debug('Webpack is reading the client configuration.');
-const clientDevConfig = {
+const clientDevConfig = module.exports = {
   target: 'web',
   node: {
     __dirname: true,
@@ -99,23 +100,29 @@ const clientDevConfig = {
   },
   module: {
     loaders: [
-      {
+      createSourceLoader({
+        happy: { id: 'jsx' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: NODE_MODULES_DIR,
         query: BABELQUERY
-      },
+      }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.scss$/, loader: 'style!css?sourceMap!postcss!sass?sourceMap' },
-      {
+      createSourceLoader({
+          happy: { id: 'sass' },
+          test: /\.scss$/,
+          loader: 'style!css?sourceMap!postcss!sass?sourceMap'
+      }),
+      createSourceLoader({
+        happy: { id: 'css' },
         test: /\.css$/,
         loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
-      }
+      })
     ]
   },
   postcss: postCSSConfig,
@@ -140,8 +147,33 @@ const clientDevConfig = {
     }),
     new webpack.NoErrorsPlugin(),
     webpackIsomorphicToolsPlugin.development(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    createHappyPlugin('jsx'),
+    createHappyPlugin('sass'),
+    createHappyPlugin('css')
   ]
 };
+function createSourceLoader(spec) {
+  return Object.keys(spec).reduce((x, key) => {
+    x[key] = spec[key];
 
-module.exports = clientDevConfig;
+    return x;
+  }, {
+    include: [path.resolve(ROOT_DIR, 'src')]
+  });
+}
+function createHappyPlugin(id) {
+  return new HappyPack({
+    id,
+    threadPool: happyThreadPool,
+
+    // disable happypack with HAPPY=0
+    enabled: true,
+
+    // disable happypack caching with HAPPY_CACHE=0
+    cache: true,
+
+    // make happypack more verbose with HAPPY_VERBOSE=1
+    verbose: true
+  });
+}
