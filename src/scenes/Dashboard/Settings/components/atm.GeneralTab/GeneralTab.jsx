@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
-import cxN from 'classnames';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
-import styles from './GeneralTab.css';
+import styles from './styles.css';
 
 const cx = styles::classNames;
 const GeneralTab = props => {

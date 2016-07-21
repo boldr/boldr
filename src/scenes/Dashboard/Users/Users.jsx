@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import UsersList from '../components/mol.UsersList';
+import UsersList from './components/mol.UsersList';
 import { loadSiteUsers } from './siteUsers.reducer';
 
 type Props = {

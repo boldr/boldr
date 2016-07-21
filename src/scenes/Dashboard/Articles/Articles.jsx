@@ -2,14 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { List, ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import Subheader from 'material-ui/Subheader';
-import Avatar from 'material-ui/Avatar';
 import classNames from 'classnames/bind';
-import cxN from 'classnames';
 import { fetchArticlesIfNeeded } from 'state/modules/article';
 import ArticleListItem from '../components/org.ArticleListItem';
-import styles from './Articles.css';
+import styles from './styles.css';
 
 const cx = styles::classNames;
 

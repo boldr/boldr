@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import MenuItem from 'material-ui/MenuItem';
-import { RadioButton } from 'material-ui/RadioButton';
 
 import SetupFormPage1 from './formPage1';
 import SetupFormPage2 from './formPage2';

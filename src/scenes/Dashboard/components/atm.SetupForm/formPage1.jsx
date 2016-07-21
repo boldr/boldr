@@ -3,11 +3,10 @@ import { reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import classNames from 'classnames/bind';
-import cxN from 'classnames';
-import RenderField from 'components/atm.RenderField';
+
 import Heading from 'components/atm.Heading';
 import BoldrLogo from 'components/atm.BoldrLogo';
-import styles from './SetupForm.css';
+import styles from './styles.css';
 
 const cx = styles::classNames;
 export const fields = ['siteName', 'siteUrl'];
