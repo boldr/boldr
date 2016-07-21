@@ -1,14 +1,10 @@
 import _debug from 'debug';
 import errorHandler from 'errorhandler';
 import express from 'express';
-import {
-  middleware, boldrSSR, logger, serverError
-} from './core';
-import config from './server/core/config/boldr';
 import authMiddleware from './auth';
 import routes from './api/routes';
 import models from './db/models';
-
+import { middleware, boldrSSR } from './core';
 const debug = _debug('boldr:server');
 // Create our express server.
 const app = express();

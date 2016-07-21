@@ -1,7 +1,7 @@
 const Express = require('express');
 const webpack = require('webpack');
 
-const config = require('../../src/config/boldr');
+const config = require('../../src/server/core/config/boldr');
 const webpackConfig = require('./dev.config');
 
 const compiler = webpack(webpackConfig);
