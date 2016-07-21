@@ -1,0 +1,19 @@
+{
+  "verbose": false,
+  "restartable": "rs",
+  "colours": true,
+  "ignore": [
+    "backup",
+    "docs",
+    "static",
+    "dist"
+  ],
+  "ext": "js json",
+  "env": {
+    "DEBUG":"boldr*"
+  },
+  "watch": [
+    "src/server/**/*.js",
+    "tools/**/*.js"
+  ]
+}

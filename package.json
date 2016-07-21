@@ -9,9 +9,10 @@
   },
   "scripts": {
     "build": "better-npm-run build",
-    "clean": "rimraf build static/dist",
-    "db:init": "./tools/scripts/db-init.sh",
-    "dev": "concurrently --kill-others \"npm run watch:client\" \"npm run start:dev\"",
+    "clean": "npm run clean:server && npm run clean:client",
+    "clean:client": "rimraf public/assets",
+    "clean:server": "rimraf server.js && rimraf server.js.map",
+    "dev": "better-npm-run dev",
     "lint": "eslint -c .eslintrc src",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "postinstall": "npm run build",
@@ -25,13 +26,23 @@
     "test:client": "better-npm-run test:client",
     "testdb:init": "./tools/scripts/testdb-init.sh",
     "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'",
-    "watch:client": "better-npm-run watch:client"
+    "watch:client": "better-npm-run watch:client",
+    "watch:server": "better-npm-run watch:server"
   },
   "betterScripts": {
     "build": {
       "command": "./node_modules/.bin/webpack --verbose --display-error-details --config tools/webpack/prod.config.js",
       "env": {
         "NODE_ENV": "production"
+      }
+    },
+    "dev": {
+      "command": "concurrently --kill-others \"better-npm-run watch:client\"  \"better-npm-run watch:server\"",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src",
+        "SERVER_PORT": 3000,
+        "WP_DS": 3001
       }
     },
     "start:prod": {
@@ -53,11 +64,21 @@
       }
     },
     "watch:client": {
-      "command": "node tools/webpack/webpack-dev-server.js",
+      "command": "babel-node tools/webpack/wp.dev.server.js",
       "env": {
-        "UV_THREADPOOL_SIZE": 100,
+        "NODE_ENV": "development",
         "NODE_PATH": "./src",
-        "PORT": 3000
+        "SERVER_PORT": 3000,
+        "WP_DS": 3001
+      }
+    },
+    "watch:server": {
+      "command": "node_modules/.bin/nodemon tools/scripts/server.js",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src",
+        "SERVER_PORT": 3000,
+        "WP_DS": 3001
       }
     },
     "test:api": {
@@ -182,6 +203,7 @@
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015-webpack": "^6.4.1",
     "babel-preset-react": "6.11.1",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-react-optimize": "^1.0.1",
@@ -197,7 +219,8 @@
     "eslint-config-boldr": "^1.0.2",
     "eslint-loader": "1.4.1",
     "expect": "^1.20.2",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta.3",
+    "fake-style-loader": "^1.0.1",
     "file-loader": "^0.9.0",
     "fs-extra": "^0.30.0",
     "happypack": "^2.1.1",
@@ -208,6 +231,7 @@
     "mocha": "^2.5.3",
     "nock": "^8.0.0",
     "node-sass": "^3.8.0",
+    "nodemon": "^1.9.2",
     "path": "0.12.7",
     "piping": "^1.0.0-rc.3",
     "postcss-custom-media": "^5.0.1",
@@ -233,7 +257,7 @@
     "supertest": "^1.2.0",
     "supertest-as-promised": "^3.2.0",
     "webfontloader": "^1.6.26",
-    "webpack": "^1.13.1",
+    "webpack": "^2.1.0-beta.19",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.1"
   }
