@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { List, ListItem } from 'material-ui/List';
 import classNames from 'classnames/bind';
-import { fetchArticlesIfNeeded } from 'state/modules/article';
+import { fetchArticlesIfNeeded } from './state/articleReducer';
 import ArticleListItem from '../components/org.ArticleListItem';
 import styles from './styles.css';
 

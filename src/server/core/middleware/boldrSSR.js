@@ -11,18 +11,18 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { logger } from '../../lib';
 import BoldrTheme from '../../../styles/theme';
-import createStore from '../../../core/redux/createStore';
-import ApiClient from '../../../config/api/ApiClient';
+import createStore from '../../../core/state/createStore';
+import ApiClient from '../../../core/api/ApiClient';
 import Html from '../../../components/tpl.Html';
 import getRoutes from '../../../scenes';
-import { checkTokenValidity } from '../../../state/modules/user';
+import { checkAuth } from '../../../core/state/authReducer';
 
 export default (req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
   }
   const initialState = {
-    user: {
+    auth: {
       token: req.cookies.boldrToken
     }
   };
@@ -32,7 +32,7 @@ export default (req, res) => {
   const store = createStore(memoryHistory, client, initialState);
   const history = syncHistoryWithStore(memoryHistory, store);
 
-  store.dispatch(checkTokenValidity(req.cookies.boldrToken));
+  store.dispatch(checkAuth(req.cookies.boldrToken));
 
   function hydrateOnClient() {
     res.send('<!doctype html>\n' + // eslint-disable-line

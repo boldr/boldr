@@ -9,7 +9,7 @@ class ProfileMain extends Component {
       <div>
         <Card>
           <CardHeader
-            title={ this.props.user.firstName }
+            title={ this.props.account.firstName }
             subtitle="Subtitle"
             avatar="http://lorempixel.com/100/100/nature/"
           />
@@ -28,7 +28,7 @@ class ProfileMain extends Component {
 
         <Card>
           <CardHeader
-            title={ this.props.user.firstName }
+            title={ this.props.account.firstName }
             subtitle="Subtitle"
             avatar="http://lorempixel.com/100/100/nature/"
           />

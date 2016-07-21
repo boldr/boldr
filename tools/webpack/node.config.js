@@ -71,7 +71,6 @@ const nodeConfig = { // eslint-disable-line
       react$: require.resolve(path.join(NODE_MODULES_DIR, 'react')),
       components: path.resolve(ROOT_DIR, 'src/components'),
       src: path.join(ROOT_DIR, 'src'),
-      state: path.resolve(ROOT_DIR, 'src/state'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
       core: path.resolve(ROOT_DIR, 'src/core'),
       api: path.resolve(ROOT_DIR, 'src/server/api'),

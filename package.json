@@ -144,6 +144,7 @@
     "express-session": "^1.14.0",
     "fbjs": "^0.8.3",
     "history": "^3.0.0",
+    "hoist-non-react-statics": "^1.2.0",
     "ioredis": "^2.2.0",
     "jsonwebtoken": "^7.1.6",
     "jwt-decode": "^2.0.1",

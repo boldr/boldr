@@ -3,18 +3,18 @@ import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import cookie from 'react-cookie';
 import browserHistory from 'react-router/lib/browserHistory';
-import fetch from '../../core/fetch';
-import { API_BASE } from '../../config/api';
+import fetch from '../fetch';
+import { API_BASE } from '../api';
 
 /**
  * LOGIN ACTIONS
  */
-export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
-export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
-export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
 
 const beginLogin = () => {
-  return { type: LOGIN_USER_REQUEST };
+  return { type: LOGIN_REQUEST };
 };
 // Login Success
 export function loginSuccess(response) {
@@ -22,7 +22,7 @@ export function loginSuccess(response) {
   // localStorage.setItem('boldr:jwt', response.body.token);
   const decoded = decode(response.body.token);
   return {
-    type: LOGIN_USER_SUCCESS,
+    type: LOGIN_SUCCESS,
     payload: response.body.token,
     role: decoded.role
   };
@@ -30,12 +30,12 @@ export function loginSuccess(response) {
 // Login Error
 export function loginError(err) {
   return {
-    type: LOGIN_USER_FAIL,
+    type: LOGIN_FAIL,
     error: err
   };
 }
 // Login Action
-export function manualLogin(data) {
+export function doLogin(data) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
@@ -47,53 +47,6 @@ export function manualLogin(data) {
       })
       .catch(err => {
         dispatch(loginError(err));
-      });
-  };
-}
-
-/**
- * SIGNUP ACTIONS
- */
-export const SIGNUP_USER_REQUEST = 'SIGNUP_USER';
-export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS';
-export const SIGNUP_USER_FAIL = 'SIGNUP_USER_FAIL';
-
-// Signup
-const beginSignUp = () => {
-  return { type: SIGNUP_USER_REQUEST };
-};
-// Signup Success
-export function signUpSuccess(response) {
-  return {
-    type: SIGNUP_USER_SUCCESS,
-    payload: response
-  };
-}
-// Signup Error
-export function signUpError(err) {
-  return {
-    type: SIGNUP_USER_FAIL,
-    message: err
-  };
-}
-// Signup Action
-export function signUp(data) {
-  return (dispatch) => {
-    dispatch(beginSignUp());
-
-    return request
-      .post(`${API_BASE}/auth/signup`)
-      .send(data)
-      .then(response => {
-        if (response.status === 201) {
-          dispatch(signUpSuccess(response));
-          dispatch(push('/'));
-        } else {
-          dispatch(signUpError('Oops! Something went wrong'));
-        }
-      })
-      .catch(err => {
-        dispatch(signUpError(err));
       });
   };
 }
@@ -129,18 +82,18 @@ export function logOut() {
 /**
  * TOKEN CHECK ACTIONS
  */
-export const CHECK_TOKEN_VALIDITY_REQUEST = 'CHECK_TOKEN_VALIDITY_REQUEST';
-export const CHECK_TOKEN_VALIDITY_SUCCESS = 'CHECK_TOKEN_VALIDITY_SUCCESS';
-export const CHECK_TOKEN_VALIDITY_FAIL = 'CHECK_TOKEN_VALIDITY_FAIL';
+export const CHECK_AUTH_REQUEST = 'CHECK_AUTH_REQUEST';
+export const CHECK_AUTH_SUCCESS = 'CHECK_AUTH_SUCCESS';
+export const CHECK_AUTH_FAIL = 'CHECK_AUTH_FAIL';
 
-function checkTokenValidityRequest() {
-  return { type: CHECK_TOKEN_VALIDITY_REQUEST };
+function checkAuthRequest() {
+  return { type: CHECK_AUTH_REQUEST };
 }
 
-function checkTokenValiditySuccess(response, token) {
+function checkAuthSuccess(response, token) {
   const decoded = decode(token);
   return {
-    type: CHECK_TOKEN_VALIDITY_SUCCESS,
+    type: 'CHECK_AUTH_REQUEST',
     payload: response.body,
     role: decoded.role,
     token,
@@ -150,28 +103,28 @@ function checkTokenValiditySuccess(response, token) {
   };
 }
 
-function checkTokenValidityFailure(error) {
+function checkAuthFailure(error) {
   return {
-    type: CHECK_TOKEN_VALIDITY_FAIL,
+    type: CHECK_AUTH_FAIL,
     payload: error
   };
 }
 
-export function checkTokenValidity() {
+export function checkAuth() {
   const token = cookie.load('boldrToken');
   return (dispatch) => {
     if (!token || token === '') { return; }
-    dispatch(checkTokenValidityRequest());
+    dispatch(checkAuthRequest());
     request
       .get(`${API_BASE}/auth/check`)
       .set('Authorization', `Bearer ${token}`)
-    .then(response => {
-      dispatch(checkTokenValiditySuccess(response, token));
-    })
-    .catch(() => {
-      dispatch(checkTokenValidityFailure('Token is invalid'));
-      cookie.remove('boldrToken');
-    });
+      .then(response => {
+        dispatch(checkAuthSuccess(response, token));
+      })
+      .catch(() => {
+        dispatch(checkAuthFailure('Token is invalid'));
+        cookie.remove('boldrToken');
+      });
   };
 }
 
@@ -246,77 +199,59 @@ export function resetPassword(password, confirm, pathToken) {
 /**
  * INITIAL STATE
  */
-export const INITIAL_USER_STATE = {
+export const INITIAL_STATE = {
   isLoading: false,
-  authenticated: false,
-  firstName: '',
-  lastName: '',
-  displayName: '',
-  email: '',
+  isAuthenticated: false,
   role: '',
-  token: undefined,
+  token: '',
   hydrated: false
 };
 
 /**
- * User Reducer
+ * Auth Reducer
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
-export default function user(state = INITIAL_USER_STATE, action = {}) {
+export default function authReducer(state = INITIAL_STATE, action = {}) {
   if (!state.hydrated) {
-    state = Object.assign({}, INITIAL_USER_STATE, state, { hydrated: true });
+    state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
-    case LOGIN_USER_REQUEST:
+    case LOGIN_REQUEST:
       return Object.assign({}, state, {
         isLoading: true
       });
-    case LOGIN_USER_SUCCESS:
+    case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        authenticated: true,
+        isAuthenticated: true,
         token: action.payload
       });
-    case LOGIN_USER_FAIL:
+    case LOGIN_FAIL:
       return Object.assign({}, state, {
         isLoading: false,
-        authenticated: false
+        isAuthenticated: false
       });
-    case CHECK_TOKEN_VALIDITY_REQUEST:
+    case CHECK_AUTH_REQUEST:
       return Object.assign({}, state, {
         isLoading: true,
-        authenticated: false
+        isAuthenticated: false
       });
-    case CHECK_TOKEN_VALIDITY_SUCCESS:
+    case CHECK_AUTH_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        authenticated: true,
+        isAuthenticated: true,
         token: action.token,
         role: action.role,
         firstName: action.firstName,
         lastName: action.lastName,
         email: action.email
       });
-    case CHECK_TOKEN_VALIDITY_FAIL:
+    case CHECK_AUTH_FAIL:
       return Object.assign({}, state, {
         isLoading: false,
-        authenticated: false,
+        isAuthenticated: false,
         token: ''
-      });
-    case SIGNUP_USER_REQUEST:
-      return Object.assign({}, state, {
-        isLoading: true
-      });
-    case SIGNUP_USER_SUCCESS:
-      return Object.assign({}, state, {
-        isLoading: false,
-        authenticated: true
-      });
-    case SIGNUP_USER_FAIL:
-      return Object.assign({}, state, {
-        isLoading: false,
-        authenticated: false
       });
     case LOGOUT_USER:
       return Object.assign({}, state, {
@@ -325,12 +260,12 @@ export default function user(state = INITIAL_USER_STATE, action = {}) {
     case LOGOUT_USER_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        authenticated: false
+        isAuthenticated: false
       });
     case LOGOUT_USER_FAIL:
       return Object.assign({}, state, {
         isLoading: false,
-        authenticated: true
+        isAuthenticated: true
       });
     default:
       return state;

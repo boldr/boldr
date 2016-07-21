@@ -16,11 +16,11 @@ import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // Non-vendor
-import { checkTokenValidity } from 'state/modules/user';
+
 import BoldrTheme from './styles/theme';
-import createStore from './core/redux/createStore';
+import createStore from './core/state/createStore';
 import getRoutes from './scenes';
-import ApiClient from './config/api/ApiClient';
+import ApiClient from './core/api/ApiClient';
 
 import './styles/main.scss';
 
@@ -39,10 +39,10 @@ const store = createStore(browserHistory, client, initialState);
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = getRoutes(store, history);
 
-const token = cookie.load('boldrToken') || undefined;
-if (token) {
-  store.dispatch(checkTokenValidity());
-}
+// const token = cookie.load('boldrToken') || undefined;
+// if (token) {
+//   store.dispatch(checkTokenValidity());
+// }
 // If its available, always send the token in the header.
 injectTapEventPlugin();
 

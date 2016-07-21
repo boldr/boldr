@@ -6,7 +6,7 @@ import { Card, CardHeader } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
-import { signUp } from 'state/modules/user';
+import { createAccount } from '../state/accountReducer';
 import { Heading } from 'components/index';
 import { SignupForm, SocialLogin } from '../components';
 import styles from '../styles.css';
@@ -15,8 +15,8 @@ const cx = styles::classNames;
 class Signup extends Component {
 
   handleOnSubmit(values) {
-    const { signUp } = this.props;
-    signUp({
+    const { createAccount } = this.props;
+    createAccount({
       email: values.email,
       password: values.password,
       firstName: values.firstName,
@@ -38,11 +38,11 @@ class Signup extends Component {
   }
 
   render() {
-    const { isLoading, message } = this.props.user;
+    const { isLoading, message } = this.props.account;
 
     return (
         <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
-        <Helmet title="Login" />
+        <Helmet title="Signup" />
         <section className={ cx('root') }>
 
           <Card className={ cx('auth-card') }>
@@ -63,18 +63,14 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-  user: PropTypes.object,
-  signUp: PropTypes.func.isRequired
-};
-Signup.propTypes = {
-  user: PropTypes.object,
-  signUp: PropTypes.func,
+  account: PropTypes.object,
+  createAccount: PropTypes.func,
   handleOnSubmit: PropTypes.func
 };
-function mapStateToProps({ user }) {
+function mapStateToProps({ account }) {
   return {
-    user
+    account
   };
 }
 
-export default connect(mapStateToProps, { signUp })(Signup);
+export default connect(mapStateToProps, { createAccount })(Signup);

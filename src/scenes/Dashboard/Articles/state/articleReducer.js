@@ -1,8 +1,8 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import cookie from 'react-cookie';
-import fetch from '../../core/fetch';
-import { API_ARTICLES } from '../../config/api';
+import fetch from '../../../../core/fetch';
+import { API_ARTICLES } from '../../../../core/api';
 
 /**
  * GET ARTICLE ACTIONS
@@ -22,7 +22,7 @@ export function loadArticles() {
 
 function shouldFetchArticles(state) {
   const article = state.article;
-  if (!article.articleList) {
+  if (!article.articles) {
     return true;
   }
   if (article.isLoading) {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { resetPassword } from 'state/modules/user';
+import { resetPassword } from '../state/accountReducer';
 
 class ResetPassword extends React.Component {
   constructor(props) {

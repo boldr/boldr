@@ -1,10 +1,38 @@
-import React from 'react';
+export default (store) => ({
 
-/*
- * Note: This is kept as a container-level component,
- *  i.e. We should keep this as the container that does the data-fetching
- *  and dispatching of actions if you decide to have any sub-components.
- */
-const Account = (props) => <div>{ props.children }</div>;
+  path: 'account',
+  component: require('./Account').default,
+  childRoutes: [{
+    path: 'forgot-password',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./ForgotPassword').default);
+      });
+    }
+  },
+  {
+    path: 'login',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Login').default);
+      });
+    }
+  },
+  {
+    path: 'reset-password',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./ResetPassword').default);
+      });
+    }
+  },
+  {
+    path: 'signup',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Signup').default);
+      });
+    }
+  }]
+});
 
-export default Account;

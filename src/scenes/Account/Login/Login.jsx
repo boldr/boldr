@@ -5,9 +5,8 @@ import Helmet from 'react-helmet';
 import { Card, CardHeader } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
-import cxN from 'classnames';
 import { Heading } from 'components/index';
-import { manualLogin } from 'state/modules/user';
+import { doLogin } from '../../../core/state/authReducer';
 import { LoginForm, SocialLogin } from '../components';
 import styles from '../styles.css';
 
@@ -16,7 +15,7 @@ const cx = styles::classNames;
 class Login extends Component {
 
   handleOnSubmit(values) {
-    const { manualLogin } = this.props;
+    const { doLogin } = this.props;
     manualLogin({ email: values.email, password: values.password });
   }
   renderHeader() {
@@ -32,7 +31,7 @@ class Login extends Component {
   }
 
   render() {
-    const { isLoading, message } = this.props.user;
+    const { isLoading, message } = this.props.auth;
 
     return (
       <div style={{ backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px'}}>
@@ -56,14 +55,14 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  user: PropTypes.object,
-  manualLogin: PropTypes.func,
+  auth: PropTypes.object,
+  doLogin: PropTypes.func,
   handleOnSubmit: PropTypes.func
 };
-function mapStateToProps({ user }) {
+function mapStateToProps({ auth }) {
   return {
-    user
+    auth
   };
 }
 
-export default connect(mapStateToProps, { manualLogin })(Login);
+export default connect(mapStateToProps, { doLogin })(Login);

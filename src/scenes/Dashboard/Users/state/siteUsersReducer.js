@@ -1,5 +1,5 @@
 import request from 'superagent';
-import { API_USERS } from '../../../config/api';
+import { API_USERS } from '../../../../core/api';
 
 
 export const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';
@@ -46,7 +46,7 @@ const INITIAL_STATE = {
   error: undefined
 };
 
-export default function siteUsers(state = INITIAL_STATE, action) {
+export default function siteUsersReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case LOAD_USERS_REQUEST:
       return {

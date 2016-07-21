@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { forgotPassword } from 'state/modules/user';
+import { forgotPassword } from '../state/accountReducer';
 
 class ForgotPassword extends Component {
 

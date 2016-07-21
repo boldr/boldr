@@ -2,7 +2,7 @@ import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import rootReducer from '../../state';
+import reducers from './reducers';
 import createMiddleware from './clientMiddleware';
 
 const ISDEV = process.env.NODE_ENV === 'development';
@@ -22,12 +22,12 @@ export default function createStore(history, client, data) {
     finalCreateStore = applyMiddleware(...middleware)(_createStore);
   }
 
-  const store = finalCreateStore(rootReducer, data);
+  const store = finalCreateStore(reducers, data);
 
 
   if (ISDEV && module.hot) {
-    module.hot.accept('../../state', () => {
-      const nextReducer = require('../../state');
+    module.hot.accept('./reducers', () => {
+      const nextReducer = require('./reducers');
 
       store.replaceReducer(nextReducer);
     });

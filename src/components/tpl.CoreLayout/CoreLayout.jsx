@@ -3,7 +3,6 @@ import Paper from 'material-ui/Paper';
 import Helmet from 'react-helmet';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 
-import Message from 'components/atm.Message';
 import TopBar from 'components/mol.TopBar';
 
 class CoreLayout extends Component {

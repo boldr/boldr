@@ -1,7 +1,7 @@
 import request from 'superagent';
 import cookie from 'react-cookie';
 import { push } from 'react-router-redux';
-import { API_BASE } from '../../config/api';
+import { API_BASE } from '../api';
 
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
 export const DONE_LOADING = 'DONE_LOADING';
@@ -103,8 +103,8 @@ export function saveBoldrSetup(data) {
   };
 }
 
-const INITIAL_STATE = {
-  isLoading: true,
+export const INITIAL_STATE = {
+  isLoading: false,
   siteName: '',
   description: '',
   logo: '',
@@ -114,13 +114,8 @@ const INITIAL_STATE = {
   allowRegistration: ''
 };
 
-export default function boldr(state = INITIAL_STATE, action) {
+export default function boldrReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case DONE_LOADING:
-      return {
-        ...state,
-        isLoading: false
-      };
     case LOAD_SETTINGS:
       return {
         ...state,
