@@ -23,6 +23,7 @@ export default (req, res) => {
   }
   const initialState = {
     auth: {
+      isAuthenticated: req.cookies.boldrToken ? true : false,
       token: req.cookies.boldrToken
     }
   };

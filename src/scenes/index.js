@@ -1,7 +1,25 @@
 import Dashboard from './Dashboard/index';
-import Account from './Account/index';
+import { Account } from './Account/index';
+
+import { isLoaded as isAuthLoaded, load as loadAuth } from '../core/state/authReducer';
 
 export default (store) => {
+  const requireLogin = (nextState, replace, cb) => {
+      function checkAuth() {
+        const { auth: { isAuthenticated }} = store.getState();
+        if (!isAuthenticated) {
+          // oops, not logged in, so can't be here!
+          replace('/');
+        }
+        cb();
+      }
+
+      if (!isAuthLoaded(store.getState())) {
+        store.dispatch(loadAuth()).then(checkAuth);
+      } else {
+        checkAuth();
+      }
+    };
   if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 
   return {
@@ -12,7 +30,7 @@ export default (store) => {
     },
     childRoutes: [
       Dashboard(store),
-      Account(store),
+
       {
         path: 'about',
         getComponent(nextState, cb) {
@@ -30,7 +48,40 @@ export default (store) => {
         }
       },
       {
+        path: 'account/forgot-password',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Account/ForgotPassword').default);
+          });
+        }
+      },
+      {
+        path: 'account/login',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Account/Login').default);
+          });
+        }
+      },
+      {
+        path: 'account/reset-password',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Account/ResetPassword').default);
+          });
+        }
+      },
+      {
+        path: 'account/signup',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Account/Signup').default);
+          });
+        }
+      },
+      {
         path: 'profile',
+        onEnter: requireLogin,
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
             cb(null, require('./Profile').default);

@@ -21,7 +21,7 @@ function isAuthenticated() {
     if (req.query && req.query.hasOwnProperty('access_token')) {
       req.headers.authorization = `Bearer ${req.query.access_token}`;
     }
-    if (req.query && req.cookies.hasOwnProperty('token')) {
+    if (req.query && req.cookies.boldrToken) {
       req.headers.authorization = `Bearer ${req.cookies.boldrToken}`;
     }
     validateJwt(req, res, next);

@@ -15,7 +15,7 @@ class Blog extends Component {
 
   _createPostsCollection(posts) {
     const postsCollection = [];
-    for (let article of posts) { // eslint-disable-line
+    for (let post of posts) { // eslint-disable-line
       postsCollection.push(
         <div key={ post.id }>
           <BlogPost { ...post } />

@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Card, CardHeader } from 'material-ui/Card';
+import { Card } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import { Heading } from 'components/index';
@@ -16,7 +15,7 @@ class Login extends Component {
 
   handleOnSubmit(values) {
     const { doLogin } = this.props;
-    manualLogin({ email: values.email, password: values.password });
+    doLogin({ email: values.email, password: values.password });
   }
   renderHeader() {
     return (

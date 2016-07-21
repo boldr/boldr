@@ -1,7 +1,9 @@
-export default (store) => ({
+import AccountBase from './AccountBase';
+
+export const Account = {
 
   path: 'account',
-  component: require('./Account').default,
+  component: AccountBase,
   childRoutes: [{
     path: 'forgot-password',
     getComponent(nextState, cb) {
@@ -34,5 +36,4 @@ export default (store) => ({
       });
     }
   }]
-});
-
+};

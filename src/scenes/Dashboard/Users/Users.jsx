@@ -9,7 +9,6 @@ import { loadSiteUsers } from './state/siteUsersReducer';
   fetch: ({ dispatch }) => dispatch(loadSiteUsers())
 })
 class Users extends Component {
-  props: Props;
   render() {
     return (
        <div>

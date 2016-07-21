@@ -9,9 +9,9 @@ import { API_BASE } from '../api';
 /**
  * LOGIN ACTIONS
  */
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGIN_REQUEST = 'AUTH/LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'AUTH/LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'AUTH/LOGIN_FAIL';
 
 const beginLogin = () => {
   return { type: LOGIN_REQUEST };
@@ -54,9 +54,9 @@ export function doLogin(data) {
 /**
  * LOGOUT ACTIONS
  */
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
-export const LOGOUT_USER_FAIL = 'LOGOUT_USER_FAIL';
+export const LOGOUT_USER = 'AUTH/LOGOUT_USER';
+export const LOGOUT_USER_SUCCESS = 'AUTH/LOGOUT_USER_SUCCESS';
+export const LOGOUT_USER_FAIL = 'AUTH/LOGOUT_USER_FAIL';
 
 const beginLogout = () => {
   return { type: LOGOUT_USER };
@@ -82,9 +82,9 @@ export function logOut() {
 /**
  * TOKEN CHECK ACTIONS
  */
-export const CHECK_AUTH_REQUEST = 'CHECK_AUTH_REQUEST';
-export const CHECK_AUTH_SUCCESS = 'CHECK_AUTH_SUCCESS';
-export const CHECK_AUTH_FAIL = 'CHECK_AUTH_FAIL';
+export const CHECK_AUTH_REQUEST = 'AUTH/CHECK_AUTH_REQUEST';
+export const CHECK_AUTH_SUCCESS = 'AUTH/CHECK_AUTH_SUCCESS';
+export const CHECK_AUTH_FAIL = 'AUTH/CHECK_AUTH_FAIL';
 
 function checkAuthRequest() {
   return { type: CHECK_AUTH_REQUEST };
@@ -93,7 +93,7 @@ function checkAuthRequest() {
 function checkAuthSuccess(response, token) {
   const decoded = decode(token);
   return {
-    type: 'CHECK_AUTH_REQUEST',
+    type: CHECK_AUTH_REQUEST,
     payload: response.body,
     role: decoded.role,
     token,
@@ -111,7 +111,7 @@ function checkAuthFailure(error) {
 }
 
 export function checkAuth() {
-  const token = cookie.load('boldrToken');
+  const token = cookie.load('boldrToken') || '';
   return (dispatch) => {
     if (!token || token === '') { return; }
     dispatch(checkAuthRequest());
@@ -196,12 +196,29 @@ export function resetPassword(password, confirm, pathToken) {
     });
   };
 }
+
+export function isLoaded(globalState) {
+  return globalState.auth && globalState.auth.loaded;
+}
+
+const LOAD = 'auth/LOAD';
+const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
+const LOAD_FAIL = 'auth/LOAD_FAIL';
+
+export function load() {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.get('/auth/check')
+  };
+}
 /**
  * INITIAL STATE
  */
+const authCookie = cookie.load('boldrToken') || null;
 export const INITIAL_STATE = {
+  loaded: false,
   isLoading: false,
-  isAuthenticated: false,
+  isAuthenticated: authCookie ? true : false,
   role: '',
   token: '',
   hydrated: false
@@ -217,6 +234,29 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
+    case LOAD:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case LOAD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        loaded: true,
+        isAuthenticated: true,
+        token: action.result.token,
+        role: action.result.profile.role,
+        email: action.result.email
+      };
+    case LOAD_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        loaded: false,
+        error: action.error
+      };
+
     case LOGIN_REQUEST:
       return Object.assign({}, state, {
         isLoading: true
@@ -235,11 +275,12 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
     case CHECK_AUTH_REQUEST:
       return Object.assign({}, state, {
         isLoading: true,
-        isAuthenticated: false
+        loaded: false
       });
     case CHECK_AUTH_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
+        loaded: true,
         isAuthenticated: true,
         token: action.token,
         role: action.role,
@@ -251,6 +292,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
       return Object.assign({}, state, {
         isLoading: false,
         isAuthenticated: false,
+        loaded: false,
         token: ''
       });
     case LOGOUT_USER:
