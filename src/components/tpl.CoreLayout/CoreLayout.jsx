@@ -5,6 +5,7 @@ import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 
 import Message from 'components/atm.Message';
 import TopBar from 'components/mol.TopBar';
+
 class CoreLayout extends Component {
 
   render() {

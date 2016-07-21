@@ -1,9 +1,6 @@
-/* @flow */
 import React from 'react';
 import BoldrLogo from 'components/atm.BoldrLogo';
-type Props = {
-  SiteLogoOrTitle: string
-};
+
 const is: Object = {
   logo: {
     paddingTop: '5px'
@@ -21,3 +18,7 @@ export default function SiteLogo(props) {
     </div>
   );
 }
+
+SiteLogo.propTypes = {
+  SiteLogoOrTitle: React.PropTypes.string
+};

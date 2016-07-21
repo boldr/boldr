@@ -3,12 +3,11 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+// noinspection JSUnresolvedVariable
 import { AppContainer } from 'react-hot-loader';
-import Router from 'react-router/lib/Router';
-import browserHistory from 'react-router/lib/browserHistory';
-import match from 'react-router/lib/match';
-import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware';
+import { Router, browserHistory, match, applyRouterMiddleware } from 'react-router/es6';
 import { syncHistoryWithStore } from 'react-router-redux';
+// noinspection JSUnresolvedVariable
 import { trigger } from 'redial';
 import cookie from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -49,27 +48,27 @@ injectTapEventPlugin();
 
 history.listen(location => {
   match({ routes, location }, (error, redirectLocation, renderProps) => {
-      if (error) {
-        console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
-      }
-      const { components } = renderProps;
-      const locals = {
-        path: renderProps.location.pathname,
-        query: renderProps.location.query,
-        params: renderProps.params,
-        dispatch: store.dispatch
-      };
+    if (error) {
+      console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
+    }
+    const { components } = renderProps;
+    const locals = {
+      path: renderProps.location.pathname,
+      query: renderProps.location.query,
+      params: renderProps.params,
+      dispatch: store.dispatch
+    };
       // Don't fetch data for initial route, server has already done the work:
     if (window.__data) {
         // Delete initial data so that subsequent data fetches can occur:
-        delete window.__data;
-      } else {
+      delete window.__data;
+    } else {
         // Fetch mandatory data dependencies for 2nd route change onwards:
-        trigger('fetch', components, locals);
-      }
+      trigger('fetch', components, locals);
+    }
       // Fetch deferred, client-only data dependencies:
-      trigger('defer', components, locals);
-    });
+    trigger('defer', components, locals);
+  });
 });
 
 function renderApp() {
@@ -77,9 +76,7 @@ function renderApp() {
     <AppContainer>
       <Provider store={ store } key="provider">
         <MuiThemeProvider muiTheme={ muiTheme }>
-          <Router routes={ routes } history={ history }
-                  helpers={ client } render={ applyRouterMiddleware(useScroll()) }
-          />
+          <Router routes={ routes } history={ history } helpers={ client } render={ applyRouterMiddleware(useScroll()) } />
         </MuiThemeProvider>
       </Provider>
     </AppContainer>,

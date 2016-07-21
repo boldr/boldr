@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-es6-class */
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import S3Upload from '../../config/api/s3Upload';
+import S3Upload from '../../core/api/s3Upload';
 
 const S3Uploader = React.createClass({
   propTypes: {
