@@ -8,9 +8,8 @@ import classNames from 'classnames/bind';
 import cxN from 'classnames';
 import { Heading } from 'components/index';
 import { manualLogin } from 'state/modules/user';
-import LoginForm from './components/atm.LoginForm';
-import SocialLogin from './components/atm.SocialLogin';
-import styles from './Auth.css';
+import { LoginForm, SocialLogin } from '../components';
+import styles from '../styles.css';
 
 const cx = styles::classNames;
 
@@ -36,23 +35,23 @@ class Login extends Component {
     const { isLoading, message } = this.props.user;
 
     return (
-        <div style={{ backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px'}}>
-          <Helmet title="Login" />
-          <section className={ cx('root') }>
+      <div style={{ backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px'}}>
+        <Helmet title="Login" />
+        <section className={ cx('root') }>
 
-            <Card className={ cx('auth-card') }>
+          <Card className={ cx('auth-card') }>
 
-                { this.renderHeader() }
-                <div>
-                  <p>{ message }</p>
-                  <LoginForm onSubmit={ ::this.handleOnSubmit } />
-                  <div className={ cx('auth-card__footer') }>
-                    <SocialLogin />
-                  </div>
-                </div>
-              </Card>
-            </section>
-        </div>
+            { this.renderHeader() }
+            <div>
+              <p>{ message }</p>
+              <LoginForm onSubmit={ ::this.handleOnSubmit } />
+              <div className={ cx('auth-card__footer') }>
+                <SocialLogin />
+              </div>
+            </div>
+          </Card>
+        </section>
+      </div>
     );
   }
 }

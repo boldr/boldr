@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 const SignupForm = (props) => {
-  const { fields: { email, password, firstName, lastName, displayName }, handleSubmit, reset } = props;
+  const { fields: { email, password, firstName, lastName, displayName }, handleSubmit } = props;
   return (
     <Card>
     <form onSubmit={ handleSubmit }>

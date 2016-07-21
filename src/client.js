@@ -1,3 +1,4 @@
+/** @namespace window.__data */
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,8 +19,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // Non-vendor
 import { checkTokenValidity } from 'state/modules/user';
 import BoldrTheme from './styles/theme';
-import createRoutes from './config/routes/index';
 import createStore from './core/redux/createStore';
+import getRoutes from './scenes';
 import ApiClient from './config/api/ApiClient';
 
 import './styles/main.scss';
@@ -37,7 +38,7 @@ const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
 
 const history = syncHistoryWithStore(browserHistory, store);
-const routes = createRoutes(store, history);
+const routes = getRoutes(store, history);
 
 const token = cookie.load('boldrToken') || undefined;
 if (token) {
@@ -59,7 +60,7 @@ history.listen(location => {
         dispatch: store.dispatch
       };
       // Don't fetch data for initial route, server has already done the work:
-      if (window.__data) {
+    if (window.__data) {
         // Delete initial data so that subsequent data fetches can occur:
         delete window.__data;
       } else {
@@ -97,7 +98,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
   module.hot.accept();
   // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('./config/routes/index', renderApp);
+  module.hot.accept('./scenes/index', renderApp);
 }
 
 renderApp();

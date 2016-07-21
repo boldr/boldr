@@ -5,6 +5,6 @@ import React from 'react';
  *  i.e. We should keep this as the container that does the data-fetching
  *  and dispatching of actions if you decide to have any sub-components.
  */
-const Auth = () => <div>Welcome to the Dasboard. Stay tuned...</div>;
+const Account = (props) => <div>{ props.children }</div>;
 
-export default Auth;
+export default Account;

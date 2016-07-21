@@ -1,7 +1,7 @@
 import request from 'supertest';
 import chai from 'chai';
 import { expect } from 'chai';
-import server from '../server';
+import server from '../index';
 
 const agent = request.agent(server);
 

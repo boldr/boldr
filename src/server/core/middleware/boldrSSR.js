@@ -14,7 +14,7 @@ import BoldrTheme from '../../../styles/theme';
 import createStore from '../../../core/redux/createStore';
 import ApiClient from '../../../config/api/ApiClient';
 import Html from '../../../components/tpl.Html';
-import getRoutes from '../../../config/routes';
+import getRoutes from '../../../scenes';
 import { checkTokenValidity } from '../../../state/modules/user';
 
 export default (req, res) => {

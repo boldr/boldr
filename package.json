@@ -236,7 +236,6 @@
     "node-sass": "^3.8.0",
     "nodemon": "^1.9.2",
     "path": "0.12.7",
-    "piping": "^1.0.0-rc.3",
     "postcss-custom-media": "^5.0.1",
     "postcss-extend": "^1.0.4",
     "postcss-import": "^8.1.0",
@@ -262,7 +261,6 @@
     "webfontloader": "^1.6.26",
     "webpack": "^2.1.0-beta.19",
     "webpack-dev-middleware": "1.6.1",
-    "webpack-hot-middleware": "2.12.1",
-    "webpack-node-externals": "^1.2.0"
+    "webpack-hot-middleware": "2.12.1"
   }
 }

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { resetPassword } from 'state/modules/user';
 
-class Reset extends React.Component {
+class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = { password: '', confirm: '' };
@@ -46,7 +46,7 @@ class Reset extends React.Component {
     );
   }
 }
-Reset.propTypes = {
+ResetPassword.propTypes = {
   dispatch: PropTypes.func.isRequired,
   params: PropTypes.object
 };
@@ -54,4 +54,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(Reset);
+export default connect(mapStateToProps)(ResetPassword);

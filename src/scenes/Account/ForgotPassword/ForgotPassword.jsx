@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { forgotPassword } from 'state/modules/user';
 
-class Forgot extends Component {
+class ForgotPassword extends Component {
 
   constructor(props) {
     super(props);
@@ -41,7 +41,7 @@ class Forgot extends Component {
   }
 }
 
-Forgot.propTypes = {
+ForgotPassword.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
@@ -51,4 +51,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Forgot);
+export default connect(mapStateToProps)(ForgotPassword);

@@ -8,7 +8,7 @@ import {
   describe,
   it
 } from 'mocha';
-import server from '../../server';
+import server from '../../index';
 import { User } from '../models';
 
 const chance = new Chance();

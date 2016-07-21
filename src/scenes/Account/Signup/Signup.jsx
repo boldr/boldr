@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Card, CardHeader } from 'material-ui/Card';
@@ -8,9 +8,8 @@ import classNames from 'classnames/bind';
 import cxN from 'classnames';
 import { signUp } from 'state/modules/user';
 import { Heading } from 'components/index';
-import SignupForm from './components/atm.SignupForm';
-import SocialLogin from './components/atm.SocialLogin';
-import styles from './Auth.css';
+import { SignupForm, SocialLogin } from '../components';
+import styles from '../styles.css';
 
 const cx = styles::classNames;
 class Signup extends Component {
