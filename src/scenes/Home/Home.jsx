@@ -1,7 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import classNames from 'classnames/bind';
-import cxN from 'classnames';
 import { Hero, Heading } from 'components/index';
 import styles from './Home.css';
 

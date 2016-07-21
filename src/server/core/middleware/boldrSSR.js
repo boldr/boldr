@@ -45,7 +45,7 @@ export default (req, res) => {
   }
 
   match({ history, routes: getRoutes(store, client), location: req.originalUrl },
-  (error, redirectLocation, renderProps, ...args) => {
+  (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {

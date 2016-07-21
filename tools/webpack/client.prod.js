@@ -44,7 +44,9 @@ const clientProdConfig = {
   target: 'web',
   node: {
     __dirname: true,
-    __filename: true
+    __filename: true,
+    global: true,
+    fs: 'empty'
   },
   devtool: 'hidden-source-map',
   context: ROOT_DIR,

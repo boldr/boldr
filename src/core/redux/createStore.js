@@ -5,6 +5,7 @@ import createLogger from 'redux-logger';
 import rootReducer from '../../state';
 import createMiddleware from './clientMiddleware';
 
+const ISDEV = process.env.NODE_ENV === 'development';
 export default function createStore(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
@@ -12,7 +13,7 @@ export default function createStore(history, client, data) {
   const middleware = [thunkMiddleware, createMiddleware(client), reduxRouterMiddleware, logger];
 
   let finalCreateStore;
-  if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
+  if (ISDEV) {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
       typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f // eslint-disable-line
@@ -24,7 +25,7 @@ export default function createStore(history, client, data) {
   const store = finalCreateStore(rootReducer, data);
 
 
-  if (__DEVELOPMENT__ && module.hot) {
+  if (ISDEV && module.hot) {
     module.hot.accept('../../state', () => {
       const nextReducer = require('../../state');
 

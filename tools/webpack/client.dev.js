@@ -55,7 +55,8 @@ const postCSSConfig = function() {
 };
 const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${WP_DS}/__webpack_hmr`;
 debug('Webpack is reading the client configuration.');
-const clientDevConfig = module.exports = {
+//noinspection JSUnresolvedFunction
+const clientDevConfig  = {
   target: 'web',
   node: {
     __dirname: true,
@@ -153,6 +154,7 @@ const clientDevConfig = module.exports = {
     createHappyPlugin('css')
   ]
 };
+
 function createSourceLoader(spec) {
   return Object.keys(spec).reduce((x, key) => {
     x[key] = spec[key];
@@ -162,6 +164,11 @@ function createSourceLoader(spec) {
     include: [path.resolve(ROOT_DIR, 'src')]
   });
 }
+/**
+ * Create the happypack plugin instance
+ * @param id
+ * @returns {HappyPlugin}
+ */
 function createHappyPlugin(id) {
   return new HappyPack({
     id,
@@ -177,3 +184,5 @@ function createHappyPlugin(id) {
     verbose: true
   });
 }
+
+module.exports = clientDevConfig;

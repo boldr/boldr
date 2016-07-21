@@ -27,7 +27,7 @@ export default app => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(methodOverride('X-HTTP-Method-Override'));
-  app.use(express.static(path.join(__dirname, '..', '..', '..', '..', 'static')));
+  app.use(express.static(path.resolve('public')));
   app.set('trust proxy', 'loopback');
   app.options('*', (req, res) => res.sendStatus(200));
   const sessionStore = dbSession();

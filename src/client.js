@@ -30,9 +30,9 @@ WebFontLoader.load({
   }
 });
 
-const container = document.getElementById('content');
+const container = document.querySelector('#content');
 const client = new ApiClient();
-const initialState = window.__INITIAL_STATE__;
+const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
 
@@ -46,33 +46,8 @@ if (token) {
 // If its available, always send the token in the header.
 injectTapEventPlugin();
 
-function renderApp() {
-  const { pathname, search, hash } = window.location;
-  const location = `${pathname}${search}${hash}`;
-
-  match({
-    routes,
-    location
-  }, () => {
-    ReactDOM.render(
-      <AppContainer>
-        <Provider store={ store } key="provider">
-            <MuiThemeProvider muiTheme={ muiTheme }>
-              <Router routes={ routes } history={ browserHistory }
-                helpers={ client } render={ applyRouterMiddleware(useScroll()) }
-              />
-            </MuiThemeProvider>
-          </Provider>
-        </AppContainer>,
-      container
-    );
-  });
-  return browserHistory.listen(location => {
-    // Match routes based on location object:
-    match({
-      routes,
-      location
-    }, (error, redirectLocation, renderProps) => {
+history.listen(location => {
+  match({ routes, location }, (error, redirectLocation, renderProps) => {
       if (error) {
         console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
       }
@@ -84,20 +59,34 @@ function renderApp() {
         dispatch: store.dispatch
       };
       // Don't fetch data for initial route, server has already done the work:
-      if (window.__INITIAL_STATE__) {
+      if (window.__data) {
         // Delete initial data so that subsequent data fetches can occur:
-        delete window.__INITIAL_STATE__;
+        delete window.__data;
       } else {
         // Fetch mandatory data dependencies for 2nd route change onwards:
         trigger('fetch', components, locals);
       }
-
       // Fetch deferred, client-only data dependencies:
       trigger('defer', components, locals);
     });
-  });
+});
+
+function renderApp() {
+  ReactDOM.render(
+    <AppContainer>
+      <Provider store={ store } key="provider">
+        <MuiThemeProvider muiTheme={ muiTheme }>
+          <Router routes={ routes } history={ history }
+                  helpers={ client } render={ applyRouterMiddleware(useScroll()) }
+          />
+        </MuiThemeProvider>
+      </Provider>
+    </AppContainer>,
+    container
+  );
 }
-if (process.env.NODE_ENV !== 'production') {
+// The following is needed so that we can hot reload our App.
+if (process.env.NODE_ENV === 'development' && module.hot) {
   window.React = React; // enable debugger
 
   if (!container || !container.firstChild || !container.firstChild.attributes ||
@@ -105,9 +94,6 @@ if (process.env.NODE_ENV !== 'production') {
     console.error(`Server-side React render was discarded. Make sure that your
       initial render does not contain any client-side code.`);
   }
-}
-// The following is needed so that we can hot reload our App.
-if (process.env.NODE_ENV === 'development' && module.hot) {
   // Accept changes to this file for hot reloading.
   module.hot.accept();
   // Any changes to our routes will cause a hotload re-render.

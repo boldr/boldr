@@ -9,6 +9,8 @@
   },
   "scripts": {
     "build": "better-npm-run build",
+    "build:client": "better-npm-run build:client",
+    "build:server": "better-npm-run build:server",
     "clean": "npm run clean:server && npm run clean:client",
     "clean:client": "rimraf public/assets",
     "clean:server": "rimraf server.js && rimraf server.js.map",
@@ -20,7 +22,7 @@
     "sequelize": "node_modules/.bin/sequelize",
     "start": "npm run start:prod",
     "start:dev": "better-npm-run start:dev",
-    "start:prod": "better-npm-run start-prod",
+    "start:prod": "better-npm-run start:prod",
     "test": "better-npm-run test:client && better-npm-run test:api",
     "test:api": "better-npm-run test:api",
     "test:client": "better-npm-run test:client",
@@ -31,7 +33,19 @@
   },
   "betterScripts": {
     "build": {
-      "command": "./node_modules/.bin/webpack --verbose --display-error-details --config tools/webpack/prod.config.js",
+      "command": "better-npm-run build:client && better-npm-run build:server",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "build:server": {
+      "command": "npm run clean:server && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "build:client": {
+      "command": "npm run clean:client && babel-node -- ./node_modules/.bin/webpack --env production --json --config tools/webpack/client.prod.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -46,21 +60,10 @@
       }
     },
     "start:prod": {
-      "command": "npm run clean && node ./bin/server.js",
+      "command": "node -r dotenv/config tools/scripts/prod.js",
       "env": {
-        "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 8080,
-        "APIPORT": 8000
-      }
-    },
-    "start:dev": {
-      "command": "node ./tools/scripts/server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "development",
-        "DEBUG": "boldr:*",
-        "PORT": 3000
+        "SERVER_PORT": 3000
       }
     },
     "watch:client": {
@@ -259,6 +262,7 @@
     "webfontloader": "^1.6.26",
     "webpack": "^2.1.0-beta.19",
     "webpack-dev-middleware": "1.6.1",
-    "webpack-hot-middleware": "2.12.1"
+    "webpack-hot-middleware": "2.12.1",
+    "webpack-node-externals": "^1.2.0"
   }
 }

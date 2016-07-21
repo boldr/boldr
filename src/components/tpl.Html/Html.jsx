@@ -47,18 +47,12 @@ export default class Html extends Component {
 
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          { /* styles (will be present only in production with webpack extract text plugin) */ }
-          { Object.keys(assets.styles).map((style, key) =>
-            <link href={ assets.styles[style] } key={ key } media="screen, projection"
-              rel="stylesheet" type="text/css" charSet="UTF-8"
-            />
-          ) }
           { this.styles }
         </head>
         <body>
           <div id="content" style={ { minHeight: '100vh' } } dangerouslySetInnerHTML={ { __html: content } } />
           <script dangerouslySetInnerHTML={ {
-            __html: `window.__INITIAL_STATE__=${serialize(store.getState())};` } }
+            __html: `window.__data=${serialize(store.getState())};` } }
             charSet="UTF-8"
           />
           <script src={ assets.javascript.vendor } charSet="UTF-8" />

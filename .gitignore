@@ -1,6 +1,8 @@
 # Environment Configuration
 .env
-
+server.js
+server.js.map
+production.json
 # Build output folders
 build/
 public/
