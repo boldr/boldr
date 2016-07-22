@@ -1,11 +1,15 @@
-import Redis from 'ioredis';
+import Redis from 'redis';
+import bluebird from 'bluebird';
 import logger from '../lib/logger';
 import config from '../core/config/boldr';
 
-const redisClient = new Redis({
+bluebird.promisifyAll(Redis.RedisClient.prototype);
+
+const redisClient = Redis.createClient({
   host: config.redis.host,
   port: config.redis.port,
-  db: 2
+  ttl: 260,
+  db: 8
 });
 
 redisClient.on('connect', () => {
@@ -23,7 +27,7 @@ redisClient.on('close', () => {
 });
 
 redisClient.on('reconnecting', () => {
-  logger.info('redis has reconnecting');
+  logger.info('redis is reconnecting');
 });
 
 export default redisClient;

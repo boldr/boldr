@@ -5,12 +5,12 @@ import authMiddleware from './auth';
 import routes from './api/routes';
 import models from './db/models';
 import { middleware, boldrSSR } from './core';
+
 const debug = _debug('boldr:server');
 // Create our express server.
 const app = express();
 app.set('models', models);
 // Get an instance of the express Router
-const router = express.Router(); // eslint-disable-line
 debug('express middleware');
 middleware(app);
 debug('auth middleware');

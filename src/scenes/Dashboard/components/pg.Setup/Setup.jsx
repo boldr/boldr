@@ -8,9 +8,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
-import { loadBoldrSettings, saveBoldrSetup } from 'state/modules/boldr';
+
+import { loadBoldrSettings, saveBoldrSetup } from 'core/state/boldr';
 import SetupForm from '../atm.SetupForm';
-import styles from './Setup.css'
+import styles from './styles.css'
 
 const cx = styles::classNames;
 

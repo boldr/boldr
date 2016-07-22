@@ -12,7 +12,7 @@ import AvWeb from 'material-ui/svg-icons/av/web';
 import ActionDescription from 'material-ui/svg-icons/action/description';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
-import { logOut } from '../../core/state/authReducer';
+import { logOut } from 'core/state/auth';
 import SiteLogo from 'components/atm.SiteLogo/index';
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';
@@ -23,45 +23,16 @@ class TopBar extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {
-      valueSingle: '3',
-      valueMultiple: ['3', '5']
-    };
-  }
-  handleClickLogin(event) {
-    const path = '/login';
-    browserHistory.push(path);
-  }
-
-  handleClickRegister(event) {
-    const path = '/signup';
-    browserHistory.push(path);
+    this.state = {};
   }
 
   handleClickSignout(event, dispatch) {
-    this.props.actions.logoutUser();
+    this.props.actions.logOut();
   }
 
   handleClickHome() {
     const path = '/';
     browserHistory.push(path);
-  }
-  handleChangeSingle = (event, value) => {
-    this.setState({
-      valueSingle: value
-    });
-  };
-
-  handleChangeMultiple = (event, value) => {
-    this.setState({
-      valueMultiple: value
-    });
-  };
-
-  handleOpenMenu = () => {
-    this.setState({
-      openMenu: true
-    });
   }
 
   handleOnRequestChange = (value) => {
@@ -86,17 +57,15 @@ class TopBar extends React.Component {
               <div>
                 <IconMenu
                   iconButtonElement={ <IconButton><SocialPerson color={ iconColor } /></IconButton> }
-                  onChange={ ::this.handleChangeSingle }
-                  value={ this.state.valueSingle }
                 >
                   {
                     this.props.auth.isAuthenticated ?
                       <div>
                         <MenuItem value="4"><Link to="/profile">Profile</Link></MenuItem>
-                        <MenuItem value="3"><Link to="/api/v1/auth/logout">Sign Out</Link></MenuItem></div> :
+                        <MenuItem value="3" onTouchTap={ ::this.handleClickSignout }>Sign Out</MenuItem></div> :
                           <div>
-                            <MenuItem value="1"><Link to="/login">Login</Link></MenuItem>
-                            <MenuItem value="2"><Link to="/signup">Signup</Link></MenuItem>
+                            <MenuItem value="1"><Link to="/account/login">Login</Link></MenuItem>
+                            <MenuItem value="2"><Link to="/account/signup">Signup</Link></MenuItem>
                           </div>
                   }
                 </IconMenu>

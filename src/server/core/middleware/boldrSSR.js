@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import match from 'react-router/lib/match';
@@ -15,7 +16,6 @@ import createStore from '../../../core/state/createStore';
 import ApiClient from '../../../core/api/ApiClient';
 import Html from '../../../components/tpl.Html';
 import getRoutes from '../../../scenes';
-import { checkAuth } from '../../../core/state/authReducer';
 
 export default (req, res) => {
   if (__DEVELOPMENT__) {
@@ -23,8 +23,15 @@ export default (req, res) => {
   }
   const initialState = {
     auth: {
-      isAuthenticated: req.cookies.boldrToken ? true : false,
-      token: req.cookies.boldrToken
+      isAuthenticated: req.session.key ? true : false, // eslint-disable-line
+      token: req.session.key || '',
+      role: req.session.role || ''
+    },
+    account: {
+      firstName: req.session.firstName || '',
+      lastName: req.session.lastName || '',
+      email: req.session.email || '',
+      id: req.session.userId || ''
     }
   };
 
@@ -32,8 +39,6 @@ export default (req, res) => {
   const memoryHistory = createHistory(req.originalUrl);
   const store = createStore(memoryHistory, client, initialState);
   const history = syncHistoryWithStore(memoryHistory, store);
-
-  store.dispatch(checkAuth(req.cookies.boldrToken));
 
   function hydrateOnClient() {
     res.send('<!doctype html>\n' + // eslint-disable-line
@@ -55,7 +60,6 @@ export default (req, res) => {
       hydrateOnClient();
     } else if (renderProps) {
       const { dispatch } = store;
-
       const locals = {
         path: renderProps.location.pathname,
         query: renderProps.location.query,

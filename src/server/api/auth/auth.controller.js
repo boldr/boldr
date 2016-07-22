@@ -4,7 +4,6 @@ import passport from 'passport';
 import Boom from 'boom';
 import moment from 'moment';
 
-import cookies from 'react-cookie';
 import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../../lib';
 import { User, VerificationToken } from '../../db/models';
 import { signToken } from '../../auth/authService';
@@ -34,9 +33,16 @@ export function login(req, res, next) {
     }
 
     signToken(user.id, user.role).then(token => {
-      cookies.save('boldrToken', token, { path: '/' });
+
+      req.session.userId = user.id;
+      req.session.role = user.role;
+      req.session.email = user.email;
+      req.session.firstName = user.firstName;
+      req.session.lastName = user.lastName;
+      req.session.key = token;
+      // req.session.key["keyname"] to fetch
       req.user = user;
-      res.cookie('boldrToken', cookies.load('boldrToken'));
+
       return res.status(200).json({ token });
     });
   })(req, res, next);

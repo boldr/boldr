@@ -21,8 +21,8 @@ function isAuthenticated() {
     if (req.query && req.query.hasOwnProperty('access_token')) {
       req.headers.authorization = `Bearer ${req.query.access_token}`;
     }
-    if (req.query && req.cookies.boldrToken) {
-      req.headers.authorization = `Bearer ${req.cookies.boldrToken}`;
+    if (req.query && req.cookies['boldrToken']) {
+      req.headers.authorization = `Bearer ${req.cookies['boldrToken']}`;
     }
     validateJwt(req, res, next);
   })
@@ -100,8 +100,8 @@ function appendUser() {
 function addAuthHeaderFromCookie() {
   return compose()
     .use((req, res, next) => {
-      if (req.cookies.boldrToken) {
-        req.headers.authorization = `Bearer ${_.trim(req.cookies.boldrToken, '"')}`;
+      if (req.cookies['boldrToken']) {
+        req.headers.authorization = `Bearer ${_.trim(req.cookies['boldrToken'], '"')}`;
       }
       return next();
     });

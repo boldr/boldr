@@ -45,7 +45,7 @@ class DashboardLayout extends Component {
       open
     });
   }
-  props: Props;
+
   mediaQueryChanged() {
     this.setState({
       docked: this.state.mql.matches

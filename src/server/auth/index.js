@@ -5,7 +5,7 @@ import facebook from './facebook/passport';
 
 export default () => {
   passport.serializeUser((user, done) => {
-    return done(null, user.id);
+    return done(null, user);
   });
 
   passport.deserializeUser((id, done) => {

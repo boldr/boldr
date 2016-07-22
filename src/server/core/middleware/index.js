@@ -1,20 +1,21 @@
 import path from 'path';
 import express from 'express';
 import passport from 'passport';
-import session from 'express-session';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+import redisClient from '../../db/redis';
 import flash from 'express-flash';
 import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressJwt from 'express-jwt';
 import cors from 'cors';
 import morgan from 'morgan';
-
 import compression from 'compression';
-import { session as dbSession } from '../../db';
 import config from '../config/boldr';
 
 import { logger } from '../../lib';
+
+const RedisStore = require('connect-redis')(session);
 
 export default app => {
   app.set('port', config.port);
@@ -22,35 +23,19 @@ export default app => {
   app.disable('x-powered-by');
   app.use(compression());
   app.use(morgan('dev', { stream: logger.stream }));
-  app.use(cookieParser());
-  app.use(cors());
+  app.use(cors({origin: true, credentials: true}));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(methodOverride('X-HTTP-Method-Override'));
   app.use(express.static(path.resolve('public')));
   app.set('trust proxy', 'loopback');
   app.options('*', (req, res) => res.sendStatus(200));
-  const sessionStore = dbSession();
-
-  const sessionOpts = {
-    secret: config.jwt.secret,
-    resave: true,
-    saveUninitialized: false,
-    proxy: true,
-    name: 'boldrToken',
-    cookie: {
-      httpOnly: true,
-      secure: false
-    },
-    store: sessionStore
-  };
 
   app.all('/*', (req, res, next) => {
     // CORS headers
-    res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    // Set custom headers for CORS
-    res.header('Access-Control-Allow-Headers', 'Content-type,Accept');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'x-access-token, Content-Type, Authorization, Content-Length, X-Requested-With'); // eslint-disable-line
     // If someone calls with method OPTIONS, let's display the allowed methods on our API
     if (req.method === 'OPTIONS') {
       res.status(200);
@@ -60,15 +45,22 @@ export default app => {
       next();
     }
   });
-
-  app.use(session(sessionOpts));
+  const boldrSession = session({
+    store: new RedisStore({ client: redisClient }),
+    secret: config.jwt.secret,
+    name: 'boldr:sid',
+    resave: false,
+    saveUninitialized: false
+  });
+  app.use(boldrSession);
   app.use(passport.initialize());
-  app.use(passport.session());
+
   app.use(expressJwt({
     secret: config.jwt.secret,
-    credentialsRequired: false,
-    getToken: req => req.cookies.boldrToken
+    credentialsRequired: false
   }));
+  app.use(cookieParser());
+  app.use(passport.session());
   app.use(flash());
   app.use((req, res, next) => {
     if (!req.session) {
@@ -83,6 +75,5 @@ export default app => {
   if (config.env === 'production') {
     logger.log('===> 🚦  Note: In order for authentication to work in production');
     logger.log('===>           you will need a secure HTTPS connection');
-    sessionOpts.cookie.secure = true;
   }
 };

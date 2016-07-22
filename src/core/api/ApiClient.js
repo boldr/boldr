@@ -25,8 +25,8 @@ export default class ApiClient {
           request.query(params);
         }
 
-        if (__SERVER__ && req.get('cookie').boldrToken) {
-          request.set('cookie', req.get('cookie').boldrToken);
+        if (__SERVER__ && req.session.key) {
+          res.header('Authorization', `Bearer ${req.session.key}`);
         }
 
         if (data) {

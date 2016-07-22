@@ -6,7 +6,7 @@ export default (store) => ({
     path: 'articles',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./Articles').default);
+        cb(null, require('./scenes/Articles').default);
       });
     }
   },
@@ -14,7 +14,7 @@ export default (store) => ({
     path: 'collections',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./Collections').default);
+        cb(null, require('./scenes/Collections').default);
       });
     }
   },
@@ -22,7 +22,7 @@ export default (store) => ({
     path: 'media',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./Media').default);
+        cb(null, require('./scenes/Media').default);
       });
     }
   },
@@ -30,7 +30,7 @@ export default (store) => ({
     path: 'pages',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./Pages').default);
+        cb(null, require('./scenes/Pages').default);
       });
     }
   },
@@ -38,7 +38,7 @@ export default (store) => ({
     path: 'settings',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./Settings').default);
+        cb(null, require('./scenes/Settings').default);
       });
     }
   },
@@ -46,7 +46,7 @@ export default (store) => ({
     path: 'users',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./Users').default);
+        cb(null, require('./scenes/Users').default);
       });
     }
   }]

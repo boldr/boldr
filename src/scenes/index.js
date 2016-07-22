@@ -1,7 +1,6 @@
 import Dashboard from './Dashboard/index';
-import { Account } from './Account/index';
 
-import { isLoaded as isAuthLoaded, load as loadAuth } from '../core/state/authReducer';
+import { isLoaded as isAuthLoaded, load as loadAuth } from '../core/state/auth';
 
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
@@ -51,7 +50,7 @@ export default (store) => {
         path: 'account/forgot-password',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
-            cb(null, require('./Account/ForgotPassword').default);
+            cb(null, require('./Account/scenes/ForgotPassword').default);
           });
         }
       },
@@ -59,7 +58,7 @@ export default (store) => {
         path: 'account/login',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
-            cb(null, require('./Account/Login').default);
+            cb(null, require('./Account/scenes/Login').default);
           });
         }
       },
@@ -67,7 +66,7 @@ export default (store) => {
         path: 'account/reset-password',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
-            cb(null, require('./Account/ResetPassword').default);
+            cb(null, require('./Account/scenes/ResetPassword').default);
           });
         }
       },
@@ -75,7 +74,7 @@ export default (store) => {
         path: 'account/signup',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
-            cb(null, require('./Account/Signup').default);
+            cb(null, require('./Account/scenes/Signup').default);
           });
         }
       },

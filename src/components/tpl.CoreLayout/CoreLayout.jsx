@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import Paper from 'material-ui/Paper';
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 
-import TopBar from 'components/mol.TopBar';
+import SnackBar from '../atm.SnackBar';
+import TopBar from '../mol.TopBar';
 
 class CoreLayout extends Component {
 
@@ -15,7 +16,9 @@ class CoreLayout extends Component {
         titleTemplate={ '%s | powered by Boldr' }
       />
       <TopBar />
+      <SnackBar open={ this.props.boldr.isShowingSnackBar } />
       { this.props.children }
+
     </div>
   );
   }
@@ -24,5 +27,11 @@ class CoreLayout extends Component {
 CoreLayout.propTypes = {
   children: PropTypes.node
 };
+function mapStateToProps(state) {
+  return {
+    boldr: state.boldr,
+    auth: state.auth
+  };
+}
 
-export default CoreLayout;
+export default connect(mapStateToProps)(CoreLayout);

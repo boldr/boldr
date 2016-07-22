@@ -1,3 +1,4 @@
-import accountReducer from './accountReducer';
+import accountReducer from './account';
 
+export * from './account';
 export { accountReducer };
