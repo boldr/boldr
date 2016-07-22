@@ -42,6 +42,8 @@ const webpackIsomorphicToolsPlugin =
 
 const clientProdConfig = {
   target: 'web',
+  stats: false,
+  progress: true,
   node: {
     __dirname: true,
     __filename: true,

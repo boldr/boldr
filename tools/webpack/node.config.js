@@ -49,6 +49,8 @@ function getExternals() {
 
 const nodeConfig = { // eslint-disable-line
   target: 'node',
+  stats: false,
+  progress: true,
   externals: getExternals(),
   context: ROOT_DIR,
   devtool: 'source-map',
@@ -126,7 +128,8 @@ const nodeConfig = { // eslint-disable-line
     __filaname: false,
     __dirname: false,
     fs: true,
-    path: true
+    path: true,
+    window: true
   }
 };
 module.exports = nodeConfig;

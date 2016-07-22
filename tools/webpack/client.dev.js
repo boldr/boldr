@@ -55,9 +55,11 @@ const postCSSConfig = function() {
 };
 const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${WP_DS}/__webpack_hmr`;
 debug('Webpack is reading the client configuration.');
-//noinspection JSUnresolvedFunction
-const clientDevConfig  = {
+// noinspection JSUnresolvedFunction
+const clientDevConfig = {
   target: 'web',
+  stats: false,
+  progress: true,
   node: {
     __dirname: true,
     __filename: true
@@ -114,9 +116,9 @@ const clientDevConfig  = {
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
       createSourceLoader({
-          happy: { id: 'sass' },
-          test: /\.scss$/,
-          loader: 'style!css?sourceMap!postcss!sass?sourceMap'
+        happy: { id: 'sass' },
+        test: /\.scss$/,
+        loader: 'style!css?sourceMap!postcss!sass?sourceMap'
       }),
       createSourceLoader({
         happy: { id: 'css' },
