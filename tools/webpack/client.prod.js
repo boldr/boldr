@@ -112,8 +112,8 @@ const clientProdConfig = {
       src: path.join(ROOT_DIR, 'src'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
       core: path.resolve(ROOT_DIR, 'src/core'),
-      Account: path.resolve(ROOT_DIR, 'src/scenes/Account'),
-      Dashboard: path.resolve(ROOT_DIR, 'src/scenes/Dashboard')
+      account: path.resolve(ROOT_DIR, 'src/scenes/Account'),
+      dashboard: path.resolve(ROOT_DIR, 'src/scenes/Dashboard')
     }
   },
   postcss: postCSSConfig,
@@ -147,7 +147,11 @@ const clientProdConfig = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         screw_ie8: true,
-        warnings: false
+        warnings: false,
+        dead_code: true,
+        drop_debugger: true,
+        unused: true,
+        conditionals: true
       }
     }),
     // merge common

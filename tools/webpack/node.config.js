@@ -2,28 +2,25 @@
 import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
+import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import {
   ROOT_DIR, SRC_DIR, NODE_MODULES_DIR
 } from '../constants';
-import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import isomorphicConfig from './isomorphic.config';
+
 const dotenv = require('dotenv');
+
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
-dotenv.config({
-  silent: true
-});
-const regExpGroups = [
-  'style_modules',
-  'fonts'
-];
-let plugins = [];
+dotenv.config({ silent: true });
+const regExpGroups = ['style_modules', 'fonts'];
+const plugins = [];
 /**
  * Add node noop
  * @param {[type]} regExpGroup [description]
  */
 function addNodeNoop(regExpGroup) {
-  //noinspection JSUnresolvedFunction
+  // noinspection JSUnresolvedFunction
   plugins.push(new webpack.NormalModuleReplacementPlugin(
     webpackIsomorphicToolsPlugin.regular_expression(regExpGroup),
     'node-noop'
@@ -37,14 +34,15 @@ for (regExpGroup in regExpGroups) {
     addNodeNoop(regExpGroups[regExpGroup]);
   }
 }
+
 function getExternals() {
   const nodeModules = fs.readdirSync(path.join(process.cwd(), 'node_modules')).concat([
     'react-dom/server'
-  ]) // eslint-disable-line
-  return nodeModules.reduce(function(ext, mod) { // eslint-disable-line
-    ext[mod] = 'commonjs ' + mod // eslint-disable-line
-    return ext // eslint-disable-line
-  }, {}) // eslint-disable-line
+  ]);
+  return nodeModules.reduce((ext, mod) => {
+    ext[mod] = `commonjs ${mod}`;
+    return ext;
+  }, {});
 }
 
 const nodeConfig = { // eslint-disable-line

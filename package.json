@@ -45,7 +45,7 @@
       }
     },
     "build:client": {
-      "command": "npm run clean:client && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/client.prod.js --json | webpack-bundle-size-analyzer",
+      "command": "npm run clean:client && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/client.prod.js",
       "env": {
         "NODE_ENV": "production"
       }
