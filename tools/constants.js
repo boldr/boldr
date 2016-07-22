@@ -40,8 +40,7 @@ export const VENDOR = [
   'react-tap-event-plugin',
   'redial',
   'react-router-scroll',
-  'webfontloader',
-  'react-cookie'
+  'webfontloader'
 ];
 export const NODE_MODULES_DIR = constants.NODE_MODULES_DIR;
 export const BUILD_DIR = constants.BUILD_DIR;

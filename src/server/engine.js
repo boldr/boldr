@@ -1,8 +1,10 @@
 import _debug from 'debug';
 import errorHandler from 'errorhandler';
 import express from 'express';
+
 import authMiddleware from './auth';
 import routes from './api/routes';
+import authRoutes from './auth/auth.router';
 import models from './db/models';
 import { middleware, boldrSSR } from './core';
 
@@ -16,6 +18,7 @@ middleware(app);
 debug('auth middleware');
 authMiddleware();
 debug('routes');
+app.use('/auth', authRoutes);
 app.use('/api/v1', routes);
 
 // Server-side rendering

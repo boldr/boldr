@@ -4,20 +4,20 @@ import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
-import config from '../../core/config/boldr';
+import config from '../../core/config';
 import { logger } from '../../lib';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
 
 const s3 = new AWS.S3({
-  accessKeyId: config.aws.id,
-  secretAccessKey: config.aws.secret,
-  region: 'us-west-1'
+  accessKeyId: config.AWS_ACCESS_KEY_ID,
+  secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+  region: config.AWS_REGION
 });
 
 export const upload = multer({
   storage: multerS3({
     s3,
-    bucket: config.aws.bucket,
+    bucket: config.S3_BUCKET,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -61,7 +61,7 @@ export function generalUpload(req, res, next) {
   });
 }
 // const params = {
-//   Bucket: config.aws.bucket,
+//   Bucket: config.S3_BUCKET,
 //   Key: attachments[0].filename,
 //   Body: attachments[0].data
 // };
@@ -132,7 +132,7 @@ export const showMedia = async (req, res, next) => {
  */
 export function getAllAWS(req, res, next) {
   const params = {
-    Bucket: config.aws.bucket
+    Bucket: config.S3_BUCKET
   };
   s3.listObjectsV2(params, (err, data) => {
     if (err) {

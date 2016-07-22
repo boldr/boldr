@@ -1,7 +1,7 @@
 
 import { Router } from 'express';
 import { processQuery } from '../../lib';
-import { isAuthenticated, hasRole } from '../../auth/authService';
+import { isAuthenticated, hasRole } from '../../auth/auth.service';
 import * as ctrl from './article.controller';
 
 const router = Router();

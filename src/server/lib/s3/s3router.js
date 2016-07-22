@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
 import aws from 'aws-sdk';
 import express from 'express';
-import config from '../../core/config/boldr';
+import config from '../../core/config';
 
 function checkTrailingSlash(path) {
   if (path && path[path.length - 1] !== '/') {
@@ -11,7 +11,7 @@ function checkTrailingSlash(path) {
 }
 
 export default function S3Router(options) {
-  const S3_BUCKET = config.aws.bucket;
+  const S3_BUCKET = config.S3_BUCKET;
   const getFileKeyDir = options.getFileKeyDir || function() { return ''; };
 
   if (!S3_BUCKET) {
@@ -38,9 +38,9 @@ export default function S3Router(options) {
       Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
     };
     const s3 = new aws.S3({
-      accessKeyId: config.aws.id,
-      secretAccessKey: config.aws.secret,
-      region: 'us-west-1'
+      accessKeyId: config.AWS_ACCESS_KEY_ID,
+      secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+      region: config.AWS_REGION
     });
     s3.getSignedUrl('getObject', params, (err, url) => {
       res.redirect(url);
@@ -75,9 +75,9 @@ export default function S3Router(options) {
     }
 
     const s3 = new aws.S3({
-      accessKeyId: config.aws.id,
-      secretAccessKey: config.aws.secret,
-      region: 'us-west-1'
+      accessKeyId: config.AWS_ACCESS_KEY_ID,
+      secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+      region: config.AWS_REGION
     });
     const params = {
       Bucket: S3_BUCKET,

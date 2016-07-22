@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { isAuthenticated } from '../../auth/authService';
+import { isAuthenticated } from './auth.service';
 import * as ctrl from './auth.controller';
 
 const router = Router();

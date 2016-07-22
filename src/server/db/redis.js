@@ -1,13 +1,13 @@
 import Redis from 'redis';
 import bluebird from 'bluebird';
 import logger from '../lib/logger';
-import config from '../core/config/boldr';
+import config from '../core/config';
 
 bluebird.promisifyAll(Redis.RedisClient.prototype);
 
 const redisClient = Redis.createClient({
-  host: config.redis.host,
-  port: config.redis.port,
+  host: config.REDIS_HOST,
+  port: config.REDIS_PORT,
   ttl: 260,
   db: 8
 });

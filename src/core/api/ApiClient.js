@@ -26,7 +26,7 @@ export default class ApiClient {
         }
 
         if (__SERVER__ && req.session.key) {
-          res.header('Authorization', `Bearer ${req.session.key}`);
+          req.header('Authorization', `Bearer ${req.session.key}`);
         }
 
         if (data) {

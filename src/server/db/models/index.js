@@ -1,13 +1,13 @@
 import sequelize from '../sequelize';
-import User from './user';
-import Token from './token';
 import Article from './article';
 import ArticleTag from './articleTag';
-import Tag from './tag';
 import Category from './category';
 import Media from './media';
 import MediaCategory from './mediaCategory';
 import Setting from './setting';
+import Tag from './tag';
+import Token from './token';
+import User from './user';
 import VerificationToken from './verification';
 
 Article.belongsToMany(Tag, {
@@ -74,33 +74,23 @@ User.hasMany(Media, {
   onDelete: 'cascade'
 });
 
-User.hasOne(VerificationToken, {
-  foreignKey: 'verificationTokenId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
+
 Article.hasMany(ArticleTag);
 Tag.hasMany(ArticleTag);
 
 ArticleTag.belongsTo(Article);
 ArticleTag.belongsTo(Tag);
-User.sync().then(() => {
-  User.find({ where: { displayName: 'admin' } }).then((user) => {
-    if (!user) {
-      User.create({
-        email: 'admin@boldr.io',
-        firstName: 'Admin',
-        lastName: 'User',
-        displayName: 'admin',
-        password: 'password',
-        role: 'admin'
-      });
-    }
-  });
+
+User.hasOne(VerificationToken, {
+  foreignKey: 'verificationTokenId',
+  onUpdate: 'cascade',
+  onDelete: 'cascade'
 });
 VerificationToken.belongsTo(User, {
   foreignKey: 'userId'
 });
+
+
 Tag.addScope('taggedInArticle', {
   distinct: 'id',
   attributes: [
@@ -132,6 +122,20 @@ Article.findAllWithTagIds = () => {
   });
 };
 
+User.sync().then(() => {
+  User.find({ where: { displayName: 'admin' } }).then((user) => {
+    if (!user) {
+      User.create({
+        email: 'admin@boldr.io',
+        firstName: 'Admin',
+        lastName: 'User',
+        displayName: 'admin',
+        password: 'password',
+        role: 'admin'
+      });
+    }
+  });
+});
 
 function sync(...args) {
   return sequelize.sync(...args);

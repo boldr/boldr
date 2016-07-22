@@ -1,8 +1,9 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import cookie from 'react-cookie';
+
 import fetch from 'core/fetch';
 import { API_ARTICLES } from 'core/api';
+import { getAuthToken } from 'core/util/token';
 
 /**
  * GET ARTICLE ACTIONS
@@ -69,10 +70,11 @@ export function errorCreatingArticle(err) {
 // Fetch Articles Action
 export function createArticle(articleData) {
   return (dispatch) => {
+    const token = getAuthToken();
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${cookie.load('boldrToken')}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
         title: articleData.title,
         content: articleData.content,

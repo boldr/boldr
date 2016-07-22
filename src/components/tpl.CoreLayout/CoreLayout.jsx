@@ -3,7 +3,6 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 
-import SnackBar from '../atm.SnackBar';
 import TopBar from '../mol.TopBar';
 
 class CoreLayout extends Component {
@@ -16,7 +15,7 @@ class CoreLayout extends Component {
         titleTemplate={ '%s | powered by Boldr' }
       />
       <TopBar />
-      <SnackBar open={ this.props.boldr.isShowingSnackBar } />
+
       { this.props.children }
 
     </div>

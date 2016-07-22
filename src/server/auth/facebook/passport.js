@@ -1,12 +1,12 @@
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-import config from '../../core/config/boldr';
+import config from '../../core/config';
 import { User } from '../../db/models';
 
 export default (passport) => {
   passport.use(new FacebookStrategy.Strategy({
-    clientID: config.facebook.id,
-    clientSecret: config.facebook.secret,
-    callbackURL: config.facebook.callback,
+    clientID: config.FACEBOOK_ID,
+    clientSecret: config.FACEBOOK_SECRET,
+    callbackURL: '/auth/facebook/callback',
     profileFields: ['id', 'displayName', 'name', 'emails']
   }, (token, refreshToken, profile, done) => {
     User.findOne({ where: { facebook: profile.id } }).then((user) => {

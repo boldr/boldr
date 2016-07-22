@@ -1,6 +1,9 @@
 import http from 'http';
 import app from './engine';
 import models from './db/models';
+import config from './core/config/index';
+
+require('babel-runtime/core-js/promise').default = require('bluebird');
 
 const debug = require('debug')('boldr:engine');
 
@@ -26,7 +29,7 @@ const normalizePort = (val) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.SERVER_PORT || '3000');
+const port = normalizePort(config.SERVER_PORT);
 app.set('port', port);
 
 /**

@@ -4,9 +4,9 @@ import passport from 'passport';
 import Boom from 'boom';
 import moment from 'moment';
 
-import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../../lib';
-import { User, VerificationToken } from '../../db/models';
-import { signToken } from '../../auth/authService';
+import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../lib';
+import { User, VerificationToken } from '../db/models';
+import { signToken } from './auth.service';
 
 /**
  * @api {post} /auth/login          Login to a registered account.
@@ -33,7 +33,6 @@ export function login(req, res, next) {
     }
 
     signToken(user.id, user.role).then(token => {
-
       req.session.userId = user.id;
       req.session.role = user.role;
       req.session.email = user.email;
@@ -129,7 +128,10 @@ export function checkUser(req, res, next) {
       }
       res.json(user);
     })
-    .catch(err => next(err));
+    .catch(err => {
+      req.session.destroy();
+      return Boom.unauthorized('Your token is expired. Please login again.');
+    });
 }
 
 export function forgottenPassword(req, res, next) {

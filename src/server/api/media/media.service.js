@@ -4,18 +4,18 @@ import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
-import config from '../../core/config/boldr';
+import config from '../../core/config';
 
 const s3 = new AWS.S3({
-  accessKeyId: config.aws.id,
-  secretAccessKey: config.aws.secret,
-  region: 'us-west-1'
+  accessKeyId: config.AWS_ACCESS_KEY_ID,
+  secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+  region: config.AWS_REGION
 });
 
 const multerOptions = {
   storage: multerS3({
     s3,
-    bucket: config.aws.bucket,
+    bucket: config.S3_BUCKET,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -29,7 +29,7 @@ const multerOptions = {
 const multerAvatar = {
   storage: multerS3({
     s3,
-    bucket: config.aws.bucket,
+    bucket: config.S3_BUCKET,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -43,7 +43,7 @@ const multerAvatar = {
 const multerArticle = {
   storage: multerS3({
     s3,
-    bucket: config.aws.bucket,
+    bucket: config.S3_BUCKET,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -66,12 +66,12 @@ function s3SignService(req, res, next) {
   const fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
 
   const s3 = new AWS.S3({
-    accessKeyId: config.aws.id,
-    secretAccessKey: config.aws.secret,
-    region: 'us-west-1'
+    accessKeyId: config.AWS_ACCESS_KEY_ID,
+    secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+    region: config.AWS_REGION
   });
   const params = {
-    Bucket: config.aws.bucket,
+    Bucket: config.S3_BUCKET,
     Key: fileKey,
     Expires: 60,
     ContentType: mimeType,
@@ -93,7 +93,7 @@ function s3SignService(req, res, next) {
 
 function tempRedirect(req, res) {
   const params = {
-    Bucket: config.aws.bucket,
+    Bucket: config.S3_BUCKET,
     Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
   };
   const s3 = new AWS.S3();

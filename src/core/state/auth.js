@@ -2,6 +2,7 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import { setAuthToken, removeAuthToken, getAuthToken } from '../util/token';
+
 import fetch from '../fetch';
 import { API_BASE } from '../api';
 import { showSnackBarMessage } from './boldr';

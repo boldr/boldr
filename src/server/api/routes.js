@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Boom from 'boom';
 import s3router from '../lib/s3/s3router';
 import userRoutes from './user/user.router';
-import authRoutes from './auth/auth.router';
+
 import mediaRoutes from './media/media.router';
 import tagRoutes from './tag/tag.router';
 import articleRoutes from './article/article.router';
@@ -18,7 +18,6 @@ router.get('/health-check', (req, res) =>
 
 // mount user routes at /users
 router.use('/users', userRoutes);
-router.use('/auth', authRoutes);
 router.use('/category', categoryRoutes);
 router.use('/medias', mediaRoutes);
 router.use('/tags', tagRoutes);

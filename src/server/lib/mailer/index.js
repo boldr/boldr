@@ -1,15 +1,16 @@
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
-import config from '../../core/config/boldr';
+import config from '../../core/config';
 import logger from '../logger';
 
 const auth = {
   auth: {
-    api_key: config.mail.key,
-    domain: config.mail.domain
+    api_key: config.MG_API,
+    domain: config.MG_DOMAIN
   }
 };
+
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 const randomString = () => Math.random().toString().substr(2, 8);
@@ -20,7 +21,7 @@ export function generateVerifyCode() {
 }
 
 export function handleMail(email, subj, verificationToken) {
-  if (config.mail === undefined) { // Env variables are strings. :S
+  if (config.MG_DOMAIN === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -33,7 +34,7 @@ export function handleMail(email, subj, verificationToken) {
       throw new Error('Incorrect mailing parameters');
     }
     return nodemailerMailgun.sendMail({
-      from: config.mail.from,
+      from: config.MG_EMAIL_FROM,
       to,
       subject: title,
       html: `
@@ -48,7 +49,7 @@ export function handleMail(email, subj, verificationToken) {
   }
 }
 export function mailResetPassword(email, subj, token) {
-  if (config.mail === undefined) { // Env variables are strings. :S
+  if (config.MG_DOMAIN === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -76,7 +77,7 @@ export function mailResetPassword(email, subj, token) {
   }
 }
 export function mailPasswordConfirm(email, subj) {
-  if (config.mail === undefined) { // Env variables are strings. :S
+  if (config.MG_DOMAIN === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -88,7 +89,7 @@ export function mailPasswordConfirm(email, subj) {
       throw new Error('Incorrect mailing parameters');
     }
     return nodemailerMailgun.sendMail({
-      from: config.mail.from,
+      from: config.MG_EMAIL_FROM,
       to,
       subject: title,
       html: `

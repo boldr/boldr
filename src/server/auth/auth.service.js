@@ -4,9 +4,9 @@ import expressJwt from 'express-jwt';
 import _ from 'lodash';
 
 import { User } from '../db/models';
-import config from '../core/config/boldr';
+import config from '../core/config';
 
-const validateJwt = expressJwt({ secret: config.jwt.secret });
+const validateJwt = expressJwt({ secret: config.SESSION_SECRET });
 
 /**
  * Attaches the user object to the request if authenticated
@@ -114,7 +114,7 @@ function addAuthHeaderFromCookie() {
  */
 function signToken(id, role) {
   return new Promise((resolve, reject) => {
-    jwt.sign({ id, role }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }, (err, token) => {
+    jwt.sign({ id, role }, config.SESSION_SECRET, { expiresIn: 60 * 60 * 24 }, (err, token) => {
       if (err) return reject(err);
       else return resolve(token);
     });

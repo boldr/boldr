@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
-import cookie from 'react-cookie';
+
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
 import { API_BASE } from 'core/api';

@@ -1,5 +1,4 @@
-import latinize from 'latinize';
-import unorm from 'unorm';
+import latinize from '../util/latinize';
 
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
@@ -56,12 +55,15 @@ S3Upload.prototype.createCORSRequest = function(method, url) {
 };
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
-  const normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
+  const normalizedFileName =
+    file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f’]+/ig, '_')
+    .normalize('NFC');
+
   const fileName = latinize(normalizedFileName);
   let queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
   if (this.signingUrlQueryParams) {
     const signingUrlQueryParams = this.signingUrlQueryParams;
-    Object.keys(signingUrlQueryParams).forEach(function(key) {
+    Object.keys(signingUrlQueryParams).forEach((key) => {
       const val = signingUrlQueryParams[key];
       queryString += '&' + key + '=' + val;
     });
@@ -69,7 +71,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
   const xhr = this.createCORSRequest('GET', this.server + this.signingUrl + queryString);
   if (this.signingUrlHeaders) {
     const signingUrlHeaders = this.signingUrlHeaders;
-    Object.keys(signingUrlHeaders).forEach(function(key) {
+    Object.keys(signingUrlHeaders).forEach((key) => {
       const val = signingUrlHeaders[key];
       xhr.setRequestHeader(key, val);
     });
@@ -126,14 +128,17 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         disposition = 'attachment';
       }
     }
-    const normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
+    const normalizedFileName =
+      file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_')
+      .normalize('NFC');
+
     const fileName = latinize(normalizedFileName);
     xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
   }
   if (this.uploadRequestHeaders) {
     const uploadRequestHeaders = this.uploadRequestHeaders;
-    Object.keys(uploadRequestHeaders).forEach(function(key) {
-      var val = uploadRequestHeaders[key];
+    Object.keys(uploadRequestHeaders).forEach((key) => {
+      const val = uploadRequestHeaders[key];
       xhr.setRequestHeader(key, val);
     });
   } else {
@@ -144,7 +149,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
 };
 
 S3Upload.prototype.uploadFile = function(file) {
-  var uploadToS3Callback = this.uploadToS3.bind(this, file);
+  const uploadToS3Callback = this.uploadToS3.bind(this, file);
 
   if (this.getSignedUrl) return this.getSignedUrl(file, uploadToS3Callback);
   return this.executeOnSignedUrl(file, uploadToS3Callback);

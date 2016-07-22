@@ -73,8 +73,8 @@ const nodeConfig = { // eslint-disable-line
       src: path.join(ROOT_DIR, 'src'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
       core: path.resolve(ROOT_DIR, 'src/core'),
-      Account: path.resolve(ROOT_DIR, 'src/scenes/Account'),
-      Dashboard: path.resolve(ROOT_DIR, 'src/scenes/Dashboard')
+      account: path.resolve(ROOT_DIR, 'src/scenes/Account'),
+      dashboard: path.resolve(ROOT_DIR, 'src/scenes/Dashboard')
     }
   },
   module: {

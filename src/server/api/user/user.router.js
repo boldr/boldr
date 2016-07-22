@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { isAuthenticated, hasRole } from '../../auth/authService';
+import { isAuthenticated, hasRole } from '../../auth/auth.service';
 import * as ctrl from './user.controller';
 
 const router = Router();

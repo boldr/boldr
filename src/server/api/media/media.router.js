@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Media } from '../../db/models';
 import { logger } from '../../lib';
-import { isAuthenticated } from '../../auth/authService';
+import { isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './media.controller';
 import { s3SignService, tempRedirect } from './media.service';
 
