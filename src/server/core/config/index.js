@@ -1,9 +1,13 @@
 const nconf = require('nconf');
 const dotenv = require('dotenv');
 
-dotenv.config();
+dotenv.load();
 
 nconf.env('__');
+
+if (process.env.NODE_ENV === 'testing') {
+  nconf.file('./testing.json');
+}
 
 // By uncommenting the line below you can override any settings.
 // nconf.file('./config.json');
