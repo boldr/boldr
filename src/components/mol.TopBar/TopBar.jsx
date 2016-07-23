@@ -12,7 +12,7 @@ import AvWeb from 'material-ui/svg-icons/av/web';
 import ActionDescription from 'material-ui/svg-icons/action/description';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
-import { logOut } from 'core/state/auth';
+import { logOut } from 'scenes/Account/state/auth';
 import SiteLogo from 'components/atm.SiteLogo/index';
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';

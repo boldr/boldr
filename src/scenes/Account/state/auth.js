@@ -1,11 +1,11 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
-import { setAuthToken, removeAuthToken, getAuthToken } from '../util/token';
+import { setAuthToken, removeAuthToken, getAuthToken } from 'core/util/token';
 
-import fetch from '../fetch';
-import { API_BASE, API_AUTH } from '../api';
-import { showSnackBarMessage } from './boldr';
+import fetch from 'core/fetch';
+import { API_BASE, API_AUTH } from 'core/api';
+import { showSnackBarMessage } from 'core/state/boldr';
 
 /**
  * LOGIN ACTIONS
@@ -56,17 +56,26 @@ export function doLogin(data) {
  * LOGOUT ACTIONS
  */
 export const LOGOUT_USER = 'AUTH/LOGOUT_USER';
-
+export const LOGOUT_USER_FAIL = 'AUTH/LOGOUT_USER_FAIL';
 export function logoutSuccess() {
   return { type: LOGOUT_USER };
 }
-
+export function logoutError() {
+  return { type: LOGOUT_USER_FAIL };
+}
 // Logout Action
 export function logOut() {
   return (dispatch) => {
-    removeAuthToken();
-    dispatch(logoutSuccess());
-    dispatch(showSnackBarMessage('Successfully logged out.'));
+    return request
+      .get(`${API_AUTH}/logout`)
+      .then(response => {
+        removeAuthToken();
+        dispatch(logoutSuccess());
+        dispatch(showSnackBarMessage('Successfully logged out.'));
+      })
+  .catch(err => {
+    dispatch(logoutError(err));
+  });
   };
 }
 
@@ -119,75 +128,6 @@ export function checkAuth() {
   };
 }
 
-export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
-export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
-export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
-
-export function forgotPassword(email) {
-  return (dispatch) => {
-    dispatch({
-      type: 'FORGOT_PASSWORD_REQUEST'
-    });
-    return fetch(`${API_AUTH}/forgot`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    }).then((response) => {
-      if (response.ok) {
-        return response.json().then((json) => {
-          dispatch({
-            type: 'FORGOT_PASSWORD_SUCCESS',
-            messages: [json]
-          });
-        });
-      } else {
-        return response.json().then((json) => {
-          dispatch({
-            type: 'FORGOT_PASSWORD_FAIL',
-            messages: Array.isArray(json) ? json : [json]
-          });
-        });
-      }
-    });
-  };
-}
-
-export const RESET_PASSWORD_REQUEST = 'auth/RESET_PASSWORD_REQUEST';
-export const RESET_PASSWORD_SUCCESS = 'auth/RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_FAIL = 'auth/RESET_PASSWORD_FAIL';
-
-export function resetPassword(password, confirm, pathToken) {
-  return (dispatch) => {
-    dispatch({
-      type: 'RESET_PASSWORD_REQUEST'
-    });
-    return fetch(`${API_AUTH}/reset/${pathToken}`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        password
-      })
-    }).then((response) => {
-      if (response.ok) {
-        return response.json().then((json) => {
-          dispatch(push('/account/login'));
-          dispatch({
-            type: 'RESET_PASSWORD_SUCCESS',
-            messages: [json]
-          });
-        });
-      } else {
-        return response.json().then((json) => {
-          dispatch({
-            type: 'RESET_PASSWORD_FAIL',
-            messages: Array.isArray(json) ? json : [json]
-          });
-        });
-      }
-    });
-  };
-}
-
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
@@ -205,7 +145,7 @@ export function load() {
 /**
  * INITIAL STATE
  */
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
   loaded: false,
   isLoading: false,
   role: '',
@@ -262,6 +202,14 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isAuthenticated: true,
         token: action.token
       };
+    case 'OAUTH_SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
+        loaded: true,
+        isAuthenticated: true,
+        token: action.token
+      };
     case LOGIN_FAIL:
       return {
         ...state,
@@ -300,30 +248,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isAuthenticated: false,
         loaded: false
       };
-    case RESET_PASSWORD_REQUEST:
-      return {
-        ...state
-      };
-    case RESET_PASSWORD_SUCCESS:
-      return {
-        ...state
-      };
-    case RESET_PASSWORD_FAIL:
-      return {
-        ...state
-      };
-    case FORGOT_PASSWORD_REQUEST:
-      return {
-        ...state
-      };
-    case FORGOT_PASSWORD_SUCCESS:
-      return {
-        ...state
-      };
-    case FORGOT_PASSWORD_FAIL:
-      return {
-        ...state
-      };
+
     default:
       return state;
   }

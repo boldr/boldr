@@ -22,7 +22,7 @@ router.post('/reset/:token', ctrl.resetPassword);
 
 router.get('/logout', ctrl.logout);
 
-router.route('/check').get(ensureAuthenticated(), ctrl.checkUser);
+router.route('/check').get(ensureAuthenticated, ctrl.checkUser);
 
 router.delete('/account', ensureAuthenticated, ctrl.accountDelete);
 router.get('/unlink/:provider', ensureAuthenticated, unlink);

@@ -15,7 +15,8 @@ function makeToken(user) {
     iss: 'boldr.io',
     sub: user.id,
     iat: moment().unix(),
-    exp: moment().add(7, 'days').unix()
+    exp: moment().add(7, 'days').unix(),
+    role: user.role
   };
   return jwt.sign(payload, config.SESSION_SECRET);
 }

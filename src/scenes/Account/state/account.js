@@ -4,7 +4,7 @@ import decode from 'jwt-decode';
 
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
-import { API_BASE } from 'core/api';
+import { API_BASE, API_AUTH } from 'core/api';
 
 /**
  * SIGNUP ACTIONS
@@ -37,7 +37,7 @@ export function createAccount(data) {
     dispatch(beginSignUp());
 
     return request
-      .post(`${API_BASE}/auth/signup`)
+      .post(`${API_AUTH}/signup`)
       .send(data)
       .then(response => {
         if (response.status === 201) {
@@ -62,7 +62,7 @@ export function forgotPassword(email) {
     dispatch({
       type: 'FORGOT_PASSWORD_REQUEST'
     });
-    return fetch(`${API_BASE}/auth/forgot`, {
+    return fetch(`${API_AUTH}/forgot`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
@@ -95,7 +95,7 @@ export function resetPassword(password, confirm, pathToken) {
     dispatch({
       type: 'RESET_PASSWORD_REQUEST'
     });
-    return fetch(`${API_BASE}/auth/reset/${pathToken}`, {
+    return fetch(`${API_AUTH}/reset/${pathToken}`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -125,7 +125,7 @@ export function resetPassword(password, confirm, pathToken) {
 /**
  * INITIAL STATE
  */
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
   isLoading: false,
   id: '',
   firstName: '',
@@ -172,6 +172,19 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false
+      };
+
+    case FORGOT_PASSWORD_REQUEST:
+      return {
+        ...state
+      };
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state
+      };
+    case FORGOT_PASSWORD_FAIL:
+      return {
+        ...state
       };
     default:
       return state;

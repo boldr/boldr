@@ -7,14 +7,15 @@ const router = Router();
 router.route('/')
 	.get(ctrl.getAllUsers);
 
-router.get('/users/me', ensureAuthenticated(), ctrl.me);
+router.get('/users/me', ensureAuthenticated, ctrl.me);
 
 router.route('/:userId')
   .get(ctrl.showUser)
-  .put(ensureAuthenticated(), ctrl.updateUser)
-	.delete(ensureAuthenticated(), ctrl.destroyUser);
+  .put(ensureAuthenticated, ctrl.updateUser)
+	.delete(ensureAuthenticated, ctrl.destroyUser);
+
 router.route('/:userId/password')
-  .put(ensureAuthenticated(), ctrl.changePassword);
+  .put(ensureAuthenticated, ctrl.changePassword);
 
 router.param('userId', ctrl.load);
 

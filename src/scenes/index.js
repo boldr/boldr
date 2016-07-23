@@ -1,6 +1,6 @@
 import Dashboard from './Dashboard/index';
 
-import { isLoaded as isAuthLoaded, load as loadAuth } from '../core/state/auth';
+import { isLoaded as isAuthLoaded, load as loadAuth } from './Account/state/auth';
 
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {

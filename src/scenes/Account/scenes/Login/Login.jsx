@@ -5,8 +5,8 @@ import { Card } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import { Heading } from 'components/index';
-import { facebookLogin, twitterLogin, googleLogin, githubLogin } from 'core/state/oauth';
-import { doLogin } from 'core/state/auth';
+import { facebookLogin, twitterLogin, googleLogin, githubLogin } from '../../state/oauth';
+import { doLogin } from '../../state/auth';
 import { LoginForm, SocialLogin } from '../../components';
 import styles from '../../styles.css';
 

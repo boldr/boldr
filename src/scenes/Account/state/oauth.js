@@ -2,9 +2,11 @@ import url from 'url';
 import qs from 'querystring';
 import moment from 'moment';
 import browserHistory from 'react-router/lib/browserHistory';
-import { getAuthToken, setAuthToken } from '../util/token';
+import { getAuthToken, setAuthToken } from 'core/util/token';
+import { API_AUTH } from 'core/api/constants';
 
 // Sign in with Facebook
+// @TODO: Inline Environmental Variables webpack
 export function facebookLogin() {
   const facebook = {
     url: 'http://localhost:3000/auth/facebook',
@@ -104,14 +106,14 @@ export function link(provider) {
       return {
         type: 'LINK_FAILURE',
         messages: [{ msg: 'Invalid OAuth Provider' }]
-      }
+      };
   }
 }
 
 // Unlink account
 export function unlink(provider) {
   return (dispatch) => {
-    return fetch('/unlink/' + provider).then((response) => {
+    return fetch(`${API_AUTH}/unlink/${provider}`).then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
           dispatch({
@@ -128,7 +130,7 @@ export function unlink(provider) {
         });
       }
     });
-  }
+  };
 }
 
 function oauth2(config, dispatch) {
@@ -140,14 +142,14 @@ function oauth2(config, dispatch) {
       display: 'popup',
       response_type: 'code'
     };
-    const url = config.authorizationUrl + '?' + qs.stringify(params);
-    resolve({ url: url, config: config, dispatch: dispatch });
+    const url = config.authorizationUrl + '?' + qs.stringify(params); // eslint-disable-line
+    resolve({ url, config, dispatch });
   });
 }
 
 function oauth1(config, dispatch) {
   return new Promise((resolve, reject) => {
-    resolve({ url: 'about:blank', config: config, dispatch: dispatch });
+    resolve({ url: 'about:blank', config, dispatch });
   });
 }
 
@@ -156,8 +158,8 @@ function openPopup({ url, config, dispatch }) {
     const width = config.width || 500;
     const height = config.height || 500;
     const options = {
-      width: width,
-      height: height,
+      width,
+      height,
       top: window.screenY + ((window.outerHeight - height) / 2.5),
       left: window.screenX + ((window.outerWidth - width) / 2)
     };
@@ -167,7 +169,7 @@ function openPopup({ url, config, dispatch }) {
       popup.document.body.innerHTML = 'Loading...';
     }
 
-    resolve({ window: popup, config: config, dispatch: dispatch });
+    resolve({ window: popup, config, dispatch });
   });
 }
 
@@ -182,7 +184,7 @@ function getRequestToken({ window, config, dispatch }) {
     }).then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
-          resolve({ window: window, config: config, requestToken: json, dispatch: dispatch });
+          resolve({ window: window, config, requestToken: json, dispatch }); // eslint-disable-line
         });
       }
     });
@@ -195,7 +197,7 @@ function pollPopup({ window, config, requestToken, dispatch }) {
     const redirectUriPath = redirectUri.host + redirectUri.pathname;
 
     if (requestToken) {
-      window.location = config.authorizationUrl + '?' + qs.stringify(requestToken);
+      window.location = config.authorizationUrl + '?' + qs.stringify(requestToken); // eslint-disable-line
     }
 
     const polling = setInterval(() => {
@@ -216,7 +218,7 @@ function pollPopup({ window, config, requestToken, dispatch }) {
                 messages: [{ msg: params.error }]
               });
             } else {
-              resolve({ oauthData: params, config: config, window: window, interval: polling, dispatch: dispatch });
+              resolve({ oauthData: params, config, window: window, interval: polling, dispatch }); // eslint-disable-line
             }
           } else {
             dispatch({
@@ -245,7 +247,7 @@ function exchangeCodeForToken({ oauthData, config, window, interval, dispatch })
     }).then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
-          resolve({ token: json.token, user: json.user, window: window, interval: interval, dispatch: dispatch });
+          resolve({ token: json.token, user: json.user, window: window, interval: interval, dispatch: dispatch }); // eslint-disable-line
         });
       } else {
         return response.json().then((json) => {
@@ -253,7 +255,7 @@ function exchangeCodeForToken({ oauthData, config, window, interval, dispatch })
             type: 'OAUTH_FAILURE',
             messages: Array.isArray(json) ? json : [json]
           });
-          closePopup({ window: window, interval: interval });
+          closePopup({ window: window, interval: interval }); // eslint-disable-line
         });
       }
     });
@@ -264,14 +266,13 @@ function signIn({ token, user, window, interval, dispatch }) {
   return new Promise((resolve, reject) => {
     dispatch({
       type: 'OAUTH_SUCCESS',
-      token: token,
-      user: user
+      token: token, // eslint-disable-line
+      user: user // eslint-disable-line
     });
     setAuthToken(token, { expires: moment().add(1, 'hour').toDate() });
     browserHistory.push('/');
-    resolve({ window: window, interval: interval });
+    resolve({ window: window, interval: interval }); // eslint-disable-line
   });
-
 }
 
 

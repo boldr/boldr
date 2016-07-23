@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../lib';
 import { User, VerificationToken } from '../db/models';
-import { signToken } from './auth.service';
 import { makeToken } from './authenticator';
 
 /**
@@ -60,7 +59,6 @@ const accountDelete = (req, res, next) => {
  * @apiGroup Auth
  */
 function logout(req, res) {
-  req.logout();
   req.session.destroy();
   res.redirect('/');
 }
@@ -100,13 +98,8 @@ async function handleSignup(req, res, next) {
     });
     // Save token.
     verificationStorage.save();
-    req.logIn(user, (err) => {
-      if (err) {
-        return Boom.unauthorized({ message: err });
-      }
-      return res.status(200).json({
-        message: 'You have been successfully logged in.'
-      });
+    res.status(201).send({
+      token: makeToken(user), user
     });
   } catch (err) {
     return next(err);

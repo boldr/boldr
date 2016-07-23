@@ -9,7 +9,7 @@ const router = Router();
 
 router.route('/')
 	.get(ctrl.getAllMedia)
-  .post(ensureAuthenticated(), ctrl.uploadFiles.array('photos', 3), ctrl.generalUpload);
+  .post(ensureAuthenticated, ctrl.uploadFiles.array('photos', 3), ctrl.generalUpload);
 
 router.route('/:mediaId')
   .get(ctrl.showMedia);
