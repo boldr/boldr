@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Media } from '../../db/models';
 import { logger } from '../../lib';
-import { isAuthenticated } from '../../auth/auth.service';
+import { ensureAuthenticated } from '../../auth/authenticator';
 import * as ctrl from './media.controller';
 import { s3SignService, tempRedirect } from './media.service';
 
@@ -9,7 +9,7 @@ const router = Router();
 
 router.route('/')
 	.get(ctrl.getAllMedia)
-  .post(isAuthenticated(), ctrl.uploadFiles.array('photos', 3), ctrl.generalUpload);
+  .post(ensureAuthenticated(), ctrl.uploadFiles.array('photos', 3), ctrl.generalUpload);
 
 router.route('/:mediaId')
   .get(ctrl.showMedia);

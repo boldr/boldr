@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import passport from 'passport';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import flash from 'express-flash';
@@ -51,14 +50,12 @@ export default app => {
     unset: 'destroy'
   });
   app.use(boldrSession);
-  app.use(passport.initialize());
 
   app.use(expressJwt({
     secret: config.SESSION_SECRET,
     credentialsRequired: false
   }));
   app.use(cookieParser());
-  app.use(passport.session());
   app.use(flash());
   app.use((req, res, next) => {
     if (!req.session) {

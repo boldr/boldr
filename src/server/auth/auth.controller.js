@@ -1,17 +1,17 @@
 import crypto from 'crypto';
 import async from 'async';
-import passport from 'passport';
 import Boom from 'boom';
 import moment from 'moment';
 
 import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../lib';
 import { User, VerificationToken } from '../db/models';
 import { signToken } from './auth.service';
+import { makeToken } from './authenticator';
 
 /**
  * @api {post} /auth/login          Login to a registered account.
  * @apiVersion 1.0.0
- * @apiName login
+ * @apiName handleLogin
  * @apiGroup Auth
  *
  * @apiParam {String}   Email       The email address registered to the account.
@@ -22,39 +22,46 @@ import { signToken } from './auth.service';
  *   HTTP/1.1 200 OK
  *   {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI...."}
  */
-export function login(req, res, next) {
-  passport.authenticate('local', (err, user, info) => {
-    const error = err || info;
-    if (error) {
-      return res.status(400).json(error);
-    }
-    if (!user) {
-      return res.status(401).json({ message: 'Please verify your credentials and try again.' });
-    }
 
-    signToken(user.id, user.role).then(token => {
-      req.session.userId = user.id;
-      req.session.role = user.role;
-      req.session.email = user.email;
-      req.session.firstName = user.firstName;
-      req.session.lastName = user.lastName;
-      req.session.key = token;
-      // req.session.key["keyname"] to fetch
-      req.user = user;
+const handleLogin = (req, res, next) => {
+  User.findByEmail(req.body.email)
+      .then((user) => {
+        if (!user) {
+          return Boom.unauthorized(`The email address ${req.body.email} is not
+            associated with any account. Double-check your email address and try again.`);
+        }
+        user.authenticate(req.body.password, (err, isMatch) => {
+          if (!isMatch) {
+            return Boom.unauthorized('Invalid email or password');
+          }
+          req.session.userId = user.id;
+          req.session.role = user.role;
+          req.session.email = user.email;
+          req.session.firstName = user.firstName;
+          req.session.lastName = user.lastName;
+          req.user = user;
+          res.status(200).send({ token: makeToken(user), user: user.toJSON() });
+        });
+      });
+};
 
-      return res.status(200).json({ token });
-    });
-  })(req, res, next);
-}
-
+/**
+ * DELETE /account
+ */
+const accountDelete = (req, res, next) => {
+  return User.findById(req.user.id).destroy().then((user) => {
+    res.status(204).json('Your account has been permanently deleted.');
+  });
+};
 /**
  * @api {post} /auth/logout           Remove the session information
  * @apiVersion 1.0.0
  * @apiName logout
  * @apiGroup Auth
  */
-export function logout(req, res) {
+function logout(req, res) {
   req.logout();
+  req.session.destroy();
   res.redirect('/');
 }
 
@@ -64,7 +71,7 @@ export function logout(req, res) {
  * @apiName signup
  * @apiGroup Auth
  */
-export async function signUp(req, res, next) {
+async function handleSignup(req, res, next) {
   try {
     const userData = {
       email: req.body.email,
@@ -106,7 +113,7 @@ export async function signUp(req, res, next) {
   }
 }
 
-export function checkUser(req, res, next) {
+function checkUser(req, res, next) {
   const userId = req.user.id;
   return User.find({
     where: {
@@ -124,7 +131,7 @@ export function checkUser(req, res, next) {
   })
     .then(user => { // don't ever give out the password or salt
       if (!user) {
-        return res.status(401).end();
+        return Boom.unauthorized;
       }
       res.json(user);
     })
@@ -134,7 +141,7 @@ export function checkUser(req, res, next) {
     });
 }
 
-export function forgottenPassword(req, res, next) {
+function forgottenPassword(req, res, next) {
   async.waterfall([
     function(done) {
       crypto.randomBytes(16, (err, buf) => {
@@ -167,7 +174,7 @@ export function forgottenPassword(req, res, next) {
   ]);
 }
 
-export async function resetPassword(req, res, next) {
+async function resetPassword(req, res, next) {
   const user = await User.find({ where: { resetPasswordToken: req.params.token } }).then(user => {
     if (!user) {
       return res.status(400).json('Password reset token is invalid or has expired.');
@@ -183,10 +190,11 @@ export async function resetPassword(req, res, next) {
   return res.status(200).json(sentMail);
 }
 
-export default {
-  login,
+export {
+  handleLogin,
+  accountDelete,
   logout,
-  signUp,
+  handleSignup,
   checkUser,
   forgottenPassword,
   resetPassword

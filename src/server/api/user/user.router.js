@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { isAuthenticated, hasRole } from '../../auth/auth.service';
+import { ensureAuthenticated } from '../../auth/authenticator';
 import * as ctrl from './user.controller';
 
 const router = Router();
@@ -7,14 +7,14 @@ const router = Router();
 router.route('/')
 	.get(ctrl.getAllUsers);
 
-router.get('/users/me', isAuthenticated(), ctrl.me);
+router.get('/users/me', ensureAuthenticated(), ctrl.me);
 
 router.route('/:userId')
   .get(ctrl.showUser)
-  .put(isAuthenticated(), ctrl.updateUser)
-	.delete(hasRole('admin'), ctrl.destroyUser);
+  .put(ensureAuthenticated(), ctrl.updateUser)
+	.delete(ensureAuthenticated(), ctrl.destroyUser);
 router.route('/:userId/password')
-  .put(isAuthenticated(), ctrl.changePassword);
+  .put(ensureAuthenticated(), ctrl.changePassword);
 
 router.param('userId', ctrl.load);
 
