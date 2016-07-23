@@ -17,7 +17,6 @@
     "dev": "better-npm-run dev",
     "lint": "eslint -c .eslintrc src",
     "migrate": "node_modules/.bin/sequelize db:migrate",
-    "postinstall": "npm run build",
     "seed": "node_modules/.bin/sequelize db:seed:all",
     "sequelize": "node_modules/.bin/sequelize",
     "start": "npm run start:prod",
