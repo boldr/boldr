@@ -3,6 +3,15 @@ import app from './engine';
 import models from './db/models';
 import config from './core/config/index';
 
+const nconf = require('nconf');
+
+nconf.env('__');
+
+if (process.env.NODE_ENV === 'testing') {
+  nconf.file('./core/config/testing.json');
+}
+
+
 require('babel-runtime/core-js/promise').default = require('bluebird');
 
 const debug = require('debug')('boldr:engine');

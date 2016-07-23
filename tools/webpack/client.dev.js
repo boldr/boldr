@@ -29,11 +29,11 @@ const BABELQUERY = {
 };
 const postCSSConfig = function() {
   return [
-    require('postcss-import')({
-      path: path.join(ROOT_DIR, 'src', 'styles'),
-      // addDependencyTo is used for hot-reloading in webpack
-      addDependencyTo: webpack
-    }),
+    // require('postcss-import')({
+    //   path: path.join(ROOT_DIR, 'src', 'styles'),
+    //   // addDependencyTo is used for hot-reloading in webpack
+    //   addDependencyTo: webpack
+    // }),
     // Note: you must set postcss-mixins before simple-vars and nested
     require('postcss-mixins')(),
     require('postcss-simple-vars')(),
