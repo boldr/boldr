@@ -1,15 +1,15 @@
 /* eslint-disable no-console */ /* eslint-disable no-unneeded-ternary */
 /* eslint-disable quote-props */
 import path from 'path';
+import fs from 'fs';
 import Debug from 'debug';
 import webpack from 'webpack';
 import dotenv from 'dotenv';
-const HappyPack = require('happypack');
+import HappyPack from 'happypack';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
-
 import { ROOT_DIR, SRC_DIR, WP_DS, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, BUILD_DIR } from '../constants';
-
 import isomorphicConfig from './isomorphic.config';
+
 const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 const debug = Debug('boldr:webpack:client');
 dotenv.config({ silent: true });
@@ -43,9 +43,9 @@ const postCSSConfig = function() {
     require('postcss-media-minmax')(),
     require('lost')(),
     //  parse CSS and add vendor prefixes to CSS rules
-    require('autoprefixer')({
-      browsers: VENDOR_PREFIXES
-    }),
+    // require('autoprefixer')({
+    //   browsers: VENDOR_PREFIXES
+    // }),
     // A PostCSS plugin to console.log() the messages registered by other
     // PostCSS plugins
     require('postcss-reporter')({
@@ -86,12 +86,13 @@ const clientDevConfig = {
   },
   resolve: {
     extensions: ['', '.json', '.js', '.jsx'],
-    modulesDirectories: [
+
+    modulesDir: [
       'src',
       'node_modules'
     ],
     alias: {
-      react$: require.resolve(path.join(NODE_MODULES_DIR, 'react')),
+      react: fs.realpathSync(path.join(NODE_MODULES_DIR, 'react')),
       components: path.resolve(ROOT_DIR, 'src/components'),
       src: path.join(ROOT_DIR, 'src'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),

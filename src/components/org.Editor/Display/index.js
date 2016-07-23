@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   Editor,
   EditorState,
-  convertFromRaw,
+  convertFromRaw
 } from 'draft-js';
 
 import { getBlockStyle } from '../shared/utilities';
@@ -11,7 +11,7 @@ import styles from './styles';
 
 
 const propTypes = {
-  description: PropTypes.string,
+  description: PropTypes.string
 };
 
 class TextDisplay extends Component {

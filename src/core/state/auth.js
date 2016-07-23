@@ -4,7 +4,7 @@ import decode from 'jwt-decode';
 import { setAuthToken, removeAuthToken, getAuthToken } from '../util/token';
 
 import fetch from '../fetch';
-import { API_BASE } from '../api';
+import { API_BASE, API_AUTH } from '../api';
 import { showSnackBarMessage } from './boldr';
 
 /**
@@ -38,7 +38,7 @@ export function doLogin(data) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
-      .post(`${API_BASE}/auth/login`)
+      .post(`${API_AUTH}/login`)
       .send(data)
       .then(response => {
         setAuthToken(response.body.token);
@@ -107,7 +107,7 @@ export function checkAuth() {
     if (!token || token === '') { return; }
     dispatch(checkAuthRequest());
     request
-      .get(`${API_BASE}/auth/check`)
+      .get(`${API_AUTH}/check`)
       .set('Authorization', `Bearer ${token}`)
       .then(response => {
         dispatch(checkAuthSuccess(response, token));
@@ -128,7 +128,7 @@ export function forgotPassword(email) {
     dispatch({
       type: 'FORGOT_PASSWORD_REQUEST'
     });
-    return fetch(`${API_BASE}/auth/forgot`, {
+    return fetch(`${API_AUTH}/forgot`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
@@ -161,7 +161,7 @@ export function resetPassword(password, confirm, pathToken) {
     dispatch({
       type: 'RESET_PASSWORD_REQUEST'
     });
-    return fetch(`${API_BASE}/auth/reset/${pathToken}`, {
+    return fetch(`${API_AUTH}/reset/${pathToken}`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
