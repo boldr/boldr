@@ -69,7 +69,7 @@ module.exports = {
           type: DataTypes.STRING
         },
         github: {
-          type: DataTypes.STRING
+          type: DataTypes.INTEGER
         },
         role: {
           type: DataTypes.ENUM('user', 'staff', 'admin'),

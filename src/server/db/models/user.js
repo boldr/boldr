@@ -109,8 +109,8 @@ const User = Model.define('user', {
     defaultValue: ''
   },
   github: {
-    type: DataTypes.STRING,
-    defaultValue: ''
+    type: DataTypes.INTEGER,
+    allowNull: true
   },
   google: {
     type: DataTypes.STRING,
@@ -119,21 +119,6 @@ const User = Model.define('user', {
   role: {
     type: DataTypes.ENUM('user', 'staff', 'admin'),
     defaultValue: 'user'
-  },
-  type: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-    allowNull: true
-  },
-  creation: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: creation.REGISTERED
-  },
-  resources: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
-    allowNull: true,
-    defaultValue: defaultResources
   }
 }, {
   timestamps: false,
@@ -149,19 +134,7 @@ const User = Model.define('user', {
     authenticate,
     updatePassword,
     makeSalt,
-    encryptPassword,
-    initWithData(data) {
-      this.email = data.email;
-      this.password = data.password;
-      this.displayName = data.displayName;
-      this.firstName = data.firstName;
-      this.lastName = data.lastName;
-      this.gender = data.gender;
-      this.location = data.location;
-      this.website = data.website;
-      this.picture = data.picture;
-      this.role = data.role;
-    }
+    encryptPassword
   },
   /**
    * Virtual Getters
@@ -180,9 +153,6 @@ const User = Model.define('user', {
         id: this.id,
         role: this.role
       };
-    },
-    isAdmin() {
-      return this.type === type.ADMIN;
     }
   },
   hooks: {

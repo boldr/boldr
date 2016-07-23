@@ -180,7 +180,7 @@
     </object>
     <object type="LMREQUEST" id="z128">
         <attribute name="uuid" type="string">B6FE70E1-D0EA-4FC7-8501-369BFD495A39</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"488D4AA2-B397-4180-AB76-5B8BE7C4408D"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/auth\\/login"]</attribute>
+        <attribute name="url" type="string">http://localhost:3000/auth/login</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>

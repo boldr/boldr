@@ -1,4 +1,7 @@
 const nconf = require('nconf');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 nconf.env('__');
 
@@ -33,7 +36,9 @@ nconf.defaults({
   FACEBOOK_ID: process.env.FACEBOOK_ID || 'secret',
   FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || 'secret',
   TWITTER_KEY: process.env.TWITTER_KEY || 'secret',
-  TWITTER_SECRET: process.env.TWITTER_SECRET || 'secret'
+  TWITTER_SECRET: process.env.TWITTER_SECRET || 'secret',
+  GITHUB_KEY: process.env.GITHUB_KEY || 'secret',
+  GITHUB_SECRET: process.env.GITHUB_SECRET || 'secret'
 
 });
 
