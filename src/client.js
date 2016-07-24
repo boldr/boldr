@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 // noinspection JSUnresolvedVariable
 import { AppContainer } from 'react-hot-loader';
 import { Router, browserHistory, match, applyRouterMiddleware } from 'react-router/es6';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
+import { syncHistoryWithStore, routerActions } from 'react-router-redux';
 // noinspection JSUnresolvedVariable
 import { trigger } from 'redial';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -19,7 +20,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import BoldrTheme from './styles/theme';
 import createStore from './core/state/createStore';
+import { checkAuth, isLoaded } from './scenes/Account/state/auth';
 import getRoutes from './scenes';
+
 import ApiClient from './core/api/ApiClient';
 
 import './styles/main.scss';
@@ -30,11 +33,15 @@ WebFontLoader.load({
   }
 });
 
+
 const container = document.querySelector('#content');
 const client = new ApiClient();
 const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
+// if (!isLoaded(store.getState())) {
+//   store.dispatch(checkAuth());
+// }
 
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = getRoutes(store, history);
@@ -50,7 +57,9 @@ const render = () => {
       <AppContainer>
         <Provider store={ store } key="provider">
           <MuiThemeProvider muiTheme={ muiTheme }>
-            <Router routes={ routes } history={ history } helpers={ client } render={ applyRouterMiddleware(useScroll()) } />
+            <Router routes={ routes } history={ history } helpers={ client }
+              render={ applyRouterMiddleware(useScroll()) } key={ Math.random() }
+            />
           </MuiThemeProvider>
         </Provider>
       </AppContainer>,
@@ -58,11 +67,14 @@ const render = () => {
     );
 
     return history.listen(location => {
+      // Match routes based on location object
       match({ routes, location }, (error, redirectLocation, renderProps) => {
         if (error) {
           console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
         }
+        // Get array of route handler components:
         const { components } = renderProps;
+         // Define locals to be provided to all lifecycle hooks:
         const locals = {
           path: renderProps.location.pathname,
           query: renderProps.location.query,
@@ -83,19 +95,12 @@ const render = () => {
     });
   });
 };
-// The following is needed so that we can hot reload our App.
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  window.React = React; // enable debugger
 
-  if (!container || !container.firstChild || !container.firstChild.attributes ||
-    !container.firstChild.attributes['data-react-checksum']) {
-    console.error(`Server-side React render was discarded. Make sure that your
-      initial render does not contain any client-side code.`);
-  }
-  // Accept changes to this file for hot reloading.
-  module.hot.accept();
-  // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('./scenes/index', render);
+const unsubscribeHistory = render();
+
+if (module.hot) {
+  module.hot.accept('./scenes/index', () => {
+    unsubscribeHistory();
+    setTimeout(render);
+  });
 }
-
-render();

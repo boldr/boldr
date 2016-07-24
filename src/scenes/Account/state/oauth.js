@@ -1,8 +1,8 @@
 import url from 'url';
 import qs from 'querystring';
 import moment from 'moment';
+import cookie from 'react-cookie';
 import browserHistory from 'react-router/lib/browserHistory';
-import { getAuthToken, setAuthToken } from 'core/util/token';
 import { API_AUTH } from 'core/api/constants';
 
 // Sign in with Facebook
@@ -269,7 +269,7 @@ function signIn({ token, user, window, interval, dispatch }) {
       token: token, // eslint-disable-line
       user: user // eslint-disable-line
     });
-    setAuthToken(token, { expires: moment().add(1, 'hour').toDate() });
+    cookie.save('token', token, { expires: moment().add(1, 'hour').toDate() });
     browserHistory.push('/');
     resolve({ window: window, interval: interval }); // eslint-disable-line
   });

@@ -20,8 +20,7 @@ class Users extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    siteUsers: state.siteUsers,
-    isLoading: state.siteUsers.isLoading
+    siteUsers: state.siteUsers
   };
 };
 

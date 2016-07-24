@@ -1,26 +1,26 @@
 
 import { Router } from 'express';
 import { processQuery } from '../../lib';
-import { ensureAuthenticated } from '../../auth/authenticator';
+import { isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './article.controller';
 
 const router = Router();
 
 router.route('/')
 	.get(processQuery, ctrl.getAllArticles)
-  .post(ensureAuthenticated, ctrl.createNewArticle);
+  .post(isAuthenticated(), ctrl.createNewArticle);
 
 router.route('/:slug')
   .get(ctrl.findArticleBySlug)
-  .put(ensureAuthenticated, ctrl.updateArticleBySlug)
-  .delete(ensureAuthenticated, ctrl.deleteArticleById);
+  .put(isAuthenticated(), ctrl.updateArticleBySlug)
+  .delete(isAuthenticated(), ctrl.deleteArticleById);
 
 router.route('/:articleId')
   .get(ctrl.showArticle)
-  .put(ensureAuthenticated, ctrl.updateArticleById)
-  .delete(ensureAuthenticated, ctrl.deleteArticleBySlug);
+  .put(isAuthenticated(), ctrl.updateArticleById)
+  .delete(isAuthenticated(), ctrl.deleteArticleBySlug);
 
 router.route('/:articleId/tags')
-  .post(ensureAuthenticated, ctrl.addTagToArticle);
+  .post(isAuthenticated(), ctrl.addTagToArticle);
 
 export default router;

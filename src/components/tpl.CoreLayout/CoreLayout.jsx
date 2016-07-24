@@ -1,14 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
-
 import TopBar from '../mol.TopBar';
 
-class CoreLayout extends Component {
-
-  render() {
-    return (
+const CoreLayout = (props) => {
+  return (
     <div>
       <Helmet
         title="Boldr"
@@ -16,16 +12,16 @@ class CoreLayout extends Component {
       />
       <TopBar />
 
-      { this.props.children }
+      { props.children }
 
     </div>
   );
-  }
-}
+};
 
 CoreLayout.propTypes = {
   children: PropTypes.node
 };
+
 function mapStateToProps(state) {
   return {
     boldr: state.boldr,

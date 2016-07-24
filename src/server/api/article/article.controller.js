@@ -143,7 +143,7 @@ export function createNewArticle(req, res) {
     markup: req.body.markup,
     content: req.body.content,
     featureImage: req.body.featureImage,
-    authorId: req.user.id,
+    authorId: req.session.userId,
     status: req.body.status
   }).then((article) => {
     for (let i = 0; i < req.body.tags.length; i++) {

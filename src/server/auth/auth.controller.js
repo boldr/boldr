@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../lib';
 import { User, VerificationToken } from '../db/models';
-import { makeToken } from './authenticator';
+import { signToken } from './auth.service';
 
 /**
  * @api {post} /auth/login          Login to a registered account.
@@ -33,13 +33,15 @@ const handleLogin = (req, res, next) => {
           if (!isMatch) {
             return Boom.unauthorized('Invalid email or password');
           }
+          const token = signToken(user);
           req.session.userId = user.id;
           req.session.role = user.role;
           req.session.email = user.email;
           req.session.firstName = user.firstName;
           req.session.lastName = user.lastName;
+          req.session.key = token;
           req.user = user;
-          res.status(200).send({ token: makeToken(user), user: user.toJSON() });
+          res.status(200).send({ token, user: user.toJSON() });
         });
       });
 };
@@ -99,7 +101,7 @@ async function handleSignup(req, res, next) {
     // Save token.
     verificationStorage.save();
     res.status(201).send({
-      token: makeToken(user), user
+      token: signToken(user), user
     });
   } catch (err) {
     return next(err);

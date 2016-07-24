@@ -158,6 +158,12 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
       return Object.assign({}, state, {
         isLoading: false
       });
+    case 'AUTH/LOGIN_SUCCESS': {
+      return {
+        ...state,
+        role: action.role
+      };
+    }
     case RESET_PASSWORD_REQUEST:
       return {
         ...state,

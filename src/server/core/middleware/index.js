@@ -9,6 +9,7 @@ import expressJwt from 'express-jwt';
 import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
+import passport from 'passport';
 import config from '../config/index';
 import redisClient from '../../db/redis';
 import { logger } from '../../lib';
@@ -27,20 +28,12 @@ export default app => {
   app.set('trust proxy', 'loopback');
   app.options('*', (req, res) => res.sendStatus(200));
 
-  app.all('/*', (req, res, next) => {
-    // CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'x-access-token, Content-Type, Authorization, Content-Length, X-Requested-With'); // eslint-disable-line
-    // If someone calls with method OPTIONS, let's display the allowed methods on our API
-    if (req.method === 'OPTIONS') {
-      res.status(200);
-      res.write('Allow: GET,PUT,POST,DELETE,OPTIONS');
-      res.end();
-    } else {
-      next();
-    }
-  });
+  app.use(cookieParser());
+  app.use(passport.initialize());
+  app.use(expressJwt({
+    secret: config.SESSION_SECRET,
+    credentialsRequired: false
+  }));
   const boldrSession = session({
     store: new RedisStore({ client: redisClient }),
     secret: config.SESSION_SECRET,
@@ -51,11 +44,7 @@ export default app => {
   });
   app.use(boldrSession);
 
-  app.use(expressJwt({
-    secret: config.SESSION_SECRET,
-    credentialsRequired: false
-  }));
-  app.use(cookieParser());
+  app.use(passport.session());
   app.use(flash());
   app.use((req, res, next) => {
     if (!req.session) {

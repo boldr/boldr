@@ -1,11 +1,13 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
-import { setAuthToken, removeAuthToken, getAuthToken } from 'core/util/token';
+import cookie from 'react-cookie';
+import moment from 'moment';
 
 import fetch from 'core/fetch';
 import { API_BASE, API_AUTH } from 'core/api';
 import { showSnackBarMessage } from 'core/state/boldr';
+import { populateAccount } from './account';
 
 /**
  * LOGIN ACTIONS
@@ -23,7 +25,7 @@ export function loginSuccess(response) {
   return {
     type: LOGIN_SUCCESS,
     token: response.body.token,
-    role: decoded.role
+    role: response.body.role
   };
 }
 // Login Error
@@ -38,13 +40,14 @@ export function doLogin(data) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
-      .post(`${API_AUTH}/login`)
+      .post(`${API_AUTH}/local`)
       .send(data)
       .then(response => {
-        setAuthToken(response.body.token);
+        // setAuthToken(response.body.token);
+        cookie.save('token', response.body.token, { expires: moment().add(1, 'hour').toDate() });
         dispatch(loginSuccess(response));
         dispatch(push('/'));
-        dispatch(showSnackBarMessage('Successfully logged in.'));
+        // dispatch(showSnackBarMessage('Successfully logged in.'));
       })
       .catch(err => {
         dispatch(loginError(err));
@@ -69,7 +72,7 @@ export function logOut() {
     return request
       .get(`${API_AUTH}/logout`)
       .then(response => {
-        removeAuthToken();
+        cookie.remove('token');
         dispatch(logoutSuccess());
         dispatch(showSnackBarMessage('Successfully logged out.'));
       })
@@ -93,7 +96,7 @@ function checkAuthRequest() {
 function checkAuthSuccess(response, token) {
   const decoded = decode(token);
   return {
-    type: CHECK_AUTH_REQUEST,
+    type: CHECK_AUTH_SUCCESS,
     payload: response.body,
     role: decoded.role,
     token,
@@ -111,7 +114,7 @@ function checkAuthFailure(error) {
 }
 
 export function checkAuth() {
-  const token = getAuthToken() || '';
+  const token = cookie.load('token');
   return (dispatch) => {
     if (!token || token === '') { return; }
     dispatch(checkAuthRequest());
@@ -123,7 +126,7 @@ export function checkAuth() {
       })
       .catch(() => {
         dispatch(checkAuthFailure('Token is invalid'));
-        removeAuthToken();
+        cookie.remove('token');
       });
   };
 }
@@ -200,6 +203,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         loaded: true,
         isAuthenticated: true,
+        role: action.role,
         token: action.token
       };
     case 'OAUTH_SUCCESS':

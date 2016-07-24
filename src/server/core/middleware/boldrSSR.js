@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { trigger } from 'redial';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import reactCookie from 'react-cookie';
 
 import { logger } from '../../lib';
 import BoldrTheme from '../../../styles/theme';
@@ -21,6 +22,14 @@ export default (req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
   }
+  reactCookie.plugToRequest(req, res);
+  if (typeof(req.headers.cookie) !== 'undefined') {
+    reactCookie.setRawCookie(req.headers.cookie);
+  } else {
+    // Force empty cookie
+    reactCookie.setRawCookie('');
+  }
+
   const initialState = {
     auth: {
       isAuthenticated: req.session.key ? true : false, // eslint-disable-line
@@ -37,7 +46,7 @@ export default (req, res) => {
 
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
-  const store = createStore(memoryHistory, client, initialState);
+  const store = createStore(memoryHistory, client);
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {

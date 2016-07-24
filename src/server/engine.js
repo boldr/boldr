@@ -2,10 +2,10 @@ import _debug from 'debug';
 import errorHandler from 'errorhandler';
 import express from 'express';
 import Boom from 'boom';
+import jwt from 'jsonwebtoken';
 import models, { User } from './db/models';
 import routes from './api/routes';
-import authRoutes from './auth/auth.router';
-import authMiddleware from './core/middleware/authMiddleware';
+import authRoutes from './auth';
 import { middleware, boldrSSR } from './core';
 
 const debug = _debug('boldr:server');
@@ -15,7 +15,7 @@ app.set('models', models);
 // Get an instance of the express Router
 debug('express middleware');
 middleware(app);
-app.use(authMiddleware);
+
 debug('routes');
 app.use('/api/v1', routes);
 app.use('/auth', authRoutes);

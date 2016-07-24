@@ -29,10 +29,30 @@ function makeToken(user) {
  * @return {Void}        End the middleware
  */
 const ensureAuthenticated = (req, res, next) => {
+  req.isAuthenticated = function() {
+    const token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
+    try {
+      return jwt.verify(token, process.env.SESSION_SECRET);
+    } catch (err) {
+      return false;
+    }
+  };
+
+  if (req.isAuthenticated()) {
+    const payload = req.isAuthenticated();
+    const userId = payload.sub;
+    User.findById(userId)
+      .then((user) => {
+        req.user = user;
+        next();
+      });
+  } else {
+    next();
+  }
   if (req.isAuthenticated()) {
     next();
   } else {
-    Boom.unathorized('Sorry your credentials could not be verfied. Please login and try again.');
+    return res.status(401).json('Sorry your credentials could not be verfied. Please login and try again.');
   }
 };
 

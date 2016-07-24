@@ -1,8 +1,9 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-
+import cookies from 'react-cookie';
 import fetch from 'core/fetch';
 import { API_ARTICLES } from 'core/api';
+import { processResponse } from 'core/api/ApiClient';
 import { getAuthToken } from 'core/util/token';
 
 /**
@@ -14,13 +15,31 @@ export const FETCH_ARTICLES_FAIL = 'FETCH_ARTICLES_FAIL';
 
 // Fetch Articles Action
 
-export function loadArticles() {
+// export function loadArticles() {
+//   return {
+//     types: [FETCH_ARTICLES_REQUEST, FETCH_ARTICLES_SUCCESS, FETCH_ARTICLES_FAIL],
+//     promise: (client) => client.get('/api/v1/articles')
+//   };
+// }
+export function requestArticles() {
+  return { type: FETCH_ARTICLES_REQUEST };
+}
+
+export function receiveArticles(json) {
   return {
-    types: [FETCH_ARTICLES_REQUEST, FETCH_ARTICLES_SUCCESS, FETCH_ARTICLES_FAIL],
-    promise: (client) => client.get('/articles')
+    type: FETCH_ARTICLES_SUCCESS,
+    result: json
   };
 }
 
+function fetchArticles() {
+  return dispatch => {
+    dispatch(requestArticles());
+    return fetch(`${API_ARTICLES}`)
+      .then(response => processResponse(response))
+      .then(json => dispatch(receiveArticles(json)));
+  };
+}
 function shouldFetchArticles(state) {
   const article = state.article;
   if (!article.articles) {
@@ -35,7 +54,7 @@ function shouldFetchArticles(state) {
 export function fetchArticlesIfNeeded() {
   return (dispatch, getState) => {
     if (shouldFetchArticles(getState())) {
-      return dispatch(loadArticles());
+      return dispatch(fetchArticles());
     }
 
     return Promise.resolve();
@@ -74,7 +93,7 @@ export function createArticle(articleData) {
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${cookies.load('token')}`)
       .send({
         title: articleData.title,
         content: articleData.content,

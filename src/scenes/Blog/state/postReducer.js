@@ -1,3 +1,5 @@
+import fetch from 'core/fetch';
+import { processResponse } from 'core/api/ApiClient';
 /**
  * GET ARTICLE ACTIONS
  */
@@ -7,10 +9,23 @@ export const FETCH_POSTS_FAIL = 'FETCH_POSTS_FAIL';
 
 // Fetch Articles Action
 
-export function loadPosts() {
+export function requestPosts() {
+  return { type: FETCH_POSTS_REQUEST };
+}
+
+export function receivePosts(json) {
   return {
-    types: [FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAIL],
-    promise: (client) => client.get('/articles')
+    type: FETCH_POSTS_SUCCESS,
+    result: json
+  };
+}
+
+function fetchPosts() {
+  return dispatch => {
+    dispatch(requestPosts());
+    return fetch('/api/v1/articles')
+      .then(response => processResponse(response))
+      .then(json => dispatch(receivePosts(json)));
   };
 }
 
@@ -28,7 +43,7 @@ function shouldFetchPosts(state) {
 export function fetchPostsIfNeeded() {
   return (dispatch, getState) => {
     if (shouldFetchPosts(getState())) {
-      return dispatch(loadPosts());
+      return dispatch(fetchPosts());
     }
 
     return Promise.resolve();

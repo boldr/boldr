@@ -5,7 +5,7 @@ import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { createArticle } from 'Dashboard/scenes/Articles/state';
+import { createArticle } from 'scenes/Dashboard/scenes/Articles/state';
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {
@@ -28,8 +28,7 @@ class ArticleEditor extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    article: state.article,
-    isLoading: state.article.isLoading
+    article: state.article
   };
 };
 export default connect(mapStateToProps)(ArticleEditor);

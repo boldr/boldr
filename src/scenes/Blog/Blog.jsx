@@ -30,8 +30,8 @@ class Blog extends Component {
       <div>
         Blog
         {
-          this.props.post.isLoading ? <h1>Loading ...</h1> :
-        postsCollection }
+          this.props.post.isLoading ? <h1>Loading ...</h1> : postsCollection
+        }
       </div>
     );
   }

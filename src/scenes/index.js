@@ -1,24 +1,19 @@
+import { UserAuthWrapper } from 'redux-auth-wrapper';
+import { routerActions } from 'react-router-redux';
 import Dashboard from './Dashboard/index';
 
 import { isLoaded as isAuthLoaded, load as loadAuth } from './Account/state/auth';
 
+const UserIsAuthenticated = UserAuthWrapper({
+  authSelector: state => state.auth, // how to get the user state
+  failureRedirectPath: '/account/login',
+  redirectAction: routerActions.replace, // the redux action to dispatch for redirect
+  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check
+  predicate: auth => auth.isAuthenticated === true,
+  allowRedirectBack: true
+});
 export default (store) => {
-  const requireLogin = (nextState, replace, cb) => {
-      function checkAuth() {
-        const { auth: { isAuthenticated }} = store.getState();
-        if (!isAuthenticated) {
-          // oops, not logged in, so can't be here!
-          replace('/');
-        }
-        cb();
-      }
-
-      if (!isAuthLoaded(store.getState())) {
-        store.dispatch(loadAuth()).then(checkAuth);
-      } else {
-        checkAuth();
-      }
-    };
+  const connect = (fn) => (nextState, replaceState) => fn(store, nextState, replaceState);
   if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 
   return {
@@ -28,7 +23,7 @@ export default (store) => {
       component: require('./Home').default
     },
     childRoutes: [
-      Dashboard(store),
+      Dashboard(store, connect),
 
       {
         path: 'about',
@@ -63,6 +58,15 @@ export default (store) => {
         }
       },
       {
+        path: 'account/preferences',
+        onEnter: connect(UserIsAuthenticated.onEnter),
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, UserIsAuthenticated(require('./Account/scenes/Preferences/components/tpl.Preferences').default));
+          });
+        }
+      },
+      {
         path: 'account/reset-password',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
@@ -80,10 +84,11 @@ export default (store) => {
       },
       {
         path: 'profile',
-        onEnter: requireLogin,
+        onEnter: connect(UserIsAuthenticated.onEnter),
+        // onEnter: requireLogin,
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
-            cb(null, require('./Profile').default);
+            cb(null, UserIsAuthenticated(require('./Profile').default));
           });
         }
       }

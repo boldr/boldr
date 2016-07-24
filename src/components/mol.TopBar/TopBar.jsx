@@ -62,6 +62,7 @@ class TopBar extends React.Component {
                     this.props.auth.isAuthenticated ?
                       <div>
                         <MenuItem value="4"><Link to="/profile">Profile</Link></MenuItem>
+                        <MenuItem value="5"><Link to="/account/preferences">Preferences</Link></MenuItem>
                         <MenuItem value="3" onTouchTap={ ::this.handleClickSignout }>Sign Out</MenuItem></div> :
                           <div>
                             <MenuItem value="1"><Link to="/account/login">Login</Link></MenuItem>
