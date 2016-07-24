@@ -2,10 +2,10 @@ import _debug from 'debug';
 import errorHandler from 'errorhandler';
 import express from 'express';
 import Boom from 'boom';
-import jwt from 'jsonwebtoken';
+import models, { User } from './db/models';
 import routes from './api/routes';
 import authRoutes from './auth/auth.router';
-import models, { User } from './db/models';
+import authMiddleware from './core/middleware/authMiddleware';
 import { middleware, boldrSSR } from './core';
 
 const debug = _debug('boldr:server');
@@ -15,28 +15,7 @@ app.set('models', models);
 // Get an instance of the express Router
 debug('express middleware');
 middleware(app);
-app.use((req, res, next) => {
-  req.isAuthenticated = function() {
-    const token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
-    try {
-      return jwt.verify(token, process.env.SESSION_SECRET);
-    } catch (err) {
-      return false;
-    }
-  };
-
-  if (req.isAuthenticated()) {
-    const payload = req.isAuthenticated();
-    const userId = payload.sub;
-    User.findById(userId)
-      .then((user) => {
-        req.user = user;
-        next();
-      });
-  } else {
-    next();
-  }
-});
+app.use(authMiddleware);
 debug('routes');
 app.use('/api/v1', routes);
 app.use('/auth', authRoutes);
