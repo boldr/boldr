@@ -85,7 +85,6 @@ export default (store) => {
       {
         path: 'profile',
         onEnter: connect(UserIsAuthenticated.onEnter),
-        // onEnter: requireLogin,
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
             cb(null, UserIsAuthenticated(require('./Profile').default));

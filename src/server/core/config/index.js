@@ -1,7 +1,5 @@
 const nconf = require('nconf');
-const dotenv = require('dotenv');
 
-dotenv.load();
 nconf.env('__');
 nconf.argv().env();
 
