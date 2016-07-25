@@ -13,6 +13,7 @@ import ActionDescription from 'material-ui/svg-icons/action/description';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
 import { logOut } from 'scenes/Account/state/auth';
+import { goHome } from '../../core/state/boldr';
 import SiteLogo from 'components/atm.SiteLogo/index';
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';
@@ -30,9 +31,8 @@ class TopBar extends React.Component {
     this.props.actions.logOut();
   }
 
-  handleClickHome() {
-    const path = '/';
-    browserHistory.push(path);
+  handleClickHome(dispatch) {
+    this.props.actions.goHome();
   }
 
   handleOnRequestChange = (value) => {
@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({ logOut }, dispatch)
+    actions: bindActionCreators({ logOut, goHome }, dispatch)
   };
 };
 

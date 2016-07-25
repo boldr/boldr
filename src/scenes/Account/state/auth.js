@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import fetch from 'core/fetch';
 import { API_BASE, API_AUTH } from 'core/api';
-import { showSnackBarMessage } from 'core/state/boldr';
 import { populateAccount } from './account';
 
 /**
@@ -74,7 +73,6 @@ export function logOut() {
       .then(response => {
         cookie.remove('token');
         dispatch(logoutSuccess());
-        dispatch(showSnackBarMessage('Successfully logged out.'));
       })
   .catch(err => {
     dispatch(logoutError(err));
@@ -94,11 +92,10 @@ function checkAuthRequest() {
 }
 
 function checkAuthSuccess(response, token) {
-  const decoded = decode(token);
   return {
     type: CHECK_AUTH_SUCCESS,
     payload: response.body,
-    role: decoded.role,
+    role: response.body.profile.role,
     token,
     email: response.body.email,
     firstName: response.body.profile.firstName,
@@ -123,6 +120,7 @@ export function checkAuth() {
       .set('Authorization', `Bearer ${token}`)
       .then(response => {
         dispatch(checkAuthSuccess(response, token));
+        dispatch(populateAccount(response));
       })
       .catch(() => {
         dispatch(checkAuthFailure('Token is invalid'));
@@ -178,7 +176,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         loaded: true,
         isAuthenticated: true,
         token: action.result.token,
-        role: action.result.profile.role,
+        role: action.result.role,
         email: action.result.email
       };
     case LOAD_FAIL:

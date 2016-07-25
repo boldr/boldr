@@ -92,7 +92,7 @@
       }
     },
     "test:client": {
-      "command": "./node_modules/.bin/mocha --compilers js:./compiler.babel --require ignore-styles --opts ./mocha.opts './src/**/*.test.js'",
+      "command": "./node_modules/.bin/mocha --compilers js:./compiler.babel --require tools/test/helper.js --require ignore-styles --opts ./mocha.opts './src/**/*.test.js'",
       "env": {
         "NODE_ENV": "testing",
         "NODE_PATH": "./src",

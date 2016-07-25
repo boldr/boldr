@@ -153,6 +153,19 @@ export function getMyProfile() {
     });
   };
 }
+const POPULATE_ACCOUNT = 'POPULATE_ACCOUNT';
+
+export function populateAccount(response) {
+  return {
+    type: 'POPULATE_ACCOUNT',
+    role: response.body.profile.role,
+    email: response.body.email,
+    firstName: response.body.profile.firstName,
+    lastName: response.body.profile.lastName,
+    id: response.body.id
+  };
+}
+
 /**
  * INITIAL STATE
  */
@@ -186,9 +199,10 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false
       });
     case CREATE_ACCOUNT_FAIL:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false
-      });
+      };
     case 'AUTH/LOGIN_SUCCESS': {
       return {
         ...state,
@@ -243,6 +257,16 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         ...state,
         isLoading: false
       };
+    case POPULATE_ACCOUNT:
+      return {
+        ...state,
+        isLoading: false,
+        firstName: action.firstName,
+        lastName: action.lastName,
+        email: action.email,
+        id: action.id,
+        role: action.role
+      }
     default:
       return state;
   }

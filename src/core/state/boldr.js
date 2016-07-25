@@ -10,6 +10,12 @@ export const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
 
 export const SETTINGS_ENDPOINT = `${API_BASE}/settings`;
 
+export function goHome(data) {
+  return (dispatch) => {
+    dispatch(push('/'));
+  };
+}
+
 const loadSettings = () => ({
   type: LOAD_SETTINGS
 });

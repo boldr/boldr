@@ -1,21 +1,17 @@
-/** @namespace window.__data */
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// noinspection JSUnresolvedVariable
 import { AppContainer } from 'react-hot-loader';
 import { Router, browserHistory, match, applyRouterMiddleware } from 'react-router/es6';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { syncHistoryWithStore, routerActions } from 'react-router-redux';
-// noinspection JSUnresolvedVariable
 import { trigger } from 'redial';
 import cookie from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // Non-vendor
 
@@ -44,7 +40,7 @@ const token = cookie.load('token');
 
 if (token) {
   // Update application state. User has token and is probably authenticated
-  store.dispatch({ type: CHECK_AUTH_SUCCESS });
+  store.dispatch(checkAuth(token));
 }
 
 const history = syncHistoryWithStore(browserHistory, store);
