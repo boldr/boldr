@@ -51,7 +51,7 @@ describe('authReducer', () => {
       loaded: true,
       isAuthenticated: true,
       token: undefined,
-      role: '',
+      role: undefined,
       hydrated: true
     }));
   });
