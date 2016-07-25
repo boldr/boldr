@@ -232,7 +232,7 @@
     "nodemon": "^1.9.2",
     "postcss-custom-media": "^5.0.1",
     "postcss-extend": "^1.0.4",
-    "postcss-import": "8.1.2",
+    "postcss-import": "8.1.0",
     "postcss-loader": "^0.9.1",
     "postcss-media-minmax": "^2.1.2",
     "postcss-mixins": "^5.0.0",
