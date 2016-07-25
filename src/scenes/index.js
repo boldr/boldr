@@ -1,6 +1,7 @@
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { routerActions } from 'react-router-redux';
 import Dashboard from './Dashboard/index';
+import Account from './Account/index';
 
 import { isLoaded as isAuthLoaded, load as loadAuth } from './Account/state/auth';
 
@@ -12,6 +13,7 @@ const UserIsAuthenticated = UserAuthWrapper({
   predicate: auth => auth.isAuthenticated === true,
   allowRedirectBack: true
 });
+
 export default (store) => {
   const connect = (fn) => (nextState, replaceState) => fn(store, nextState, replaceState);
   if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
@@ -24,6 +26,7 @@ export default (store) => {
     },
     childRoutes: [
       Dashboard(store, connect),
+      Account(store, connect),
 
       {
         path: 'about',
@@ -41,47 +44,7 @@ export default (store) => {
           });
         }
       },
-      {
-        path: 'account/forgot-password',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Account/scenes/ForgotPassword').default);
-          });
-        }
-      },
-      {
-        path: 'account/login',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Account/scenes/Login').default);
-          });
-        }
-      },
-      {
-        path: 'account/preferences',
-        onEnter: connect(UserIsAuthenticated.onEnter),
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, UserIsAuthenticated(require('./Account/scenes/Preferences/components/tpl.Preferences').default));
-          });
-        }
-      },
-      {
-        path: 'account/reset-password',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Account/scenes/ResetPassword').default);
-          });
-        }
-      },
-      {
-        path: 'account/signup',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Account/scenes/Signup').default);
-          });
-        }
-      },
+      
       {
         path: 'profile',
         onEnter: connect(UserIsAuthenticated.onEnter),
