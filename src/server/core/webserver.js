@@ -10,10 +10,10 @@ import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import passport from 'passport';
-import config from '../config/index';
-import redisClient from '../../db/redis';
-import { logger } from '../../lib';
-import sessionService from './sessionService';
+import config from './config/index';
+import redisClient from '../db/redis';
+import { logger } from '../lib';
+import sessionService from './middleware/sessionService';
 
 const RedisStore = require('connect-redis')(session);
 

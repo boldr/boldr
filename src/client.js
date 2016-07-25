@@ -17,7 +17,7 @@ import WebFontLoader from 'webfontloader';
 
 import BoldrTheme from './styles/theme';
 import createStore from './core/state/createStore';
-import { checkAuth, isLoaded, CHECK_AUTH_SUCCESS } from './scenes/Account/state/auth';
+import { checkAuth } from './scenes/Account/state/auth';
 import getRoutes from './scenes';
 
 import ApiClient from './core/api/ApiClient';

@@ -1,13 +1,15 @@
-FROM mhart/alpine-node:6.3
+FROM node:6.3
 
-RUN mkdir -p /src
-WORKDIR /src
-ADD . .
+ENV POSTGRES_DB_URL=postgres://postgres:password@db:5432/boldr
 
-RUN apk add --no-cache make gcc g++ python \
-  && npm install \
-  && npm run build
+RUN mkdir -p /usr/src/boldr
+WORKDIR /usr/src/boldr
+
+COPY package.json /usr/src/boldr
+RUN apt-get install -y libpq-dev && npm install
+COPY . /usr/src/boldr
+
+ENV NODE_ENV production
 
 EXPOSE 3000
-
-CMD npm run start
+CMD ["npm", "start"]

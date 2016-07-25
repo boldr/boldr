@@ -13,14 +13,6 @@ export const FETCH_ARTICLES_REQUEST = 'FETCH_ARTICLES_REQUEST';
 export const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS';
 export const FETCH_ARTICLES_FAIL = 'FETCH_ARTICLES_FAIL';
 
-// Fetch Articles Action
-
-// export function loadArticles() {
-//   return {
-//     types: [FETCH_ARTICLES_REQUEST, FETCH_ARTICLES_SUCCESS, FETCH_ARTICLES_FAIL],
-//     promise: (client) => client.get('/api/v1/articles')
-//   };
-// }
 export function requestArticles() {
   return { type: FETCH_ARTICLES_REQUEST };
 }
@@ -40,6 +32,7 @@ function fetchArticles() {
       .then(json => dispatch(receiveArticles(json)));
   };
 }
+
 function shouldFetchArticles(state) {
   const article = state.article;
   if (!article.articles) {
@@ -60,6 +53,22 @@ export function fetchArticlesIfNeeded() {
     return Promise.resolve();
   };
 }
+
+export const SELECT_ARTICLE = 'SELECT_ARTICLE';
+
+function articleSelected(articleId) {
+  return {
+    type: SELECT_ARTICLE,
+    id: articleId
+  };
+}
+
+export function selectArticle(articleId) {
+  return (dispatch) => {
+    dispatch(articleSelected(articleId));
+  };
+}
+
 /**
  * CREATE` ARTICLE ACTIONS
  * @TODO Before sending data, or in the server, split the tags by , and put them
@@ -113,7 +122,7 @@ export function createArticle(articleData) {
 
 export const INITIAL_STATE = {
   isLoading: false,
-  error: undefined,
+  message: undefined,
   articles: []
 };
 
@@ -125,34 +134,46 @@ export const INITIAL_STATE = {
 export default function article(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case FETCH_ARTICLES_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: true
-      });
+      };
     case FETCH_ARTICLES_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
         articles: action.result
-      });
+      };
     case FETCH_ARTICLES_FAIL:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
-        error: action.error
-      });
+        message: action.error
+      };
     case CREATE_ARTICLE_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
-        error: action.error
-      });
+        message: action.error
+      };
     case CREATE_ARTICLE_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
-        error: action.error
-      });
+        message: action.error
+      };
     case CREATE_ARTICLE_FAIL:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
-        error: action.error
-      });
+        message: action.error
+      };
+    case SELECT_ARTICLE:
+      return {
+        ...state,
+        isLoading: false,
+        id: action.id
+      };
     default:
       return state;
   }

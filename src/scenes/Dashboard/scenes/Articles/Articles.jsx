@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { List, ListItem } from 'material-ui/List';
 import classNames from 'classnames/bind';
-import { fetchArticlesIfNeeded } from './state/article';
+import { fetchArticlesIfNeeded, selectArticle } from './state/article';
 import ArticleListItem from './components/org.ArticleListItem';
 import styles from './style.css';
 
@@ -19,8 +19,8 @@ class Articles extends Component {
       visible: false
     };
   }
-  handleArticleClick() {
-    this.setState({ visible: true });
+  handleArticleClick(articleId) {
+    this.props.dispatch(selectArticle(articleId))
   }
   render() {
     if (!this.props.article.articles.length) {
@@ -30,7 +30,7 @@ class Articles extends Component {
        <div className={ cx('articleList') }>
         <List className={ cx('articleList__wrap') }>
           { this.props.article.articles.map(article =>
-            <ArticleListItem key={ article.id } article={ article } handleClick={ ::this.handleArticleClick } />)
+            <ArticleListItem key={ article.id } article={ article } handleArticleClick={ ::this.handleArticleClick } />)
           }
         </List>
         <div className={ cx('articleList__preview') }>

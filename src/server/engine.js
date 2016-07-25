@@ -2,19 +2,18 @@ import _debug from 'debug';
 import errorHandler from 'errorhandler';
 import express from 'express';
 import Boom from 'boom';
-import jwt from 'jsonwebtoken';
+
 import models, { User } from './db/models';
 import routes from './api/routes';
 import authRoutes from './auth';
-import { middleware, boldrSSR } from './core';
+import { webserver, boldrSSR } from './core';
 
 const debug = _debug('boldr:server');
 // Create our express server.
 const app = express();
 app.set('models', models);
-// Get an instance of the express Router
 debug('express middleware');
-middleware(app);
+webserver(app);
 
 debug('routes');
 app.use('/api/v1', routes);

@@ -59,6 +59,7 @@ export function doLogin(data) {
  */
 export const LOGOUT_USER = 'AUTH/LOGOUT_USER';
 export const LOGOUT_USER_FAIL = 'AUTH/LOGOUT_USER_FAIL';
+
 export function logoutSuccess() {
   return { type: LOGOUT_USER };
 }
@@ -149,8 +150,8 @@ export function load() {
 const INITIAL_STATE = {
   loaded: false,
   isLoading: false,
-  role: '',
-  token: '',
+  role: null,
+  token: null,
   hydrated: false
 };
 

@@ -9,7 +9,10 @@ import { Editor, EditorState } from 'draft-js';
 import Paper from 'material-ui/Paper';
 // import BoldrEditor from 'components/org.BoldrEditor';
 import TextEditor from 'components/org.Editor/Editor/Editor';
+import classNames from 'classnames/bind';
+import styles from './style.css';
 
+const cx = styles::classNames;
 const style = {
   block: {
     maxWidth: 250
@@ -53,12 +56,12 @@ class NewArticleForm extends Component {
     });
   }
   render() {
-    const { fields: { title, tags, content, status }, handleSubmit } = this.props;
+    const { fields: { title, tags, excerpt, content, status }, handleSubmit } = this.props;
     const { editorState } = this.state;
     return (
+      <section>
       <form onSubmit={ handleSubmit }>
-        <div className="row">
-          <div className="col-md-3">
+          <div className={ cx('articleEditor__left') }>
             <Paper
               zDepth={ 3 }
               style={ {
@@ -82,7 +85,14 @@ class NewArticleForm extends Component {
                   { ...tags }
                 />
               </div>
-
+              <div className="row">
+                <TextField hintText= "A short summary"
+                  floatingLabelText="Excerpt"
+                  fullWidth
+                  errorText = { excerpt.touched && excerpt.error }
+                  { ...excerpt }
+                />
+              </div>
               <div className="row">
                 <label>
                   <input type="radio" { ...status } value="draft" checked={ status.value === 'draft' } /> Draft
@@ -96,7 +106,7 @@ class NewArticleForm extends Component {
               </div>
             </Paper>
           </div>
-          <div className="col-md-9">
+          <div className={ cx('articleEditor__right') }>
             <Paper
               zDepth={ 3 }
             >
@@ -107,15 +117,15 @@ class NewArticleForm extends Component {
               />
             </Paper>
           </div>
-        </div>
       </form>
+      </section>
       );
   }
 }
 
 export default reduxForm({
   form: 'NewArticleForm',
-  fields: ['title', 'tags', 'content', 'status']
+  fields: ['title', 'tags', 'excerpt', 'content', 'status']
 })(NewArticleForm);
 
 NewArticleForm.propTypes = {

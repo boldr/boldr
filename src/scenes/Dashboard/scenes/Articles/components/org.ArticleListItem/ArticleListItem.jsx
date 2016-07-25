@@ -2,14 +2,19 @@ import React from 'react';
 import { List, ListItem } from 'material-ui/List';
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
+
 import styles from './style.css';
 
 const cx = styles::classNames;
 
 const ArticleListItem = props => {
+  function handleclick() {
+    const articleId = props.article.id;
+    props.handleArticleClick(articleId);
+  };
   return (
      <div className={ cx('article-wrap') }>
-       <ul className={ cx('article-list') } onClick={ props.handleClick }>
+       <ul className={ cx('article-list') } onClick={ handleclick }>
          <li className={ cx('article-list__item') }>
            { props.article.title }
          </li>

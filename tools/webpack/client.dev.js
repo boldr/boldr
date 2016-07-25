@@ -29,12 +29,6 @@ const BABELQUERY = {
 };
 const postCSSConfig = function() {
   return [
-    // require('postcss-import')({
-    //   path: path.join(ROOT_DIR, 'src', 'styles'),
-    //   // addDependencyTo is used for hot-reloading in webpack
-    //   addDependencyTo: webpack
-    // }),
-    // Note: you must set postcss-mixins before simple-vars and nested
     require('postcss-mixins')(),
     require('postcss-simple-vars')(),
     // Unwrap nested rules like how Sass does it
@@ -42,12 +36,6 @@ const postCSSConfig = function() {
     require('postcss-custom-media')(),
     require('postcss-media-minmax')(),
     require('lost')(),
-    //  parse CSS and add vendor prefixes to CSS rules
-    // require('autoprefixer')({
-    //   browsers: VENDOR_PREFIXES
-    // }),
-    // A PostCSS plugin to console.log() the messages registered by other
-    // PostCSS plugins
     require('postcss-reporter')({
       clearMessages: true
     })
@@ -127,16 +115,16 @@ const clientDevConfig = {
         test: /\.css$/,
         loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
       }),
-       {
-          test: /\.scss$/,
-          exclude: path.resolve(ROOT_DIR, 'src', 'styles'),
-          loader: [
-            'css?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]',
-            'postcss',
-            'resolve-url',
-            'sass?sourceMap',
-          ]
-      },
+      {
+        test: /\.scss$/,
+        exclude: path.resolve(ROOT_DIR, 'src', 'styles'),
+        loader: [
+          'css?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]',
+          'postcss',
+          'resolve-url',
+          'sass?sourceMap'
+        ]
+      }
     ]
   },
   postcss: postCSSConfig,

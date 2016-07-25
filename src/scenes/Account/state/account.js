@@ -7,7 +7,7 @@ import fetch from 'core/fetch';
 import { API_BASE, API_AUTH } from 'core/api';
 
 /**
- * SIGNUP ACTIONS
+ * SIGNUP ACTION TYPES
  */
 export const CREATE_ACCOUNT_REQUEST = 'CREATE_ACCOUNT_REQUEST';
 export const CREATE_ACCOUNT_SUCCESS = 'CREATE_ACCOUNT_SUCCESS';
@@ -53,6 +53,9 @@ export function createAccount(data) {
   };
 }
 
+/**
+ * FORGOT PASSWORD ACTION TYPES
+ */
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL';
@@ -86,6 +89,9 @@ export function forgotPassword(email) {
   };
 }
 
+/**
+ * RESET PASSWORD ACTION TYPES
+ */
 export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAIL = 'RESET_PASSWORD_FAIL';
@@ -122,6 +128,26 @@ export function resetPassword(password, confirm, pathToken) {
   };
 }
 
+/**
+ * Populate account helper action type
+ * @type {String}
+ */
+const POPULATE_ACCOUNT = 'POPULATE_ACCOUNT';
+
+export function populateAccount(response) {
+  return {
+    type: 'POPULATE_ACCOUNT',
+    role: response.body.profile.role,
+    email: response.body.email,
+    firstName: response.body.profile.firstName,
+    lastName: response.body.profile.lastName,
+    id: response.body.id
+  };
+}
+
+/**
+ * MY PROFILE ACTION TYPES
+ */
 export const GET_MY_PROFILE_REQUEST = 'GET_MY_PROFILE_REQUEST';
 export const GET_MY_PROFILE_SUCCESS = 'GET_MY_PROFILE_SUCCESS';
 export const GET_MY_PROFILE_FAIL = 'GET_MY_PROFILE_FAIL';
@@ -133,7 +159,7 @@ export function getMyProfile() {
     });
     return fetch(`${API_AUTH}/check`, {
       method: 'get',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${cookie.load('token') }` }
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${cookie.load('token')}` }
     }).then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
@@ -153,35 +179,23 @@ export function getMyProfile() {
     });
   };
 }
-const POPULATE_ACCOUNT = 'POPULATE_ACCOUNT';
-
-export function populateAccount(response) {
-  return {
-    type: 'POPULATE_ACCOUNT',
-    role: response.body.profile.role,
-    email: response.body.email,
-    firstName: response.body.profile.firstName,
-    lastName: response.body.profile.lastName,
-    id: response.body.id
-  };
-}
 
 /**
  * INITIAL STATE
  */
 const INITIAL_STATE = {
   isLoading: false,
-  id: '',
-  firstName: '',
-  lastName: '',
-  displayName: '',
-  email: '',
-  role: '',
+  id: null,
+  firstName: null,
+  lastName: null,
+  displayName: null,
+  email: null,
+  role: null,
   hydrated: false
 };
 
 /**
- * User Reducer
+ * Account Reducer
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
@@ -191,13 +205,15 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
   }
   switch (action.type) {
     case CREATE_ACCOUNT_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: true
-      });
+      };
     case CREATE_ACCOUNT_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false
-      });
+      };
     case CREATE_ACCOUNT_FAIL:
       return {
         ...state,
@@ -266,7 +282,7 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         email: action.email,
         id: action.id,
         role: action.role
-      }
+      };
     default:
       return state;
   }

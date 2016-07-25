@@ -1,10 +1,14 @@
-/* eslint-disable */
+#!/usr/bin/env node
+const path = require('path');
+
+const rootDir = path.resolve(__dirname);
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 
-module.exports = {
-  patch_require: true,
-  port: 8888,
+const devMode = process.env.NODE_ENV !== 'production';
+const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 
+const isomorphicConfig = {
+  patch_require: true,
   assets: {
     images: {
       extensions: [
@@ -54,3 +58,14 @@ module.exports = {
     }
   }
 };
+
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
+  .development(devMode)
+  .server(rootDir, () => {
+    require('./server');
+  });
+
+global.__CLIENT__ = false;
+global.__SERVER__ = true;
+global.__DEV__ = devMode;
+global.webpackIsomorphicTools = webpackIsomorphicTools;

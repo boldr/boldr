@@ -12,11 +12,6 @@ import isomorphicConfig from './isomorphic.config';
 dotenv.config({ silent: true });
 const postCSSConfig = function() {
   return [
-    require('postcss-import')({
-      path: path.join(ROOT_DIR, 'src', 'styles'),
-      // addDependencyTo is used for hot-reloading in webpack
-      addDependencyTo: webpack
-    }),
     // Note: you must set postcss-mixins before simple-vars and nested
     require('postcss-mixins')(),
     require('postcss-simple-vars')(),
@@ -138,10 +133,6 @@ const clientProdConfig = {
       minChunks: 2,
       async: true
     }),
-    new webpack.ProvidePlugin({
-      // make fetch available
-      fetch: 'exports?self.fetch!whatwg-fetch'
-    }),
     // needed for long-term caching
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({
@@ -154,7 +145,6 @@ const clientProdConfig = {
         conditionals: true
       }
     }),
-    // merge common
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new ExtractTextPlugin({ filename: '[name]-[chunkhash].css', allChunks: true }),

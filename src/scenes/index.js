@@ -44,7 +44,6 @@ export default (store) => {
           });
         }
       },
-      
       {
         path: 'profile',
         onEnter: connect(UserIsAuthenticated.onEnter),

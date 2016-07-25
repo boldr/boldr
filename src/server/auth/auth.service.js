@@ -15,27 +15,27 @@ export const requireAuth = passport.authenticate('jwt', { session: false });
  */
 export function isAuthenticated() {
   return compose()
-        // Validate jwt
-        .use((req, res, next) => {
-            // allow access_token to be passed through query parameter as well
-          if (req.query && req.query.hasOwnProperty('access_token')) {
-            req.headers.authorization = `Bearer ${req.query.access_token}`;
-          }
-          if (req.query && req.cookies.hasOwnProperty('token')) {
-            req.headers.authorization = `Bearer ${req.cookies.token}`;
-          }
-          validateJwt(req, res, next);
-        })
-        // Attach user to request
-        .use((req, res, next) => {
-          User.findById(req.user._id, (err, user) => {
-            if (err) return next(err);
-            if (!user) return res.status(401).end();
+  // Validate jwt
+  .use((req, res, next) => {
+      // allow access_token to be passed through query parameter as well
+    if (req.query && req.query.hasOwnProperty('access_token')) {
+      req.headers.authorization = `Bearer ${req.query.access_token}`;
+    }
+    if (req.query && req.cookies.hasOwnProperty('token')) {
+      req.headers.authorization = `Bearer ${req.cookies.token}`;
+    }
+    validateJwt(req, res, next);
+  })
+  // Attach user to request
+  .use((req, res, next) => {
+    User.findById(req.user._id, (err, user) => {
+      if (err) return next(err);
+      if (!user) return res.status(401).end();
 
-            req.user = user;
-            next();
-          });
-        });
+      req.user = user;
+      next();
+    });
+  });
 }
 
 /**

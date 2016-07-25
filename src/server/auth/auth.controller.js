@@ -48,19 +48,19 @@ async function handleSignup(req, res, next) {
     };
     const user = await User.create(userData);
     // Generate the verification token.
-    const verificationToken = await generateVerifyCode();
-    // Send the verification email.
-    const subj = '[Boldr] Confirmation mail';
-    handleMail(user.email, subj, verificationToken);
-    // sendVerifyEmail(user.email, verificationToken);
-    // Store the verification token, userId and expiration date in the db.
-    const verificationStorage = await VerificationToken.create({
-      userId: user.id,
-      token: verificationToken,
-      expiresAt: moment().add(3, 'days')
-    });
-    // Save token.
-    verificationStorage.save();
+    // const verificationToken = await generateVerifyCode();
+    // // Send the verification email.
+    // const subj = '[Boldr] Confirmation mail';
+    // handleMail(user.email, subj, verificationToken);
+    // // sendVerifyEmail(user.email, verificationToken);
+    // // Store the verification token, userId and expiration date in the db.
+    // const verificationStorage = await VerificationToken.create({
+    //   userId: user.id,
+    //   token: verificationToken,
+    //   expiresAt: moment().add(3, 'days')
+    // });
+    // // Save token.
+    // verificationStorage.save();
     res.status(201).send({
       token: signToken(user), user
     });
