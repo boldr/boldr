@@ -1,6 +1,6 @@
 {
   "name": "boldr",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "a bold cms.",
   "main": "tools/scripts/server.js",
   "engines": {
