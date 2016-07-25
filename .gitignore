@@ -1,13 +1,16 @@
 # Environment Configuration
 .env
+server.js
+server.js.map
+production.json
 
 # Build output folders
 build/
 public/
 .happypack/
 static/dist
-# Webpack build output of the js client
-backend/assets/client/
+
+webstormEntry.babel.js
 
 # Isomorphic webpack output
 webpack-assets.json

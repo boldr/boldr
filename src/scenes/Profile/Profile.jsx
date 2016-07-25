@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import ProfileMain from './components/pg.ProfileMain';
+import ProfileMain from './components/org.ProfileMain';
 
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user,
-    isLoading: state.user.isLoading
+    account: state.account,
+    isLoading: state.account.isLoading
   };
 };
 

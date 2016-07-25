@@ -1,13 +1,14 @@
+/** @namespace window.__data */
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+// noinspection JSUnresolvedVariable
 import { AppContainer } from 'react-hot-loader';
-import Router from 'react-router/lib/Router';
-import browserHistory from 'react-router/lib/browserHistory';
-import match from 'react-router/lib/match';
-import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { Router, browserHistory, match, applyRouterMiddleware } from 'react-router/es6';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
+import { syncHistoryWithStore, routerActions } from 'react-router-redux';
+// noinspection JSUnresolvedVariable
 import { trigger } from 'redial';
 import cookie from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -15,12 +16,15 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 // Non-vendor
-import { checkTokenValidity } from 'state/modules/user';
+
 import BoldrTheme from './styles/theme';
-import createRoutes from './config/routes/index';
-import createStore from './core/redux/createStore';
-import ApiClient from './config/api/ApiClient';
+import createStore from './core/state/createStore';
+import { checkAuth, isLoaded, CHECK_AUTH_SUCCESS } from './scenes/Account/state/auth';
+import getRoutes from './scenes';
+
+import ApiClient from './core/api/ApiClient';
 
 import './styles/main.scss';
 
@@ -30,88 +34,77 @@ WebFontLoader.load({
   }
 });
 
-const container = document.getElementById('content');
+const container = document.querySelector('#content');
 const client = new ApiClient();
-const initialState = window.__INITIAL_STATE__;
+const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
 
-const history = syncHistoryWithStore(browserHistory, store);
-const routes = createRoutes(store, history);
+const token = cookie.load('token');
 
-const token = cookie.load('boldr:jwt') || undefined;
 if (token) {
-  store.dispatch(checkTokenValidity());
+  // Update application state. User has token and is probably authenticated
+  store.dispatch({ type: CHECK_AUTH_SUCCESS });
 }
-// If its available, always send the token in the header.
+
+const history = syncHistoryWithStore(browserHistory, store);
+const routes = getRoutes(store, history);
+
 injectTapEventPlugin();
 
-function renderApp() {
+const render = () => {
   const { pathname, search, hash } = window.location;
   const location = `${pathname}${search}${hash}`;
 
-  match({
-    routes,
-    location
-  }, () => {
+  match({ routes, location }, () => {
     ReactDOM.render(
       <AppContainer>
         <Provider store={ store } key="provider">
-            <MuiThemeProvider muiTheme={ muiTheme }>
-              <Router routes={ routes } history={ browserHistory }
-                helpers={ client } render={ applyRouterMiddleware(useScroll()) }
-              />
-            </MuiThemeProvider>
-          </Provider>
-        </AppContainer>,
+          <MuiThemeProvider muiTheme={ muiTheme }>
+            <Router routes={ routes } history={ history } helpers={ client }
+              render={ applyRouterMiddleware(useScroll()) } key={ Math.random() }
+            />
+          </MuiThemeProvider>
+        </Provider>
+      </AppContainer>,
       container
     );
-  });
-  return browserHistory.listen(location => {
-    // Match routes based on location object:
-    match({
-      routes,
-      location
-    }, (error, redirectLocation, renderProps) => {
-      if (error) {
-        console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
-      }
-      const { components } = renderProps;
-      const locals = {
-        path: renderProps.location.pathname,
-        query: renderProps.location.query,
-        params: renderProps.params,
-        dispatch: store.dispatch
-      };
-      // Don't fetch data for initial route, server has already done the work:
-      if (window.__INITIAL_STATE__) {
-        // Delete initial data so that subsequent data fetches can occur:
-        delete window.__INITIAL_STATE__;
-      } else {
-        // Fetch mandatory data dependencies for 2nd route change onwards:
-        trigger('fetch', components, locals);
-      }
 
-      // Fetch deferred, client-only data dependencies:
-      trigger('defer', components, locals);
+    return history.listen(location => {
+      // Match routes based on location object
+      match({ routes, location }, (error, redirectLocation, renderProps) => {
+        if (error) {
+          console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
+        }
+        // Get array of route handler components:
+        const { components } = renderProps;
+         // Define locals to be provided to all lifecycle hooks:
+        const locals = {
+          path: renderProps.location.pathname,
+          query: renderProps.location.query,
+          params: renderProps.params,
+          dispatch: store.dispatch
+        };
+        // Don't fetch data for initial route, server has already done the work:
+        if (window.__data) {
+          // Delete initial data so that subsequent data fetches can occur:
+          delete window.__data;
+        } else {
+          // Fetch mandatory data dependencies for 2nd route change onwards:
+          trigger('fetch', components, locals);
+        }
+        // Fetch deferred, client-only data dependencies:
+        trigger('defer', components, locals);
+      });
     });
   });
-}
-if (process.env.NODE_ENV !== 'production') {
-  window.React = React; // enable debugger
+};
 
-  if (!container || !container.firstChild || !container.firstChild.attributes ||
-    !container.firstChild.attributes['data-react-checksum']) {
-    console.error(`Server-side React render was discarded. Make sure that your
-      initial render does not contain any client-side code.`);
-  }
-}
-// The following is needed so that we can hot reload our App.
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  // Accept changes to this file for hot reloading.
-  module.hot.accept();
-  // Any changes to our routes will cause a hotload re-render.
-  module.hot.accept('./config/routes/index', renderApp);
-}
+const unsubscribeHistory = render();
 
-renderApp();
+if (module.hot) {
+  module.hot.accept('./scenes/index', () => {
+    unsubscribeHistory();
+    setTimeout(render);
+  });
+}

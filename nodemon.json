@@ -1,21 +1,19 @@
 {
-    "verbose": false,
-    "restartable": "rs",
-    "colours": true,
-    "ignore": [
-      "backup",
-      "docs",
-      "src/",
-      "static",
-      "tools"
-    ],
-    "ext": "js json",
-    "env": {
-      "DEBUG":"boldr*"
-    },
-    "watch": [
-      "server/**/*.js",
-      "tools/webpack/"
-    ],
-    "exec": "node --debug=5858 server/index.js"
+  "verbose": false,
+  "restartable": "rs",
+  "colours": true,
+  "ignore": [
+    "backup",
+    "docs",
+    "static",
+    "dist"
+  ],
+  "ext": "js json",
+  "env": {
+    "DEBUG":"boldr*"
+  },
+  "watch": [
+    "src/server/**/*.js",
+    "tools/**/*.js"
+  ]
 }

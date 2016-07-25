@@ -1,4 +1,4 @@
-![boldr](static/favicon-96x96.png) Boldr
+![boldr](docs/boldr-logo.png) Boldr
 ====
 [![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)](https://circleci.com/gh/strues/boldr)[![Gitter](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -14,6 +14,7 @@ ____
 * React
 * Postgres 9.5  
 
+Work in progress API documentation - [View Here](https://boldr.io/docs/api)  
 
 ## Getting Started
 At the moment, Boldr is in active development and not quite ready for use. However, to download it, and run it for development follow these directions.
@@ -54,7 +55,7 @@ Looking for an open source project to contribute to? We could use a hand develop
 
 ## Documentation
 #### API Documentation
-[View Here](docs/api/apidocs.md)  
+[View Here](https://boldr.io/docs/api)  
 
 #### Change Log
 [View Here](Changelog.md)

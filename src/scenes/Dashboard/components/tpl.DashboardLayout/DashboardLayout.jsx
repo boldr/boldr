@@ -1,4 +1,3 @@
-/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
@@ -19,10 +18,6 @@ const styles = {
   }
 };
 
-type Props = {
-  dispatch: Function,
-  children: Node
-};
 class DashboardLayout extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +45,7 @@ class DashboardLayout extends Component {
       open
     });
   }
-  props: Props;
+
   mediaQueryChanged() {
     this.setState({
       docked: this.state.mql.matches
@@ -94,7 +89,7 @@ class DashboardLayout extends Component {
 
                 { this.props.children }
 
-      
+
           </div>
         </Sidebar>
       </div>

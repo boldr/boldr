@@ -8,7 +8,6 @@ const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic.config'));
 
 const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
@@ -91,8 +90,6 @@ const webpackConfig = module.exports = {
           plugins: [
             'transform-decorators-legacy',
             'transform-runtime',
-            'transform-flow-strip-types',
-            'lodash',
             'react-hot-loader/babel'
           ]
         }
@@ -132,8 +129,8 @@ const webpackConfig = module.exports = {
       state: path.resolve(ROOT_DIR, 'src/state'),
       scenes: path.resolve(ROOT_DIR, 'src/scenes'),
       core: path.resolve(ROOT_DIR, 'src/core'),
-      api: path.resolve(ROOT_DIR, 'src/api'),
-      db: path.resolve(ROOT_DIR, 'src/db')
+      api: path.resolve(ROOT_DIR, 'src/server/api'),
+      db: path.resolve(ROOT_DIR, 'src/server/db')
     }
   },
   postcss: postCSSConfig,
@@ -144,7 +141,6 @@ const webpackConfig = module.exports = {
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
-    new LodashModuleReplacementPlugin(),
     new webpack.ProvidePlugin({
       fetch: 'exports?self.fetch!whatwg-fetch',
       React: 'react'

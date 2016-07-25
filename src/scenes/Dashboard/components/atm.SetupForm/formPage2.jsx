@@ -1,7 +1,5 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import RenderField from 'components/atm.RenderField';
-import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';

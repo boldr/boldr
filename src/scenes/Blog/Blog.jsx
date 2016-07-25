@@ -1,37 +1,37 @@
 import { provideHooks } from 'redial';
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchArticlesIfNeeded, loadArticles, FETCH_ARTICLES_REQUEST } from 'state/modules/article';
+import { fetchPostsIfNeeded } from './state/postReducer';
+
 import BlogPost from './components/org.BlogPost';
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchArticlesIfNeeded())
+  fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
 })
 class Blog extends Component {
   constructor(props) {
     super(props);
-    this.createArticleCollection = (articleCollection) => this._createArticleCollection(articleCollection);
+    this.createPostsCollection = (postsCollection) => this._createPostsCollection(postsCollection);
   }
 
-  _createArticleCollection(articleList) {
-    const articleCollection = [];
-    for (let article of articleList) { // eslint-disable-line
-      articleCollection.push(
-        <div key={ article.id }>
-          <BlogPost { ...article } />
+  _createPostsCollection(posts) {
+    const postsCollection = [];
+    for (let post of posts) { // eslint-disable-line
+      postsCollection.push(
+        <div key={ post.id }>
+          <BlogPost { ...post } />
         </div>
       );
     }
-    return articleCollection;
+    return postsCollection;
   }
   render() {
-    let articleCollection = this.createArticleCollection(this.props.article.articleList);
+    let postsCollection = this.createPostsCollection(this.props.post.posts);
     return (
       <div>
         Blog
         {
-          this.props.article.isLoading ? <h1>Loading ...</h1> :
-        articleCollection }
+          this.props.post.isLoading ? <h1>Loading ...</h1> : postsCollection
+        }
       </div>
     );
   }
@@ -39,8 +39,8 @@ class Blog extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    article: state.article,
-    isLoading: state.article.isLoading
+    post: state.post,
+    isLoading: state.post.isLoading
   };
 };
 

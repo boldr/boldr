@@ -12,22 +12,10 @@ import AvWeb from 'material-ui/svg-icons/av/web';
 import ActionDescription from 'material-ui/svg-icons/action/description';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
-import { logOut } from 'state/modules/user';
+import { logOut } from 'scenes/Account/state/auth';
 import SiteLogo from 'components/atm.SiteLogo/index';
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';
-
-type Props = {
-  dispatch: Function,
-  handleToggle: Function,
-  handleClickLogin: Function,
-  handleClickRegister: Function,
-  handleHome: Function,
-  actions: Object,
-  user: Object,
-  signoutUserAction: Function,
-  isAuthenticated: Boolean
-};
 
 class TopBar extends React.Component {
   static contextTypes = {
@@ -35,46 +23,16 @@ class TopBar extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {
-      valueSingle: '3',
-      valueMultiple: ['3', '5']
-    };
-  }
-  props: Props;
-  handleClickLogin(event) {
-    const path = '/login';
-    browserHistory.push(path);
-  }
-
-  handleClickRegister(event) {
-    const path = '/signup';
-    browserHistory.push(path);
+    this.state = {};
   }
 
   handleClickSignout(event, dispatch) {
-    this.props.actions.logoutUser();
+    this.props.actions.logOut();
   }
 
   handleClickHome() {
     const path = '/';
     browserHistory.push(path);
-  }
-  handleChangeSingle = (event, value) => {
-    this.setState({
-      valueSingle: value
-    });
-  };
-
-  handleChangeMultiple = (event, value) => {
-    this.setState({
-      valueMultiple: value
-    });
-  };
-
-  handleOpenMenu = () => {
-    this.setState({
-      openMenu: true
-    });
   }
 
   handleOnRequestChange = (value) => {
@@ -99,17 +57,16 @@ class TopBar extends React.Component {
               <div>
                 <IconMenu
                   iconButtonElement={ <IconButton><SocialPerson color={ iconColor } /></IconButton> }
-                  onChange={ ::this.handleChangeSingle }
-                  value={ this.state.valueSingle }
                 >
                   {
-                    this.props.user.authenticated ?
+                    this.props.auth.isAuthenticated ?
                       <div>
                         <MenuItem value="4"><Link to="/profile">Profile</Link></MenuItem>
-                        <MenuItem value="3"><Link to="/api/v1/auth/logout">Sign Out</Link></MenuItem></div> :
+                        <MenuItem value="5"><Link to="/account/preferences">Preferences</Link></MenuItem>
+                        <MenuItem value="3" onTouchTap={ ::this.handleClickSignout }>Sign Out</MenuItem></div> :
                           <div>
-                            <MenuItem value="1"><Link to="/login">Login</Link></MenuItem>
-                            <MenuItem value="2"><Link to="/signup">Signup</Link></MenuItem>
+                            <MenuItem value="1"><Link to="/account/login">Login</Link></MenuItem>
+                            <MenuItem value="2"><Link to="/account/signup">Signup</Link></MenuItem>
                           </div>
                   }
                 </IconMenu>
@@ -118,7 +75,7 @@ class TopBar extends React.Component {
                     <ActionDescription color={ iconColor } />
                   </IconButton>
                 </Link>
-                { this.props.user.role === 'admin' ?
+                { this.props.auth.role === 'admin' ?
                   <Link to="/dashboard" >
                     <IconButton>
                       <AvWeb color={ iconColor } />
@@ -136,7 +93,7 @@ class TopBar extends React.Component {
 const mapStateToProps = (state) => {
   return {
     boldr: state.boldr,
-    user: state.user
+    auth: state.auth
   };
 };
 

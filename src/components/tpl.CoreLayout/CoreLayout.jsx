@@ -1,30 +1,32 @@
 import React, { Component, PropTypes } from 'react';
-import Paper from 'material-ui/Paper';
 import Helmet from 'react-helmet';
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import { connect } from 'react-redux';
+import TopBar from '../mol.TopBar';
 
-import Message from 'components/atm.Message';
-import TopBar from 'components/mol.TopBar';
-import '../../styles/main.scss';
-
-class CoreLayout extends Component {
-
-  render() {
-    return (
+const CoreLayout = (props) => {
+  return (
     <div>
       <Helmet
         title="Boldr"
         titleTemplate={ '%s | powered by Boldr' }
       />
       <TopBar />
-      { this.props.children }
+
+      { props.children }
+
     </div>
   );
-  }
-}
+};
 
 CoreLayout.propTypes = {
   children: PropTypes.node
 };
 
-export default CoreLayout;
+function mapStateToProps(state) {
+  return {
+    boldr: state.boldr,
+    auth: state.auth
+  };
+}
+
+export default connect(mapStateToProps)(CoreLayout);
