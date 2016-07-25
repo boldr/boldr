@@ -1,6 +1,6 @@
 ![boldr](docs/boldr-logo.png) Boldr
 ====
-[![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)](https://circleci.com/gh/strues/boldr)[![Gitter](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)](https://circleci.com/gh/strues/boldr) [![Gitter](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
@@ -58,7 +58,13 @@ Looking for an open source project to contribute to? We could use a hand develop
 [View Here](https://boldr.io/docs/api)  
 
 #### Change Log
-[View Here](Changelog.md)
+[View Here](Changelog.md)  
+##### 0.3.8
+> 7/25/2016
 
+- **DX** Webpack 2 and all its glorious code splitting is set up.
+- **DX** Code is organized in a way that is much more logical and should be easier for everyone to find things.
+- **Bug Fix**  Article bodies implement the correct read only editor, providing rich blocks of styled content.
+- **Breaking** Social login and verification emails have been temporarily removed from the active features. The code is   still there, but at this time there are bigger things for me to worry about.
 
 [logo]: https://boldr.io/favicon-96x96.png "Boldr"
