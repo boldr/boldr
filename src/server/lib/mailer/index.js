@@ -70,7 +70,7 @@ export function mailResetPassword(email, subj, token) {
         <div style='background-color: #f2f2f2; padding: 45px;'>
         <div style='background-color: #ffffff; padding: 40px; text-align: center;'>
         <p style='color: #5f5f5f;'>Click the big button below to activate your account.</p>
-        <a href="${DEFAULT_URL}/reset-password/?email=${email}&token=${resetToken}" style='background-color: #288feb; color: #fff; padding: 14px; text-decoration: none; border-radius: 5px; margin-top: 20px; display: inline-block;'>Activate Account</a>
+        <a href="${DEFAULT_URL}/account/reset-password/?token=${resetToken}" style='background-color: #288feb; color: #fff; padding: 14px; text-decoration: none; border-radius: 5px; margin-top: 20px; display: inline-block;'>Activate Account</a>
         </div> <h3 style='color: #5f5f5f; text-align: center; margin-top: 30px;'>BoldrCMS Team</h3></div></div>
       `
     });

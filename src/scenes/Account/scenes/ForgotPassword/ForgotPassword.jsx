@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Card } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import classNames from 'classnames/bind';
 import { forgotPassword } from '../../state';
 
+import styles from '../../styles.css';
+
+const cx = styles::classNames;
 class ForgotPassword extends Component {
 
   constructor(props) {
@@ -20,9 +26,10 @@ class ForgotPassword extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="panel">
-          <div className="panel-body">
+      <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
+      <section className={ cx('root') }>
+
+          <Card className={ cx('auth-card') }>
             <form onSubmit={ ::this.handleForgot }>
               <legend>Forgot Password</legend>
               <div className="form-group">
@@ -32,10 +39,10 @@ class ForgotPassword extends Component {
                   autoFocus value={ this.state.email } onChange={ ::this.handleChange }
                 />
               </div>
-              <button type="submit" className="btn btn-success">Reset Password</button>
+              <RaisedButton secondary type="submit" label="Reset Password" />
             </form>
-          </div>
-        </div>
+          </Card>
+        </section>
       </div>
     );
   }

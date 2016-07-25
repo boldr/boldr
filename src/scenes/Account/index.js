@@ -42,7 +42,7 @@ export default (store, connect) => ({
         }
       },
       {
-        path: 'reset-password',
+        path: 'reset-password/:token',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
             cb(null, require('./scenes/ResetPassword').default);

@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Card } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import classNames from 'classnames/bind';
+
+import styles from '../../styles.css';
 import { resetPassword } from '../../state';
 
 class ResetPassword extends React.Component {
@@ -19,9 +24,9 @@ class ResetPassword extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="panel">
-          <div className="panel-body">
+      <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
+        <section className={ cx('root') }>
+          <Card className={ cx('auth-card') }>
             <form onSubmit={ ::this.handleReset }>
               <legend>Reset Password</legend>
               <div className="form-group">
@@ -37,11 +42,11 @@ class ResetPassword extends React.Component {
                 />
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-success">Change Password</button>
+               <RaisedButton secondary type="submit" label="Change Password" />
               </div>
             </form>
-          </div>
-        </div>
+          </Card>
+        </section>
       </div>
     );
   }

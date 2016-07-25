@@ -61,11 +61,7 @@ class Login extends Component {
               <p>{ message }</p>
               <LoginForm onSubmit={ ::this.handleOnSubmit } />
               <div className={ cx('auth-card__footer') }>
-              <button onClick={ this.handleFacebook.bind(this) } className="btn btn-facebook">Sign in with Facebook</button>
-              <button onClick={this.handleTwitter.bind(this)} className="btn btn-twitter">Sign in with Twitter</button>
-              <button className="btn btn-google"><a href="/auth/google">Sign in with Google</a></button>
-              <button onClick={this.handleGithub.bind(this)} className="btn btn-github">Sign in with Github</button>
-              <SocialLogin />
+                <p><Link to="/account/forgot-password">Forgot your password?</Link></p>
               </div>
             </div>
           </Card>
