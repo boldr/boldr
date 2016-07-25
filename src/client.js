@@ -10,6 +10,7 @@ import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { syncHistoryWithStore, routerActions } from 'react-router-redux';
 // noinspection JSUnresolvedVariable
 import { trigger } from 'redial';
+import cookie from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import useScroll from 'react-router-scroll';
@@ -20,7 +21,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import BoldrTheme from './styles/theme';
 import createStore from './core/state/createStore';
-import { checkAuth, isLoaded } from './scenes/Account/state/auth';
+import { checkAuth, isLoaded, CHECK_AUTH_SUCCESS } from './scenes/Account/state/auth';
 import getRoutes from './scenes';
 
 import ApiClient from './core/api/ApiClient';
@@ -33,15 +34,18 @@ WebFontLoader.load({
   }
 });
 
-
 const container = document.querySelector('#content');
 const client = new ApiClient();
 const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
-// if (!isLoaded(store.getState())) {
-//   store.dispatch(checkAuth());
-// }
+
+const token = cookie.load('token');
+
+if (token) {
+  // Update application state. User has token and is probably authenticated
+  store.dispatch({ type: CHECK_AUTH_SUCCESS });
+}
 
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = getRoutes(store, history);

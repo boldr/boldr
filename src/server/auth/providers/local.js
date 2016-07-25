@@ -13,16 +13,16 @@ export function setup(User) {
         email: email.toLowerCase()
       }
     })
-            .catch(done)
-            .then((user) => {
-              if (!user) {
-                return done(null, false, { message: 'This email is not registered.' });
-              } else if (!user.authenticate(password)) {
-                return done(null, false, { message: 'This password is not correct.' });
-              } else {
-                return done(null, user);
-              }
-            });
+      .catch(done)
+      .then((user) => {
+        if (!user) {
+          return done(null, false, { message: 'This email is not registered.' });
+        } else if (!user.authenticate(password)) {
+          return done(null, false, { message: 'This password is not correct.' });
+        } else {
+          return done(null, user);
+        }
+      });
   }));
 }
 const router = new Router();

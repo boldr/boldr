@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import { provideHooks } from 'redial';
+import { getMyProfile } from 'scenes/Account/state/account';
 
+@provideHooks({
+  fetch: ({ dispatch }) => dispatch(getMyProfile())
+})
 class ProfileMain extends Component {
   render() {
     return (
@@ -48,5 +53,9 @@ class ProfileMain extends Component {
     );
   }
 }
+
+ProfileMain.propTypes = {
+  account: PropTypes.object.isRequired
+};
 
 export default ProfileMain;

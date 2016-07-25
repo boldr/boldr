@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import expressJwt from 'express-jwt';
+import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import compose from 'composable-middleware';
 import { User } from '../db/models';
 import config from '../core/config';
 
 const validateJwt = expressJwt({ secret: config.SESSION_SECRET });
-
+export const requireAuth = passport.authenticate('jwt', { session: false });
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403

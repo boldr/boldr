@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
-
+import cookie from 'react-cookie';
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
 import { API_BASE, API_AUTH } from 'core/api';
@@ -122,6 +122,37 @@ export function resetPassword(password, confirm, pathToken) {
   };
 }
 
+export const GET_MY_PROFILE_REQUEST = 'GET_MY_PROFILE_REQUEST';
+export const GET_MY_PROFILE_SUCCESS = 'GET_MY_PROFILE_SUCCESS';
+export const GET_MY_PROFILE_FAIL = 'GET_MY_PROFILE_FAIL';
+
+export function getMyProfile() {
+  return (dispatch) => {
+    dispatch({
+      type: 'GET_MY_PROFILE_REQUEST'
+    });
+    return fetch(`${API_AUTH}/check`, {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${cookie.load('token') }` }
+    }).then((response) => {
+      if (response.ok) {
+        return response.json().then((json) => {
+          dispatch({
+            type: 'GET_MY_PROFILE_SUCCESS',
+            payload: json
+          });
+        });
+      } else {
+        return response.json().then((json) => {
+          dispatch({
+            type: 'GET_MY_PROFILE_FAIL',
+            messages: Array.isArray(json) ? json : [json]
+          });
+        });
+      }
+    });
+  };
+}
 /**
  * INITIAL STATE
  */
@@ -191,6 +222,26 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
     case FORGOT_PASSWORD_FAIL:
       return {
         ...state
+      };
+    case GET_MY_PROFILE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case GET_MY_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        email: action.payload.email,
+        displayName: action.payload.profile.displayName,
+        firstName: action.payload.profile.firstName,
+        role: action.payload.profile.role,
+        id: action.payload.id
+      };
+    case GET_MY_PROFILE_FAIL:
+      return {
+        ...state,
+        isLoading: false
       };
     default:
       return state;

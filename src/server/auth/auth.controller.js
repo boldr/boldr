@@ -8,45 +8,6 @@ import { User, VerificationToken } from '../db/models';
 import { signToken } from './auth.service';
 
 /**
- * @api {post} /auth/login          Login to a registered account.
- * @apiVersion 1.0.0
- * @apiName handleLogin
- * @apiGroup Auth
- *
- * @apiParam {String}   Email       The email address registered to the account.
- * @apiParam {String}   Password    The password
- * @apiSuccess {String} Token       The jsonwebtoken
- *
- * @apiSuccessExample Success-Response:
- *   HTTP/1.1 200 OK
- *   {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI...."}
- */
-
-const handleLogin = (req, res, next) => {
-  User.findByEmail(req.body.email)
-      .then((user) => {
-        if (!user) {
-          return Boom.unauthorized(`The email address ${req.body.email} is not
-            associated with any account. Double-check your email address and try again.`);
-        }
-        user.authenticate(req.body.password, (err, isMatch) => {
-          if (!isMatch) {
-            return Boom.unauthorized('Invalid email or password');
-          }
-          const token = signToken(user);
-          req.session.userId = user.id;
-          req.session.role = user.role;
-          req.session.email = user.email;
-          req.session.firstName = user.firstName;
-          req.session.lastName = user.lastName;
-          req.session.key = token;
-          req.user = user;
-          res.status(200).send({ token, user: user.toJSON() });
-        });
-      });
-};
-
-/**
  * DELETE /account
  */
 const accountDelete = (req, res, next) => {
@@ -186,7 +147,6 @@ async function resetPassword(req, res, next) {
 }
 
 export {
-  handleLogin,
   accountDelete,
   logout,
   handleSignup,

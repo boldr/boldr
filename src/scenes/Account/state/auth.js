@@ -44,7 +44,7 @@ export function doLogin(data) {
       .send(data)
       .then(response => {
         // setAuthToken(response.body.token);
-        cookie.save('token', response.body.token, { expires: moment().add(1, 'hour').toDate() });
+        cookie.save('token', response.body.token, { expires: moment().add(5, 'hour').toDate() });
         dispatch(loginSuccess(response));
         dispatch(push('/'));
         // dispatch(showSnackBarMessage('Successfully logged in.'));
@@ -135,8 +135,8 @@ export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
 
-const LOAD = 'auth/LOAD';
-const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
+export const LOAD = 'auth/LOAD';
+export const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'auth/LOAD_FAIL';
 
 export function load() {
