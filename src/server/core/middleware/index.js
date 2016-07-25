@@ -13,6 +13,7 @@ import passport from 'passport';
 import config from '../config/index';
 import redisClient from '../../db/redis';
 import { logger } from '../../lib';
+import sessionService from './sessionService';
 
 const RedisStore = require('connect-redis')(session);
 
@@ -27,19 +28,20 @@ export default app => {
   app.use(express.static(path.resolve('public')));
   app.set('trust proxy', 'loopback');
   app.options('*', (req, res) => res.sendStatus(200));
-
-  app.use(cookieParser());
+  sessionService.initializeRedis(redisClient, redisStore);
+  app.use(cookieParser(config.SESSION_SECRET));
   app.use(passport.initialize());
   app.use(expressJwt({
     secret: config.SESSION_SECRET,
     credentialsRequired: false
   }));
+  const redisStore = new RedisStore({ client: redisClient });
   const boldrSession = session({
-    store: new RedisStore({ client: redisClient }),
+    store: redisStore,
     secret: config.SESSION_SECRET,
     name: 'boldr:sid',
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     unset: 'destroy'
   });
   app.use(boldrSession);

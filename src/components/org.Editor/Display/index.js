@@ -7,19 +7,17 @@ import {
 
 import { getBlockStyle } from '../shared/utilities';
 import { decorator } from '../shared/Decorator/index';
-import styles from './styles';
-
 
 const propTypes = {
-  description: PropTypes.string
+  content: PropTypes.string
 };
 
 class TextDisplay extends Component {
   constructor(props) {
     super(props);
 
-    if (props.description) {
-      const blocks = convertFromRaw(JSON.parse(props.description));
+    if (props.content) {
+      const blocks = convertFromRaw(JSON.parse(props.content));
       this.state = { editorState: EditorState.createWithContent(blocks, decorator) };
     } else {
       this.state = {
@@ -29,15 +27,15 @@ class TextDisplay extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.description && nextProps.description) {
-      const blocks = convertFromRaw(JSON.parse(nextProps.description));
+    if (!this.props.content && nextProps.content) {
+      const blocks = convertFromRaw(JSON.parse(nextProps.content));
       this.setState({ editorState: EditorState.createWithContent(blocks, decorator) });
     }
   }
 
   render() {
     return (
-      <div className={ styles.root }>
+      <div>
         <Editor
           blockStyleFn={ getBlockStyle }
           editorState={ this.state.editorState }

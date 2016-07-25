@@ -40,7 +40,7 @@ export function doLogin(data) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
-      .post(`${API_AUTH}/local`)
+      .post(`${API_AUTH}/login`)
       .send(data)
       .then(response => {
         // setAuthToken(response.body.token);

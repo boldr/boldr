@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Moment from 'moment';
 import TextDisplay from 'components/org.Editor/Display/index';
 
-class BlogPost extends Component {
+class SinglePost extends Component {
 
   constructor(props) {
     super(props);
@@ -28,4 +28,4 @@ class BlogPost extends Component {
   }
 }
 
-export default BlogPost;
+export default SinglePost;

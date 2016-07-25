@@ -14,7 +14,7 @@ function localUrl(url) {
     return url;
   }
 
-  return `http://${config.ip}${url}`;
+  return `http://${config.IP}${url}`;
 }
 
 function localFetch(url, options) {

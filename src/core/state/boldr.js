@@ -7,6 +7,7 @@ export const DONE_LOADING = 'DONE_LOADING';
 export const LOAD_SETTINGS = 'LOAD_SETTINGS';
 export const LOAD_SETTINGS_SUCCESS = 'LOAD_SETTINGS_SUCCESS';
 export const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
+
 export const SETTINGS_ENDPOINT = `${API_BASE}/settings`;
 
 const loadSettings = () => ({

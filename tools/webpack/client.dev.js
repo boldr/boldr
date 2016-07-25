@@ -119,13 +119,24 @@ const clientDevConfig = {
       createSourceLoader({
         happy: { id: 'sass' },
         test: /\.scss$/,
+        include: path.resolve(ROOT_DIR, 'src', 'styles'),
         loader: 'style!css?sourceMap!postcss!sass?sourceMap'
       }),
       createSourceLoader({
         happy: { id: 'css' },
         test: /\.css$/,
         loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
-      })
+      }),
+       {
+          test: /\.scss$/,
+          exclude: path.resolve(ROOT_DIR, 'src', 'styles'),
+          loader: [
+            'css?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]',
+            'postcss',
+            'resolve-url',
+            'sass?sourceMap',
+          ]
+      },
     ]
   },
   postcss: postCSSConfig,

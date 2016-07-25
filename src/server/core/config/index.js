@@ -1,6 +1,9 @@
 const nconf = require('nconf');
+const dotenv = require('dotenv');
 
+dotenv.load();
 nconf.env('__');
+nconf.argv().env();
 
 if (process.env.NODE_ENV === 'testing') {
   nconf.file('./testing.json');
@@ -13,6 +16,7 @@ nconf.defaults({
     console: true,
     files: false
   },
+  IP: 'localhost:3000',
   DB_DIALET: 'postgres',
   AWS_REGION: 'us-west-1',
   MG_EMAIL_FROM: 'postmaster@boldr.io',
