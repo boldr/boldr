@@ -31,7 +31,7 @@ dependencies:
     - make install
 test:
   override:
-    - docker run -d --name db -e POSTGRES_PASSWORD=password --net host boldr/test
+    - docker run -d --name db -e POSTGRES_PASSWORD=password -e POSTGRES_USER=postgres -e POSTGRES_DB=boldr_test --net host boldr/test
     - docker run -d --name boldr_redis --net host strues/redis
     - make test-api
 
