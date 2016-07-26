@@ -19,7 +19,7 @@
       "command": "./node_modules/.bin/mocha --compilers js:./tools/compiler.babel --opts ./tools/mocha.opts './src/**/*.spec.js'",
       "env": {
         "NODE_ENV": "test",
-        "database__name": "boldr_test"
+        "database__name": "postgres"
       }
     }
   },
