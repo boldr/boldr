@@ -23,7 +23,7 @@ dependencies:
     - mkdir -p ~/cache/
     - if [ -e ~/cache/docker/image.tar ]; then echo "Loading image.tar"; docker load -i ~/cache/docker/image.tar || rm ~/cache/docker/image.tar; fi
     # build image
-    - docker build -t boldr/test ./tools/docker/postgres
+    - docker build -t boldr/test ./docker/postgres
     - docker inspect -f '{{.Config.Image}}' boldr/test
     # Redis
     - docker pull strues/redis
