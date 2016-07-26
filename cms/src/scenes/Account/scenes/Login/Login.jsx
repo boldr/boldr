@@ -65,4 +65,4 @@ function mapStateToProps({ auth }) {
   };
 }
 
-export default connect(mapStateToProps, { doLogin, facebookLogin, twitterLogin, googleLogin, githubLogin })(Login);
+export default connect(mapStateToProps, { doLogin })(Login);

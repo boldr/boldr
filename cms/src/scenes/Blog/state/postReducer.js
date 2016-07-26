@@ -1,4 +1,6 @@
 import fetch from 'core/fetch';
+import request from 'superagent';
+import { API_BASE } from 'core/api';
 import { processResponse } from 'core/api/ApiClient';
 /**
  * GET ARTICLE ACTIONS
@@ -13,19 +15,33 @@ export function requestPosts() {
   return { type: FETCH_POSTS_REQUEST };
 }
 
-export function receivePosts(json) {
-  return {
-    type: FETCH_POSTS_SUCCESS,
-    result: json
-  };
-}
-
-function fetchPosts() {
+// export function receivePosts(json) {
+//   return {
+//     type: FETCH_POSTS_SUCCESS,
+//     result: json
+//   };
+// }
+const receivePosts = (response) => ({
+  type: FETCH_POSTS_SUCCESS,
+  posts: response.body
+});
+const receivePostsFailed = (err) => ({
+  type: FETCH_POSTS_FAIL,
+  message: err
+});
+export function fetchPosts(data) {
   return dispatch => {
     dispatch(requestPosts());
-    return fetch('/api/v1/articles')
-      .then(response => processResponse(response))
-      .then(json => dispatch(receivePosts(json)));
+    return request
+      .get(`${API_BASE}/articles`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(receivePosts(response));
+        }
+      })
+      .catch(err => {
+        dispatch(receivePostsFailed(err));
+      });
   };
 }
 
@@ -68,7 +84,7 @@ export default function postReducer(state = INITIAL_STATE, action = {}) {
     case FETCH_POSTS_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        posts: action.result
+        posts: action.posts
       });
     case FETCH_POSTS_FAIL:
       return Object.assign({}, state, {

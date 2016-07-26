@@ -48,3 +48,9 @@ span[type=button] {
 a[type=button] {
   appearance: none;
 }
+
+a {
+  color: $mirage;
+  text-decoration: none;
+  font-weight: 600;
+}

@@ -14,7 +14,9 @@ import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
 import { logOut } from 'scenes/Account/state/auth';
 import { goHome } from '../../core/state/boldr';
+
 import SiteLogo from 'components/atm.SiteLogo/index';
+
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';
 
@@ -22,6 +24,10 @@ class TopBar extends React.Component {
   static contextTypes = {
     router: PropTypes.object
   };
+  static propTypes = {
+    auth: PropTypes.object,
+    actions: PropTypes.object
+  }
   constructor(props) {
     super(props);
     this.state = {};

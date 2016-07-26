@@ -52,6 +52,14 @@ export default (store) => {
             cb(null, UserIsAuthenticated(require('./Profile').default));
           });
         }
+      },
+      {
+        path: 'profile/public/:id',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Profile/components/org.ProfilePublic').default);
+          });
+        }
       }
     ]
   };

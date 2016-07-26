@@ -27,11 +27,7 @@ const getAllUsers = async (req, res, next) => {
 function showUser(req, res, next) {
   const userId = req.params.id;
 
-  return User.find({
-    where: {
-      id: userId
-    }
-  }).then(user => {
+  return User.findById(userId).then(user => {
     if (!user) {
       return Boom.notFound();
     }

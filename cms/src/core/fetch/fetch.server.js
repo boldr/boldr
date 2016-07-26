@@ -14,7 +14,7 @@ function localUrl(url) {
     return url;
   }
 
-  return `http://${config.IP}${url}`;
+  return 'http://localhost:9221';
 }
 
 function localFetch(url, options) {

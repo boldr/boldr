@@ -179,7 +179,35 @@ export function getMyProfile() {
     });
   };
 }
+/**
+ * PUBLIC PROFILE ACTION TYPES
+ */
+export const PUBLIC_PROFILE_REQUEST = 'PUBLIC_PROFILE_REQUEST';
+export const PUBLIC_PROFILE_SUCCESS = 'PUBLIC_PROFILE_SUCCESS';
+export const PUBLIC_PROFILE_FAIL = 'PUBLIC_PROFILE_FAIL';
 
+export function getPublicProfile(userId) {
+  return (dispatch) => {
+    dispatch({
+      type: 'PUBLIC_PROFILE_REQUEST'
+    });
+    return request.get(`${API_BASE}/users/${userId}`)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch({
+          type: 'PUBLIC_PROFILE_SUCCESS',
+          payload: response.body
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: 'PUBLIC_PROFILE_FAIL',
+        messages: err
+      });
+    });
+  };
+}
 /**
  * INITIAL STATE
  */
@@ -191,6 +219,7 @@ const INITIAL_STATE = {
   displayName: null,
   email: null,
   role: null,
+  public: {},
   hydrated: false
 };
 
@@ -269,6 +298,28 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         id: action.payload.id
       };
     case GET_MY_PROFILE_FAIL:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case PUBLIC_PROFILE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case PUBLIC_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        public: {
+          email: action.payload.email,
+          displayName: action.payload.profile.displayName,
+          firstName: action.payload.profile.firstName,
+          role: action.payload.profile.role,
+          id: action.payload.id
+        }
+      };
+    case PUBLIC_PROFILE_FAIL:
       return {
         ...state,
         isLoading: false

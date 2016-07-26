@@ -9,8 +9,9 @@ router.route('/')
 
 router.get('/users/me', isAuthenticated(), ctrl.me);
 
+router.get('/:id', ctrl.showUser);
+
 router.route('/:userId')
-  .get(ctrl.showUser)
   .put(isAuthenticated(), ctrl.updateUser)
 	.delete(isAuthenticated(), ctrl.destroyUser);
 
