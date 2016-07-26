@@ -23,9 +23,9 @@ describe('Article Model', () => {
   });
   it('should be able to create an article', async function() {
     const articleData = {
-      title: chance.word(10),
+      title: 'the title of the article',
       excerpt: chance.sentence(),
-      slug: slug(chance.word(10)),
+      slug: slug('the title of the article'),
       content: chance.sentence(5),
       markup: chance.sentence(5),
       featureImage: chance.avatar({ fileExtension: 'jpg' }),

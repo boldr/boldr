@@ -1,0 +1,17 @@
+{
+  "verbose": false,
+  "restartable": "rs",
+  "colours": true,
+  "ignore": [
+    "node_modules",
+    "boldr-api"
+  ],
+  "ext": "js json",
+  "env": {
+    "DEBUG":"boldr*"
+  },
+  "watch": [
+    "src/**/*.js",
+    "tools/**/*.js"
+  ]
+}

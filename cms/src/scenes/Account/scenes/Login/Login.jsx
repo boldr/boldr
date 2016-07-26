@@ -5,31 +5,15 @@ import { Card } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import { Heading } from 'components/index';
-import { facebookLogin, twitterLogin, googleLogin, githubLogin } from '../../state/oauth';
+// import { facebookLogin, twitterLogin, googleLogin, githubLogin } from '../../state/oauth';
 import { doLogin } from '../../state/auth';
-import { LoginForm, SocialLogin } from '../../components';
+import { LoginForm } from '../../components';
 import styles from '../../styles.css';
 
 const cx = styles::classNames;
 
 class Login extends Component {
-  handleFacebook() {
-    const { facebookLogin } = this.props;
-    facebookLogin();
-  }
-  handleTwitter() {
-    const { twitterLogin } = this.props;
-    twitterLogin();
-  }
 
-  handleGoogle() {
-    const { googleLogin } = this.props;
-    googleLogin();
-  }
-  handleGithub() {
-    const { githubLogin } = this.props;
-    githubLogin();
-  }
   handleOnSubmit(values) {
     const { doLogin } = this.props;
     doLogin({ email: values.email, password: values.password });

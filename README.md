@@ -40,8 +40,10 @@ Boldr is developed with running inside of multiple Docker containers in mind. Du
 
 ### Connections
 - The API runs on **localhost:9121**.
+- **During development** Webpack Isomorphic Tools runs on localhost:8888 and serves from memory.
 - The CMS server runs on **localhost:9221**.
 - Webpack runs on **localhost:3001**.
+
 
 
 Setup the database for the first time using the command below from the root directory.
