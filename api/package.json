@@ -1,0 +1,133 @@
+{
+  "name": "boldr-api",
+  "version": "0.3.8",
+  "description": "a bold cms.",
+  "main": "tools/scripts/server.js",
+  "engines": {
+    "node": "6.2.0",
+    "npm": "3.7.3"
+  },
+  "betterScripts": {
+    "start:prod": {
+      "command": "node server/index.js",
+      "env": {
+        "NODE_ENV": "production",
+        "database__name": "boldr_development"
+      }
+    },
+    "test": {
+      "command": "./node_modules/.bin/mocha --compilers js:./tools/compiler.babel --opts ./tools/mocha.opts './src/**/*.spec.js'",
+      "env": {
+        "NODE_ENV": "test",
+        "database__name": "boldr_test"
+      }
+    }
+  },
+  "scripts": {
+    "babel": "babel --presets node6 --plugins transform-async-to-generator --ignore node_modules,__test__",
+    "babel-node": "babel-node --presets node6 --plugins transform-async-to-generator --ignore node_modules,public",
+    "migrate": "./node_modules/.bin/sequelize db:migrate",
+    "sequelize": "./node_modules/.bin/sequelize",
+    "dev": "./node_modules/.bin/nodemon launch.js",
+    "start:prod": "better-npm-run start:prod",
+    "test": "better-npm-run test",
+    "test:db-migrate": "NODE_ENV=test database__name=boldr_test npm run migrate",
+    "build": "npm run babel -- ./src -d ./server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strues/boldr.git"
+  },
+  "keywords": [
+    "react",
+    "universal",
+    "javascript",
+    "express",
+    "webpack"
+  ],
+  "author": "Steven Truesdell <steven@strues.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/strues/boldr/issues"
+  },
+  "homepage": "https://github.com/strues/boldr#readme",
+  "dependencies": {
+    "async": "^2.0.1",
+    "aws-sdk": "^2.4.9",
+    "better-npm-run": "0.0.10",
+    "bluebird": "^3.4.1",
+    "body-parser": "^1.15.2",
+    "boom": "^3.2.2",
+    "classnames": "^2.2.5",
+    "composable-middleware": "^0.3.0",
+    "compression": "^1.6.2",
+    "connect-redis": "^3.1.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.7.1",
+    "debug": "^2.2.0",
+    "dotenv": "^2.0.0",
+    "errorhandler": "^1.4.3",
+    "express": "4.14.0",
+    "express-flash": "0.0.2",
+    "express-jwt": "^3.4.0",
+    "express-session": "^1.14.0",
+    "fbjs": "^0.8.3",
+    "jsonwebtoken": "^7.1.6",
+    "jwt-decode": "^2.1.0",
+    "limax": "^1.4.0",
+    "lodash": "^4.14.0",
+    "lost": "^7.0.3",
+    "method-override": "^2.3.6",
+    "moment": "^2.14.1",
+    "morgan": "^1.7.0",
+    "multer": "^1.1.0",
+    "multer-s3": "^2.3.2",
+    "nconf": "^0.8.4",
+    "node-fetch": "^1.5.3",
+    "node-uuid": "^1.4.7",
+    "nodemailer": "^2.5.0",
+    "nodemailer-mailgun-transport": "^1.2.1",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
+    "passport-jwt": "^2.1.0",
+    "passport-local": "^1.0.0",
+    "pg": "^6.0.3",
+    "pg-native": "^1.10.0",
+    "redis": "^2.6.2",
+    "sequelize": "^3.23.6",
+    "serve-favicon": "^2.3.0",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "6.1.2",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-node6": "^11.0.0",
+    "babel-register": "^6.11.5",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "chance": "^1.0.4",
+    "eslint": "^3.1.1",
+    "eslint-config-boldr": "^1.0.2",
+    "mocha": "^2.5.3",
+    "nodemon": "^1.10.0",
+    "sequelize-cli": "^2.4.0",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
+    "supertest": "^1.2.0"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "boldr"
+    ],
+    "env": {
+      "browser": false,
+      "es6": true,
+      "node": true
+    }
+  }
+}

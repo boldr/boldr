@@ -7,12 +7,15 @@
 
 Boldr aims to provide a CMS to use as a base for your next web project. Built on cutting edge web technologies, along with a few time tested favorites, we believe Boldr could become something special. Of course the world doesn't need another never finished CMS project, nor does it need the "next WordPress". Boldr tries to be none of that.
 ____
+
 ### Tech Stack
 
 * Node 6
 * Express
 * React
 * Postgres 9.5  
+* Redis
+* Docker
 
 Work in progress API documentation - [View Here](https://boldr.io/docs/api)  
 
@@ -21,33 +24,43 @@ At the moment, Boldr is in active development and not quite ready for use. Howev
 
 ```bash
 $ git clone git@github.com:strues/boldr.git
-$ npm install
 ```
 
-Rename `example.env` to `.env`  and modify the values to match your environment. The values set in this file are loaded upon launch by the configuration file located in `server/config/boldr.js`. Click [here to view](https://github.com/strues/boldr/blob/master/src/server/config/boldr.js). You may also define the values in the respective environment.json file within the configuration directory. Take note that the .env file **overrides** all other configuration settings.
+After the repository is cloned, a githook will execute. The hook runs the install for both the API and the CMS modules. If you have been following the development of Boldr, things might look a little differently than they did pre-0.4.0. That's to be expected. Hopefully the architectural changes simplify the process in the long run.  
 
-A Docker-Compose file along with a Postgres Dockerfile are included in the repository for you to use if you'd like.
+Boldr is now broken up into two different "modules", boldr-api and boldr-cms. The API lives in `./api` and the CMS in `./cms`. They both play their respective roles and are required to run Boldr. The boldr-api module is responsible for everything on the backend and the boldr-cms handles the application as well as serving the rendered pages. The CMS runs a proxy to the api server.
 
-Create the database for Boldr to use, and put it in the .env file where you see
-`DB_NAME=`
+### Why the separation?
+As Boldr becomes a more mature project, it is important to me to have a set of standards in place now rather than later on down the road. Logically it makes sense for the API and CMS to exist as two different entities, that rely on one another. This makes development, testing, and scaling better for everyone in the long run.
+
+
+### Containerizing all the things
+Boldr is developed with running inside of multiple Docker containers in mind. During development it's recommended to run both the database and redis server containers from the `docker-compose.yml` file. The Makefile is setup to build a container for the cms module and a container for the api module as part of the build-to-deploy process.
+
+
+### Connections
+- The API runs on **localhost:9121**.
+- The CMS server runs on **localhost:9221**.
+- Webpack runs on **localhost:3001**.
+
+
+Setup the database for the first time using the command below from the root directory.
 
 ```bash
-$ npm run migrate
+$ make migrate
 ```
-The above command will create the table structure for your database. You will need to create the database beforehand or you can run `npm run db:init` to create it for you. The first time Boldr runs, it will automatically create an admin user with the email address of admin@boldr.io and password as the password.
+
+The above command will create the table structure for your database. You will need to create the database beforehand. The first time Boldr runs, it will automatically create an admin user with the email address of admin@boldr.io and password as the password.
 
 #### Development
-
-```bash
-$ npm run dev
-```
-
+**Start the API** -- Open a terminal window and go to the api directory run `npm run dev`  
+**Start the CMS** -- In another terminal window, go to the cms dir and run `npm run dev`  
 
 #### Production
 > No way. Not yet. However if you feel like building the application as if it were production execute the following
 
 ```bash
-$ npm run build
+$ make build-api && make build-cms
 ```
 
 ## Contribute

@@ -1,7 +1,7 @@
 ## Redis
 
 ##### Run Server
-${PROJECT_ID}-redis - the hostname of the container. This is specified in the config file. In this instance, it is boldr-redis
+boldr-redis - the hostname of the container. This is specified in the config file. In this instance, it is boldr-redis
 Data is stored on the volume `/data`, which is automatically created for you on your development/container host.
 
 ##### Connect

@@ -7,7 +7,7 @@ machine:
     - docker
 
   environment:
-    CIRCLE_ENV: testing
+    CIRCLE_ENV: test
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     DATABASE_URL: postgres://postgres:password@db:5432/postgres
@@ -28,13 +28,12 @@ dependencies:
     # Redis
     - docker pull strues/redis
     # go npm
-    - npm prune && npm install
+    - make install
 test:
   override:
     - docker run -d --name db -e POSTGRES_PASSWORD=password --net host boldr/test
     - docker run -d --name boldr_redis --net host strues/redis
-    - npm run migrate
-    - npm run test
+    - make test-api
 
   post:
     # Clean up old image and save the new one

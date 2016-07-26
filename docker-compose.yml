@@ -1,62 +1,76 @@
 version: '2'
 
 services:
-  dbstore:
+  data_store:
     image: busybox
-    container_name: boldr-dbstore
+    container_name: boldr-data_store
     tty: true
     stdin_open: true
     volumes:
-      - "dbstore:/var/lib/postgresql/data"
-      - "./docs/logs/db:/var/log:rw"
-      - ./tools/docker/postgres/configs:/docker-entrypoint-initdb.d:ro
-  # boldr:
-  #   build: .
-  #   container_name: boldr
-  #   command: npm run start
+      - "./docker/volumes/public:/home/boldr-cms/public:rw"
+      - "./docker/volumes/redis/data:/data:rw"
+      - "./docker/volumes/logs/db:/var/log:rw"
+      - "./docker/postgres/configs:/docker-entrypoint-initdb.d:ro"
+  # boldr-cms:
+  #   build: ./cms
+  #   container_name: boldr-cms
+  #   command: npm run start:prod
   #   environment:
-  #     POSTGRES_CONNECTION_URL: postgres://postgres:password@db:5432/boldr
+  #     POSTGRES_CONNECTION_URL: postgres://postgres:password@127.0.0.1:5432/boldr_development
   #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - "./node_modules:/usr/src/boldr/node_modules"
-  #     - ".:/usr/src/boldr"
-  #   depends_on:
-  #     - db
-  #     - redis
+  #     - "9221:3000"
+  #   volumes_from:
+  #     - "data_store"
+  #
+  # boldr-api:
+  #   build: ./api
+  #   container_name: boldr-api
+  #   command: npm run start:prod
+  #   environment:
+  #     database__host: db
+  #     database__user: postgres
+  #     database__password: password
+  #     database__name: boldr_development
+  #     # redis__host: redis_ds
+  #
+  #   ports:
+  #     - "9121:9121"
+  #
   #   links:
-  #     - "db"
-  #     - "redis"
+  #     - "boldr-cms"
   db:
-    container_name: boldr-postgres
+    container_name: boldr-db
     image: strues/postgres
     environment:
       - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      # - POSTGRES_DB
+      # - PGDATA="./docker/volumes/db"
     ports:
       - "5432:5432"
     volumes_from:
-      - dbstore
+      - data_store
     networks:
       - boldr
-    depends_on:
-      - dbstore
+    # links:
+    #   - "boldr-api"
 
-  redis:
-    image: strues/redis
+  redis_ds:
+    build: ./docker/redis
     container_name: boldr-redis
     ports:
       - "6379:6379"
-    volumes:
-      - "redisstore:/data"
+    volumes_from:
+      - data_store
     networks:
       - boldr
+    # links:
+    #   - "boldr-api"
 
 networks:
   boldr:
     driver: bridge
 
 volumes:
-  dbstore:
-    driver: local
-  redisstore:
+  data_store:
     driver: local
