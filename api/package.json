@@ -31,7 +31,7 @@
     "dev": "./node_modules/.bin/nodemon launch.js",
     "start:prod": "better-npm-run start:prod",
     "test": "better-npm-run test",
-    "test:db-migrate": "NODE_ENV=test database__name=boldr_test npm run migrate",
+    "test:db-migrate": "NODE_ENV=test database__name=postgres npm run migrate",
     "build": "npm run babel -- ./src -d ./server"
   },
   "repository": {
