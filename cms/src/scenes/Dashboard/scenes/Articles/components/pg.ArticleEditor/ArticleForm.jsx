@@ -56,7 +56,7 @@ class NewArticleForm extends Component {
     });
   }
   render() {
-    const { fields: { title, tags, excerpt, content, status }, handleSubmit } = this.props;
+    const { fields: { title, tags, excerpt, content, status, featureImage }, handleSubmit } = this.props;
     const { editorState } = this.state;
     return (
       <section>
@@ -69,7 +69,7 @@ class NewArticleForm extends Component {
               } }
             >
 
-              <div className="row">
+              <div className={ cx('row') }>
                 <TextField hintText= "Give it a name"
                   floatingLabelText="Title"
                   fullWidth
@@ -77,23 +77,31 @@ class NewArticleForm extends Component {
                   { ...title }
                 />
               </div>
-              <div className="row">
-                <TextField hintText= "Tag your post"
+              <div className={ cx('row') }>
+                <TextField hintText= "Separate using commas"
                   floatingLabelText="Tags"
                   fullWidth
                   errorText = { tags.touched && tags.error }
                   { ...tags }
                 />
               </div>
-              <div className="row">
-                <TextField hintText= "A short summary"
+              <div className={ cx('row') }>
+                <TextField hintText= "An image to go with your article"
+                  floatingLabelText="Feature Image"
+                  fullWidth
+                  errorText = { featureImage.touched && featureImage.error }
+                  { ...featureImage }
+                />
+              </div>
+              <div className={ cx('row') }>
+                <TextField hintText= "A short summary or highlight"
                   floatingLabelText="Excerpt"
                   fullWidth
                   errorText = { excerpt.touched && excerpt.error }
                   { ...excerpt }
                 />
               </div>
-              <div className="row">
+              <div className={ cx('row') }>
                 <label>
                   <input type="radio" { ...status } value="draft" checked={ status.value === 'draft' } /> Draft
                 </label>
@@ -101,7 +109,7 @@ class NewArticleForm extends Component {
                   <input type="radio" { ...status } value="published" checked={ status.value === 'published' } /> Published
                 </label>
               </div>
-              <div>
+              <div style={ { marginTop: '1em' } }>
                 <RaisedButton type="submit" secondary label="Publish" style={ style } />
               </div>
             </Paper>
@@ -110,7 +118,7 @@ class NewArticleForm extends Component {
             <Paper
               zDepth={ 3 }
             >
-              <TextEditor placeholder="Tell your story" { ...content }
+              <TextEditor { ...content }
                 handleUpdate={ (value) => {
                   content.onChange(value);
                 } }
@@ -125,7 +133,7 @@ class NewArticleForm extends Component {
 
 export default reduxForm({
   form: 'NewArticleForm',
-  fields: ['title', 'tags', 'excerpt', 'content', 'status']
+  fields: ['title', 'tags', 'excerpt', 'content', 'featureImage', 'status']
 })(NewArticleForm);
 
 NewArticleForm.propTypes = {

@@ -1,14 +1,11 @@
-.PHONY: build test help
 .DEFAULT_GOAL := help
+.PHONY: help
 
 CHDIR_SHELL := $(SHELL)
 define chdir
    $(eval _D=$(firstword $(1) $(@D)))
    $(info $(MAKE): cd $(_D)) $(eval SHELL = cd $(_D); $(CHDIR_SHELL))
 endef
-
-help:
-	@grep -P '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 install-api:
 	$(call chdir,api)
@@ -71,8 +68,11 @@ test-api:
 	@echo "Starting the tests"
 	@npm run test
 
-
 test-cms:
 	$(call chdir,cms)
 	@echo "Starting the tests"
 	@npm run test
+
+
+help: ## (default), display the list of make commands
+  @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

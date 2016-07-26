@@ -50,15 +50,13 @@ export default app => {
   app.use(passport.session());
   app.use(flash());
   app.use((req, res, next) => {
+    res.locals.user = req.user;
     if (!req.session) {
       return next(new Error('Lost connection to redis'));
     }
     next(); // otherwise continue
   });
 
-  logger.log('--------------------------');
-  logger.log('===> 😊  Starting Boldr . . .');
-  logger.log(`===> 🌎  Environment: ${config.NODE_ENV}`);
   if (config.env === 'production') {
     logger.log('===> 🚦  Note: In order for authentication to work in production');
     logger.log('===>           you will need a secure HTTPS connection');

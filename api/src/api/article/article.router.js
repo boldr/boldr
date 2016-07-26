@@ -1,10 +1,9 @@
-
-import { Router } from 'express';
+import express from 'express';
 import { processQuery } from '../../lib';
 import { isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './article.controller';
 
-const router = Router();
+const router = express.Router();
 
 router.route('/')
 	.get(processQuery, ctrl.getAllArticles)
@@ -15,12 +14,13 @@ router.route('/:slug')
   .put(isAuthenticated(), ctrl.updateArticleBySlug)
   .delete(isAuthenticated(), ctrl.deleteArticleById);
 
-router.route('/:articleId')
-  .get(ctrl.showArticle)
+router.get('/id/:id', ctrl.showArticle);
+
+router.route('/:id')
   .put(isAuthenticated(), ctrl.updateArticleById)
   .delete(isAuthenticated(), ctrl.deleteArticleBySlug);
 
-router.route('/:articleId/tags')
+router.route('/:id/tags')
   .post(isAuthenticated(), ctrl.addTagToArticle);
 
 export default router;

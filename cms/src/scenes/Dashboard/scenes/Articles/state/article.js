@@ -55,6 +55,8 @@ export function fetchArticlesIfNeeded() {
 }
 
 export const SELECT_ARTICLE = 'SELECT_ARTICLE';
+export const SELECT_ARTICLE_SUCCESS = 'SELECT_ARTICLE_SUCCESS';
+export const SELECT_ARTICLE_FAIL = 'SELECT_ARTICLE_FAIL';
 
 function articleSelected(articleId) {
   return {
@@ -62,16 +64,33 @@ function articleSelected(articleId) {
     id: articleId
   };
 }
-
+const receiveArticle = (response) => ({
+  type: SELECT_ARTICLE_SUCCESS,
+  current: response.body
+});
+const receiveArticleFailed = (err) => ({
+  type: SELECT_ARTICLE_FAIL,
+  message: err
+});
 export function selectArticle(articleId) {
   return (dispatch) => {
     dispatch(articleSelected(articleId));
+    return request
+      .get(`${API_ARTICLES}/id/${articleId}`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(receiveArticle(response));
+        }
+      })
+      .catch(err => {
+        dispatch(receiveArticleFailed(err));
+      });
   };
 }
 
 /**
  * CREATE` ARTICLE ACTIONS
- * @TODO Before sending data, or in the server, split the tags by , and put them
+ * @ToDo Before sending data, or in the server, split the tags by , and put them
  * in as tags:[{tagname: tag}]
  */
 export const CREATE_ARTICLE_REQUEST = 'CREATE_ARTICLE_REQUEST';
@@ -123,7 +142,8 @@ export function createArticle(articleData) {
 export const INITIAL_STATE = {
   isLoading: false,
   message: undefined,
-  articles: []
+  articles: [],
+  current: {}
 };
 
 /**
@@ -173,6 +193,18 @@ export default function article(state = INITIAL_STATE, action = {}) {
         ...state,
         isLoading: false,
         id: action.id
+      };
+    case SELECT_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        current: action.current
+      };
+    case SELECT_ARTICLE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        message: action.message
       };
     default:
       return state;

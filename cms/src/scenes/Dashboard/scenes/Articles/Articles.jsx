@@ -19,8 +19,12 @@ class Articles extends Component {
       visible: false
     };
   }
+
   handleArticleClick(articleId) {
-    this.props.dispatch(selectArticle(articleId))
+    this.props.dispatch(selectArticle(articleId));
+    this.setState({
+      visible: true
+    });
   }
   render() {
     if (!this.props.article.articles.length) {
@@ -34,7 +38,9 @@ class Articles extends Component {
           }
         </List>
         <div className={ cx('articleList__preview') }>
-
+          {
+            this.state.visible ? <span>{ this.props.current.title }</span> : null
+          }
         </div>
        </div>
     );
@@ -43,12 +49,14 @@ class Articles extends Component {
 
 Articles.propTypes = {
   children: PropTypes.node,
-  article: PropTypes.object
+  article: PropTypes.object,
+  dispatch: PropTypes.func
 };
 const mapStateToProps = (state, ownProps) => {
   return {
     article: state.article,
-    isLoading: state.article.isLoading
+    isLoading: state.article.isLoading,
+    current: state.article.current
   };
 };
 export default connect(mapStateToProps)(Articles);

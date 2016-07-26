@@ -9,7 +9,7 @@ import styles from '../../style.css';
 
 const cx = styles::classNames;
 
-const BlogPost = props => {
+const PostCard = props => {
   const formattedDate = Moment(props.createdAt).format('MMMM Do YYYY, h:mm:ss a');
   const profileLink = `profile/public/${props.user.id}`;
   return (
@@ -32,11 +32,12 @@ const BlogPost = props => {
     );
 };
 
-BlogPost.propTypes = {
+PostCard.propTypes = {
   title: PropTypes.string,
-  createdAt: PropTypes.date,
+  createdAt: PropTypes.string,
   displayName: PropTypes.string,
-  content: PropTypes.object
+  content: PropTypes.string,
+  user: PropTypes.object
 };
 
-export default BlogPost;
+export default PostCard;

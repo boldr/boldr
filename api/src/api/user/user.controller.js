@@ -7,10 +7,10 @@ import { respondWithResult, handleError, saveUpdates,
  * Load user and append to req.
  */
 function load(req, res, next, id) {
-  User.findById(id).then((user) => {
+  User.findById(id).then(user => {
     req.user = user;    // eslint-disable-line no-param-reassign
     return next();
-  }).error((e) => next(e));
+  }).error(e => next(e));
 }
 
 const getAllUsers = async (req, res, next) => {
@@ -20,7 +20,7 @@ const getAllUsers = async (req, res, next) => {
     return res.status(200).json(users);
   } catch (error) {
     Boom.badRequest({ message: error });
-    next(error);
+    next();
   }
 };
 
@@ -39,26 +39,26 @@ function showUser(req, res, next) {
 function updateUser(req, res, next) {
   const userId = req.params.id;
 
-  return User.find({
-    where: {
-      id: userId
-    }
-  })
+  return User.findById(userId)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+
+/**
+ * Change a user's password
+ * @param  {Object}   req  The request object
+ * @param  {Object}   res  The response object
+ * @param  {Function} next move along
+ * @return {User}
+ */
 function changePassword(req, res, next) {
   const userId = req.user.id;
   const oldPass = String(req.body.oldPassword);
   const newPass = String(req.body.newPassword);
 
-  return User.find({
-    where: {
-      id: userId
-    }
-  })
+  return User.findById(userId)
     .then(user => {
       if (user.authenticate(oldPass)) {
         user.password = newPass;
@@ -72,6 +72,11 @@ function changePassword(req, res, next) {
       }
     });
 }
+
+/**
+ * Destroy user.
+ * @returns {User}
+ */
 function destroyUser(req, res) {
   const userId = req.params.id;
   return User.find({

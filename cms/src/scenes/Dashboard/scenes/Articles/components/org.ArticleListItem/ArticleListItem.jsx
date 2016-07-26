@@ -11,7 +11,7 @@ const ArticleListItem = props => {
   function handleclick() {
     const articleId = props.article.id;
     props.handleArticleClick(articleId);
-  };
+  }
   return (
      <div className={ cx('article-wrap') }>
        <ul className={ cx('article-list') } onClick={ handleclick }>
@@ -29,7 +29,8 @@ const ArticleListItem = props => {
   );
 };
 ArticleListItem.propTypes = {
-  article: React.PropTypes.object.isRequired
+  article: React.PropTypes.object.isRequired,
+  handleArticleClick: React.PropTypes.func
 };
 
 export default ArticleListItem;

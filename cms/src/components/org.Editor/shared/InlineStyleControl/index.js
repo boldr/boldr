@@ -25,17 +25,19 @@ export const InlineStyleControls = (props) => {
           style={ type.style }
         />
       ) }
-      <span
-
-        onMouseDown={ props.onPromptForLink }
-      >
+      <span onMouseDown={ props.onPromptForLink }>
         Add Link
       </span>
-      <span
-        onMouseDown={ props.onRemoveLink }
-      >
+      <span onMouseDown={ props.onRemoveLink }>
         Remove Link
       </span>
     </div>
   );
+};
+
+InlineStyleControls.propTypes = {
+  editorState: React.PropTypes.object,
+  onRemoveLink: React.PropTypes.func,
+  onToggle: React.PropTypes.func,
+  onPromptForLink: React.PropTypes.func
 };

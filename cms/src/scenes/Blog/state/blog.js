@@ -46,14 +46,14 @@ export function fetchPosts(data) {
 }
 
 function shouldFetchPosts(state) {
-  const post = state.post;
-  if (!post.posts) {
+  const blog = state.blog;
+  if (!blog.posts) {
     return true;
   }
-  if (post.isLoading) {
+  if (blog.isLoading) {
     return false;
   }
-  return post;
+  return blog;
 }
 
 export function fetchPostsIfNeeded() {
@@ -71,11 +71,11 @@ export const INITIAL_STATE = {
   posts: []
 };
 /**
- * Article Reducer
+ * Blog Reducer
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
-export default function postReducer(state = INITIAL_STATE, action = {}) {
+export default function blogReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case FETCH_POSTS_REQUEST:
       return Object.assign({}, state, {

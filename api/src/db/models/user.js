@@ -1,20 +1,6 @@
 import crypto from 'crypto';
 import DataTypes from 'sequelize';
-import boom from 'boom';
-import uuid from 'node-uuid';
-import { type, creation, resources, defaultResources } from '../../api/user/user.constants';
 import Model from '../sequelize';
-
-/**
- * Creates a UUID for the User if it's not given.
- * @param  {Object} instance Instance object of the User
- * @return {void}
- */
-function createUUIDIfNotExist(instance) {
-  if (!instance.id) {
-    instance.id = uuid.v4();
-  }
-}
 
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -158,8 +144,8 @@ const User = Model.define('user', {
   hooks: {
     beforeBulkCreate(users, fields, fn) {
       let totalUpdated = 0;
-      users.forEach((user) => {
-        user.updatePassword((err) => {
+      users.forEach(user => {
+        user.updatePassword(err => {
           if (err) {
             return fn(err);
           }
@@ -364,33 +350,5 @@ function findByEmail(email) {
     where: { email }
   });
 }
-
-// function activateAccount(email, id) {
-//   return new Promise((resolve, reject) => {
-//     this.findByEmail(email)
-//     .then(httpUser => {
-//       if (!httpUser) {
-//         // return reject(Error(401, 'Email is not registered'));
-//       }
-//       if (email !== httpUser.email || uniqueId !== httpUser.uniqueId) {
-//         // return reject(Error(401, 'Email and unique Id does not match'));
-//       }
-//       if (httpUser.activated) {
-//         return reject(Error(409, 'Account was already activated'));
-//       }
-//       if (httpUser.deletedAt) {
-//         httpUser.restore()
-//         .then(() => {
-//           return resolve(httpUser.update({ activated: true }));
-//         });
-//       } else {
-//         return resolve(httpUser.update({ activated: true }));
-//       }
-//     })
-//     .catch(error => {
-//       return reject(error);
-//     });
-//   });
-// }
 
 export default User;

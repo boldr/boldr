@@ -20,3 +20,8 @@ section {
     lost-column: 2/3 0;
   }
 }
+
+.row {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

@@ -1,7 +1,7 @@
 const nconf = require('nconf');
 
 nconf
-// Allow overwrites from env
+    .argv()
     .env({
       whitelist: [
         'environment',
@@ -58,9 +58,8 @@ nconf.defaults({
     name: 'boldr_development'
   },
   redis: {
-    url: 'redis_ds',
-    host: '0.0.0.0',
-    port: 6379,
+    host: process.env.REDIS_DS_PORT_6379_TCP_ADDR,
+    port: process.env.REDIS_DS_PORT_6379_TCP_PORT,
     database: 8
   },
   aws: {

@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import {
@@ -171,7 +172,7 @@ export default class TextEditor extends Component {
 
     return (
       <div onBlur={ this.handleUpdate } >
-        <Toolbar>
+        <Toolbar style={ { alignItems: 'center' } }>
           <BlockStyleControls
             editorState={ editorState }
             onToggle={ this.handleToggleBlockType }
@@ -185,16 +186,18 @@ export default class TextEditor extends Component {
           { this.renderURLField() }
           <Divider />
         </Toolbar>
-        <div onClick={ this.handleFocus } style={ { padding: 40 } }>
+        <div onClick={ this.handleFocus } style={ { padding: '10px', minHeight: '400px', backgroundColor: 'rgba(237, 237, 237, 1)' } }>
+        <Paper zDepth={ 1 } style={ { padding: '1em' } }>
           <Editor
             onChange={ this.handleChange }
             blockStyleFn={ getBlockStyle }
             editorState={ editorState }
             spellCheck
-            placeholder="Enter Text"
+            placeholder="A story begins with words on the page..."
             ref="editor"
             handleKeyCommand={ this.handleKeyCommand }
           />
+          </Paper>
         </div>
       </div>
     );

@@ -1,6 +1,8 @@
 import http from 'http';
 import app from './engine';
 import models from './db/models';
+import { logger } from './lib';
+
 const debug = require('debug')('boldr:engine');
 const config = require('./core/config/config');
 
@@ -37,9 +39,9 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-models.sync().then(() => { // let Sequalize automatically create tables
+models.sync().then(() => {
   server.listen(port);
-
+  logger.info(`🌎  ==> Boldr API is running on ${port}.`);
   server.on('error', error => {
     if (error.syscall !== 'listen') {
       throw error;

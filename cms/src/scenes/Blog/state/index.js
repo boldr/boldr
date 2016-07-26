@@ -1,3 +1,3 @@
-import postReducer from './postReducer';
+import blogReducer from './blog';
 
-export default postReducer;
+export default blogReducer;

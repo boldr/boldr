@@ -39,7 +39,7 @@ export default (store) => {
       {
         path: 'blog',
         getComponent(nextState, cb) {
-          require.ensure([], (require) => {
+          require.ensure(['./Blog'], (require) => {
             cb(null, require('./Blog').default);
           });
         }

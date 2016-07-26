@@ -60,8 +60,9 @@ export const getAllArticles = async(req, res, next) => {
  * @apiSuccess {String}  id   The Article ID
  */
 export const showArticle = async(req, res, next) => {
+  const articleId = req.params.id;
   try {
-    const article = await Article.findById(req.params.id, {
+    const article = await Article.find({ where: { id: articleId } }, {
       include: [{
         model: User,
         attributes: ['firstName', 'lastName', 'displayName', 'picture', 'email', 'role']

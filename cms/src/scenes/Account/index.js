@@ -15,46 +15,46 @@ if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(requ
 export default (store, connect) => ({
 
   path: 'account',
-  component: require('./components/tpl.AccountLayou').default,
+  component: require('./components/tpl.AccountLayout').default,
   childRoutes: [{
-        path: 'forgot-password',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./scenes/ForgotPassword').default);
-          });
-        }
-      },
-      {
-        path: 'login',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./scenes/Login').default);
-          });
-        }
-      },
-      {
-        path: 'preferences',
-        onEnter: connect(UserIsAuthenticated.onEnter),
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, UserIsAuthenticated(require('./scenes/Preferences/components/tpl.Preferences').default));
-          });
-        }
-      },
-      {
-        path: 'reset-password/:token',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./scenes/ResetPassword').default);
-          });
-        }
-      },
-      {
-        path: 'signup',
-        getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./scenes/Signup').default);
-          });
-        }
-      }]
+    path: 'forgot-password',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./scenes/ForgotPassword').default);
+      });
+    }
+  },
+  {
+    path: 'login',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./scenes/Login').default);
+      });
+    }
+  },
+  {
+    path: 'preferences',
+    onEnter: connect(UserIsAuthenticated.onEnter),
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, UserIsAuthenticated(require('./scenes/Preferences/components/tpl.Preferences').default));
+      });
+    }
+  },
+  {
+    path: 'reset-password/:token',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./scenes/ResetPassword').default);
+      });
+    }
+  },
+  {
+    path: 'signup',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./scenes/Signup').default);
+      });
+    }
+  }]
 });

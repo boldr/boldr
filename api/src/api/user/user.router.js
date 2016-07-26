@@ -1,23 +1,22 @@
-import { Router } from 'express';
+import express from 'express';
 import { isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './user.controller';
 
-const router = Router();
+const router = express.Router();
 
 router.route('/')
 	.get(ctrl.getAllUsers);
 
-router.get('/users/me', isAuthenticated(), ctrl.me);
+router.get('/me', isAuthenticated(), ctrl.me);
 
-router.get('/:id', ctrl.showUser);
-
-router.route('/:userId')
+router.route('/:id')
+  .get(ctrl.showUser)
   .put(isAuthenticated(), ctrl.updateUser)
 	.delete(isAuthenticated(), ctrl.destroyUser);
 
-router.route('/:userId/password')
+router.route('/:id/password')
   .put(isAuthenticated(), ctrl.changePassword);
 
-router.param('userId', ctrl.load);
+router.param('id', ctrl.load);
 
 export default router;
