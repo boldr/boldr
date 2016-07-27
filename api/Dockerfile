@@ -8,6 +8,6 @@ RUN apk add --no-cache postgresql-dev \
   build-base make gcc g++ python \
   && npm install
 
-EXPOSE 3000
+EXPOSE 9121
 
 CMD npm run start:prod

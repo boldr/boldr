@@ -8,6 +8,6 @@ RUN apk add --no-cache \
   make gcc g++ python \
   && npm install
 
-EXPOSE 3000
+EXPOSE 9221
 
 CMD npm run start:prod

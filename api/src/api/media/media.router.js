@@ -8,7 +8,7 @@ router.route('/')
 	.get(ctrl.getAllMedia)
   .post(isAuthenticated(), ctrl.uploadFiles.array('photos', 3), ctrl.generalUpload);
 
-router.route('/:mediaId')
+router.route('/:id')
   .get(ctrl.showMedia);
 
 router.route('/aws/bucket')

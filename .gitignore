@@ -4,12 +4,13 @@ cms/server.js
 cms/server.js.map
 cms/node_modules/
 cms/boldr-cms
-
+cms/src/server/core/certs
 
 api/node_modules
 api/.env
 api/server
 api/boldr-api
+api/src/core/certs
 docker/volumes
 
 .tags
@@ -17,6 +18,7 @@ docker/volumes
 # Build output folders
 cms/public/assets/
 cms/.happypack/
+cms/public/
 
 # Isomorphic webpack output
 cms/webpack-assets.json
@@ -26,6 +28,9 @@ cms/webpack-stats.json
 logs
 *.log
 docs/logs
+
+boldr.sublime-project
+boldr.sublime-workspace
 # Runtime data
 pids
 *.pid

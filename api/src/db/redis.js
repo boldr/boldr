@@ -2,20 +2,16 @@ import Redis from 'redis';
 import bluebird from 'bluebird';
 import logger from '../lib/logger';
 
-const config = require('../core/config/config');
-
-const redisCfg = config.get('redis');
+const config = require('../core/config/boldr');
 
 bluebird.promisifyAll(Redis.RedisClient.prototype);
 
 const redisConnection = {
-  host: redisCfg.host,
-  port: redisCfg.port,
+  host: config.redis.host,
+  port: config.redis.port,
   ttl: 260,
-  db: redisCfg.database
+  db: config.redis.database
 };
-
-const redisUrl = redisCfg.url;
 
 const redisClient = Redis.createClient(redisConnection);
 

@@ -1,10 +1,7 @@
 ### 0.4.0
 > 7/26/2016
 
-- **DX** Webpack 2 and all its glorious code splitting is set up.
-- **DX** Code is organized in a way that is much more logical and should be easier for everyone to find things.
-- **Bug Fix**  Article bodies implement the correct read only editor, providing rich blocks of styled content.
-- **Breaking** Social login and verification emails have been temporarily removed from the active features. The code is   still there, but at this time there are bigger things for me to worry about.
+
 
 ### 0.3.8
 > 7/25/2016

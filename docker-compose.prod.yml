@@ -12,75 +12,84 @@ services:
       - "./docker/volumes/logs/db:/var/log:rw"
       - "./docker/postgres/configs:/docker-entrypoint-initdb.d:ro"
 
-  # webserver:
-  #   image: nginx
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   volumes:
-  #     - /etc/nginx/conf.d
-  #     - /etc/nginx/vhost.d
-  #     - /usr/share/nginx/html
-  #     - /etc/nginx/certs
+  nginx:
+    image: evild/alpine-nginx:mainline
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./docker/volumes/nginx/conf.d:/etc/nginx/conf.d"
+      - "/usr/share/nginx/html"
+      - "./docker/volumes/nginx/certs:/etc/nginx/certs:ro"
+      - "./docker/volumes/nginx/conf/nginx.conf:/etc/nginx/nginx.conf"
+    networks:
+      - proxy-tier
 
-  # proxy:
-  #   build: ./docker/docker-gen
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #   volumes_from:
-  #     - nginx
-  #   command:
-  #     - -notify-sighup
-  #     - httpd_nginx_1
-  #     - -watch
-  #     - -only-exposed
-  #     - -wait
-  #     - 5s:30s
-  #     - /etc/docker-gen/templates/nginx.tmpl
-  #     - /etc/nginx/conf.d/default.conf
+  nginx-gen:
+    image: jwilder/docker-gen
+    container_name: nginx-gen
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "./docker/docker-gen/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro"
+    volumes_from:
+      - nginx
+    entrypoint: /usr/local/bin/docker-gen -notify-sighup nginx -watch -only-exposed -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
 
-  # letsencrypt:
-  #   image: jrcs/letsencrypt-nginx-proxy-companion
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #   volumes_from:
-  #     - nginx
-  #   environment:
-  #     - "NGINX_DOCKER_GEN_CONTAINER=httpd_nginx-gen_1"
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt-nginx-proxy-companion
+    volumes_from:
+      - nginx
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./docker/volumes/nginx/certs:/etc/nginx/certs:rw"
+    environment:
+      - NGINX_DOCKER_GEN_CONTAINER=nginx-gen
 
   boldr-cms:
-    build: ./cms
+    image: strues/boldr-cms:0.3.9
     container_name: boldr-cms
     command: npm run start:prod
     environment:
-      POSTGRES_CONNECTION_URL: postgres://postgres:password@127.0.0.1:5432/boldr_development
+      - VIRTUAL_HOST=staging.boldr.io
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=staging.boldr.io
+      - LETSENCRYPT_EMAIL=steven@boldr.io
     ports:
       - "9221:9221"
-    volumes_from:
-      - "data_store"
+    volumes:
+      - "./docker/volumes/nginx/conf.d/:/etc/nginx/conf.d"
+    networks:
+      - boldr
+      - proxy-tier
+    links:
+      - boldr-api
 
   boldr-api:
-    build: ./api
+    image: strues/boldr-api
     container_name: boldr-api
     command: npm run start:prod
     environment:
       - database__host=db
-      - database__user=postgres
+      - database__user=boldr
       - database__password=password
-      - database__name=boldr_development
-      # redis__host: redis_ds
-
+      - database__name=boldr
+      - redis__host=redis_ds
+      # - redis__port=6379
+    networks:
+      - proxy-tier
+      - boldr
     ports:
       - "9121:9121"
-
-    links:
-      - "boldr-cms"
   db:
     container_name: boldr-db
     image: strues/postgres
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
       # - POSTGRES_DB
       # - PGDATA="./docker/volumes/db"
     ports:
@@ -89,24 +98,29 @@ services:
       - data_store
     networks:
       - boldr
-    # links:
-    #   - "boldr-api"
+      - proxy-tier
+    links:
+      - "boldr-api"
 
   redis_ds:
-    build: ./docker/redis
+    image: strues/redis
     container_name: boldr-redis
     ports:
       - "6379:6379"
     volumes_from:
       - data_store
     networks:
+      - proxy-tier
       - boldr
-    # links:
-    #   - "boldr-api"
+    links:
+      - "boldr-api"
 
 networks:
   boldr:
     driver: bridge
+  proxy-tier:
+    external:
+      name: nginx-proxy
 
 volumes:
   data_store:

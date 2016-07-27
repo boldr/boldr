@@ -1,7 +1,8 @@
 import uuid from 'node-uuid';
 import aws from 'aws-sdk';
 import express from 'express';
-const config = require('../../core/config/config');
+
+const config = require('../../core/config/boldr');
 
 function checkTrailingSlash(path) {
   if (path && path[path.length - 1] !== '/') {
@@ -10,10 +11,8 @@ function checkTrailingSlash(path) {
   return path;
 }
 
-const awsCfg = config.get('aws');
-
 export default function S3Router(options) {
-  const S3_BUCKET = awsCfg.bucket;
+  const S3_BUCKET = config.aws.bucket;
   const getFileKeyDir = options.getFileKeyDir || function() { return ''; };
 
   if (!S3_BUCKET) {
@@ -40,9 +39,9 @@ export default function S3Router(options) {
       Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
     };
     const s3 = new aws.S3({
-      accessKeyId: awsCfg.access_key_id,
-      secretAccessKey: awsCfg.secret_access_key,
-      region: awsCfg.region
+      accessKeyId: config.aws.keyId,
+      secretAccessKey: config.aws.keySecret,
+      region: config.aws.region
     });
     s3.getSignedUrl('getObject', params, (err, url) => {
       res.redirect(url);
@@ -68,7 +67,7 @@ export default function S3Router(options) {
     * give temporary access to PUT an object in an S3 bucket.
     */
   router.get('/sign', (req, res) => {
-    const filename = uuid.v4() + '_' + req.query.objectName;
+    const filename = `${uuid.v4()}_${req.query.objectName}`;
     const mimeType = req.query.contentType;
     const fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
        // Set any custom headers
@@ -77,9 +76,9 @@ export default function S3Router(options) {
     }
 
     const s3 = new aws.S3({
-      accessKeyId: awsCfg.access_key_id,
-      secretAccessKey: awsCfg.secret_access_key,
-      region: awsCfg.region
+      accessKeyId: config.aws.keyId,
+      secretAccessKey: config.aws.keySecret,
+      region: config.aws.region
     });
     const params = {
       Bucket: S3_BUCKET,
@@ -95,7 +94,7 @@ export default function S3Router(options) {
       }
       res.json({
         signedUrl: data,
-        publicUrl: '/s3/uploads/' + filename,
+        publicUrl: `/s3/uploads/${filename}`,
         filename
       });
     });

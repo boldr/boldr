@@ -1,11 +1,11 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
-const config = require('../../core/config/config');
+const config = require('../../core/config/boldr');
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: config.get('session_secret')
+  secretOrKey: config.session.secret
 };
 
 export function setup(User) {

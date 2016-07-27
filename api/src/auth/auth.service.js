@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 import compose from 'composable-middleware';
 import { User } from '../db/models';
 
-const config = require('../core/config/config');
+const config = require('../core/config/boldr');
 
-const validateJwt = expressJwt({ secret: config.get('session_secret') });
+const validateJwt = expressJwt({ secret: config.session.secret });
 export const requireAuth = passport.authenticate('jwt', { session: false });
 /**
  * Attaches the user object to the request if authenticated
@@ -110,7 +110,7 @@ export function addAuthHeaderFromCookie() {
  */
 export function signToken(id) {
   return new Promise((resolve, reject) => {
-    jwt.sign({ id }, config.get('session_secret'), { expiresIn: 60 * 60 * 5 }, (err, token) => {
+    jwt.sign({ id }, config.session.secret, { expiresIn: 60 * 60 * 5 }, (err, token) => {
       if (err) return reject(err);
       else return resolve(token);
     });

@@ -1,27 +1,25 @@
-const config = require('../core/config/config');
-
-const dbConfig = config.get('database');
+const config = require('../core/config/boldr');
 
 module.exports = {
   development: {
-    username: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.name,
-    host: dbConfig.host,
+    username: config.db.user,
+    password: config.db.password,
+    database: config.db.name,
+    host: config.db.host,
     dialect: 'postgres'
   },
   test: {
-    username: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.name,
-    host: dbConfig.host,
+    username: config.db.user,
+    password: config.db.password,
+    database: config.db.name,
+    host: config.db.host,
     dialect: 'postgres'
   },
   production: {
-    username: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.name,
-    host: dbConfig.host,
+    username: config.db.user,
+    password: config.db.password,
+    database: config.db.name,
+    host: config.db.host,
     dialect: 'postgres'
   }
 };

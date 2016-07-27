@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import s3router from '../lib/s3/s3router';
+import s3router from './s3/s3router';
 import userRoutes from './user/user.router';
 import mediaRoutes from './media/media.router';
 import tagRoutes from './tag/tag.router';

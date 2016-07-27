@@ -12,14 +12,16 @@
       "command": "node server/index.js",
       "env": {
         "NODE_ENV": "production",
-        "database__name": "boldr_development"
+        "POSTGRES_DB": "boldr",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "password"
       }
     },
     "test": {
       "command": "./node_modules/.bin/mocha --compilers js:./tools/compiler.babel --opts ./tools/mocha.opts './src/**/*.spec.js'",
       "env": {
         "NODE_ENV": "test",
-        "database__name": "postgres"
+        "POSTGRES_DB": "postgres"
       }
     }
   },
@@ -58,10 +60,10 @@
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
     "boom": "^3.2.2",
-    "classnames": "^2.2.5",
     "composable-middleware": "^0.3.0",
     "compression": "^1.6.2",
     "connect-redis": "^3.1.0",
+    "convict": "^1.4.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
     "debug": "^2.2.0",
@@ -71,25 +73,20 @@
     "express-flash": "0.0.2",
     "express-jwt": "^3.4.0",
     "express-session": "^1.14.0",
-    "fbjs": "^0.8.3",
     "jsonwebtoken": "^7.1.6",
     "jwt-decode": "^2.1.0",
     "limax": "^1.4.0",
     "lodash": "^4.14.0",
-    "lost": "^7.0.3",
     "method-override": "^2.3.6",
     "moment": "^2.14.1",
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "multer-s3": "^2.3.2",
-    "nconf": "^0.8.4",
     "node-fetch": "^1.5.3",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.5.0",
     "nodemailer-mailgun-transport": "^1.2.1",
     "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "pg": "^6.0.3",

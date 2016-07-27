@@ -7,18 +7,18 @@ import { Media, User, Category } from '../../db/models';
 import { logger } from '../../lib';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
 
-const config = require('../../core/config/config');
-const awsCfg = config.get('aws');
+const config = require('../../core/config/boldr');
+
 const s3 = new AWS.S3({
-  accessKeyId: awsCfg.access_key_id,
-  secretAccessKey: awsCfg.secret_access_key,
-  region: awsCfg.region
+  accessKeyId: config.aws.keyId,
+  secretAccessKey: config.aws.keySecret,
+  region: config.aws.region
 });
 
 export const upload = multer({
   storage: multerS3({
     s3,
-    bucket: awsCfg.bucket,
+    bucket: config.aws.bucket,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -133,7 +133,7 @@ export const showMedia = async (req, res, next) => {
  */
 export function getAllAWS(req, res, next) {
   const params = {
-    Bucket: awsCfg.bucket
+    Bucket: config.aws.bucket
   };
   s3.listObjectsV2(params, (err, data) => {
     if (err) {

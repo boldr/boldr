@@ -15,7 +15,7 @@ import { logger } from '../lib';
 import sessionService from './middleware/sessionService';
 
 const RedisStore = require('connect-redis')(session);
-const config = require('./config/config');
+const config = require('./config/boldr');
 
 export default app => {
   app.disable('x-powered-by');
@@ -30,16 +30,18 @@ export default app => {
   app.options('*', (req, res) => res.sendStatus(200));
   const redisStore = new RedisStore({ client: redisClient });
   sessionService.initializeRedis(redisClient, redisStore);
-  app.use(cookieParser(config.get('session_secret')));
+
+  app.use(cookieParser(config.session.secret));
   app.use(passport.initialize());
+
   app.use(expressJwt({
-    secret: config.get('session_secret'),
+    secret: config.session.secret,
     credentialsRequired: false
   }));
 
   const boldrSession = session({
     store: redisStore,
-    secret: config.get('session_secret'),
+    secret: config.session.secret,
     name: 'boldr:sid',
     resave: true,
     saveUninitialized: true,

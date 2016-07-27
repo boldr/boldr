@@ -6,11 +6,11 @@
  */
 
 import winston from 'winston';
-const config = require('../../core/config/config');
 
-const loggerCfg = config.get('logging');
+const config = require('../../core/config/boldr');
+
 const transports = [];
-if (loggerCfg.console) {
+if (config.logger.console) {
   transports.push(
     new winston.transports.Console({
       handleExceptions: false,
@@ -22,7 +22,7 @@ if (loggerCfg.console) {
     })
   );
 }
-if (loggerCfg.files) {
+if (config.logger.files) {
   transports.push(
     new winston.transports.File({
       handleExceptions: false,

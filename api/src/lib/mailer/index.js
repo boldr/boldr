@@ -3,14 +3,12 @@ import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 import logger from '../logger';
 
-const config = require('../../core/config/config');
-
-const mailCfg = config.get('mail');
+const config = require('../../core/config/boldr');
 
 const auth = {
   auth: {
-    api_key: mailCfg.apiKey,
-    domain: mailCfg.domain
+    api_key: config.mail.mgApi,
+    domain: config.mail.mgDomain
   }
 };
 
@@ -24,7 +22,7 @@ export function generateVerifyCode() {
 }
 
 export function handleMail(email, subj, verificationToken) {
-  if (mailCfg.domain === undefined) { // Env variables are strings. :S
+  if (config.mail.mgDomain === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -37,7 +35,7 @@ export function handleMail(email, subj, verificationToken) {
       throw new Error('Incorrect mailing parameters');
     }
     return nodemailerMailgun.sendMail({
-      from: mailCfg.from,
+      from: config.mail.from,
       to,
       subject: title,
       html: `
@@ -52,7 +50,7 @@ export function handleMail(email, subj, verificationToken) {
   }
 }
 export function mailResetPassword(email, subj, token) {
-  if (mailCfg.domain === undefined) { // Env variables are strings. :S
+  if (config.mail.mgDomain === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -65,7 +63,7 @@ export function mailResetPassword(email, subj, token) {
       throw new Error('Incorrect mailing parameters');
     }
     return nodemailerMailgun.sendMail({
-      from: mailCfg.from,
+      from: config.mail.from,
       to,
       subject: title,
       html: `
@@ -80,19 +78,18 @@ export function mailResetPassword(email, subj, token) {
   }
 }
 export function mailPasswordConfirm(email, subj) {
-  if (mailCfg.domain === undefined) { // Env variables are strings. :S
+  if (config.mail.mgDomain === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
       // If we can!
     const to = email;
     const title = subj;
-    const DEFAULT_URL = 'http://localhost:3000';
     if (!to || !title) {
       throw new Error('Incorrect mailing parameters');
     }
     return nodemailerMailgun.sendMail({
-      from: mailCfg.from,
+      from: config.mail.from,
       to,
       subject: title,
       html: `

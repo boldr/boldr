@@ -19,8 +19,4 @@ export default app => {
   console.log('--------------------------');
   console.log('===> 😊  Starting Boldr . . .');
   console.log(`===> 🌎  Environment: ${process.env.NODE_ENV}`);
-  if (process.env.NODE_ENV === 'production') {
-    console.log('===> 🚦  Note: In order for authentication to work in production');
-    console.log('===>           you will need a secure HTTPS connection');
-  }
 };

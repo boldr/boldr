@@ -2,22 +2,22 @@ import path from 'path';
 import Boom from 'boom';
 import AWS from 'aws-sdk';
 import multer from 'multer';
+import uuid from 'node-uuid';
 import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
-const config = require('../../core/config/config');
 
-const awsCfg = config.get('aws');
+const config = require('../../core/config/boldr');
 
 const s3 = new AWS.S3({
-  accessKeyId: awsCfg.access_key_id,
-  secretAccessKey: awsCfg.secret_access_key,
-  region: awsCfg.region
+  accessKeyId: config.aws.keyId,
+  secretAccessKey: config.aws.keySecret,
+  region: config.aws.region
 });
 
 const multerOptions = {
   storage: multerS3({
     s3,
-    bucket: awsCfg.bucket,
+    bucket: config.aws.bucket,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -31,7 +31,7 @@ const multerOptions = {
 const multerAvatar = {
   storage: multerS3({
     s3,
-    bucket: awsCfg.bucket,
+    bucket: config.aws.bucket,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -45,7 +45,7 @@ const multerAvatar = {
 const multerArticle = {
   storage: multerS3({
     s3,
-    bucket: awsCfg.bucket,
+    bucket: config.aws.bucket,
     acl: 'public-read',
     metadata(req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -68,9 +68,9 @@ function s3SignService(req, res, next) {
   const fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
 
   const s3 = new AWS.S3({
-    accessKeyId: awsCfg.access_key_id,
-    secretAccessKey: awsCfg.secret_access_key,
-    region: awsCfg.region
+    accessKeyId: config.aws.keyId,
+    secretAccessKey: config.aws.keySecret,
+    region: config.aws.region
   });
   const params = {
     Bucket: awsCfg.bucket,
@@ -87,7 +87,7 @@ function s3SignService(req, res, next) {
     }
     res.json({
       signedUrl: data,
-      publicUrl: '/s3/uploads/' + filename,
+      publicUrl: `/s3/uploads/${filename}`,
       filename
     });
   });
@@ -95,7 +95,7 @@ function s3SignService(req, res, next) {
 
 function tempRedirect(req, res) {
   const params = {
-    Bucket: awsCfg.bucket,
+    Bucket: config.aws.bucket,
     Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
   };
   const s3 = new AWS.S3();

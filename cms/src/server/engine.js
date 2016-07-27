@@ -7,11 +7,12 @@ import httpProxy from 'http-proxy';
 import { webserver, boldrSSR } from './core';
 
 const debug = Debug('boldr:server');
-const targetUrl = 'http://localhost:9121';
+const targetUrl = process.env.TARGET_URL || 'http://localhost:9121';
 // Create our express server.
 const app = express();
 const proxy = httpProxy.createProxyServer({
-  target: targetUrl
+  target: targetUrl,
+  changeOrigin: true
 });
 
 debug('express middleware');

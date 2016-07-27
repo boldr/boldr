@@ -1,10 +1,9 @@
 const Sequelize = require('sequelize');
-const config = require('../core/config/config');
+const config = require('../core/config/boldr');
 
-const dbConfig = config.get('database');
-const envVar = process.env.POSTGRES_DB_URL;
+const envVar = process.env.POSTGRES_CONN_URL;
 
-export const db = envVar || `postgres://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}/${dbConfig.name}`;
+export const db = envVar || `postgres://${config.db.user}:${config.db.password}@${config.db.port}/${config.db.name}`;
 
 const sequelize = new Sequelize(db, {
   logging: false, // set to console.log to see the raw SQL queries

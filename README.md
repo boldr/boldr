@@ -19,14 +19,7 @@ ____
 
 Work in progress API documentation - [View Here](https://boldr.io/docs/api)  
 
-## Getting Started
-At the moment, Boldr is in active development and not quite ready for use. However, to download it, and run it for development follow these directions.
-
-```bash
-$ git clone git@github.com:strues/boldr.git
-```
-
-After the repository is cloned, a githook will execute. The hook runs the install for both the API and the CMS modules. If you have been following the development of Boldr, things might look a little differently than they did pre-0.4.0. That's to be expected. Hopefully the architectural changes simplify the process in the long run.  
+If you have been following the development of Boldr, things might look a little differently than they did pre-0.4.0. That's to be expected. Hopefully the architectural changes simplify the process in the long run.  
 
 Boldr is now broken up into two different "modules", boldr-api and boldr-cms. The API lives in `./api` and the CMS in `./cms`. They both play their respective roles and are required to run Boldr. The boldr-api module is responsible for everything on the backend and the boldr-cms handles the application as well as serving the rendered pages. The CMS runs a proxy to the api server.
 
@@ -37,13 +30,24 @@ As Boldr becomes a more mature project, it is important to me to have a set of s
 ### Containerizing all the things
 Boldr is developed with running inside of multiple Docker containers in mind. During development it's recommended to run both the database and redis server containers from the `docker-compose.yml` file. The Makefile is setup to build a container for the cms module and a container for the api module as part of the build-to-deploy process.
 
+Docker documentation is (will be) located [here](docs/docker/main.md), `docs/docker/main.md`.
+
+
+## Getting Started
+At the moment, Boldr is in active development and not quite ready for use. However, to download it, and run it for development follow these directions.
+
+```bash
+$ git clone git@github.com:strues/boldr.git
+```
+
+After the repository is cloned, simply enter the directory and run make install. For whatever reason, if the Makefile fails, you'll need to go into the `api` and `cms` directories and `npm install`.  
+  
 
 ### Connections
 - The API runs on **localhost:9121**.
 - **During development** Webpack Isomorphic Tools runs on localhost:8888 and serves from memory.
-- The CMS server runs on **localhost:9221**.
-- Webpack runs on **localhost:3001**.
-
+- The CMS server (SSR) runs on **localhost:9221**.
+- Webpack Middleware (HMR) runs on **localhost:3001**.
 
 
 Setup the database for the first time using the command below from the root directory.
@@ -53,6 +57,7 @@ $ make migrate
 ```
 
 The above command will create the table structure for your database. You will need to create the database beforehand. The first time Boldr runs, it will automatically create an admin user with the email address of admin@boldr.io and password as the password.
+
 
 #### Development
 **Start the API** -- Open a terminal window and go to the api directory run `npm run dev`  
@@ -81,5 +86,3 @@ Looking for an open source project to contribute to? We could use a hand develop
 - **DX** Code is organized in a way that is much more logical and should be easier for everyone to find things.
 - **Bug Fix**  Article bodies implement the correct read only editor, providing rich blocks of styled content.
 - **Breaking** Social login and verification emails have been temporarily removed from the active features. The code is   still there, but at this time there are bigger things for me to worry about.
-
-[logo]: https://boldr.io/favicon-96x96.png "Boldr"

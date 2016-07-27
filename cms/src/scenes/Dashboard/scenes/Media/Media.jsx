@@ -13,7 +13,7 @@ const Media = props => {
 
          uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
          contentDisposition="auto"
-         server="http://localhost:3000/api/v1"
+         server="http://localhost:9121/api/v1"
        />
      </div>
   );
