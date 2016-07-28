@@ -11,7 +11,7 @@ import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpac
 import { ROOT_DIR, SRC_DIR, WP_DS, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, BUILD_DIR } from '../constants';
 import isomorphicConfig from './isomorphic.config';
 
-const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
+const happyThreadPool = HappyPack.ThreadPool({ size: 6 });
 const debug = Debug('boldr:webpack:client');
 dotenv.config({ silent: true });
 
@@ -93,7 +93,7 @@ const clientDevConfig = {
   module: {
     loaders: [
       createSourceLoader({
-        happy: { id: 'jsx' },
+        happy: { id: 'jsx', threads: 4 },
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: NODE_MODULES_DIR,

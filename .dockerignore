@@ -1,8 +1,0 @@
-.git/**
-node_modules/**
-test/**
-seeds/**
-backup/**
-docs/**
-logs/**
-tools/**
