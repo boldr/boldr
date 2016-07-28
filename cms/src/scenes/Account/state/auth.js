@@ -104,7 +104,13 @@ function checkAuthSuccess(response, token) {
     token,
     email: response.body.email,
     firstName: response.body.profile.firstName,
-    lastName: response.body.profile.lastName
+    lastName: response.body.profile.lastName,
+    picture: response.body.profile.picture,
+    displayName: response.body.profile.displayName,
+    gender: response.body.profile.gender,
+    bio: response.body.profile.bio,
+    location: response.body.profile.location,
+    birthday: response.body.profile.birthday
   };
 }
 

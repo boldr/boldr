@@ -6,7 +6,7 @@ import httpProxy from 'http-proxy';
 
 import { webserver, boldrSSR } from './core';
 
-const debug = Debug('boldr:server');
+const debug = Debug('boldrCMS:engine');
 const targetUrl = process.env.TARGET_URL;
 // Create our express server.
 const app = express();
@@ -19,10 +19,14 @@ debug('express middleware');
 webserver(app);
 
 app.use('/api/v1', (req, res) => {
+  const url = targetUrl + req.originalUrl;
+  debug(`${req.method} PROXY to ${url}`);
   proxy.web(req, res, { target: targetUrl + process.env.API_BASE }); // eslint-disable-line
 });
 
 app.use('/auth', (req, res) => {
+  const url = targetUrl + req.originalUrl;
+  debug(`${req.method} PROXY to ${url}`);
   proxy.web(req, res, { target: targetUrl + '/auth' }); // eslint-disable-line
 });
 

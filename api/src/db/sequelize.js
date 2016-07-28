@@ -7,7 +7,7 @@ export const db = envVar || `postgres://${config.db.user}:${config.db.password}@
 
 const sequelize = new Sequelize(db, {
   logging: false, // set to console.log to see the raw SQL queries
-  omitNull: true,
+  omitNull: false,
   native: true,
   define: {
     freezeTableName: true

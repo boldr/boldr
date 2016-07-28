@@ -2,6 +2,7 @@ import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+import { isServer } from '../util/helpers';
 import reducers from './reducers';
 import createMiddleware from './clientMiddleware';
 
@@ -9,14 +10,14 @@ const ISDEV = process.env.NODE_ENV === 'development';
 export default function createStore(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
-  const logger = createLogger();
+  const logger = ISDEV ? createLogger() : f => f; // dont show in production
   const middleware = [thunkMiddleware, createMiddleware(client), reduxRouterMiddleware, logger];
 
   let finalCreateStore;
   if (ISDEV) {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
-      typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f // eslint-disable-line
+      !isServer ? window.devToolsExtension() : f => f // only if we're on the client
     )(_createStore);
   } else {
     finalCreateStore = applyMiddleware(...middleware)(_createStore);
@@ -29,7 +30,7 @@ export default function createStore(history, client, data) {
     module.hot.accept('./reducers', () => {
       const nextReducer = require('./reducers');
 
-      store.replaceReducer(nextReducer);
+      store.replaceReducer(nextReducer.default || nextReducer);
     });
   }
 

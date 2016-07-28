@@ -158,7 +158,6 @@
     "material-ui": "^0.15.2",
     "method-override": "^2.3.6",
     "moment": "^2.14.1",
-    "nconf": "^0.8.4",
     "node-fetch": "^1.5.3",
     "react": "15.2.1",
     "react-cookie": "^0.4.7",

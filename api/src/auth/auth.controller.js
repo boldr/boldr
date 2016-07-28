@@ -81,6 +81,11 @@ function checkUser(req, res, next) {
       'lastName',
       'email',
       'displayName',
+      'bio',
+      'location',
+      'birthday',
+      'gender',
+      'picture',
       'role',
       'provider'
     ]

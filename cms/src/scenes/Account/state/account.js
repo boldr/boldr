@@ -141,6 +141,13 @@ export function populateAccount(response) {
     email: response.body.email,
     firstName: response.body.profile.firstName,
     lastName: response.body.profile.lastName,
+    picture: response.body.profile.picture,
+    location: response.body.profile.location,
+    gender: response.body.profile.gender,
+    website: response.body.profile.website,
+    bio: response.body.profile.bio,
+    birthday: response.body.profile.birthday,
+    displayName: response.body.profile.displayName,
     id: response.body.id
   };
 }
@@ -216,7 +223,13 @@ const INITIAL_STATE = {
   id: null,
   firstName: null,
   lastName: null,
+  birthday: null,
+  bio: null,
+  location: null,
+  gender: null,
+  picture: null,
   displayName: null,
+  website: null,
   email: null,
   role: null,
   public: {},
@@ -291,11 +304,18 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        email: action.payload.email,
+        bio: action.payload.profile.bio,
+        birthday: action.payload.profile.birthday,
         displayName: action.payload.profile.displayName,
+        email: action.payload.email,
         firstName: action.payload.profile.firstName,
+        gender: action.payload.profile.gender,
+        id: action.payload.id,
+        lastName: action.payload.profile.lastName,
+        location: action.payload.profile.location,
+        picture: action.payload.profile.picture,
         role: action.payload.profile.role,
-        id: action.payload.id
+        website: action.payload.profile.website
       };
     case GET_MY_PROFILE_FAIL:
       return {

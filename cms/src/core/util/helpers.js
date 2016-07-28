@@ -1,4 +1,4 @@
-
+export const isServer = typeof window === 'undefined';
 export function truncateMiddleString(str, length, separator) {
   if (!str) {
     return str;
