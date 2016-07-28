@@ -215,7 +215,7 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.1.1",
     "eslint-config-boldr": "^1.0.2",
-    "eslint-loader": "1.4.1",
+    "eslint-loader": "1.5.0",
     "expect": "^1.20.2",
     "extract-text-webpack-plugin": "^2.0.0-beta.3",
     "fake-style-loader": "^1.0.1",
