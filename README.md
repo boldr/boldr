@@ -109,7 +109,7 @@ After logging in, visit the Dashboard and click on **Settings**. You will be red
 > No way. Not yet. However if you feel like building the application as if it were production execute the following
 
 ```bash
-$ make build-api && make build-cms
+$ make build
 ```
 
 ## Contribute
