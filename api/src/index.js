@@ -1,6 +1,4 @@
 import http from 'http';
-import https from 'https';
-import fs from 'fs';
 import app from './engine';
 import models from './db/models';
 import { logger } from './lib';
@@ -37,16 +35,10 @@ const normalizePort = val => {
 const port = normalizePort(config.port);
 app.set('port', port);
 
-const opts = {
-  key: fs.readFileSync(`${__dirname}/core/certs/key.pem`),
-  cert: fs.readFileSync(`${__dirname}/core/certs/cert.pem`)
-};
-
 /**
  * Create HTTP server.
  */
-// const server = http.createServer(app);
-const server = https.createServer(opts, app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

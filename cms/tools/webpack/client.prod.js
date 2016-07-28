@@ -2,6 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 import dotenv from 'dotenv';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import {
   ROOT_DIR, SRC_DIR, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, ASSETS_DIR
@@ -120,7 +121,7 @@ const clientProdConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
@@ -133,6 +134,7 @@ const clientProdConfig = {
       minChunks: 2,
       async: true
     }),
+    new InlineEnviromentVariablesPlugin(),
     // needed for long-term caching
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({

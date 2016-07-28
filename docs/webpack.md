@@ -128,8 +128,8 @@ new webpack.DefinePlugin({
         'process.env': {
         // @wp7.`
           NODE_ENV: JSON.stringify(mode),
-          SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
-          WP_DS_PORT: JSON.stringify(process.env.CLIENT_DEVSERVER_PORT),
+          SSR_PORT: JSON.stringify(process.env.SSR_PORT),
+          WP_DS_PORT: JSON.stringify(process.env.CLIENT_DEVSSR_PORT),
           DISABLE_SSR: process.env.DISABLE_SSR,
           WEBSITE_TITLE: JSON.stringify(process.env.WEBSITE_TITLE),
           WEBSITE_DESC: JSON.stringify(process.env.WEBSITE_DESCRIPTION)

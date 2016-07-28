@@ -1,6 +1,5 @@
 import Promise from 'bluebird';
 import fetch, { Request, Headers, Response } from 'node-fetch';
-import config from '../../server/core/config';
 
 fetch.Promise = Promise;
 Response.Promise = Promise;
@@ -14,7 +13,7 @@ function localUrl(url) {
     return url;
   }
 
-  return 'http://localhost:9221';
+  return process.env.SITE_URL;
 }
 
 function localFetch(url, options) {

@@ -8,7 +8,8 @@
   ],
   "ext": "js json",
   "env": {
-    "DEBUG":"boldr*"
+    "DEBUG":"boldr*",
+    "NODE_ENV": "development"
   },
   "watch": [
     "src/**/*.js",

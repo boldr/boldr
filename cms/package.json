@@ -1,6 +1,6 @@
 {
   "name": "boldr",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "a bold cms.",
   "main": "tools/scripts/server.js",
   "engines": {
@@ -11,6 +11,7 @@
     "build": "better-npm-run build",
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
+    "build:staging": "better-npm-run build:staging",
     "clean": "npm run clean:server && npm run clean:client",
     "clean:client": "rimraf public/assets",
     "clean:server": "rimraf server.js && rimraf server.js.map",
@@ -29,19 +30,40 @@
     "build": {
       "command": "better-npm-run build:client && better-npm-run build:server",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "SSR_PORT": 9221,
+        "SITE_URL": "https://staging.boldr.io",
+        "API_BASE": "https://staging.boldr.io/api/v1",
+        "TARGET_URL": "https://api.boldr.io/v1"
       }
     },
     "build:server": {
       "command": "npm run clean:server && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "SSR_PORT": 9221,
+        "SITE_URL": "https://staging.boldr.io",
+        "API_BASE": "https://staging.boldr.io/api/v1",
+        "TARGET_URL": "https://api.boldr.io/v1"
       }
     },
     "build:client": {
       "command": "npm run clean:client && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/client.prod.js",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "SSR_PORT": 9221,
+        "SITE_URL": "https://staging.boldr.io",
+        "API_BASE": "https://staging.boldr.io/api/v1",
+        "TARGET_URL": "https://api.boldr.io/v1"
+      }
+    },
+    "build:staging": {
+      "command": "better-npm-run build:client && better-npm-run build:server",
+      "env": {
+        "SSR_PORT": 9221,
+        "SITE_URL": "https://staging.boldr.io",
+        "API_BASE": "https://staging.boldr.io/api/v1",
+        "TARGET_URL": "https://api.boldr.io/v1"
       }
     },
     "dev": {
@@ -49,7 +71,10 @@
       "env": {
         "NODE_ENV": "development",
         "NODE_PATH": "./src",
-        "SERVER_PORT": 3000,
+        "SSR_PORT": 9221,
+        "SITE_URL": "http://localhost:9221",
+        "API_BASE": "/api/v1",
+        "TARGET_URL": "http://localhost:9121",
         "WP_DS": 3001
       }
     },
@@ -66,7 +91,10 @@
       "env": {
         "NODE_ENV": "development",
         "NODE_PATH": "./src",
-        "SERVER_PORT": 3000,
+        "SSR_PORT": 9221,
+        "SITE_URL": "http://localhost:9221",
+        "API_BASE": "/api/v1",
+        "TARGET_URL": "http://localhost:9121",
         "WP_DS": 3001
       }
     },
@@ -75,7 +103,7 @@
       "env": {
         "NODE_ENV": "development",
         "NODE_PATH": "./src",
-        "SERVER_PORT": 3000,
+        "SSR_PORT": 9221,
         "WP_DS": 3001
       }
     },
@@ -84,7 +112,7 @@
       "env": {
         "NODE_ENV": "test",
         "NODE_PATH": "./src",
-        "PORT": 3000
+        "PORT": 9221
       }
     }
   },
@@ -188,6 +216,7 @@
     "file-loader": "^0.9.0",
     "happypack": "^2.1.1",
     "ignore-styles": "^4.0.0",
+    "inline-environment-variables-webpack-plugin": "^1.1.0",
     "jsdom": "^9.4.1",
     "jsdomify": "^2.1.0",
     "json-loader": "0.5.4",
@@ -217,7 +246,7 @@
     "supertest-as-promised": "^3.2.0",
     "webpack": "^2.1.0-beta.20",
     "webpack-dev-middleware": "1.6.1",
-    "webpack-hot-middleware": "2.12.1"
+    "webpack-hot-middleware": "2.12.2"
   },
   "stylelint": {
     "rules": {

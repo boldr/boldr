@@ -11,7 +11,7 @@ const constants = Object.freeze({
   STATIC_DIR: path.join(ROOT_DIR, 'public'),
   ASSETS_DIR: path.join(ROOT_DIR, 'public', 'assets'),
   WP_DS: process.env.WP_DS || 3001,
-  SERVER_PORT: process.env.SERVER_PORT || 3000
+  SSR_PORT: process.env.SSR_PORT || 3000
 });
 
 export const VENDOR_PREFIXES = [
@@ -49,6 +49,6 @@ export const SRC_DIR = constants.SRC_DIR;
 export const STATIC_DIR = constants.STATIC_DIR;
 export const ASSETS_DIR = constants.ASSETS_DIR;
 export const WP_DS = constants.WP_DS;
-export const SERVER_PORT = constants.SERVER_PORT;
+export const SSR_PORT = constants.SSR_PORT;
 
 export default constants;

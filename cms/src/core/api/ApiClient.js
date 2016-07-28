@@ -2,7 +2,6 @@
 
 import _ from 'lodash';
 import superagent from 'superagent';
-// import config from '../config';
 import cookie from 'react-cookie';
 import qs from 'qs';
 
@@ -16,16 +15,19 @@ export function processResponse(response) {
     return json;
   });
 }
+
 export const credentials = 'same-origin';
 export const jsonHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 };
+
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
   if (__SERVER__) {
+
     // Prepend host and port of the API server to the path.
-    return 'http://localhost:9121/api/v1' + adjustedPath;
+    return process.env.TARGET_URL + adjustedPath;
   }
   // Prepend `/api` to relative URL, to proxy to API server.
   return '/api/v1' + adjustedPath;

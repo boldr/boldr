@@ -17,6 +17,6 @@ export default app => {
   app.options('*', (req, res) => res.sendStatus(200));
 
   console.log('--------------------------');
-  console.log('===> 😊  Starting Boldr . . .');
-  console.log(`===> 🌎  Environment: ${process.env.NODE_ENV}`);
+  console.log('===> 😊  Starting Boldr SSR. . .');
+  console.log(`===> 🌎  Listening on ${process.env.SSR_PORT} with environment: ${process.env.NODE_ENV}`);
 };

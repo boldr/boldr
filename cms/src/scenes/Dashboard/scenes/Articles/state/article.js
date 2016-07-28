@@ -4,7 +4,6 @@ import cookies from 'react-cookie';
 import fetch from 'core/fetch';
 import { API_ARTICLES } from 'core/api';
 import { processResponse } from 'core/api/ApiClient';
-import { getAuthToken } from 'core/util/token';
 
 /**
  * GET ARTICLE ACTIONS
@@ -117,7 +116,6 @@ export function errorCreatingArticle(err) {
 // Fetch Articles Action
 export function createArticle(articleData) {
   return (dispatch) => {
-    const token = getAuthToken();
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)

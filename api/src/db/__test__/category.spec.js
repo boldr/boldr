@@ -7,12 +7,12 @@ import { Category } from '../models';
 const chance = new Chance();
 
 describe('Category Model', () => {
-  before(() => {
-    // Sync and clear users before testing
-    return Category.sync().then(() => {
-      return Category.destroy({ where: {} });
-    });
-  });
+  // before(() => {
+  //   // Sync and clear users before testing
+  //   return Category.sync().then(() => {
+  //     return Category.destroy({ where: {} });
+  //   });
+  // });
   afterEach(() => {
     return Category.destroy({ where: {} });
   });

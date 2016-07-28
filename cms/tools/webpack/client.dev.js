@@ -7,6 +7,7 @@ import webpack from 'webpack';
 import dotenv from 'dotenv';
 import HappyPack from 'happypack';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
+import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
 import { ROOT_DIR, SRC_DIR, WP_DS, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, BUILD_DIR } from '../constants';
 import isomorphicConfig from './isomorphic.config';
 
@@ -132,7 +133,7 @@ const clientDevConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
@@ -141,6 +142,7 @@ const clientDevConfig = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true
     }),
+    new InlineEnviromentVariablesPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       children: true,

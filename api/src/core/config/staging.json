@@ -1,1 +1,10 @@
-{}
+{
+  "env": "test",
+  "db": {
+    "name": "postgres",
+    "user": "postgres",
+    "password": "password",
+    "port": 5432,
+    "host": "localhost"
+  }
+}

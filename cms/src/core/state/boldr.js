@@ -1,7 +1,7 @@
 import request from 'superagent';
+import cookie from 'react-cookie';
 import { push } from 'react-router-redux';
 import { API_BASE } from '../api';
-import { getAuthToken } from '../util/token';
 
 export const DONE_LOADING = 'DONE_LOADING';
 export const LOAD_SETTINGS = 'LOAD_SETTINGS';
@@ -40,7 +40,6 @@ const failedToLoadSettings = (data) => ({
 // Public action creators
 export function loadBoldrSettings(data) {
   return dispatch => {
-    const token = getAuthToken();
     dispatch(loadSettings());
     return request
       .get(SETTINGS_ENDPOINT)
@@ -81,11 +80,10 @@ const failedToSaveSetup = (data) => ({
 // Public action creators
 export function saveBoldrSetup(data) {
   return dispatch => {
-    const token = getAuthToken();
     dispatch(startSaveSetup());
     return request
       .post(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${cookie.load('token')}`)
       .send(data)
       .then(response => {
         if (response.status === 201) {

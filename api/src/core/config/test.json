@@ -1,9 +1,9 @@
 {
   "env": "test",
   "db": {
-    "name": "circle_test",
-    "user": "ubuntu",
-    "password": "",
+    "name": "postgres",
+    "user": "postgres",
+    "password": "password",
     "port": 5432,
     "host": "localhost"
   }

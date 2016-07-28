@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
+import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import {
   ROOT_DIR, SRC_DIR, NODE_MODULES_DIR
@@ -103,7 +104,7 @@ const nodeConfig = { // eslint-disable-line
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
@@ -111,6 +112,7 @@ const nodeConfig = { // eslint-disable-line
       __DEVELOPMENT__: false,
       __SERVER__: true
     }),
+    new InlineEnviromentVariablesPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1

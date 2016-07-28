@@ -1,6 +1,4 @@
 import http from 'http';
-import fs from 'fs';
-import https from 'https';
 import app from './engine';
 
 const debug = require('debug')('boldr:engine');
@@ -29,16 +27,10 @@ const normalizePort = (val) => {
 const port = normalizePort(9221);
 app.set('port', port);
 
-const opts = {
-  key: fs.readFileSync(`${process.cwd()}/key.pem`),
-  cert: fs.readFileSync(`${process.cwd()}/cert.pem`)
-};
-
 /**
  * Create HTTP server.
  */
-// const server = http.createServer(app);
-const server = https.createServer(opts, app);
+const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */

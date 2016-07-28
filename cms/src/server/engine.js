@@ -7,7 +7,7 @@ import httpProxy from 'http-proxy';
 import { webserver, boldrSSR } from './core';
 
 const debug = Debug('boldr:server');
-const targetUrl = process.env.TARGET_URL || 'http://localhost:9121';
+const targetUrl = process.env.TARGET_URL;
 // Create our express server.
 const app = express();
 const proxy = httpProxy.createProxyServer({
@@ -19,7 +19,7 @@ debug('express middleware');
 webserver(app);
 
 app.use('/api/v1', (req, res) => {
-  proxy.web(req, res, { target: targetUrl + '/api/v1' }); // eslint-disable-line
+  proxy.web(req, res, { target: process.env.API_BASE }); // eslint-disable-line
 });
 
 app.use('/auth', (req, res) => {

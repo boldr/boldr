@@ -10,8 +10,9 @@ machine:
     CIRCLE_ENV: test
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
+    POSTGRES_DB: postgres
     DATABASE_URL: postgres://postgres:password@db:5432/postgres
-    NODE_ENV: testing
+    NODE_ENV: test
 
 dependencies:
   cache_directories:
@@ -33,7 +34,7 @@ test:
   override:
     - docker run -d --name db -e POSTGRES_PASSWORD=password -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres --net host boldr/test
     - docker run -d --name boldr_redis --net host strues/redis
-    - make test-api
+    - make test-all
 
   post:
     # Clean up old image and save the new one
