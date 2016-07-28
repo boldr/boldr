@@ -35,17 +35,21 @@ export function loginError(err) {
   };
 }
 // Login Action
-export function doLogin(data) {
+export function doLogin(loginData, redir) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
       .post(`${API_AUTH}/login`)
-      .send(data)
+      .send(loginData)
       .then(response => {
         // setAuthToken(response.body.token);
         cookie.save('token', response.body.token, { expires: moment().add(5, 'hour').toDate() });
         dispatch(loginSuccess(response));
-        dispatch(push('/'));
+        if (redir) {
+          dispatch(push(redir));
+        } else {
+          dispatch(push('/'));
+        }
         // dispatch(showSnackBarMessage('Successfully logged in.'));
       })
       .catch(err => {

@@ -16,7 +16,9 @@ class Login extends Component {
 
   handleOnSubmit(values) {
     const { doLogin } = this.props;
-    doLogin({ email: values.email, password: values.password });
+    const loginData = { email: values.email, password: values.password };
+    const redir = this.props.redirect;
+    doLogin(loginData, redir);
   }
   renderHeader() {
     return (
@@ -59,10 +61,12 @@ Login.propTypes = {
   doLogin: PropTypes.func,
   handleOnSubmit: PropTypes.func
 };
-function mapStateToProps({ auth }) {
+
+const mapStateToProps = (state, ownProps) => {
   return {
-    auth
+    auth: state.auth,
+    redirect: ownProps.location.query.redirect
   };
-}
+};
 
 export default connect(mapStateToProps, { doLogin })(Login);

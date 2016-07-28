@@ -12,14 +12,14 @@ const targetUrl = process.env.TARGET_URL;
 const app = express();
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
-  changeOrigin: true
+  changeOrigin: false
 });
 
 debug('express middleware');
 webserver(app);
 
 app.use('/api/v1', (req, res) => {
-  proxy.web(req, res, { target: process.env.API_BASE }); // eslint-disable-line
+  proxy.web(req, res, { target: targetUrl + process.env.API_BASE }); // eslint-disable-line
 });
 
 app.use('/auth', (req, res) => {

@@ -21,6 +21,8 @@ import { decorator } from '../shared/Decorator/index';
 import { BlockStyleControls } from '../shared/BlockStyleControl/index';
 import { InlineStyleControls } from '../shared/InlineStyleControl/index';
 import icons from '../shared/icons';
+import inlineStyles from '../shared/inlineStyles';
+
 // import styles from '../shared/styles';
 
 type Props = {
@@ -52,7 +54,6 @@ export default class TextEditor extends Component {
     this.handleChange = (editorState) => this.setState({ editorState });
     this.handleChangeURL = (e) => this.setState({ urlValue: e.target.value });
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
     this.handlePromptForLink = this.handlePromptForLink.bind(this);
     this.handleConfirmLink = this.handleConfirmLink.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
@@ -171,8 +172,8 @@ export default class TextEditor extends Component {
     const { editorState } = this.state;
 
     return (
-      <div onBlur={ this.handleUpdate } >
-        <Toolbar style={ { alignItems: 'center' } }>
+      <div onBlur={ ::this.handleUpdate } >
+        <Toolbar style={ { alignItems: 'center', color: '#fff' } }>
           <BlockStyleControls
             editorState={ editorState }
             onToggle={ this.handleToggleBlockType }

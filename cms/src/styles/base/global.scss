@@ -54,3 +54,21 @@ a {
   text-decoration: none;
   font-weight: 600;
 }
+
+// Fix ugly chrome autofill
+// https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #364375;
+  -webkit-text-fill-color: #364375;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

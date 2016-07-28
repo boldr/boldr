@@ -1,8 +1,14 @@
 import React from 'react';
 import StyleButton from '../StyleButton/index';
 import icons from '../icons';
-// import styles from './styles';
 
+const style = {
+  margin: '5px',
+  display: 'inline-block',
+  padding: '2px 0',
+  cursor: 'pointer',
+  color: '#fff'
+};
 
 const INLINE_STYLES = [
   { type: 'inline', label: 'B', style: 'BOLD', icon: icons.BoldIcon },
@@ -14,7 +20,7 @@ const INLINE_STYLES = [
 export const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div>
+    <div style={ { userSelect: 'none' } }>
       { INLINE_STYLES.map(type =>
         <StyleButton
           key={ type.label }
@@ -25,10 +31,10 @@ export const InlineStyleControls = (props) => {
           style={ type.style }
         />
       ) }
-      <span onMouseDown={ props.onPromptForLink }>
+      <span style={ style } onMouseDown={ props.onPromptForLink }>
         Add Link
       </span>
-      <span onMouseDown={ props.onRemoveLink }>
+      <span style={ style } onMouseDown={ props.onRemoveLink }>
         Remove Link
       </span>
     </div>

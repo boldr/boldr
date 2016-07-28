@@ -5,7 +5,8 @@ const propTypes = {
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
   style: PropTypes.string.isRequired,
-  onToggle: PropTypes.func.isRequired
+  onToggle: PropTypes.func.isRequired,
+  icon: PropTypes.element
 };
 
 class StyleButton extends Component {
