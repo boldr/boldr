@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import dotenv from 'dotenv';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
+import strip from 'strip-loader';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import {
   ROOT_DIR, SRC_DIR, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, ASSETS_DIR
@@ -22,8 +23,20 @@ const postCSSConfig = function() {
     require('postcss-media-minmax')(),
     require('lost')(),
     //  parse CSS and add vendor prefixes to CSS rules
-    require('autoprefixer')({
-      browsers: VENDOR_PREFIXES
+    require('cssnano')({
+      autoprefixer: {
+        add: true,
+        remove: true,
+        browsers: VENDOR_PREFIXES
+      },
+      discardComments: {
+        removeAll: true
+      },
+      discardUnused: true,
+      mergeIdents: false,
+      reduceIdents: false,
+      safe: true,
+      sourcemap: true
     }),
     // A PostCSS plugin to console.log() the messages registered by other
     // PostCSS plugins
@@ -38,7 +51,7 @@ const webpackIsomorphicToolsPlugin =
 
 const clientProdConfig = {
   target: 'web',
-  stats: false,
+  stats: true,
   progress: true,
   node: {
     __dirname: true,
@@ -62,10 +75,10 @@ const clientProdConfig = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        loader: ['babel-loader'],
         exclude: [NODE_MODULES_DIR],
         query: {
-          cacheDirectory: false,
+          cacheDirectory: true,
           compact: 'auto',
           babelrc: false,
           presets: [
@@ -74,13 +87,11 @@ const clientProdConfig = {
             'stage-0',
             'react-optimize'
           ],
-          plugins: [['transform-runtime', { polyfill: true, regenerator: false }],
+          plugins: [['transform-runtime', { polyfill: true, regenerator: true }],
             'transform-decorators-legacy']
         }
       },
-      { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.(ttf|eot|woff(2)?)(\?[a-z0-9]+)?$/, loader: 'url-loader?limit=100000' },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
@@ -99,7 +110,7 @@ const clientProdConfig = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['', '.js', '.jsx', '.json'],
     root: ROOT_DIR,
     modulesDirectories: ['src', 'node_modules'],
     alias: {
@@ -123,7 +134,7 @@ const clientProdConfig = {
         NODE_ENV: JSON.stringify('production'),
         SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
-      __DEV__: process.env.NODE_ENV !== 'production',
+      __DEV__: false,
       __DISABLE_SSR__: false,
       __CLIENT__: true,
       __SERVER__: false

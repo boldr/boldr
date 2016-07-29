@@ -26,7 +26,7 @@ export default (store, connect) => ({
     }
   },
   {
-    path: 'articles/editor',
+    path: 'articles/editor(/:slug)',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
         cb(null, require('./scenes/Articles/components/pg.ArticleEditor').default);
