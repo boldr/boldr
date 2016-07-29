@@ -7,7 +7,6 @@ import TextField from 'material-ui/TextField';
 const SignupForm = (props) => {
   const { fields: { email, password, firstName, lastName, displayName }, handleSubmit } = props;
   return (
-    <Card>
     <form onSubmit={ handleSubmit }>
       <CardText>
         <div>
@@ -45,11 +44,8 @@ const SignupForm = (props) => {
       <CardActions>
         <RaisedButton secondary type="submit" label="Create account" />
       </CardActions>
-      <div>
-        <a href="/api/v1/auth/google">Login with Google</a>
-      </div>
+
     </form>
-    </Card>
   );
 };
 

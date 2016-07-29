@@ -26,7 +26,7 @@ class Login extends Component {
         <Heading size={ 1 }>Log in</Heading>
         <div>
           Not what you want?
-          <Link to="/signup"> Register an Account</Link>
+          <Link to="/account/signup"> Register an Account</Link>
         </div>
       </div>
     );
@@ -59,6 +59,7 @@ class Login extends Component {
 Login.propTypes = {
   auth: PropTypes.object,
   doLogin: PropTypes.func,
+  redirect: PropTypes.string,
   handleOnSubmit: PropTypes.func
 };
 

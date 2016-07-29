@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
-import { RadioButton } from 'material-ui/RadioButton';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Editor, EditorState } from 'draft-js';
 
@@ -20,7 +22,10 @@ const style = {
   toggle: {
     marginBottom: 16
   },
-  margin: 12
+  margin: 12,
+  radioButton: {
+    marginBottom: 16
+  }
 };
 const radioStyle = {
   display: 'inline',
@@ -50,6 +55,7 @@ class NewArticleForm extends Component {
       tags: []
     };
   }
+  handleSelectChange = (event, index, value) => this.setState({ value });
   handleChange(tags) {
     this.setState({
       tags
@@ -97,17 +103,30 @@ class NewArticleForm extends Component {
                 <TextField hintText= "A short summary or highlight"
                   floatingLabelText="Excerpt"
                   fullWidth
+                  multiLine
+                  rows={ 2 }
                   errorText = { excerpt.touched && excerpt.error }
                   { ...excerpt }
                 />
               </div>
-              <div className={ cx('row') }>
-                <label>
-                  <input type="radio" { ...status } value="draft" checked={ status.value === 'draft' } /> Draft
-                </label>
-                <label>
-                  <input type="radio" { ...status } value="published" checked={ status.value === 'published' } /> Published
-                </label>
+                <div className={ cx('row') }>
+                 <RadioButtonGroup name="shipSpeed" defaultSelected="not_light" { ...status }>
+                  <RadioButton
+                    value="draft"
+                    label="Draft"
+                    style={ styles.radioButton }
+                  />
+                  <RadioButton
+                    value="published"
+                    label="Published"
+                    style={ styles.radioButton }
+                  />
+                  <RadioButton
+                    value="archived"
+                    label="Archived"
+                    style={ styles.radioButton }
+                  />
+                </RadioButtonGroup>
               </div>
               <div style={ { marginTop: '1em' } }>
                 <RaisedButton type="submit" secondary label="Publish" style={ style } />

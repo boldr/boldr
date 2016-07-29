@@ -123,15 +123,20 @@ Article.findAllWithTagIds = () => {
 };
 
 User.sync().then(() => {
-  User.find({ where: { displayName: 'admin' } }).then((user) => {
+  User.find({ where: { displayName: 'admin' } }).then(user => {
     if (!user) {
       User.create({
+        bio: 'Zombie nerd. Web practitioner. General music ninja. Infuriatingly humble introvert. Bacon fanatic. Pop culture geek.',
+        displayName: 'Admin User',
         email: 'admin@boldr.io',
         firstName: 'Admin',
+        gender: 'maile',
         lastName: 'User',
-        displayName: 'admin',
+        location: 'Somewhere, USA',
         password: 'password',
-        role: 'admin'
+        picture: 'https://api.adorable.io/avatars/285/abott@adorable.io.png',
+        role: 'admin',
+        website: 'https://boldr.io'
       });
     }
   });

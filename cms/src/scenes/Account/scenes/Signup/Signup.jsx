@@ -31,7 +31,7 @@ class Signup extends Component {
         <h1>Register with Email</h1>
         <div>
           Already have an account?
-          <Link to="/login"> Login</Link>
+          <Link to="/account/login"> Login</Link>
         </div>
       </div>
     );
@@ -51,9 +51,6 @@ class Signup extends Component {
           <p>{ message }</p>
         <div>
           <SignupForm onSubmit={ ::this.handleOnSubmit } />
-          <div className={ cx('auth-card__footer') }>
-            <SocialLogin />
-          </div>
         </div>
       </Card>
         </section>

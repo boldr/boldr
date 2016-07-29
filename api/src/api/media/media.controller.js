@@ -55,7 +55,7 @@ export function generalUpload(req, res, next) {
     ownerId: req.user.id,
     key: req.files[0].key
   };
-  Media.create(fileFields).then(function(data) {
+  Media.create(fileFields).then(data => {
     res.status(201).json(data);
   }).catch(err => {
     res.status(500).send(err);

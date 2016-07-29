@@ -7,10 +7,24 @@ import reducers from './reducers';
 import createMiddleware from './clientMiddleware';
 
 const ISDEV = process.env.NODE_ENV === 'development';
+const loggerOptions = {
+  level: 'info',
+  collapsed: false,
+  logger: console,
+  predicate: (getState, action) => action.type !== '@@router/LOCATION_CHANGE'
+};
+/**
+ * createStore
+ *
+ * @param {Object} data     Initial state for store
+ * @param {Object} history  the browser history
+ * @param {Object} client   The client api middleware
+ * @return {Object} Returns store with state
+ */
 export default function createStore(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
-  const logger = ISDEV ? createLogger() : f => f; // dont show in production
+  const logger = ISDEV ? createLogger(loggerOptions) : f => f; // dont show in production
   const middleware = [thunkMiddleware, createMiddleware(client), reduxRouterMiddleware, logger];
 
   let finalCreateStore;

@@ -100,17 +100,19 @@ function checkAuthSuccess(response, token) {
   return {
     type: CHECK_AUTH_SUCCESS,
     payload: response.body,
-    role: response.body.profile.role,
     token,
+    bio: response.body.profile.bio,
+    birthday: response.body.profile.birthday,
+    displayName: response.body.profile.displayName,
     email: response.body.email,
     firstName: response.body.profile.firstName,
-    lastName: response.body.profile.lastName,
-    picture: response.body.profile.picture,
-    displayName: response.body.profile.displayName,
     gender: response.body.profile.gender,
-    bio: response.body.profile.bio,
+    id: response.body.profile.id,
+    lastName: response.body.profile.lastName,
     location: response.body.profile.location,
-    birthday: response.body.profile.birthday
+    picture: response.body.profile.picture,
+    role: response.body.profile.role,
+    website: response.body.profile.website
   };
 }
 

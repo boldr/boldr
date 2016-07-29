@@ -37,7 +37,7 @@ api-docker:
 build-api: clean-api
 	@echo "Removing old compiled files"
 	@echo "Running API through Babel.."
-	cd api; @NODE_ENV=production npm run build
+	cd api; npm run build
 	mkdir api/boldr-api
 	@mv api/server api/boldr-api/server
 	@cp -n api/package.json api/boldr-api | true
@@ -52,7 +52,7 @@ build-api: clean-api
 build-cms: clean-cms
 	@echo "Removing compiled CMS files..."
 	@echo "Now running Webpack on Boldr CMS"
-	cd cms; @NODE_ENV=production npm run build
+	cd cms; npm run build
 	mkdir cms/boldr-cms
 	@mv cms/public cms/boldr-cms/public
 	@cp -n cms/package.json cms/boldr-cms | true

@@ -6,8 +6,8 @@ import {
   Tag,
   ArticleTag
 } from '../../db/models';
-import { respondWithResult, handleError, saveUpdates,
-  handleEntityNotFound, removeEntity } from '../../lib/helpers';
+import { uploadArticle } from '../media/media.controller';
+import { respondWithResult, handleError } from '../../lib/helpers';
 
 const debug = require('debug')('boldr:api-article-ctrl');
 
@@ -146,9 +146,9 @@ export function createNewArticle(req, res) {
     featureImage: req.body.featureImage,
     authorId: req.session.userId,
     status: req.body.status
-  }).then((article) => {
+  }).then(article => {
     for (let i = 0; i < req.body.tags.length; i++) {
-      const newTag = Tag.findOrCreate({
+      Tag.findOrCreate({
         where: {
           tagname: req.body.tags[i]
         }
@@ -156,7 +156,7 @@ export function createNewArticle(req, res) {
         ArticleTag.create({
           articleId: article.id,
           tagId: tag.id
-        }).then((articleTag) => {
+        }).then(articleTag => {
           debug('articleTag', articleTag);
           return res.status(201).json(articleTag);
         }).catch(error => {

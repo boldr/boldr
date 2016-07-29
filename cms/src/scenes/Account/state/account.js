@@ -137,18 +137,18 @@ const POPULATE_ACCOUNT = 'POPULATE_ACCOUNT';
 export function populateAccount(response) {
   return {
     type: 'POPULATE_ACCOUNT',
-    role: response.body.profile.role,
-    email: response.body.email,
-    firstName: response.body.profile.firstName,
-    lastName: response.body.profile.lastName,
-    picture: response.body.profile.picture,
-    location: response.body.profile.location,
-    gender: response.body.profile.gender,
-    website: response.body.profile.website,
     bio: response.body.profile.bio,
     birthday: response.body.profile.birthday,
     displayName: response.body.profile.displayName,
-    id: response.body.id
+    email: response.body.email,
+    firstName: response.body.profile.firstName,
+    gender: response.body.profile.gender,
+    id: response.body.id,
+    lastName: response.body.profile.lastName,
+    location: response.body.profile.location,
+    picture: response.body.profile.picture,
+    role: response.body.profile.role,
+    website: response.body.profile.website
   };
 }
 
@@ -220,20 +220,20 @@ export function getPublicProfile(userId) {
  */
 const INITIAL_STATE = {
   isLoading: false,
-  id: null,
-  firstName: null,
-  lastName: null,
-  birthday: null,
-  bio: null,
-  location: null,
-  gender: null,
-  picture: null,
-  displayName: null,
-  website: null,
-  email: null,
-  role: null,
   public: {},
-  hydrated: false
+  hydrated: false,
+  bio: null,
+  birthday: null,
+  displayName: null,
+  email: null,
+  firstName: null,
+  gender: null,
+  id: null,
+  lastName: null,
+  location: null,
+  picture: null,
+  role: null,
+  website: null
 };
 
 /**
@@ -348,11 +348,18 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        firstName: action.firstName,
-        lastName: action.lastName,
+        bio: action.bio,
+        birthday: action.birthday,
+        displayName: action.displayName,
         email: action.email,
+        firstName: action.firstName,
+        gender: action.gender,
         id: action.id,
-        role: action.role
+        lastName: action.lastName,
+        location: action.location,
+        picture: action.picture,
+        role: action.role,
+        website: action.website
       };
     default:
       return state;
