@@ -1,0 +1,27 @@
+@custom-media --small-viewport (max-width: 40em);
+@custom-media --medium-viewport (min-width: 40em);
+
+section {
+  lost-utility: clearfix;
+}
+
+.articleEditor__left {
+  lost-column: 3/3 0;
+
+  @media (--medium-viewport) {
+    lost-column: 1/3 0;
+  }
+
+}
+.articleEditor__right {
+  lost-column: 3/3 0;
+
+  @media (--medium-viewport) {
+    lost-column: 2/3 0;
+  }
+}
+
+.row {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

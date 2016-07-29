@@ -7,11 +7,12 @@ machine:
     - docker
 
   environment:
-    CIRCLE_ENV: testing
+    CIRCLE_ENV: test
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
+    POSTGRES_DB: postgres
     DATABASE_URL: postgres://postgres:password@db:5432/postgres
-    NODE_ENV: testing
+    NODE_ENV: test
 
 dependencies:
   cache_directories:
@@ -23,18 +24,17 @@ dependencies:
     - mkdir -p ~/cache/
     - if [ -e ~/cache/docker/image.tar ]; then echo "Loading image.tar"; docker load -i ~/cache/docker/image.tar || rm ~/cache/docker/image.tar; fi
     # build image
-    - docker build -t boldr/test ./tools/docker/postgres
+    - docker build -t boldr/test ./docker/postgres
     - docker inspect -f '{{.Config.Image}}' boldr/test
     # Redis
     - docker pull strues/redis
     # go npm
-    - npm prune && npm install
+    - make install
 test:
   override:
-    - docker run -d --name db -e POSTGRES_PASSWORD=password --net host boldr/test
+    - docker run -d --name db -e POSTGRES_PASSWORD=password -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres --net host boldr/test
     - docker run -d --name boldr_redis --net host strues/redis
-    - npm run migrate
-    - npm run test
+    - make test-all
 
   post:
     # Clean up old image and save the new one

@@ -1,25 +1,36 @@
 # Environment Configuration
-.env
-server.js
-server.js.map
-production.json
+cms/.env
+cms/server.js
+cms/server.js.map
+cms/node_modules/
+cms/boldr-cms
+cms/src/server/core/certs
+
+api/node_modules
+api/.env
+api/server
+api/boldr-api
+api/src/core/certs
+docker/volumes
+
+.tags
 
 # Build output folders
-build/
-public/
-.happypack/
-static/dist
-
-webstormEntry.babel.js
+cms/public/assets/
+cms/.happypack/
+cms/public/
 
 # Isomorphic webpack output
-webpack-assets.json
-webpack-stats.json
+cms/webpack-assets.json
+cms/webpack-stats.json
 
 # Logs
 logs
 *.log
 docs/logs
+
+boldr.sublime-project
+boldr.sublime-workspace
 # Runtime data
 pids
 *.pid

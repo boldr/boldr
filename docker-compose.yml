@@ -1,59 +1,50 @@
 version: '2'
 
 services:
-  dbstore:
+  data_store:
     image: busybox
-    container_name: ${PROJECT_ID}-dbstore
+    container_name: boldr-data_store
     tty: true
     stdin_open: true
     volumes:
-      - "dbstore:/var/lib/postgresql/data"
-      - "./docs/logs/db:/var/log:rw"
-      - ./tools/docker/postgres/configs:/docker-entrypoint-initdb.d:ro
-  # boldr:
-  #   build: .
-  #   container_name: ${PROJECT_ID}
-  #   command: npm run start:dev
-  #   environment:
-  #     POSTGRES_CONNECTION_URL: postgres://postgres:password@db:5432/boldr_development
-  #   ports:
-  #     - "3000:3000"
-  #     - "3001:3001"
-  #   volumes:
-  #     - "./node_modules:/app/node_modules"
-  #     - ".:/app"
-  #   depends_on:
-  #     - db
+      - "./docker/volumes/public:/home/boldr-cms/public:rw"
+      - "./docker/volumes/redis/data:/data:rw"
+      - "./docker/volumes/logs/db:/var/log:rw"
+      - "./docker/postgres/configs:/docker-entrypoint-initdb.d:ro"
+
   db:
-    container_name: ${PROJECT_ID}-postgres
+    container_name: boldr-db
     image: strues/postgres
     environment:
       - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      # - POSTGRES_DB
+      # - PGDATA="./docker/volumes/db"
     ports:
       - "5432:5432"
     volumes_from:
-      - dbstore
+      - data_store
     networks:
       - boldr
-    depends_on:
-      - dbstore
+    # links:
+    #   - "boldr-api"
 
-  redis:
-    image: strues/redis
-    container_name: ${PROJECT_ID}-redis
+  redis_ds:
+    build: ./docker/redis
+    container_name: boldr-redis
     ports:
       - "6379:6379"
-    volumes:
-      - "redisstore:/data"
+    volumes_from:
+      - data_store
     networks:
       - boldr
+    # links:
+    #   - "boldr-api"
 
 networks:
   boldr:
     driver: bridge
 
 volumes:
-  dbstore:
-    driver: local
-  redisstore:
+  data_store:
     driver: local

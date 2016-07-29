@@ -1,0 +1,9 @@
+{
+  "db": {
+    "name": "boldr",
+    "user": "boldr",
+    "password": "",
+    "port": 5432,
+    "host": "0.0.0.0"
+  }
+}

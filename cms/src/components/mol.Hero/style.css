@@ -1,0 +1,42 @@
+@custom-media --small-viewport (max-width: 30em);
+@custom-media --medium-viewport (min-width: 30em);
+
+.hero {
+  height: 25rem;
+  width: 100%;
+  background-color: rgba(27, 27, 37, 1);
+  position: relative;
+  overflow: hidden;
+  padding: 2em;
+  color: #f1f1f1;
+  position: relative;
+  text-align: right;
+  border-bottom: 1px solid #444;
+
+  @media (--small-viewport) {
+      padding: 4em 2em 1em;
+  }
+
+  @media (--medium-viewport) {
+      padding: 7em 4em 1em;
+  }
+}
+.heroTag {
+      font-size: 4em;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      line-height: 1;
+      margin-bottom: .1em;
+
+      @media (--small-viewport) {
+          font-size: 13vw;
+      }
+
+      @media (--medium-viewport) {
+          font-size: 13em;
+      }
+  }
+
+.wrap {
+  lost-center: 1170px;
+}
