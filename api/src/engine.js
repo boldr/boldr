@@ -6,7 +6,6 @@ import routes from './api/routes';
 import authRoutes from './auth';
 import { webserver, errorHandling } from './core';
 
-
 const debug = _debug('boldr:server');
 // Create our express server.
 const app = express();

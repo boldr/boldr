@@ -9,34 +9,40 @@ const config = require('../core/config/boldr');
 
 const validateJwt = expressJwt({ secret: config.session.secret });
 export const requireAuth = passport.authenticate('jwt', { session: false });
+
+
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  * @returns {Function} - express middleware
  */
-export function isAuthenticated() {
-  return compose()
-  // Validate jwt
-  .use((req, res, next) => {
-      // allow access_token to be passed through query parameter as well
-    if (req.query && req.query.hasOwnProperty('access_token')) {
-      req.headers.authorization = `Bearer ${req.query.access_token}`;
-    }
-    if (req.query && req.cookies.hasOwnProperty('token')) {
-      req.headers.authorization = `Bearer ${req.cookies.token}`;
-    }
-    validateJwt(req, res, next);
-  })
-  // Attach user to request
-  .use((req, res, next) => {
-    User.findById(req.user._id, (err, user) => {
-      if (err) return next(err);
-      if (!user) return res.status(401).end();
-
-      req.user = user;
-      next();
-    });
-  });
+function isAuthenticated() {
+   return compose()
+   // Validate jwt
+   .use((req, res, next) => {
+     // allow access_token to be passed through query parameter as well
+     if (req.query && req.query.hasOwnProperty('access_token')) {
+       req.headers.authorization = `Bearer ${req.query.access_token}`;
+     }
+     if (req.query && req.cookies.hasOwnProperty('token')) {
+       req.headers.authorization = `Bearer ${req.cookies.boldrToken}`;
+     }
+     validateJwt(req, res, next);
+   })
+   // Attach user to request
+   .use((req, res, next) => {
+     User.find({
+       where: {
+         id: req.user.id
+       }
+     }).then(user => {
+       if (!user) {
+         res.status(401).end();
+       }
+       req.user = user;
+       next();
+     });
+   });
 }
 
 /**
@@ -63,7 +69,7 @@ export function isAuthenticated() {
  * else req.user would be undefined
  * @returns {Function} - express middleware
  */
-export function appendUser() {
+function appendUser() {
   return compose()
         // Attach user to request
         .use((req, res, next) => {
@@ -93,7 +99,7 @@ export function appendUser() {
  * for it on the request
  * @returns {Function} - express middleware
  */
-export function addAuthHeaderFromCookie() {
+function addAuthHeaderFromCookie() {
   return compose()
         .use((req, res, next) => {
           if (req.cookies.token) {
@@ -108,7 +114,7 @@ export function addAuthHeaderFromCookie() {
  * @param {String} id - ObjectId of user
  * @returns {Promise} - resolves to the signed token
  */
-export function signToken(id) {
+function signToken(id) {
   return new Promise((resolve, reject) => {
     jwt.sign({ id }, config.session.secret, { expiresIn: 60 * 60 * 5 }, (err, token) => {
       if (err) return reject(err);
@@ -123,9 +129,18 @@ export function signToken(id) {
  * @param {Object} res - Express response object
  * @returns {*} - forgetaboutit
  */
-export function setTokenCookie(req, res) {
+function setTokenCookie(req, res) {
   if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.' });
   const token = signToken(req.user.id, req.user.role);
   res.cookie('token', token);
   res.redirect('/');
 }
+
+export {
+  isAuthenticated,
+
+  appendUser,
+  addAuthHeaderFromCookie,
+  signToken,
+  setTokenCookie
+};

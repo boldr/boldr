@@ -26,16 +26,6 @@ Article.belongsTo(User, {
   foreignKey: 'authorId'
 });
 
-Category.hasMany(Media, {
-  foreignKey: 'categoryId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
-
-Media.belongsTo(Category, {
-  foreignKey: 'mediaId'
-});
-
 Media.belongsTo(User, {
   foreignKey: 'ownerId'
 });
@@ -74,6 +64,12 @@ User.hasMany(Media, {
   onDelete: 'cascade'
 });
 
+Media.belongsTo(User, {
+  foreignKey: 'mediaId',
+  onUpdate: 'cascade',
+  onDelete: 'cascade'
+});
+
 
 Article.hasMany(ArticleTag);
 Tag.hasMany(ArticleTag);
@@ -86,10 +82,23 @@ User.hasOne(VerificationToken, {
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
+
 VerificationToken.belongsTo(User, {
   foreignKey: 'userId'
 });
 
+Media.hasMany(MediaCategory, {
+  foreignKey: 'mediaId',
+  onUpdate: 'cascade',
+  onDelete: 'cascade'
+});
+Category.hasMany(MediaCategory, {
+  foreignKey: 'categoryId',
+  onUpdate: 'cascade',
+  onDelete: 'cascade'
+});
+MediaCategory.belongsTo(Media);
+MediaCategory.belongsTo(Category);
 
 Tag.addScope('taggedInArticle', {
   distinct: 'id',
@@ -147,4 +156,4 @@ function sync(...args) {
 }
 
 export default { sync };
-export { User, Token, Article, Tag, Media, ArticleTag, Category, Setting, VerificationToken, MediaCategory };
+export { User, Token, Article, Tag, Media, ArticleTag, MediaCategory, Category, Setting, VerificationToken };

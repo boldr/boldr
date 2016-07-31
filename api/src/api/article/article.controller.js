@@ -6,7 +6,7 @@ import {
   Tag,
   ArticleTag
 } from '../../db/models';
-import { uploadArticle } from '../media/media.controller';
+import config from '../../core/config/boldr';
 import { respondWithResult, handleError } from '../../lib/helpers';
 
 const debug = require('debug')('boldr:api-article-ctrl');
@@ -24,7 +24,7 @@ const MAX_TAGS = 15;
  *
  * @apiSuccess {String}  id   The Article ID
  */
-export const getAllArticles = async(req, res, next) => {
+const getAllArticles = async(req, res, next) => {
   try {
     const articles = await Article.findAll({
       order: [
@@ -59,7 +59,7 @@ export const getAllArticles = async(req, res, next) => {
  *
  * @apiSuccess {String}  id   The Article ID
  */
-export const showArticle = async(req, res, next) => {
+const showArticle = async(req, res, next) => {
   const articleId = req.params.id;
   try {
     const article = await Article.find({ where: { id: articleId } }, {
@@ -78,7 +78,7 @@ export const showArticle = async(req, res, next) => {
   }
 };
 
-export async function addTagToArticle(req, res, next) {
+async function addTagToArticle(req, res, next) {
   const articleId = req.params.articleId;
   const alreadyAddedError = () => {
     const error = {
@@ -133,11 +133,11 @@ export async function addTagToArticle(req, res, next) {
  * @param {Date}    createdAt      the time the article was saved.
  * @return {Object}                the article object
  */
-export function createNewArticle(req, res) {
+const createNewArticle = (req, res, next) => {
   if (req.body.tags) {
     req.body.tags = req.body.tags.split(',', MAX_TAGS).map(tag => tag.substr(0, 15));
-  }
-  return Article.create({
+
+  Article.create({
     title: req.body.title,
     slug: slug(req.body.title),
     excerpt: req.body.excerpt,
@@ -148,7 +148,7 @@ export function createNewArticle(req, res) {
     status: req.body.status
   }).then(article => {
     for (let i = 0; i < req.body.tags.length; i++) {
-      Tag.findOrCreate({
+      const newTag = Tag.findOrCreate({
         where: {
           tagname: req.body.tags[i]
         }
@@ -167,8 +167,8 @@ export function createNewArticle(req, res) {
       });
     }
   });
-}
-
+  }
+};
 /**
  * @api {get} /articles/:slug       Get article by its slug.
  * @apiVersion 1.0.0
@@ -184,7 +184,7 @@ export function createNewArticle(req, res) {
  * @apiSuccess {String}  slug       The articles slug
  */
 
-export const findArticleBySlug = (req, res, next) => {
+const findArticleBySlug = (req, res, next) => {
   const articleSlug = req.params.slug;
   return Article.findBySlug(articleSlug)
     .then((article) => {
@@ -195,7 +195,7 @@ export const findArticleBySlug = (req, res, next) => {
     });
 };
 
-export const updateArticleById = (req, res, next) => {
+const updateArticleById = (req, res, next) => {
   const articleId = req.params.articleId;
   return Article.findById(articleId).then(article => {
     debug('update article promise', article);
@@ -205,15 +205,15 @@ export const updateArticleById = (req, res, next) => {
     const updates = req.body;
     debug('the req.body', updates);
     article.updateAttributes(updates)
-    .then(updated => {
-      return updated;
-    })
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+      .then(updated => {
+        return updated;
+      })
+      .then(respondWithResult(res))
+      .catch(handleError(res));
   });
 };
 
-export const updateArticleBySlug = (req, res, next) => {
+const updateArticleBySlug = (req, res, next) => {
   const slug = req.params.slug;
   return Article.findBySlug(slug).then(article => {
     debug('update article promise', article);
@@ -223,38 +223,50 @@ export const updateArticleBySlug = (req, res, next) => {
     const updates = req.body;
     debug('the req.body', updates);
     article.updateAttributes(updates)
-    .then(updated => {
-      return updated;
-    })
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+      .then(updated => {
+        return updated;
+      })
+      .then(respondWithResult(res))
+      .catch(handleError(res));
   });
 };
 
-export const deleteArticleById = (req, res, next) => {
+const deleteArticleById = (req, res, next) => {
   const articleId = req.params.articleId;
   return Article.findById(articleId).then(article => {
     if (!article) {
       return Boom.notFound(article);
     }
     article.destroy()
-    .then(() => {
-      res.status(204).send({ error: false });
-    })
-    .catch(handleError(res));
+      .then(() => {
+        res.status(204).send({ error: false });
+      })
+      .catch(handleError(res));
   });
 };
 
-export const deleteArticleBySlug = (req, res, next) => {
+const deleteArticleBySlug = (req, res, next) => {
   const slug = req.params.slug;
   return Article.findBySlug(slug).then(article => {
     if (!article) {
       return Boom.notFound(article);
     }
     article.destroy()
-    .then(() => {
-      res.status(204).send({ error: false });
-    })
-    .catch(handleError(res));
+      .then(() => {
+        res.status(204).send({ error: false });
+      })
+      .catch(handleError(res));
   });
+};
+
+export {
+  getAllArticles,
+  showArticle,
+  addTagToArticle,
+  createNewArticle,
+  findArticleBySlug,
+  updateArticleById,
+  updateArticleBySlug,
+  deleteArticleById,
+  deleteArticleBySlug
 };

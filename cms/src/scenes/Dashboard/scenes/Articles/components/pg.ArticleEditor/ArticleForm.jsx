@@ -1,17 +1,25 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+// import Dialog from 'material-ui/Dialog';
 import Toggle from 'material-ui/Toggle';
+// import Dropzone from 'react-dropzone';
+import FlatButton from 'material-ui/FlatButton';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Editor, EditorState } from 'draft-js';
-
+import classNames from 'classnames/bind';
+import cookie from 'react-cookie';
 import Paper from 'material-ui/Paper';
 // import BoldrEditor from 'components/org.BoldrEditor';
 import TextEditor from 'components/org.Editor/Editor/Editor';
-import classNames from 'classnames/bind';
+
+import * as articleActionCreators from '../../state/article';
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -32,6 +40,7 @@ const radioStyle = {
   marginTop: '20px',
   float: 'right'
 };
+
 class NewArticleForm extends Component {
   constructor(props) {
     super(props);
@@ -47,14 +56,34 @@ class NewArticleForm extends Component {
         markup
       });
     };
-
     this.renderInnerMarkup = () => this._renderInnerMarkup();
     this.renderReturnedContent = (value) => this._renderReturnedContent(value);
 
     this.state = {
-      tags: []
+      tags: [],
+      open: false,
+      files: []
     };
   }
+  // onDrop(files, callback) {
+  //   this.setState({
+  //     files
+  //   });
+  //   const imageData = files[0];
+  //   let action = articleActionCreators.uploadFeatureImage(files)
+  //   this.props.dispatch(action)
+  // }
+
+  // onOpenClick() {
+  //   this.refs.dropzone.open();
+  // }
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   handleSelectChange = (event, index, value) => this.setState({ value });
   handleChange(tags) {
     this.setState({
@@ -64,8 +93,37 @@ class NewArticleForm extends Component {
   render() {
     const { fields: { title, tags, excerpt, content, status, featureImage }, handleSubmit } = this.props;
     const { editorState } = this.state;
+    // const actions = [
+    //   <FlatButton
+    //     label="Cancel"
+    //     primary
+    //     onTouchTap={ this.handleClose }
+    //   />,
+    //   <FlatButton
+    //     label="Submit"
+    //     primary
+    //     disabled
+    //     onTouchTap={ this.handleClose }
+    //   />
+    // ];
+
     return (
       <section>
+      {/* <RaisedButton label="Modal Dialog" onTouchTap={ this.handleOpen } />
+      <Dialog
+        title="Dialog With Actions"
+        modal
+        actions={ actions }
+        open={ this.state.open }
+      >
+      <Dropzone ref="dropzone" onDrop={ ::this.onDrop }>
+            <div>Try dropping some files here, or click to select files to upload.</div>
+        </Dropzone>
+        <button type="button" onClick={ this.onOpenClick }>
+            Open Dropzone
+        </button>
+
+      </Dialog> */}
       <form onSubmit={ handleSubmit }>
           <div className={ cx('articleEditor__left') }>
             <Paper
@@ -156,5 +214,6 @@ export default reduxForm({
 })(NewArticleForm);
 
 NewArticleForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  fields: PropTypes.object
 };

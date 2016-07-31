@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-
-import { createArticle } from 'scenes/Dashboard/scenes/Articles/state';
+import { createArticle, uploadFeatureImage } from 'scenes/Dashboard/scenes/Articles/state';
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {
@@ -18,6 +17,7 @@ class ArticleEditor extends Component {
     };
     this.props.dispatch(createArticle(articleData));
   }
+
   render() {
     return (
       <div>
@@ -32,3 +32,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 export default connect(mapStateToProps)(ArticleEditor);
+
+ArticleEditor.propTypes = {
+  dispatch: React.PropTypes.func
+};

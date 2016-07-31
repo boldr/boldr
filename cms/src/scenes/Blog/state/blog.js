@@ -78,19 +78,22 @@ export const INITIAL_STATE = {
 export default function blogReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case FETCH_POSTS_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: true
-      });
+      };
     case FETCH_POSTS_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
         posts: action.posts
-      });
+      };
     case FETCH_POSTS_FAIL:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
         error: action.error
-      });
+      };
     default:
       return state;
   }

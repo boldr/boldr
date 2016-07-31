@@ -1,18 +1,30 @@
+import Debug from 'debug';
 import Boom from 'boom';
 import { User } from '../../db/models';
 import { respondWithResult, handleError, saveUpdates,
   handleEntityNotFound, removeEntity } from '../../lib/helpers';
 
+const debug = Debug('boldr:userController');
 /**
  * Load user and append to req.
  */
 function load(req, res, next, id) {
   User.findById(id).then(user => {
     req.user = user;    // eslint-disable-line no-param-reassign
+    debug(req.user);
     return next();
   }).error(e => next(e));
 }
 
+/**
+ * @api {get} /users       Get all users
+ * @apiVersion 1.0.0
+ * @apiName getAllUsers
+ * @apiGroup Users
+ *
+ * @apiExample Example usage:
+ * curl -i http://localhost:9121/api/v1/users
+ */
 const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.findAll({});
@@ -92,11 +104,7 @@ function destroyUser(req, res) {
 
 function me(req, res, next) {
   const userId = req.user.id;
-  return User.find({
-    where: {
-      id: userId
-    }
-  }).then(user => { // don't ever give out the password or salt
+  return User.findById(userId).then(user => { // don't ever give out the password or salt
     if (!user) {
       return Boom.unauthorized();
     }

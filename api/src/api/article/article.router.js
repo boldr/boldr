@@ -1,12 +1,12 @@
 import express from 'express';
 import { processQuery } from '../../lib';
-import { isAuthenticated } from '../../auth/auth.service';
+import { isAuthenticated, requireAuth } from '../../auth/auth.service';
 import * as ctrl from './article.controller';
 
 const router = express.Router();
 
 router.route('/')
-	.get(processQuery, ctrl.getAllArticles)
+  .get(processQuery, ctrl.getAllArticles)
   .post(isAuthenticated(), ctrl.createNewArticle);
 
 router.route('/:slug')

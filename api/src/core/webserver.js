@@ -45,7 +45,8 @@ export default app => {
 
   app.use(expressJwt({
     secret: config.session.secret,
-    credentialsRequired: false
+    credentialsRequired: false,
+    getToken: req => req.cookies.token
   }));
 
   const boldrSession = session({

@@ -61,6 +61,20 @@ export function generalUpload(req, res, next) {
     res.status(500).send(err);
   });
 }
+export function singleUpload(req, res, next) {
+  logger.info(req.file);
+
+  const fileFields = {
+    s3url: req.file.location,
+    ownerId: req.user.id,
+    key: req.file.key
+  };
+  Media.create(fileFields).then(data => {
+    res.status(201).json(data);
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+}
 // const params = {
 //   Bucket: config.S3_BUCKET,
 //   Key: attachments[0].filename,
@@ -80,12 +94,7 @@ export function generalUpload(req, res, next) {
  */
 export const getAllMedia = async (req, res, next) => {
   try {
-    const medias = await Media.findAll({
-      include: [{
-        model: User,
-        attributes: ['id', 'firstName', 'lastName', 'displayName', 'picture', 'email']
-      }]
-    });
+    const medias = await Media.findAll();
 
     return res.status(200).json(medias);
   } catch (error) {

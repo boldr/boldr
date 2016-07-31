@@ -2,7 +2,7 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import cookies from 'react-cookie';
 import fetch from 'core/fetch';
-import { API_ARTICLES } from 'core/api';
+import { API_ARTICLES, API_MEDIA } from 'core/api';
 import { processResponse } from 'core/api/ApiClient';
 
 /**
@@ -87,10 +87,50 @@ export function selectArticle(articleId) {
   };
 }
 
+export const UPLOAD_IMAGE_REQUEST = 'UPLOAD_IMAGE_REQUEST';
+export const UPLOAD_IMAGE_SUCCESS = 'UPLOAD_IMAGE_SUCCESS';
+export const UPLOAD_IMAGE_FAIL = 'UPLOAD_IMAGE_FAIL';
+
+const beginUploadImage = () => {
+  return { type: UPLOAD_IMAGE_REQUEST };
+};
+// Fetch Articles Success
+export function uploadImageSuccess(response) {
+  return {
+    type: UPLOAD_IMAGE_SUCCESS,
+    payload: response.body
+  };
+}
+// Fetch Articles Error
+export function uploadImageFail(err) {
+  return {
+    type: UPLOAD_IMAGE_FAIL,
+    error: err
+  };
+}
+
+export function uploadFeatureImage(imageData) {
+  return (dispatch) => {
+    dispatch(beginUploadImage());
+    return request
+      .post('http://localhost:9121/api/v1/medias/articles')
+      .set('Authorization', `Bearer ${cookies.load('token')}`)
+      .set('Content-Type', 'multipart/form-data')
+      .attach('photo', imageData)
+      .end()
+      .then(response => {
+        if (response.status === 201) {
+          dispatch(uploadImageSuccess(response));
+        }
+      })
+      .catch(err => {
+        dispatch(uploadImageFail(err));
+      });
+  };
+}
+
 /**
- * CREATE` ARTICLE ACTIONS
- * @ToDo Before sending data, or in the server, split the tags by , and put them
- * in as tags:[{tagname: tag}]
+ * CREATE ARTICLE ACTIONS
  */
 export const CREATE_ARTICLE_REQUEST = 'CREATE_ARTICLE_REQUEST';
 export const CREATE_ARTICLE_SUCCESS = 'CREATE_ARTICLE_SUCCESS';

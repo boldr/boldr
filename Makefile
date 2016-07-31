@@ -53,13 +53,13 @@ build-cms: clean-cms
 	@echo "Removing compiled CMS files..."
 	@echo "Now running Webpack on Boldr CMS"
 	cd cms; npm run build
-	mkdir cms/boldr-cms
-	@mv cms/public cms/boldr-cms/public
-	@cp -n cms/package.json cms/boldr-cms | true
-	@cp -n cms/run.js cms/boldr-cms | true
-	@cp -n cms/server.js cms/boldr-cms | true
-	@cp -n cms/server.js.map ./boldr-cms | true
-	@cp -n cms/webpack-assets.json cms/boldr-cms | true
+	mkdir ./cms/boldr-cms
+	@mv ./cms/public cms/boldr-cms/public
+	@cp -n ./cms/package.json cms/boldr-cms | true
+	@cp -n ./cms/run.js cms/boldr-cms | true
+	@cp -n ./cms/server.js cms/boldr-cms | true
+	@cp -n ./cms/server.js.map ./boldr-cms | true
+	@cp -n ./cms/webpack-assets.json cms/boldr-cms | true
 	@echo "Done."
 
 build: clean

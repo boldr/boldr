@@ -7,13 +7,13 @@ import * as ctrl from './auth.controller';
 import { isAuthenticated } from './auth.service';
 
 passport.serializeUser((user, done) => {
-return done(null, user.id);
+  return done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-User.findById(id).then((user) => {
-  done(null, user);
-}).catch(done);
+  User.findById(id).then((user) => {
+    done(null, user);
+  }).catch(done);
 });
 
 // Passport Configuration

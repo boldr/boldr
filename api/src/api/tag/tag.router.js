@@ -4,7 +4,7 @@ import * as ctrl from './tag.controller';
 const router = Router();
 
 router.route('/')
-	.get(ctrl.getAllTags)
+  .get(ctrl.getAllTags)
   .post(ctrl.createTag);
 
 router.route('/:tagId')
