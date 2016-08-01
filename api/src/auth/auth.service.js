@@ -8,8 +8,7 @@ import { User } from '../db/models';
 const config = require('../core/config/boldr');
 
 const validateJwt = expressJwt({ secret: config.session.secret });
-export const requireAuth = passport.authenticate('jwt', { session: false });
-
+export const requireAuth = passport.authenticate('jwt');
 
 /**
  * Attaches the user object to the request if authenticated
@@ -17,32 +16,21 @@ export const requireAuth = passport.authenticate('jwt', { session: false });
  * @returns {Function} - express middleware
  */
 function isAuthenticated() {
-   return compose()
+  return compose()
    // Validate jwt
-   .use((req, res, next) => {
-     // allow access_token to be passed through query parameter as well
-     if (req.query && req.query.hasOwnProperty('access_token')) {
-       req.headers.authorization = `Bearer ${req.query.access_token}`;
-     }
-     if (req.query && req.cookies.hasOwnProperty('token')) {
-       req.headers.authorization = `Bearer ${req.cookies.boldrToken}`;
-     }
-     validateJwt(req, res, next);
-   })
+    .use(expressJwt({ secret: config.session.secret }))
    // Attach user to request
-   .use((req, res, next) => {
-     User.find({
-       where: {
-         id: req.user.id
-       }
-     }).then(user => {
-       if (!user) {
-         res.status(401).end();
-       }
-       req.user = user;
-       next();
-     });
-   });
+    .use((req, res, next) => {
+      User.findById(req.user.id)
+        .then(user => {
+          if (!user) {
+            res.status(401).end();
+          }
+          req.user = user;
+          next();
+          return user;
+        }).catch(err => next(err));
+    });
 }
 
 /**
@@ -70,28 +58,26 @@ function isAuthenticated() {
  * @returns {Function} - express middleware
  */
 function appendUser() {
-  return compose()
-        // Attach user to request
-        .use((req, res, next) => {
-          validateJwt(req, res, (val) => {
-            if (_.isUndefined(val)) {
-              User.findById(req.user._id, (err, user) => {
-                if (err) {
-                  return next(err);
-                } else if (!user) {
-                  req.user = null;
-                  return next();
-                } else {
-                  req.user = user;
-                  return next();
-                }
-              });
-            } else {
-              req.user = null;
-              return next();
-            }
-          });
+  return compose().use((req, res, next) => {
+    validateJwt(req, res, (val) => {
+      if (_.isUndefined(val)) {
+        User.findById(req.user._id, (err, user) => {
+          if (err) {
+            return next(err);
+          } else if (!user) {
+            req.user = null;
+            return next();
+          } else {
+            req.user = user;
+            return next();
+          }
         });
+      } else {
+        req.user = null;
+        return next();
+      }
+    });
+  });
 }
 
 /**
@@ -100,13 +86,12 @@ function appendUser() {
  * @returns {Function} - express middleware
  */
 function addAuthHeaderFromCookie() {
-  return compose()
-        .use((req, res, next) => {
-          if (req.cookies.token) {
-            req.headers.authorization = `Bearer ${_.trim(req.cookies.token, '"')}`;
-          }
-          return next();
-        });
+  return compose().use((req, res, next) => {
+    if (req.cookies.token) {
+      req.headers.authorization = `Bearer ${_.trim(req.cookies.token, '"')}`;
+    }
+    return next();
+  });
 }
 
 /**
@@ -115,12 +100,7 @@ function addAuthHeaderFromCookie() {
  * @returns {Promise} - resolves to the signed token
  */
 function signToken(id) {
-  return new Promise((resolve, reject) => {
-    jwt.sign({ id }, config.session.secret, { expiresIn: 60 * 60 * 5 }, (err, token) => {
-      if (err) return reject(err);
-      else return resolve(token);
-    });
-  });
+  return jwt.sign({ id }, config.session.secret, { expiresIn: 60 * 60 * 5 });
 }
 
 /**

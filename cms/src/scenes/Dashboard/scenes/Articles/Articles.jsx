@@ -63,11 +63,12 @@ class Articles extends Component {
         <List className={ cx('articleList__wrap') }>
           { this.props.article.articles.map(article =>
             <ListItem
+              key={ article.id }
               leftAvatar={ <Avatar src={ article.featureImage } /> }
               rightIconButton={ rightIconMenu }
               primaryText={ article.title }
               secondaryText={
-                <ArticleListItem key={ article.id } article={ article } handleArticleClick={ ::this.handleArticleClick } />
+                <ArticleListItem article={ article } handleArticleClick={ ::this.handleArticleClick } />
               }
               secondaryTextLines={ 2 }
             />)

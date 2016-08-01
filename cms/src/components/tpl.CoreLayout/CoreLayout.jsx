@@ -11,7 +11,6 @@ const CoreLayout = (props) => {
         titleTemplate={ '%s | powered by Boldr' }
       />
       <TopBar />
-
       { props.children }
 
     </div>

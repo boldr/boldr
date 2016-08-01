@@ -12,7 +12,7 @@ const targetUrl = process.env.TARGET_URL;
 const app = express();
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
-  changeOrigin: false
+  changeOrigin: true
 });
 
 debug('express middleware');

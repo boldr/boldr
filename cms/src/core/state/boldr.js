@@ -1,6 +1,6 @@
 import request from 'superagent';
-import cookie from 'react-cookie';
 import { push } from 'react-router-redux';
+import { action } from 'core/util/action';
 import { API_BASE } from '../api';
 
 export const DONE_LOADING = 'DONE_LOADING';
@@ -43,7 +43,7 @@ export function loadBoldrSettings(data) {
     dispatch(loadSettings());
     return request
       .get(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${token}`)
+      // .set('Authorization', `Bearer ${token}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(loadSettingsSuccess(response));
@@ -97,21 +97,12 @@ export function saveBoldrSetup(data) {
   };
 }
 
-export const CLEAR_SNACKBAR_MESSAGE = 'CLEAR_SNACKBAR_MESSAGE';
-export const SHOW_SNACKBAR_MESSAGE = 'SHOW_SNACKBAR_MESSAGE';
 
-export function clearToastMessage() {
-  return {
-    type: CLEAR_SNACKBAR_MESSAGE
-  };
-}
+export const TOGGLE_SNACKBAR = 'TOGGLE_SNACKBAR';
+export const NOTIF_CREATE = 'NOTIF_CREATE';
+export const NOTIF_PUBLISH = 'NOTIF_PUBLISH';
+export const NOTIF_DESTROY = 'NOTIF_DESTROY';
 
-export function showSnackBarMessage(message) {
-  return {
-    type: SHOW_SNACKBAR_MESSAGE,
-    message
-  };
-}
 export const INITIAL_STATE = {
   isShowingSnackBar: false,
   snackBarMessage: null,
@@ -167,16 +158,10 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         ...state,
         isLoading: false
       };
-    case CLEAR_SNACKBAR_MESSAGE:
-      return {
-        ...state
-      };
-    case SHOW_SNACKBAR_MESSAGE:
-      return {
-        ...state,
-        isShowingSnackBack: true,
-        snackBarMessage: action.message
-      };
+    case NOTIF_PUBLISH:
+      return state.concat(action.payload);
+    case NOTIF_DESTROY:
+      return state.filter(notif => notif.id !== action.payload.id);
     default:
       return state;
   }

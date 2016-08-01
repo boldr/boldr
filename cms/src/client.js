@@ -6,7 +6,6 @@ import { Router, browserHistory, match, applyRouterMiddleware } from 'react-rout
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { syncHistoryWithStore, routerActions } from 'react-router-redux';
 import { trigger } from 'redial';
-import cookie from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -36,7 +35,7 @@ const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
 
-const token = cookie.load('token');
+const token = localStorage.getItem('token');
 
 if (token) {
   // Update application state. User has token and is probably authenticated

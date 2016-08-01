@@ -69,7 +69,7 @@ class TopBar extends React.Component {
                       <div>
                         <MenuItem value="4"><Link to="/profile">Profile</Link></MenuItem>
                         <MenuItem value="5"><Link to="/account/preferences">Preferences</Link></MenuItem>
-                        <MenuItem value="3" onTouchTap={ ::this.handleClickSignout }>Sign Out</MenuItem></div> :
+                        <MenuItem value="3" onClick={ ::this.handleClickSignout }>Sign Out</MenuItem></div> :
                           <div>
                             <MenuItem value="1"><Link to="/account/login">Login</Link></MenuItem>
                             <MenuItem value="2"><Link to="/account/signup">Signup</Link></MenuItem>

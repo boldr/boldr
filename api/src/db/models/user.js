@@ -179,11 +179,13 @@ function toJSON() {
     profile: {
       displayName: this.displayName,
       firstName: this.firstName,
+      lastName: this.lastName,
       gender: this.gender,
       location: this.location,
       website: this.website,
       picture: this.picture,
-      role: this.role
+      role: this.role,
+      bio: this.bio
     }
   };
 }

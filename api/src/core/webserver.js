@@ -37,28 +37,17 @@ export default app => {
 
   app.options('*', (req, res) => res.sendStatus(200));
 
-  const redisStore = new RedisStore({ client: redisClient });
-  sessionService.initializeRedis(redisClient, redisStore);
-
   app.use(cookieParser(config.session.secret));
-  app.use(passport.initialize());
 
-  app.use(expressJwt({
-    secret: config.session.secret,
-    credentialsRequired: false,
-    getToken: req => req.cookies.token
-  }));
-
-  const boldrSession = session({
-    store: redisStore,
+  app.use(session({
+    store: new RedisStore({ client: redisClient }),
     secret: config.session.secret,
     name: 'boldr:sid',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     unset: 'destroy'
-  });
-  app.use(boldrSession);
-
+  }));
+  app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
 

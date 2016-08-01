@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { User } from '../db/models';
+import configureLocalPassport from './providers/local';
+
 // import google from './providers/google/passport';
 // import facebook from './providers/facebook/passport';
 import * as ctrl from './auth.controller';
-import { isAuthenticated } from './auth.service';
+import { isAuthenticated, requireAuth } from './auth.service';
+
+configureLocalPassport(User);
 
 passport.serializeUser((user, done) => {
   return done(null, user.id);
@@ -17,14 +21,13 @@ passport.deserializeUser((id, done) => {
 });
 
 // Passport Configuration
-require('./providers/local').setup(User);
 require('./providers/jwt').setup(User);
 // google(passport);
 // facebook(passport);
 
 const router = new Router();
 
-router.use('/login', require('./providers/local').default);
+router.use('/login', ctrl.handleLogin);
 
 router.post('/signup', ctrl.handleSignup);
 router.post('/logout', ctrl.logout);
@@ -33,7 +36,7 @@ router.post('/reset/:token', ctrl.resetPassword);
 
 router.get('/logout', ctrl.logout);
 router.delete('/account', isAuthenticated(), ctrl.accountDelete);
-router.route('/check').get(ctrl.checkUser);
+router.route('/check').get(isAuthenticated(), ctrl.checkUser);
 
 // router.get('/google', passport.authenticate('google', {
 //   scope: [

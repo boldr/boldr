@@ -21,13 +21,6 @@ export default (req, res) => {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
   }
-  reactCookie.plugToRequest(req, res);
-  if (typeof(req.headers.cookie) !== 'undefined') {
-    reactCookie.setRawCookie(req.headers.cookie);
-  } else {
-    // Force empty cookie
-    reactCookie.setRawCookie('');
-  }
 
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);

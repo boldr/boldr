@@ -3,34 +3,41 @@ import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import cookie from 'react-cookie';
 import moment from 'moment';
-
 import fetch from 'core/fetch';
+import { createRequestat } from 'core/util/action';
 import { API_BASE, API_AUTH } from 'core/api';
-import { populateAccount } from './account';
+import { populateAccount, loginPopulateAccount } from './account';
+import * as at from './constants';
 
 /**
  * LOGIN ACTIONS
  */
-export const LOGIN_REQUEST = 'AUTH/LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'AUTH/LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'AUTH/LOGIN_FAIL';
-
 const beginLogin = () => {
-  return { type: LOGIN_REQUEST };
+  return { type: at.LOGIN_REQUEST };
 };
 // Login Success
 export function loginSuccess(response) {
-  const decoded = decode(response.body.token);
   return {
-    type: LOGIN_SUCCESS,
+    type: at.LOGIN_SUCCESS,
     token: response.body.token,
-    role: response.body.role
+    bio: response.body.user.profile.bio,
+    birthday: response.body.user.profile.birthday,
+    displayName: response.body.user.profile.displayName,
+    email: response.body.user.email,
+    firstName: response.body.user.profile.firstName,
+    gender: response.body.user.profile.gender,
+    id: response.body.user.id,
+    lastName: response.body.user.profile.lastName,
+    location: response.body.user.profile.location,
+    picture: response.body.user.profile.picture,
+    role: response.body.user.profile.role,
+    website: response.body.user.profile.website
   };
 }
 // Login Error
 export function loginError(err) {
   return {
-    type: LOGIN_FAIL,
+    type: at.LOGIN_FAIL,
     error: err
   };
 }
@@ -42,9 +49,9 @@ export function doLogin(loginData, redir) {
       .post(`${API_AUTH}/login`)
       .send(loginData)
       .then(response => {
-        // setAuthToken(response.body.token);
-        cookie.save('token', response.body.token, { expires: moment().add(5, 'hour').toDate() });
+        localStorage.setItem('token', response.body.token);
         dispatch(loginSuccess(response));
+        dispatch(loginPopulateAccount(response));
         if (redir) {
           dispatch(push(redir));
         } else {
@@ -61,44 +68,33 @@ export function doLogin(loginData, redir) {
 /**
  * LOGOUT ACTIONS
  */
-export const LOGOUT_USER = 'AUTH/LOGOUT_USER';
-export const LOGOUT_USER_FAIL = 'AUTH/LOGOUT_USER_FAIL';
 
 export function logoutSuccess() {
-  return { type: LOGOUT_USER };
+  return { type: at.LOGOUT_USER };
 }
+
 export function logoutError() {
-  return { type: LOGOUT_USER_FAIL };
+  return { type: at.LOGOUT_USER_FAIL };
 }
-// Logout Action
+
 export function logOut() {
   return (dispatch) => {
-    return request
-      .get(`${API_AUTH}/logout`)
-      .then(response => {
-        cookie.remove('token');
-        dispatch(logoutSuccess());
-      })
-  .catch(err => {
-    dispatch(logoutError(err));
-  });
+    localStorage.removeItem('token');
+    dispatch(logoutSuccess());
   };
 }
 
 /**
  * TOKEN CHECK ACTIONS
  */
-export const CHECK_AUTH_REQUEST = 'AUTH/CHECK_AUTH_REQUEST';
-export const CHECK_AUTH_SUCCESS = 'AUTH/CHECK_AUTH_SUCCESS';
-export const CHECK_AUTH_FAIL = 'AUTH/CHECK_AUTH_FAIL';
 
 function checkAuthRequest() {
-  return { type: CHECK_AUTH_REQUEST };
+  return { type: at.CHECK_AUTH_REQUEST };
 }
 
 function checkAuthSuccess(response, token) {
   return {
-    type: CHECK_AUTH_SUCCESS,
+    type: at.CHECK_AUTH_SUCCESS,
     payload: response.body,
     token,
     bio: response.body.profile.bio,
@@ -118,15 +114,14 @@ function checkAuthSuccess(response, token) {
 
 function checkAuthFailure(error) {
   return {
-    type: CHECK_AUTH_FAIL,
+    type: at.CHECK_AUTH_FAIL,
     payload: error
   };
 }
 
 export function checkAuth() {
-  const token = cookie.load('token');
   return (dispatch) => {
-    if (!token || token === '') { return; }
+    const token = localStorage.getItem('token');
     dispatch(checkAuthRequest());
     request
       .get(`${API_AUTH}/check`)
@@ -146,16 +141,13 @@ export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
 
-export const LOAD = 'auth/LOAD';
-export const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'auth/LOAD_FAIL';
-
 export function load() {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    types: [at.LOAD, at.LOAD_SUCCESS, at.LOAD_FAIL],
     promise: (client) => client.get('/auth/check')
   };
 }
+
 /**
  * INITIAL STATE
  */
@@ -177,12 +169,12 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
-    case LOAD:
+    case at.LOAD:
       return {
         ...state,
         isLoading: true
       };
-    case LOAD_SUCCESS:
+    case at.LOAD_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -192,23 +184,26 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         role: action.result.role,
         email: action.result.email
       };
-    case LOAD_FAIL:
+    case at.LOAD_FAIL:
+    case at.LOGIN_FAIL:
       return {
         ...state,
         isLoading: false,
+        isAuthenticated: false,
         loaded: false,
         error: action.error
       };
 
-    case LOGIN_REQUEST:
+    case at.LOGIN_REQUEST:
+    case at.CHECK_AUTH_REQUEST:
       return {
         ...state,
         isLoading: true,
         isAuthenticated: false,
-        loaded: false,
-        token: ''
+        loaded: false
       };
-    case LOGIN_SUCCESS:
+    case at.LOGIN_SUCCESS:
+    case at.CHECK_AUTH_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -217,53 +212,13 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         role: action.role,
         token: action.token
       };
-    case 'OAUTH_SUCCESS':
-      return {
-        ...state,
-        isLoading: false,
-        loaded: true,
-        isAuthenticated: true,
-        token: action.token
-      };
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        isAuthenticated: false
-      };
-    case CHECK_AUTH_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        loaded: false
-      };
-    case CHECK_AUTH_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        loaded: true,
-        isAuthenticated: true,
-        token: action.token,
-        role: action.role,
-        firstName: action.firstName,
-        lastName: action.lastName,
-        email: action.email
-      };
-    case CHECK_AUTH_FAIL:
-      return {
-        ...state,
-        loaded: false,
-        isLoading: false,
-        isAuthenticated: false
-      };
-    case LOGOUT_USER:
+    case at.LOGOUT_USER:
       return {
         ...state,
         isLoading: false,
         isAuthenticated: false,
         loaded: false
       };
-
     default:
       return state;
   }

@@ -74,7 +74,7 @@ const clientDevConfig = {
 
   },
   resolve: {
-    extensions: ['', '.json', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.json', '.scss'],
 
     modulesDir: [
       'src',

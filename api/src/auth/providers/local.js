@@ -3,10 +3,11 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import * as auth from '../auth.service';
 
-export function setup(User) {
+export default function configurePassport(User) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password' // this is the virtual field on the model
+    passwordField: 'password',
+    session: false // this is the virtual field on the model
   }, (email, password, done) => {
     User.find({
       where: {
@@ -25,20 +26,3 @@ export function setup(User) {
       });
   }));
 }
-const router = new Router();
-
-router.post('/', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    const error = err || info;
-    if (error) return res.status(401).json(error);
-    if (!user) return res.status(404).json({ message: 'Something went wrong, please try again.' });
-
-    auth.signToken(user.id, user.role).then(token => {
-      res.json({ token, role: user.role });
-    }).catch(err => {
-      res.status(500).send(err);
-    });
-  })(req, res, next);
-});
-
-export default router;

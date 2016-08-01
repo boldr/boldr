@@ -93,3 +93,28 @@ Returns a specific article based on the slug.
     + Body
 
             {"id":"e900c6a8-fa30-4239-b506-8ebfdce3472d","title":"This is a test article","slug":"this-is-a-test-article","featureImage":"https://boldr.s3-us-west-1.amazonaws.com/9478ba25-0aae-4e8f-898b-9d2c59ee8752_Screen_Shot_2016-07-29_at_11.47.09_AM.png","content":"{\"entityMap\":{},\"blocks\":[{\"key\":\"1jm1t\",\"text\":\"This isa atest\",\"type\":\"header-two\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[]}]}","excerpt":"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.","markup":"","authorId":"d0504b95-980d-4446-9497-a8fe622e66de","status":"draft","views":0,"createdAt":"2016-07-24T19:53:08.827Z","updatedAt":"2016-07-24T19:53:08.827Z"}
+
+# GET /api/v1/articles/id/{id}
+
++ Request (application/x-www-form-urlencoded; charset=utf-8)
+
++ Headers
+
+    Cookie: boldr:sid=s%3AgLfuUQRAlYKfgHUWekaalmgq8XpC6PDO.%2F1lRyt%2BIeRNgMmGsIT4erG38dFo0FCFf6nmXhYS10Ow
+
+
+
++ Response 200 (application/json; charset=utf-8)
+
++ Headers
+
+    Access-Control-Allow-Credentials: true
+    Etag: W/"322-wBBIWIo/2VvUnglgJRfXmA"
+    Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+    X-FRAME-OPTIONS: SAMEORIGIN
+    X-XSS-Protection: 1; mode=block
+    Vary: Origin, Accept-Encoding
+
++ Body
+
+    {"id":"e900c6a8-fa30-4239-b506-8ebfdce3472d","title":"This is a test article","slug":"this-is-a-test-article","featureImage":"https://boldr.s3-us-west-1.amazonaws.com/9478ba25-0aae-4e8f-898b-9d2c59ee8752_Screen_Shot_2016-07-29_at_11.47.09_AM.png","content":"{\"entityMap\":{},\"blocks\":[{\"key\":\"1jm1t\",\"text\":\"This isa atest\",\"type\":\"header-two\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[]}]}","excerpt":"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.","markup":"","authorId":"d0504b95-980d-4446-9497-a8fe622e66de","status":"draft","views":0,"createdAt":"2016-07-24T19:53:08.827Z","updatedAt":"2016-07-24T19:53:08.827Z"}

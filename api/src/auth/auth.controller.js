@@ -2,10 +2,22 @@ import crypto from 'crypto';
 import async from 'async';
 import Boom from 'boom';
 import moment from 'moment';
+import passport from 'passport';
 
 import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../lib';
 import { User, VerificationToken } from '../db/models';
 import { signToken } from './auth.service';
+
+function handleLogin(req, res, next) {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    const error = err || info;
+    if (error) return res.status(401).json({ message: 'Authentication failed' });
+    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    const token = signToken(user.id, user.role);
+    return res.json({ token, user });
+  })(req, res, next);
+}
+
 
 /**
  * DELETE /account
@@ -156,6 +168,7 @@ export {
   logout,
   handleSignup,
   checkUser,
+  handleLogin,
   forgottenPassword,
   resetPassword
 };

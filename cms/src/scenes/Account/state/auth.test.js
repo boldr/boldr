@@ -4,11 +4,11 @@ import expect from 'expect';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import request from 'supertest';
-import reducer, {
-LOGIN_REQUEST,
+import reducer, { doLogin } from './auth';
+import { LOGIN_REQUEST,
 LOGIN_SUCCESS,
 LOGIN_FAIL,
-LOGOUT_USER, doLogin } from './auth';
+LOGOUT_USER } from './constants';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -33,38 +33,39 @@ describe('authReducer', () => {
   it('should handle LOGIN_REQUEST', () => {
     expect(
       reducer(undefined, { type: LOGIN_REQUEST })
-    ).toEqual(Object.assign({}, initialState, {
+    ).toEqual({
+      ...initialState,
       isLoading: true,
-      loaded: false,
       isAuthenticated: false,
-      role: null,
-      token: '',
-      hydrated: true
-    }));
+      loaded: false
+    });
   });
 
   it('should handle LOGIN_SUCCESS', () => {
     expect(
       reducer(undefined, { type: LOGIN_SUCCESS })
-    ).toEqual(Object.assign({}, initialState, {
+    ).toEqual({
+      ...initialState,
       isLoading: false,
       loaded: true,
       isAuthenticated: true,
       token: undefined,
       role: undefined,
       hydrated: true
-    }));
+    });
   });
 
   it('should handle LOGIN_FAIL', () => {
     const message = 'Success';
     expect(
       reducer(undefined, { type: LOGIN_FAIL })
-    ).toEqual(Object.assign({}, initialState, {
+    ).toEqual({
+      ...initialState,
       isLoading: false,
       loaded: false,
       isAuthenticated: false,
-      hydrated: true
-    }));
+      hydrated: true,
+      error: undefined
+    });
   });
 });
