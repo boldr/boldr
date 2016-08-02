@@ -59,7 +59,6 @@ const render = () => {
             <Router routes={ routes } history={ history } helpers={ client }
               render={ applyRouterMiddleware(useScroll()) } key={ Math.random() }
             />
-
           </MuiThemeProvider>
         </Provider>
       </AppContainer>,

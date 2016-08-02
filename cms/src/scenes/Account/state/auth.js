@@ -57,7 +57,7 @@ export function doLogin(loginData, redir) {
         dispatch(notificationSend({
           message: 'Welcome back!',
           kind: 'info',
-          dismissAfter: 13000
+          dismissAfter: 3000
         }));
         if (redir) {
           dispatch(push(redir));
@@ -149,7 +149,12 @@ export function checkAuth() {
       })
       .catch(() => {
         dispatch(checkAuthFailure('Token is invalid'));
-        cookie.remove('token');
+        localStorage.removeItem('token');
+        dispatch(notificationSend({
+          message: 'There was a problem authenticating. Please login again.',
+          kind: 'error',
+          dismissAfter: 3000
+        }));
       });
   };
 }

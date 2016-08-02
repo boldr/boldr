@@ -8,7 +8,7 @@ BoldrAPI is the REST API for Boldr.
 # Group Auth
 
 
-# POST /auth/login
+# POST /api/v1/auth/login
 
 + Request (application/json; charset=utf-8)
 
@@ -28,7 +28,7 @@ BoldrAPI is the REST API for Boldr.
     + Headers
 
             Access-Control-Allow-Credentials: true
-            Etag: W/"d6-V49o70d0Yn8tDkgS6DUMNA"
+            Etag: W/"278-BRpxhPX21HHHDbTfL3NoRw"
             Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
             X-FRAME-OPTIONS: SAMEORIGIN
             X-XSS-Protection: 1; mode=block
@@ -36,7 +36,72 @@ BoldrAPI is the REST API for Boldr.
 
     + Body
 
-            {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQwNTA0Yjk1LTk4MGQtNDQ0Ni05NDk3LWE4ZmU2MjJlNjZkZSIsImlhdCI6MTQ2OTg1MjMyOSwiZXhwIjoxNDY5ODcwMzI5fQ.eSsd91dZoDSr7T5Vp1ELwAPKxlm4xWlNwRkj8075YFs","role":"admin"}
+            {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQwNTA0Yjk1LTk4MGQtNDQ0Ni05NDk3LWE4ZmU2MjJlNjZkZSIsImlhdCI6MTQ3MDA5ODQ1NCwiZXhwIjoxNDcwMTE2NDU0fQ.sLniHgz-pLIZ3pcQRjraaNMIF_PKXkvAia4daL-cMgY","user":{"id":"d0504b95-980d-4446-9497-a8fe622e66de","email":"admin@boldr.io","profile":{"displayName":"admin","firstName":"Admin","lastName":"User","gender":"male","location":"Somewhere, USA","website":"https://boldr.io","picture":"https://api.adorable.io/avatars/285/abott@adorable.io.png","role":"admin","bio":"Zombie nerd. Web practitioner. General music ninja. Infuriatingly humble introvert. Bacon fanatic. Pop culture geek."}}}
+
+# GET /api/v1/auth/check
+
++ Request
+
+    + Headers
+
+            Cookie: boldr:sid=s%3AgLfuUQRAlYKfgHUWekaalmgq8XpC6PDO.%2F1lRyt%2BIeRNgMmGsIT4erG38dFo0FCFf6nmXhYS10Ow
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQwNTA0Yjk1LTk4MGQtNDQ0Ni05NDk3LWE4ZmU2MjJlNjZkZSIsImlhdCI6MTQ3MDA4MTc1NSwiZXhwIjoxNDcwMDk5NzU1fQ.wp2KyI8AHm9yVqyxl-Op3P8mQULXRoRUa3tv81jwvF0
+
+
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Headers
+
+            Access-Control-Allow-Credentials: true
+            Etag: W/"18c-o3FIHfI/xjEWCUBsx/c8AQ"
+            Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+            X-FRAME-OPTIONS: SAMEORIGIN
+            X-XSS-Protection: 1; mode=block
+            Vary: Origin, Accept-Encoding
+
+    + Body
+
+            {"id":"d0504b95-980d-4446-9497-a8fe622e66de","email":"admin@boldr.io","profile":{"displayName":"admin","firstName":"Admin","lastName":"User","gender":"male","location":"Somewhere, USA","picture":"https://api.adorable.io/avatars/285/abott@adorable.io.png","role":"admin","bio":"Zombie nerd. Web practitioner. General music ninja. Infuriatingly humble introvert. Bacon fanatic. Pop culture geek."}}
+
+# POST /api/v1/auth/signup
+
++ Request (application/json; charset=utf-8)
+
+    + Headers
+
+            Cookie: boldr:sid=s%3AgLfuUQRAlYKfgHUWekaalmgq8XpC6PDO.%2F1lRyt%2BIeRNgMmGsIT4erG38dFo0FCFf6nmXhYS10Ow
+
+    + Body
+
+            {
+                "email": "user@boldr.io",
+                "password": "password",
+                "firstName": "Joe",
+                "lastName": "Smith",
+                "displayName": "Joey",
+                "gender": "Male",
+                "location": "Somewhere, USA",
+                "website": "https://boldr.io",
+                "bio": "Just a guy with a dream",
+                "picture": "//www.gravatar.com/avatar/7f6757aa49f015c17b7dbdd67e900e6d"
+            }
+
++ Response 201 (application/json; charset=utf-8)
+
+    + Headers
+
+            Access-Control-Allow-Credentials: true
+            Etag: W/"389-49u7Sl3+BUvqW32sZrVtGA"
+            Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+            X-FRAME-OPTIONS: SAMEORIGIN
+            X-XSS-Protection: 1; mode=block
+            Vary: Origin, X-HTTP-Method-Override, Accept-Encoding
+
+    + Body
+
+            {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZCI6IjE1NjUzNzE2LTMyMGYtNDQzMS1hYmIxLWM0NWJlMzdmZTQ3YyIsImVtYWlsIjoidXNlckBib2xkci5pbyIsInByb2ZpbGUiOnsiZGlzcGxheU5hbWUiOiJKb2V5IiwiZmlyc3ROYW1lIjoiIiwibGFzdE5hbWUiOiIiLCJnZW5kZXIiOiJNYWxlIiwibG9jYXRpb24iOiJTb21ld2hlcmUsIFVTQSIsIndlYnNpdGUiOiJodHRwczovL2JvbGRyLmlvIiwicGljdHVyZSI6Ii8vd3d3LmdyYXZhdGFyLmNvbS9hdmF0YXIvMzdiOTRiYTllNGZlNjlmOTc2MDE3NzM3MDY1M2M2MzgiLCJyb2xlIjoidXNlciIsImJpbyI6Ikp1c3QgYSBndXkgd2l0aCBhIGRyZWFtIn19LCJpYXQiOjE0NzAwOTg4NzMsImV4cCI6MTQ3MDExNjg3M30.c3ftb_WyCBVIPpAYUAM86ni8G48zX1MaFn2Ua9BsppU","user":{"id":"15653716-320f-4431-abb1-c45be37fe47c","email":"user@boldr.io","profile":{"displayName":"Joey","firstName":"Joe","lastName":"Smith","gender":"Male","location":"Somewhere, USA","website":"https://boldr.io","picture":"//www.gravatar.com/avatar/37b94ba9e4fe69f9760177370653c638","role":"user","bio":"Just a guy with a dream"}}}
+
 
 
 

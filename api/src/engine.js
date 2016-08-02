@@ -15,7 +15,7 @@ webserver(app);
 
 debug('routes');
 app.use('/api/v1', routes);
-app.use('/auth', authRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 errorHandling(app);
 

@@ -13,23 +13,16 @@
   opacity: .01;
 }
 .notification {
-  z-index: 99999;
+  position: relative;
+  font: 1rem normal Helvetica, sans-serif;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  max-height: 400px;
   box-sizing: border-box;
-  width: 100%;
-  padding: 15px;
-  background-color: #323232;
-  color: rgb(250, 250, 250);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: .01em;
-  line-height: 16px;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
-  border-radius: 2px;
-  transition: bottom .5s cubic-bezier(.42, 0, .58, 1);
-  font-family: sans-serif;
-  left: 10px;
-  max-width: 320px;
-  text-rendering: optimizeLegibility;
+  box-shadow: 0 0 1px 1px rgba(10, 10, 11, .125);
+  padding: .5rem;
+  color: #fff;
 }
 .notification--success {
   background-color: #64ce83;

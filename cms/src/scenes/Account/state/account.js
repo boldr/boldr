@@ -2,7 +2,7 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
-
+import { notificationSend } from 'core/state/notifications';
 import { API_BASE, API_AUTH } from 'core/api';
 import * as at from './constants';
 
@@ -40,8 +40,18 @@ export function createAccount(data) {
         if (response.status === 201) {
           dispatch(signUpSuccess(response));
           dispatch(push('/'));
+          dispatch(notificationSend({
+            message: 'Your account has been created!',
+            kind: 'info',
+            dismissAfter: 3000
+          }));
         } else {
           dispatch(signUpError('Oops! Something went wrong'));
+          dispatch(notificationSend({
+            message: 'There was a problem creating your account.',
+            kind: 'error',
+            dismissAfter: 3000
+          }));
         }
       })
       .catch(err => {

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+
 const inline = {
   zIndex: '99999',
   boxSizing: 'border-box',
