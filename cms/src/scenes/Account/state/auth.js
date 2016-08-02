@@ -6,6 +6,8 @@ import moment from 'moment';
 import fetch from 'core/fetch';
 import { createRequestat } from 'core/util/action';
 import { API_BASE, API_AUTH } from 'core/api';
+
+import { notificationSend } from 'core/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
 import * as at from './constants';
 
@@ -52,6 +54,11 @@ export function doLogin(loginData, redir) {
         localStorage.setItem('token', response.body.token);
         dispatch(loginSuccess(response));
         dispatch(loginPopulateAccount(response));
+        dispatch(notificationSend({
+          message: 'Welcome back!',
+          kind: 'info',
+          dismissAfter: 13000
+        }));
         if (redir) {
           dispatch(push(redir));
         } else {
@@ -61,6 +68,11 @@ export function doLogin(loginData, redir) {
       })
       .catch(err => {
         dispatch(loginError(err));
+        dispatch(notificationSend({
+          message: `There was a problem logging in ${err}`,
+          kind: 'error',
+          dismissAfter: 3000
+        }));
       });
   };
 }
@@ -81,6 +93,11 @@ export function logOut() {
   return (dispatch) => {
     localStorage.removeItem('token');
     dispatch(logoutSuccess());
+    dispatch(notificationSend({
+      message: 'You are now logged out of your account.',
+      kind: 'info',
+      dismissAfter: 3000
+    }));
   };
 }
 

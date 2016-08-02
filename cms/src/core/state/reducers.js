@@ -8,10 +8,12 @@ import siteUsersReducer from 'scenes/Dashboard/scenes/Users/state/siteUsers';
 import accountReducer from 'scenes/Account/state/account';
 import authReducer from 'scenes/Account/state/auth';
 import boldrReducer from './boldr';
+import notificationReducer from './notifications';
 
 const reducers = combineReducers({
   routing: routerReducer,
   form: formReducer,
+  notifications: notificationReducer,
   auth: authReducer,
   boldr: boldrReducer,
   blog: blogReducer,

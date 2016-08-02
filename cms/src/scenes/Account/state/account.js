@@ -1,9 +1,8 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import decode from 'jwt-decode';
-import cookie from 'react-cookie';
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
+
 import { API_BASE, API_AUTH } from 'core/api';
 import * as at from './constants';
 
@@ -166,13 +165,14 @@ export function loginPopulateAccount(response) {
 
 
 export function getMyProfile() {
+  const token = localStorage.getItem('token');
   return (dispatch) => {
     dispatch({
       type: at.GET_MY_PROFILE_REQUEST
     });
     return fetch(`${API_AUTH}/check`, {
       method: 'get',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${cookie.load('token')}` }
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
     }).then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
@@ -202,20 +202,20 @@ export function getPublicProfile(userId) {
       type: at.PUBLIC_PROFILE_REQUEST
     });
     return request.get(`${API_BASE}/users/${userId}`)
-    .then(response => {
-      if (response.status === 200) {
+      .then(response => {
+        if (response.status === 200) {
+          dispatch({
+            type: at.PUBLIC_PROFILE_SUCCESS,
+            payload: response.body
+          });
+        }
+      })
+      .catch(err => {
         dispatch({
-          type: at.PUBLIC_PROFILE_SUCCESS,
-          payload: response.body
+          type: at.PUBLIC_PROFILE_FAIL,
+          messages: err
         });
-      }
-    })
-    .catch(err => {
-      dispatch({
-        type: at.PUBLIC_PROFILE_FAIL,
-        messages: err
       });
-    });
   };
 }
 /**
@@ -225,18 +225,18 @@ const INITIAL_STATE = {
   isLoading: false,
   public: {},
   hydrated: false,
-  bio: null,
-  birthday: null,
-  displayName: null,
-  email: null,
-  firstName: null,
-  gender: null,
-  id: null,
-  lastName: null,
-  location: null,
-  picture: null,
-  role: null,
-  website: null
+  bio: '',
+  birthday: '',
+  displayName: '',
+  email: '',
+  firstName: '',
+  gender: '',
+  id: '',
+  lastName: '',
+  location: '',
+  picture: '',
+  role: '',
+  website: ''
 };
 
 /**

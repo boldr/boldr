@@ -164,6 +164,7 @@
     "node-fetch": "^1.5.3",
     "normalizr": "^2.2.1",
     "react": "15.3.0",
+    "react-addons-css-transition-group": "^15.3.0",
     "react-cookie": "^0.4.7",
     "react-dom": "15.3.0",
     "react-dropzone": "^3.5.3",

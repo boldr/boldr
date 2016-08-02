@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import TopBar from '../mol.TopBar';
+import Notifications from '../atm.Notification';
 
 const CoreLayout = (props) => {
   return (
@@ -12,7 +13,7 @@ const CoreLayout = (props) => {
       />
       <TopBar />
       { props.children }
-
+      <Notifications />
     </div>
   );
 };
@@ -24,7 +25,8 @@ CoreLayout.propTypes = {
 function mapStateToProps(state) {
   return {
     boldr: state.boldr,
-    auth: state.auth
+    auth: state.auth,
+    notifications: state.notifications
   };
 }
 
