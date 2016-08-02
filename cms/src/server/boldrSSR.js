@@ -11,11 +11,11 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import reactCookie from 'react-cookie';
 
-import BoldrTheme from '../../../styles/theme';
-import createStore from '../../../core/state/createStore';
-import ApiClient from '../../../core/api/ApiClient';
-import Html from '../../../components/tpl.Html';
-import getRoutes from '../../../scenes';
+import BoldrTheme from '../styles/theme';
+import createStore from '../core/state/createStore';
+import ApiClient from '../core/api/ApiClient';
+import Html from '../components/tpl.Html';
+import getRoutes from '../scenes';
 
 export default (req, res) => {
   if (__DEVELOPMENT__) {

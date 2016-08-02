@@ -1,7 +1,7 @@
 import http from 'http';
-import app from './engine';
+import app from './server';
 
-const debug = require('debug')('boldr:engine');
+const debug = require('debug')('boldr:serverSSR');
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -70,7 +70,12 @@ function runServer() { // let Sequalize automatically create tables
         ? `pipe ${addr}`
         : `port ${addr.port}`
     );
+    if (process.send) process.send('online');
     debug(`Listening on ${bind}`);
+    
+    console.log('--------------------------');
+    console.log('===> 😊  Starting Boldr SSR. . .');
+    console.log(`===> 🌎  Listening on ${process.env.SSR_PORT} with environment: ${process.env.NODE_ENV}`);
   });
 }
 

@@ -10,38 +10,17 @@ import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
 import { ROOT_DIR, SRC_DIR, WP_DS, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, BUILD_DIR } from '../constants';
 import isomorphicConfig from './isomorphic.config';
+import postCSSConfig from './loader/postcss.config';
+import BABELQUERY from './loader/babel.config';
+import createHappyPlugin from './util/createHappyPlugin';
+import createSourceLoader from './util/createSourceLoader';
 
-const happyThreadPool = HappyPack.ThreadPool({ size: 6 });
 const debug = Debug('boldr:webpack:client');
 dotenv.config({ silent: true });
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 
-const BABELQUERY = {
-  babelrc: false,
-  cacheDirectory: true,
-  // Do not include superfluous whitespace characters and line terminators.
-  // When set to "auto" compact is set to true on input sizes of >100KB.
-  compact: 'auto',
-  presets: ['react-hmre', 'react', 'es2015-webpack', 'stage-0'],
-  plugins: [['transform-runtime', { polyfill: true, regenerator: false }],
-    'react-hot-loader/babel', 'transform-decorators-legacy']
-};
-const postCSSConfig = function() {
-  return [
-    require('postcss-mixins')(),
-    require('postcss-simple-vars')(),
-    // Unwrap nested rules like how Sass does it
-    require('postcss-nested')(),
-    require('postcss-custom-media')(),
-    require('postcss-media-minmax')(),
-    require('lost')(),
-    require('postcss-reporter')({
-      clearMessages: true
-    })
-  ];
-};
 const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${WP_DS}/__webpack_hmr`;
 debug('Webpack is reading the client configuration.');
 // noinspection JSUnresolvedFunction
@@ -53,9 +32,6 @@ const clientDevConfig = {
     __dirname: true,
     __filename: true
   },
-  // use either cheap-eval-source-map or cheap-module-eval-source-map.
-  // cheap eval is faster than cheap-module
-  // see https://webpack.github.io/docs/build-performance.html#sourcemaps
   devtool: 'cheap-eval-source-map',
   context: ROOT_DIR,
   entry: {
@@ -71,7 +47,6 @@ const clientDevConfig = {
     filename: '[name].js',
     chunkFilename: '[name]-chunk.js',
     publicPath: `http://localhost:${WP_DS}/build/`
-
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
@@ -157,35 +132,5 @@ const clientDevConfig = {
     createHappyPlugin('css')
   ]
 };
-
-function createSourceLoader(spec) {
-  return Object.keys(spec).reduce((x, key) => {
-    x[key] = spec[key];
-
-    return x;
-  }, {
-    include: [path.resolve(ROOT_DIR, 'src')]
-  });
-}
-/**
- * Create the happypack plugin instance
- * @param id
- * @returns {HappyPlugin}
- */
-function createHappyPlugin(id) {
-  return new HappyPack({
-    id,
-    threadPool: happyThreadPool,
-
-    // disable happypack with HAPPY=0
-    enabled: true,
-
-    // disable happypack caching with HAPPY_CACHE=0
-    cache: true,
-
-    // make happypack more verbose with HAPPY_VERBOSE=1
-    verbose: true
-  });
-}
 
 module.exports = clientDevConfig;

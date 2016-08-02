@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
 import strip from 'strip-loader';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
 import {
   ROOT_DIR, SRC_DIR, NODE_MODULES_DIR, VENDOR_PREFIXES, VENDOR, ASSETS_DIR
@@ -88,7 +89,7 @@ const clientProdConfig = {
             'react-optimize'
           ],
           plugins: [['transform-runtime', { polyfill: true, regenerator: true }],
-            'transform-decorators-legacy']
+            'transform-decorators-legacy', 'lodash']
         }
       },
       { test: /\.(ttf|eot|woff(2)?)(\?[a-z0-9]+)?$/, loader: 'url-loader?limit=100000' },
@@ -146,6 +147,7 @@ const clientProdConfig = {
       async: true
     }),
     new InlineEnviromentVariablesPlugin(),
+    new LodashModuleReplacementPlugin,
     // needed for long-term caching
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({
