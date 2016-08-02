@@ -2,6 +2,7 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import { action } from 'core/util/action';
 import { API_BASE } from '../api';
+import { notificationSend } from './notifications';
 
 export const DONE_LOADING = 'DONE_LOADING';
 export const LOAD_SETTINGS = 'LOAD_SETTINGS';
@@ -89,10 +90,21 @@ export function saveBoldrSetup(data) {
         if (response.status === 201) {
           dispatch(saveSetupSuccess(response));
           dispatch(loadSettings());
+          dispatch(notificationSend({
+            message: 'Your site is set up!',
+            kind: 'info',
+            dismissAfter: 3000
+          }));
+          dispatch(push('/dashboard'));
         }
       })
       .catch(err => {
         dispatch(failedToSaveSetup(err));
+        dispatch(notificationSend({
+          message: `We ran into a problem with your set up ${err}`,
+          kind: 'error',
+          dismissAfter: 3000
+        }));
       });
   };
 }

@@ -17,7 +17,7 @@ router.route('/:slug')
 router.get('/id/:id', ctrl.showArticle);
 
 router.route('/:id')
-  .put(isAuthenticated(), ctrl.updateArticleById)
+  // .put(isAuthenticated(), ctrl.updateArticleById)
   .delete(isAuthenticated(), ctrl.deleteArticleBySlug);
 
 router.route('/:id/tags')

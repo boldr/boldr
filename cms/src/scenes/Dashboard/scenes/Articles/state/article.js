@@ -1,24 +1,21 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import cookies from 'react-cookie';
 import fetch from 'core/fetch';
 import { API_ARTICLES, API_MEDIA } from 'core/api';
-import { processResponse } from 'core/api/ApiClient';
+import { notificationSend } from 'core/state/notifications';
+import { processResponse, credentials, jsonHeaders } from 'core/api/ApiClient';
+import * as at from './constants';
 
 /**
  * GET ARTICLE ACTIONS
  */
-export const FETCH_ARTICLES_REQUEST = 'FETCH_ARTICLES_REQUEST';
-export const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS';
-export const FETCH_ARTICLES_FAIL = 'FETCH_ARTICLES_FAIL';
-
 export function requestArticles() {
-  return { type: FETCH_ARTICLES_REQUEST };
+  return { type: at.FETCH_ARTICLES_REQUEST };
 }
 
 export function receiveArticles(json) {
   return {
-    type: FETCH_ARTICLES_SUCCESS,
+    type: at.FETCH_ARTICLES_SUCCESS,
     result: json
   };
 }
@@ -53,22 +50,18 @@ export function fetchArticlesIfNeeded() {
   };
 }
 
-export const SELECT_ARTICLE = 'SELECT_ARTICLE';
-export const SELECT_ARTICLE_SUCCESS = 'SELECT_ARTICLE_SUCCESS';
-export const SELECT_ARTICLE_FAIL = 'SELECT_ARTICLE_FAIL';
-
 function articleSelected(articleId) {
   return {
-    type: SELECT_ARTICLE,
+    type: at.SELECT_ARTICLE,
     id: articleId
   };
 }
 const receiveArticle = (response) => ({
-  type: SELECT_ARTICLE_SUCCESS,
+  type: at.SELECT_ARTICLE_SUCCESS,
   current: response.body
 });
 const receiveArticleFailed = (err) => ({
-  type: SELECT_ARTICLE_FAIL,
+  type: at.SELECT_ARTICLE_FAIL,
   message: err
 });
 export function selectArticle(articleId) {
@@ -87,24 +80,22 @@ export function selectArticle(articleId) {
   };
 }
 
-export const UPLOAD_IMAGE_REQUEST = 'UPLOAD_IMAGE_REQUEST';
-export const UPLOAD_IMAGE_SUCCESS = 'UPLOAD_IMAGE_SUCCESS';
-export const UPLOAD_IMAGE_FAIL = 'UPLOAD_IMAGE_FAIL';
+
 
 const beginUploadImage = () => {
-  return { type: UPLOAD_IMAGE_REQUEST };
+  return { type: at.UPLOAD_IMAGE_REQUEST };
 };
 // Fetch Articles Success
 export function uploadImageSuccess(response) {
   return {
-    type: UPLOAD_IMAGE_SUCCESS,
+    type: at.UPLOAD_IMAGE_SUCCESS,
     payload: response.body
   };
 }
 // Fetch Articles Error
 export function uploadImageFail(err) {
   return {
-    type: UPLOAD_IMAGE_FAIL,
+    type: at.UPLOAD_IMAGE_FAIL,
     error: err
   };
 }
@@ -113,8 +104,8 @@ export function uploadFeatureImage(imageData) {
   return (dispatch) => {
     dispatch(beginUploadImage());
     return request
-      .post('http://localhost:9121/api/v1/medias/articles')
-      .set('Authorization', `Bearer ${cookies.load('token')}`)
+      .post(`${API_MEDIA}/articles`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .set('Content-Type', 'multipart/form-data')
       .attach('photo', imageData)
       .end()
@@ -132,24 +123,22 @@ export function uploadFeatureImage(imageData) {
 /**
  * CREATE ARTICLE ACTIONS
  */
-export const CREATE_ARTICLE_REQUEST = 'CREATE_ARTICLE_REQUEST';
-export const CREATE_ARTICLE_SUCCESS = 'CREATE_ARTICLE_SUCCESS';
-export const CREATE_ARTICLE_FAIL = 'CREATE_ARTICLE_FAIL';
+
 
 const beginCreateArticle = () => {
-  return { type: CREATE_ARTICLE_REQUEST };
+  return { type: at.CREATE_ARTICLE_REQUEST };
 };
 // Fetch Articles Success
 export function createArticleSuccess(response) {
   return {
-    type: CREATE_ARTICLE_SUCCESS,
+    type: at.CREATE_ARTICLE_SUCCESS,
     payload: response.body
   };
 }
 // Fetch Articles Error
 export function errorCreatingArticle(err) {
   return {
-    type: CREATE_ARTICLE_FAIL,
+    type: at.CREATE_ARTICLE_FAIL,
     error: err
   };
 }
@@ -159,7 +148,7 @@ export function createArticle(articleData) {
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${cookies.load('token')}`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .send({
         title: articleData.title,
         content: articleData.content,
@@ -169,6 +158,11 @@ export function createArticle(articleData) {
       .then(response => {
         if (response.status === 201) {
           dispatch(createArticleSuccess(response));
+          dispatch(notificationSend({
+            message: 'Article created successfully.',
+            kind: 'info',
+            dismissAfter: 3000
+          }));
         }
       })
       .catch(err => {
@@ -177,11 +171,70 @@ export function createArticle(articleData) {
   };
 }
 
+export function updateArticleDetails() {
+  return {
+    type: at.UPDATE_ARTICLE_REQUEST
+  };
+}
+export function updateArticleSuccess() {
+  return {
+    type: at.UPDATE_ARTICLE_SUCCESS
+  };
+}
+export function errorUpdatingArticle(err) {
+  return {
+    type: at.UPDATE_ARTICLE_FAIL,
+    error: err
+  };
+}
+export function updateArticle(articleData) {
+  // const articleSlug = slug(articleData.title);
+  const payload = {
+    title: articleData.title,
+    content: articleData.content,
+    excerpt: articleData.excerpt,
+    featureImage: articleData.featureImage,
+    status: articleData.status
+  };
+  return dispatch => {
+    dispatch(updateArticleDetails(articleData));
+    return request
+      .put(`${API_ARTICLES}/${articleData.origSlug}`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .send({
+        // title: articleData.title,
+        content: articleData.content,
+        excerpt: articleData.excerpt,
+        featureImage: articleData.featureImage,
+        tags: articleData.tags,
+        status: articleData.status
+      })
+      .then(response => {
+        dispatch(updateArticleSuccess(response));
+        dispatch(notificationSend({
+          message: 'Updated article.',
+          kind: 'info',
+          dismissAfter: 3000
+        }));
+      })
+      .catch(
+        err => {
+          dispatch(errorUpdatingArticle(err.message));
+          dispatch(notificationSend({
+            message: 'There was a problem updating the article.',
+            kind: 'error',
+            dismissAfter: 3000
+          }));
+        });
+  };
+}
+
 export const INITIAL_STATE = {
   isLoading: false,
   message: undefined,
   articles: [],
-  current: {}
+  current: {},
+  isEditing: false
 };
 
 /**
@@ -191,58 +244,61 @@ export const INITIAL_STATE = {
  */
 export default function article(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-    case FETCH_ARTICLES_REQUEST:
+    case at.FETCH_ARTICLES_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case FETCH_ARTICLES_SUCCESS:
+    case at.FETCH_ARTICLES_SUCCESS:
       return {
         ...state,
         isLoading: false,
         articles: action.result
       };
-    case FETCH_ARTICLES_FAIL:
+    case at.FETCH_ARTICLES_FAIL:
       return {
         ...state,
         isLoading: false,
         message: action.error
       };
-    case CREATE_ARTICLE_REQUEST:
+    case at.CREATE_ARTICLE_REQUEST:
       return {
         ...state,
         isLoading: false,
         message: action.error
       };
-    case CREATE_ARTICLE_SUCCESS:
+    case at.CREATE_ARTICLE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         message: action.error
       };
-    case CREATE_ARTICLE_FAIL:
+    case at.CREATE_ARTICLE_FAIL:
       return {
         ...state,
         isLoading: false,
         message: action.error
       };
-    case SELECT_ARTICLE:
+    case at.SELECT_ARTICLE:
       return {
         ...state,
         isLoading: false,
-        id: action.id
+        id: action.id,
+        isEditing: true
       };
-    case SELECT_ARTICLE_SUCCESS:
+    case at.SELECT_ARTICLE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        current: action.current
+        current: action.current,
+        isEditing: true
       };
-    case SELECT_ARTICLE_FAIL:
+    case at.SELECT_ARTICLE_FAIL:
       return {
         ...state,
         isLoading: false,
-        message: action.message
+        message: action.message,
+        isEditing: true
       };
     default:
       return state;

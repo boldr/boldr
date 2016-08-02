@@ -15,11 +15,15 @@ export function processResponse(response) {
     return json;
   });
 }
+if (!__SERVER__) {
+  const token = localStorage.getItem('token');
+}
 
 export const credentials = 'same-origin';
 export const jsonHeaders = {
   Accept: 'application/json',
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${localStorage.getItem('token')}`
 };
 
 function formatUrl(path) {
