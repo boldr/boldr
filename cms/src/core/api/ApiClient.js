@@ -15,9 +15,6 @@ export function processResponse(response) {
     return json;
   });
 }
-if (!__SERVER__) {
-  const token = localStorage.getItem('token');
-}
 
 export const credentials = 'same-origin';
 export const jsonHeaders = {
