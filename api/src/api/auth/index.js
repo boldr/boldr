@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 import passport from 'passport';
 import { User } from '../../db/models';
 import configureLocalPassport from './providers/local';
@@ -17,9 +17,9 @@ passport.deserializeUser((id, done) => {
   }).catch(done);
 });
 
-const router = express.Router();
+const router = new Router();
 
-router.use('/login', ctrl.handleLogin);
+router.post('/login', ctrl.handleLogin);
 
 router.post('/signup', ctrl.handleSignup);
 router.post('/logout', ctrl.logout);

@@ -6,7 +6,7 @@ import tagRoutes from './tag/tag.router';
 import articleRoutes from './article/article.router';
 import settingRoutes from './setting/setting.router';
 import categoryRoutes from './category/category.router';
-
+import authRoutes from './auth';
 
 const router = Router();
 
@@ -26,5 +26,5 @@ router.use('/s3', s3router({
   headers: { 'Access-Control-Allow-Origin': '*' }, // optional
   ACL: 'public-read' // this is default
 }));
-
+router.use('/auth', authRoutes);
 export default router;

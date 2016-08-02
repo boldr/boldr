@@ -53,14 +53,7 @@ export default app => {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
-  app.all('/*', (req, res, next) => {
-    // CORS headers
-    res.header('Access-Control-Allow-Origin', 'http://localhost:9221'); // restrict it to the required domain
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    // Set custom headers for CORS
-    res.header('Access-Control-Allow-Headers', 'Content-type,Accept');
-  });
+
   if (env !== 'test') {
     app.use(lusca({
       xframe: 'SAMEORIGIN',
