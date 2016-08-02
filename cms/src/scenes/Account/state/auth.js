@@ -48,7 +48,7 @@ export function doLogin(loginData, redir) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
-      .post(`${API_AUTH}/login`)
+      .post(`${API_BASE}/auth/login`)
       .send(loginData)
       .then(response => {
         localStorage.setItem('token', response.body.token);

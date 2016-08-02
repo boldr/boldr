@@ -4,8 +4,8 @@ import Boom from 'boom';
 import moment from 'moment';
 import passport from 'passport';
 
-import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../lib';
-import { User, VerificationToken } from '../db/models';
+import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm } from '../../lib';
+import { User, VerificationToken } from '../../db/models';
 import { signToken } from './auth.service';
 
 function handleLogin(req, res, next) {

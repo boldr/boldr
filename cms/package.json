@@ -73,7 +73,7 @@
         "NODE_PATH": "./src",
         "SSR_PORT": 9221,
         "SITE_URL": "http://localhost:9221",
-        "API_BASE": "/api/v1",
+        "API_BASE": "http://localhost:9121/api/v1",
         "TARGET_URL": "http://localhost:9121",
         "WP_DS": 3001
       }
@@ -94,7 +94,7 @@
         "NODE_PATH": "./src",
         "SSR_PORT": 9221,
         "SITE_URL": "http://localhost:9221",
-        "API_BASE": "/api/v1",
+        "API_BASE": "http://localhost:9121/api/v1",
         "TARGET_URL": "http://localhost:9121",
         "WP_DS": 3001
       }

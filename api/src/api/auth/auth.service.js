@@ -3,13 +3,11 @@ import expressJwt from 'express-jwt';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import compose from 'composable-middleware';
-import { User } from '../db/models';
+import { User } from '../../db/models';
 
-const config = require('../core/config/boldr');
+const config = require('../../core/config/boldr');
 
 const validateJwt = expressJwt({ secret: config.session.secret });
-export const requireAuth = passport.authenticate('jwt');
-
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403

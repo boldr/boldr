@@ -4,8 +4,8 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import flash from 'express-flash';
 import cookieParser from 'cookie-parser';
-import methodOverride from 'method-override';
 import expressJwt from 'express-jwt';
+import methodOverride from 'method-override';
 import cors from 'cors';
 import lusca from 'lusca';
 import morgan from 'morgan';
@@ -30,13 +30,16 @@ export default app => {
 
   app.use(cors({ origin: true, credentials: true }));
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   app.use(methodOverride('X-HTTP-Method-Override'));
   app.use(express.static(path.resolve('public')));
 
   app.options('*', (req, res) => res.sendStatus(200));
-
+  app.use(expressJwt({
+    secret: config.session.secret,
+    credentialsRequired: false
+  }));
   app.use(cookieParser(config.session.secret));
 
   app.use(session({
@@ -50,7 +53,14 @@ export default app => {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
-
+  app.all('/*', (req, res, next) => {
+    // CORS headers
+    res.header('Access-Control-Allow-Origin', 'http://localhost:9221'); // restrict it to the required domain
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    // Set custom headers for CORS
+    res.header('Access-Control-Allow-Headers', 'Content-type,Accept');
+  });
   if (env !== 'test') {
     app.use(lusca({
       xframe: 'SAMEORIGIN',

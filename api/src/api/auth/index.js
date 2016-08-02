@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import express from 'express';
 import passport from 'passport';
-import { User } from '../db/models';
+import { User } from '../../db/models';
 import configureLocalPassport from './providers/local';
 import * as ctrl from './auth.controller';
-import { isAuthenticated, requireAuth } from './auth.service';
+import { isAuthenticated } from './auth.service';
 
 configureLocalPassport(User);
 
@@ -17,7 +17,7 @@ passport.deserializeUser((id, done) => {
   }).catch(done);
 });
 
-const router = new Router();
+const router = express.Router();
 
 router.use('/login', ctrl.handleLogin);
 

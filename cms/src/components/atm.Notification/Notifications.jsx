@@ -13,7 +13,7 @@ import Notification from './Notification';
 
 
 function Notifications(props) {
-  const { notifications, className, componentClassName, CustomComponent, transitionEnterTimeout, transitionLeaveTimeout, onActionClick, actionLabel } = props;
+  const { notifications, className, transitionEnterTimeout, transitionLeaveTimeout, onActionClick, actionLabel } = props;
 
   const items = notifications.map((notification) => (
     <Notification
@@ -21,21 +21,19 @@ function Notifications(props) {
       id={ getter(notification, 'id') }
       message={ getter(notification, 'message') }
       kind={ getter(notification, 'kind') }
-      componentClassName={ componentClassName }
-      CustomComponent={ CustomComponent }
       onActionClick={ onActionClick }
       actionLabel={ actionLabel }
     />
   ));
   const classes = [
-    `${componentClassName}__container`,
+    'notification__container',
     className || null
   ].join(' ').split();
 
   return (
     <div className={ cx(classes) } >
       <TransitionGroup
-        transitionName={ `${componentClassName}-transition` }
+        transitionName={ 'notification-transition' }
         transitionEnterTimeout={ transitionEnterTimeout }
         transitionLeaveTimeout={ transitionLeaveTimeout }
       >
@@ -47,7 +45,6 @@ function Notifications(props) {
 
 Notifications.defaultProps = {
   className: null,
-  componentClassName: 'notification',
   transitionEnterTimeout: 600,
   transitionLeaveTimeout: 600,
   onActionClick: null,
@@ -57,8 +54,6 @@ Notifications.defaultProps = {
 Notifications.propTypes = {
   notifications: React.PropTypes.array,
   className: React.PropTypes.string,
-  CustomComponent: React.PropTypes.func,
-  componentClassName: React.PropTypes.string,
   transitionEnterTimeout: React.PropTypes.number,
   transitionLeaveTimeout: React.PropTypes.number,
   onActionClick: React.PropTypes.func,

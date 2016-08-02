@@ -1,6 +1,7 @@
 ### 0.4.0
-> 7/26/2016
+> 8/01/2016
 
+- **Feature:** Notifications are now a thing. Still being styled and added everywhere, but they exist and they work.
 
 
 ### 0.3.8

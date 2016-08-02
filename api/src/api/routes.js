@@ -7,6 +7,7 @@ import articleRoutes from './article/article.router';
 import settingRoutes from './setting/setting.router';
 import categoryRoutes from './category/category.router';
 
+
 const router = Router();
 
 /** GET /health-check - Check service health */
@@ -25,6 +26,5 @@ router.use('/s3', s3router({
   headers: { 'Access-Control-Allow-Origin': '*' }, // optional
   ACL: 'public-read' // this is default
 }));
-
 
 export default router;

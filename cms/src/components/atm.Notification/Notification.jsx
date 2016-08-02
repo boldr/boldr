@@ -1,4 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames/bind';
+import styles from './style.css';
+
+const cx = styles::classNames;
 
 const inline = {
   zIndex: '99999',
@@ -36,24 +40,21 @@ class Notification extends Component {
   }
 
   render() {
-    const { kind, CustomComponent, componentClassName, actionLabel } = this.props;
-    const component = !CustomComponent ?
-      <div style={ inline } className={ `${componentClassName} ${componentClassName}--${kind}` }>
-          <div className={ `${componentClassName}__icon` } />
-          <div className={ `${componentClassName}__content` }>
-            <span className={ `${componentClassName}__message` }>{ this.props.message }</span>
+    const { kind, actionLabel } = this.props;
+    return (
+        <div style={ inline } className={ cx(`notification notification--${kind}`) }>
+          <div className={ cx('notification__icon') } />
+          <div className={ cx('notification__content') }>
+            <span className={ cx('notification__message') }>{ this.props.message }</span>
           </div>
           { actionLabel &&
-            <span className={ `${componentClassName}__action` }>
+            <span className={ cx('notification__action') }>
               <button onClick={ this._onActionClick }>{ this.props.actionLabel }</button>
             </span>
           }
-          <div className={ `${componentClassName}__close` } />
+          <div className={ cx('notification__close') } />
       </div>
-      :
-      <CustomComponent { ...this.props } />;
-
-    return component;
+    );
   }
 }
 
@@ -65,14 +66,8 @@ Notification.propTypes = {
   id: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
   message: React.PropTypes.string.isRequired,
   kind: React.PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
-  componentClassName: React.PropTypes.string,
   onActionClick: React.PropTypes.func,
-  actionLabel: React.PropTypes.string,
-  CustomComponent: React.PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.element
-  ])
+  actionLabel: React.PropTypes.string
 };
 
 export default Notification;

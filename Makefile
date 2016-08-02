@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help
+.PHONY: help install-api install-cms
 
 install-api:
 	@echo "Installing Node dependencies for Boldr API module"

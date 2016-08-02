@@ -1,9 +1,8 @@
 import _debug from 'debug';
 import express from 'express';
-
+import authRoutes from './api/auth';
 import models from './db/models';
 import routes from './api/routes';
-import authRoutes from './auth';
 import { webserver, errorHandling } from './core';
 
 const debug = _debug('boldr:server');
