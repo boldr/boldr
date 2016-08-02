@@ -13,21 +13,13 @@ import ActionDescription from 'material-ui/svg-icons/action/description';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
 import { logOut } from 'scenes/Account/state/auth';
-import { goHome } from '../../core/state/boldr';
-
 import SiteLogo from 'components/atm.SiteLogo/index';
+import { goHome } from '../../core/state/boldr';
 
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';
 
 class TopBar extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object
-  };
-  static propTypes = {
-    auth: PropTypes.object,
-    actions: PropTypes.object
-  }
   constructor(props) {
     super(props);
     this.state = {};
@@ -47,6 +39,7 @@ class TopBar extends React.Component {
     });
   }
   render() {
+
     return (
       <div className="topbar">
         <div className="topbar__content">
@@ -62,21 +55,30 @@ class TopBar extends React.Component {
             iconElementRight={
               <div>
                 <IconMenu
-                  iconButtonElement={ <IconButton><SocialPerson color={ iconColor } /></IconButton> }
+                  iconButtonElement={
+                    <IconButton>
+                      <SocialPerson color={ iconColor } />
+                    </IconButton>
+                  }
                 >
                   {
                     this.props.auth.isAuthenticated ?
                       <div>
-                        <MenuItem value="4"><Link to="/profile">Profile</Link></MenuItem>
-                        <MenuItem value="5"><Link to="/account/preferences">Preferences</Link></MenuItem>
-                        <MenuItem value="3" onClick={ ::this.handleClickSignout }>Sign Out</MenuItem></div> :
-                          <div>
-                            <MenuItem value="1"><Link to="/account/login">Login</Link></MenuItem>
-                            <MenuItem value="2"><Link to="/account/signup">Signup</Link></MenuItem>
-                          </div>
+                        <MenuItem value="4">
+                          <Link to="/profile">Profile</Link>
+                        </MenuItem>
+                        <MenuItem value="5">
+                          <Link to="/account/preferences">Preferences</Link>
+                        </MenuItem>
+                        <MenuItem value="3" onClick={ ::this.handleClickSignout }>Sign Out</MenuItem>
+                      </div> :
+                      <div>
+                        <MenuItem value="1"><Link to="/account/login">Login</Link></MenuItem>
+                        <MenuItem value="2"><Link to="/account/signup">Signup</Link></MenuItem>
+                      </div>
                   }
                 </IconMenu>
-                <Link to="/blog" >
+                <Link to="/blog">
                   <IconButton>
                     <ActionDescription color={ iconColor } />
                   </IconButton>
@@ -96,6 +98,15 @@ class TopBar extends React.Component {
     );
   }
 }
+
+TopBar.contextTypes = {
+  router: PropTypes.object
+};
+TopBar.propTypes = {
+  auth: PropTypes.object,
+  actions: PropTypes.object
+};
+
 const mapStateToProps = (state) => {
   return {
     boldr: state.boldr,

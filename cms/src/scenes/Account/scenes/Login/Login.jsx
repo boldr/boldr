@@ -5,7 +5,7 @@ import { Card } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import { Heading } from 'components/index';
-// import { facebookLogin, twitterLogin, googleLogin, githubLogin } from '../../state/oauth';
+
 import { doLogin } from '../../state/auth';
 import { LoginForm } from '../../components';
 import styles from '../../styles.css';
@@ -43,13 +43,10 @@ class Login extends Component {
           <Card className={ cx('auth-card') }>
 
             { this.renderHeader() }
-            <div>
-              <p>{ message }</p>
               <LoginForm onSubmit={ ::this.handleOnSubmit } />
               <div className={ cx('auth-card__footer') }>
                 <p><Link to="/account/forgot-password">Forgot your password?</Link></p>
               </div>
-            </div>
           </Card>
         </section>
       </div>

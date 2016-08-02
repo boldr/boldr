@@ -83,7 +83,7 @@ export function saveBoldrSetup(data) {
     dispatch(startSaveSetup());
     return request
       .post(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${cookie.load('token')}`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .send(data)
       .then(response => {
         if (response.status === 201) {
@@ -98,14 +98,7 @@ export function saveBoldrSetup(data) {
 }
 
 
-export const TOGGLE_SNACKBAR = 'TOGGLE_SNACKBAR';
-export const NOTIF_CREATE = 'NOTIF_CREATE';
-export const NOTIF_PUBLISH = 'NOTIF_PUBLISH';
-export const NOTIF_DESTROY = 'NOTIF_DESTROY';
-
 export const INITIAL_STATE = {
-  isShowingSnackBar: false,
-  snackBarMessage: null,
   isLoading: false,
   siteName: null,
   description: null,
@@ -158,10 +151,6 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         ...state,
         isLoading: false
       };
-    case NOTIF_PUBLISH:
-      return state.concat(action.payload);
-    case NOTIF_DESTROY:
-      return state.filter(notif => notif.id !== action.payload.id);
     default:
       return state;
   }

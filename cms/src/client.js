@@ -34,6 +34,7 @@ const client = new ApiClient();
 const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
+const { dispatch } = store;
 
 const token = localStorage.getItem('token');
 
@@ -78,7 +79,7 @@ const render = () => {
           path: renderProps.location.pathname,
           query: renderProps.location.query,
           params: renderProps.params,
-          dispatch: store.dispatch
+          dispatch
         };
         // Don't fetch data for initial route, server has already done the work:
         if (window.__data) {

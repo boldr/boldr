@@ -2,18 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames/bind';
+import Notification from './Notification';
+import styles from './style.css';
 
 const cx = styles::classNames;
 
-import styles from './style.css';
-
 const getter = (obj, propName) => (obj.get ? obj.get(propName) : obj[propName]);
 
-import Notification from './Notification';
-
-
 function Notifications(props) {
-  const { notifications, className, transitionEnterTimeout, transitionLeaveTimeout, onActionClick, actionLabel } = props;
+  const {
+    notifications, className, transitionEnterTimeout, transitionLeaveTimeout,
+    onActionClick, actionLabel
+  } = props;
 
   const items = notifications.map((notification) => (
     <Notification

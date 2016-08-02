@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
+import { Link } from 'react-router/es6';
 import { List, ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
@@ -26,13 +27,7 @@ const iconButtonElement = (
   </IconButton>
 );
 
-const rightIconMenu = (
-  <IconMenu iconButtonElement={ iconButtonElement }>
-    <MenuItem>Edit</MenuItem>
-    <MenuItem>Unpublish</MenuItem>
-    <MenuItem>Delete</MenuItem>
-  </IconMenu>
-);
+
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchArticlesIfNeeded())
@@ -41,20 +36,30 @@ class Articles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      artId: ''
     };
   }
 
-  handleArticleClick(articleId) {
+  handleArticleClick(articleId, artSlug) {
     this.props.dispatch(selectArticle(articleId));
     this.setState({
-      visible: true
+      visible: true,
+      slug: artSlug
     });
   }
   render() {
     if (!this.props.article.articles.length) {
       return <h1>Perhaps you should create a new post?</h1>;
     }
+    // FIXME: Better way to set the article slug state. Currently you have to click on the card...
+    const rightIconMenu = (
+      <IconMenu iconButtonElement={ iconButtonElement }>
+        <MenuItem><Link to={ `/dashboard/articles/editor/${this.state.slug}` }>Edit</Link></MenuItem>
+        <MenuItem>Unpublish</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </IconMenu>
+    );
     return (
       <div className="row">
        <div className="col-xs-12 col-md-4">

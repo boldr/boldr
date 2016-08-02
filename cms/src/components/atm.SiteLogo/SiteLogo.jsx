@@ -1,7 +1,7 @@
 import React from 'react';
 import BoldrLogo from 'components/atm.BoldrLogo';
 
-const is: Object = {
+const is = {
   logo: {
     paddingTop: '5px'
   },

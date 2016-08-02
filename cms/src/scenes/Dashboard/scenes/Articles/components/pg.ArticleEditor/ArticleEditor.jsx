@@ -19,9 +19,10 @@ class ArticleEditor extends Component {
   }
 
   render() {
+    const isNew = this.props.article.current.length;
     return (
       <div>
-        <NewArticleForm onSubmit={ ::this.handleSubmit } />
+        <NewArticleForm initialValues={ this.props.article.current } editing={ isNew } onSubmit={ ::this.handleSubmit } />
       </div>
     );
   }

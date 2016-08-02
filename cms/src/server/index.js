@@ -35,7 +35,9 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 function runServer() { // let Sequalize automatically create tables
-  server.listen(port);
+  server.listen(port, err => {
+    require('../../tools/scripts/fbDX').listen(port, err);
+  });
 
   server.on('error', (error) => {
     if (error.syscall !== 'listen') {
@@ -72,7 +74,7 @@ function runServer() { // let Sequalize automatically create tables
     );
     if (process.send) process.send('online');
     debug(`Listening on ${bind}`);
-    
+
     console.log('--------------------------');
     console.log('===> 😊  Starting Boldr SSR. . .');
     console.log(`===> 🌎  Listening on ${process.env.SSR_PORT} with environment: ${process.env.NODE_ENV}`);

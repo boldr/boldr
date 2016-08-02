@@ -16,7 +16,8 @@ const cx = styles::classNames;
 const ArticleListItem = props => {
   function handleclick() {
     const articleId = props.article.id;
-    props.handleArticleClick(articleId);
+    const artSlug = props.article.slug;
+    props.handleArticleClick(articleId, artSlug);
   }
   return (
      <div className={ cx('article-wrap') }>

@@ -14,16 +14,12 @@ export default class Html extends Component {
     const { styles, assets: _assets } = assets;
     const stylesArray = Object.keys(styles);
 
-      // styles (will be present only in production with webpack extract text plugin)
     if (stylesArray.length !== 0) {
       return stylesArray.map((style, i) =>
           <link href={ assets.styles[style] } key={ i } rel="stylesheet" type="text/css" />
         );
     }
 
-      // (will be present only in development mode)
-      // It's not mandatory but recommended to speed up loading of styles
-      // (resolves the initial style flash (flicker) on page load in development mode)
     const scssPaths = Object.keys(_assets).filter(asset => asset.includes('.scss'));
     return scssPaths.map((style, i) =>
         <style dangerouslySetInnerHTML={ { __html: _assets[style]._style } } key={ i } />
@@ -36,7 +32,7 @@ export default class Html extends Component {
     const head = Helmet.rewind();
 
     return (
-      <html lang="en-us">
+      <html lang="en">
         <head>
           <Helmet />
           { head.base.toComponent() }
