@@ -54,6 +54,10 @@ const Setting = Model.define('setting', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true
+  },
+  config: {
+    type: DataTypes.JSON,
+    allowNull: true
   }
 }, {
   tableName: 'setting',

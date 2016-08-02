@@ -28,8 +28,7 @@ module.exports = {
           type: DataTypes.STRING(64)
         },
         gender: {
-          type: DataTypes.STRING,
-          defaultValue: ''
+          type: DataTypes.ENUM('male', 'female', 'trans')
         },
         bio: {
           type: DataTypes.TEXT,

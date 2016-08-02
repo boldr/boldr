@@ -51,28 +51,19 @@ const Media = Model.define('media', {
     type: DataTypes.INTEGER
   },
   s3url: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  ownerId: {
-    type: DataTypes.UUID,
-    references: {
-      model: User,
-      key: 'id'
-    }
-  },
-  categoryId: {
-    type: DataTypes.UUID,
-    references: {
-      model: Category,
-      key: 'id'
-    }
+    type: DataTypes.STRING
   },
   createdAt: {
     type: DataTypes.DATE
   },
   updatedAt: {
     type: DataTypes.DATE
+  },
+  ownerId: {
+    type: DataTypes.UUID,
+    references: {
+      model: User
+    }
   }
 }, {
   tableName: 'media',

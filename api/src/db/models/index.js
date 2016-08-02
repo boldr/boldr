@@ -58,17 +58,18 @@ User.hasMany(Article, {
   onDelete: 'cascade'
 });
 
+
 User.hasMany(Media, {
   foreignKey: 'ownerId',
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
-
-Media.belongsTo(User, {
-  foreignKey: 'mediaId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
+//
+// Media.belongsTo(User, {
+//   foreignKey: 'mediaId',
+//   onUpdate: 'cascade',
+//   onDelete: 'cascade'
+// });
 
 
 Article.hasMany(ArticleTag);
@@ -86,19 +87,19 @@ User.hasOne(VerificationToken, {
 VerificationToken.belongsTo(User, {
   foreignKey: 'userId'
 });
-
-Media.hasMany(MediaCategory, {
-  foreignKey: 'mediaId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
-Category.hasMany(MediaCategory, {
-  foreignKey: 'categoryId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
-MediaCategory.belongsTo(Media);
-MediaCategory.belongsTo(Category);
+//
+// Media.hasMany(MediaCategory, {
+//   foreignKey: 'mediaId',
+//   onUpdate: 'cascade',
+//   onDelete: 'cascade'
+// });
+// Category.hasMany(MediaCategory, {
+//   foreignKey: 'categoryId',
+//   onUpdate: 'cascade',
+//   onDelete: 'cascade'
+// });
+// MediaCategory.belongsTo(Media);
+// MediaCategory.belongsTo(Category);
 
 Tag.addScope('taggedInArticle', {
   distinct: 'id',
@@ -139,7 +140,7 @@ User.sync().then(() => {
         displayName: 'Admin User',
         email: 'admin@boldr.io',
         firstName: 'Admin',
-        gender: 'maile',
+        gender: 'male',
         lastName: 'User',
         location: 'Somewhere, USA',
         password: 'password',

@@ -30,20 +30,16 @@ module.exports = {
             type: DataTypes.INTEGER
           },
           s3url: {
-            type: DataTypes.STRING,
-            allowNull: false
-          },
-          ownerId: {
-            type: DataTypes.UUID
-          },
-          categoryId: {
-            type: DataTypes.UUID
+            type: DataTypes.STRING
           },
           createdAt: {
             type: DataTypes.DATE
           },
           updatedAt: {
             type: DataTypes.DATE
+          },
+          ownerId: {
+            type: DataTypes.UUID
           }
         }
       );

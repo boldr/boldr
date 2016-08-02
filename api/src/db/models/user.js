@@ -58,22 +58,21 @@ const User = Model.define('user', {
     defaultValue: ''
   },
   gender: {
-    type: DataTypes.STRING,
-    defaultValue: ''
+    type: DataTypes.ENUM('male', 'female', 'trans')
   },
   birthday: {
     type: DataTypes.DATE
   },
   location: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(128),
     defaultValue: ''
   },
   website: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(128),
     defaultValue: ''
   },
   picture: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(256),
     defaultValue: ''
   },
   resetPasswordToken: {
