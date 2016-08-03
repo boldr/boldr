@@ -11,7 +11,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
-import Perf from 'react-addons-perf'
 // Non-vendor
 
 import BoldrTheme from './styles/theme';

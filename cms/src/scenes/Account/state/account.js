@@ -14,20 +14,23 @@ import * as at from './constants';
 const beginSignUp = () => {
   return { type: at.CREATE_ACCOUNT_REQUEST };
 };
+
 // Signup Success
-export function signUpSuccess(response) {
+const signUpSuccess = (response) => {
   return {
     type: at.CREATE_ACCOUNT_SUCCESS,
     payload: response
   };
-}
+};
+
 // Signup Error
-export function signUpError(err) {
+export const signUpError = (err) => {
   return {
     type: at.CREATE_ACCOUNT_FAIL,
-    message: err
+    error: err
   };
-}
+};
+
 // Signup Action
 export function createAccount(data) {
   return (dispatch) => {
@@ -78,14 +81,14 @@ export function forgotPassword(email) {
         return response.json().then((json) => {
           dispatch({
             type: at.FORGOT_PASSWORD_SUCCESS,
-            messages: [json]
+            error: [json]
           });
         });
       } else {
         return response.json().then((json) => {
           dispatch({
             type: at.FORGOT_PASSWORD_FAIL,
-            messages: Array.isArray(json) ? json : [json]
+            error: Array.isArray(json) ? json : [json]
           });
         });
       }
@@ -114,14 +117,14 @@ export function resetPassword(password, confirm, pathToken) {
           browserHistory.push('/login');
           dispatch({
             type: at.RESET_PASSWORD_SUCCESS,
-            messages: [json]
+            error: [json]
           });
         });
       } else {
         return response.json().then((json) => {
           dispatch({
             type: at.RESET_PASSWORD_FAIL,
-            messages: Array.isArray(json) ? json : [json]
+            error: Array.isArray(json) ? json : [json]
           });
         });
       }
@@ -195,7 +198,7 @@ export function getMyProfile() {
         return response.json().then((json) => {
           dispatch({
             type: at.GET_MY_PROFILE_FAIL,
-            messages: Array.isArray(json) ? json : [json]
+            error: Array.isArray(json) ? json : [json]
           });
         });
       }
@@ -223,7 +226,7 @@ export function getPublicProfile(userId) {
       .catch(err => {
         dispatch({
           type: at.PUBLIC_PROFILE_FAIL,
-          messages: err
+          error: err
         });
       });
   };
@@ -233,6 +236,7 @@ export function getPublicProfile(userId) {
  */
 const INITIAL_STATE = {
   isLoading: false,
+  error: null,
   public: {},
   hydrated: false,
   bio: '',
@@ -273,26 +277,12 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         ...state,
         isLoading: false
       };
-    case at.CREATE_ACCOUNT_FAIL:
-      return {
-        ...state,
-        isLoading: false
-      };
     case at.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
-    case at.RESET_PASSWORD_FAIL:
-      return {
-        ...state,
-        isLoading: false
-      };
     case at.FORGOT_PASSWORD_SUCCESS:
-      return {
-        ...state
-      };
-    case at.FORGOT_PASSWORD_FAIL:
       return {
         ...state
       };
@@ -315,9 +305,13 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
       };
     case at.GET_MY_PROFILE_FAIL:
     case at.PUBLIC_PROFILE_FAIL:
+    case at.FORGOT_PASSWORD_FAIL:
+    case at.CREATE_ACCOUNT_FAIL:
+    case at.RESET_PASSWORD_FAIL:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        error: action.error
       };
     case at.PUBLIC_PROFILE_SUCCESS:
       return {
