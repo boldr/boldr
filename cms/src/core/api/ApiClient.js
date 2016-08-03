@@ -19,8 +19,7 @@ export function processResponse(response) {
 export const credentials = 'same-origin';
 export const jsonHeaders = {
   Accept: 'application/json',
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${localStorage.getItem('token')}`
+  'Content-Type': 'application/json'
 };
 
 function formatUrl(path) {

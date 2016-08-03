@@ -65,10 +65,43 @@ export function fetchPostsIfNeeded() {
     return Promise.resolve();
   };
 }
+
+export const FETCH_POST_REQUEST = 'FETCH_POST_REQUEST';
+export const FETCH_POST_SUCCESS = 'FETCH_POST_SUCCESS';
+export const FETCH_POST_FAIL = 'FETCH_POST_FAIL';
+
+export function requestPost() {
+  return { type: FETCH_POST_REQUEST };
+}
+const receivePost = (response) => ({
+  type: FETCH_POST_SUCCESS,
+  payload: response.body
+});
+const receivePostFailed = (err) => ({
+  type: FETCH_POST_FAIL,
+  message: err
+});
+export function fetchPost(slug) {
+  return dispatch => {
+    dispatch(requestPost());
+    return request
+      .get(`${API_BASE}/articles/${slug}`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(receivePost(response));
+        }
+      })
+      .catch(err => {
+        dispatch(receivePostFailed(err));
+      });
+  };
+}
+
 export const INITIAL_STATE = {
   isLoading: false,
   error: undefined,
-  posts: []
+  posts: [],
+  selectedPost: {}
 };
 /**
  * Blog Reducer
@@ -78,6 +111,7 @@ export const INITIAL_STATE = {
 export default function blogReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case FETCH_POSTS_REQUEST:
+    case FETCH_POST_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -88,7 +122,14 @@ export default function blogReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         posts: action.posts
       };
+    case FETCH_POST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        selectedPost: action.payload
+      };
     case FETCH_POSTS_FAIL:
+    case FETCH_POST_FAIL:
       return {
         ...state,
         isLoading: false,
