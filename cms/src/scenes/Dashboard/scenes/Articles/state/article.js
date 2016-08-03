@@ -62,7 +62,7 @@ const receiveArticle = (response) => ({
 });
 const receiveArticleFailed = (err) => ({
   type: at.SELECT_ARTICLE_FAIL,
-  message: err
+  error: err
 });
 export function selectArticle(articleId) {
   return (dispatch) => {
@@ -232,6 +232,7 @@ export function updateArticle(articleData) {
 export const INITIAL_STATE = {
   isLoading: false,
   message: undefined,
+  error: null,
   articles: [],
   current: {},
   isEditing: false
@@ -245,6 +246,7 @@ export const INITIAL_STATE = {
 export default function article(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case at.FETCH_ARTICLES_REQUEST:
+    case at.CREATE_ARTICLE_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -256,24 +258,13 @@ export default function article(state = INITIAL_STATE, action = {}) {
         articles: action.result
       };
     case at.FETCH_ARTICLES_FAIL:
+    case at.CREATE_ARTICLE_FAIL:
       return {
         ...state,
         isLoading: false,
-        message: action.error
-      };
-    case at.CREATE_ARTICLE_REQUEST:
-      return {
-        ...state,
-        isLoading: false,
-        message: action.error
+        error: action.error
       };
     case at.CREATE_ARTICLE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        message: action.error
-      };
-    case at.CREATE_ARTICLE_FAIL:
       return {
         ...state,
         isLoading: false,

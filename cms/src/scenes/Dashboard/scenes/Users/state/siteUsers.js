@@ -43,7 +43,7 @@ export function loadSiteUsers(data) {
 const INITIAL_STATE = {
   isLoading: false,
   users: [],
-  error: undefined
+  error: null
 };
 
 export default function siteUsersReducer(state = INITIAL_STATE, action) {
