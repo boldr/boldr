@@ -11,7 +11,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
-
+import Perf from 'react-addons-perf'
 // Non-vendor
 
 import BoldrTheme from './styles/theme';
@@ -35,7 +35,6 @@ const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, client, initialState);
 const { dispatch } = store;
-
 const token = localStorage.getItem('token');
 
 if (token) {
@@ -45,7 +44,9 @@ if (token) {
 
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = getRoutes(store, history);
+// const { whyDidYouUpdate } = require('why-did-you-update');
 
+// whyDidYouUpdate(React);
 injectTapEventPlugin();
 
 const render = () => {

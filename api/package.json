@@ -90,7 +90,6 @@
     "nodemailer": "^2.5.0",
     "nodemailer-mailgun-transport": "^1.2.1",
     "passport": "^0.3.2",
-    "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "pg": "^6.0.3",
     "pg-native": "^1.10.0",

@@ -8,6 +8,8 @@ import settingRoutes from './setting/setting.router';
 import categoryRoutes from './category/category.router';
 import authRoutes from './auth';
 
+import { isAuthenticated } from './auth/auth.service';
+
 const router = Router();
 
 /** GET /health-check - Check service health */

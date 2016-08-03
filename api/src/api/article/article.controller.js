@@ -136,38 +136,37 @@ async function addTagToArticle(req, res, next) {
 const createNewArticle = (req, res, next) => {
   if (req.body.tags) {
     req.body.tags = req.body.tags.split(',', MAX_TAGS).map(tag => tag.substr(0, 15));
-
-    return Article.create({
-      title: req.body.title,
-      slug: slug(req.body.title),
-      excerpt: req.body.excerpt,
-      markup: req.body.markup,
-      content: req.body.content,
-      featureImage: req.body.featureImage,
-      authorId: req.user.id,
-      status: req.body.status
-    }).then(article => {
-      for (let i = 0; i < req.body.tags.length; i++) {
-        const newTag = Tag.findOrCreate({
-          where: {
-            tagname: req.body.tags[i]
-          }
-        }).spread(tag =>
-          ArticleTag.create({
-            articleId: article.id,
-            tagId: tag.id
-          }).then(articleTag => {
-            debug('articleTag', articleTag);
-            return res.status(201).json(articleTag);
-          }).catch(error => {
-            return Boom.badRequest(error);
-          })
-        ).catch(error => {
-          return Boom.badRequest(error);
-        });
-      }
-    });
   }
+  return Article.create({
+    title: req.body.title,
+    slug: slug(req.body.title),
+    excerpt: req.body.excerpt,
+    markup: req.body.markup,
+    content: req.body.content,
+    featureImage: req.body.featureImage,
+    authorId: req.user.id,
+    status: req.body.status
+  }).then(article => {
+    for (let i = 0; i < req.body.tags.length; i++) {
+      const newTag = Tag.findOrCreate({
+        where: {
+          tagname: req.body.tags[i]
+        }
+      }).spread(tag =>
+        ArticleTag.create({
+          articleId: article.id,
+          tagId: tag.id
+        }).then(articleTag => {
+          debug('articleTag', articleTag);
+          return res.status(201).json(articleTag);
+        }).catch(error => {
+          return Boom.badRequest(error);
+        })
+      ).catch(error => {
+        return Boom.badRequest(error);
+      });
+    }
+  });
 };
 /**
  * @api {get} /articles/:slug       Get article by its slug.

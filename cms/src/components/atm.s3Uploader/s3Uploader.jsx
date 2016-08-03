@@ -23,6 +23,7 @@ const S3Uploader = React.createClass({
         console.log(`Upload progress: ${percent} % ${message}`);
       },
       onFinish(signResult) {
+        console.log(signResult)
         // /api/v1/s3/uploads/0fb879b7-fff3-4281-a86e-6e866b717282_Screen_Shot_2016-07-28_at_12.30.02_PM.png
         // <BUCKET>.<REGION>.amazonaws.com/0fb879b7-fff3-4281-a86e-6e866b717282_Screen_Shot_2016-07-28_at_12.30.02_PM.png
         console.log(`Upload finished: ${signResult.publicUrl}`);

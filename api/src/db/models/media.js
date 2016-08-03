@@ -37,11 +37,11 @@ const Media = Model.define('media', {
     allowNull: true
   },
   mimetype: {
-    type: DataTypes.STRING(56),
+    type: DataTypes.STRING(256),
     allowNull: true
   },
   key: {
-    type: DataTypes.STRING(56),
+    type: DataTypes.STRING(256),
     allowNull: true
   },
   meta: {

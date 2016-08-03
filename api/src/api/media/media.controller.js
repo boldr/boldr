@@ -6,9 +6,9 @@ import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
 import { logger } from '../../lib';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
-
+import Debug from 'debug';
 const config = require('../../core/config/boldr');
-
+const debug = Debug('boldr:media:controller')
 const s3 = new AWS.S3({
   accessKeyId: config.aws.keyId,
   secretAccessKey: config.aws.keySecret,
@@ -49,7 +49,7 @@ export const uploadArticle = multer(multerArticle);
  */
 export function generalUpload(req, res, next) {
   logger.info(req.files);
-
+  debug(`These are the ${req.files}`);
   const fileFields = {
     s3url: req.files[0].location,
     ownerId: req.user.id,
@@ -101,7 +101,19 @@ export const getAllMedia = async (req, res, next) => {
     next(error);
   }
 };
-
+export function fromDashboard(req, res, next) {
+  const fileFields = {
+    s3url: req.body.s3url,
+    ownerId: req.user.id,
+    key: req.body.filename,
+    filename: req.body.filename
+  };
+  Media.create(fileFields).then(data => {
+    res.status(201).json(data);
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+}
 /**
  * @api {get} /medias/:id  Get a specific file by its id
  * @apiVersion 1.0.0

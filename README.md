@@ -155,7 +155,7 @@ Password - password
 
 Change Log
 =================
-[View Here](CHANGELOG.md)  
+[View Here](Changelog.md)  
 
 #### Last Version
 ##### 0.3.11
