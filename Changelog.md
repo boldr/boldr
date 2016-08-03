@@ -1,8 +1,21 @@
-### 0.4.0
-> 8/01/2016
+### 0.3.11
+> 8/02/2016
+
+This will be the final release of 0.3. Lots of progress has been made, but there are still a couple of things I'd like to resolve before tagging 0.4.
 
 - **Feature:** Notifications are now a thing. Still being styled and added everywhere, but they exist and they work.
-
+- **Bug Fix:** Tagging works flawlessly  [\#10](https://github.com/strues/boldr/issues/10)
+- **Feature:** Single blog post page [implemented](https://github.com/strues/boldr/commit/91d99e80467dd1fdeefa956db944e841f53558fe)
+- **Feature:** Blog posts received some much needed love and have taken on their rightful card component.
+- **Feature:** Article editor in dashboard allows for updating past posts.
+- **Bug Fix:** Pretty much every implemented API endpoint is working / has been tested. Currently in the process of documentation and writing integration tests.
+- **Feature:** Cookies got the boot for JSON Web Tokens.
+- **Merged pull requests:**
+  - Prep for 0.4.0 [\#68](https://github.com/strues/boldr/pull/68) ([strues](https://github.com/strues))
+  - Update supertest to version 2.0.0 🚀 [\#67](https://github.com/strues/boldr/pull/67) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+  - Update eslint-loader to version 1.5.0 🚀 [\#66](https://github.com/strues/boldr/pull/66) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+  - Update webpack-hot-middleware to version 2.12.2 🚀 [\#65](https://github.com/strues/boldr/pull/65) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+  - Update all dependencies 🌴 [\#63](https://github.com/strues/boldr/pull/63) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))  
 
 ### 0.3.8
 > 7/25/2016

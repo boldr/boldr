@@ -26,20 +26,24 @@ const PostCard = props => {
         </CardText>
         <div className={ cx('post__card-footer') }>
           <div className="row">
-          <div className="col-xs-7">
-            <ul style={ { display: 'flex', listStyleType: 'none' } }>
-              <li><TagIcon /></li>
+            <div className="col-xs-7">
+              <ul style={ { display: 'flex', listStyleType: 'none' } }>
+                <li>
+                  <TagIcon />
+                </li>
                  { props.tags.map(tag =>
                     <li key={ tag.id }>
                       <Link to={ `/tags/${tag.id}` } >{ tag.tagname } &nbsp;</Link>
                     </li>)
                  }
-            </ul>
+              </ul>
             </div>
             <div className="col-xs-5">
-            <Link to={ `/blog/${props.slug}` }><RaisedButton label="Read More" /></Link>
+              <Link to={ `/blog/${props.slug}` }>
+                <RaisedButton label="Read More" />
+              </Link>
             </div>
-           </div>
+          </div>
           Posted by <Link to={ profileLink }>{ props.user.displayName }</Link>
         </div>
       </Card>

@@ -28,7 +28,7 @@ class SinglePost extends Component {
             </Paper>
           </div>
           <div className="col-md-3">
-          sidebar
+            sidebar
           </div>
         </div>
       </div>

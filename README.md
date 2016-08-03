@@ -1,21 +1,33 @@
 ![boldr](docs/boldr-logo.png) Boldr
 ====
-[![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)](https://circleci.com/gh/strues/boldr) [![Gitter](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) 
+[![CircleCI](https://circleci.com/gh/strues/boldr.svg?style=svg)](https://circleci.com/gh/strues/boldr) [![Gitter](https://badges.gitter.im/strues/boldr.svg)](https://gitter.im/strues/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
 
+Table of Contents
+-----------------
+
+  * [Boldr](#boldr)
+    * [Stack](#stack)
+    * [Overview](#overview)
+  * [Getting Started](#getting-started)
+    * [Environment Variables](#environment-variables)
+    * [Database Setup](#database)
+  * [Usage](#usage)
+    * [Development](#development)
+    * [Production](#production)
+  * [Contributing](#contributing)
+  * [Documentation](#documentation)
+  * [Demo](#demo)
+  * [Changelog](#changelog)
+
+Boldr
+=====
 Boldr aims to provide a CMS to use as a base for your next web project. Built on cutting edge web technologies, along with a few time tested favorites, we believe Boldr could become something special. The world doesn't need another never-to-be finished CMS project, nor does it need the "next WordPress". Boldr tries to be none of that.  
 
-View a **very early** demo at https://staging.boldr.io   
-
-> Email - admin@boldr.io  
-Password - password
-
-____
-
-### Tech Stack
-
+Stack
+-------------
 * Node 6  
 * Express  
 * React  
@@ -23,6 +35,8 @@ ____
 * Redis  
 * Docker  
 
+Overview
+-----------
 
 If you have been following the development of Boldr, things look differently than they did before 0.4.0. That's to be expected. Hopefully the architectural changes simplify the process in the long run.  
 
@@ -30,17 +44,18 @@ Boldr is broken up into two different modules, BoldrAPI and BoldrCMS.
 
 The API lives in `./api` and the CMS in `./cms`. They both are required to run Boldr. BoldrAPI is responsible for everything on the backend, **except** rendering. BoldrCMS is primarily all frontend components, other than an Express server used for rendering.
 
-### Why the separation?
+#### Why the separation?
 As Boldr becomes a more mature project, it is important to me to have a set of standards in place now rather than later on down the road. Logically it makes sense for the API and CMS to exist as two different entities, that rely on one another. This makes development, testing, and scaling better for everyone in the long run.
 
 
-### Containerizing all the things
+#### Containerizing all the things
 Boldr is developed with running inside of multiple Docker containers in mind. During development it's recommended to run both the database and redis server containers from the `docker-compose.yml` file. The Makefile is setup to build a container for the cms module and a container for the api module as part of the build-to-deploy process.
 
 Docker documentation is (will be) located [here](docs/docker/main.md), `docs/docker/main.md`.
 
 
-## Getting Started
+Getting Started
+======
 At the moment, Boldr is in active development and not quite ready for use. However, to download it, and run it for development follow these directions.
 
 ```bash
@@ -49,8 +64,8 @@ $ git clone git@github.com:strues/boldr.git
 
 After the repository is cloned, simply enter the directory and run make install. For whatever reason, if the Makefile fails, you'll need to go into the `api` and `cms` directories and `npm install`.  
 
-### Environment Vars
-
+Environment Variables
+-----------------
 Below are the four **most important environment variables** outside of database configurations that you need to worry about.
 
 ```javascript
@@ -79,22 +94,20 @@ At the moment, these variables are vital to configuration for Boldr. You may set
 Production: https://api.boldr.io  
 Development: http://localhost:9121  
 
-### Connections
-- The API runs on **localhost:9121**.
-- **During development** Webpack Isomorphic Tools runs on localhost:8888 and serves from memory.
-- The CMS server (SSR) runs on **localhost:9221**.
-- Webpack Middleware (HMR) runs on **localhost:3001**.
 
-#### Database
-
+Database
+--------------
 Make sure you have a database and user already created before trying to run Boldr.  The script `bin/createDB.sh` will create a new user, set a password, and grant the correct permissions for you. All that is required is to `chmod +x bin/createDB.sh` followed by `bash bin/createDB.sh DBNAME USERNAME PASSWORD`
 
 Configuration of the database can be modified by environment variables, editing `api/src/core/config/boldr.js` or `api/src/core/config/<ENVIRONMENT>.json`. Boldr uses dotenv and Convict for managing configs.
 
 From the root dir `make migrate` will run migrations on the database. Or else you can run `npm run migrate` from the api directory. The first time Boldr runs, it will automatically create an admin user with the email address of admin@boldr.io and password as the password.
 
+Usage
+=========
 
-#### Development
+Development
+---------------
 **Start the API** -- Open a terminal window and go to the api directory run `npm run dev`  
 **Start the CMS** -- In another terminal window, go to the cms dir and run `npm run dev`  
 
@@ -105,29 +118,51 @@ Password - password
 After logging in, visit the Dashboard and click on **Settings**. You will be redirected to the setup screen where you can input values about your website.  
 
 
-#### Production
+Production
+-----------
 > No way. Not yet. However if you feel like building the application as if it were production execute the following
 
 ```bash
 $ make build
 ```
 
-## Contribute
-Looking for an open source project to contribute to? We could use a hand developing Boldr.
+Contributing
+===============
+Looking for an open source project to contribute to? I could use a hand developing Boldr. All types of contributions are welcome here. Take a look at some of the [current issues](https://github.com/strues/boldr/issues) and see if you find something you'd like to help out with. Feel free to submit pull requests to the develop branch.
 
-## Documentation
+**Contribution Area Ideas**
+- Documentation
+- Designs
+- React
+- Node
+- Build / Installation
+- Play a major role in a community driven project, have some fun, and work on improving your skills.
+
+Documentation
+=================
 - **API Documentation:** [docs/api](docs/api)  
 - **Docker:** [docs/docker/main.md](docs/docker/main.md)
 - **Structure:** [docs/structure.md](docs/structure.md)
 
+Demo
+=============
 
-#### Change Log
-[View Here](Changelog.md)  
-##### 0.3.8
-> 7/25/2016
+View a **very early** demo at https://staging.boldr.io   
 
-- **DX** Webpack 2 and all its glorious code splitting is set up.
-- **DX** Code is organized in a way that is much more logical and should be easier for everyone to find things.
-- **Bug Fix**  Article bodies implement the correct read only editor, providing rich blocks of styled content.
-- **Breaking** Social login and verification emails have been temporarily removed from the active features. The code is   still there, but at this time there are bigger things for me to worry about.
+> Email - admin@boldr.io  
+Password - password
 
+
+Change Log
+=================
+[View Here](CHANGELOG.md)  
+
+#### Last Version
+##### 0.3.11
+> 8/02/2016
+
+This will be the final release of 0.3. Lots of progress has been made, but there are still a couple of things I'd like to resolve before tagging 0.4.
+
+- **Feature:** Notifications are now a thing. Still being styled and added everywhere, but they exist and they work.
+- **Bug Fix:** Tagging works flawlessly  [\#10](https://github.com/strues/boldr/issues/10)
+- **Feature:** Single blog post page [implemented](https://github.com/strues/boldr/commit/91d99e80467dd1fdeefa956db944e841f53558fe)
