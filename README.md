@@ -71,8 +71,8 @@ Below are the four **most important environment variables** outside of database 
 ```javascript
 "SSR_PORT": 9221,
 "SITE_URL": "http://localhost:9221",
-"API_BASE": "/api/v1",
-"TARGET_URL": "http://localhost:9121"
+"API_HOST": "http://localhost:9121",
+"API_PREFIX": "/api/v1"
   ```
 At the moment, these variables are vital to configuration for Boldr. You may set them in a `.env` file, or define them in the package.json.
 
@@ -84,15 +84,15 @@ At the moment, these variables are vital to configuration for Boldr. You may set
   Staging https://staging.boldr.io  
   Production http://www.yourawesomesite.com
 
-- **API_BASE**: Important so that you may choose to run Boldr's API from a different subdomain or version.  
+- **API_HOST**: Important so that you may choose to run Boldr's API from a different subdomain or version.  
 
   > *Example*  
-  If I am serving the api from https://api.boldr.io, the API_BASE would be **/v1** otherwise the API would only respond to calls made to https://api.boldr.io/api/v1  
+  If I am serving the api from https://api.boldr.io, the API_PREFIX would be **/v1** otherwise the API would only respond to calls made to https://api.boldr.io/api/v1  
 
-- **TARGET_URL**: Target url refers to the location of the API. It's used for proxying requests from the SSR / CMS server to the api server.  
+- **API_PREFIX**: Typically will always be /api/v1 unless you are serving from a subdomain.  
 > *Example*  
-Production: https://api.boldr.io  
-Development: http://localhost:9121  
+Production:  `/v1`
+Development: `/api/v1`
 
 
 Database

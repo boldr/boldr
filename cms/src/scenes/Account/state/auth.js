@@ -5,7 +5,7 @@ import cookie from 'react-cookie';
 import moment from 'moment';
 import fetch from 'core/fetch';
 import { createRequestat } from 'core/util/action';
-import { API_BASE, API_AUTH } from 'core/api';
+import { API_ADDR, API_AUTH } from 'core/api';
 
 import { notificationSend } from 'core/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
@@ -48,7 +48,7 @@ export function doLogin(loginData, redir) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
-      .post(`${API_BASE}/auth/login`)
+      .post(`${API_ADDR}/auth/login`)
       .send(loginData)
       .then(response => {
         localStorage.setItem('token', response.body.token);

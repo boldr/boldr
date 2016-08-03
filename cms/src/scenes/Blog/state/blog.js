@@ -1,6 +1,6 @@
 import fetch from 'core/fetch';
 import request from 'superagent';
-import { API_BASE } from 'core/api';
+import { API_ADDR } from 'core/api';
 import { processResponse } from 'core/api/ApiClient';
 /**
  * GET ARTICLE ACTIONS
@@ -26,7 +26,7 @@ export function fetchPosts(data) {
   return dispatch => {
     dispatch(requestPosts());
     return request
-      .get(`${API_BASE}/articles`)
+      .get(`${API_ADDR}/articles`)
       .then(response => {
         if (response.status === 200) {
           dispatch(receivePosts(response));
@@ -78,7 +78,7 @@ export function fetchPost(slug) {
   return dispatch => {
     dispatch(requestPost());
     return request
-      .get(`${API_BASE}/articles/${slug}`)
+      .get(`${API_ADDR}/articles/${slug}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(receivePost(response));

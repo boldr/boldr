@@ -11,7 +11,6 @@
     "build": "better-npm-run build",
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
-    "build:staging": "better-npm-run build:staging",
     "clean": "npm run clean:server && npm run clean:client",
     "clean:client": "rimraf public/assets",
     "clean:server": "rimraf server.js && rimraf server.js.map",
@@ -31,39 +30,30 @@
       "command": "better-npm-run build:client && better-npm-run build:server",
       "env": {
         "NODE_ENV": "production",
-        "SSR_PORT": 9221,
         "SITE_URL": "https://staging.boldr.io",
-        "API_BASE": "https://api.boldr.io/v1",
-        "TARGET_URL": "https://api.boldr.io"
+        "SSR_PORT": 9221,
+        "API_HOST": "https://api.boldr.io",
+        "API_PREFIX": "/v1"
       }
     },
     "build:server": {
       "command": "npm run clean:server && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
       "env": {
         "NODE_ENV": "production",
-        "SSR_PORT": 9221,
         "SITE_URL": "https://staging.boldr.io",
-        "API_BASE": "https://api.boldr.io/v1",
-        "TARGET_URL": "https://api.boldr.io"
+        "SSR_PORT": 9221,
+        "API_HOST": "https://api.boldr.io",
+        "API_PREFIX": "/v1"
       }
     },
     "build:client": {
       "command": "npm run clean:client && babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/client.prod.js",
       "env": {
         "NODE_ENV": "production",
-        "SSR_PORT": 9221,
         "SITE_URL": "https://staging.boldr.io",
-        "API_BASE": "https://api.boldr.io/v1",
-        "TARGET_URL": "https://api.boldr.io"
-      }
-    },
-    "build:staging": {
-      "command": "better-npm-run build:client && better-npm-run build:server",
-      "env": {
         "SSR_PORT": 9221,
-        "SITE_URL": "https://staging.boldr.io",
-        "API_BASE": "https://api.boldr.io/v1",
-        "TARGET_URL": "https://api.boldr.io"
+        "API_HOST": "https://api.boldr.io",
+        "API_PREFIX": "/v1"
       }
     },
     "dev": {
@@ -72,9 +62,9 @@
         "NODE_ENV": "development",
         "NODE_PATH": "./src",
         "SSR_PORT": 9221,
+        "API_HOST": "http://localhost:9121",
+        "API_PREFIX": "/api/v1",
         "SITE_URL": "http://localhost:9221",
-        "API_BASE": "http://localhost:9121/api/v1",
-        "TARGET_URL": "http://localhost:9121",
         "WP_DS": 3001
       }
     },
@@ -82,9 +72,9 @@
       "command": "pm2 start run.js",
       "env": {
         "NODE_ENV": "production",
-        "PORT": 9221,
-        "TARGET_URL": "https://api.boldr.io",
-        "API_BASE": "/v1"
+        "SSR_PORT": 9221,
+        "API_HOST": "https://api.boldr.io",
+        "API_PREFIX": "/v1"
       }
     },
     "watch:client": {
@@ -94,8 +84,8 @@
         "NODE_PATH": "./src",
         "SSR_PORT": 9221,
         "SITE_URL": "http://localhost:9221",
-        "API_BASE": "http://localhost:9121/api/v1",
-        "TARGET_URL": "http://localhost:9121",
+        "API_HOST": "http://localhost:9121",
+        "API_PREFIX": "/api/v1",
         "WP_DS": 3001
       }
     },
@@ -104,6 +94,8 @@
       "env": {
         "NODE_ENV": "development",
         "NODE_PATH": "./src",
+        "API_HOST": "http://localhost:9121",
+        "API_PREFIX": "/api/v1",
         "SSR_PORT": 9221,
         "WP_DS": 3001
       }
@@ -113,7 +105,7 @@
       "env": {
         "NODE_ENV": "test",
         "NODE_PATH": "./src",
-        "PORT": 9221
+        "SSR_PORT": 9221
       }
     }
   },
@@ -155,10 +147,8 @@
     "limax": "^1.4.0",
     "lodash": "^4.14.1",
     "material-ui": "^0.15.2",
-    "material-ui-build": "github:callemall/material-ui",
     "moment": "^2.14.1",
     "node-fetch": "^1.5.3",
-    "opn": "^4.0.2",
     "react": "15.3.0",
     "react-cookie": "^0.4.7",
     "react-dom": "15.3.0",

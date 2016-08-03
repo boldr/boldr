@@ -36,6 +36,7 @@ export default app => {
   app.use(express.static(path.resolve('public')));
 
   app.options('*', (req, res) => res.sendStatus(200));
+
   app.use(expressJwt({
     secret: config.session.secret,
     credentialsRequired: false

@@ -24,7 +24,7 @@ const normalizePort = (val) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(9221);
+const port = normalizePort(process.env.SSR_PORT);
 app.set('port', port);
 
 /**
@@ -35,10 +35,7 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 function runServer() { // let Sequalize automatically create tables
-  server.listen(port, err => {
-    require('../../tools/scripts/fbDX').listen(port, err);
-  });
-
+  server.listen(port);
   server.on('error', (error) => {
     if (error.syscall !== 'listen') {
       throw error;

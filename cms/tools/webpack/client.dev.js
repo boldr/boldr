@@ -108,7 +108,9 @@ const clientDevConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10),
+        API_PREFIX: JSON.stringify(process.env.API_PREFIX),
+        API_HOST: JSON.stringify(process.env.API_HOST)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
