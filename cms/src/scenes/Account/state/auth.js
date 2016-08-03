@@ -175,6 +175,7 @@ export function load() {
  */
 const INITIAL_STATE = {
   loaded: false,
+  error: null,
   isLoading: false,
   role: null,
   token: null,

@@ -19,6 +19,7 @@ describe('authReducer', () => {
   const initialState = {
     loaded: false,
     isLoading: false,
+    error: null,
     role: null,
     token: null,
     hydrated: true

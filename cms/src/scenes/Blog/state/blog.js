@@ -10,24 +10,17 @@ export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_FAIL = 'FETCH_POSTS_FAIL';
 
 // Fetch Articles Action
-
-export function requestPosts() {
+export const requestPosts = () => {
   return { type: FETCH_POSTS_REQUEST };
-}
+};
 
-// export function receivePosts(json) {
-//   return {
-//     type: FETCH_POSTS_SUCCESS,
-//     result: json
-//   };
-// }
 const receivePosts = (response) => ({
   type: FETCH_POSTS_SUCCESS,
   posts: response.body
 });
 const receivePostsFailed = (err) => ({
   type: FETCH_POSTS_FAIL,
-  message: err
+  error: err
 });
 export function fetchPosts(data) {
   return dispatch => {
@@ -70,16 +63,16 @@ export const FETCH_POST_REQUEST = 'FETCH_POST_REQUEST';
 export const FETCH_POST_SUCCESS = 'FETCH_POST_SUCCESS';
 export const FETCH_POST_FAIL = 'FETCH_POST_FAIL';
 
-export function requestPost() {
+export const requestPost = () => {
   return { type: FETCH_POST_REQUEST };
-}
+};
 const receivePost = (response) => ({
   type: FETCH_POST_SUCCESS,
   payload: response.body
 });
 const receivePostFailed = (err) => ({
   type: FETCH_POST_FAIL,
-  message: err
+  error: err
 });
 export function fetchPost(slug) {
   return dispatch => {
@@ -99,7 +92,7 @@ export function fetchPost(slug) {
 
 export const INITIAL_STATE = {
   isLoading: false,
-  error: undefined,
+  error: null,
   posts: [],
   selectedPost: {}
 };
