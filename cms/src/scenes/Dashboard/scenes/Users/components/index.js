@@ -1,1 +1,1 @@
-export * from './mol.UsersList';
+export UsersList from './mol.UsersList';

@@ -1,7 +1,7 @@
 import React from 'react';
 import BoldrLogo from 'components/atm.BoldrLogo';
 
-const is = {
+const inlineStyle = {
   logo: {
     paddingTop: '5px'
   },
@@ -12,9 +12,9 @@ const is = {
 };
 export default function SiteLogo(props) {
   return (
-    <div className="sitelogo" style={ is.logo }>
+    <div className="sitelogo" style={ inlineStyle.logo }>
       <BoldrLogo width="50px" height="50px" />
-      <span style={ is.title }>{ props.SiteLogoOrTitle }</span>
+      <span style={ inlineStyle.title }>{ props.SiteLogoOrTitle }</span>
     </div>
   );
 }

@@ -4,21 +4,22 @@ import fetch from 'core/fetch';
 import { API_ARTICLES, API_MEDIA } from 'core/api';
 import { notificationSend } from 'core/state/notifications';
 import { processResponse, credentials, jsonHeaders } from 'core/api/ApiClient';
+import { token } from 'core/util/helpers';
 import * as at from './constants';
 
 /**
- * GET ARTICLE ACTIONS
+ * GET ARTICLES
  */
-export function requestArticles() {
+const requestArticles = () => {
   return { type: at.FETCH_ARTICLES_REQUEST };
-}
+};
 
-export function receiveArticles(json) {
+const receiveArticles = (json) => {
   return {
     type: at.FETCH_ARTICLES_SUCCESS,
     result: json
   };
-}
+};
 
 function fetchArticles() {
   return dispatch => {
@@ -50,20 +51,34 @@ export function fetchArticlesIfNeeded() {
   };
 }
 
-function articleSelected(articleId) {
+/**
+ * Select Article
+ * @description Used when on the article list state.
+ */
+const articleSelected = (articleId) => {
   return {
     type: at.SELECT_ARTICLE,
     id: articleId
   };
-}
+};
+
 const receiveArticle = (response) => ({
   type: at.SELECT_ARTICLE_SUCCESS,
   current: response.body
 });
+
 const receiveArticleFailed = (err) => ({
   type: at.SELECT_ARTICLE_FAIL,
   error: err
 });
+
+/**
+ * Takes the user selected article and fetches the data from
+ * the api.
+ * @param  {String} articleId Technically its the uuid, but for all
+ * intents and purposes its a String
+ * @return {Object}           The post object.
+ */
 export function selectArticle(articleId) {
   return (dispatch) => {
     dispatch(articleSelected(articleId));
@@ -80,32 +95,31 @@ export function selectArticle(articleId) {
   };
 }
 
-
-
+// ******* START NOT IMPLEMENTED
+// TODO: Implement this.
 const beginUploadImage = () => {
   return { type: at.UPLOAD_IMAGE_REQUEST };
 };
-// Fetch Articles Success
-export function uploadImageSuccess(response) {
+const uploadImageSuccess = (response) => {
   return {
     type: at.UPLOAD_IMAGE_SUCCESS,
     payload: response.body
   };
-}
-// Fetch Articles Error
-export function uploadImageFail(err) {
+};
+
+const uploadImageFail = (err) => {
   return {
     type: at.UPLOAD_IMAGE_FAIL,
     error: err
   };
-}
+};
 
 export function uploadFeatureImage(imageData) {
   return (dispatch) => {
     dispatch(beginUploadImage());
     return request
       .post(`${API_MEDIA}/articles`)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'multipart/form-data')
       .attach('photo', imageData)
       .end()
@@ -119,36 +133,40 @@ export function uploadFeatureImage(imageData) {
       });
   };
 }
+// ******* END NOT IMPLEMENTED
 
 /**
  * CREATE ARTICLE ACTIONS
  */
-
-
 const beginCreateArticle = () => {
   return { type: at.CREATE_ARTICLE_REQUEST };
 };
-// Fetch Articles Success
-export function createArticleSuccess(response) {
+
+const createArticleSuccess = (response) => {
   return {
     type: at.CREATE_ARTICLE_SUCCESS,
     payload: response.body
   };
-}
-// Fetch Articles Error
-export function errorCreatingArticle(err) {
+};
+const errorCreatingArticle = (err) => {
   return {
     type: at.CREATE_ARTICLE_FAIL,
     error: err
   };
-}
-// Fetch Articles Action
+};
+
+/**
+ * Create a new article takes the submitted form-data as articleData and
+ * sends the information to the api.
+ * @param  {Object} articleData The data from the form / article editor
+ * @return {Object}             Response object.
+ */
 export function createArticle(articleData) {
   return (dispatch) => {
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
         title: articleData.title,
         content: articleData.content,
@@ -171,22 +189,19 @@ export function createArticle(articleData) {
   };
 }
 
-export function updateArticleDetails() {
-  return {
-    type: at.UPDATE_ARTICLE_REQUEST
-  };
-}
-export function updateArticleSuccess() {
-  return {
-    type: at.UPDATE_ARTICLE_SUCCESS
-  };
-}
-export function errorUpdatingArticle(err) {
+const updateArticleDetails = () => {
+  return { type: at.UPDATE_ARTICLE_REQUEST };
+};
+const updateArticleSuccess = () => {
+  return { type: at.UPDATE_ARTICLE_SUCCESS };
+};
+const errorUpdatingArticle = (err) => {
   return {
     type: at.UPDATE_ARTICLE_FAIL,
     error: err
   };
-}
+};
+
 export function updateArticle(articleData) {
   // const articleSlug = slug(articleData.title);
   const payload = {
@@ -200,7 +215,7 @@ export function updateArticle(articleData) {
     dispatch(updateArticleDetails(articleData));
     return request
       .put(`${API_ARTICLES}/${articleData.origSlug}`)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
         // title: articleData.title,
         content: articleData.content,

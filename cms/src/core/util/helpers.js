@@ -130,3 +130,5 @@ export function isEmpty(obj) {
   }
   return true;
 }
+
+export const token = localStorage.getItem('token');

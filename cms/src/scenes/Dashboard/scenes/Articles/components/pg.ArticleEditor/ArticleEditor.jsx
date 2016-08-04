@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
@@ -29,19 +28,25 @@ class ArticleEditor extends Component {
   render() {
     return (
       <div>
-        <NewArticleForm initialValues={ this.props.article.current } editing={ this.props.article.isEditing } onSubmit={ ::this.handleSubmit } />
+        <NewArticleForm
+          initialValues={ this.props.article.current }
+          editing={ this.props.article.isEditing }
+          onSubmit={ ::this.handleSubmit }
+        />
       </div>
     );
   }
 }
+
+ArticleEditor.propTypes = {
+  dispatch: React.PropTypes.func,
+  article: React.PropTypes.object,
+  params: React.PropTypes.object
+};
+
 const mapStateToProps = (state, ownProps) => {
   return {
     article: state.article
   };
 };
 export default connect(mapStateToProps)(ArticleEditor);
-
-ArticleEditor.propTypes = {
-  dispatch: React.PropTypes.func,
-  article: React.PropTypes.object
-};

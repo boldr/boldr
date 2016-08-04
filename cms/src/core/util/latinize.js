@@ -1,4 +1,10 @@
 /* eslint-disable */
+/*
+  Latinize
+  https://github.com/dundalek/latinize
+  Is is a lookup table taken from http://jsperf.com/latinize packaged
+  for node and browser. Visit the link to see more approaches.
+ */
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.

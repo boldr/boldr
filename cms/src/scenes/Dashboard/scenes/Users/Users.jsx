@@ -1,7 +1,8 @@
-/* @flow */ /* eslint-disable react/prefer-stateless-function */
-import React, { Component } from 'react';
+/* eslint-disable react/prefer-stateless-function */
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
+
 import UsersList from './components/mol.UsersList';
 import { loadSiteUsers } from './state/siteUsers';
 
@@ -17,6 +18,10 @@ class Users extends Component {
     );
   }
 }
+
+Users.propTypes = {
+  siteUsers: PropTypes.object
+};
 
 const mapStateToProps = (state, ownProps) => {
   return {

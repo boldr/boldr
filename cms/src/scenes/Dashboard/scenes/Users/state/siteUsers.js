@@ -1,7 +1,6 @@
 import request from 'superagent';
 import { API_USERS } from 'core/api';
 
-
 export const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';
 export const LOAD_USERS_SUCCESS = 'LOAD_USERS_SUCCESS';
 export const LOAD_USERS_FAIL = 'LOAD_USERS_FAIL';
@@ -24,7 +23,7 @@ const failedToLoadUsers = (err) => ({
 });
 
 // Public action creators
-export function loadSiteUsers(data) {
+export function loadSiteUsers() {
   return dispatch => {
     dispatch(loadUsers());
     return request

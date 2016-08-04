@@ -1,56 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import inlineStyles from './inlineStyles';
 
 const CANCEL_DISTANCE_ON_SCROLL = 20;
-
-const defaultStyles = {
-  root: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'hidden'
-  },
-  sidebar: {
-    zIndex: 2,
-    position: 'absolute',
-    top: 60,
-    bottom: 0,
-    backgroundColor: 'rgb(64, 64, 78)',
-    transition: 'transform .3s ease-out',
-    WebkitTransition: '-webkit-transform .3s ease-out',
-    willChange: 'transform',
-    overflowY: 'auto'
-  },
-  content: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'auto',
-    transition: 'left .3s ease-out, right .3s ease-out'
-  },
-  overlay: {
-    zIndex: 1,
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    opacity: 0,
-    visibility: 'hidden',
-    transition: 'opacity .3s ease-out',
-    backgroundColor: 'rgba(0,0,0,.3)'
-  },
-  dragHandle: {
-    zIndex: 1,
-    position: 'fixed',
-    top: 0,
-    bottom: 0
-  }
-};
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -59,7 +11,6 @@ class Sidebar extends React.Component {
     this.state = {
       // the detected width of the sidebar in pixels
       sidebarWidth: 0,
-
       // keep track of touching params
       touchIdentifier: null,
       touchStartX: null,
@@ -122,7 +73,8 @@ class Sidebar extends React.Component {
     if (this.isTouching()) {
       // trigger a change to open if sidebar has been dragged beyond dragToggleDistance
       const touchWidth = this.touchSidebarWidth();
-      if (this.props.open && touchWidth < this.state.sidebarWidth - this.props.dragToggleDistance ||
+      if (this.props.open &&
+        touchWidth < this.state.sidebarWidth - this.props.dragToggleDistance ||
           !this.props.open && touchWidth > this.props.dragToggleDistance) {
         this.props.onSetOpen(!this.props.open);
       }
@@ -155,11 +107,13 @@ class Sidebar extends React.Component {
     let cancelDistanceOnScroll;
 
     if (this.props.pullRight) {
-      cancelDistanceOnScroll = Math.abs(this.state.touchCurrentX - this.state.touchStartX) <
-                                        CANCEL_DISTANCE_ON_SCROLL;
+      cancelDistanceOnScroll = Math.abs(
+        this.state.touchCurrentX - this.state.touchStartX
+      ) < CANCEL_DISTANCE_ON_SCROLL;
     } else {
-      cancelDistanceOnScroll = Math.abs(this.state.touchStartX - this.state.touchCurrentX) <
-                                        CANCEL_DISTANCE_ON_SCROLL;
+      cancelDistanceOnScroll = Math.abs(
+        this.state.touchStartX - this.state.touchCurrentX
+      ) < CANCEL_DISTANCE_ON_SCROLL;
     }
     return cancelDistanceOnScroll;
   }
@@ -207,14 +161,14 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const sidebarStyle = { ...defaultStyles.sidebar, ...this.props.styles.sidebar };
-    const contentStyle = { ...defaultStyles.content, ...this.props.styles.content };
-    const overlayStyle = { ...defaultStyles.overlay, ...this.props.styles.overlay };
+    const sidebarStyle = { ...inlineStyles.sidebar, ...this.props.styles.sidebar };
+    const contentStyle = { ...inlineStyles.content, ...this.props.styles.content };
+    const overlayStyle = { ...inlineStyles.overlay, ...this.props.styles.overlay };
     const useTouch = this.state.dragSupported && this.props.touch;
     const isTouching = this.isTouching();
     const rootProps = {
       className: this.props.rootClassName,
-      style: { ...defaultStyles.root, ...this.props.styles.root }
+      style: { ...inlineStyles.root, ...this.props.styles.root }
     };
     let dragHandle;
 
@@ -288,7 +242,7 @@ class Sidebar extends React.Component {
         rootProps.onTouchCancel = this.onTouchEnd;
         rootProps.onScroll = this.onScroll;
       } else {
-        const dragHandleStyle = { ...defaultStyles.dragHandle, ...this.props.styles.dragHandle };
+        const dragHandleStyle = { ...inlineStyles.dragHandle, ...this.props.styles.dragHandle };
         dragHandleStyle.width = this.props.touchHandleWidth;
 
         // dragHandleStyle right/left
@@ -313,7 +267,7 @@ class Sidebar extends React.Component {
         </div>
         <div className={ this.props.overlayClassName }
           style={ overlayStyle }
-          onClick={ this.overlayClicked } onTouchTap={ this.overlayClicked }
+          onClick={ this.overlayClicked }
         />
         <div className={ this.props.contentClassName } style={ contentStyle }>
           { dragHandle }

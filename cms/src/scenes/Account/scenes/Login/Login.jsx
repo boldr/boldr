@@ -24,29 +24,26 @@ class Login extends Component {
     return (
       <div>
         <Heading size={ 1 }>Log in</Heading>
-        <div>
           Not what you want?
           <Link to="/account/signup"> Register an Account</Link>
-        </div>
       </div>
     );
   }
 
   render() {
-    const { isLoading, message } = this.props.auth;
+    const { isLoading } = this.props.auth;
 
     return (
       <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
         <Helmet title="Login" />
         <section className={ cx('root') }>
-
           <Card className={ cx('auth-card') }>
-
             { this.renderHeader() }
-              <LoginForm onSubmit={ ::this.handleOnSubmit } />
-              <div className={ cx('auth-card__footer') }>
-                <p><Link to="/account/forgot-password">Forgot your password?</Link></p>
-              </div>
+
+            <LoginForm onSubmit={ ::this.handleOnSubmit } />
+            <div className={ cx('auth-card__footer') }>
+              <p><Link to="/account/forgot-password">Forgot your password?</Link></p>
+            </div>
           </Card>
         </section>
       </div>

@@ -30,7 +30,7 @@ class DashboardLayout extends Component {
   componentDidMount() {
     const mql = window.matchMedia(`(min-width: 800px)`); // eslint-disable-line
     mql.addListener(::this.mediaQueryChanged);
-    this.setState({
+    this.setState({ // eslint-disable-line
       mql,
       docked: mql.matches
     });// eslint-disable-line
@@ -96,6 +96,11 @@ class DashboardLayout extends Component {
       );
   }
 }
+
+DashboardLayout.propTypes = {
+  children: React.PropTypes.element,
+  toggleOpen: React.PropTypes.func
+};
 
 function mapStateToProps(state) {
   return {

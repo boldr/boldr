@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import IconButton from 'material-ui/IconButton';
@@ -9,7 +9,7 @@ import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 import { loadBoldrSettings, saveBoldrSetup } from 'core/state/boldr';
-import GeneralTab from './components/atm.GeneralTab';
+import GeneralTab from './components/mol.GeneralTab';
 
 const iconButtonElement = (
   <IconButton
@@ -66,6 +66,11 @@ class Settings extends Component {
     );
   }
 }
+
+Settings.propTypes = {
+  boldr: PropTypes.object
+};
+
 const mapStateToProps = (state, ownProps) => {
   return {
     boldr: state.boldr,

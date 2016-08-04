@@ -28,33 +28,27 @@ class Signup extends Component {
   renderHeader() {
     return (
       <div>
-        <h1>Register with Email</h1>
-        <div>
+        <Heading size={ 1 }>Register with Email</Heading>
           Already have an account?
           <Link to="/account/login"> Login</Link>
-        </div>
       </div>
     );
   }
 
   render() {
-    const { isLoading, message } = this.props.account;
-
+    const { isLoading } = this.props.account;
     return (
         <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
-        <Helmet title="Signup" />
-        <section className={ cx('root') }>
+          <Helmet title="Signup" />
+          <section className={ cx('root') }>
+            <Card className={ cx('auth-card') }>
 
-          <Card className={ cx('auth-card') }>
+              { this.renderHeader() }
 
-          { this.renderHeader() }
-          <p>{ message }</p>
-        <div>
-          <SignupForm onSubmit={ ::this.handleOnSubmit } />
+              <SignupForm onSubmit={ ::this.handleOnSubmit } />
+            </Card>
+          </section>
         </div>
-      </Card>
-        </section>
-      </div>
     );
   }
 }

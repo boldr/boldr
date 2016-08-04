@@ -1,5 +1,4 @@
-/* @flow */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';

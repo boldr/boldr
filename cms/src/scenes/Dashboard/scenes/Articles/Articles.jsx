@@ -4,7 +4,7 @@ import { provideHooks } from 'redial';
 import { Link } from 'react-router/es6';
 import { List, ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
@@ -26,8 +26,6 @@ const iconButtonElement = (
     <MoreVertIcon color={ grey400 } />
   </IconButton>
 );
-
-
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchArticlesIfNeeded())
