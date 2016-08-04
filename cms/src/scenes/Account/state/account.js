@@ -24,7 +24,7 @@ const signUpSuccess = (response) => {
 };
 
 // Signup Error
-export const signUpError = (err) => {
+const signUpError = (err) => {
   return {
     type: at.CREATE_ACCOUNT_FAIL,
     error: err
@@ -284,7 +284,8 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
       };
     case at.FORGOT_PASSWORD_SUCCESS:
       return {
-        ...state
+        ...state,
+        isLoading: false
       };
     case at.GET_MY_PROFILE_SUCCESS:
       return {

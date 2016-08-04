@@ -12,8 +12,6 @@ LOGOUT_USER } from './constants';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
-// request = request('http://localhost:8000/api/v1/articles');
-
 
 describe('authReducer', () => {
   const initialState = {
@@ -57,7 +55,6 @@ describe('authReducer', () => {
   });
 
   it('should handle LOGIN_FAIL', () => {
-    const message = 'Success';
     expect(
       reducer(undefined, { type: LOGIN_FAIL })
     ).toEqual({
