@@ -47,8 +47,8 @@ export default (store) => {
       {
         path: 'blog/:slug',
         getComponent(nextState, cb) {
-          require.ensure(['./Blog/components/org.SinglePost'], (require) => {
-            cb(null, require('./Blog/components/org.SinglePost').default);
+          require.ensure(['./Blog/components/pg.SinglePost'], (require) => {
+            cb(null, require('./Blog/components/pg.SinglePost').default);
           });
         }
       },

@@ -4,7 +4,7 @@ import fetch from 'core/fetch';
 import { API_ARTICLES, API_MEDIA } from 'core/api';
 import { notificationSend } from 'core/state/notifications';
 import { processResponse, credentials, jsonHeaders } from 'core/api/ApiClient';
-import { token } from 'core/util/helpers';
+
 import * as at from './constants';
 
 /**
@@ -119,7 +119,7 @@ export function uploadFeatureImage(imageData) {
     dispatch(beginUploadImage());
     return request
       .post(`${API_MEDIA}/articles`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .set('Content-Type', 'multipart/form-data')
       .attach('photo', imageData)
       .end()
@@ -166,7 +166,7 @@ export function createArticle(articleData) {
     dispatch(beginCreateArticle());
     return request
       .post(API_ARTICLES)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .send({
         title: articleData.title,
         content: articleData.content,
@@ -215,7 +215,7 @@ export function updateArticle(articleData) {
     dispatch(updateArticleDetails(articleData));
     return request
       .put(`${API_ARTICLES}/${articleData.origSlug}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .send({
         // title: articleData.title,
         content: articleData.content,

@@ -21,7 +21,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  background-color: $snow;
+  background: linear-gradient(rgb(235, 236, 231), rgb(255, 255, 255));
   color: $text-color;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

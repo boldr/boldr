@@ -114,7 +114,10 @@ const Article = Model.define('article', {
       });
     },
     findBySlug(slug) {
-      return this.findOne({ where: { slug } });
+      return this.findOne({ where: { slug } }, { include: [{
+      model: Model.Tag,
+      attributes: ['tagname', 'id']
+    }]});
     },
     findByAuthor(authorId) {
       return this.findAll({ where: { authorId } });

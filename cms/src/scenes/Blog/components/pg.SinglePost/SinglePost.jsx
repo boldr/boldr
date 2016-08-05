@@ -7,6 +7,7 @@ import Paper from 'material-ui/Paper';
 
 import { provideHooks } from 'redial';
 import Loader from 'components/atm.Loader';
+import Sidebar from '../org.Sidebar';
 import { fetchPost } from '../../state/blog';
 import PostContent from '../../components/mol.PostContent';
 
@@ -28,7 +29,7 @@ class SinglePost extends Component {
             </Paper>
           </div>
           <div className="col-md-3">
-            sidebar
+            <Sidebar />
           </div>
         </div>
       </div>
