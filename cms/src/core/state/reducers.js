@@ -8,8 +8,8 @@ import mediaReducer from 'scenes/Dashboard/scenes/Media/state/media';
 import accountReducer from 'scenes/Account/state/account';
 import authReducer from 'scenes/Account/state/auth';
 
-import boldrReducer from './boldr';
-import notificationReducer from './notifications';
+import boldrReducer from 'scenes/Boldr/state/boldr';
+import notificationReducer from 'scenes/Boldr/state/notifications';
 
 const reducers = combineReducers({
   routing: routerReducer,

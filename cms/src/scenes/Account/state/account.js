@@ -2,7 +2,7 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
-import { notificationSend } from 'core/state/notifications';
+import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { API_ADDR, API_AUTH } from 'core/api';
 import * as at from './constants';
 

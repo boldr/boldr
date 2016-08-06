@@ -20,7 +20,7 @@ export default (store) => {
 
   return {
     path: '/',
-    component: require('../components/tpl.CoreLayout').default,
+    component: require('./Boldr').default,
     indexRoute: {
       component: require('./Home').default
     },

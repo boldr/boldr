@@ -7,7 +7,7 @@ import fetch from 'core/fetch';
 import { createRequestat } from 'core/util/action';
 import { API_ADDR, API_AUTH } from 'core/api';
 
-import { notificationSend } from 'core/state/notifications';
+import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
 import * as at from './constants';
 

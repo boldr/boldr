@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import { action } from 'core/util/action';
-import { API_ADDR } from '../api';
+import { API_ADDR } from 'core/api';
 import { notificationSend } from './notifications';
 
 export const DONE_LOADING = 'DONE_LOADING';

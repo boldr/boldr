@@ -3,7 +3,7 @@ import request from 'superagent';
 import normalize from 'normalizr';
 import { push } from 'react-router-redux';
 import { API_ADDR, API_POSTS } from 'core/api';
-import { notificationSend } from 'core/state/notifications';
+import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { processResponse } from 'core/api/ApiClient';
 import * as at from './constants';
 import * as schema from './schema';

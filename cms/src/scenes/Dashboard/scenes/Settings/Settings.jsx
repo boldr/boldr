@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import { loadBoldrSettings, saveBoldrSetup } from 'core/state/boldr';
+import { loadBoldrSettings, saveBoldrSetup } from 'scenes/Boldr/state/boldr';
 import GeneralTab from './components/mol.GeneralTab';
 
 const iconButtonElement = (
