@@ -1,10 +1,12 @@
 import fetch from 'core/fetch';
 import request from 'superagent';
+import normalize from 'normalizr';
 import { push } from 'react-router-redux';
 import { API_ADDR, API_POSTS } from 'core/api';
 import { notificationSend } from 'core/state/notifications';
 import { processResponse } from 'core/api/ApiClient';
 import * as at from './constants';
+import * as schema from './schema';
 
 /**
  * GET ARTICLE ACTIONS
@@ -44,7 +46,7 @@ export function fetchPostsIfNeeded() {
  */
 function shouldFetchPosts(state) {
   const posts = state.posts;
-  if (!posts.posts) {
+  if (!posts.data) {
     return true;
   }
   if (posts.isLoading) {

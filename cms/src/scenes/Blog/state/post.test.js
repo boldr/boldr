@@ -22,8 +22,10 @@ describe('postReducer', () => {
   const initialState = {
     isLoading: false,
     error: null,
-    posts: [],
-    selectedPost: {}
+    data: [],
+    selectedPost: {},
+    current: {},
+    isEditing: false
   };
 
   it('should return the initial state', () => {
@@ -47,7 +49,7 @@ describe('postReducer', () => {
     ).toEqual({
       ...initialState,
       isLoading: false,
-      posts: undefined
+      data: undefined
     });
   });
 
