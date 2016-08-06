@@ -1,19 +1,11 @@
-const mixins = require('postcss-mixins');
-const simpleVars = require('postcss-simple-vars');
-const nested = require('postcss-nested');
-const customMedia = require('postcss-custom-media');
-const mediaMinMax = require('postcss-media-minmax');
-const lost = require('lost');
+const precss = require('precss');
 const reporter = require('postcss-reporter');
+const lost = require('lost');
+
 
 const postCSSConfig = () => {
   return [
-    mixins(),
-    simpleVars(),
-    // Unwrap nested rules like how Sass does it
-    nested(),
-    customMedia(),
-    mediaMinMax(),
+    precss(),
     lost(),
     reporter({
       clearMessages: true
