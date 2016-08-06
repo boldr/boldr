@@ -49,7 +49,7 @@ const clientDevConfig = {
     publicPath: `http://localhost:${WP_DS}/build/`
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
+    extensions: ['', '.js', '.jsx', '.json'],
 
     modulesDir: [
       'src',
