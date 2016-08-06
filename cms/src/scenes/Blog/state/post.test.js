@@ -4,7 +4,7 @@ import expect from 'expect';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import request from 'supertest';
-import reducer from './blog';
+import reducer from './post';
 import {
 FETCH_POSTS_REQUEST,
 FETCH_POSTS_SUCCESS,
@@ -18,12 +18,14 @@ const mockStore = configureStore(middlewares);
 // request = request('http://localhost:8000/api/v1/articles');
 
 
-describe('blogReducer', () => {
+describe('postReducer', () => {
   const initialState = {
     isLoading: false,
     error: null,
-    posts: [],
-    selectedPost: {}
+    data: [],
+    selectedPost: {},
+    current: {},
+    isEditing: false
   };
 
   it('should return the initial state', () => {
@@ -47,7 +49,7 @@ describe('blogReducer', () => {
     ).toEqual({
       ...initialState,
       isLoading: false,
-      posts: undefined
+      data: undefined
     });
   });
 

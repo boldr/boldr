@@ -15,13 +15,13 @@ function createUUIDIfNotExist(instance) {
 }
 
 /**
- * Articles Table
- * Articles have one author and belong to many tags.
+ * Post Table
+ * Post have one author and belong to many tags.
  * @param sequelize
  * @param DataTypes
  * @returns {*|{}|Model}
  */
-const Article = Model.define('article', {
+const Post = Model.define('post', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -44,7 +44,8 @@ const Article = Model.define('article', {
   },
   featureImage: {
     type: DataTypes.STRING(256),
-    defaultValue: ''
+    defaultValue: '',
+    field: 'feature_image'
   },
   content: {
     type: DataTypes.TEXT,
@@ -55,19 +56,14 @@ const Article = Model.define('article', {
     type: DataTypes.TEXT,
     defaultValue: ''
   },
-  markup: {
-    type: DataTypes.JSON,
-    defaultValue: '',
-    allowNull: true
-  },
-  authorId: {
-    type: DataTypes.UUID
-  },
   status: {
     type: DataTypes.ENUM,
     allowNull: false,
     values: ['draft', 'published', 'archived'],
     defaultValue: 'published'
+  },
+  authorId: {
+    type: DataTypes.UUID
   },
   views: {
     type: DataTypes.INTEGER,
@@ -76,34 +72,33 @@ const Article = Model.define('article', {
   },
   createdAt: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    field: 'created_at'
   },
   updatedAt: {
     allowNull: false,
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    field: 'updated_at'
   }
 }, {
-  tableName: 'article',
+  tableName: 'post',
   freezeTableName: true,
   hooks: {
     beforeValidate: createUUIDIfNotExist
   },
   indexes: [
     {
-      fields: ['slug', 'createdAt', 'status']
+      fields: ['slug', 'created_at', 'status']
     }
   ],
   instanceMethods: {
     tagIds: () => this.getTags().map(tag => tag.get('id')),
     publishedAt() {
       return moment(this.createdAt, 'dddd, mmmm dS, yyyy, h:MM TT');
-    },
-    shortDescription() {
-      return this.content.length > 30 ? `${this.content.substr(0, 30)}...` : this.content;
     }
   },
   classMethods: {
-    getArticles(args) {
+    getPosts(args) {
       const { limit = 10, skip = 0 } = args;
       return this.findAll({
         where: {
@@ -114,17 +109,17 @@ const Article = Model.define('article', {
       });
     },
     findBySlug(slug) {
-      return this.findOne({ where: { slug } }, { include: [{
-      model: Model.Tag,
-      attributes: ['tagname', 'id']
-    }]});
+      return this.findOne({ where: { slug }, include: [{
+        model: Model.Tag,
+        attributes: ['name', 'id']
+      }] });
     },
     findByAuthor(authorId) {
       return this.findAll({ where: { authorId } });
     },
-    findById(articleId) {
-      return this.findAll({ where: { id: articleId } });
+    findById(postId) {
+      return this.findAll({ where: { id: postId } });
     }
   }
 });
-export default Article;
+export default Post;

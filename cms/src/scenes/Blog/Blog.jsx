@@ -2,7 +2,7 @@ import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
-import { fetchPostsIfNeeded } from './state/blog';
+import { fetchPostsIfNeeded } from './state/post';
 import PostCard from './components/mol.PostCard';
 
 import styles from './style.css';
@@ -15,7 +15,7 @@ const cx = styles::classNames;
 class Blog extends Component {
 
   static propTypes = {
-    blog: PropTypes.object
+    posts: PropTypes.object
   };
 
   constructor(props) {
@@ -23,9 +23,9 @@ class Blog extends Component {
     this.createPostsCollection = (postsCollection) => this._createPostsCollection(postsCollection);
   }
 
-  _createPostsCollection(posts) {
+  _createPostsCollection(data) {
     let postsCollection = []; // eslint-disable-line
-    for (let post of posts) { // eslint-disable-line
+    for (let post of data) { // eslint-disable-line
       postsCollection.push(
         <div key={ post.id } className="blog__post col-xs-6 col-md-4">
           <PostCard { ...post } />
@@ -35,12 +35,12 @@ class Blog extends Component {
     return postsCollection;
   }
   render() {
-    const postsCollection = this.createPostsCollection(this.props.blog.posts);
+    const postsCollection = this.createPostsCollection(this.props.posts.data);
     return (
       <section className="row">
         <div className={ cx('blog__post-wrap') }>
         {
-          this.props.blog.isLoading ? <h1>Loading ...</h1> : postsCollection
+          this.props.posts.isLoading ? <h1>Loading ...</h1> : postsCollection
         }
         </div>
       </section>
@@ -50,8 +50,8 @@ class Blog extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    blog: state.blog,
-    isLoading: state.blog.isLoading
+    posts: state.posts,
+    isLoading: state.posts.isLoading
   };
 };
 

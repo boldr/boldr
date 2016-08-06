@@ -2,8 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 
-import blogReducer from 'scenes/Blog/state/blog';
-import articleReducer from 'scenes/Dashboard/scenes/Articles/state/article';
+import postsReducer from 'scenes/Blog/state/post';
 import siteUsersReducer from 'scenes/Dashboard/scenes/Users/state/siteUsers';
 import mediaReducer from 'scenes/Dashboard/scenes/Media/state/media';
 import accountReducer from 'scenes/Account/state/account';
@@ -18,8 +17,7 @@ const reducers = combineReducers({
   notifications: notificationReducer,
   auth: authReducer,
   boldr: boldrReducer,
-  blog: blogReducer,
-  article: articleReducer,
+  posts: postsReducer,
   siteUsers: siteUsersReducer,
   media: mediaReducer,
   account: accountReducer

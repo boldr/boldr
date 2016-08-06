@@ -15,7 +15,7 @@ import classNames from 'classnames/bind';
 import Paper from 'material-ui/Paper';
 import TextEditor from 'components/org.Editor/Editor/Editor';
 
-import * as articleActionCreators from '../../state/article';
+// import * as articleActionCreators from '../../state/article';
 import styles from './style.css';
 
 const cx = styles::classNames;

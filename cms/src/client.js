@@ -9,7 +9,7 @@ import { trigger } from 'redial';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import useScroll from 'react-router-scroll';
+// import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
 // Non-vendor
 
@@ -58,7 +58,7 @@ const render = () => {
         <Provider store={ store } key="provider">
           <MuiThemeProvider muiTheme={ muiTheme }>
             <Router routes={ routes } history={ history } helpers={ client }
-              render={ applyRouterMiddleware(useScroll()) } key={ Math.random() }
+              key={ Math.random() }
             />
           </MuiThemeProvider>
         </Provider>

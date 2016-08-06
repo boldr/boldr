@@ -1,10 +1,10 @@
 import DataTypes from 'sequelize';
 import Model from '../sequelize';
-import { Article, Tag } from './index';
+import { Post, Tag } from './index';
 
-const ArticleTag = Model.define('article_tag', {
+const PostTag = Model.define('post_tag', {
   tagId: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: Tag,
       key: 'id'
@@ -12,10 +12,10 @@ const ArticleTag = Model.define('article_tag', {
     allowNull: false,
     onDelete: 'cascade'
   },
-  articleId: {
+  postId: {
     type: DataTypes.UUID,
     references: {
-      model: Article,
+      model: Post,
       key: 'id'
     },
     allowNull: false,
@@ -24,12 +24,12 @@ const ArticleTag = Model.define('article_tag', {
 }, {
   uniqueKeys: {
     unique: {
-      fields: ['articleId', 'tagId']
+      fields: ['postId', 'tagId']
     }
   },
-  tableName: 'article_tag',
+  tableName: 'post_tag',
   freezeTableName: true,
   timestamps: false
 });
 
-export default ArticleTag;
+export default PostTag;

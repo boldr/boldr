@@ -39,7 +39,6 @@ export const VENDOR = [
   'material-ui',
   'react-tap-event-plugin',
   'redial',
-  'react-router-scroll',
   'webfontloader'
 ];
 export const NODE_MODULES_DIR = constants.NODE_MODULES_DIR;

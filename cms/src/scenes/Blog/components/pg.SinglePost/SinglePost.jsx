@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper';
 import { provideHooks } from 'redial';
 import Loader from 'components/atm.Loader';
 import Sidebar from '../org.Sidebar';
-import { fetchPost } from '../../state/blog';
+import { fetchPost } from '../../state/post';
 import PostContent from '../../components/mol.PostContent';
 
 @provideHooks({
@@ -44,9 +44,9 @@ SinglePost.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    blog: state.blog,
-    isLoading: state.blog.isLoading,
-    selectedPost: state.blog.selectedPost
+    posts: state.posts,
+    isLoading: state.posts.isLoading,
+    selectedPost: state.posts.selectedPost
   };
 };
 
