@@ -3,7 +3,7 @@ import s3router from './s3/s3router';
 import userRoutes from './user/user.router';
 import mediaRoutes from './media/media.router';
 import tagRoutes from './tag/tag.router';
-import articleRoutes from './article/article.router';
+import postRoutes from './post/post.router';
 import settingRoutes from './setting/setting.router';
 import categoryRoutes from './category/category.router';
 import authRoutes from './auth';
@@ -22,7 +22,7 @@ router.use('/users', userRoutes);
 router.use('/category', categoryRoutes);
 router.use('/medias', mediaRoutes);
 router.use('/tags', tagRoutes);
-router.use('/articles', articleRoutes);
+router.use('/posts', postRoutes);
 router.use('/settings', settingRoutes);
 router.use('/s3', s3router({
   headers: { 'Access-Control-Allow-Origin': '*' }, // optional

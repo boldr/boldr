@@ -1,11 +1,8 @@
 import slug from 'limax';
+import sequelize from 'sequelize';
 import Boom from 'boom';
-import {
-  Article,
-  User,
-  Tag,
-  ArticleTag
-} from '../../db/models';
+import { Post, User, Tag, PostTag} from '../../db/models';
+
 import config from '../../core/config/boldr';
 import { respondWithResult, handleError } from '../../lib/helpers';
 
@@ -14,19 +11,19 @@ const debug = require('debug')('boldr:api-article-ctrl');
 const MAX_TAGS = 15;
 
 /**
- * @api {get} /articles       Get all articles
+ * @api {get} /posts       Get all posts
  * @apiVersion 1.0.0
- * @apiName getAllArticles
- * @apiGroup Article
+ * @apiName getAllPosts
+ * @apiGroup Post
  *
  * @apiExample Example usage:
- * curl -i http://localhost:3000/api/v1/articles
+ * curl -i http://localhost:3000/api/v1/posts
  *
- * @apiSuccess {String}  id   The Article ID
+ * @apiSuccess {String}  id   The Post ID
  */
-const getAllArticles = async(req, res, next) => {
+const getAllPosts = async(req, res, next) => {
   try {
-    const articles = await Article.findAll({
+    const posts = await Post.findAll({
       order: [
         ['createdAt', 'DESC']
       ],
@@ -35,11 +32,11 @@ const getAllArticles = async(req, res, next) => {
         attributes: ['id', 'displayName', 'picture', 'email']
       }, {
         model: Tag,
-        attributes: ['tagname', 'id']
+        attributes: ['name', 'id']
       }]
     });
 
-    return res.status(200).json(articles);
+    return res.status(200).json(posts);
   } catch (error) {
     Boom.badRequest(error);
     return next(error);
@@ -47,39 +44,42 @@ const getAllArticles = async(req, res, next) => {
 };
 
 /**
- * @api {get} /articles/:id  Get a specific article by its id
+ * @api {get} /posts/:id  Get a specific post by its id
  * @apiVersion 1.0.0
- * @apiName ShowArticle
- * @apiGroup Article
+ * @apiName ShowPost
+ * @apiGroup Post
  *
  * @apiExample Example usage:
- * curl -i http://localhost:3000/api/v1/articles/1
+ * curl -i http://localhost:3000/api/v1/posts/1
  *
- * @apiParam {String}    id   The article's id.
+ * @apiParam {String}    id   The posts' id.
  *
- * @apiSuccess {String}  id   The Article ID
+ * @apiSuccess {String}  id   The Post ID
  */
-const showArticle = async(req, res, next) => {
-  const articleId = req.params.id;
+const showPost = async(req, res, next) => {
+  const postId = req.params.id;
   try {
-    const article = await Article.find({ where: { id: articleId } }, {
+    const post = await Post.findOne({
+      where: {
+        id: postId
+      },
       include: [{
         model: User,
         attributes: ['firstName', 'lastName', 'displayName', 'picture', 'email', 'role']
       }, {
         model: Tag,
-        attributes: ['tagname', 'id']
+        attributes: ['name', 'id']
       }]
     });
-    return res.status(200).json(article);
+    return res.status(200).json(post);
   } catch (error) {
     Boom.badRequest(error);
     return next(error);
   }
 };
 
-async function addTagToArticle(req, res, next) {
-  const articleId = req.params.articleId;
+async function addTagToPost(req, res, next) {
+  const postId = req.params.postId;
   const alreadyAddedError = () => {
     const error = {
       message: 'Could not add tag to the article. Is it already added?'
@@ -91,22 +91,21 @@ async function addTagToArticle(req, res, next) {
       where: {
         tagname: req.body.tagname.toLowerCase().trim()
       }
-    }).spread(tag =>
-      ArticleTag.create({
-        articleId,
-        tagId: tag.id
-      }).then(() => {
-        const json = tag.toJSON();
-        json.article_count = 1;
-        res.status(201).send(json);
-      }).catch(alreadyAddedError)
+    }).spread(tag => PostTag.create({
+      postId,
+      tagId: tag.id
+    }).then(() => {
+      const json = tag.toJSON();
+      json.article_count = 1;
+      res.status(201).send(json);
+    }).catch(alreadyAddedError)
     ).catch(err => {
       console.log(res, err);
     });
   } else if (req.body.id !== undefined) {
     const id = req.body.id;
-    ArticleTag.create({
-      articleId,
+    PostTag.create({
+      postId,
       tagId: id
     }).then(obj => {
       const json = obj.toJSON();
@@ -133,41 +132,41 @@ async function addTagToArticle(req, res, next) {
  * @param {Date}    createdAt      the time the article was saved.
  * @return {Object}                the article object
  */
-const createNewArticle = (req, res, next) => {
+const createNewPost = (req, res, next) => {
   if (req.body.tags) {
     req.body.tags = req.body.tags.split(',', MAX_TAGS).map(tag => tag.substr(0, 15));
   }
-  return Article.create({
+  return Post.create({
     title: req.body.title,
     slug: slug(req.body.title),
     excerpt: req.body.excerpt,
-    markup: req.body.markup,
     content: req.body.content,
     featureImage: req.body.featureImage,
     authorId: req.user.id,
     status: req.body.status
-  }).then(article => {
+  }).then(post => {
     for (let i = 0; i < req.body.tags.length; i++) {
       const newTag = Tag.findOrCreate({
         where: {
-          tagname: req.body.tags[i]
+          name: req.body.tags[i]
         }
-      }).spread(tag =>
-        ArticleTag.create({
-          articleId: article.id,
-          tagId: tag.id
-        }).then(articleTag => {
-          debug('articleTag', articleTag);
-          return res.status(201).json(articleTag);
-        }).catch(error => {
-          return Boom.badRequest(error);
-        })
-      ).catch(error => {
+      }).spread(tag => PostTag.create({
+        postId: post.id,
+        tagId: tag.id
+      }).then(postTag => {
+        debug('postTag', postTag);
+        return postTag;
+      }).catch(sequelize.ValidationError, error => {
+        return Boom.badRequest(error);
+      })
+      ).catch(sequelize.ValidationError, error => {
         return Boom.badRequest(error);
       });
     }
+    return res.status(201).json(post);
   });
 };
+
 /**
  * @api {get} /articles/:slug       Get article by its slug.
  * @apiVersion 1.0.0
@@ -183,27 +182,27 @@ const createNewArticle = (req, res, next) => {
  * @apiSuccess {String}  slug       The articles slug
  */
 
-const findArticleBySlug = (req, res, next) => {
-  const articleSlug = req.params.slug;
-  return Article.findBySlug(articleSlug)
-    .then((article) => {
-      if (!article) {
+const findPostBySlug = (req, res, next) => {
+  const postSlug = req.params.slug;
+  return Post.findBySlug(postSlug)
+    .then((post) => {
+      if (!post) {
         return Boom.notFound('Unable to find an article with that slug.');
       }
-      return res.status(200).json(article);
+      return res.status(200).json(post);
     });
 };
 
 const updateArticleById = (req, res, next) => {
-  const articleId = req.params.id;
-  return Article.findById(articleId).then(article => {
-    debug('update article promise', article);
-    if (!article) {
-      return Boom.notFound(article);
+  const postId = req.params.id;
+  return Post.findById(postId).then(post => {
+    debug('update post promise', post);
+    if (!post) {
+      return Boom.notFound(post);
     }
     const updates = req.body;
     debug('the req.body', updates);
-    article.updateAttributes(updates)
+    post.updateAttributes(updates)
       .then(updated => {
         return updated;
       })
@@ -212,16 +211,16 @@ const updateArticleById = (req, res, next) => {
   });
 };
 
-const updateArticleBySlug = (req, res, next) => {
+const updatePostBySlug = (req, res, next) => {
   const slug = req.params.slug;
-  return Article.findBySlug(slug).then(article => {
-    debug('update article promise', article);
-    if (!article) {
-      return Boom.notFound(article);
+  return Post.findBySlug(slug).then(post => {
+    debug('update post promise', post);
+    if (!post) {
+      return Boom.notFound(post);
     }
     const updates = req.body;
     debug('the req.body', updates);
-    article.updateAttributes(updates)
+    post.updateAttributes(updates)
       .then(updated => {
         return updated;
       })
@@ -230,42 +229,37 @@ const updateArticleBySlug = (req, res, next) => {
   });
 };
 
-const deleteArticleById = (req, res, next) => {
-  const articleId = req.params.articleId;
-  return Article.findById(articleId).then(article => {
-    if (!article) {
-      return Boom.notFound(article);
+const deletePostById = (req, res, next) => {
+  const postId = req.params.postId;
+  return Post.findById(postId).then(post => {
+    if (!post) {
+      return Boom.notFound(post);
     }
-    article.destroy()
+    post.destroy()
       .then(() => {
-        res.status(204).send({ error: false });
+        res.status(204).send({
+          error: false
+        });
       })
       .catch(handleError(res));
   });
 };
 
-const deleteArticleBySlug = (req, res, next) => {
+const deletePostBySlug = (req, res, next) => {
   const slug = req.params.slug;
-  return Article.findBySlug(slug).then(article => {
-    if (!article) {
-      return Boom.notFound(article);
+  return Post.findBySlug(slug).then(post => {
+    if (!post) {
+      return Boom.notFound(post);
     }
-    article.destroy()
+    post.destroy()
       .then(() => {
-        res.status(204).send({ error: false });
+        res.status(204).send({
+          error: false
+        });
       })
       .catch(handleError(res));
   });
 };
 
-export {
-  getAllArticles,
-  showArticle,
-  addTagToArticle,
-  createNewArticle,
-  findArticleBySlug,
-  updateArticleById,
-  updateArticleBySlug,
-  deleteArticleById,
-  deleteArticleBySlug
-};
+export { getAllPosts, showPost, addTagToPost, createNewPost, findPostBySlug,
+  updateArticleById, updatePostBySlug, deletePostById, deletePostBySlug };

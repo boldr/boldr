@@ -1,7 +1,7 @@
 module.exports = {
   up(queryInterface, DataTypes) {
     return queryInterface.createTable(
-      'article', {
+      'post', {
         id: {
           type: DataTypes.UUID,
           primaryKey: true,
@@ -18,7 +18,8 @@ module.exports = {
         },
         featureImage: {
           type: DataTypes.STRING(256),
-          defaultValue: ''
+          defaultValue: '',
+          field: 'feature_image'
         },
         content: {
           type: DataTypes.TEXT,
@@ -27,11 +28,6 @@ module.exports = {
         excerpt: {
           type: DataTypes.TEXT,
           defaultValue: ''
-        },
-        markup: {
-          type: DataTypes.JSON,
-          defaultValue: '',
-          allowNull: true
         },
         authorId: {
           type: DataTypes.UUID
@@ -49,17 +45,19 @@ module.exports = {
         },
         createdAt: {
           allowNull: false,
-          type: DataTypes.DATE
+          type: DataTypes.DATE,
+          field: 'created_at'
         },
         updatedAt: {
           allowNull: false,
-          type: DataTypes.DATE
+          type: DataTypes.DATE,
+          field: 'updated_at'
         }
       }
     );
   },
 
   down(queryInterface) {
-    return queryInterface.dropTable('article');
+    return queryInterface.dropTable('post');
   }
 };

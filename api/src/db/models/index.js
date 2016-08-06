@@ -1,6 +1,6 @@
 import sequelize from '../sequelize';
-import Article from './article';
-import ArticleTag from './articleTag';
+import Post from './post';
+import PostTag from './postTag';
 import Category from './category';
 import Media from './media';
 import MediaCategory from './mediaCategory';
@@ -10,19 +10,19 @@ import Token from './token';
 import User from './user';
 import VerificationToken from './verification';
 
-Article.belongsToMany(Tag, {
+Post.belongsToMany(Tag, {
   through: {
-    model: ArticleTag
+    model: PostTag
   },
   foreignKey: {
-    name: 'articleId',
+    name: 'postId',
     allowNull: true
   },
   constraints: false,
   onDelete: 'cascade'
 });
 
-Article.belongsTo(User, {
+Post.belongsTo(User, {
   foreignKey: 'authorId'
 });
 
@@ -30,9 +30,9 @@ Media.belongsTo(User, {
   foreignKey: 'ownerId'
 });
 
-Tag.belongsToMany(Article, {
+Tag.belongsToMany(Post, {
   through: {
-    model: ArticleTag
+    model: PostTag
   },
   foreignKey: {
     name: 'tagId',
@@ -52,7 +52,7 @@ User.hasMany(Token, {
   onDelete: 'cascade'
 });
 
-User.hasMany(Article, {
+User.hasMany(Post, {
   foreignKey: 'authorId',
   onUpdate: 'cascade',
   onDelete: 'cascade'
@@ -72,11 +72,11 @@ User.hasMany(Media, {
 // });
 
 
-Article.hasMany(ArticleTag);
-Tag.hasMany(ArticleTag);
+Post.hasMany(PostTag);
+Tag.hasMany(PostTag);
 
-ArticleTag.belongsTo(Article);
-ArticleTag.belongsTo(Tag);
+PostTag.belongsTo(Post);
+PostTag.belongsTo(Tag);
 
 User.hasOne(VerificationToken, {
   foreignKey: 'verificationTokenId',
@@ -101,36 +101,36 @@ VerificationToken.belongsTo(User, {
 // MediaCategory.belongsTo(Media);
 // MediaCategory.belongsTo(Category);
 
-Tag.addScope('taggedInArticle', {
+Tag.addScope('taggedInPost', {
   distinct: 'id',
   attributes: [
     'id',
-    'tagname',
-    [sequelize.fn('count', sequelize.col('Article_Tag.articleId')), 'articleCount']
+    'name',
+    [sequelize.fn('count', sequelize.col('Post_Tag.postId')), 'postCount']
   ],
   include: [
     {
       attributes: [],
-      model: ArticleTag,
+      model: PostTag,
       required: false
     }
   ],
   group: ['Tag.id'],
-  order: 'articleCount DESC'
+  order: 'postCount DESC'
 });
 
-Article.findAllWithTagIds = () => {
-  Article.findAll({
-    attributes: {
-      include: [
-        [sequelize.literal(`ARRAY(SELECT "tagId" from "Article_Tag"
-          where "Article_Tag"."articleId" = "Article"."id")`),
-        'Tag']
-      ],
-      exclude: ['updatedAt']
-    }
-  });
-};
+// Post.findAllWithTagIds = () => {
+//   Post.findAll({
+//     attributes: {
+//       include: [
+//         [sequelize.literal(`ARRAY(SELECT "tagId" from "Article_Tag"
+//           where "Article_Tag"."articleId" = "Article"."id")`),
+//         'Tag']
+//       ],
+//       exclude: ['updatedAt']
+//     }
+//   });
+// };
 
 User.sync().then(() => {
   User.find({ where: { displayName: 'admin' } }).then(user => {
@@ -157,4 +157,4 @@ function sync(...args) {
 }
 
 export default { sync };
-export { User, Token, Article, Tag, Media, ArticleTag, MediaCategory, Category, Setting, VerificationToken };
+export { User, Token, Post, Tag, Media, PostTag, MediaCategory, Category, Setting, VerificationToken };

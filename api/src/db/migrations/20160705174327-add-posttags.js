@@ -1,11 +1,11 @@
 module.exports = {
   up(queryInterface, DataTypes) {
     return queryInterface.createTable(
-      'article_tag', {
+      'post_tag', {
         tagId: {
-          type: DataTypes.UUID
+          type: DataTypes.INTEGER
         },
-        articleId: {
+        postId: {
           type: DataTypes.UUID
         }
       }
@@ -13,6 +13,6 @@ module.exports = {
   },
 
   down(queryInterface) {
-    return queryInterface.dropTable('article_tag');
+    return queryInterface.dropTable('post_tag');
   }
 };

@@ -5,10 +5,10 @@ import server from '../../index';
 
 const agent = request.agent(server);
 
-describe('Articles API Endpoint', () => {
-  it('GET - returns a list of articles', (done) => {
+describe('Posts API Endpoint', () => {
+  it('GET - returns a list of posts', (done) => {
     agent
-        .get('/api/v1/articles')
+        .get('/api/v1/posts')
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {

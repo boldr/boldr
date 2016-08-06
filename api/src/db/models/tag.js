@@ -20,11 +20,11 @@ function createUUIDIfNotExist(instance) {
  */
 const Tag = Model.define('tag', {
   id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: DataTypes.UUIDV4
+    autoIncrement: true
   },
-  tagname: {
+  name: {
     type: DataTypes.STRING(20),
     allowNull: false
   },
@@ -37,7 +37,6 @@ const Tag = Model.define('tag', {
   tableName: 'tag',
   freezeTableName: true,
   hooks: {
-    beforeValidate: createUUIDIfNotExist
   }
 });
 export default Tag;
