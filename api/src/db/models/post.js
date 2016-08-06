@@ -109,10 +109,10 @@ const Post = Model.define('post', {
       });
     },
     findBySlug(slug) {
-      return this.findOne({ where: { slug } }, { include: [{
+      return this.findOne({ where: { slug }, include: [{
         model: Model.Tag,
         attributes: ['name', 'id']
-        } ]});
+      }] });
     },
     findByAuthor(authorId) {
       return this.findAll({ where: { authorId } });

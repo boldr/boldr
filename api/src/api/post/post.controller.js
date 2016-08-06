@@ -120,17 +120,16 @@ async function addTagToPost(req, res, next) {
 }
 
 /**
- * Creates a new article and saves it to the database.
- * @method createArticle
- * @param {String}  title          the title of the article
+ * Creates a new post and saves it to the database.
+ * @method createNewPost
+ * @param {String}  title          the title of the post
  * @param {String}  excerpt        a short summary of intro paragraph.
- * @param {String}  markup         any HTML from the post body
- * @param {String}  content        the article body
- * @param {String}  featureImage   an image to go along with the article
- * @param {Number}  authorId       the userId associated with the creator of the article
- * @param {ENUM}    status         whether or not the article is published
- * @param {Date}    createdAt      the time the article was saved.
- * @return {Object}                the article object
+ * @param {String}  content        the post body
+ * @param {String}  featureImage   an image to go along with the post
+ * @param {Number}  authorId       the userId associated with the creator of the post
+ * @param {ENUM}    status         whether or not the post is published
+ * @param {Date}    createdAt      the time the post was saved.
+ * @return {Object}                the post object
  */
 const createNewPost = (req, res, next) => {
   if (req.body.tags) {
@@ -168,18 +167,18 @@ const createNewPost = (req, res, next) => {
 };
 
 /**
- * @api {get} /articles/:slug       Get article by its slug.
+ * @api {get} /posts/:slug       Get post by its slug.
  * @apiVersion 1.0.0
- * @apiName findArticleBySlug
- * @apiGroup Article
+ * @apiName findPostBySlug
+ * @apiGroup Post
  *
  * @apiParam slug                   The slug (title that is all lower case, spaces replaced by dashes.)
  * @apiExample Example usage:
- * curl -X "GET" "http://localhost:3000/api/v1/articles/some-test-post"
+ * curl -X "GET" "http://localhost:3000/api/v1/posts/some-test-post"
  *
- * @apiSuccess {String}  id         The Article ID
- * @apiSuccess {String}  title      The article title
- * @apiSuccess {String}  slug       The articles slug
+ * @apiSuccess {String}  id         The post ID
+ * @apiSuccess {String}  title      The post title
+ * @apiSuccess {String}  slug       The post slug
  */
 
 const findPostBySlug = (req, res, next) => {
@@ -193,7 +192,7 @@ const findPostBySlug = (req, res, next) => {
     });
 };
 
-const updateArticleById = (req, res, next) => {
+const updatePostById = (req, res, next) => {
   const postId = req.params.id;
   return Post.findById(postId).then(post => {
     debug('update post promise', post);
@@ -262,4 +261,4 @@ const deletePostBySlug = (req, res, next) => {
 };
 
 export { getAllPosts, showPost, addTagToPost, createNewPost, findPostBySlug,
-  updateArticleById, updatePostBySlug, deletePostById, deletePostBySlug };
+  updatePostById, updatePostBySlug, deletePostById, deletePostBySlug };
