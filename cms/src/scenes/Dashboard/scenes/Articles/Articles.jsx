@@ -12,7 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import Paper from 'material-ui/Paper';
 import classNames from 'classnames/bind';
-import { fetchArticlesIfNeeded, selectArticle } from './state/article';
+import { fetchPostsIfNeeded, selectPost } from 'scenes/Blog/state/post';
 import ArticleListItem from './components/org.ArticleListItem';
 import styles from './style.css';
 
@@ -28,7 +28,7 @@ const iconButtonElement = (
 );
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchArticlesIfNeeded())
+  fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
 })
 class Articles extends Component {
   constructor(props) {
@@ -39,15 +39,15 @@ class Articles extends Component {
     };
   }
 
-  handleArticleClick(articleId, artSlug) {
-    this.props.dispatch(selectArticle(articleId));
+  handleArticleClick(postId, artSlug) {
+    this.props.dispatch(selectPost(postId));
     this.setState({
       visible: true,
       slug: artSlug
     });
   }
   render() {
-    if (!this.props.article.articles.length) {
+    if (!this.props.posts.data.length) {
       return <h1>Perhaps you should create a new post?</h1>;
     }
     // FIXME: Better way to set the article slug state. Currently you have to click on the card...
@@ -64,14 +64,14 @@ class Articles extends Component {
        <Paper>
 
         <List className={ cx('articleList__wrap') }>
-          { this.props.article.articles.map(article =>
+          { this.props.posts.data.map(post =>
             <ListItem
-              key={ article.id }
-              leftAvatar={ <Avatar src={ article.featureImage } /> }
+              key={ post.id }
+              leftAvatar={ <Avatar src={ post.featureImage } /> }
               rightIconButton={ rightIconMenu }
-              primaryText={ article.title }
+              primaryText={ post.title }
               secondaryText={
-                <ArticleListItem article={ article } handleArticleClick={ ::this.handleArticleClick } />
+                <ArticleListItem article={ post } handleArticleClick={ ::this.handleArticleClick } />
               }
               secondaryTextLines={ 2 }
             />)
@@ -91,15 +91,15 @@ class Articles extends Component {
 
 Articles.propTypes = {
   children: PropTypes.node,
-  article: PropTypes.object,
+  posts: PropTypes.object,
   dispatch: PropTypes.func,
   current: PropTypes.object
 };
 const mapStateToProps = (state, ownProps) => {
   return {
-    article: state.article,
-    isLoading: state.article.isLoading,
-    current: state.article.current
+    posts: state.posts,
+    isLoading: state.posts.isLoading,
+    current: state.posts.current
   };
 };
 export default connect(mapStateToProps)(Articles);

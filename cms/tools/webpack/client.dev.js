@@ -49,7 +49,7 @@ const clientDevConfig = {
     publicPath: `http://localhost:${WP_DS}/build/`
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json'],
+    extensions: ['', '.js', '.jsx', '.json', '.scss', 'css'],
 
     modulesDir: [
       'src',
@@ -68,7 +68,7 @@ const clientDevConfig = {
   module: {
     loaders: [
       createSourceLoader({
-        happy: { id: 'jsx', threads: 4 },
+        happy: { id: 'jsx' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: NODE_MODULES_DIR,
@@ -80,20 +80,18 @@ const clientDevConfig = {
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
-      createSourceLoader({
-        happy: { id: 'sass' },
-        test: /\.scss$/,
-        include: path.resolve(ROOT_DIR, 'src', 'styles'),
-        loader: 'style!css?sourceMap!postcss!sass?sourceMap'
-      }),
-      createSourceLoader({
-        happy: { id: 'css' },
-        test: /\.css$/,
-        loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
-      }),
       {
         test: /\.scss$/,
-        exclude: path.resolve(ROOT_DIR, 'src', 'styles'),
+        include: path.resolve(SRC_DIR, 'styles'),
+        loader: 'style!css?sourceMap!postcss!sass?sourceMap'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css?modules&camelCase&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss'
+      },
+      {
+        test: /\.scss$/,
+        exclude: path.resolve(SRC_DIR, 'styles'),
         loader: [
           'css?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]',
           'postcss',
@@ -129,9 +127,7 @@ const clientDevConfig = {
     new webpack.NoErrorsPlugin(),
     webpackIsomorphicToolsPlugin.development(),
     new webpack.HotModuleReplacementPlugin(),
-    createHappyPlugin('jsx'),
-    createHappyPlugin('sass'),
-    createHappyPlugin('css')
+    createHappyPlugin('jsx')
   ]
 };
 
