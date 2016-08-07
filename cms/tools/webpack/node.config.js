@@ -4,53 +4,20 @@ import path from 'path';
 import webpack from 'webpack';
 import InlineEnviromentVariablesPlugin from 'inline-environment-variables-webpack-plugin';
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
+import NodeExternals from 'webpack-node-externals';
+
 import {
   ROOT_DIR, SRC_DIR, NODE_MODULES_DIR
 } from '../constants';
-import isomorphicConfig from './isomorphic.config';
 
 const dotenv = require('dotenv');
-
-const webpackIsomorphicToolsPlugin =
-  new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 dotenv.config({ silent: true });
-const regExpGroups = ['style_modules', 'fonts'];
-const plugins = [];
-/**
- * Add node noop
- * @param {[type]} regExpGroup [description]
- */
-function addNodeNoop(regExpGroup) {
-  // noinspection JSUnresolvedFunction
-  plugins.push(new webpack.NormalModuleReplacementPlugin(
-    webpackIsomorphicToolsPlugin.regular_expression(regExpGroup),
-    'node-noop'
-  ));
-}
-
-let regExpGroup;
-
-for (regExpGroup in regExpGroups) {
-  if (regExpGroups.hasOwnProperty(regExpGroup)) {
-    addNodeNoop(regExpGroups[regExpGroup]);
-  }
-}
-
-function getExternals() {
-  const nodeModules = fs.readdirSync(path.join(process.cwd(), 'node_modules')).concat([
-    'react-dom/server'
-  ]);
-  return nodeModules.reduce((ext, mod) => {
-    ext[mod] = `commonjs ${mod}`;
-    return ext;
-  }, {});
-}
 
 const nodeConfig = { // eslint-disable-line
   target: 'node',
   stats: false,
   progress: true,
-  externals: getExternals(),
+  externals: NodeExternals(),
   context: ROOT_DIR,
   devtool: 'source-map',
   entry: {
@@ -87,7 +54,7 @@ const nodeConfig = { // eslint-disable-line
         query: {
           cacheDirectory: false,
           babelrc: false,
-          presets: ['react', 'es2015-webpack', 'stage-0'],
+          presets: ['react', ['es2015', { modules: false }], 'stage-0'],
           plugins: [['transform-runtime', { polyfill: true, regenerator: true }], 'transform-decorators-legacy'],
           compact: 'auto'
         }
