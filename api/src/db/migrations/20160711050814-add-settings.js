@@ -9,7 +9,8 @@ module.exports = {
             },
             siteName: {
               type: DataTypes.STRING(64),
-              allowNull: false
+              allowNull: false,
+              field: 'site_name'
             },
             description: {
               type: DataTypes.STRING(256),
@@ -22,7 +23,7 @@ module.exports = {
             siteUrl: {
               type: DataTypes.STRING(256),
               allowNull: false,
-              defaultValue: 'http://localhost:3000'
+              field: 'site_url'
             },
             favicon: {
               type: DataTypes.STRING(256),
@@ -31,12 +32,13 @@ module.exports = {
             analyticsId: {
               type: DataTypes.STRING(256),
               allowNull: true,
-              defaultValue: 'UA-XX1234'
+              field: 'analytics_id'
             },
             allowRegistration: {
               type: DataTypes.BOOLEAN,
               allowNull: false,
-              defaultValue: true
+              defaultValue: true,
+              field: 'allow_registration'
             },
             config: {
               type: DataTypes.JSON,

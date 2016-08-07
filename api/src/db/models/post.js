@@ -62,8 +62,9 @@ const Post = Model.define('post', {
     values: ['draft', 'published', 'archived'],
     defaultValue: 'published'
   },
-  authorId: {
-    type: DataTypes.UUID
+  userId: {
+    type: DataTypes.UUID,
+    field: 'user_id'
   },
   views: {
     type: DataTypes.INTEGER,

@@ -23,7 +23,7 @@ class ProfileMain extends Component {
           <CardHeader
             title={ this.props.account.firstName }
             subtitle="Subtitle"
-            avatar={ this.props.account.picture }
+            avatar={ this.props.account.avatarUrl }
           />
           <CardTitle title="Card" subtitle="Card subtitle" />
           <CardText>
@@ -61,7 +61,7 @@ class ProfileMain extends Component {
           <ListItem primaryText={ this.props.account.birthday } />
           <ListItem primaryText={ this.props.account.location } />
           <ListItem primaryText={ this.props.account.website } />
-          <ListItem primaryText={ this.props.account.picture } />
+          <ListItem primaryText={ this.props.account.avatarUrl } />
 
           </List>
           </CardText>

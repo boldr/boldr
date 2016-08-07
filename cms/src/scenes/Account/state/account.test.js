@@ -38,8 +38,8 @@ describe('authReducer', () => {
     id: '',
     lastName: '',
     location: '',
-    picture: '',
-    role: '',
+    avatarUrl: '',
+    roleId: '',
     website: ''
   };
 

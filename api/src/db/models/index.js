@@ -4,11 +4,10 @@ import PostTag from './postTag';
 import Category from './category';
 import Media from './media';
 import MediaCategory from './mediaCategory';
+import Role from './role';
 import Setting from './setting';
 import Tag from './tag';
-import Token from './token';
 import User from './user';
-import VerificationToken from './verification';
 
 Post.belongsToMany(Tag, {
   through: {
@@ -23,11 +22,11 @@ Post.belongsToMany(Tag, {
 });
 
 Post.belongsTo(User, {
-  foreignKey: 'authorId'
+  foreignKey: 'userId'
 });
 
 Media.belongsTo(User, {
-  foreignKey: 'ownerId'
+  foreignKey: 'userId'
 });
 
 Tag.belongsToMany(Post, {
@@ -41,26 +40,15 @@ Tag.belongsToMany(Post, {
   constraints: false,
   onDelete: 'cascade'
 });
-
-Token.belongsTo(User, {
-  foreignKey: 'userId'
-});
-
-User.hasMany(Token, {
-  foreignKey: 'userId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
-
 User.hasMany(Post, {
-  foreignKey: 'authorId',
+  foreignKey: 'userId',
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
 
 
 User.hasMany(Media, {
-  foreignKey: 'ownerId',
+  foreignKey: 'userId',
   onUpdate: 'cascade',
   onDelete: 'cascade'
 });
@@ -78,16 +66,10 @@ Tag.hasMany(PostTag);
 PostTag.belongsTo(Post);
 PostTag.belongsTo(Tag);
 
-User.hasOne(VerificationToken, {
-  foreignKey: 'verificationTokenId',
-  onUpdate: 'cascade',
-  onDelete: 'cascade'
-});
+Role.hasMany(User, { foreignKey: 'role_id' });
+User.belongsTo(Role, { foreignKey: 'role_id' });
 
-VerificationToken.belongsTo(User, {
-  foreignKey: 'userId'
-});
-// 
+//
 // User.sync().then(() => {
 //   User.find({ where: { displayName: 'admin' } }).then(user => {
 //     if (!user) {
@@ -113,4 +95,4 @@ function sync(...args) {
 }
 
 export default { sync };
-export { User, Token, Post, Tag, Media, PostTag, MediaCategory, Category, Setting, VerificationToken };
+export { User, Post, Tag, Media, PostTag, MediaCategory, Category, Setting, Role };

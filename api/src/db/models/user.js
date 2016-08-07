@@ -27,7 +27,8 @@ const User = Model.define('user', {
   },
   displayName: {
     type: DataTypes.STRING(64),
-    allowNull: true
+    allowNull: true,
+    field: 'display_name'
   },
   email: {
     type: DataTypes.STRING(64),
@@ -47,11 +48,13 @@ const User = Model.define('user', {
   },
   firstName: {
     type: DataTypes.STRING(32),
-    defaultValue: ''
+    defaultValue: '',
+    field: 'first_name'
   },
   lastName: {
     type: DataTypes.STRING(64),
-    defaultValue: ''
+    defaultValue: '',
+    field: 'last_name'
   },
   bio: {
     type: DataTypes.TEXT,
@@ -71,15 +74,22 @@ const User = Model.define('user', {
     type: DataTypes.STRING(128),
     defaultValue: ''
   },
-  picture: {
+  avatarUrl: {
     type: DataTypes.STRING(256),
-    defaultValue: ''
+    defaultValue: '',
+    field: 'avatar_url'
+  },
+  roleId: {
+    type: DataTypes.INTEGER,
+    field: 'role_id'
   },
   resetPasswordToken: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    field: 'reset_password_token'
   },
   resetPasswordExpires: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    field: 'reset_password_expires'
   },
   provider: {
     type: DataTypes.STRING,
@@ -101,9 +111,9 @@ const User = Model.define('user', {
     type: DataTypes.STRING,
     defaultValue: ''
   },
-  role: {
-    type: DataTypes.ENUM('user', 'staff', 'admin'),
-    defaultValue: 'user'
+  verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   timestamps: false,
@@ -129,14 +139,14 @@ const User = Model.define('user', {
     profile() {
       return {
         firstName: this.firstName,
-        role: this.role
+        roleId: this.roleId
       };
     },
     // Non-sensitive info we'll be putting in the token
     token() {
       return {
         id: this.id,
-        role: this.role
+        roleId: this.roleId
       };
     }
   },
@@ -182,9 +192,9 @@ function toJSON() {
       gender: this.gender,
       location: this.location,
       website: this.website,
-      picture: this.picture,
-      role: this.role,
-      bio: this.bio
+      avatarUrl: this.avatarUrl,
+      bio: this.bio,
+      roleId: this.roleId
     }
   };
 }

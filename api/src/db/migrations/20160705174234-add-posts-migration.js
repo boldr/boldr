@@ -29,8 +29,9 @@ module.exports = {
           type: DataTypes.TEXT,
           defaultValue: ''
         },
-        authorId: {
-          type: DataTypes.UUID
+        userId: {
+          type: DataTypes.UUID,
+          field: 'user_id'
         },
         status: {
           type: DataTypes.ENUM,
@@ -44,12 +45,10 @@ module.exports = {
           allowNull: true
         },
         createdAt: {
-          allowNull: false,
           type: DataTypes.DATE,
           field: 'created_at'
         },
         updatedAt: {
-          allowNull: false,
           type: DataTypes.DATE,
           field: 'updated_at'
         }

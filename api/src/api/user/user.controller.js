@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import Boom from 'boom';
-import { User } from '../../db/models';
+import { User, Role } from '../../db/models';
 import { respondWithResult, handleError, saveUpdates,
   handleEntityNotFound, removeEntity } from '../../lib/helpers';
 
@@ -27,7 +27,13 @@ function load(req, res, next, id) {
  */
 const getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.findAll({});
+    const users = await User.findAll({
+      include: [{
+        model: Role,
+        as: 'role',
+        attributes: []
+      }]
+    });
 
     return res.status(200).json(users);
   } catch (error) {

@@ -31,8 +31,8 @@ export function loginSuccess(response) {
     id: response.body.user.id,
     lastName: response.body.user.profile.lastName,
     location: response.body.user.profile.location,
-    picture: response.body.user.profile.picture,
-    role: response.body.user.profile.role,
+    avatarUrl: response.body.user.profile.avatarUrl,
+    roleId: response.body.user.profile.roleId,
     website: response.body.user.profile.website
   };
 }
@@ -123,8 +123,8 @@ function checkAuthSuccess(response, token) {
     id: response.body.profile.id,
     lastName: response.body.profile.lastName,
     location: response.body.profile.location,
-    picture: response.body.profile.picture,
-    role: response.body.profile.role,
+    avatarUrl: response.body.profile.avatarUrl,
+    roleId: response.body.profile.roleId,
     website: response.body.profile.website
   };
 }
@@ -177,7 +177,7 @@ const INITIAL_STATE = {
   loaded: false,
   error: null,
   isLoading: false,
-  role: null,
+  roleId: null,
   token: null,
   hydrated: false
 };
@@ -204,7 +204,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         loaded: true,
         isAuthenticated: true,
         token: action.result.token,
-        role: action.result.role,
+        roleId: action.result.roleId,
         email: action.result.email
       };
     case at.LOAD_FAIL:
@@ -232,7 +232,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         loaded: true,
         isAuthenticated: true,
-        role: action.role,
+        roleId: action.roleId,
         token: action.token
       };
     case at.LOGOUT_USER:

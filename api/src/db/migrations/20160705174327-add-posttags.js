@@ -3,10 +3,12 @@ module.exports = {
     return queryInterface.createTable(
       'post_tag', {
         tagId: {
-          type: DataTypes.INTEGER
+          type: DataTypes.INTEGER,
+          field: 'tag_id'
         },
         postId: {
-          type: DataTypes.UUID
+          type: DataTypes.UUID,
+          field: 'post_id'
         }
       }
     );

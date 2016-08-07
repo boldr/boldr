@@ -13,7 +13,8 @@ module.exports = {
         },
         displayName: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: true,
+          field: 'display_name'
         },
         password: {
           type: DataTypes.STRING(4096)
@@ -22,10 +23,12 @@ module.exports = {
           type: DataTypes.STRING(4096)
         },
         firstName: {
-          type: DataTypes.STRING(32)
+          type: DataTypes.STRING(32),
+          field: 'first_name'
         },
         lastName: {
-          type: DataTypes.STRING(64)
+          type: DataTypes.STRING(64),
+          field: 'last_name'
         },
         gender: {
           type: DataTypes.ENUM('male', 'female', 'trans')
@@ -42,18 +45,28 @@ module.exports = {
           defaultValue: ''
         },
         website: {
-          type: DataTypes.STRING,
-          defaultValue: ''
-        },
-        picture: {
-          type: DataTypes.STRING,
-          defaultValue: ''
-        },
-        resetPasswordToken: {
           type: DataTypes.STRING
         },
+        avatarUrl: {
+          type: DataTypes.STRING,
+          defaultValue: '',
+          field: 'avatar_url'
+        },
+        roleId: {
+          type: DataTypes.INTEGER,
+          field: 'role_id'
+        },
+        resetPasswordToken: {
+          type: DataTypes.STRING,
+          field: 'reset_password_token'
+        },
         resetPasswordExpires: {
-          type: DataTypes.DATE
+          type: DataTypes.DATE,
+          field: 'reset_password_expires'
+        },
+        verified: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false
         },
         provider: {
           type: DataTypes.STRING
@@ -69,10 +82,6 @@ module.exports = {
         },
         github: {
           type: DataTypes.INTEGER
-        },
-        role: {
-          type: DataTypes.ENUM('user', 'staff', 'admin'),
-          defaultValue: 'user'
         }
       }
     ).then(() =>

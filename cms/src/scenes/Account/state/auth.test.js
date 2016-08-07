@@ -18,7 +18,7 @@ describe('authReducer', () => {
     loaded: false,
     isLoading: false,
     error: null,
-    role: null,
+    roleId: null,
     token: null,
     hydrated: true
   };
@@ -49,7 +49,7 @@ describe('authReducer', () => {
       loaded: true,
       isAuthenticated: true,
       token: undefined,
-      role: undefined,
+      roleId: undefined,
       hydrated: true
     });
   });

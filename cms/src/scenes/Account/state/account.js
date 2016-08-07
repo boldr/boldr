@@ -149,8 +149,8 @@ export function populateAccount(response) {
     id: response.body.id,
     lastName: response.body.profile.lastName,
     location: response.body.profile.location,
-    picture: response.body.profile.picture,
-    role: response.body.profile.role,
+    avatarUrl: response.body.profile.avatarUrl,
+    roleId: response.body.profile.roleId,
     website: response.body.profile.website
   };
 }
@@ -167,8 +167,8 @@ export function loginPopulateAccount(response) {
     id: response.body.user.id,
     lastName: response.body.user.profile.lastName,
     location: response.body.user.profile.location,
-    picture: response.body.user.profile.picture,
-    role: response.body.user.profile.role,
+    avatarUrl: response.body.profile.avatarUrl,
+    roleId: response.body.profile.roleId,
     website: response.body.user.profile.website
   };
 }
@@ -248,8 +248,8 @@ const INITIAL_STATE = {
   id: '',
   lastName: '',
   location: '',
-  picture: '',
-  role: '',
+  avatarUrl: '',
+  roleId: '',
   website: ''
 };
 
@@ -300,8 +300,8 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         id: action.payload.id,
         lastName: action.payload.profile.lastName,
         location: action.payload.profile.location,
-        picture: action.payload.profile.picture,
-        role: action.payload.profile.role,
+        avatarUrl: action.payload.profile.avatarUrl,
+        roleId: action.payload.profile.roleId,
         website: action.payload.profile.website
       };
     case at.GET_MY_PROFILE_FAIL:
@@ -322,7 +322,7 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
           email: action.payload.email,
           displayName: action.payload.profile.displayName,
           firstName: action.payload.profile.firstName,
-          role: action.payload.profile.role,
+          roleId: action.payload.profile.roleId,
           id: action.payload.id
         }
       };
@@ -340,8 +340,8 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
         id: action.id,
         lastName: action.lastName,
         location: action.location,
-        picture: action.picture,
-        role: action.role,
+        avatarUrl: action.avatarUrl,
+        roleId: action.roleId,
         website: action.website
       };
     default:

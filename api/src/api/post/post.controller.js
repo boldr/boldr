@@ -1,7 +1,7 @@
 import slug from 'limax';
 import sequelize from 'sequelize';
 import Boom from 'boom';
-import { Post, User, Tag, PostTag} from '../../db/models';
+import { Post, User, Tag, PostTag } from '../../db/models';
 
 import config from '../../core/config/boldr';
 import { respondWithResult, handleError } from '../../lib/helpers';
@@ -29,7 +29,7 @@ const getAllPosts = async(req, res, next) => {
       ],
       include: [{
         model: User,
-        attributes: ['id', 'displayName', 'picture', 'email']
+        attributes: ['id', 'displayName', 'avatarUrl', 'email']
       }, {
         model: Tag,
         attributes: ['name', 'id']
