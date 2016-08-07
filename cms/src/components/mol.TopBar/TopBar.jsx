@@ -14,7 +14,7 @@ import SocialPerson from 'material-ui/svg-icons/social/person';
 // Boldr
 import { logOut } from 'scenes/Account/state/auth';
 import SiteLogo from 'components/atm.SiteLogo/index';
-import { goHome } from '../../core/state/boldr';
+import { goHome } from 'scenes/Boldr/state/boldr';
 
 // Styles
 import inlineStyles, { iconColor } from './inlineStyles';

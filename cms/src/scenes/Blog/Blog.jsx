@@ -27,7 +27,7 @@ class Blog extends Component {
     let postsCollection = []; // eslint-disable-line
     for (let post of data) { // eslint-disable-line
       postsCollection.push(
-        <div key={ post.id } className="blog__post col-xs-6 col-md-4">
+        <div key={ post.id } className="col-xs-6 col-md-4">
           <PostCard { ...post } />
         </div>
       );
@@ -38,11 +38,11 @@ class Blog extends Component {
     const postsCollection = this.createPostsCollection(this.props.posts.data);
     return (
       <section className="row">
-        <div className={ cx('blog__post-wrap') }>
+
         {
           this.props.posts.isLoading ? <h1>Loading ...</h1> : postsCollection
         }
-        </div>
+
       </section>
     );
   }

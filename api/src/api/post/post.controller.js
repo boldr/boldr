@@ -183,7 +183,11 @@ const createNewPost = (req, res, next) => {
 
 const findPostBySlug = (req, res, next) => {
   const postSlug = req.params.slug;
-  return Post.findBySlug(postSlug)
+  return Post.findOne({ where: { slug: postSlug },
+    include: [{
+    model: Tag,
+    attributes: ['name', 'id']
+  }] })
     .then((post) => {
       if (!post) {
         return Boom.notFound('Unable to find an article with that slug.');

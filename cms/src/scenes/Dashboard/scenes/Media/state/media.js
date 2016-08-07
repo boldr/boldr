@@ -1,6 +1,6 @@
 import request from 'superagent';
 import fetch from 'core/fetch';
-import { notificationSend } from 'core/state/notifications';
+import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { API_ADDR, API_MEDIA } from 'core/api';
 import * as at from './constants';
 

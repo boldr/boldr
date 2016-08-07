@@ -9,7 +9,7 @@ import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
 
-import { loadBoldrSettings, saveBoldrSetup } from 'core/state/boldr';
+import { loadBoldrSettings, saveBoldrSetup } from 'scenes/Boldr/state/boldr';
 import SetupForm from '../atm.SetupForm';
 import styles from './styles.css'
 

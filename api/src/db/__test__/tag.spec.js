@@ -23,11 +23,11 @@ describe('Tag Model', () => {
   });
   it('should be able to a tag', async function() {
     const tagData = {
-      tagname: chance.word(),
+      name: chance.word(),
       description: chance.sentence()
     };
     const createdTag = await Tag.create(tagData);
-    expect(createdTag).to.have.property('tagname', tagData.tagname);
+    expect(createdTag).to.have.property('name', tagData.name);
     expect(createdTag).to.have.property('description', tagData.description);
   });
 });
