@@ -153,6 +153,7 @@
     "react": "15.3.0",
     "react-addons-css-transition-group": "^15.3.0",
     "react-cookie": "^0.4.7",
+    "react-css-modules": "^3.7.9",
     "react-dom": "15.3.0",
     "react-dropzone": "^3.5.3",
     "react-helmet": "^3.1.0",

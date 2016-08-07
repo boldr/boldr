@@ -98,6 +98,10 @@ class NewArticleForm extends Component {
                   { ...title }
                 />
               </div>
+              {
+                this.props.editing ?
+                null
+              :
               <div className={ cx('row') }>
                 <TextField hintText= "Separate using commas"
                   floatingLabelText="Tags"
@@ -106,6 +110,7 @@ class NewArticleForm extends Component {
                   { ...tags }
                 />
               </div>
+            }
               <div className={ cx('row') }>
                 <TextField hintText= "An image to go with your article"
                   floatingLabelText="Feature Image"
@@ -172,5 +177,6 @@ export default reduxForm({
 
 NewArticleForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  fields: PropTypes.object
+  fields: PropTypes.object,
+  editing: PropTypes.bool
 };

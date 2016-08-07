@@ -16,7 +16,10 @@ export default (store, connect) => ({
 
   path: 'dashboard',
   onEnter: connect(UserIsAuthenticated.onEnter),
-  component: UserIsAuthenticated(require('./components/tpl.DashboardLayout').default),
+  component: UserIsAuthenticated(require('./Dashboard').default),
+  indexRoute: {
+    component: require('./scenes/DashboardWidgets').default
+  },
   childRoutes: [{
     path: 'articles',
     getComponent(nextState, cb) {

@@ -87,70 +87,26 @@ User.hasOne(VerificationToken, {
 VerificationToken.belongsTo(User, {
   foreignKey: 'userId'
 });
-//
-// Media.hasMany(MediaCategory, {
-//   foreignKey: 'mediaId',
-//   onUpdate: 'cascade',
-//   onDelete: 'cascade'
-// });
-// Category.hasMany(MediaCategory, {
-//   foreignKey: 'categoryId',
-//   onUpdate: 'cascade',
-//   onDelete: 'cascade'
-// });
-// MediaCategory.belongsTo(Media);
-// MediaCategory.belongsTo(Category);
-
-Tag.addScope('taggedInPost', {
-  distinct: 'id',
-  attributes: [
-    'id',
-    'name',
-    [sequelize.fn('count', sequelize.col('Post_Tag.postId')), 'postCount']
-  ],
-  include: [
-    {
-      attributes: [],
-      model: PostTag,
-      required: false
-    }
-  ],
-  group: ['Tag.id'],
-  order: 'postCount DESC'
-});
-
-// Post.findAllWithTagIds = () => {
-//   Post.findAll({
-//     attributes: {
-//       include: [
-//         [sequelize.literal(`ARRAY(SELECT "tagId" from "Article_Tag"
-//           where "Article_Tag"."articleId" = "Article"."id")`),
-//         'Tag']
-//       ],
-//       exclude: ['updatedAt']
+// 
+// User.sync().then(() => {
+//   User.find({ where: { displayName: 'admin' } }).then(user => {
+//     if (!user) {
+//       User.create({
+//         bio: 'Zombie nerd. Web practitioner. General music ninja. Infuriatingly humble introvert. Bacon fanatic. Pop culture geek.',
+//         displayName: 'Admin User',
+//         email: 'admin@boldr.io',
+//         firstName: 'Admin',
+//         gender: 'male',
+//         lastName: 'User',
+//         location: 'Somewhere, USA',
+//         password: 'password',
+//         picture: 'https://api.adorable.io/avatars/285/abott@adorable.io.png',
+//         role: 'admin',
+//         website: 'https://boldr.io'
+//       });
 //     }
 //   });
-// };
-
-User.sync().then(() => {
-  User.find({ where: { displayName: 'admin' } }).then(user => {
-    if (!user) {
-      User.create({
-        bio: 'Zombie nerd. Web practitioner. General music ninja. Infuriatingly humble introvert. Bacon fanatic. Pop culture geek.',
-        displayName: 'Admin User',
-        email: 'admin@boldr.io',
-        firstName: 'Admin',
-        gender: 'male',
-        lastName: 'User',
-        location: 'Somewhere, USA',
-        password: 'password',
-        picture: 'https://api.adorable.io/avatars/285/abott@adorable.io.png',
-        role: 'admin',
-        website: 'https://boldr.io'
-      });
-    }
-  });
-});
+// });
 
 function sync(...args) {
   return sequelize.sync(...args);

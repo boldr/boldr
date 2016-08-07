@@ -33,7 +33,7 @@ const PostCard = props => {
                 </li>
                  { props.tags.map(tag =>
                     <li key={ tag.id }>
-                      <Link to={ `/tags/${tag.id}` } >{ tag.tagname } &nbsp;</Link>
+                      <Link to={ `/tags/${tag.id}` } >{ tag.name } &nbsp;</Link>
                     </li>)
                  }
               </ul>
