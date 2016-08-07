@@ -267,6 +267,8 @@ class Sidebar extends React.Component {
         </div>
         <div className={ this.props.overlayClassName }
           style={ overlayStyle }
+          tabIndex="0"
+          role="presentation"
           onClick={ this.overlayClicked }
         />
         <div className={ this.props.contentClassName } style={ contentStyle }>

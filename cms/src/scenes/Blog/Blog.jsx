@@ -37,13 +37,15 @@ class Blog extends Component {
   render() {
     const postsCollection = this.createPostsCollection(this.props.posts.data);
     return (
-      <section className="row">
+      <div className="container-fluid">
+      <section className="row" style={ { paddingTop: '100px' } }>
 
         {
           this.props.posts.isLoading ? <h1>Loading ...</h1> : postsCollection
         }
 
       </section>
+      </div>
     );
   }
 }
