@@ -29,7 +29,7 @@ class SinglePost extends Component {
             </Paper>
           </div>
           <div className="col-md-3">
-            <Sidebar />
+            <Sidebar { ...this.props.selectedPost } />
           </div>
         </div>
       </div>

@@ -30,6 +30,7 @@
     "babel-node": "babel-node --presets node6 --plugins transform-async-to-generator --ignore node_modules,public",
     "migrate": "./node_modules/.bin/sequelize db:migrate",
     "sequelize": "./node_modules/.bin/sequelize",
+    "seed": "./node_modules/.bin/sequelize db:seed:all",
     "dev": "./node_modules/.bin/nodemon launch.js",
     "start:prod": "better-npm-run start:prod",
     "test": "better-npm-run test",
@@ -94,7 +95,7 @@
     "pg": "^6.0.3",
     "pg-native": "^1.10.0",
     "redis": "^2.6.2",
-    "sequelize": "^3.23.6",
+    "sequelize": "^4.0.0-0",
     "serve-favicon": "^2.3.0",
     "winston": "^2.2.0"
   },

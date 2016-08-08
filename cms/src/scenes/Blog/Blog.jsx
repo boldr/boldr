@@ -2,6 +2,7 @@ import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
+import Loader from 'components/atm.Loader';
 import { fetchPostsIfNeeded } from './state/post';
 import PostCard from './components/mol.PostCard';
 
@@ -27,7 +28,7 @@ class Blog extends Component {
     let postsCollection = []; // eslint-disable-line
     for (let post of data) { // eslint-disable-line
       postsCollection.push(
-        <div key={ post.id } className="col-xs-6 col-md-4">
+        <div key={ post.id } className="col-xs-6 col-md-4" style={ { marginTop: '25px' } }>
           <PostCard { ...post } />
         </div>
       );
@@ -38,10 +39,10 @@ class Blog extends Component {
     const postsCollection = this.createPostsCollection(this.props.posts.data);
     return (
       <div className="container-fluid">
-      <section className="row" style={ { paddingTop: '100px' } }>
+      <section className="row">
 
         {
-          this.props.posts.isLoading ? <h1>Loading ...</h1> : postsCollection
+          this.props.posts.isLoading ? <Loader /> : postsCollection
         }
 
       </section>

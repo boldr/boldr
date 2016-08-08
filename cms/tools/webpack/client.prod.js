@@ -16,12 +16,7 @@ dotenv.config({ silent: true });
 const postCSSConfig = function() {
   return [
     // Note: you must set postcss-mixins before simple-vars and nested
-    require('postcss-mixins')(),
-    require('postcss-simple-vars')(),
-    // Unwrap nested rules like how Sass does it
-    require('postcss-nested')(),
-    require('postcss-custom-media')(),
-    require('postcss-media-minmax')(),
+    require('precss')(),
     require('lost')(),
     //  parse CSS and add vendor prefixes to CSS rules
     require('cssnano')({
@@ -83,7 +78,7 @@ const clientProdConfig = {
           compact: 'auto',
           babelrc: false,
           presets: [
-            'es2015-webpack',
+          ['es2015', { modules: 'commonjs' }],
             'react',
             'stage-0',
             'react-optimize'
