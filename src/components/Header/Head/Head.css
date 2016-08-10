@@ -1,0 +1,122 @@
+.head {
+  *zoom: 1;
+  position: relative;
+}
+.head:after {
+  clear: both;
+}
+.head:after,
+.head:before {
+  content: "";
+  display: table;
+}
+@media (min-width: 992px) and (max-width: 991px) {
+  .head.theme-dark.dropdownOpen {
+    background-color: #40404E;
+  }
+  .head.theme-dark.dropdownOpen:before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: calc(100% + 30px);
+    left: -15px;
+    height: 15px;
+    top: 100%;
+    background: linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.001) 100%);
+  }
+}
+@media (min-width: 992px) {
+  .head {
+    float: left;
+  }
+}
+.brand {
+  float: left;
+  position: relative;
+  margin-left: 15px;
+  margin: 0;
+  width: 100px;
+  height: 36px;
+  color: #fff;
+  margin-top: 19.5px;
+  margin-bottom: 19.5px;
+}
+@media (min-width: 992px) {
+  .brand {
+    margin-top: 25px;
+    margin-bottom: 30px;
+  }
+}
+.logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  font-size: 0;
+  color: #fff;
+}
+
+.toggleButton {
+  position: relative;
+  float: right;
+  margin-right: 5px;
+  padding: 8px;
+  width: 26px;
+  background-color: transparent;
+  border: 0;
+  margin-top: 27.5px;
+  margin-bottom: 27.5px;
+}
+.toggleButton.closeButton .iconBar:nth-of-type(2) {
+  top: 10px;
+  width: 0%;
+  left: 50%;
+  opacity: 0;
+}
+.toggleButton.closeButton .iconBar:nth-of-type(3) {
+  transform: rotate(45deg);
+}
+.toggleButton.closeButton .iconBar:nth-of-type(4) {
+  transform: rotate(-45deg);
+}
+.toggleButton.closeButton .iconBar:nth-of-type(5) {
+  top: 10px;
+  width: 0%;
+  left: 50%;
+  opacity: 0;
+}
+.toggleButton:hover,
+.toggleButton:focus {
+  outline: 0;
+}
+.toggleButton .iconBar {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  left: 0;
+  right: 0;
+  background-color: #222228;
+  transition: 0.25s ease-in-out;
+}
+.toggleButton .iconBar:nth-of-type(2) {
+  top: 0;
+}
+.toggleButton .iconBar:nth-of-type(3) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.toggleButton .iconBar:nth-of-type(4) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.toggleButton .iconBar:nth-of-type(5) {
+  top: calc(100% - 2px);
+}
+@media (min-width: 992px) {
+  .toggleButton {
+    display: none;
+  }
+}

@@ -1,5 +1,0 @@
---recursive
---colors
---reporter spec
---require babel-polyfill
---compilers js:babel-register

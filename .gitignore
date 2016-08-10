@@ -1,28 +1,10 @@
 # Environment Configuration
-cms/.env
-cms/server.js
-cms/server.js.map
-cms/node_modules/
-cms/boldr-cms
-cms/src/server/core/certs
+.env
+build/
 
-api/node_modules
-api/.env
-api/server
-api/boldr-api
-api/src/core/certs
-docker/volumes
+tools/docker/volumes
 
 .tags
-
-# Build output folders
-cms/public/assets/
-cms/.happypack/
-cms/public/
-
-# Isomorphic webpack output
-cms/webpack-assets.json
-cms/webpack-stats.json
 
 # Logs
 logs

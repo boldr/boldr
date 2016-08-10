@@ -1,0 +1,193 @@
+{
+  "name": "boldr",
+  "version": "0.3.11",
+  "description": "a bold cms.",
+  "main": "tools/scripts/server.js",
+  "engines": {
+    "node": "6.2.0",
+    "npm": "3.7.3"
+  },
+  "scripts": {
+    "build": "better-npm-run build",
+    "clean": "rimraf build",
+    "dev": "better-npm-run dev",
+    "lint": "eslint -c .eslintrc src",
+    "start": "npm run start:prod",
+    "tmp": "node build/server/main.js",
+    "start:dev": "better-npm-run start:dev",
+    "start:prod": "better-npm-run start:prod",
+    "test": "better-npm-run test:client",
+    "test:client": "better-npm-run test:client",
+    "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'"
+  },
+  "betterScripts": {
+    "build": {
+      "command": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "dev": {
+      "command": "node ./tools/development/server",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "start:prod": {
+      "command": "pm2 start run.js",
+      "env": {
+        "NODE_ENV": "production",
+        "SSR_PORT": 9221,
+        "API_HOST": "https://api.boldr.io",
+        "API_PREFIX": "/v1"
+      }
+    },
+    "test:client": {
+      "command": "./node_modules/.bin/mocha --compilers js:./compiler.babel --require tools/test/helper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/**/*.test.js'",
+      "env": {
+        "NODE_ENV": "test",
+        "NODE_PATH": "./src",
+        "SSR_PORT": 9221
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strues/boldr.git"
+  },
+  "keywords": [
+    "react",
+    "universal",
+    "javascript",
+    "express",
+    "webpack"
+  ],
+  "author": "Steven Truesdell <steven@strues.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/strues/boldr/issues"
+  },
+  "homepage": "https://github.com/strues/boldr#readme",
+  "dependencies": {
+    "app-root-path": "^1.3.0",
+    "better-npm-run": "0.0.10",
+    "bluebird": "^3.4.1",
+    "body-parser": "^1.15.2",
+    "boom": "^3.2.2",
+    "classnames": "^2.2.5",
+    "compression": "^1.6.2",
+    "cors": "^2.7.1",
+    "debug": "^2.2.0",
+    "dotenv": "^2.0.0",
+    "draft-js": "^0.7.0",
+    "draft-js-multidecorators": "^1.0.0",
+    "draft-js-prism": "^1.0.3",
+    "errorhandler": "^1.4.3",
+    "express": "4.14.0",
+    "fbjs": "^0.8.3",
+    "http-proxy": "^1.14.0",
+    "jwt-decode": "^2.1.0",
+    "limax": "^1.4.0",
+    "lodash": "^4.14.1",
+    "material-ui": "^0.15.3",
+    "moment": "^2.14.1",
+    "node-fetch": "^1.6.0",
+    "normalizr": "^2.2.1",
+    "react": "15.3.0",
+    "react-addons-css-transition-group": "^15.3.0",
+    "react-css-modules": "^3.7.9",
+    "react-dom": "15.3.0",
+    "react-helmet": "^3.1.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.6.1",
+    "react-router-redux": "^4.0.5",
+    "react-tap-event-plugin": "^1.0.0",
+    "redial": "^0.4.2",
+    "redux": "^3.5.2",
+    "redux-auth-wrapper": "^0.6.0",
+    "redux-form": "^5.3.2",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.3",
+    "serialize-javascript": "1.3.0",
+    "superagent": "^2.1.0",
+    "webfontloader": "^1.6.26",
+    "webpack-isomorphic-tools": "^2.5.6",
+    "whatwg-fetch": "^1.0.0"
+  },
+  "devDependencies": {
+    "assets-webpack-plugin": "^3.4.0",
+    "autoprefixer": "^6.4.0",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-eslint": "6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.12.0",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "6.11.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.11.6",
+    "chai": "^3.5.0",
+    "chalk": "^1.1.3",
+    "chokidar": "^1.6.0",
+    "css-loader": "^0.23.1",
+    "cssnano": "^3.7.3",
+    "dotenv": "2.0.0",
+    "enzyme": "^2.4.1",
+    "eslint": "^3.2.2",
+    "eslint-config-boldr": "^1.0.2",
+    "expect": "^1.20.2",
+    "extract-text-webpack-plugin": "^2.0.0-beta.3",
+    "ignore-styles": "^4.0.0",
+    "jsdom": "^9.4.1",
+    "json-loader": "0.5.4",
+    "lost": "^7.0.3",
+    "mocha": "^3.0.1",
+    "nock": "^8.0.0",
+    "node-notifier": "^4.6.0",
+    "node-sass": "^3.8.0",
+    "nodemon": "^1.10.0",
+    "postcss": "^5.1.2",
+    "postcss-reporter": "^1.4.1",
+    "precss": "^1.4.0",
+    "react-addons-perf": "^15.3.0",
+    "react-addons-test-utils": "^15.3.0",
+    "react-hot-loader": "3.0.0-beta.2",
+    "redux-mock-store": "^1.1.2",
+    "rimraf": "2.5.4",
+    "sass-loader": "^4.0.0",
+    "sinon": "^1.17.5",
+    "style-loader": "^0.13.1",
+    "stylelint": "^7.1.0",
+    "stylelint-config-standard": "^12.0.0",
+    "supertest": "^2.0.0",
+    "supertest-as-promised": "^3.2.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.1.0-beta.20",
+    "webpack-dev-middleware": "1.6.1",
+    "webpack-hot-middleware": "2.12.2",
+    "webpack-md5-hash": "0.0.5",
+    "webpack-node-externals": "^1.3.3",
+    "why-did-you-update": "0.0.8"
+  },
+  "stylelint": {
+    "rules": {
+      "block-no-empty": true,
+      "color-no-invalid-hex": true,
+      "declaration-colon-space-after": "always",
+      "declaration-colon-space-before": "never",
+      "function-comma-space-after": "always",
+      "function-url-quotes": "always",
+      "media-feature-colon-space-after": "always",
+      "media-feature-colon-space-before": "never",
+      "media-feature-name-no-vendor-prefix": true,
+      "max-empty-lines": 5,
+      "number-leading-zero": "never",
+      "number-no-trailing-zeros": true,
+      "property-no-vendor-prefix": true
+    }
+  }
+}
