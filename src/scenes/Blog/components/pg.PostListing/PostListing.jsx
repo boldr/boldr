@@ -44,3 +44,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps, { getPostsListing })(PostListing);
+
+PostListing.propTypes = {
+  getPostsListing: React.PropTypes.func,
+  posts: React.PropTypes.object.isRequired
+};

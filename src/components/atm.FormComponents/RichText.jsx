@@ -6,7 +6,7 @@ import { Field } from 'redux-form';
 const FORMAT = 'html';
 
 // inner control needed to map from the editor to reduxForm
-class SimpleRte extends Component {
+class WrapRte extends Component {
   constructor(props) {
     super(props);
 
@@ -60,7 +60,7 @@ class SimpleRte extends Component {
   }
 }
 
-SimpleRte.propTypes = {
+WrapRte.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 };
@@ -69,7 +69,7 @@ SimpleRte.propTypes = {
 const renderControl = ({ input }) =>
 (
 
-    <SimpleRte
+    <WrapRte
       value={ input.value }
       onChange={ input.onChange }
       className="rte"

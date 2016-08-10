@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Editor } from 'draft-js';
 import { Link } from 'react-router';
 import Moment from 'moment';
 import TagIcon from 'material-ui/svg-icons/action/bookmark';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import classNames from 'classnames/bind';
-import TextDisplay from 'components/org.Editor/Display/index';
 import styles from '../pg.PostListing/style.css';
 
 const cx = styles::classNames;

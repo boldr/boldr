@@ -20,7 +20,7 @@ export default (store, connect) => ({
     }
   },
   childRoutes: [{
-    path: '/:slug',
+    path: ':slug',
     getComponent(nextState, cb) {
       System.import('./components/pg.SinglePost')
         .then(loadModule(cb))

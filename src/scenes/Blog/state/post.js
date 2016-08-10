@@ -243,7 +243,7 @@ const errorUpdatingPost = (err) => {
   };
 };
 
-export function updateArticle(postData) {
+export function updatePost(postData) {
   // const articleSlug = slug(articleData.title);
   const payload = {
     title: postData.title,
@@ -314,7 +314,7 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        data: action.payload
+        data: action.data
       };
     case at.FETCH_POST_SUCCESS:
       return {

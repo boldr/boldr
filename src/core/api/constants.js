@@ -1,5 +1,5 @@
 const API_PREFIX = process.env.API_PREFIX;
-export const API_ADDR = API_PREFIX;
+export const API_ADDR = '/api/v1';
 
 export const API_AUTH = `${API_ADDR}/auth`;
 export const API_POSTS = `${API_ADDR}/posts`;

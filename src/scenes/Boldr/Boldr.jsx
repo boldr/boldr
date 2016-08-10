@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import TopBar from 'components/mol.TopBar';
 import Notifications from 'components/atm.Notification';
-import Header from 'components/Header';
+import Header from 'components/org.Header';
 
 const Boldr = (props) => {
   return (

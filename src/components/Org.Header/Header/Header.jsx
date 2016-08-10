@@ -91,6 +91,8 @@ class Header extends Component {
       : <RaisedButton className={ className } onClick={ onClick } >{ text }</RaisedButton>;
   }
 
+
+
   render() {
     const {
       className,
@@ -150,21 +152,31 @@ class Header extends Component {
               anchorOrigin={ { horizontal: 'left', vertical: 'top' } }
               targetOrigin={ { horizontal: 'left', vertical: 'top' } }
             >
-              <MenuItem primaryText="Log In" containerElement={ <Link to="/account/login" /> } />
-              <MenuItem primaryText="Sign Up" containerElement={ <Link to="/account/signup" /> } />
+            {
+              this.props.auth.isAuthenticated ?
+              <div>
               <MenuItem primaryText="Profile" containerElement={ <Link to="/profile" /> } />
               <MenuItem primaryText="Preferences" containerElement={ <Link to="/account/preferences" /> } />
               <MenuItem primaryText="Sign out" />
+              </div>
+              :
+              <div>
+              <MenuItem primaryText="Log In" containerElement={ <Link to="/account/login" /> } />
+              <MenuItem primaryText="Sign Up" containerElement={ <Link to="/account/signup" /> } /></div>
+            }
+
             </IconMenu>
 
             </li>
-            <li>
-            <Link to="/dashboard">
-              <IconButton>
-                <AvWeb color="white" />
-              </IconButton>
-            </Link>
-            </li>
+              { this.props.auth.roleId > 4 ?
+                <li>
+                  <Link to="/dashboard">
+                    <IconButton>
+                      <AvWeb color="white" />
+                    </IconButton>
+                  </Link>
+                </li> : null
+              }
             </ul>
             </div>
           </div>

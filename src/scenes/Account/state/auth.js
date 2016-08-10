@@ -1,7 +1,5 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import decode from 'jwt-decode';
-import cookie from 'react-cookie';
 import moment from 'moment';
 import fetch from 'core/fetch';
 import { createRequestat } from 'core/util/action';

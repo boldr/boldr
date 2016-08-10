@@ -1,20 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import MenuItem from 'material-ui/MenuItem';
-import Toggle from 'material-ui/Toggle';
 import FlatButton from 'material-ui/FlatButton';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Editor, EditorState } from 'draft-js';
 import classNames from 'classnames/bind';
 import Paper from 'material-ui/Paper';
+
 import { RichTextInput } from 'components/atm.FormComponents/RichText';
 import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
 import TextField from 'components/atm.FormComponents/TextField';
-// import * as articleActionCreators from '../../state/article';
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -36,51 +32,14 @@ const radioStyle = {
   float: 'right'
 };
 
+
 export const renderRichText = (field) =>
-	  <RichTextInput key={field.name} name={field.name} label={field.name} />;
+  <RichTextInput key={ field.name } name={ field.name } label={ field.name } />;
 
 class NewArticleForm extends Component {
-  constructor(props) {
-    super(props);
 
-    this.onChange = (value) => {
-      this.setState({
-        value
-      });
-    };
-
-    this.getMarkup = (markup) => {
-      this.setState({
-        markup
-      });
-    };
-    this.renderInnerMarkup = () => this._renderInnerMarkup();
-    this.renderReturnedContent = (value) => this._renderReturnedContent(value);
-
-    this.state = {
-      tags: [],
-      open: false,
-      files: []
-    };
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  handleSelectChange = (event, index, value) => this.setState({ value });
-  handleChange(tags) {
-    this.setState({
-      tags
-    });
-  }
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
-    const { editorState } = this.state;
-
     return (
       <section>
       <form onSubmit={ handleSubmit }>
