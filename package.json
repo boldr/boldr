@@ -89,7 +89,7 @@
     "jwt-decode": "^2.1.0",
     "limax": "^1.4.0",
     "lodash": "^4.14.1",
-    "material-ui": "^0.15.3",
+    "material-ui": "^0.15.4",
     "moment": "^2.14.1",
     "node-fetch": "^1.6.0",
     "normalizr": "^2.2.1",
