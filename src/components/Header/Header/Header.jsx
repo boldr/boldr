@@ -145,11 +145,18 @@ class Header extends Component {
             <div style={ { paddingTop: '1em' } }>
             <ul style={ { listStyleType: 'none', display: 'flex' } }>
             <li>
-              <Link to="/account/login">
-                <IconButton>
-                  <SocialPerson color="white" />
-                </IconButton>
-              </Link>
+            <IconMenu
+              iconButtonElement={ <IconButton><SocialPerson color="white" /></IconButton> }
+              anchorOrigin={ { horizontal: 'left', vertical: 'top' } }
+              targetOrigin={ { horizontal: 'left', vertical: 'top' } }
+            >
+              <MenuItem primaryText="Log In" containerElement={ <Link to="/account/login" /> } />
+              <MenuItem primaryText="Sign Up" containerElement={ <Link to="/account/signup" /> } />
+              <MenuItem primaryText="Profile" containerElement={ <Link to="/profile" /> } />
+              <MenuItem primaryText="Preferences" containerElement={ <Link to="/account/preferences" /> } />
+              <MenuItem primaryText="Sign out" />
+            </IconMenu>
+
             </li>
             <li>
             <Link to="/dashboard">
@@ -157,19 +164,6 @@ class Header extends Component {
                 <AvWeb color="white" />
               </IconButton>
             </Link>
-            </li>
-            <li>
-            <IconMenu
-              iconButtonElement={ <IconButton><MoreVertIcon color="white" /></IconButton> }
-              anchorOrigin={ { horizontal: 'left', vertical: 'top' } }
-              targetOrigin={ { horizontal: 'left', vertical: 'top' } }
-            >
-              <MenuItem primaryText="Log In" />
-              <MenuItem primaryText="Sign Up" />
-              <MenuItem primaryText="Settings" />
-              <MenuItem primaryText="Dashboard" />
-              <MenuItem primaryText="Sign out" />
-            </IconMenu>
             </li>
             </ul>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import BoldrLogo from 'components/atm.BoldrLogo';
+import logoImage from './boldr-white.png';
 
 const inlineStyle = {
   logo: {
@@ -13,7 +14,7 @@ const inlineStyle = {
 export default function SiteLogo(props) {
   return (
     <div className="sitelogo" style={ inlineStyle.logo }>
-      <BoldrLogo width="50px" height="50px" />
+      <img src={ logoImage } height="50px" />
       <span style={ inlineStyle.title }>{ props.SiteLogoOrTitle }</span>
     </div>
   );

@@ -24,7 +24,6 @@ const Head = ({ toggleDropdownHandler, dropdownOpen, theme, closeHeaderDropdown 
     <h1 className={ cx('brand') }>
       <a href="/" rel="home" className={ cx('logo') } onClick={ closeHeaderDropdown }>
       <SiteLogo SiteLogoOrTitle="Boldr" />
-        <span style={ { color: '#fff' } }>Boldr</span>
       </a>
     </h1>
   </div>;

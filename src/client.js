@@ -18,8 +18,6 @@ import createStore from './core/state/createStore';
 import { checkAuth } from './scenes/Account/state/auth';
 import getRoutes from './scenes';
 
-import ApiClient from './core/api/ApiClient';
-
 import './styles/main.scss';
 
 WebFontLoader.load({
@@ -29,10 +27,10 @@ WebFontLoader.load({
 });
 
 const MOUNT_POINT = document.getElementById('content');
-const client = new ApiClient();
+
 const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
-const store = createStore(browserHistory, client, initialState);
+const store = createStore(browserHistory, initialState);
 const { dispatch } = store;
 const token = localStorage.getItem('token');
 
@@ -57,9 +55,7 @@ const render = () => {
       <AppContainer>
         <Provider store={ store } key="provider">
           <MuiThemeProvider muiTheme={ muiTheme }>
-            <Router routes={ routes } history={ history } helpers={ client }
-              key={ Math.random() }
-            />
+            <Router routes={ routes } history={ history } key={ Math.random() } />
           </MuiThemeProvider>
         </Provider>
       </AppContainer>,

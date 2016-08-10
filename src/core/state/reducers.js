@@ -12,14 +12,14 @@ import notificationReducer from 'scenes/Boldr/state/notifications';
 
 const reducers = combineReducers({
   routing: routerReducer,
-  form: formReducer,
   notifications: notificationReducer,
   auth: authReducer,
   boldr: boldrReducer,
   posts: postsReducer,
   siteUsers: siteUsersReducer,
   media: mediaReducer,
-  users: accountReducer
+  users: accountReducer,
+  form: formReducer
 });
 
 export default reducers;

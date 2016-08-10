@@ -1,45 +1,21 @@
-import React from 'react';
-import { reduxForm } from 'redux-form';
+import React, { PropTypes } from 'react';
+import { Field, reduxForm } from 'redux-form';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+
+import TextField from 'components/atm.FormComponents/TextField';
+import validate from './validate';
 
 const SignupForm = (props) => {
-  const { fields: { email, password, firstName, lastName, displayName }, handleSubmit } = props;
+  const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <form onSubmit={ handleSubmit }>
       <CardText>
-        <div>
-          <TextField
-            floatingLabelText="Email"
-            { ...email }
-          />
-        </div>
-        <div>
-          <TextField
-            floatingLabelText="Password"
-            type="password"
-            { ...password }
-          />
-        </div>
-        <div>
-          <TextField
-            floatingLabelText="First Name"
-            { ...firstName }
-          />
-        </div>
-        <div>
-          <TextField
-            floatingLabelText="Last Name"
-            { ...lastName }
-          />
-        </div>
-        <div>
-          <TextField
-            floatingLabelText="Display Name"
-            { ...displayName }
-          />
-        </div>
+        <Field name="email" type="email" component={ TextField } floatingLabelText="Email address" />
+        <Field name="password" type="password" component={ TextField } floatingLabelText="Password" />
+        <Field name="firstName" type="text" component={ TextField } floatingLabelText="First name" />
+        <Field name="lastName" type="text" component={ TextField } floatingLabelText="Last name" />
+        <Field name="displayName" type="text" component={ TextField } floatingLabelText="Display name" />
       </CardText>
       <CardActions>
         <RaisedButton secondary type="submit" label="Create account" />
@@ -49,7 +25,15 @@ const SignupForm = (props) => {
   );
 };
 
+SignupForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  reset: PropTypes.func,
+  submitting: PropTypes.bool,
+  fields: PropTypes.object,
+  pristine: PropTypes.bool
+};
+
 export default reduxForm({
   form: 'userSignupForm',
-  fields: ['email', 'password', 'firstName', 'lastName', 'displayName']
+  validate
 })(SignupForm);
