@@ -1,0 +1,46 @@
+import { provideHooks } from 'redial';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import classNames from 'classnames/bind';
+import Loader from 'components/atm.Loader';
+import { getPostsListing } from '../../state/post';
+import PostCard from '../mol.PostCard';
+
+import styles from './style.css';
+
+const cx = styles::classNames;
+
+@provideHooks({
+  fetch: ({ dispatch }) => dispatch(getPostsListing())
+})
+class PostListing extends Component {
+
+  componentDidMount() {
+    this.props.getPostsListing();
+  }
+  render() {
+    return (
+      <div className="container-fluid">
+      <section className="row">
+
+        {
+          this.props.posts.isLoading ? <Loader /> : this.props.posts.data.map(post =>
+            <div key={ post.id } className="col-xs-6 col-md-4" style={ { marginTop: '25px' } }>
+              <PostCard { ...post } />
+            </div>)
+        }
+
+      </section>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    posts: state.posts,
+    isLoading: state.posts.isLoading
+  };
+};
+
+export default connect(mapStateToProps, { getPostsListing })(PostListing);

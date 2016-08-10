@@ -5,11 +5,13 @@ import cookie from 'react-cookie';
 import moment from 'moment';
 import fetch from 'core/fetch';
 import { createRequestat } from 'core/util/action';
-import { API_ADDR, API_AUTH } from 'core/api';
+// import { API_ADDR, API_AUTH } from 'core/api';
 
 import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
 import * as at from './constants';
+const API_ADDR = '/api/v1';
+const API_AUTH = '/api/v1/auth';
 
 /**
  * LOGIN ACTIONS

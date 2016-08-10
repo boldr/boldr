@@ -12,8 +12,8 @@ const Boldr = (props) => {
         title="Boldr"
         titleTemplate={ '%s | powered by Boldr' }
       />
-      <TopBar />
-      <Header />
+
+      <Header theme="dark" />
       { props.children }
       <Notifications />
     </div>

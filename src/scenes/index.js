@@ -2,6 +2,7 @@ import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { routerActions } from 'react-router-redux';
 import Dashboard from './Dashboard/index';
 import Account from './Account/index';
+import Blog from './Blog';
 
 import { isLoaded as isAuthLoaded, load as loadAuth } from './Account/state/auth';
 
@@ -34,7 +35,7 @@ export default (store) => {
     childRoutes: [
       Dashboard(store, connect),
       Account(store, connect),
-
+      Blog(store, connect),
       {
         path: 'about',
         getComponent(nextState, cb) {
@@ -43,22 +44,7 @@ export default (store) => {
           .catch(errorLoading);
         }
       },
-      {
-        path: 'blog',
-        getComponent(nextState, cb) {
-          require.ensure(['./Blog'], (require) => {
-            cb(null, require('./Blog').default);
-          });
-        }
-      },
-      {
-        path: 'blog/:slug',
-        getComponent(nextState, cb) {
-          require.ensure(['./Blog/components/pg.SinglePost'], (require) => {
-            cb(null, require('./Blog/components/pg.SinglePost').default);
-          });
-        }
-      },
+
       {
         path: 'profile',
         onEnter: connect(UserIsAuthenticated.onEnter),

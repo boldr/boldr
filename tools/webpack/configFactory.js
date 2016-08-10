@@ -144,6 +144,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
         main: removeEmpty([
           ifDevClient('react-hot-loader/patch'),
           ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${process.env.CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
+          ifProdClient(path.resolve(appRootPath, './tools/utils/polyfills.js')),
           ifClient(path.resolve(appRootPath, './src/client.js')),
           ifServer(path.resolve(appRootPath, './src/server/index.js'))
         ])

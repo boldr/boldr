@@ -23,13 +23,13 @@ function createNotification(options = {}) {
 }
 
 class ListenerManager {
-  constructor(listener) {
+  constructor(server) {
     this.lastConnectionKey = 0;
     this.connectionMap = {};
-    this.listener = listener;
+    this.server = server;
 
     // Track all connections to our server so that we can close them when needed.
-    this.listener.on('connection', connection => {
+    this.server.on('connection', connection => {
       // Generate a new key to represent the connection
       const connectionKey = ++this.lastConnectionKey;
       // Add the connection to our map.
@@ -55,8 +55,8 @@ class ListenerManager {
       }
 
       // Close the listener.
-      if (this.listener) {
-        this.listener.close(() => {
+      if (this.server) {
+        this.server.close(() => {
           // Ensure no straggling connections are left over.
           this.killAllConnections();
 
@@ -81,8 +81,8 @@ class HotServer {
     try {
       // The server bundle  will automatically start the web server just by
       // requiring it. It returns the http listener too.
-      const listener = require(compiledOutputPath).default;
-      this.listenerManager = new ListenerManager(listener);
+      const server = require(compiledOutputPath).default;
+      this.listenerManager = new ListenerManager(server);
 
       const url = `http://localhost:${process.env.SERVER_PORT}`;
 
@@ -124,8 +124,8 @@ class HotClient {
     app.use(this.webpackDevMiddleware);
     app.use(createWebpackHotMiddleware(compiler));
 
-    const listener = app.listen(process.env.CLIENT_DEVSERVER_PORT);
-    this.listenerManager = new ListenerManager(listener);
+    const server = app.listen(process.env.CLIENT_DEVSERVER_PORT);
+    this.listenerManager = new ListenerManager(server);
 
     createNotification({
       title: 'client',

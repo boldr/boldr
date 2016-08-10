@@ -28,7 +28,7 @@ WebFontLoader.load({
   }
 });
 
-const container = document.querySelector('#content');
+const MOUNT_POINT = document.getElementById('content');
 const client = new ApiClient();
 const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
@@ -63,7 +63,7 @@ const render = () => {
           </MuiThemeProvider>
         </Provider>
       </AppContainer>,
-      container
+      MOUNT_POINT
     );
 
     return history.listen(location => {

@@ -3,11 +3,18 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames/bind';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
+import Burger from 'material-ui/svg-icons/navigation/menu';
 import cxN from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import AvWeb from 'material-ui/svg-icons/av/web';
+import ActionDescription from 'material-ui/svg-icons/action/description';
+import SocialPerson from 'material-ui/svg-icons/social/person';
 
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { goHome } from 'scenes/Boldr/state/boldr';
 import Head from '../Head';
 import Item from '../Item';
@@ -113,7 +120,7 @@ class Header extends Component {
         onKeyDown={ this.handleKeyDown }
       >
         <div className={ cx('menu', { 'is-dropdown-open': navbarDropdownIsOpen }) }>
-          <div className="container">
+          <div className={ cx('container') }>
             <Head
               toggleDropdownHandler={ this.navbarDropdownHandler }
               dropdownOpen={ navbarDropdownIsOpen }
@@ -134,13 +141,38 @@ class Header extends Component {
                 'theme-dark': theme === 'dark'
               }) }
             >
-              <IconButton
-                style={ { marginTop: '-8px', color: '#fff' } }
-                onClick={ this.props.handleBurger }
-              >menu
-              </IconButton>
             </div>
-
+            <div style={ { paddingTop: '1em' } }>
+            <ul style={ { listStyleType: 'none', display: 'flex' } }>
+            <li>
+              <Link to="/account/login">
+                <IconButton>
+                  <SocialPerson color="white" />
+                </IconButton>
+              </Link>
+            </li>
+            <li>
+            <Link to="/dashboard">
+              <IconButton>
+                <AvWeb color="white" />
+              </IconButton>
+            </Link>
+            </li>
+            <li>
+            <IconMenu
+              iconButtonElement={ <IconButton><MoreVertIcon color="white" /></IconButton> }
+              anchorOrigin={ { horizontal: 'left', vertical: 'top' } }
+              targetOrigin={ { horizontal: 'left', vertical: 'top' } }
+            >
+              <MenuItem primaryText="Log In" />
+              <MenuItem primaryText="Sign Up" />
+              <MenuItem primaryText="Settings" />
+              <MenuItem primaryText="Dashboard" />
+              <MenuItem primaryText="Sign out" />
+            </IconMenu>
+            </li>
+            </ul>
+            </div>
           </div>
         </div>
       </header>

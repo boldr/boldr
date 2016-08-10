@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import classNames from 'classnames/bind';
 import TextDisplay from 'components/org.Editor/Display/index';
-import styles from '../../style.css';
+import styles from '../pg.PostListing/style.css';
 
 const cx = styles::classNames;
 

@@ -3,6 +3,10 @@
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   text-align: left;
 }
+.container {
+  margin: 0 auto;
+  max-width: 1140px;
+}
 @media (min-width: 992px) {
   .header.theme-dark {
     background-color: transparent;
