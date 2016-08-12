@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
 import { notificationSend } from 'scenes/Boldr/state/notifications';
-import { API_ADDR, API_AUTH } from 'core/api';
+import { API_BASE, API_AUTH } from 'core/config';
 import * as at from './constants';
 
 /**
@@ -167,8 +167,8 @@ export function loginPopulateAccount(response) {
     id: response.body.user.id,
     lastName: response.body.user.profile.lastName,
     location: response.body.user.profile.location,
-    avatarUrl: response.body.profile.avatarUrl,
-    roleId: response.body.profile.roleId,
+    avatarUrl: response.body.user.profile.avatarUrl,
+    roleId: response.body.user.profile.roleId,
     website: response.body.user.profile.website
   };
 }
@@ -214,7 +214,7 @@ export function getPublicProfile(userId) {
     dispatch({
       type: at.PUBLIC_PROFILE_REQUEST
     });
-    return request.get(`${API_ADDR}/users/${userId}`)
+    return request.get(`${API_BASE}/users/${userId}`)
       .then(response => {
         if (response.status === 200) {
           dispatch({

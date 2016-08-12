@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { Editor } from 'draft-js';
 import { Link } from 'react-router';
 import Moment from 'moment';
 import TagIcon from 'material-ui/svg-icons/action/bookmark';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import classNames from 'classnames/bind';
-import TextDisplay from 'components/org.Editor/Display/index';
-import styles from '../../style.css';
+import styles from './style.css';
 
 const cx = styles::classNames;
 
@@ -15,18 +13,19 @@ const PostCard = props => {
   const formattedDate = Moment(props.createdAt).format('MMMM Do YYYY, h:mm:ss a');
   const profileLink = `profile/public/${props.user.id}`;
   return (
+    <div>
       <Card>
         <CardMedia overlay={
           <CardTitle title={ props.title } subtitle={ formattedDate } />
         }>
-          <img src={ props.featureImage } />
+          <img className={ cx('post__card-image') } src={ props.featureImage } height="350px" />
         </CardMedia>
         <CardText>
         { props.excerpt }
         </CardText>
         <div className={ cx('post__card-footer') }>
-          <div className="row">
-            <div className="col-xs-7">
+          <div className="grid__row">
+            <div className="grid__twothirds">
               <ul style={ { display: 'flex', listStyleType: 'none' } }>
                 <li>
                   <TagIcon />
@@ -38,15 +37,16 @@ const PostCard = props => {
                  }
               </ul>
             </div>
-            <div className="col-xs-5">
+            <div className="grid__third">
               <Link to={ `/blog/${props.slug}` }>
-                <RaisedButton label="Read More" />
+                <RaisedButton label="Continue" secondary />
               </Link>
             </div>
           </div>
           Posted by <Link to={ profileLink }>{ props.user.displayName }</Link>
         </div>
       </Card>
+      </div>
     );
 };
 

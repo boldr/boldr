@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import classNames from 'classnames/bind';
+import Header from 'components/org.Header';
 import { Hero, Heading } from 'components/index';
 import styles from './Home.css';
 
@@ -10,7 +11,7 @@ const Home = () => {
   return (
     <div>
     <Helmet title="Home" />
-
+        <Header theme="dark" />
     <Hero />
     <div>
     <section className={ cx('root') }>

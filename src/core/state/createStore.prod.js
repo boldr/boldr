@@ -3,7 +3,6 @@ import { routerMiddleware } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import { isServer } from '../util/helpers';
 import reducers from './reducers';
-import createMiddleware from './clientMiddleware';
 
 /**
  * createStore
@@ -16,7 +15,7 @@ import createMiddleware from './clientMiddleware';
 export default function createStore(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
-  const middleware = [thunkMiddleware, createMiddleware(client), reduxRouterMiddleware];
+  const middleware = [thunkMiddleware, reduxRouterMiddleware];
 
 
   const finalCreateStore = applyMiddleware(...middleware)(_createStore);

@@ -65,7 +65,7 @@ Notification.defaultProps = {
 Notification.propTypes = {
   id: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
   message: React.PropTypes.string.isRequired,
-  kind: React.PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
+  kind: React.PropTypes.oneOf(['success', 'info', 'error', 'danger']).isRequired,
   onActionClick: React.PropTypes.func,
   actionLabel: React.PropTypes.string
 };

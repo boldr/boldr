@@ -5,7 +5,7 @@ import { Card } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import { Heading } from 'components/index';
-
+import inlineStyles from 'core/inlineStyles';
 import { doLogin } from '../../state/auth';
 import { LoginForm } from '../../components';
 import styles from '../../styles.css';
@@ -23,7 +23,7 @@ class Login extends Component {
   renderHeader() {
     return (
       <div>
-        <Heading size={ 1 }>Log in</Heading>
+        <Heading size={ 1 } bottom="10px">Log in</Heading>
           Not what you want?
           <Link to="/account/signup"> Register an Account</Link>
       </div>
@@ -34,7 +34,7 @@ class Login extends Component {
     const { isLoading } = this.props.auth;
 
     return (
-      <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
+      <div style={ inlineStyles.headerOverflow }>
         <Helmet title="Login" />
         <section className={ cx('root') }>
           <Card className={ cx('auth-card') }>

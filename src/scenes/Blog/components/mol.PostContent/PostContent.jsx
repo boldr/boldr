@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import TextDisplay from 'components/org.Editor/Display/index';
 
 const PostContent = props => {
+  function createMarkup() { return { __html: props.content }; };
   return (
     <div>
       { props.title }
-      <TextDisplay content={ props.content } />
+      <div className="content" dangerouslySetInnerHTML={ createMarkup() } />
     </div>
   );
 };

@@ -1,3 +1,14 @@
+### 0.4.0
+> 8/11/2016  
+
+I've been going on and on about 0.4.0 coming soon, or in a few days. I couldnt bring myself to rush and push out something that is half-assed. I'm pleased to say that, 0.4 is quite an improvement over the previous releases.  
+
+- **MAJOR:** The API and CMS are now located in different repositories under the [Boldr organization](https://github.com/boldr).
+- **Feature:** The front-facing website header was rewritten and the dashboard has a much cleaner look.
+- **Feature:** The article editor got some much needed TLC, and now provides more rich text editing capabilities. In addition it now outputs
+as well as stores raw html in the database.
+- **Feature:** Seed files for the initial database population were added.
+
 ### 0.3.11
 > 8/02/2016
 

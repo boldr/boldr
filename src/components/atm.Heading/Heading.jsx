@@ -5,7 +5,9 @@ const Heading = (props) => {
   const className = `heading heading--${props.size}`;
   const style = {
     color: props.color,
-    textAlign: props.align
+    textAlign: props.align,
+    paddingTop: props.top,
+    paddingBottom: props.bottom
   };
   return React.createElement(tagName, { className, style }, props.children);
 };
@@ -17,5 +19,6 @@ Heading.propTypes = {
   color: PropTypes.string,
   align: PropTypes.string,
   children: PropTypes.node,
-  top: PropTypes.string
+  top: PropTypes.string,
+  bottom: PropTypes.string
 };

@@ -7,6 +7,8 @@ import { provideHooks } from 'redial';
 import { getMyProfile } from 'scenes/Account/state/account';
 import classNames from 'classnames/bind';
 import styles from './style.css';
+import Header from 'components/org.Header';
+import inlineStyles from 'core/inlineStyles';
 
 const cx = styles::classNames;
 
@@ -16,14 +18,18 @@ const cx = styles::classNames;
 class ProfileMain extends Component {
   render() {
     return (
-      <div className="container">
-      <div className="row center-xs">
-        <div className="col-xs-12 col-md-4">
+      <div>
+      <div style={ inlineStyles.headerOverflow }>
+          <Header theme="dark" />
+      </div>
+      <div className="grid">
+      <div className="grid__row">
+        <div className={ cx('profile__editor') }>
         <Card>
           <CardHeader
-            title={ this.props.account.firstName }
+            title={ this.props.users.firstName }
             subtitle="Subtitle"
-            avatar={ this.props.account.avatarUrl }
+            avatar={ this.props.users.avatarUrl }
           />
           <CardTitle title="Card" subtitle="Card subtitle" />
           <CardText>
@@ -44,24 +50,24 @@ class ProfileMain extends Component {
           </CardActions>
         </Card>
         </div>
-        <Card className="col-xs-12 col-md-8">
+        <Card className={ cx('profile__card') }>
           <CardHeader
-            title={ this.props.account.firstName }
+            title={ this.props.users.firstName }
             subtitle="Subtitle"
-            avatar={ this.props.account.picture }
+            avatar={ this.props.users.picture }
           />
           <CardTitle title="Card" subtitle="Card subtitle" />
           <CardText>
           <List>
-          <ListItem primaryText={ this.props.account.displayName } />
-          <ListItem primaryText={ this.props.account.email } />
-          <ListItem primaryText={ this.props.account.firstName } />
-          <ListItem primaryText={ this.props.account.lastName } />
-          <ListItem primaryText={ this.props.account.gender } />
-          <ListItem primaryText={ this.props.account.birthday } />
-          <ListItem primaryText={ this.props.account.location } />
-          <ListItem primaryText={ this.props.account.website } />
-          <ListItem primaryText={ this.props.account.avatarUrl } />
+          <ListItem primaryText={ this.props.users.displayName } />
+          <ListItem primaryText={ this.props.users.email } />
+          <ListItem primaryText={ this.props.users.firstName } />
+          <ListItem primaryText={ this.props.users.lastName } />
+          <ListItem primaryText={ this.props.users.gender } />
+          <ListItem primaryText={ this.props.users.birthday } />
+          <ListItem primaryText={ this.props.users.location } />
+          <ListItem primaryText={ this.props.users.website } />
+          <ListItem primaryText={ this.props.users.avatarUrl } />
 
           </List>
           </CardText>
@@ -72,12 +78,13 @@ class ProfileMain extends Component {
         </Card>
         </div>
     </div>
+    </div>
     );
   }
 }
 
 ProfileMain.propTypes = {
-  account: PropTypes.object.isRequired
+  users: PropTypes.object.isRequired
 };
 
 export default ProfileMain;

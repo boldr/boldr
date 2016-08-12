@@ -1,9 +1,13 @@
 import React from 'react';
 import BoldrLogo from 'components/atm.BoldrLogo';
+import logoImage from './boldr-white.png';
 
 const inlineStyle = {
   logo: {
-    paddingTop: '5px'
+    verticalAlign: 'middle'
+  },
+  img: {
+    verticalAlign: 'middle'
   },
   title: {
     verticalAlign: 'top',
@@ -13,12 +17,13 @@ const inlineStyle = {
 export default function SiteLogo(props) {
   return (
     <div className="sitelogo" style={ inlineStyle.logo }>
-      <BoldrLogo width="50px" height="50px" />
+      <img src={ logoImage } alt="logo" height={ props.logoHeight } style={ inlineStyle.img } />
       <span style={ inlineStyle.title }>{ props.SiteLogoOrTitle }</span>
     </div>
   );
 }
 
 SiteLogo.propTypes = {
-  SiteLogoOrTitle: React.PropTypes.string
+  SiteLogoOrTitle: React.PropTypes.string,
+  logoHeight: React.PropTypes.string
 };

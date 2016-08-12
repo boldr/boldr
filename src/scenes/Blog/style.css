@@ -1,7 +1,0 @@
-@custom-media --small-viewport (max-width: 40em);
-@custom-media --medium-viewport (min-width: 40em);
-
-.blog__post-wrap {
-  width: 100%;
-  padding: 1em;
-}

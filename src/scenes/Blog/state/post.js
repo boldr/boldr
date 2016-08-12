@@ -2,12 +2,46 @@ import fetch from 'core/fetch';
 import request from 'superagent';
 import normalize from 'normalizr';
 import { push } from 'react-router-redux';
-import { API_ADDR, API_POSTS } from 'core/api';
+// import { API_BASE, API_POSTS } from 'core/api';
 import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { processResponse } from 'core/api/ApiClient';
 import * as at from './constants';
 import * as schema from './schema';
 
+const API_BASE = '/api/v1';
+const API_POSTS = '/api/v1/posts';
+
+export const POSTS_LIST_REQUEST = 'POSTS_LIST_REQUEST';
+export const POSTS_LIST_SUCCESS = 'POSTS_LIST_SUCCESS';
+export const POSTS_LIST_FAILURE = 'POSTS_LIST_FAILURE';
+
+const requestPostList = () => ({
+  type: POSTS_LIST_REQUEST
+});
+const failedGettingPostList = (err) => ({
+  type: POSTS_LIST_FAILURE,
+  error: err
+});
+const gotPostList = (response) => ({
+  type: POSTS_LIST_SUCCESS,
+  data: response.body
+});
+
+export function getPostsListing() {
+  return dispatch => {
+    dispatch(requestPostList());
+    return request
+      .get(API_POSTS)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(gotPostList(response));
+        }
+      })
+      .catch(err => {
+        dispatch(failedGettingPostList(err));
+      });
+  };
+}
 /**
  * GET ARTICLE ACTIONS
  */
@@ -61,7 +95,7 @@ function shouldFetchPosts(state) {
 export function fetchPosts() {
   return dispatch => {
     dispatch(requestPosts());
-    return fetch(`${API_POSTS}`)
+    return fetch('/api/v1/posts')
       .then(response => processResponse(response))
       .then(json => dispatch(receivePosts(json)));
   };
@@ -88,7 +122,7 @@ export function fetchPost(slug) {
   return dispatch => {
     dispatch(requestPost());
     return request
-      .get(`${API_ADDR}/posts/${slug}`)
+      .get(`${API_BASE}/posts/${slug}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(receivePost(response));
@@ -209,7 +243,7 @@ const errorUpdatingPost = (err) => {
   };
 };
 
-export function updateArticle(postData) {
+export function updatePost(postData) {
   // const articleSlug = slug(articleData.title);
   const payload = {
     title: postData.title,
@@ -270,15 +304,17 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
     case at.FETCH_POSTS_REQUEST:
     case at.FETCH_POST_REQUEST:
     case at.CREATE_POST_REQUEST:
+    case POSTS_LIST_REQUEST:
       return {
         ...state,
         isLoading: true
       };
     case at.FETCH_POSTS_SUCCESS:
+    case POSTS_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        data: action.payload
+        data: action.data
       };
     case at.FETCH_POST_SUCCESS:
       return {

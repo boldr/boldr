@@ -12,7 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import Paper from 'material-ui/Paper';
 import classNames from 'classnames/bind';
-import { fetchPostsIfNeeded, selectPost } from 'scenes/Blog/state/post';
+import { getPostsListing, selectPost } from 'scenes/Blog/state/post';
 import ArticleListItem from './components/org.ArticleListItem';
 import styles from './style.css';
 
@@ -28,7 +28,7 @@ const iconButtonElement = (
 );
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
+  fetch: ({ dispatch }) => dispatch(getPostsListing())
 })
 class Articles extends Component {
   constructor(props) {
@@ -59,30 +59,31 @@ class Articles extends Component {
       </IconMenu>
     );
     return (
-      <div className="row">
-       <div className="col-xs-12 col-md-4">
-       <Paper>
+      <div className={ cx('dashboard__row') }>
+       <div className="grid__half">
+       <Paper zDepth={ 1 } style={ { height: '90vh' } }>
 
-        <List className={ cx('articleList__wrap') }>
+        <List className={ cx('articleList') }>
           { this.props.posts.data.map(post =>
             <ListItem
               key={ post.id }
               leftAvatar={ <Avatar src={ post.featureImage } /> }
               rightIconButton={ rightIconMenu }
-              primaryText={ post.title }
+              primaryText={   <ArticleListItem article={ post } handleArticleClick={ ::this.handleArticleClick } /> }
               secondaryText={
                 <ArticleListItem article={ post } handleArticleClick={ ::this.handleArticleClick } />
               }
-              secondaryTextLines={ 2 }
             />)
           }
         </List>
         </Paper>
         </div>
-        <div className="col-xs-12 col-md-8">
+        <div className={ cx('article__preview') }>
+        <Paper zDepth={ 1 } style={ { height: '90vh' } }>
           {
             this.state.visible ? <span>{ this.props.current.title }</span> : null
           }
+          </Paper>
         </div>
        </div>
     );

@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import { trigger } from 'redial';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import render from './render';
+import BoldrTheme from 'core/materialTheme';
 import getRoutes from '../scenes';
-import BoldrTheme from '../styles/theme';
 import createStore from '../core/state/createStore';
+import render from './render';
 /**
  * An express middleware that is capabable of doing React server side rendering.
  */

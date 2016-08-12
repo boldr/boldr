@@ -38,7 +38,7 @@ const S3Uploader = React.createClass({
     };
   },
   getInputProps() {
-    const temporaryProps = Object.assign({}, this.props, { type: 'file', onChange: this.uploadFile });
+    const temporaryProps = Object.assign({}, this.props, { class: 'uploader', type: 'file', onChange: this.uploadFile });
     const inputProps = {};
 
     const invalidProps = Object.keys(S3Uploader.propTypes);

@@ -4,7 +4,6 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { isServer } from '../util/helpers';
 import reducers from './reducers';
-import createMiddleware from './clientMiddleware';
 
 const ISDEV = process.env.NODE_ENV === 'development';
 const loggerOptions = {

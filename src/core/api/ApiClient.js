@@ -2,8 +2,6 @@
 
 import _ from 'lodash';
 import superagent from 'superagent';
-import cookie from 'react-cookie';
-import qs from 'qs';
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -78,15 +76,15 @@ class _ApiClient {
           request.query([Date.now().toString()]);
         }
 
-        const token = cookie.load('token');
-        if (token) {
-          request.set('Authorization', 'Bearer ' + token);
-        }
+        // const token = cookie.load('token');
+        // if (token) {
+        //   request.set('Authorization', 'Bearer ' + token);
+        // }
 
         if (headers !== undefined ) {
           for (const key in headers) {
             if (headers.hasOwnProperty(key)) {
-              if ((key === 'Authorization' && !token)) {
+              if ((key === 'Authorization')) {
                 request.set(key, headers[key]);
               } else
               if (key !== 'Authorization') {

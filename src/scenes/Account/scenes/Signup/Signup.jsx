@@ -7,9 +7,11 @@ import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
 import { Heading } from 'components/index';
+import inlineStyles from 'core/inlineStyles';
 import { createAccount } from '../../state/account';
-import { SignupForm, SocialLogin } from '../../components';
+import { SignupForm } from '../../components';
 import styles from '../../styles.css';
+
 
 const cx = styles::classNames;
 class Signup extends Component {
@@ -28,7 +30,7 @@ class Signup extends Component {
   renderHeader() {
     return (
       <div>
-        <Heading size={ 1 }>Register with Email</Heading>
+        <Heading size={ 1 } bottom="10px">Create your identity</Heading>
           Already have an account?
           <Link to="/account/login"> Login</Link>
       </div>
@@ -36,9 +38,9 @@ class Signup extends Component {
   }
 
   render() {
-    const { isLoading } = this.props.account;
+    const { isLoading } = this.props.users;
     return (
-        <div style={ { backgroundColor: 'rgba(64, 64, 78, 1)', paddingTop: '50px' } }>
+        <div style={ inlineStyles.headerOverflow }>
           <Helmet title="Signup" />
           <section className={ cx('root') }>
             <Card className={ cx('auth-card') }>
@@ -54,13 +56,13 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-  account: PropTypes.object,
+  users: PropTypes.object,
   createAccount: PropTypes.func,
   handleOnSubmit: PropTypes.func
 };
-function mapStateToProps({ account }) {
+function mapStateToProps({ users }) {
   return {
-    account
+    users
   };
 }
 

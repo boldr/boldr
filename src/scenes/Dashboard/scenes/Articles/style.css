@@ -1,4 +1,13 @@
 
 .articleList__wrap {
-  width: 100%;
+lost-column: 1/2;
+}
+.dashboard__row {
+  lost-utility: clearfix;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 95%;
+}
+.article__preview {
+  lost-column: 1/2 -1;
 }

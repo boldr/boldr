@@ -1,7 +1,6 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import { action } from 'core/util/action';
-import { API_ADDR } from 'core/api';
+import { API_BASE } from 'core/config';
 import { notificationSend } from './notifications';
 
 export const DONE_LOADING = 'DONE_LOADING';
@@ -9,7 +8,7 @@ export const LOAD_SETTINGS = 'LOAD_SETTINGS';
 export const LOAD_SETTINGS_SUCCESS = 'LOAD_SETTINGS_SUCCESS';
 export const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
 
-export const SETTINGS_ENDPOINT = `${API_ADDR}/settings`;
+export const SETTINGS_ENDPOINT = `${API_BASE}/settings`;
 
 export function goHome(data) {
   return (dispatch) => {

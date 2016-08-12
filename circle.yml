@@ -5,8 +5,11 @@ machine:
     America/Denver
 
   environment:
-    CIRCLE_ENV: test
     NODE_ENV: test
+
+general:
+  artifacts:
+    - "docs/reports"
 
 dependencies:
   cache_directories:
