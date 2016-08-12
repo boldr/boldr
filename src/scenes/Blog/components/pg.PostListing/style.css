@@ -4,14 +4,8 @@
 @custom-media --viewport-min-m (min-width: 48.01em);
 @custom-media --large-viewport (min-width: 60em);
 
-.blog__post-wrap {
-  width: 100%;
-  padding: 1em;
-}
-
 .container {
   lost-center: 1170px;
-
   @media(--small-viewport) {
     padding-left: 1em;
     padding-right: 1em;

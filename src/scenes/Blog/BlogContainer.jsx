@@ -10,7 +10,7 @@ const BlogContainer = (props) => {
     <div>
       <div style={ inlineStyles.headerOverflow }>
         <Header theme="dark" />
-    </div>
+      </div>
         { props.children }
     </div>
   );

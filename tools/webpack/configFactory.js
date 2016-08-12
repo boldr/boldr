@@ -121,6 +121,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
         ]
       }))
     ]),
+    cache: !(isDev && isServer),
     devtool: ifElse(isServer || isDev)(
       // We want to be able to get nice stack traces when running our server
       // bundle.  To fully support this we'll also need to configure the
@@ -269,10 +270,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
           // Indicates to our loaders that they should minify their output
           // if they have the capability to do so.
           minimize: true,
-          // Indicates to our loaders that they should enter into debug mode
-          // should they support it.
-          drop_debugger: true,
-          drop_console: true,
           debug: false
         })
       ),
@@ -417,6 +414,8 @@ function webpackConfigFactory({ target, mode }, { json }) {
               'css-loader/locals'
             ]
           }),
+          ifServer(new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, "node-noop")),
+
           // For a production client build we use the ExtractTextPlugin which
           // will extract our CSS into CSS files.  The plugin needs to be
           // registered within the plugins section too.

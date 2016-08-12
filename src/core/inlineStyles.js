@@ -17,7 +17,7 @@ export default {
     backgroundColor: midnightBlue,
     paddingTop: '50px',
     height: '110px',
-    marginBottom: '10px'
+    marginBottom: '50px'
   },
   underlineFocusStyle: {
     borderColor: cyanLike

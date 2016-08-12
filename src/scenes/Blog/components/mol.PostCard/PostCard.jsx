@@ -13,7 +13,7 @@ const PostCard = props => {
   const formattedDate = Moment(props.createdAt).format('MMMM Do YYYY, h:mm:ss a');
   const profileLink = `profile/public/${props.user.id}`;
   return (
-    <div className={ cx('post__card') }>
+    <div>
       <Card>
         <CardMedia overlay={
           <CardTitle title={ props.title } subtitle={ formattedDate } />
