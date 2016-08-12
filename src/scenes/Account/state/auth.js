@@ -2,14 +2,11 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import moment from 'moment';
 import fetch from 'core/fetch';
-import { createRequestat } from 'core/util/action';
-// import { API_ADDR, API_AUTH } from 'core/api';
+import { API_BASE, API_AUTH } from 'core/config';
 
 import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
 import * as at from './constants';
-const API_ADDR = '/api/v1';
-const API_AUTH = '/api/v1/auth';
 
 /**
  * LOGIN ACTIONS
@@ -48,7 +45,7 @@ export function doLogin(loginData, redir) {
   return (dispatch) => {
     dispatch(beginLogin());
     return request
-      .post(`${API_ADDR}/auth/login`)
+      .post(`${API_BASE}/auth/login`)
       .send(loginData)
       .then(response => {
         localStorage.setItem('token', response.body.token);

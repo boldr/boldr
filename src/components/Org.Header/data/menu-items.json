@@ -28,7 +28,7 @@
   {
     "name": "Content",
     "id": "content",
-    "dropdownClass": "highlightDropdown",
+    "simpleList": true,
     "mobileHref": "#",
     "childrens": [
       {
@@ -40,49 +40,9 @@
             "name": "Overview",
             "id": "overview",
             "href": "#",
-            "highlight": {
-              "thumbnail": "",
-              "title": "Content types",
-              "excerpt": "Blog posts, etc",
-              "link": "#",
-              "morelinks": [
-                {
-                  "text": "Another link",
-                  "href": "#",
-                  "external": false
-                }
-              ]
-            }
-          },
-          {
-            "name": "Another Link",
-            "id": "customers",
-            "href": "#",
-            "highlight": {
-              "thumbnail": "",
-              "title": "This is a title",
-              "excerpt": "This is excerpt text",
-              "link": "#",
-              "morelinks": [
-                {
-                  "text": "Learn more",
-                  "href": "#",
-                  "external": true
-                }
-              ]
-            }
+            "icon": ""
           }
         ]
-      },
-      {
-        "componentType": "highlight",
-        "key": "default-highlight-overview",
-        "default": {
-          "thumbnail": "",
-          "title": "This is highlight content",
-          "excerpt": "Be cool and collected",
-          "link": "#"
-        }
       }
     ]
   },
@@ -100,7 +60,7 @@
   {
     "name": "More",
     "id": "more",
-    "dropdownClass": "moreDropdown",
+    "simpleList": true,
     "childrens": [
       {
         "componentType": "list",
@@ -123,23 +83,6 @@
             "href": "#"
           }
         ]
-      },
-      {
-        "componentType": "highlight",
-        "title": "Latest from Auth0 blog",
-        "key": "last-blog",
-        "id": "last-blog",
-        "default": {
-          "componentTitle": "Another highlight",
-          "avatar": "",
-          "title": "What is Boldr?",
-          "excerpt": "A modern CMS built on React.",
-          "link": "#",
-          "external": true,
-          "author": "",
-          "thumbnail": "",
-          "date": ""
-        }
       }
     ]
   }

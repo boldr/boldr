@@ -1,5 +1,5 @@
 import request from 'superagent';
-import { API_USERS } from 'core/api';
+import { API_USERS } from 'core/config';
 
 export const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';
 export const LOAD_USERS_SUCCESS = 'LOAD_USERS_SUCCESS';

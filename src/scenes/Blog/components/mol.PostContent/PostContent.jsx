@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
+
 const PostContent = props => {
+  function createMarkup() { return { __html: props.content }; };
   return (
     <div>
       { props.title }
-      <div
-            className="content"
-            dangerouslySetInnerHTML={ props.content }
-          />
+      <div className="content" dangerouslySetInnerHTML={ createMarkup() } />
     </div>
   );
 };

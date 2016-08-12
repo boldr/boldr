@@ -48,6 +48,7 @@ const VENDOR = [
   'superagent',
   'redux-thunk',
   'redux-form',
+  'react-rte',
   'material-ui',
   'react-tap-event-plugin',
   'redial',
@@ -75,12 +76,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
     //
     // You can run a bundle analysis by executing the following:
     //
-    // $(npm bin)/webpack \
-    //   --env.mode production \
-    //   --config webpack.client.config.js \
-    //   --json \
-    //   > build/client/analysis.json
-    //
+    // $(npm bin)/webpack --env.mode production --config tools/webpack/client.config.js --json > build/client/analysis.json
     // And then upload the build/client/analysis.json to http://webpack.github.io/analyse/
     // This allows you to analyse your webpack bundle to make sure it is
     // optimal.
@@ -204,6 +200,11 @@ function webpackConfigFactory({ target, mode }, { json }) {
       }
     },
     postcss: postCSSConfig,
+    // https://github.com/shakacode/sass-resources-loader
+    sassResources: [
+      path.resolve(appRootPath, './src/styles/abstracts/variables.scss'),
+      path.resolve(appRootPath, './src/styles/abstracts/mixins.scss')
+    ],
     plugins: removeEmpty([
       // We use this so that our generated [chunkhash]'s are only different if
       // the content for our respective chunks have changed.  This optimises
@@ -258,7 +259,10 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // Ensure only 1 file is output for the server bundles.  This makes it
       // much easer for us to clear the module cache when reloading the server.
       ifDevServer(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })),
-
+      ifClient(new webpack.ProvidePlugin({
+        // make fetch available
+        fetch: 'exports?self.fetch!whatwg-fetch'
+      })),
       // Adds options to all of our loaders.
       ifProdClient(
         new webpack.LoaderOptionsPlugin({
@@ -267,6 +271,8 @@ function webpackConfigFactory({ target, mode }, { json }) {
           minimize: true,
           // Indicates to our loaders that they should enter into debug mode
           // should they support it.
+          drop_debugger: true,
+          drop_console: true,
           debug: false
         })
       ),
@@ -280,7 +286,14 @@ function webpackConfigFactory({ target, mode }, { json }) {
           }
         })
       ),
-
+      ifProdClient(
+        new webpack.optimize.CommonsChunkPlugin({
+          name: 'vendor',
+          children: true,
+          minChunks: 2,
+          async: true
+        })
+      ),
 
       ifProdClient(
         // This is a production client so we will extract our CSS into
@@ -303,13 +316,13 @@ function webpackConfigFactory({ target, mode }, { json }) {
             {
               env: {
                 production: {
-                  'plugins': [['transform-runtime', {
-                    'polyfill': false, 'regenerator': true
+                  plugins: [['transform-runtime', {
+                    polyfill: false, regenerator: true
                   }], 'transform-decorators-legacy']
                 },
                 development: {
-                  'plugins': [['transform-runtime', {
-                    'polyfill': false, 'regenerator': true
+                  plugins: [['transform-runtime', {
+                    polyfill: false, regenerator: true
                   }], 'react-hot-loader/babel', 'transform-decorators-legacy']
                 }
               }
@@ -319,11 +332,24 @@ function webpackConfigFactory({ target, mode }, { json }) {
               // all of the ES2015 syntax, therefore we only transpile JSX.
               presets: ['react', 'stage-0']
             }),
-            ifClient({
+            ifProdClient({
               // For our clients code we will need to transpile our JS into
               // ES5 code for wider browser/device compatability.
               presets: [
                 // JSX
+                'react',
+                // Webpack 2 includes support for es2015 imports, therefore we
+                // disable the modules processing.
+                ['es2015', { modules: false }],
+                'stage-0',
+                'react-optimize'
+              ]
+            }),
+            ifDevClient({
+              // For our clients code we will need to transpile our JS into
+              // ES5 code for wider browser/device compatability.
+              presets: [
+                'react-hmre',
                 'react',
                 // Webpack 2 includes support for es2015 imports, therefore we
                 // disable the modules processing.
@@ -371,7 +397,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           ifProdClient({
             loader: ExtractTextPlugin.extract({
               notExtractLoader: 'style-loader',
-              loader: 'css-loader!postcss-loader!sass-loader'
+              loader: 'css-loader!postcss-loader!sass-loader!sass-resources'
             })
           }),
           // For a development client we will use a straight style & css loader

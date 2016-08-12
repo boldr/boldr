@@ -1,26 +1,22 @@
-@custom-media --small-viewport (max-width: 40em);
-@custom-media --medium-viewport (min-width: 40em);
-
-.profile__card-wrap {
-  lost-utility: clearfix;
-  lost-center: 1170px;
-  padding-top: 1em;
-
+@custom-media --small-viewport (max-width: 30em);
 
 .profile__card {
-  lost-column: 3/3 0;
-
-  @media (--medium-viewport) {
-    lost-column: 4/6 1;
+  @media(--small-viewport) {
+    lost-utility: clearfix;
+    lost-column: 1/1;
   }
+
+  lost-column: 3/4;
+
+
 
 }
 .profile__editor {
-  lost-column: 3/3 0;
-
-  @media (--medium-viewport) {
-    lost-column: 2/6;
+  @media(--small-viewport) {
+    lost-utility: clearfix;
+    lost-column: 1/1;
   }
 
-}
-}
+  lost-column: 1/4 0;
+
+  }

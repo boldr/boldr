@@ -7,9 +7,14 @@ import Paper from 'material-ui/Paper';
 
 import { provideHooks } from 'redial';
 import Loader from 'components/atm.Loader';
+import classNames from 'classnames/bind';
+
 import Sidebar from '../org.Sidebar';
 import { fetchPost } from '../../state/post';
 import PostContent from '../../components/mol.PostContent';
+import styles from './style.css';
+
+const cx = styles::classNames;
 
 @provideHooks({
   fetch: ({ dispatch, params: { slug } }) => dispatch(fetchPost(slug))
@@ -17,9 +22,9 @@ import PostContent from '../../components/mol.PostContent';
 class SinglePost extends Component {
   render() {
     return (
-      <div className="container-fluid">
-        <div className="row" style={ { padding: '1em' } }>
-          <div className="col-md-9">
+      <div className="grid">
+        <div className="grid__row" style={ { padding: '1em' } }>
+          <div className="grid__twothirds">
             <Paper style={ { padding: '1em' } } zDepth={ 2 }>
             {
               this.props.isLoading ?
@@ -28,7 +33,7 @@ class SinglePost extends Component {
             }
             </Paper>
           </div>
-          <div className="col-md-3">
+          <div className="grid__third">
             <Sidebar { ...this.props.selectedPost } />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import request from 'superagent';
 import fetch from 'core/fetch';
 import { notificationSend } from 'scenes/Boldr/state/notifications';
-import { API_ADDR, API_MEDIA } from 'core/api';
+import { API_BASE, API_MEDIA } from 'core/config';
 import * as at from './constants';
 
 const fetchMediaStart = () => {

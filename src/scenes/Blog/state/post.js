@@ -2,13 +2,13 @@ import fetch from 'core/fetch';
 import request from 'superagent';
 import normalize from 'normalizr';
 import { push } from 'react-router-redux';
-// import { API_ADDR, API_POSTS } from 'core/api';
+// import { API_BASE, API_POSTS } from 'core/api';
 import { notificationSend } from 'scenes/Boldr/state/notifications';
 import { processResponse } from 'core/api/ApiClient';
 import * as at from './constants';
 import * as schema from './schema';
 
-const API_ADDR = '/api/v1';
+const API_BASE = '/api/v1';
 const API_POSTS = '/api/v1/posts';
 
 export const POSTS_LIST_REQUEST = 'POSTS_LIST_REQUEST';
@@ -122,7 +122,7 @@ export function fetchPost(slug) {
   return dispatch => {
     dispatch(requestPost());
     return request
-      .get(`${API_ADDR}/posts/${slug}`)
+      .get(`${API_BASE}/posts/${slug}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(receivePost(response));

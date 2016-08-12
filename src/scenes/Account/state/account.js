@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'core/fetch';
 import { notificationSend } from 'scenes/Boldr/state/notifications';
-import { API_ADDR, API_AUTH } from 'core/api';
+import { API_BASE, API_AUTH } from 'core/config';
 import * as at from './constants';
 
 /**
@@ -214,7 +214,7 @@ export function getPublicProfile(userId) {
     dispatch({
       type: at.PUBLIC_PROFILE_REQUEST
     });
-    return request.get(`${API_ADDR}/users/${userId}`)
+    return request.get(`${API_BASE}/users/${userId}`)
       .then(response => {
         if (response.status === 200) {
           dispatch({

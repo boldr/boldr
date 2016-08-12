@@ -1,0 +1,10 @@
+@custom-media --small-viewport (max-width: 30em);
+
+.single__post {
+  lost-column: 3/4 0;
+
+  @media(--small-viewport) {
+    lost-utility: clearfix;
+    lost-column: 1/1;
+  }
+}

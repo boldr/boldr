@@ -134,21 +134,20 @@ class Header extends Component {
             }) }
               ref="dropdownContent"
             >
-              <ul className={ cx('navigation') }>{ !!children ? children : renderedMenuItems }</ul>
+              <ul className={ cx('navigation') }>{ !!children ? children : renderedMenuItems }
+
+
+              </ul>
             </nav>
-            <div
-              className={ cxN(cx('buttons-group', {
-                'is-dropdown-open': navbarDropdownIsOpen
-              }), {
+            <div className={ cxN(cx('buttons-group', { 'is-dropdown-open': navbarDropdownIsOpen }), {
                 'theme-dark': theme === 'dark'
               }) }
             >
-            </div>
-            <div style={ { paddingTop: '1em' } }>
-            <ul style={ { listStyleType: 'none', display: 'flex' } }>
+
+            <ul style={ { listStyleType: 'none', display: 'flex', margin: '0' } }>
             <li>
             <IconMenu
-              iconButtonElement={ <IconButton><SocialPerson color="white" /></IconButton> }
+              iconButtonElement={ <IconButton style={ { padding: '0' } }><SocialPerson color="white" /></IconButton> }
               anchorOrigin={ { horizontal: 'left', vertical: 'top' } }
               targetOrigin={ { horizontal: 'left', vertical: 'top' } }
             >
@@ -171,13 +170,16 @@ class Header extends Component {
               { this.props.auth.roleId > 4 ?
                 <li>
                   <Link to="/dashboard">
-                    <IconButton>
+                    <IconButton style={ { padding: '0' } }>
                       <AvWeb color="white" />
                     </IconButton>
                   </Link>
                 </li> : null
               }
             </ul>
+            </div>
+            <div style={ { paddingTop: '1em' } }>
+
             </div>
           </div>
         </div>

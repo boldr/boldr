@@ -2,7 +2,7 @@
   float: left;
   height: 100%;
   padding: 5px 20px;
-  width: 180px;
+  /*width: 180px;*/
 }
 .dropdownList ul {
   list-style-type: none;

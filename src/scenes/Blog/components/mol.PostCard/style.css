@@ -4,16 +4,22 @@
 @custom-media --viewport-min-m (min-width: 48.01em);
 @custom-media --large-viewport (min-width: 60em);
 
-.blog__post-wrap {
-  width: 100%;
-  padding: 1em;
+.post__card {
+  lost-column: 1/1;
+
+@media(--viewport-min-s) {
+  lost-column: 1/2;
 }
 
-.container {
-  lost-center: 1170px;
+@media(--viewport-min-m) {
+  lost-column: 1/3;
+  margin-top: 5em;
+}
 
-  @media(--small-viewport) {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
+}
+.post__card-footer {
+  padding: 15px;
+}
+.post__card-image {
+  object-fit: cover;
 }

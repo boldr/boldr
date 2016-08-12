@@ -5,17 +5,20 @@ class DashboardWidgets extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3">
+      <div>
+        <div className="grid__row">
+          <div className="grid__quarter">
             <Widget name="Widget A" />
           </div>
-          <div className="col-md-3">
+          <div className="grid__quarter">
             <Widget name="Widget C" />
           </div>
-          <div className="col-md-6">
+          <div className="grid__half">
             <Widget name="Widget D" />
           </div>
+        </div>
+        <div className="grid__row" style={ { marginTop: '1.5em' } }>
+        <Widget name="Widget E" />
         </div>
       </div>
     );

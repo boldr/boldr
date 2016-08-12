@@ -37,9 +37,28 @@ export const renderRichText = (field) =>
   <RichTextInput key={ field.name } name={ field.name } label={ field.name } />;
 
 class NewArticleForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onChange = (value) => {
+      this.setState({
+        value
+      });
+    };
+
+
+    this.renderReturnedContent = (value) => this._renderReturnedContent(value);
+
+    this.state = {
+      tags: [],
+      open: false,
+      files: []
+    };
+  }
 
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { editorState } = this.state;
     return (
       <section>
       <form onSubmit={ handleSubmit }>

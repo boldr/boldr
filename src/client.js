@@ -9,11 +9,11 @@ import { trigger } from 'redial';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-// import useScroll from 'react-router-scroll';
 import WebFontLoader from 'webfontloader';
-// Non-vendor
 
-import BoldrTheme from './styles/theme';
+// Non-vendor
+import BoldrTheme from './core/materialTheme';
+import { TOKEN_KEY } from './core/config';
 import createStore from './core/state/createStore';
 import { checkAuth } from './scenes/Account/state/auth';
 import getRoutes from './scenes';
@@ -32,7 +32,7 @@ const initialState = window.__data;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, initialState);
 const { dispatch } = store;
-const token = localStorage.getItem('token');
+const token = localStorage.getItem(TOKEN_KEY);
 
 if (token) {
   // Update application state. User has token and is probably authenticated
@@ -41,9 +41,7 @@ if (token) {
 
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = getRoutes(store, history);
-// const { whyDidYouUpdate } = require('why-did-you-update');
 
-// whyDidYouUpdate(React);
 injectTapEventPlugin();
 
 const render = () => {

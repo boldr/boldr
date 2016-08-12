@@ -23,7 +23,7 @@ const Head = ({ toggleDropdownHandler, dropdownOpen, theme, closeHeaderDropdown 
     </button>
     <h1 className={ cx('brand') }>
       <a href="/" rel="home" className={ cx('logo') } onClick={ closeHeaderDropdown }>
-      <SiteLogo SiteLogoOrTitle="Boldr" />
+      <SiteLogo logoHeight="50px" />
       </a>
     </h1>
   </div>;

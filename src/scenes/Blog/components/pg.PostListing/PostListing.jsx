@@ -20,17 +20,15 @@ class PostListing extends Component {
   }
   render() {
     return (
-      <div className="container-fluid">
-      <section className="row">
+      <div className={ cx('container') }>
 
         {
           this.props.posts.isLoading ? <Loader /> : this.props.posts.data.map(post =>
-            <div key={ post.id } className="col-xs-6 col-md-4" style={ { marginTop: '25px' } }>
+            <div key={ post.id }>
               <PostCard { ...post } />
             </div>)
         }
 
-      </section>
       </div>
     );
   }

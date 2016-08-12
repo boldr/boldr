@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import TopBar from 'components/mol.TopBar';
 import Notifications from 'components/atm.Notification';
-import Header from 'components/org.Header';
+// import Header from 'components/org.Header';
 
 const Boldr = (props) => {
   return (
@@ -13,7 +13,6 @@ const Boldr = (props) => {
         titleTemplate={ '%s | powered by Boldr' }
       />
 
-      <Header theme="dark" />
       { props.children }
       <Notifications />
     </div>

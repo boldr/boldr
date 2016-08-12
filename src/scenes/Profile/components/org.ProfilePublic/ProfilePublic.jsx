@@ -4,7 +4,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import FlatButton from 'material-ui/FlatButton';
 import { provideHooks } from 'redial';
 import { getPublicProfile } from 'scenes/Account/state/account';
-
+import Header from 'components/org.Header';
 // @provideHooks({
 //   fetch: ({ dispatch }) => dispatch(getPublicProfile(this.props.routeParams.id))
 // })
@@ -15,6 +15,9 @@ class ProfilePublic extends Component {
   render() {
     return (
       <div>
+      <div style={ {backgroundColor: '#324A70', height: '110px', width: '100%' } }>
+          <Header theme="dark" />
+      </div>
         <Card>
           <CardHeader
             title="title"

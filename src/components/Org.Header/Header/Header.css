@@ -1,15 +1,17 @@
 .header {
-  background-color: #1b1b25;
+  background-color: #2A3140;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   text-align: left;
+  align-items: middle;
+
 }
 .container {
   margin: 0 auto;
-  max-width: 1140px;
+  max-width: 1170px;
 }
 @media (min-width: 992px) {
   .header.theme-dark {
-    background-color: transparent;
+    /*background-color: transparent;*/
     border-bottom: 1px solid rgba(255, 255, 255, .1);
     left: 0;
     position: absolute;
@@ -20,7 +22,7 @@
     padding-right: 150px;
   }
   .container {
-    max-width: 1020px;
+    max-width: 1170px;
   }
 }
 @media (max-width: 991px) {
@@ -79,6 +81,8 @@
   .navigation {
     float: left;
     margin-left: 30px;
+    display: flex;
+    justify-content: space-around;
   }
 }
 .navigation,

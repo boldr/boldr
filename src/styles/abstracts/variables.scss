@@ -31,7 +31,10 @@ $error-color: rgb(244, 67, 54);
 $toolbar-height: 64px;
 $toolbar-z-index: 6;
 
-$grid-breakpoints: ( xs: 0, sm: 544px, md: 768px, lg: 992px, xl: 1200px );
-$container-max-widths: ( sm: 576px, md: 720px, lg: 940px, xl: 1140px );
+$tiny: 480px;  /* Extra small screen / phone */
+$small: 768px;  /* Small screen / tablet */
+$medium: 992px;  /* Medium screen / desktop */
+$large: 1200px; /* Large screen / wide desktop */
+$grid-width: 1170px;
 $grid-columns: 12;
 $grid-gutter-width: 1.875rem;
