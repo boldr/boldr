@@ -314,20 +314,20 @@ function webpackConfigFactory({ target, mode }, { json }) {
               env: {
                 production: {
                   plugins: [['transform-runtime', {
-                    polyfill: false, regenerator: true
-                  }], 'transform-decorators-legacy']
+                    polyfill: true, regenerator: true
+                  }], 'transform-decorators-legacy', 'transform-class-properties']
                 },
                 development: {
                   plugins: [['transform-runtime', {
-                    polyfill: false, regenerator: true
-                  }], 'react-hot-loader/babel', 'transform-decorators-legacy']
+                    polyfill: true, regenerator: true
+                  }], 'react-hot-loader/babel', 'transform-decorators-legacy', 'transform-class-properties']
                 }
               }
             },
             ifServer({
               // We are running a node 6 server which has support for almost
               // all of the ES2015 syntax, therefore we only transpile JSX.
-              presets: ['react', 'stage-0']
+              presets: ['react', 'stage-0', ['es2015', { modules: 'commonjs'}]]
             }),
             ifProdClient({
               // For our clients code we will need to transpile our JS into

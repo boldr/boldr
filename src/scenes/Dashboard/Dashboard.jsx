@@ -65,7 +65,7 @@ class Dashboard extends Component {
         style={ inlineStyles.dashboardAppBar }
       />
       <div className={ cx('dashboard__row') }>
-      <Drawer open={ this.state.open } docked width="200px" containerStyle={ { zIndex: zIndex.drawer - 100 } }>
+      <Drawer open={ this.state.open } docked containerStyle={ { zIndex: zIndex.drawer - 100, width: '200px' } }>
         <div style={ inStyles.logo } onTouchTap={ this.handleTouchTapHeader }>
           <Link to="/"><SiteLogo logoHeight="35px" /></Link>
         </div>

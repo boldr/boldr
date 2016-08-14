@@ -10,6 +10,13 @@ const UserIsAuthenticated = UserAuthWrapper({
   allowRedirectBack: true
 });
 
+const errorLoading = (err) => {
+  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
+};
+
+const loadModule = (cb) => (componentModule) => {
+  cb(null, componentModule.default);
+};
 
 if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 export default (store, connect) => ({
@@ -19,42 +26,42 @@ export default (store, connect) => ({
   childRoutes: [{
     path: 'forgot-password',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/ForgotPassword').default);
-      });
+      System.import('./scenes/ForgotPassword')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'login',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Login').default);
-      });
+      System.import('./scenes/Login')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'preferences',
     onEnter: connect(UserIsAuthenticated.onEnter),
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, UserIsAuthenticated(require('./scenes/Preferences/components/tpl.Preferences').default));
-      });
+      System.import('./scenes/Preferences/components/tpl.Preferences')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'reset-password/:token',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/ResetPassword').default);
-      });
+      System.import('./scenes/ResetPassword')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'signup',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Signup').default);
-      });
+      System.import('./scenes/Signup')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   }]
 });

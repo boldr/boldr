@@ -10,6 +10,14 @@ const UserIsAuthenticated = UserAuthWrapper({
   allowRedirectBack: true
 });
 
+const errorLoading = (err) => {
+  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
+};
+
+const loadModule = (cb) => (componentModule) => {
+  cb(null, componentModule.default);
+};
+
 
 if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 export default (store, connect) => ({
@@ -23,41 +31,33 @@ export default (store, connect) => ({
   childRoutes: [{
     path: 'articles',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Articles').default);
-      });
+      System.import('./scenes/Articles')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'articles/editor(/:slug)',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Articles/components/pg.ArticleEditor').default);
-      });
-    }
-  },
-  {
-    path: 'collections',
-    getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Collections').default);
-      });
+      System.import('./scenes/Articles/components/pg.ArticleEditor')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'media',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Media').default);
-      });
+      System.import('./scenes/Media')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
     path: 'pages',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Pages').default);
-      });
+      System.import('./scenes/Pages')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   },
   {
@@ -79,9 +79,9 @@ export default (store, connect) => ({
   {
     path: 'users',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./scenes/Users').default);
-      });
+      System.import('./scenes/Users')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   }]
 });
