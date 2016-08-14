@@ -414,7 +414,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
               'css-loader/locals'
             ]
           }),
-          ifServer(new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, "node-noop")),
+          ifServer(new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, 'node-noop')),
 
           // For a production client build we use the ExtractTextPlugin which
           // will extract our CSS into CSS files.  The plugin needs to be
