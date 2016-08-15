@@ -4,14 +4,17 @@ import { provideHooks } from 'redial';
 import { Link } from 'react-router/es6';
 import classNames from 'classnames/bind';
 import { List, ListItem } from 'material-ui/List';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import Avatar from 'material-ui/Avatar';
+import { Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { grey400 } from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
-
+import { inlineStyles } from '../../../../core';
 
 import { getPostsListing, selectPost } from '../../../Blog/state/post';
 import ArticleListItem from './components/org.ArticleListItem';
@@ -60,34 +63,57 @@ class Articles extends Component {
         <MenuItem>Delete</MenuItem>
       </IconMenu>
     );
+
+    const newButton = (
+      <Link to="/dashboard/articles/editor">
+        <FloatingActionButton style={ inlineStyles.floatButton } disableTouchRipple primary>
+          <ContentAdd />
+        </FloatingActionButton>
+      </Link>
+    );
     return (
       <div className={ cx('dashboard__row') }>
-       <div className="grid__half">
-       <Paper zDepth={ 1 } style={ { height: '90vh' } }>
 
-        <List className={ cx('articleList') }>
-          { this.props.posts.data.map(post =>
-            <ListItem
-              key={ post.id }
-              leftAvatar={ <Avatar src={ post.featureImage } /> }
-              rightIconButton={ rightIconMenu }
-              primaryText={   <ArticleListItem article={ post } handleArticleClick={ ::this.handleArticleClick } /> }
-              secondaryText={
-                <ArticleListItem article={ post } handleArticleClick={ ::this.handleArticleClick } />
-              }
-            />)
-          }
-        </List>
+       <Paper zDepth={ 1 } style={ { height: '90vh' } }>
+       {newButton}
+       <Table fixedHeader fixedFooter>
+         <TableHeader adjustForCheckbox={ false } displaySelectAll={ false }>
+           <TableRow selectable={ false }>
+             <TableHeaderColumn colSpan="1" style={ inlineStyles.headerColumn }>
+               ID
+             </TableHeaderColumn>
+             <TableHeaderColumn colSpan="4" style={ inlineStyles.headerColumn }>
+               Title
+             </TableHeaderColumn>
+             <TableHeaderColumn colSpan="1" style={ inlineStyles.headerColumn }>
+               Status
+             </TableHeaderColumn>
+             <TableHeaderColumn colSpan="2" style={ inlineStyles.headerColumn }>
+               Date
+             </TableHeaderColumn>
+             <TableHeaderColumn colSpan="3" style={ inlineStyles.headerColumn }>
+               Action
+             </TableHeaderColumn>
+           </TableRow>
+         </TableHeader>
+         <TableBody displayRowCheckbox={ false }>
+           {this.props.posts.data.map((post, index) => (
+             <ArticleListItem
+               article={ post }
+               key={ post.id }
+               sortRank={ index }
+               content={ post.content }
+               title={ post.title }
+               slug={ post.slug }
+               handleToggle={ ::this.handleArticleClick }
+             />
+           ))}
+         </TableBody>
+        </Table>
+
         </Paper>
         </div>
-        <div className={ cx('article__preview') }>
-        <Paper zDepth={ 1 } style={ { height: '90vh' } }>
-          {
-            this.state.visible ? <span>{ this.props.current.title }</span> : null
-          }
-          </Paper>
-        </div>
-       </div>
+
     );
   }
 }

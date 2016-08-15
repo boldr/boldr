@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import { API_BASE } from '../../../core/config';
+import { API_BASE, TOKEN_KEY } from '../../../core/config';
 import { notificationSend } from './notifications';
 
 export const DONE_LOADING = 'DONE_LOADING';
@@ -43,7 +43,7 @@ export function loadBoldrSettings(data) {
     dispatch(loadSettings());
     return request
       .get(SETTINGS_ENDPOINT)
-      // .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .then(response => {
         if (response.status === 200) {
           dispatch(loadSettingsSuccess(response));
@@ -53,7 +53,6 @@ export function loadBoldrSettings(data) {
       })
       .catch(err => {
         dispatch(failedToLoadSettings(err));
-        dispatch(push('/dashboard/setup'));
       });
   };
 }
@@ -83,7 +82,7 @@ export function saveBoldrSetup(data) {
     dispatch(startSaveSetup());
     return request
       .post(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .send(data)
       .then(response => {
         if (response.status === 201) {

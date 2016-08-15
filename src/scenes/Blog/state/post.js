@@ -169,7 +169,8 @@ export function createPost(postData) {
         title: postData.title,
         content: postData.content,
         tags: postData.tags,
-        status: postData.status
+        status: postData.status,
+        excerpt: postData.excerpt
       })
       .then(response => {
         if (response.status === 201) {

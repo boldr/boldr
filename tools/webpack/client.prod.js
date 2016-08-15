@@ -26,9 +26,10 @@ const VENDOR = [
   'superagent',
   'redux-form',
   'react-addons-css-transition-group',
-  'react-rte',
   'normalizr',
-  'material-ui'
+  'material-ui',
+  'draft-js',
+  'classnames'
 ];
 
 dotenv.config({ silent: true });

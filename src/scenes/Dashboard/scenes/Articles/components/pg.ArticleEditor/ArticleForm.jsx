@@ -56,6 +56,7 @@ class NewArticleForm extends Component {
     };
   }
 
+
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     const { editorState } = this.state;

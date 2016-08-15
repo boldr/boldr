@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { createPost, updatePost } from '../../../../../Blog/state/post';
+import { createPost, updatePost, fetchPost } from '../../../../../Blog/state/post';
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {
-
+  componentDidMount() {
+    if (this.props.params.slug) {
+      this.props.fetchPost(this.props.params.slug);
+    }
+  }
   handleSubmit(values) {
     const postData = {
       title: values.title,
@@ -29,7 +33,7 @@ class ArticleEditor extends Component {
     return (
       <div>
         <NewArticleForm
-          initialValues={ this.props.posts.current }
+          initialValues={ this.props.posts.selectedPost }
           editing={ this.props.posts.isEditing }
           onSubmit={ ::this.handleSubmit }
         />
@@ -49,4 +53,4 @@ const mapStateToProps = (state, ownProps) => {
     posts: state.posts
   };
 };
-export default connect(mapStateToProps)(ArticleEditor);
+export default connect(mapStateToProps, { fetchPost })(ArticleEditor);

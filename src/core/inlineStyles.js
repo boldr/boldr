@@ -21,5 +21,26 @@ export default {
   },
   underlineFocusStyle: {
     borderColor: cyanLike
+  },
+  headerColumn: {
+    color: '#B3B3B3',
+    fontWeight: 'bold',
+  },
+  row: {
+    lineHeight: 1.6,
+    fontSize: 14,
+  },
+  rowColumn: {
+    whiteSpace: 'normal',
+    overFlow: 'visible',
+    height: 70,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  floatButton: {
+    position: 'fixed',
+    zIndex: 100,
+    bottom: '5%',
+    right: '3%',
   }
 };

@@ -29,7 +29,9 @@ const VENDOR = [
   'redux-form',
   'react-addons-css-transition-group',
   'normalizr',
-  'material-ui'
+  'material-ui',
+  'draft-js',
+  'classnames'
 ];
 
 dotenv.config({ silent: true });

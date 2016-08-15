@@ -19,15 +19,15 @@ class PostListing extends Component {
   }
   render() {
     return (
-      <div className="grid">
-      <div className="grid__row">
+      <div className={ cx('container') }>
+      <div className={ cx('post__grid') }>
         {
           this.props.posts.data.map(post =>
-            <div key={ post.id } className="grid__third">
+            <div key={ post.id } className={ cx('post__grid-item') }>
               <PostCard { ...post } />
             </div>)
         }
-        </div>
+      </div>
       </div>
     );
   }

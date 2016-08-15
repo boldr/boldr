@@ -69,14 +69,6 @@ export default (store, connect) => ({
     }
   },
   {
-    path: 'setup',
-    getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./components/pg.Setup').default);
-      });
-    }
-  },
-  {
     path: 'users',
     getComponent(nextState, cb) {
       System.import('./scenes/Users')
