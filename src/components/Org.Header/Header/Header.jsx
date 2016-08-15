@@ -178,9 +178,6 @@ class Header extends Component {
               }
             </ul>
             </div>
-            <div style={ { paddingTop: '1em' } }>
-
-            </div>
           </div>
         </div>
       </header>

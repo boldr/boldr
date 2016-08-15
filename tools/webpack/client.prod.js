@@ -32,7 +32,7 @@ const VENDOR = [
 ];
 
 dotenv.config({ silent: true });
-const ASSETS_DIR = path.join(appRootPath, 'build', 'public', 'assets');
+const ASSETS_DIR = path.resolve(appRootPath, 'public', 'assets');
 
 const clientProdConfig = {
   target: 'web',
@@ -60,7 +60,7 @@ const clientProdConfig = {
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      { test: webpackIsomorphicToolsPlugin.regular_expression('svg'), loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.css$/,

@@ -11,6 +11,10 @@ logs
 *.log
 docs/logs
 
+server.js
+server.js.map
+webpack-assets.json
+public
 boldr.sublime-project
 boldr.sublime-workspace
 # Runtime data

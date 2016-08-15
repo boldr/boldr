@@ -20,7 +20,6 @@ import Html from './Html';
 
 // Create our express server.
 const app = Express();
-const publicPath = path.resolve('public');
 
 const proxy = httpProxy.createProxyServer({
   target: 'http://localhost:9121',
@@ -29,12 +28,11 @@ const proxy = httpProxy.createProxyServer({
 
 app.use('/api/v1/*', (req, res) => {
   const url = `http://localhost:9121${req.originalUrl}`;
-  debug(`${req.method} PROXY to ${url}`);
   proxy.web(req, res, { target: url }); // eslint-disable-line
 });
 
 app.use(compression());
-app.use(Express.static(publicPath));
+app.use(Express.static(path.resolve('public')));
 
 app.use((req, res) => {
   if (__DEV__) {

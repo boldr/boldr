@@ -9,7 +9,7 @@
   },
   "betterScripts": {
     "build": {
-      "command": "better-npm-run build:server && better-npm-run build:client && better-npm-run build:entry",
+      "command": "better-npm-run build:server && better-npm-run build:client",
       "env": {
         "NODE_ENV": "production"
       }
@@ -175,6 +175,7 @@
     "node-noop": "^1.0.0",
     "node-sass": "^3.8.0",
     "nodemon": "^1.10.0",
+    "pixrem": "^3.0.1",
     "postcss": "^5.1.2",
     "postcss-loader": "^0.10.0",
     "postcss-reporter": "^1.4.1",
@@ -220,8 +221,8 @@
     "build:server": "better-npm-run build:server",
     "build:entry": "better-npm-run build:entry",
     "clean": "npm run clean:server && npm run clean:client",
-    "clean:client": "rimraf build/public/assets && rimraf build/webpack-assets.json",
-    "clean:server": "rimraf build/server.js && rimraf build/server.js.map && rimraf build/index.js",
+    "clean:client": "rimraf public/assets && rimraf ./webpack-assets.json",
+    "clean:server": "rimraf ./server.js && rimraf ./server.js.map",
     "dev": "better-npm-run dev",
     "start": "better-npm-run start",
     "test": "better-npm-run test:client",

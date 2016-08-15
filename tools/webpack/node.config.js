@@ -29,7 +29,7 @@ const nodeConfig = { // eslint-disable-line
     ]
   },
   output: {
-    path: path.join(appRootPath, 'build'),
+    path: appRootPath,
     publicPath: '/',
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name].js',
