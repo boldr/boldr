@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import RichTextEditor from 'react-rte';
 import { Field } from 'redux-form';
+import BoldrEditor, { createEmptyValue } from '../org.BoldrEditor/BoldrEditor';
 
 const FORMAT = 'html';
 
@@ -11,9 +11,10 @@ class SimpleRte extends Component {
     super(props);
 
     this.state = {
-      editorValue: RichTextEditor.createEmptyValue(),
+      editorValue: BoldrEditor.createEmptyValue(),
       htmlValue: ''
     };
+    this.onEditorChange = this.onEditorChange.bind(this);
   }
 
   // load
@@ -51,7 +52,7 @@ class SimpleRte extends Component {
   render() {
     const otherProps = _.omit(this.props, ['value', 'onChange']);
     return (
-      <RichTextEditor
+      <BoldrEditor
         { ...otherProps }
         value={ this.state.editorValue }
         onChange={ this.onEditorChange }

@@ -14,7 +14,6 @@ const cx = styles::classNames;
   fetch: ({ dispatch }) => dispatch(getPostsListing())
 })
 class PostListing extends Component {
-
   componentDidMount() {
     this.props.getPostsListing();
   }

@@ -28,7 +28,6 @@ const VENDOR = [
   'superagent',
   'redux-form',
   'react-addons-css-transition-group',
-  'react-rte',
   'normalizr',
   'material-ui'
 ];
@@ -73,7 +72,7 @@ const clientDevConfig = {
         happy: { id: 'js' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: [NODE_MODULES_DIR]
+        exclude: /node_modules/
       },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -184,7 +183,8 @@ const clientDevConfig = {
   ],
   node: {
     __dirname: true,
-    __filename: true
+    __filename: true,
+    window: true
   }
 };
 

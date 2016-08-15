@@ -11,6 +11,6 @@ export const API_USERS = `${API_BASE}/users`;
 export const API_MEDIA = `${API_BASE}/medias`;
 export const API_TAG = `${API_BASE}/tags`;
 export const API_CATEGORY = `${API_BASE}/category`;
-
+export const API_SETTINGS = `${API_BASE}/boldr`;
 // Here you can change the name of the token that is put into localStorage.
 export const TOKEN_KEY = 'token';

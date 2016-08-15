@@ -2,10 +2,9 @@ import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import FlatButton from 'material-ui/FlatButton';
-import TextField from '../../../../components/atm.FormComponents/TextField';
 
+import { TextField } from '../../../../components';
 import inlineStyles from '../../../../core/inlineStyles';
 
 const LoginForm = props => {

@@ -1,6 +1,6 @@
 ![boldr](docs/boldr-logo.png) Boldr
 ====
-[![CircleCI](https://circleci.com/gh/boldr/boldrCMS.svg?style=svg)](https://circleci.com/gh/boldr/boldrCMS)   [![David-DM](https://david-dm.org/boldr/boldrCMS.svg)](https://github.com/boldr/boldrCMS)  
+[![Build Status](https://travis-ci.org/boldr/boldrCMS.svg?branch=master)](https://travis-ci.org/boldr/boldrCMS) |  [![David-DM](https://david-dm.org/boldr/boldrCMS.svg)](https://github.com/boldr/boldrCMS) | 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
