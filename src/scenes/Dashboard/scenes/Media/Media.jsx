@@ -13,9 +13,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
 import classNames from 'classnames/bind';
-import S3Uploader from 'components/atm.s3Uploader';
-import inlineStyles from 'core/inlineStyles';
-import { API_BASE, S3_SIGNING_URL } from 'core/config';
+
+import S3Uploader from '../../../../components/atm.s3Uploader';
+import inlineStyles from '../../../../core/inlineStyles';
+import { API_BASE, S3_SIGNING_URL } from '../../../../core/config';
 import { uploadFiles, fetchMedia } from './state/media';
 import FileView from './components/mol.FileView';
 

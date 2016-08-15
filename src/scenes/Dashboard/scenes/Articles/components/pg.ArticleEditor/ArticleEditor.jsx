@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { createPost, updatePost } from 'scenes/Blog/state/post';
+import { createPost, updatePost } from '../../../../../Blog/state/post';
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {

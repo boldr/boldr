@@ -2,12 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Card, CardHeader } from 'material-ui/Card';
+import { Card } from 'material-ui/Card';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
-import cxN from 'classnames';
-import { Heading } from 'components/index';
-import inlineStyles from 'core/inlineStyles';
+import { Heading } from '../../../../components/index';
+import inlineStyles from '../../../../core/inlineStyles';
 import { createAccount } from '../../state/account';
 import { SignupForm } from '../../components';
 import styles from '../../styles.css';

@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-import Heading from 'components/atm.Heading';
+import Heading from '../../../../components/atm.Heading';
 
 export const fields = ['siteName', 'siteUrl', 'description', 'logo', 'favicon', 'analyticsId', 'allowRegistration'];
 

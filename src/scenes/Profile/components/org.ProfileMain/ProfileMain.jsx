@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { List, ListItem } from 'material-ui/List';
 import { provideHooks } from 'redial';
-import { getMyProfile } from 'scenes/Account/state/account';
+
 import classNames from 'classnames/bind';
+import { getMyProfile } from '../../../Account/state/account';
+import Header from '../../../../components/org.Header';
+import inlineStyles from '../../../../core/inlineStyles';
+
 import styles from './style.css';
-import Header from 'components/org.Header';
-import inlineStyles from 'core/inlineStyles';
 
 const cx = styles::classNames;
 

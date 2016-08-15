@@ -1,5 +1,5 @@
 import React from 'react';
-import BoldrLogo from 'components/atm.BoldrLogo';
+import BoldrLogo from '../atm.BoldrLogo';
 import logoImage from './boldr-white.png';
 
 const inlineStyle = {

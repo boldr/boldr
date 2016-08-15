@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { provideHooks } from 'redial';
-import { getPublicProfile } from 'scenes/Account/state/account';
-import Header from 'components/org.Header';
+import { getPublicProfile } from '../../../Account/state/account';
+import Header from '../../../../components/org.Header';
 // @provideHooks({
 //   fetch: ({ dispatch }) => dispatch(getPublicProfile(this.props.routeParams.id))
 // })

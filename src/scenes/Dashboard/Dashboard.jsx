@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
 import { connect } from 'react-redux';
+import classNames from 'classnames/bind';
+
 import AppBar from 'material-ui/AppBar';
-import Paper from 'material-ui/Paper';
 import Drawer from 'material-ui/Drawer';
 import { spacing, typography, zIndex } from 'material-ui/styles';
-import { cyan500 } from 'material-ui/styles/colors';
 import MenuItem from 'material-ui/MenuItem';
 import ArticleIcon from 'material-ui/svg-icons/action/description';
 import DashboardIcon from 'material-ui/svg-icons/action/dashboard';
@@ -14,12 +14,11 @@ import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import ListingIcon from 'material-ui/svg-icons/action/toc';
 import UsersIcon from 'material-ui/svg-icons/social/people';
 import EditorIcon from 'material-ui/svg-icons/editor/mode-edit';
-import { midnightBlue } from 'core/materialTheme';
-import inlineStyles from 'core/inlineStyles';
-import SiteLogo from 'components/atm.SiteLogo';
-import Sidebar from './components/mol.Sidebar/index';
-import SidebarContent from './components/atm.SidebarContent/index';
-import classNames from 'classnames/bind';
+
+import { midnightBlue } from '../../core/materialTheme';
+import inlineStyles from '../../core/inlineStyles';
+import SiteLogo from '../../components/atm.SiteLogo';
+
 import styles from './style.css';
 
 const cx = styles::classNames;

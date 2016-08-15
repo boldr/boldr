@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { Editor } from 'draft-js';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Moment from 'moment';
 import Paper from 'material-ui/Paper';
 
 import { provideHooks } from 'redial';
-import Loader from 'components/atm.Loader';
+import Loader from '../../../../components/atm.Loader';
 import classNames from 'classnames/bind';
 
 import Sidebar from '../org.Sidebar';

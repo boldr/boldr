@@ -2,7 +2,7 @@ import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
-import Loader from 'components/atm.Loader';
+import Loader from '../../../../components/atm.Loader';
 import { getPostsListing } from '../../state/post';
 import PostCard from '../mol.PostCard';
 

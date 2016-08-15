@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import inlineStyles from 'core/inlineStyles';
-import TextField from 'components/atm.FormComponents/TextField';
+import inlineStyles from '../../../../core/inlineStyles';
+import TextField from '../../../../components/atm.FormComponents/TextField';
 import validate from './validate';
 
 

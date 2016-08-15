@@ -4,9 +4,9 @@ import { CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'components/atm.FormComponents/TextField';
+import TextField from '../../../../components/atm.FormComponents/TextField';
 
-import inlineStyles from 'core/inlineStyles';
+import inlineStyles from '../../../../core/inlineStyles';
 
 const LoginForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;

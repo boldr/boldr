@@ -1,9 +1,9 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import browserHistory from 'react-router/lib/browserHistory';
-import fetch from 'core/fetch';
-import { notificationSend } from 'scenes/Boldr/state/notifications';
-import { API_BASE, API_AUTH } from 'core/config';
+import fetch from '../../../core/fetch';
+import { notificationSend } from '../../Boldr/state/notifications';
+import { API_BASE, API_AUTH } from '../../../core/config';
 import * as at from './constants';
 
 /**

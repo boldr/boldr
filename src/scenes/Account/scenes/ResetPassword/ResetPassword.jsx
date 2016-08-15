@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Card, CardText, CardActions } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Link } from 'react-router/es6';
-import Heading from 'components/atm.Heading';
-import inlineStyles from 'core/inlineStyles';
+import Heading from '../../../../components/atm.Heading';
+import inlineStyles from '../../../../core/inlineStyles';
 import RaisedButton from 'material-ui/RaisedButton';
 import classNames from 'classnames/bind';
 

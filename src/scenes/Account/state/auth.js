@@ -1,10 +1,10 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import moment from 'moment';
-import fetch from 'core/fetch';
-import { API_BASE, API_AUTH } from 'core/config';
+import fetch from '../../../core/fetch';
+import { API_BASE, API_AUTH } from '../../../core/config';
 
-import { notificationSend } from 'scenes/Boldr/state/notifications';
+import { notificationSend } from '../../Boldr/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
 import * as at from './constants';
 

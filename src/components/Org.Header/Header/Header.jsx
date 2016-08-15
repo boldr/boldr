@@ -15,7 +15,7 @@ import ActionDescription from 'material-ui/svg-icons/action/description';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import { goHome } from 'scenes/Boldr/state/boldr';
+import { goHome } from '../../../scenes/Boldr/state/boldr';
 import Head from '../Head';
 import Item from '../Item';
 

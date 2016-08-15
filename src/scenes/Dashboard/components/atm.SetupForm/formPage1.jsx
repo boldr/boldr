@@ -4,8 +4,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import classNames from 'classnames/bind';
 
-import Heading from 'components/atm.Heading';
-import BoldrLogo from 'components/atm.BoldrLogo';
+import Heading from '../../../../components/atm.Heading';
+import BoldrLogo from '../../../../components/atm.BoldrLogo';
 import styles from './style.css';
 
 const cx = styles::classNames;

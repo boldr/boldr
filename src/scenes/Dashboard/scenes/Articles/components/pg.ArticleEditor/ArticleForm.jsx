@@ -8,9 +8,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import classNames from 'classnames/bind';
 import Paper from 'material-ui/Paper';
 
-import { RichTextInput } from 'components/atm.FormComponents/RichText';
-import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
-import TextField from 'components/atm.FormComponents/TextField';
+import { RichTextInput } from '../../../../../../components/atm.FormComponents/RichText';
+import RadioButtonGroup from '../../../../../../components/atm.FormComponents/RadioButtonGroup';
+import TextField from '../../../../../../components/atm.FormComponents/TextField';
 import styles from './style.css';
 
 const cx = styles::classNames;
