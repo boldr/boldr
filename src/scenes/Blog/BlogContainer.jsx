@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Header from '../../components/org.Header';
+import Header from '../../components/org.MainHeader';
 import inlineStyles from '../../core/inlineStyles';
 import { getPostsListing } from './state/post';
 import PostListing from './components/pg.PostListing';

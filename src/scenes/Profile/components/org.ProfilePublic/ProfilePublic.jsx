@@ -4,7 +4,7 @@ import { Card, CardActions, CardHeader, CardTitle, CardText } from 'material-ui/
 import FlatButton from 'material-ui/FlatButton';
 import { provideHooks } from 'redial';
 import { getPublicProfile } from '../../../Account/state/account';
-import Header from '../../../../components/org.Header';
+import Header from '../../../../components/org.MainHeader';
 // @provideHooks({
 //   fetch: ({ dispatch }) => dispatch(getPublicProfile(this.props.routeParams.id))
 // })

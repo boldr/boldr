@@ -7,7 +7,7 @@ import { provideHooks } from 'redial';
 
 import classNames from 'classnames/bind';
 import { getMyProfile } from '../../../Account/state/account';
-import Header from '../../../../components/org.Header';
+import Header from '../../../../components/org.MainHeader';
 import inlineStyles from '../../../../core/inlineStyles';
 
 import styles from './style.css';
