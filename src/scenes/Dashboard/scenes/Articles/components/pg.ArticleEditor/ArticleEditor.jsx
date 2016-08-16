@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { createPost, updatePost, fetchPost } from '../../../../../Blog/state/post';
+import { createPost, updatePost, loadPost } from '../../../../../Blog/state/post';
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {
   componentDidMount() {
     if (this.props.params.slug) {
-      this.props.fetchPost(this.props.params.slug);
+      this.props.loadPost(this.props.params.slug);
     }
   }
   handleSubmit(values) {
@@ -53,4 +53,4 @@ const mapStateToProps = (state, ownProps) => {
     posts: state.posts
   };
 };
-export default connect(mapStateToProps, { fetchPost })(ArticleEditor);
+export default connect(mapStateToProps, { loadPost })(ArticleEditor);

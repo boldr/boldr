@@ -8,10 +8,10 @@ import reducer from './post';
 import {
 FETCH_POSTS_REQUEST,
 FETCH_POSTS_SUCCESS,
-FETCH_POSTS_FAIL,
-FETCH_POST_REQUEST,
-FETCH_POST_SUCCESS,
-FETCH_POST_FAIL } from './constants';
+FETCH_POSTS_FAILURE,
+LOAD_POST_REQUEST,
+LOAD_POST_SUCCESS,
+LOAD_POST_FAILURE } from './constants';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -22,6 +22,7 @@ describe('postReducer', () => {
   const initialState = {
     isLoading: false,
     error: null,
+    pagination: {},
     data: [],
     selectedPost: {},
     current: {},
@@ -49,30 +50,31 @@ describe('postReducer', () => {
     ).toEqual({
       ...initialState,
       isLoading: false,
-      data: undefined
+      data: undefined,
+      pagination: undefined
     });
   });
 
-  it('should handle FETCH_POSTS_FAIL', () => {
+  it('should handle FETCH_POSTS_FAILURE', () => {
     expect(
-      reducer(undefined, { type: FETCH_POSTS_FAIL })
+      reducer(undefined, { type: FETCH_POSTS_FAILURE })
     ).toEqual({
       ...initialState,
       error: undefined
     });
   });
-  it('should handle FETCH_POST_REQUEST', () => {
+  it('should handle LOAD_POST_REQUEST', () => {
     expect(
-      reducer(undefined, { type: FETCH_POST_REQUEST })
+      reducer(undefined, { type: LOAD_POST_REQUEST })
     ).toEqual({
       ...initialState,
       isLoading: true
     });
   });
 
-  it('should handle FETCH_POST_SUCCESS', () => {
+  it('should handle LOAD_POST_SUCCESS', () => {
     expect(
-      reducer(undefined, { type: FETCH_POST_SUCCESS })
+      reducer(undefined, { type: LOAD_POST_SUCCESS })
     ).toEqual({
       ...initialState,
       isLoading: false,
@@ -80,9 +82,9 @@ describe('postReducer', () => {
     });
   });
 
-  it('should handle FETCH_POSTS_FAIL', () => {
+  it('should handle FETCH_POSTS_FAILURE', () => {
     expect(
-      reducer(undefined, { type: FETCH_POST_FAIL })
+      reducer(undefined, { type: LOAD_POST_FAILURE })
     ).toEqual({
       ...initialState,
       error: undefined

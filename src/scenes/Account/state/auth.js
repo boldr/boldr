@@ -6,37 +6,37 @@ import { API_BASE, API_AUTH } from '../../../core/config';
 
 import { notificationSend } from '../../Boldr/state/notifications';
 import { populateAccount, loginPopulateAccount } from './account';
-import * as at from './constants';
+import * as types from './constants';
 
 /**
  * LOGIN ACTIONS
  */
 const beginLogin = () => {
-  return { type: at.LOGIN_REQUEST };
+  return { type: types.LOGIN_REQUEST };
 };
 // Login Success
 export function loginSuccess(response) {
   return {
-    type: at.LOGIN_SUCCESS,
+    type: types.LOGIN_SUCCESS,
     token: response.body.token,
-    bio: response.body.user.profile.bio,
-    birthday: response.body.user.profile.birthday,
-    displayName: response.body.user.profile.displayName,
+    bio: response.body.user.bio,
+    birthday: response.body.user.birthday,
+    displayName: response.body.user.displayName,
     email: response.body.user.email,
-    firstName: response.body.user.profile.firstName,
-    gender: response.body.user.profile.gender,
+    firstName: response.body.user.firstName,
+    gender: response.body.user.gender,
     id: response.body.user.id,
-    lastName: response.body.user.profile.lastName,
-    location: response.body.user.profile.location,
-    avatarUrl: response.body.user.profile.avatarUrl,
-    roleId: response.body.user.profile.roleId,
-    website: response.body.user.profile.website
+    lastName: response.body.user.lastName,
+    location: response.body.user.location,
+    avatarUrl: response.body.user.avatarUrl,
+    roleId: response.body.user.roleId,
+    website: response.body.user.website
   };
 }
 // Login Error
 export function loginError(err) {
   return {
-    type: at.LOGIN_FAIL,
+    type: types.LOGIN_FAIL,
     error: err
   };
 }
@@ -79,11 +79,11 @@ export function doLogin(loginData, redir) {
  */
 
 export function logoutSuccess() {
-  return { type: at.LOGOUT_USER };
+  return { type: types.LOGOUT_USER };
 }
 
 export function logoutError() {
-  return { type: at.LOGOUT_USER_FAIL };
+  return { type: types.LOGOUT_USER_FAIL };
 }
 
 export function logOut() {
@@ -103,32 +103,32 @@ export function logOut() {
  */
 
 function checkAuthRequest() {
-  return { type: at.CHECK_AUTH_REQUEST };
+  return { type: types.CHECK_AUTH_REQUEST };
 }
 
 function checkAuthSuccess(response, token) {
   return {
-    type: at.CHECK_AUTH_SUCCESS,
+    type: types.CHECK_AUTH_SUCCESS,
     payload: response.body,
     token,
-    bio: response.body.profile.bio,
-    birthday: response.body.profile.birthday,
-    displayName: response.body.profile.displayName,
+    bio: response.body.bio,
+    birthday: response.body.birthday,
+    displayName: response.body.displayName,
     email: response.body.email,
-    firstName: response.body.profile.firstName,
-    gender: response.body.profile.gender,
-    id: response.body.profile.id,
-    lastName: response.body.profile.lastName,
-    location: response.body.profile.location,
-    avatarUrl: response.body.profile.avatarUrl,
-    roleId: response.body.profile.roleId,
-    website: response.body.profile.website
+    firstName: response.body.firstName,
+    gender: response.body.gender,
+    id: response.body.id,
+    lastName: response.body.lastName,
+    location: response.body.location,
+    avatarUrl: response.body.avatarUrl,
+    roleId: response.body.roleId,
+    website: response.body.website
   };
 }
 
 function checkAuthFailure(error) {
   return {
-    type: at.CHECK_AUTH_FAIL,
+    type: types.CHECK_AUTH_FAIL,
     payload: error
   };
 }
@@ -189,12 +189,12 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
-    case at.LOAD:
+    case types.LOAD:
       return {
         ...state,
         isLoading: true
       };
-    case at.LOAD_SUCCESS:
+    case types.LOAD_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -204,8 +204,8 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         roleId: action.result.roleId,
         email: action.result.email
       };
-    case at.LOAD_FAIL:
-    case at.LOGIN_FAIL:
+    case types.LOAD_FAIL:
+    case types.LOGIN_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -214,16 +214,16 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         error: action.error
       };
 
-    case at.LOGIN_REQUEST:
-    case at.CHECK_AUTH_REQUEST:
+    case types.LOGIN_REQUEST:
+    case types.CHECK_AUTH_REQUEST:
       return {
         ...state,
         isLoading: true,
         isAuthenticated: false,
         loaded: false
       };
-    case at.LOGIN_SUCCESS:
-    case at.CHECK_AUTH_SUCCESS:
+    case types.LOGIN_SUCCESS:
+    case types.CHECK_AUTH_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -232,7 +232,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         roleId: action.roleId,
         token: action.token
       };
-    case at.LOGOUT_USER:
+    case types.LOGOUT_USER:
       return {
         ...state,
         isLoading: false,

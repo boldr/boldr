@@ -1,60 +1,21 @@
-import fetch from '../../../core/fetch';
 import request from 'superagent';
-import normalize from 'normalizr';
 import { push } from 'react-router-redux';
-// import { API_BASE, API_POSTS } from 'core/api';
+import fetch from '../../../core/fetch';
+import { API_BASE, API_POSTS } from '../../../core/config';
 import { notificationSend } from '../../Boldr/state/notifications';
-import { processResponse } from '../../../core/api/ApiClient';
-import * as at from './constants';
-import * as schema from './schema';
+import { processResponse } from '../../../core/api/helpers';
+import * as types from './constants';
 
-const API_BASE = '/api/v1';
-const API_POSTS = '/api/v1/posts';
-
-export const POSTS_LIST_REQUEST = 'POSTS_LIST_REQUEST';
-export const POSTS_LIST_SUCCESS = 'POSTS_LIST_SUCCESS';
-export const POSTS_LIST_FAILURE = 'POSTS_LIST_FAILURE';
-
-const requestPostList = () => ({
-  type: POSTS_LIST_REQUEST
-});
-const failedGettingPostList = (err) => ({
-  type: POSTS_LIST_FAILURE,
-  error: err
-});
-const gotPostList = (response) => ({
-  type: POSTS_LIST_SUCCESS,
-  data: response.body
-});
-
-export function getPostsListing() {
-  return dispatch => {
-    dispatch(requestPostList());
-    return request
-      .get(API_POSTS)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(gotPostList(response));
-        }
-      })
-      .catch(err => {
-        dispatch(failedGettingPostList(err));
-      });
-  };
-}
-/**
- * GET ARTICLE ACTIONS
- */
 const requestPosts = () => {
-  return { type: at.FETCH_POSTS_REQUEST };
+  return { type: types.FETCH_POSTS_REQUEST };
 };
 const receivePosts = (json) => ({
-  type: at.FETCH_POSTS_SUCCESS,
-  payload: json
+  type: types.FETCH_POSTS_SUCCESS,
+  data: json.data,
+  pagination: json.pagination
 });
 const receivePostsFailed = (err) => ({
-  type: at.FETCH_POSTS_FAIL,
-  error: err
+  type: types.FETCH_POSTS_FAILURE, error: err
 });
 
 /**
@@ -95,21 +56,21 @@ function shouldFetchPosts(state) {
 export function fetchPosts() {
   return dispatch => {
     dispatch(requestPosts());
-    return fetch('/api/v1/posts')
+    return fetch(`${API_POSTS}`)
       .then(response => processResponse(response))
       .then(json => dispatch(receivePosts(json)));
   };
 }
 
 const requestPost = () => {
-  return { type: at.FETCH_POST_REQUEST };
+  return { type: types.LOAD_POST_REQUEST };
 };
-const receivePost = (response) => ({
-  type: at.FETCH_POST_SUCCESS,
-  payload: response.body
+const receivedPost = (json) => ({
+  type: types.LOAD_POST_SUCCESS,
+  payload: json
 });
 const receivePostFailed = (err) => ({
-  type: at.FETCH_POST_FAIL,
+  type: types.LOAD_POST_FAILURE,
   error: err
 });
 
@@ -118,16 +79,12 @@ const receivePostFailed = (err) => ({
  * @param  {string} slug the slug is the title of the post normalized / sluggified
  * @return {Object}      The post object
  */
-export function fetchPost(slug) {
+export function loadPost(slug) {
   return dispatch => {
     dispatch(requestPost());
-    return request
-      .get(`${API_BASE}/posts/${slug}`)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(receivePost(response));
-        }
-      })
+    return fetch(`${API_POSTS}/${slug}`)
+      .then(response => processResponse(response))
+      .then(json => dispatch(receivedPost(json)))
       .catch(err => {
         dispatch(receivePostFailed(err));
       });
@@ -137,18 +94,18 @@ export function fetchPost(slug) {
  * CREATE ARTICLE ACTIONS
  */
 const beginCreatePost = () => {
-  return { type: at.CREATE_POST_REQUEST };
+  return { type: types.CREATE_POST_REQUEST };
 };
 
 const createPostSuccess = (response) => {
   return {
-    type: at.CREATE_POST_SUCCESS,
+    type: types.CREATE_POST_SUCCESS,
     payload: response.body
   };
 };
 const errorCreatingPost = (err) => {
   return {
-    type: at.CREATE_POST_FAIL,
+    type: types.CREATE_POST_FAIL,
     error: err
   };
 };
@@ -194,18 +151,18 @@ export function createPost(postData) {
  */
 const postSelected = (articleId) => {
   return {
-    type: at.SELECT_POST,
+    type: types.SELECT_POST,
     id: articleId
   };
 };
 
 const receiveSelectedPost = (response) => ({
-  type: at.SELECT_POST_SUCCESS,
+  type: types.SELECT_POST_SUCCESS,
   current: response.body
 });
 
 const receiveSelectedPostFailed = (err) => ({
-  type: at.SELECT_POST_FAIL,
+  type: types.SELECT_POST_FAIL,
   error: err
 });
 
@@ -232,14 +189,14 @@ export function selectPost(postId) {
   };
 }
 const updatePostDetails = () => {
-  return { type: at.UPDATE_POST_REQUEST };
+  return { type: types.UPDATE_POST_REQUEST };
 };
 const updatePostSuccess = () => {
-  return { type: at.UPDATE_POST_SUCCESS };
+  return { type: types.UPDATE_POST_SUCCESS };
 };
 const errorUpdatingPost = (err) => {
   return {
-    type: at.UPDATE_POST_FAIL,
+    type: types.UPDATE_POST_FAIL,
     error: err
   };
 };
@@ -290,6 +247,7 @@ export const INITIAL_STATE = {
   isLoading: false,
   error: null,
   data: [],
+  pagination: {},
   selectedPost: {},
   current: {},
   isEditing: false
@@ -302,55 +260,54 @@ export const INITIAL_STATE = {
  */
 export default function postsReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-    case at.FETCH_POSTS_REQUEST:
-    case at.FETCH_POST_REQUEST:
-    case at.CREATE_POST_REQUEST:
-    case POSTS_LIST_REQUEST:
+    case types.FETCH_POSTS_REQUEST:
+    case types.LOAD_POST_REQUEST:
+    case types.CREATE_POST_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case at.FETCH_POSTS_SUCCESS:
-    case POSTS_LIST_SUCCESS:
+    case types.FETCH_POSTS_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        pagination: action.pagination,
         data: action.data
       };
-    case at.FETCH_POST_SUCCESS:
+    case types.LOAD_POST_SUCCESS:
       return {
         ...state,
         isLoading: false,
         selectedPost: action.payload
       };
-    case at.CREATE_POST_SUCCESS:
+    case types.CREATE_POST_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
-    case at.FETCH_POSTS_FAIL:
-    case at.FETCH_POST_FAIL:
-    case at.CREATE_POST_FAIL:
+    case types.FETCH_POSTS_FAILURE:
+    case types.LOAD_POST_FAILURE:
+    case types.CREATE_POST_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action.error
       };
-    case at.SELECT_POST:
+    case types.SELECT_POST:
       return {
         ...state,
         isLoading: false,
         id: action.id,
         isEditing: true
       };
-    case at.SELECT_POST_SUCCESS:
+    case types.SELECT_POST_SUCCESS:
       return {
         ...state,
         isLoading: false,
         current: action.current,
         isEditing: true
       };
-    case at.SELECT_POST_FAIL:
+    case types.SELECT_POST_FAIL:
       return {
         ...state,
         isLoading: false,

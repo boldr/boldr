@@ -4,7 +4,7 @@ import browserHistory from 'react-router/lib/browserHistory';
 import fetch from '../../../core/fetch';
 import { notificationSend } from '../../Boldr/state/notifications';
 import { API_BASE, API_AUTH } from '../../../core/config';
-import * as at from './constants';
+import * as types from './constants';
 
 /**
  * SIGNUP ACTION TYPES
@@ -12,13 +12,13 @@ import * as at from './constants';
 
 // Signup
 const beginSignUp = () => {
-  return { type: at.CREATE_ACCOUNT_REQUEST };
+  return { type: types.CREATE_ACCOUNT_REQUEST };
 };
 
 // Signup Success
 const signUpSuccess = (response) => {
   return {
-    type: at.CREATE_ACCOUNT_SUCCESS,
+    type: types.CREATE_ACCOUNT_SUCCESS,
     payload: response
   };
 };
@@ -26,7 +26,7 @@ const signUpSuccess = (response) => {
 // Signup Error
 const signUpError = (err) => {
   return {
-    type: at.CREATE_ACCOUNT_FAIL,
+    type: types.CREATE_ACCOUNT_FAIL,
     error: err
   };
 };
@@ -70,7 +70,7 @@ export function createAccount(data) {
 export function forgotPassword(email) {
   return (dispatch) => {
     dispatch({
-      type: at.FORGOT_PASSWORD_REQUEST
+      type: types.FORGOT_PASSWORD_REQUEST
     });
     return fetch(`${API_AUTH}/forgot`, {
       method: 'post',
@@ -80,14 +80,14 @@ export function forgotPassword(email) {
       if (response.ok) {
         return response.json().then((json) => {
           dispatch({
-            type: at.FORGOT_PASSWORD_SUCCESS,
+            type: types.FORGOT_PASSWORD_SUCCESS,
             error: [json]
           });
         });
       } else {
         return response.json().then((json) => {
           dispatch({
-            type: at.FORGOT_PASSWORD_FAIL,
+            type: types.FORGOT_PASSWORD_FAIL,
             error: Array.isArray(json) ? json : [json]
           });
         });
@@ -103,7 +103,7 @@ export function forgotPassword(email) {
 export function resetPassword(password, confirm, pathToken) {
   return (dispatch) => {
     dispatch({
-      type: at.RESET_PASSWORD_REQUEST
+      type: types.RESET_PASSWORD_REQUEST
     });
     return fetch(`${API_AUTH}/reset/${pathToken}`, {
       method: 'post',
@@ -116,14 +116,14 @@ export function resetPassword(password, confirm, pathToken) {
         return response.json().then((json) => {
           browserHistory.push('/login');
           dispatch({
-            type: at.RESET_PASSWORD_SUCCESS,
+            type: types.RESET_PASSWORD_SUCCESS,
             error: [json]
           });
         });
       } else {
         return response.json().then((json) => {
           dispatch({
-            type: at.RESET_PASSWORD_FAIL,
+            type: types.RESET_PASSWORD_FAIL,
             error: Array.isArray(json) ? json : [json]
           });
         });
@@ -139,37 +139,37 @@ export function resetPassword(password, confirm, pathToken) {
 
 export function populateAccount(response) {
   return {
-    type: at.POPULATE_ACCOUNT,
-    bio: response.body.profile.bio,
-    birthday: response.body.profile.birthday,
-    displayName: response.body.profile.displayName,
+    type: types.POPULATE_ACCOUNT,
+    bio: response.body.bio,
+    birthday: response.body.birthday,
+    displayName: response.body.displayName,
     email: response.body.email,
-    firstName: response.body.profile.firstName,
-    gender: response.body.profile.gender,
+    firstName: response.body.firstName,
+    gender: response.body.gender,
     id: response.body.id,
-    lastName: response.body.profile.lastName,
-    location: response.body.profile.location,
-    avatarUrl: response.body.profile.avatarUrl,
-    roleId: response.body.profile.roleId,
-    website: response.body.profile.website
+    lastName: response.body.lastName,
+    location: response.body.location,
+    avatarUrl: response.body.avatarUrl,
+    roleId: response.body.roleId,
+    website: response.body.website
   };
 }
 
 export function loginPopulateAccount(response) {
   return {
-    type: at.LOGIN_POPULATE_ACCOUNT,
-    bio: response.body.user.profile.bio,
-    birthday: response.body.user.profile.birthday,
-    displayName: response.body.user.profile.displayName,
+    type: types.LOGIN_POPULATE_ACCOUNT,
+    bio: response.body.user.bio,
+    birthday: response.body.user.birthday,
+    displayName: response.body.user.displayName,
     email: response.body.user.email,
-    firstName: response.body.user.profile.firstName,
-    gender: response.body.user.profile.gender,
+    firstName: response.body.user.firstName,
+    gender: response.body.user.gender,
     id: response.body.user.id,
-    lastName: response.body.user.profile.lastName,
-    location: response.body.user.profile.location,
-    avatarUrl: response.body.user.profile.avatarUrl,
-    roleId: response.body.user.profile.roleId,
-    website: response.body.user.profile.website
+    lastName: response.body.user.lastName,
+    location: response.body.user.location,
+    avatarUrl: response.body.user.avatarUrl,
+    roleId: response.body.user.roleId,
+    website: response.body.user.website
   };
 }
 /**
@@ -181,7 +181,7 @@ export function getMyProfile() {
   const token = localStorage.getItem('token');
   return (dispatch) => {
     dispatch({
-      type: at.GET_MY_PROFILE_REQUEST
+      type: types.GET_MY_PROFILE_REQUEST
     });
     return fetch(`${API_AUTH}/check`, {
       method: 'get',
@@ -190,14 +190,14 @@ export function getMyProfile() {
       if (response.ok) {
         return response.json().then((json) => {
           dispatch({
-            type: at.GET_MY_PROFILE_SUCCESS,
+            type: types.GET_MY_PROFILE_SUCCESS,
             payload: json
           });
         });
       } else {
         return response.json().then((json) => {
           dispatch({
-            type: at.GET_MY_PROFILE_FAIL,
+            type: types.GET_MY_PROFILE_FAIL,
             error: Array.isArray(json) ? json : [json]
           });
         });
@@ -212,20 +212,20 @@ export function getMyProfile() {
 export function getPublicProfile(userId) {
   return (dispatch) => {
     dispatch({
-      type: at.PUBLIC_PROFILE_REQUEST
+      type: types.PUBLIC_PROFILE_REQUEST
     });
     return request.get(`${API_BASE}/users/${userId}`)
       .then(response => {
         if (response.status === 200) {
           dispatch({
-            type: at.PUBLIC_PROFILE_SUCCESS,
+            type: types.PUBLIC_PROFILE_SUCCESS,
             payload: response.body
           });
         }
       })
       .catch(err => {
         dispatch({
-          type: at.PUBLIC_PROFILE_FAIL,
+          type: types.PUBLIC_PROFILE_FAIL,
           error: err
         });
       });
@@ -263,71 +263,71 @@ export default function accountReducer(state = INITIAL_STATE, action = {}) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
-    case at.CREATE_ACCOUNT_REQUEST:
-    case at.FORGOT_PASSWORD_REQUEST:
-    case at.GET_MY_PROFILE_REQUEST:
-    case at.PUBLIC_PROFILE_REQUEST:
-    case at.RESET_PASSWORD_REQUEST:
+    case types.CREATE_ACCOUNT_REQUEST:
+    case types.FORGOT_PASSWORD_REQUEST:
+    case types.GET_MY_PROFILE_REQUEST:
+    case types.PUBLIC_PROFILE_REQUEST:
+    case types.RESET_PASSWORD_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case at.CREATE_ACCOUNT_SUCCESS:
+    case types.CREATE_ACCOUNT_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
-    case at.RESET_PASSWORD_SUCCESS:
+    case types.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
-    case at.FORGOT_PASSWORD_SUCCESS:
+    case types.FORGOT_PASSWORD_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
-    case at.GET_MY_PROFILE_SUCCESS:
+    case types.GET_MY_PROFILE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        bio: action.payload.profile.bio,
-        birthday: action.payload.profile.birthday,
-        displayName: action.payload.profile.displayName,
+        bio: action.payload.bio,
+        birthday: action.payload.birthday,
+        displayName: action.payload.displayName,
         email: action.payload.email,
-        firstName: action.payload.profile.firstName,
-        gender: action.payload.profile.gender,
+        firstName: action.payload.firstName,
+        gender: action.payload.gender,
         id: action.payload.id,
-        lastName: action.payload.profile.lastName,
-        location: action.payload.profile.location,
-        avatarUrl: action.payload.profile.avatarUrl,
-        roleId: action.payload.profile.roleId,
-        website: action.payload.profile.website
+        lastName: action.payload.lastName,
+        location: action.payload.location,
+        avatarUrl: action.payload.avatarUrl,
+        roleId: action.payload.roleId,
+        website: action.payload.website
       };
-    case at.GET_MY_PROFILE_FAIL:
-    case at.PUBLIC_PROFILE_FAIL:
-    case at.FORGOT_PASSWORD_FAIL:
-    case at.CREATE_ACCOUNT_FAIL:
-    case at.RESET_PASSWORD_FAIL:
+    case types.GET_MY_PROFILE_FAIL:
+    case types.PUBLIC_PROFILE_FAIL:
+    case types.FORGOT_PASSWORD_FAIL:
+    case types.CREATE_ACCOUNT_FAIL:
+    case types.RESET_PASSWORD_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action.error
       };
-    case at.PUBLIC_PROFILE_SUCCESS:
+    case types.PUBLIC_PROFILE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         public: {
           email: action.payload.email,
-          displayName: action.payload.profile.displayName,
-          firstName: action.payload.profile.firstName,
-          roleId: action.payload.profile.roleId,
+          displayName: action.payload.displayName,
+          firstName: action.payload.firstName,
+          roleId: action.payload.roleId,
           id: action.payload.id
         }
       };
-    case at.POPULATE_ACCOUNT:
-    case at.LOGIN_POPULATE_ACCOUNT:
+    case types.POPULATE_ACCOUNT:
+    case types.LOGIN_POPULATE_ACCOUNT:
       return {
         ...state,
         isLoading: false,

@@ -3,20 +3,19 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Moment from 'moment';
 import Paper from 'material-ui/Paper';
-
-import { provideHooks } from 'redial';
-import Loader from '../../../../components/atm.Loader';
 import classNames from 'classnames/bind';
+import { provideHooks } from 'redial';
 
+import Loader from '../../../../components/atm.Loader';
 import Sidebar from '../org.Sidebar';
-import { fetchPost } from '../../state/post';
+import { loadPost } from '../../state/post';
 import PostContent from '../../components/mol.PostContent';
 import styles from './style.css';
 
 const cx = styles::classNames;
 
 @provideHooks({
-  fetch: ({ dispatch, params: { slug } }) => dispatch(fetchPost(slug))
+  fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
 })
 class SinglePost extends Component {
   render() {

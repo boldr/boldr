@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const PostContent = props => {
-  function createMarkup() { return { __html: props.content }; };
+  function createMarkup() { return { __html: props.content }; }
   return (
     <div>
       { props.title }
@@ -12,7 +12,7 @@ const PostContent = props => {
 
 PostContent.propTypes = {
   title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired
+  content: PropTypes.any
 };
 
 export default PostContent;

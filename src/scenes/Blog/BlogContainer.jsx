@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from '../../components/org.MainHeader';
 import inlineStyles from '../../core/inlineStyles';
-import { getPostsListing } from './state/post';
+import { fetchPostsIfNeeded } from './state/post';
 import PostListing from './components/pg.PostListing';
 
 const BlogContainer = (props) => {
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getPostsListing })(BlogContainer);
+export default connect(mapStateToProps, { fetchPostsIfNeeded })(BlogContainer);
 
 BlogContainer.propTypes = {
   children: PropTypes.element

@@ -2,8 +2,9 @@ import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
+
 import Loader from '../../../../components/atm.Loader';
-import { getPostsListing } from '../../state/post';
+import { fetchPostsIfNeeded } from '../../state/post';
 import PostCard from '../mol.PostCard';
 
 import styles from './style.css';
@@ -11,11 +12,11 @@ import styles from './style.css';
 const cx = styles::classNames;
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(getPostsListing())
+  fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
 })
 class PostListing extends Component {
   componentDidMount() {
-    this.props.getPostsListing();
+    this.props.fetchPostsIfNeeded();
   }
   render() {
     return (
@@ -40,9 +41,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, { getPostsListing })(PostListing);
+export default connect(mapStateToProps, { fetchPostsIfNeeded })(PostListing);
 
 PostListing.propTypes = {
-  getPostsListing: React.PropTypes.func,
+  fetchPostsIfNeeded: React.PropTypes.func,
   posts: React.PropTypes.object.isRequired
 };

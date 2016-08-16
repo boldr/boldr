@@ -16,7 +16,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import { inlineStyles } from '../../../../core';
 
-import { getPostsListing, selectPost } from '../../../Blog/state/post';
+import { fetchPostsIfNeeded, selectPost } from '../../../Blog/state/post';
 import ArticleListItem from './components/org.ArticleListItem';
 
 import styles from './style.css';
@@ -33,7 +33,7 @@ const iconButtonElement = (
 );
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(getPostsListing())
+  fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
 })
 class Articles extends Component {
   constructor(props) {

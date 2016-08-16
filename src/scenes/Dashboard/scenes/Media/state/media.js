@@ -2,22 +2,22 @@ import request from 'superagent';
 import fetch from '../../../../../core/fetch';
 import { notificationSend } from '../../../../Boldr/state/notifications';
 import { API_BASE, API_MEDIA } from '../../../../../core/config';
-import * as at from './constants';
+import * as types from './constants';
 
 const fetchMediaStart = () => {
-  return { type: at.GET_MEDIA_REQUEST };
+  return { type: types.GET_MEDIA_REQUEST };
 };
 // Fetch Articles Success
 export function fetchMediaSuccess(response) {
   return {
-    type: at.GET_MEDIA_SUCCESS,
+    type: types.GET_MEDIA_SUCCESS,
     payload: response.body
   };
 }
 // Fetch Articles Error
 export function fetchMediaFail(err) {
   return {
-    type: at.GET_MEDIA_FAIL,
+    type: types.GET_MEDIA_FAIL,
     error: err
   };
 }
@@ -39,19 +39,19 @@ export function fetchMedia() {
 }
 
 const beginUpload = () => {
-  return { type: at.UPLOAD_REQUEST };
+  return { type: types.UPLOAD_REQUEST };
 };
 // Fetch Articles Success
 export function uploadSuccess(response) {
   return {
-    type: at.UPLOAD_SUCCESS,
+    type: types.UPLOAD_SUCCESS,
     payload: response.body
   };
 }
 // Fetch Articles Error
 export function uploadFail(err) {
   return {
-    type: at.UPLOAD_FAIL,
+    type: types.UPLOAD_FAIL,
     error: err
   };
 }
@@ -88,18 +88,18 @@ export default function mediaReducer(state = INITIAL_STATE, action = {}) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
-    case at.GET_MEDIA_REQUEST:
+    case types.GET_MEDIA_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case at.GET_MEDIA_SUCCESS:
+    case types.GET_MEDIA_SUCCESS:
       return {
         ...state,
         isLoading: false,
         files: action.payload
       };
-    case at.GET_MEDIA_FAIL:
+    case types.GET_MEDIA_FAIL:
       return {
         ...state,
         isLoading: false,
