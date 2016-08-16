@@ -34,6 +34,7 @@ class Media extends Component {
       value: 3,
       open: false
     };
+    this.handleFinish = this.handleFinish.bind(this);
   }
 
   handleOpen = () => {
@@ -82,7 +83,7 @@ class Media extends Component {
             accept="image/*"
             onProgress={ S3Uploader.onUploadProgress }
             onError={ S3Uploader.onUploadError }
-            onFinish={ ::this.handleFinish }
+            onFinish={ this.handleFinish }
 
             uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
             contentDisposition="auto"

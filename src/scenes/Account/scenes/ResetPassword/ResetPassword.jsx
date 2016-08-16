@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardText, CardActions } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import classNames from 'classnames/bind';
 import { Link } from 'react-router/es6';
 import Heading from '../../../../components/atm.Heading';
 import inlineStyles from '../../../../core/inlineStyles';
-import RaisedButton from 'material-ui/RaisedButton';
-import classNames from 'classnames/bind';
+
 
 import styles from '../../styles.css';
 import { resetPassword } from '../../state';
@@ -16,6 +17,9 @@ class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = { password: '', confirm: '' };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
   handleChange(event) {
@@ -26,21 +30,20 @@ class ResetPassword extends React.Component {
     event.preventDefault();
     this.props.dispatch(resetPassword(this.state.password, this.props.params.token));
   }
-  renderHeader() {
-    return (
+
+  render() {
+    const renderHeader = (
       <div>
         <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
           Enter your email address below to reset it.
       </div>
     );
-  }
-  render() {
     return (
       <div style={ inlineStyles.headerOverflow }>
         <section className={ cx('root') }>
           <Card className={ cx('auth-card') }>
-            <form onSubmit={ ::this.handleReset }>
-              { this.renderHeader() }
+            <form onSubmit={ this.handleReset }>
+              { renderHeader }
 
               <CardText>
               <div className="grid__row">
@@ -49,7 +52,7 @@ class ResetPassword extends React.Component {
                   name="password"
                   id="password"
                   floatingLabelText="New password" style={ inlineStyles.underlineFocusStyle }
-                  autoFocus value={ this.state.password } onChange={ ::this.handleChange }
+                  autoFocus value={ this.state.password } onChange={ this.handleChange }
                 />
               </div>
               <div className="grid__row">
@@ -58,7 +61,7 @@ class ResetPassword extends React.Component {
                   name="password"
                   id="password"
                   floatingLabelText="Confirm password" style={ inlineStyles.underlineFocusStyle }
-                  value={ this.state.confirm } onChange={ ::this.handleChange }
+                  value={ this.state.confirm } onChange={ this.handleChange }
                 />
               </div>
               </CardText>

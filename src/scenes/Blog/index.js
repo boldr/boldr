@@ -11,7 +11,7 @@ const loadModule = (cb) => (componentModule) => {
 };
 
 export default (store, connect) => ({
-  path: 'blog',
+  path: '/blog',
   component: BlogContainer,
   indexRoute: {
     component: require('./components/pg.PostListing').default

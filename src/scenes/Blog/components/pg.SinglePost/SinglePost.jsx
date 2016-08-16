@@ -14,31 +14,30 @@ import styles from './style.css';
 
 const cx = styles::classNames;
 
-@provideHooks({
+const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
-})
-class SinglePost extends Component {
-  render() {
-    return (
+};
+
+const SinglePost = ({ isLoading, selectedPost }) => {
+  return (
       <div className="grid">
         <div className="grid__row" style={ { padding: '1em' } }>
           <div className="grid__twothirds">
             <Paper style={ { padding: '1em' } } zDepth={ 2 }>
             {
-              this.props.isLoading ?
+              isLoading ?
                 <Loader /> :
-                <PostContent { ...this.props.selectedPost } />
+                <PostContent { ...selectedPost } />
             }
             </Paper>
           </div>
           <div className="grid__third">
-            <Sidebar { ...this.props.selectedPost } />
+            <Sidebar { ...selectedPost } />
           </div>
         </div>
       </div>
     );
-  }
-}
+};
 
 SinglePost.propTypes = {
   isLoading: PropTypes.bool,
@@ -53,4 +52,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SinglePost);
+export default provideHooks(redial)(connect(mapStateToProps)(SinglePost));

@@ -7,6 +7,10 @@ import { createPost, updatePost, loadPost } from '../../../../../Blog/state/post
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   componentDidMount() {
     if (this.props.params.slug) {
       this.props.loadPost(this.props.params.slug);
@@ -35,7 +39,7 @@ class ArticleEditor extends Component {
         <NewArticleForm
           initialValues={ this.props.posts.selectedPost }
           editing={ this.props.posts.isEditing }
-          onSubmit={ ::this.handleSubmit }
+          onSubmit={ this.handleSubmit }
         />
       </div>
     );

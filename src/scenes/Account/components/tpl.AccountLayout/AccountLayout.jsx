@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import Header from '../../../../components/org.MainHeader';
 
 const AccountLayout = (props) => {
-
-    return (
+  return (
       <div>
         <Header theme="dark" />
         { props.children }
       </div>
       );
-}
+};
+
+AccountLayout.propTypes = {
+  children: PropTypes.element.isRequired
+};
 
 function mapStateToProps(state) {
   return {

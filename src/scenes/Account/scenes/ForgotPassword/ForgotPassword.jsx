@@ -18,6 +18,9 @@ class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = { email: '' };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleForgot = this.handleForgot.bind(this);
   }
 
   handleChange(event) {
@@ -28,22 +31,20 @@ class ForgotPassword extends Component {
     event.preventDefault();
     this.props.dispatch(forgotPassword(this.state.email));
   }
-  renderHeader() {
-    return (
+  render() {
+    const renderHeader = (
       <div>
         <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
           Enter your email address below to reset it.
       </div>
     );
-  }
-  render() {
     return (
       <div style={ inlineStyles.headerOverflow }>
       <section className={ cx('root') }>
 
           <Card className={ cx('auth-card') }>
-            <form onSubmit={ ::this.handleForgot }>
-              { this.renderHeader() }
+            <form onSubmit={ this.handleForgot }>
+              { renderHeader }
               <CardText>
               <div className="grid__row">
                 <TextField
@@ -51,7 +52,7 @@ class ForgotPassword extends Component {
                   name="email"
                   id="email"
                   floatingLabelText="Email address" style={ inlineStyles.underlineFocusStyle }
-                  autoFocus value={ this.state.email } onChange={ ::this.handleChange }
+                  autoFocus value={ this.state.email } onChange={ this.handleChange }
                 />
               </div>
               </CardText>

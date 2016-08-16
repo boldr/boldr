@@ -14,7 +14,10 @@ import styles from '../../styles.css';
 
 const cx = styles::classNames;
 class Signup extends Component {
-
+  constructor(props) {
+    super(props);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+  }
   handleOnSubmit(values) {
     const { createAccount } = this.props;
     createAccount({
@@ -26,27 +29,26 @@ class Signup extends Component {
     });
   }
 
-  renderHeader() {
-    return (
+  render() {
+    const { isLoading } = this.props.users;
+
+    const renderHeader = (
       <div>
         <Heading size={ 1 } bottom="10px">Create your identity</Heading>
           Already have an account?
           <Link to="/account/login"> Login</Link>
       </div>
     );
-  }
 
-  render() {
-    const { isLoading } = this.props.users;
     return (
         <div style={ inlineStyles.headerOverflow }>
           <Helmet title="Signup" />
           <section className={ cx('root') }>
             <Card className={ cx('auth-card') }>
 
-              { this.renderHeader() }
+              { renderHeader }
 
-              <SignupForm onSubmit={ ::this.handleOnSubmit } />
+              <SignupForm onSubmit={ this.handleOnSubmit } />
             </Card>
           </section>
         </div>

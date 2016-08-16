@@ -56,9 +56,12 @@ function shouldFetchPosts(state) {
 export function fetchPosts() {
   return dispatch => {
     dispatch(requestPosts());
-    return fetch(`${API_POSTS}`)
+    return fetch(`${API_BASE}/posts`)
       .then(response => processResponse(response))
-      .then(json => dispatch(receivePosts(json)));
+      .then(json => dispatch(receivePosts(json)))
+      .catch(err => {
+        dispatch(receivePostsFailed(err));
+      });
   };
 }
 

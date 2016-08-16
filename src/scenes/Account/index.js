@@ -2,10 +2,10 @@ import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { routerActions } from 'react-router-redux';
 
 const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.auth, // how to get the user state
+  authSelector: state => state.auth,
   failureRedirectPath: '/account/login',
-  redirectAction: routerActions.replace, // the redux action to dispatch for redirect
-  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check
+  redirectAction: routerActions.replace,
+  wrapperDisplayName: 'UserIsAuthenticated',
   predicate: auth => auth.isAuthenticated === true,
   allowRedirectBack: true
 });
@@ -18,7 +18,6 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 export default (store, connect) => ({
 
   path: 'account',

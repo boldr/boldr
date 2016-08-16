@@ -5,6 +5,7 @@ import inlineStyles from '../../core/inlineStyles';
 import { fetchPostsIfNeeded } from './state/post';
 import PostListing from './components/pg.PostListing';
 
+// @TODO: set header theme from config file
 const BlogContainer = (props) => {
   return (
     <div>

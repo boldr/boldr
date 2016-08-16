@@ -42,6 +42,7 @@ class Articles extends Component {
       visible: false,
       artId: ''
     };
+    this.handleArticleClick = this.handleArticleClick.bind(this);
   }
 
   handleArticleClick(postId, artSlug) {
@@ -105,7 +106,7 @@ class Articles extends Component {
                content={ post.content }
                title={ post.title }
                slug={ post.slug }
-               handleToggle={ ::this.handleArticleClick }
+               handleToggle={ this.handleArticleClick }
              />
            ))}
          </TableBody>

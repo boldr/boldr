@@ -13,24 +13,24 @@ import styles from '../../styles.css';
 const cx = styles::classNames;
 
 class Login extends Component {
-
+  constructor(props) {
+    super(props);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+  }
   handleOnSubmit(values) {
     const { doLogin } = this.props;
     const loginData = { email: values.email, password: values.password };
     const redir = this.props.redirect;
     doLogin(loginData, redir);
   }
-  renderHeader() {
-    return (
-      <div>
-        <Heading size={ 1 } bottom="10px">Log in</Heading>
-          Not what you want?
-          <Link to="/account/signup"> Register an Account</Link>
-      </div>
-    );
-  }
 
   render() {
+    const renderHeader = (
+      <div>
+        <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
+          Enter your email address below to reset it.
+      </div>
+    );
     const { isLoading } = this.props.auth;
 
     return (
@@ -38,9 +38,9 @@ class Login extends Component {
         <Helmet title="Login" />
         <section className={ cx('root') }>
           <Card className={ cx('auth-card') }>
-            { this.renderHeader() }
+            { renderHeader }
 
-            <LoginForm onSubmit={ ::this.handleOnSubmit } />
+            <LoginForm onSubmit={ this.handleOnSubmit } />
             <div className={ cx('auth-card__footer') }>
               <p><Link to="/account/forgot-password">Forgot your password?</Link></p>
             </div>
