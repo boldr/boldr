@@ -7,10 +7,11 @@ import classNames from 'classnames/bind';
 import { provideHooks } from 'redial';
 
 import Loader from '../../../../components/atm.Loader';
-import Sidebar from '../org.Sidebar';
-import { loadPost } from '../../state/post';
+import Sidebar from '../../components/org.Sidebar';
+
 import PostContent from '../../components/mol.PostContent';
 import styles from './style.css';
+import { loadPost } from './actions';
 
 const cx = styles::classNames;
 
@@ -18,7 +19,7 @@ const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
 };
 
-const SinglePost = ({ isLoading, selectedPost }) => {
+const SinglePost = ({ isLoading, currentPost }) => {
   return (
       <div className="grid">
         <div className="grid__row" style={ { padding: '1em' } }>
@@ -27,12 +28,12 @@ const SinglePost = ({ isLoading, selectedPost }) => {
             {
               isLoading ?
                 <Loader /> :
-                <PostContent { ...selectedPost } />
+                <PostContent { ...currentPost } />
             }
             </Paper>
           </div>
           <div className="grid__third">
-            <Sidebar { ...selectedPost } />
+            <Sidebar { ...currentPost } />
           </div>
         </div>
       </div>
@@ -41,14 +42,13 @@ const SinglePost = ({ isLoading, selectedPost }) => {
 
 SinglePost.propTypes = {
   isLoading: PropTypes.bool,
-  selectedPost: PropTypes.object
+  currentPost: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
-    isLoading: state.posts.isLoading,
-    selectedPost: state.posts.selectedPost
+    currentPost: state.currentPost,
+    isLoading: state.currentPost.isLoading
   };
 };
 

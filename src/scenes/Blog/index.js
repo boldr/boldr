@@ -1,7 +1,7 @@
 import BlogContainer from './BlogContainer';
-import PostListing from './components/pg.PostListing';
 
 if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
+
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
@@ -14,15 +14,28 @@ export default (store, connect) => ({
   path: '/blog',
   component: BlogContainer,
   indexRoute: {
-    component: require('./components/pg.PostListing').default
+    component: require('./scenes/PostListing').default
   },
-  childRoutes: [
-  {
+  childRoutes: [{
     path: ':slug',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./components/pg.SinglePost').default);
-      });
+      System.import('./scenes/SinglePost')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  }, {
+    path: 'search/:query',
+    getComponent(nextState, cb) {
+      System.import('./scenes/Search')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  }, {
+    path: 'tags',
+    getComponent(nextState, cb) {
+      System.import('./scenes/TagList')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     }
   }]
 });

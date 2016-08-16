@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import Divider from 'material-ui/Divider';
 
 import Author from '../mol.Author';
 import TagBlock from '../mol.TagBlock';
@@ -10,7 +11,8 @@ const cx = styles::classNames;
 const Sidebar = props => {
   return (
     <div className={ cx('sidebar') }>
-      {/* <Author user={ props.user } /> */}
+      <Author { ...props.user } />
+      <Divider />
       <TagBlock tags={ props.tags } />
     </div>
   );

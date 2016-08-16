@@ -11,7 +11,7 @@ logs
 *.log
 docs/logs
 .happypack
-server.js
+
 server.js.map
 webpack-assets.json
 public

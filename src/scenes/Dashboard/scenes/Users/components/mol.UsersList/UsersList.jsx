@@ -20,9 +20,9 @@ const UsersList = (props) => {
           props.users.map((user) =>
             <TableRow key={ user.id }>
               <TableRowColumn>{ user.id }</TableRowColumn>
-              <TableRowColumn>{ user.profile.name }</TableRowColumn>
+              <TableRowColumn>{ user.displayName }</TableRowColumn>
               <TableRowColumn>{ user.email }</TableRowColumn>
-              <TableRowColumn>{ user.profile.role }</TableRowColumn>
+              <TableRowColumn>{ user.roleId }</TableRowColumn>
             </TableRow>
           )
         }

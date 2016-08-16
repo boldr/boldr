@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 
 import Loader from '../../../../components/atm.Loader';
 import { fetchPostsIfNeeded } from '../../state/post';
-import PostCard from '../mol.PostCard';
+import PostCard from '../../components/mol.PostCard';
 
 import styles from './style.css';
 

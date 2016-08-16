@@ -12,6 +12,7 @@ import WebFontLoader from 'webfontloader';
 
 // Non-vendor
 import BoldrTheme from './core/materialTheme';
+
 import { TOKEN_KEY } from './core/config';
 import createStore from './core/state/createStore';
 import { checkAuth } from './scenes/Account/state/auth';

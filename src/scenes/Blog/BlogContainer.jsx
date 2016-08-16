@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Header from '../../components/org.MainHeader';
 import inlineStyles from '../../core/inlineStyles';
 import { fetchPostsIfNeeded } from './state/post';
-import PostListing from './components/pg.PostListing';
 
 // @TODO: set header theme from config file
 const BlogContainer = (props) => {
@@ -24,7 +23,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchPostsIfNeeded })(BlogContainer);
+export default connect(mapStateToProps)(BlogContainer);
 
 BlogContainer.propTypes = {
   children: PropTypes.element

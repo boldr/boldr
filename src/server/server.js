@@ -76,10 +76,9 @@ app.use((req, res) => {
       const { components } = renderProps;
 
       trigger('fetch', components, locals).then(() => {
-
         const muiTheme = getMuiTheme(BoldrTheme, {
-                 userAgent: req.headers['user-agent']
-               });
+          userAgent: req.headers['user-agent']
+        });
         const component = (
           <Provider store={ store } key="provider">
                     <MuiThemeProvider muiTheme={ muiTheme }>

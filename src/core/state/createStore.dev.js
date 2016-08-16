@@ -17,10 +17,9 @@ const loggerOptions = {
  *
  * @param {Object} data     Initial state for store
  * @param {Object} history  the browser history
- * @param {Object} client   The client api middleware
  * @return {Object} Returns store with state
  */
-export default function createStore(history, client, data) {
+export default function createStore(history, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
   const logger = createLogger(loggerOptions); // dont show in production
@@ -33,14 +32,14 @@ export default function createStore(history, client, data) {
 
   const store = finalCreateStore(reducers, data);
 
-
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const nextReducer = require('./reducers');
-
-      store.replaceReducer(nextReducer.default || nextReducer);
+      System.import('./reducers').then((reducerModule) => {
+        const nextReducers = reducerModule.default;
+        // const nextReducers = createReducers(store.asyncReducers);
+        store.replaceReducer(nextReducers);
+      });
     });
   }
-
   return store;
 }
