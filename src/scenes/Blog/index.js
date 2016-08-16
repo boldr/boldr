@@ -31,7 +31,7 @@ export default (store, connect) => ({
         .catch(errorLoading);
     }
   }, {
-    path: 'tags',
+    path: 'tags/:id',
     getComponent(nextState, cb) {
       System.import('./scenes/TagList')
         .then(loadModule(cb))

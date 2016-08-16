@@ -7,6 +7,7 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import AvAirplay from 'material-ui/svg-icons/av/airplay';
 import ActionVisibility from 'material-ui/svg-icons/action/visibility';
 import ActionVisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import ActionDone from 'material-ui/svg-icons/action/done';
 import ContentFlag from 'material-ui/svg-icons/content/flag';
 import NotificationPriorityHigh from 'material-ui/svg-icons/notification/priority-high';
@@ -18,9 +19,10 @@ const cx = styles::classNames;
 const ArticleListItem = props => {
   function handleclick() {
     const articleId = props.article.id;
-    const artSlug = props.article.slug;
-    props.handleArticleClick(articleId, artSlug);
+    props.handleArticleClick(articleId);
   }
+  const publishedIcon = <ActionVisibility onClick={ handleclick } />;
+  const draftIcon = <ActionVisibilityOff onClick={ handleclick } />;
   return (
       <TableRow style={ inlineStyles.row }>
         <TableRowColumn colSpan="1" style={ inlineStyles.rowColumn } >
@@ -30,13 +32,16 @@ const ArticleListItem = props => {
           {props.article.title}
         </TableRowColumn>
         <TableRowColumn colSpan="1" style={ inlineStyles.rowColumn } >
-          { props.article.status }
+          { props.article.status === 'published' ?
+            publishedIcon :
+            draftIcon
+          }
         </TableRowColumn>
         <TableRowColumn colSpan="2" style={ inlineStyles.rowColumn } >
           {props.article.createdAt}
         </TableRowColumn>
         <TableRowColumn colSpan="3" style={ inlineStyles.rowColumn } >
-          <Link to={ `/dashboard/articles/${props.id}/preview` }>
+          <Link to={ `/dashboard/articles/${props.article.id}/preview` }>
             <IconButton disableTouchRipple >
               <AvAirplay />
             </IconButton>
@@ -46,12 +51,8 @@ const ArticleListItem = props => {
               <EditorModeEdit />
             </IconButton>
           </Link>
-          <IconButton
-            name="toggle-button"
-
-            disableTouchRipple
-          >
-          <ActionVisibilityOff name="in-visible-icon" />
+          <IconButton name="delete-button" disableTouchRipple>
+            <DeleteForever />
           </IconButton>
         </TableRowColumn>
       </TableRow>
@@ -60,7 +61,8 @@ const ArticleListItem = props => {
 
 ArticleListItem.propTypes = {
   article: React.PropTypes.object.isRequired,
-  handleArticleClick: React.PropTypes.func
+  handleArticleClick: React.PropTypes.func,
+  slug: React.PropTypes.string
 };
 
 export default ArticleListItem;

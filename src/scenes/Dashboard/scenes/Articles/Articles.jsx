@@ -45,13 +45,10 @@ class Articles extends Component {
     this.handleArticleClick = this.handleArticleClick.bind(this);
   }
 
-  handleArticleClick(postId, artSlug) {
-    this.props.dispatch(selectPost(postId));
-    this.setState({
-      visible: true,
-      slug: artSlug
-    });
+  handleArticleClick(postId) {
+    console.log('clicked ', postId)
   }
+
   render() {
     if (!this.props.posts.data.length) {
       return <h1>Perhaps you should create a new post?</h1>;
@@ -106,7 +103,7 @@ class Articles extends Component {
                content={ post.content }
                title={ post.title }
                slug={ post.slug }
-               handleToggle={ this.handleArticleClick }
+               handleArticleClick={ this.handleArticleClick }
              />
            ))}
          </TableBody>

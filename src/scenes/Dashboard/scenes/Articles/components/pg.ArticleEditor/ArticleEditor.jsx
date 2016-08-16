@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createPost, updatePost } from '../../../../../Blog/state/post';
-import { loadPost, clearCurrentPost } from '../../../../../Blog/scenes/SinglePost/actions';
+import { createPost } from '../../../../../Blog/state/post';
+import { loadPost, clearCurrentPost, updatePost } from '../../../../../Blog/scenes/SinglePost/actions';
 import NewArticleForm from './ArticleForm';
 
 class ArticleEditor extends Component {

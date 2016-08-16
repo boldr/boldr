@@ -124,20 +124,20 @@ export function createPost(postData) {
  * Select Post
  * @description Used when on the article list state.
  */
-const postSelected = (articleId) => {
+const requestTag = (articleId) => {
   return {
-    type: types.SELECT_POST,
+    type: types.LOAD_TAG_REQUEST,
     id: articleId
   };
 };
 
-const receiveSelectedPost = (response) => ({
-  type: types.SELECT_POST_SUCCESS,
-  current: response.body
+const receiveTag = (response) => ({
+  type: types.LOAD_TAG_SUCCESS,
+  payload: response.body
 });
 
-const receiveSelectedPostFailed = (err) => ({
-  type: types.SELECT_POST_FAIL,
+const failedToReceiveTag = (err) => ({
+  type: types.LOAD_TAG_FAILURE,
   error: err
 });
 
