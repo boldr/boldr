@@ -1,58 +1,103 @@
 {
   "name": "boldr",
-  "version": "0.4.0",
-  "description": "a bold cms.",
-  "main": "tools/scripts/server.js",
-  "engines": {
-    "node": "6.2.0",
-    "npm": "3.7.3"
-  },
-  "scripts": {
-    "build": "better-npm-run build",
-    "clean": "rimraf build",
-    "dev": "better-npm-run dev",
-    "lint": "eslint -c .eslintrc src",
-    "start": "npm run start:prod",
-    "start:dev": "better-npm-run start:dev",
-    "start:prod": "better-npm-run start:prod",
-    "test": "better-npm-run test:client",
-    "test:client": "better-npm-run test:client",
-    "test:watch": "./node_modules/.bin/mocha  -w --opts ./mocha.opts './src/**/*.test.js'"
+  "version": "0.4.3",
+  "description": "Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little Boldr?",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
   },
   "betterScripts": {
     "build": {
-      "command": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
+      "command": "better-npm-run build:server && better-npm-run build:client",
       "env": {
         "NODE_ENV": "production"
       }
     },
-    "dev": {
-      "command": "node ./tools/development/server",
+    "build:server": {
+      "command": "babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
       "env": {
-        "NODE_ENV": "development"
+        "BABEL_ENV": "server",
+        "NODE_ENV": "production"
       }
     },
-    "start:prod": {
-      "command": "pm2 start run.js",
+    "build:client": {
+      "command": "babel-node -- ./node_modules/.bin/webpack --env production --json --config tools/webpack/client.prod.js",
+      "env": {
+        "BABEL_ENV": "client-prod",
+        "NODE_ENV": "production"
+      }
+    },
+    "dev": {
+      "command": "npm-run-all --parallel dev:api watch:client watch:server",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src",
+        "SSR_SERVER_PORT": 3000,
+        "HOT_RELOAD_PORT": 3001
+      }
+    },
+    "dev:api": {
+      "command": "nodemon --config src/apiNodemon.json src/boldrAPI/index.js",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "src/boldrAPI",
+        "BABEL_ENV": "api",
+        "SSR_SERVER_PORT": 3000,
+        "HOT_RELOAD_PORT": 3001
+      }
+    },
+    "start": {
+      "command": "node -r dotenv/config run.js",
       "env": {
         "NODE_ENV": "production",
-        "SSR_PORT": 9221,
-        "API_HOST": "https://api.boldr.io",
-        "API_PREFIX": "/v1"
+        "SSR_SERVER_PORT": 3000
+      }
+    },
+    "start:api": {
+      "command": "node launch.js",
+      "env": {
+        "NODE_ENV": "production"
       }
     },
     "test:client": {
-      "command": "./node_modules/.bin/mocha --compilers js:./compiler.babel --require tools/test/helper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/**/*.test.js'",
+      "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/boldrCMS/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
-        "NODE_PATH": "./src",
-        "SSR_PORT": 9221
+        "NODE_PATH": "./src/boldrCMS",
+        "SSR_SERVER_PORT": 3000
+      }
+    },
+    "test:api": {
+      "command": "mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './src/boldrAPI/**/*.test.js'",
+      "env": {
+        "NODE_ENV": "test",
+        "BABEL_ENV": "api"
+      }
+    },
+    "watch:client": {
+      "command": "babel-node tools/webpack/wp.dev.server.js",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src/boldrCMS",
+        "BABEL_ENV": "client-dev",
+        "SSR_SERVER_PORT": 3000,
+        "HOT_RELOAD_PORT": 3001
+      }
+    },
+    "watch:server": {
+      "command": "nodemon --config src/cmsNodemon.json",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src/boldrCMS",
+        "BABEL_ENV": "server",
+        "SSR_SERVER_PORT": 3000,
+        "HOT_RELOAD_PORT": 3001
       }
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/strues/boldr.git"
+    "url": "git+https://github.com/boldr/boldr.git"
   },
   "keywords": [
     "react",
@@ -64,98 +109,167 @@
   "author": "Steven Truesdell <steven@strues.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/strues/boldr/issues"
+    "url": "https://github.com/boldr/boldr/issues"
   },
-  "homepage": "https://github.com/strues/boldr#readme",
+  "homepage": "https://github.com/boldr/boldr#readme",
+  "engines": {
+    "node": "6.2.0",
+    "npm": "3.7.3"
+  },
+  "scripts": {
+    "build": "better-npm-run build",
+    "build:client": "better-npm-run build:client",
+    "build:server": "better-npm-run build:server",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
+    "dev": "better-npm-run dev",
+    "dev:api": "better-npm-run dev:api",
+    "lint": "./node_modules/.bin/eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "migrate": "./node_modules/.bin/sequelize db:migrate",
+    "seed": "./node_modules/.bin/sequelize db:seed:all",
+    "sequelize": "./node_modules/.bin/sequelize",
+    "start": "better-npm-run start",
+    "start:api": "better-npm-run start:api",
+    "test": "npm-run-all -s test:client test:api",
+    "test:api": "better-npm-run test:api",
+    "test:client": "better-npm-run test:client",
+    "watch:client": "better-npm-run watch:client",
+    "watch:server": "better-npm-run watch:server"
+  },
   "dependencies": {
-    "app-root-path": "^1.3.0",
+    "async": "^2.0.1",
+    "aws-sdk": "^2.5.0",
+    "bcrypt": "^0.8.7",
     "better-npm-run": "0.0.10",
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
+    "boom": "^3.2.2",
+    "class-autobind": "^0.1.4",
     "classnames": "^2.2.5",
+    "composable-middleware": "^0.3.0",
     "compression": "^1.6.2",
-    "cors": "^2.7.1",
+    "connect-redis": "^3.1.0",
+    "convict": "^1.4.0",
+    "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",
     "dotenv": "^2.0.0",
+    "draft-js": "^0.8.1",
+    "draft-js-export-html": "^0.4.0",
+    "draft-js-export-markdown": "^0.2.0",
+    "draft-js-import-html": "^0.2.0",
+    "draft-js-import-markdown": "^0.1.6",
+    "draft-js-utils": "^0.1.5",
     "errorhandler": "^1.4.3",
     "express": "4.14.0",
+    "express-flash": "0.0.2",
+    "express-jwt": "^3.4.0",
+    "express-session": "^1.14.0",
+    "helmet": "^2.1.2",
     "http-proxy": "^1.14.0",
+    "jsonwebtoken": "^7.1.9",
     "limax": "^1.4.0",
     "lodash": "^4.15.0",
+    "lusca": "^1.4.1",
     "material-ui": "^0.15.4",
+    "method-override": "^2.3.6",
     "moment": "^2.14.1",
+    "morgan": "^1.7.0",
+    "multer": "^1.2.0",
+    "multer-s3": "^2.3.2",
     "node-fetch": "^1.6.0",
+    "node-uuid": "^1.4.7",
+    "nodemailer": "^2.5.0",
+    "nodemailer-mailgun-transport": "^1.2.1",
     "normalizr": "^2.2.1",
     "react": "15.3.0",
     "react-addons-css-transition-group": "^15.3.0",
-    "react-css-modules": "^3.7.9",
     "react-dom": "15.3.0",
     "react-helmet": "^3.1.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
     "react-router-redux": "^4.0.5",
-    "react-rte": "^0.5.0",
     "react-tap-event-plugin": "^1.0.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "pg": "^6.1.0",
     "redial": "^0.4.2",
+    "redis": "^2.6.2",
     "redux": "^3.5.2",
-    "redux-auth-wrapper": "^0.6.0",
+    "redux-auth-wrapper": "^0.7.0",
     "redux-form": "^6.0.0-rc.4",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.3",
     "serialize-javascript": "1.3.0",
+    "sequelize": "^4.0.0-0",
     "superagent": "^2.2.0",
     "webfontloader": "^1.6.26",
-    "webpack-isomorphic-tools": "^2.5.6",
-    "whatwg-fetch": "^1.0.0"
+    "webpack-isomorphic-tools": "^2.5.7",
+    "whatwg-fetch": "^1.0.0",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
+    "app-root-path": "^1.3.0",
     "assets-webpack-plugin": "^3.4.0",
     "autoprefixer": "^6.4.0",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
     "babel-eslint": "6.1.2",
     "babel-loader": "^6.2.4",
+    "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-react-constant-elements": "^6.9.1",
+    "babel-plugin-transform-react-inline-elements": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.12.0",
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.13.2",
+    "babel-preset-node6": "^11.0.0",
     "babel-preset-react": "6.11.1",
-    "babel-preset-react-hmre": "^1.1.1",
-    "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.11.6",
     "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "chai-things": "^0.2.0",
     "chalk": "^1.1.3",
+    "chance": "^1.0.4",
     "chokidar": "^1.6.0",
     "css-loader": "^0.23.1",
     "cssnano": "^3.7.4",
+    "cz-conventional-changelog": "^1.2.0",
     "dotenv": "2.0.0",
     "enzyme": "^2.4.1",
     "eslint": "^3.3.1",
     "eslint-config-boldr": "^1.0.2",
     "expect": "^1.20.2",
     "extract-text-webpack-plugin": "^2.0.0-beta.3",
+    "file-loader": "^0.9.0",
+    "happypack": "^2.2.1",
     "ignore-styles": "^4.0.0",
     "jsdom": "^9.4.2",
     "json-loader": "0.5.4",
     "lost": "^7.0.3",
     "mocha": "^3.0.1",
     "nock": "^8.0.0",
+    "node-noop": "^1.0.0",
     "node-notifier": "^4.6.0",
     "node-sass": "^3.8.0",
     "nodemon": "^1.10.0",
+    "npm-run-all": "^2.3.0",
+    "pixrem": "^3.0.1",
     "postcss": "^5.1.2",
     "postcss-loader": "^0.10.0",
     "postcss-reporter": "^1.4.1",
     "precss": "^1.4.0",
+    "progress-bar-webpack-plugin": "^1.9.0",
     "react-addons-test-utils": "^15.3.0",
     "react-hot-loader": "3.0.0-beta.2",
     "redux-mock-store": "^1.1.2",
     "rimraf": "2.5.4",
     "sass-loader": "^4.0.0",
     "sass-resources-loader": "^1.1.0",
+    "sequelize-cli": "^2.4.0",
     "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
     "stylelint": "^7.1.0",
     "stylelint-config-standard": "^12.0.0",
@@ -165,8 +279,9 @@
     "webpack": "^2.1.0-beta.20",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2",
-    "webpack-md5-hash": "0.0.5",
-    "webpack-node-externals": "^1.3.3"
+    "webpack-node-externals": "^1.3.3",
+    "webpack-notifier": "^1.3.2",
+    "webpack-visualizer-plugin": "^0.1.5"
   },
   "stylelint": {
     "rules": {
@@ -183,6 +298,11 @@
       "number-leading-zero": "never",
       "number-no-trailing-zeros": true,
       "property-no-vendor-prefix": true
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }

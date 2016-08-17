@@ -1,7 +1,4 @@
 # http://editorconfig.org
-
-# A special property that should be specified at the top of the file outside of
-# any sections. Set to true to stop .editor config file search on current file
 root = true
 
 [*]
@@ -30,4 +27,11 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 [*.md]
+max_line_length = 0
 trim_trailing_whitespace = false
+
+[COMMIT_EDITMSG]
+max_line_length = 0
+
+[Makefile]
+indent_style = tab

@@ -1,0 +1,16 @@
+{
+    "verbose": false,
+    "restartable": "rs",
+    "colours": true,
+    "ignore": [
+      "docs"
+    ],
+    "ext": "js json",
+    "env": {
+      "DEBUG":"boldr*"
+    },
+    "watch": [
+      "./src/boldrCMS/server/**/*.js"
+    ],
+    "exec": "babel-node src/boldrCMS/server/serverHook.js"
+}
