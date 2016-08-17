@@ -3,20 +3,17 @@
 build/
 
 tools/docker/volumes
-
-.tags
-
+boldr.paw
 # Logs
 logs
 *.log
 docs/logs
+
 .happypack
 
-server.js.map
-webpack-assets.json
-public
 boldr.sublime-project
 boldr.sublime-workspace
+
 # Runtime data
 pids
 *.pid
@@ -34,9 +31,7 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
+.vscode
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules

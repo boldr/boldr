@@ -1,5 +1,3 @@
-/* eslint-disable no-console */ /* eslint-disable no-unneeded-ternary */
-/* eslint-disable quote-props */
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
@@ -11,34 +9,17 @@ const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const isomorphicConfig = require('./isomorphic.config');
 const createHappyPlugin = require('./util/createHappyPlugin');
 const createSourceLoader = require('./util/createSourceLoader');
+const bcfg = require('../buildConfig');
+const VENDOR_BUNDLE = require('../vendorBundle');
 
 const appRootPath = appRoot.toString();
-const NODE_MODULES_DIR = path.resolve(appRootPath, './node_modules');
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 const WP_DS = 3001;
-const VENDOR = [
-  'react',
-  'react-dom',
-  'react-router',
-  'redux',
-  'react-redux',
-  'react-router-redux',
-  'react-helmet',
-  'redux-thunk',
-  'redial',
-  'superagent',
-  'redux-form',
-  'react-addons-css-transition-group',
-  'normalizr',
-  'material-ui',
-  'draft-js',
-  'classnames'
-];
 
 dotenv.config({ silent: true });
-const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${WP_DS}/__webpack_hmr`;
+const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${bcfg.HOT_RELOAD_PORT}/__webpack_hmr`;
 const clientDevConfig = {
   target: 'web',
   stats: false, // Don't show stats in the console
@@ -47,28 +28,26 @@ const clientDevConfig = {
   // cheap eval is faster than cheap-module
   // see https://webpack.github.io/docs/build-performance.html#sourcemaps
   devtool: 'cheap-module-eval-source-map',
-  context: appRootPath,
+  context: bcfg.CMS_SRC,
   entry: {
     main: [
       'react-hot-loader/patch',
       HMR,
-      path.join(appRootPath, 'src', 'client.js')
+      path.join(bcfg.CMS_SRC, 'client.js')
     ],
-    vendor: VENDOR
+    vendor: VENDOR_BUNDLE
   },
   output: {
-    path: path.join(appRootPath, 'public'),
+    path: bcfg.BUILD_DIR,
     filename: '[name].js',
     chunkFilename: '[name]-chunk.js',
-    publicPath: `http://localhost:${WP_DS}/assets/`
-
+    publicPath: `http://localhost:${bcfg.HOT_RELOAD_PORT}/build/`
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    root: appRootPath,
     modulesDirectories: ['src', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(NODE_MODULES_DIR, 'react'))
+      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }
   },
   module: {
@@ -165,7 +144,7 @@ const clientDevConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,

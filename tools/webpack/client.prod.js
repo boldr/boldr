@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const dotenv = require('dotenv');
 const appRoot = require('app-root-path');
 const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -9,46 +8,26 @@ const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const isomorphicConfig = require('./isomorphic.config');
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 
+const bcfg = require('../buildConfig');
+const VENDOR_BUNDLE = require('../vendorBundle');
+
 const appRootPath = appRoot.toString();
-const NODE_MODULES_DIR = path.resolve(appRootPath, './node_modules');
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
-
-const VENDOR = [
-  'react',
-  'react-dom',
-  'react-router',
-  'redux',
-  'react-redux',
-  'react-router-redux',
-  'react-helmet',
-  'redux-thunk',
-  'redial',
-  'superagent',
-  'redux-form',
-  'react-addons-css-transition-group',
-  'normalizr',
-  'material-ui',
-  'draft-js',
-  'classnames'
-];
-
-dotenv.config({ silent: true });
-const ASSETS_DIR = path.resolve(appRootPath, 'public', 'assets');
 
 const clientProdConfig = {
   target: 'web',
   stats: false, // Don't show stats in the console
   progress: true,
   devtool: false,
-  context: appRootPath,
+  context: bcfg.CMS_SRC,
   entry: {
-    main: [require.resolve('../scripts/polyfill'), path.join(appRootPath, 'src', 'client.js')],
-    vendor: VENDOR
+    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.CMS_SRC, 'client.js')],
+    vendor: VENDOR_BUNDLE
   },
   output: {
-    path: ASSETS_DIR,
+    path: bcfg.ASSETS_DIR,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/assets/'
@@ -58,7 +37,7 @@ const clientProdConfig = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: NODE_MODULES_DIR
+        exclude: bcfg.NODE_MODULES_DIR
       },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -82,10 +61,10 @@ const clientProdConfig = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    root: appRootPath,
+    root: bcfg.ABS_ROOT,
     modulesDirectories: ['src', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(NODE_MODULES_DIR, 'react'))
+      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }
   },
   postcss(webpack) {
@@ -119,7 +98,7 @@ const clientProdConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
@@ -152,7 +131,7 @@ const clientProdConfig = {
     new webpack.optimize.AggressiveMergingPlugin(),
     new VisualizerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new WatchMissingNodeModulesPlugin(NODE_MODULES_DIR),
+    new WatchMissingNodeModulesPlugin(bcfg.NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin
   ],
   node: {

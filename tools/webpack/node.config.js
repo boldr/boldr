@@ -5,8 +5,8 @@ const dotenv = require('dotenv');
 const appRoot = require('app-root-path');
 const NodeExternals = require('webpack-node-externals');
 
-const appRootPath = appRoot.toString();
-const NODE_MODULES_DIR = path.resolve(appRootPath, './node_modules');
+const bcfg = require('../buildConfig');
+
 dotenv.config({
   silent: true
 });
@@ -21,23 +21,23 @@ const nodeConfig = { // eslint-disable-line
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  context: appRootPath,
+  context: bcfg.CMS_DIR,
   devtool: 'source-map',
   entry: {
     server: [
-      path.join(appRootPath, 'src', 'server', 'index.js')
+      path.join(bcfg.CMS_SRC, 'server', 'index.js')
     ]
   },
   output: {
-    path: appRootPath,
-    publicPath: '/',
+    path: bcfg.BUILD_DIR,
+    publicPath: '/assets/',
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    root: appRootPath,
+    root: bcfg.ABS_ROOT,
     modulesDirectories: ['src', 'node_modules']
   },
   module: {
@@ -45,7 +45,7 @@ const nodeConfig = { // eslint-disable-line
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: NODE_MODULES_DIR
+        exclude: bcfg.NODE_MODULES_DIR
       },
       { test: /\.json$/, loader: 'json-loader' },
       {
@@ -68,7 +68,7 @@ const nodeConfig = { // eslint-disable-line
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
