@@ -12,7 +12,7 @@ const Sidebar = props => {
   return (
     <div className={ cx('sidebar') }>
       <Author { ...props.user } />
-      <Divider />
+      <Divider style={ { marginTop: '1em', marginBottom: '1em' } } />
       <TagBlock tags={ props.tags } />
     </div>
   );

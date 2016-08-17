@@ -66,8 +66,7 @@ const startSaveSetup = () => ({
 
 const saveSetupSuccess = (response) => ({
   type: SAVE_SETUP_SUCCESS,
-  payload: response.body,
-  message: 'Boldr did its thing, now you do yours.'
+  payload: response.body
 });
 
 // Fail receivers
@@ -81,11 +80,12 @@ export function saveBoldrSetup(data) {
   return dispatch => {
     dispatch(startSaveSetup());
     return request
-      .post(SETTINGS_ENDPOINT)
+      .post(`${SETTINGS_ENDPOINT}`)
       .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .send(data)
       .then(response => {
         if (response.status === 201) {
+          console.log(response);
           dispatch(saveSetupSuccess(response));
           dispatch(loadSettings());
           dispatch(notificationSend({
@@ -106,7 +106,49 @@ export function saveBoldrSetup(data) {
       });
   };
 }
+const beginUpdateSettings = () => ({
+  type: UPDATE_SETTINGS_REQUEST
+});
 
+const updateSettingsSuccess = (response) => ({
+  type: UPDATE_SETTINGS_SUCCESS,
+  payload: response.body
+});
+
+// Fail receivers
+const updateSettingsFailed = (data) => ({
+  type: UPDATE_SETTINGS_FAILURE,
+  data
+});
+
+export function updateBoldrSettings(data, id) {
+  return dispatch => {
+    dispatch(beginUpdateSettings());
+    return request
+      .put(`${SETTINGS_ENDPOINT}/${id}`)
+      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
+      .send(data)
+      .then(response => {
+        console.log(response);
+        dispatch(updateSettingsSuccess(response));
+        dispatch(loadSettings());
+        dispatch(notificationSend({
+          message: 'Your site is set up!',
+          kind: 'info',
+          dismissAfter: 3000
+        }));
+        dispatch(push('/dashboard'));
+      })
+      .catch(err => {
+        dispatch(updateSettingsFailed(err));
+        dispatch(notificationSend({
+          message: `We ran into a problem with your set up ${err}`,
+          kind: 'error',
+          dismissAfter: 3000
+        }));
+      });
+  };
+}
 
 export const INITIAL_STATE = {
   isLoading: false,
@@ -153,8 +195,13 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         isLoading: false,
-        payload: action.payload,
-        message: action.message
+        siteName: action.payload.siteName,
+        description: action.payload.description,
+        logo: action.payload.logo,
+        siteUrl: action.payload.siteUrl,
+        favicon: action.payload.favicon,
+        analyticsId: action.payload.analyticsId,
+        allowRegistration: action.payload.allowRegistration
       };
     case SAVE_SETUP_FAIL:
       return {

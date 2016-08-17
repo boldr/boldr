@@ -7,7 +7,9 @@ const Heading = (props) => {
     color: props.color,
     textAlign: props.align,
     paddingTop: props.top,
-    paddingBottom: props.bottom
+    paddingBottom: props.bottom,
+    fontSize: props.override,
+    textDecoration: props.textDeco
   };
   return React.createElement(tagName, { className, style }, props.children);
 };
@@ -20,5 +22,7 @@ Heading.propTypes = {
   align: PropTypes.string,
   children: PropTypes.node,
   top: PropTypes.string,
-  bottom: PropTypes.string
+  bottom: PropTypes.string,
+  override: PropTypes.string,
+  textDeco: PropTypes.string
 };

@@ -22,9 +22,10 @@ const redial = {
 const SinglePost = ({ isLoading, currentPost }) => {
   return (
       <div className="grid">
+      <div className="postbg">
         <div className="grid__row" style={ { padding: '1em' } }>
           <div className="grid__twothirds">
-            <Paper style={ { padding: '1em' } } zDepth={ 2 }>
+            <Paper zDepth={ 2 }>
             {
               isLoading ?
                 <Loader /> :
@@ -35,6 +36,7 @@ const SinglePost = ({ isLoading, currentPost }) => {
           <div className="grid__third">
             <Sidebar { ...currentPost } />
           </div>
+        </div>
         </div>
       </div>
     );

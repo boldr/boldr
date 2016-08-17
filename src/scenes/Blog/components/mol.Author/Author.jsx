@@ -5,7 +5,8 @@ import { Heading } from '../../../../components';
 const styles = {
   wrapper: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    alignItems: 'center'
   }
 };
 const Author = (props) => {

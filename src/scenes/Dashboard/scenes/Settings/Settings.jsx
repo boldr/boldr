@@ -8,41 +8,37 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import { loadBoldrSettings, saveBoldrSetup } from '../../../Boldr/state/boldr';
+import { loadBoldrSettings, saveBoldrSetup, updateBoldrSettings } from '../../../Boldr/state/boldr';
 import GeneralTab from './components/mol.GeneralTab';
-
-const iconButtonElement = (
-  <IconButton
-    touch
-    tooltip="more"
-  >
-    <MoreVertIcon />
-  </IconButton>
-);
-
-const rightIconMenu = (
-  <IconMenu iconButtonElement={ iconButtonElement }>
-    <MenuItem>View</MenuItem>
-    <MenuItem>Modify</MenuItem>
-  </IconMenu>
-);
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(loadBoldrSettings())
 })
 class Settings extends Component {
-  state = {
-    open: false
-  };
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  handleSubmit(values) {
+    if (!this.props.boldr.siteName) {
+      this.props.saveBoldrSetup(values);
+    } else {
+      const id = this.props.boldr.id;
+      this.props.updateBoldrSettings(values, id);
+    }
+  }
   render() {
+    if (this.props.boldr.isLoading) {
+      return <div><h1>Settings</h1><h3>Loading...</h3></div>
+    }
     return (
       <div>
       <Paper>
         <Tabs>
             <Tab label="General">
               <div>
-              <GeneralTab settings={ this.props.boldr } />
+              <GeneralTab onSubmit={ this.handleSubmit } settings={ this.props.boldr } />
 
               </div>
             </Tab>
@@ -77,4 +73,4 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.boldr.isLoading
   };
 };
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps, { saveBoldrSetup, updateBoldrSettings })(Settings);

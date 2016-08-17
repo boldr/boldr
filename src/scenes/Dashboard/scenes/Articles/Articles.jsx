@@ -53,7 +53,7 @@ class Articles extends Component {
     if (!this.props.posts.data.length) {
       return <h1>Perhaps you should create a new post?</h1>;
     }
-    // FIXME: Better way to set the article slug state. Currently you have to click on the card...
+
     const rightIconMenu = (
       <IconMenu iconButtonElement={ iconButtonElement }>
         <MenuItem><Link to={ `/dashboard/articles/editor/${this.state.slug}` }>Edit</Link></MenuItem>
@@ -77,13 +77,10 @@ class Articles extends Component {
        <Table fixedHeader fixedFooter>
          <TableHeader adjustForCheckbox={ false } displaySelectAll={ false }>
            <TableRow selectable={ false }>
-             <TableHeaderColumn colSpan="1" style={ inlineStyles.headerColumn }>
-               ID
-             </TableHeaderColumn>
              <TableHeaderColumn colSpan="4" style={ inlineStyles.headerColumn }>
                Title
              </TableHeaderColumn>
-             <TableHeaderColumn colSpan="1" style={ inlineStyles.headerColumn }>
+             <TableHeaderColumn colSpan="2" style={ inlineStyles.headerColumn }>
                Status
              </TableHeaderColumn>
              <TableHeaderColumn colSpan="2" style={ inlineStyles.headerColumn }>

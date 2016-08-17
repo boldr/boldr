@@ -9,15 +9,25 @@ const inline = {
   boxSizing: 'border-box',
   width: '100%',
   padding: '1em',
-  backgroundColor: '#323232',
+  position: 'fixed',
+  bottom: '2rem',
+  backgroundColor: '#212121',
   color: 'rgb(250, 250, 250)',
   lineHeight: '16px',
-  boxShadow: '0 2px 5px 0 rgba(0, 0, 0, .26)',
-  borderRadius: '2px',
-  transition: 'bottom .5s cubic-bezier(.42, 0, .58, 1)',
-  left: '10px',
+  boxShadow: '0 0 1px 1px rgba(10, 10, 11, .125)',
+  borderRadius: '3px',
   maxWidth: '320px',
-  textRendering: 'optimizeLegibility'
+  textRendering: 'optimizeLegibility',
+  WebKittransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  MozTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  msTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  OTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  transition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  WebkitTransform: 'translatez(0)',
+  MozTransform: 'translatez(0)',
+  msTransform: 'translatez(0)',
+  OTransform: 'translatez(0)',
+  transform: 'translatez(0)'
 };
 class Notification extends Component {
   constructor() {

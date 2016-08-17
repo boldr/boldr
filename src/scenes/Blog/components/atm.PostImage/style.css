@@ -1,0 +1,17 @@
+.postimage__wrap {
+  width: 750px;
+  height: 300px;
+}
+
+.postimage {
+  object-fit: cover;
+  transform: translate3d(0, -5px, 0);
+  transition: opacity .35s, transform .35s;
+  max-height: 300px;
+  width: 100%;
+
+  &:hover {
+    opacity: .7;
+    transform: translate3d(0, 0, 0);
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import Link from 'react-router/lib/Link';
+import Moment from 'moment';
 import IconButton from 'material-ui/IconButton';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
@@ -21,24 +22,22 @@ const ArticleListItem = props => {
     const articleId = props.article.id;
     props.handleArticleClick(articleId);
   }
+  const formattedDate = Moment(props.article.createdAt).format('MM D YYYY');
   const publishedIcon = <ActionVisibility onClick={ handleclick } />;
   const draftIcon = <ActionVisibilityOff onClick={ handleclick } />;
   return (
       <TableRow style={ inlineStyles.row }>
-        <TableRowColumn colSpan="1" style={ inlineStyles.rowColumn } >
-          {props.article.id}
-        </TableRowColumn>
         <TableRowColumn colSpan="4" style={ inlineStyles.rowColumn } >
           {props.article.title}
         </TableRowColumn>
-        <TableRowColumn colSpan="1" style={ inlineStyles.rowColumn } >
+        <TableRowColumn colSpan="2" style={ inlineStyles.rowColumn } >
           { props.article.status === 'published' ?
             publishedIcon :
             draftIcon
           }
         </TableRowColumn>
         <TableRowColumn colSpan="2" style={ inlineStyles.rowColumn } >
-          {props.article.createdAt}
+          { formattedDate }
         </TableRowColumn>
         <TableRowColumn colSpan="3" style={ inlineStyles.rowColumn } >
           <Link to={ `/dashboard/articles/${props.article.id}/preview` }>
