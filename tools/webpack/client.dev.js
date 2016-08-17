@@ -4,10 +4,13 @@ const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const appRoot = require('app-root-path');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const isomorphicConfig = require('./isomorphic.config');
+const createHappyPlugin = require('./util/createHappyPlugin');
+const createSourceLoader = require('./util/createSourceLoader');
 
 const appRootPath = appRoot.toString();
 const NODE_MODULES_DIR = path.resolve(appRootPath, './node_modules');
@@ -57,7 +60,7 @@ const clientDevConfig = {
     path: path.join(appRootPath, 'public'),
     filename: '[name].js',
     chunkFilename: '[name]-chunk.js',
-    publicPath: `http://localhost:${WP_DS}/build/`
+    publicPath: `http://localhost:${WP_DS}/assets/`
 
   },
   resolve: {
@@ -70,19 +73,20 @@ const clientDevConfig = {
   },
   module: {
     loaders: [
-      {
+      createSourceLoader({
         happy: { id: 'js' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      },
+      }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: webpackIsomorphicToolsPlugin.regular_expression('svg'), loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
-      {
+      createSourceLoader({
+        happy: { id: 'css' },
         test: /\.css$/,
         loaders: [
           {
@@ -102,8 +106,9 @@ const clientDevConfig = {
             loader: 'postcss-loader'
           }
         ]
-      },
-      {
+      }),
+      createSourceLoader({
+        happy: { id: 'sass' },
         test: /\.scss$/,
         loaders: [
           {
@@ -130,7 +135,7 @@ const clientDevConfig = {
             }
           }
         ]
-      }
+      })
     ]
   },
   postcss(webpack) {
@@ -156,6 +161,7 @@ const clientDevConfig = {
     ];
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -169,24 +175,26 @@ const clientDevConfig = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       children: true,
-      minChunks: 2,
+      minChunks: Infinity,
       async: true
     }),
-    new HappyPack({
-      id: 'js',
-      threads: 4
+    new ProgressBarPlugin({
+      format: '  build libs [:bar] :percent (:elapsed seconds)',
+      clear: false
     }),
     new WebpackNotifierPlugin({ title: '🔥 Webpack' }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.NoErrorsPlugin(),
-    webpackIsomorphicToolsPlugin.development()
+    webpackIsomorphicToolsPlugin.development(),
+    createHappyPlugin('js'),
+    createHappyPlugin('css'),
+    createHappyPlugin('sass')
   ],
   node: {
     __dirname: true,
     __filename: true,
-    window: true
+    global: 'window'
   }
 };
 

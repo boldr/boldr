@@ -73,11 +73,13 @@ class Dashboard extends Component {
           leftIcon={ <ArticleIcon /> }
           menuItems={ [
             <MenuItem
+              key={ 1 }
               leftIcon={ <ListingIcon /> }
               containerElement={ <Link to="/dashboard/articles" /> }
               primaryText="Listing"
             />,
             <MenuItem
+              key={ 2 }
               leftIcon={ <EditorIcon /> }
               primaryText="Editor"
               containerElement={ <Link to="/dashboard/articles/editor" /> }

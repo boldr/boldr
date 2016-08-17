@@ -18,8 +18,6 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-
-if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 export default (store, connect) => ({
 
   path: 'dashboard',

@@ -2,10 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const appRoot = require('app-root-path');
+const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const isomorphicConfig = require('./isomorphic.config');
-
+const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 
 const appRootPath = appRoot.toString();
 const NODE_MODULES_DIR = path.resolve(appRootPath, './node_modules');
@@ -127,7 +129,7 @@ const clientProdConfig = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       children: true,
-      minChunks: 2,
+      minChunks: Infinity,
       async: true
     }),
     new webpack.ProvidePlugin({
@@ -141,9 +143,16 @@ const clientProdConfig = {
         warnings: false
       }
     }),
+    new ProgressBarPlugin({
+      format: '  build libs [:bar] :percent (:elapsed seconds)',
+      clear: false
+    }),
+
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
+    new VisualizerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new WatchMissingNodeModulesPlugin(NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin
   ],
   node: {
