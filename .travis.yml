@@ -34,7 +34,6 @@ before_script:
   - sudo /etc/init.d/postgresql restart
   - psql --version
   - psql -c 'create database travis_ci_test;' -U postgres
-
   - NODE_ENV=test npm run migrate
   - NODE_ENV=test npm run seed
 
