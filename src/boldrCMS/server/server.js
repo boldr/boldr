@@ -32,7 +32,7 @@ app.use('/v1/*', (req, res) => {
 });
 
 app.use(compression());
-app.use(Express.static(path.resolve('public')));
+app.use('/assets', Express.static('build', { maxAge: '200d' }));
 
 app.use((req, res) => {
   if (__DEV__) {

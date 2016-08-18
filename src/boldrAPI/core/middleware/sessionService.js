@@ -1,53 +1,51 @@
-const config = require('../config');
+import logger from '../../lib/logger';
 
-let redisClient = null;
-let redisStore = null;
-
-export default {
-  initializeRedis(client, store) {
-    redisClient = client;
-    redisStore = store;
-  },
-  getSessionId(handshake) {
-    return handshake.signedCookies[config.session.secret];
-  },
-  get(handshake, callback) {
-    const sessionId = this.getSessionId(handshake);
-
-    this.getSessionBySessionID(sessionId, function(err, session) {
-      if (err) callback(err);
-      if (callback != undefined)
-        callback(null, session);
-    });
-  },
-  getSessionBySessionId(sessionId, callback) {
-    redisStore.load(sessionId, function(err, session) {
-      if (err) callback(err);
-      if (callback != undefined)
-        callback(null, session);
-    });
-  },
-  getDisplayName(handshake, callback) {
-    this.get(handshake, function(err, session) {
-      if (err) callback(err);
-      if (session)
-        callback(null, session.displayName);
-      else
-        callback(null);
-    });
-  },
-  updateSession(session, callback) {
-    try {
-      session.reload(function() {
-        session.touch().save();
-        callback(null, session);
-      });
-    } catch (err) {
-      callback(err);
+function sessionService(client, sessionServiceOpts) {
+  if (sessionServiceOpts.logErrors) {
+    if (typeof sessionServiceOpts.logErrors !== 'function') {
+      sessionServiceOpts.logErrors = (err) => {
+        logger.error(`Warning: express-passport-session-tracker reported an error: ${err}`);
+      };
     }
-  },
-  setSessionProperty(session, propertyName, propertyValue, callback) {
-    session[propertyName] = propertyValue;
-    this.updateSession(session, callback);
+    client.on('error', sessionServiceOpts.logErrors);
   }
+
+  return function logInInterceptor(req, res, next) {
+    const oldLogIn = req.logIn;
+    const oldLogOut = req.logOut;
+    req.login = req.logIn = function(user, options, done) {
+      if (typeof options == 'function') {
+        done = options;
+        options = {};
+      }
+      oldLogIn.call(req, user, options, () => {
+        const passportUser = req.session.passport.user;
+        const sessionId = req.sessionID;
+        client.sadd('user:' + passportUser, sessionId, (err) => {
+          if (err && sessionServiceOpts.logErrors) {
+            sessionServiceOpts.logErrors(err);
+          }
+          done();
+        });
+      });
+    };
+
+    req.logout = req.logOut = function() {
+      if (req.session && req.session.passport) {
+        const passportUser = req.session.passport.user;
+        const sessionId = req.sessionID;
+        oldLogOut.call(req);
+        client.srem('user:' + passportUser, sessionId , (err) => {
+          if (err && sessionServiceOpts.logErrors) {
+            sessionServiceOpts.logErrors(err);
+          }
+        });
+      } else {
+        oldLogOut.call(req);
+      }
+    };
+
+    next();
+  };
 };
+export default sessionService;
