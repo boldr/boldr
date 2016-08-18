@@ -37,10 +37,10 @@
       }
     },
     "dev:api": {
-      "command": "nodemon --config src/apiNodemon.json src/boldrAPI/index.js",
+      "command": "nodemon --config nodemon.json ./src/boldr-api/index.js",
       "env": {
         "NODE_ENV": "development",
-        "NODE_PATH": "src/boldrAPI",
+        "NODE_PATH": "src/boldr-api",
         "BABEL_ENV": "api",
         "SSR_SERVER_PORT": 3000,
         "HOT_RELOAD_PORT": 3001
@@ -60,15 +60,15 @@
       }
     },
     "test:client": {
-      "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/boldrCMS/**/*.test.js'",
+      "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/boldr-cms/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
-        "NODE_PATH": "./src/boldrCMS",
+        "NODE_PATH": "./src/boldr-cms",
         "SSR_SERVER_PORT": 3000
       }
     },
     "test:api": {
-      "command": "mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './src/boldrAPI/**/*.test.js'",
+      "command": "mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './src/boldr-api/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
         "BABEL_ENV": "api"
@@ -78,17 +78,17 @@
       "command": "babel-node tools/webpack/wp.dev.server.js",
       "env": {
         "NODE_ENV": "development",
-        "NODE_PATH": "./src/boldrCMS",
+        "NODE_PATH": "./src/boldr-cms",
         "BABEL_ENV": "client-dev",
         "SSR_SERVER_PORT": 3000,
         "HOT_RELOAD_PORT": 3001
       }
     },
     "watch:server": {
-      "command": "nodemon --config src/cmsNodemon.json",
+      "command": "nodemon --config nodemon-cms.json",
       "env": {
         "NODE_ENV": "development",
-        "NODE_PATH": "./src/boldrCMS",
+        "NODE_PATH": "./src/boldr-cms",
         "BABEL_ENV": "server",
         "SSR_SERVER_PORT": 3000,
         "HOT_RELOAD_PORT": 3001

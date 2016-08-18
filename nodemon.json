@@ -8,6 +8,6 @@
     "NODE_ENV": "development"
   },
   "watch": [
-    "./src/boldrAPI/**/*.js"
+    "./src/boldr-api/**/*.js"
   ]
 }

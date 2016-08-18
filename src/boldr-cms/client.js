@@ -59,29 +59,22 @@ const render = () => {
     );
 
     return history.listen(location => {
-      // Match routes based on location object
       match({ routes, location }, (error, redirectLocation, renderProps) => {
         if (error) {
           console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
         }
-        // Get array of route handler components:
         const { components } = renderProps;
-         // Define locals to be provided to all lifecycle hooks:
         const locals = {
           path: renderProps.location.pathname,
           query: renderProps.location.query,
           params: renderProps.params,
           dispatch
         };
-        // Don't fetch data for initial route, server has already done the work:
         if (window.__data) {
-          // Delete initial data so that subsequent data fetches can occur:
           delete window.__data;
         } else {
-          // Fetch mandatory data dependencies for 2nd route change onwards:
           trigger('fetch', components, locals);
         }
-        // Fetch deferred, client-only data dependencies:
         trigger('defer', components, locals);
       });
     });

@@ -10,7 +10,7 @@
       "DEBUG":"boldr*"
     },
     "watch": [
-      "./src/boldrCMS/server/**/*.js"
+      "./src/boldr-cms/server/**/*.js"
     ],
-    "exec": "babel-node src/boldrCMS/server/serverHook.js"
+    "exec": "babel-node src/boldr-cms/server/serverHook.js"
 }
