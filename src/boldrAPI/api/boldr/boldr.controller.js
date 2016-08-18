@@ -32,18 +32,18 @@ const createSettings = (req, res, next) => {
     .catch(handleError(res));
 };
 
-const updateSettings = (req, res) => {
+const updateSettings = (req, res, next) => {
   const settingsId = req.params.id;
-
-  return Setting.find({
-    where: {
-      id: settingsId
+  return Setting.find({ where: { id: settingsId } }).then(settings => {
+    if (!settings) {
+      return Boom.notFound('Unable to locate the requested resource');
     }
-  })
-    .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    const updates = req.body;
+    settings.updateAttributes(updates)
+      .then(updated => {
+        res.status(202).json(updated);
+      })
+      .catch(handleError(res));
+  });
 };
-
 export { getSettings, createSettings, updateSettings };

@@ -138,9 +138,26 @@ const User = Model.define('user', {
   verified: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: new Date(),
+    field: 'created_at'
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: new Date(),
+    field: 'updated_at'
+  },
+  deletedAt: {
+    allowNull: true,
+    type: DataTypes.DATE,
+    field: 'deleted_at'
   }
 }, {
-  timestamps: false,
+  timestamps: true,
   tableName: 'user',
   freezeTableName: true,
   classMethods: {

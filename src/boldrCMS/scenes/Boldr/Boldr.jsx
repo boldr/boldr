@@ -1,22 +1,32 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
+import { provideHooks } from 'redial';
 import Notifications from '../../components/atm.Notification';
+import { fetchSettingsIfNeeded, fetchMenusIfNeeded } from './state/boldr';
 
-const Boldr = (props) => {
-  return (
+@provideHooks({
+  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded()),
+  defer: ({ dispatch }) => dispatch(fetchMenusIfNeeded())
+})
+class Boldr extends Component {
+  componentDidMount() {
+    this.props.fetchSettingsIfNeeded();
+  }
+  render() {
+    return (
     <div>
       <Helmet
         title="Boldr"
         titleTemplate={ '%s | powered by Boldr' }
       />
 
-      { props.children }
+      { this.props.children }
       <Notifications />
     </div>
   );
-};
-
+  }
+}
 Boldr.propTypes = {
   children: PropTypes.node
 };
@@ -29,4 +39,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Boldr);
+export default connect(mapStateToProps, { fetchSettingsIfNeeded })(Boldr);

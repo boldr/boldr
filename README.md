@@ -1,6 +1,6 @@
 ![boldr](https://boldr.io/boldrlogo.png) Boldr
 ====
-[![Build Status](https://travis-ci.org/boldr/boldrCMS.svg?branch=master)](https://travis-ci.org/boldr/boldr) | 
+[![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr) 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
@@ -113,7 +113,7 @@ Looking for an open source project to contribute to? I could use a hand developi
 Documentation
 =================
 - **API Documentation:** [docs/api](docs/api)  
-- **Docker:** [docs/docker/main.md](docs/docker/main.md)
+- **Docker:** [docs/docker/main.md](docs/docker.md)
 - **Structure:** [docs/structure.md](docs/structure.md)
 
 Demo
@@ -127,7 +127,7 @@ Password - password
 
 Change Log
 =================
-[View Here](Changelog.md)  
+[View Here](CHANGELOG.md)  
 
 #### Lastest Version
 ##### 0.4.0

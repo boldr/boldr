@@ -3,6 +3,7 @@ import Post from './post';
 import PostTag from './postTag';
 import Category from './category';
 import Media from './media';
+import Menu from './menu';
 import Role from './role';
 import Setting from './setting';
 import Tag from './tag';
@@ -116,4 +117,4 @@ function sync(...args) {
 }
 
 export default { sync };
-export { User, Post, Tag, Media, PostTag, Category, Setting, Role };
+export { User, Post, Tag, Media, PostTag, Category, Setting, Role, Menu };

@@ -2,8 +2,6 @@ import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import flash from 'express-flash';
-import cookieParser from 'cookie-parser';
 import expressJwt from 'express-jwt';
 import methodOverride from 'method-override';
 import cors from 'cors';
@@ -33,15 +31,12 @@ export default app => {
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(methodOverride('X-HTTP-Method-Override'));
-  app.use(express.static(path.resolve('public')));
-
   app.options('*', (req, res) => res.sendStatus(200));
 
   app.use(expressJwt({
     secret: config.session.secret,
     credentialsRequired: false
   }));
-  app.use(cookieParser(config.session.secret));
 
   app.use(session({
     store: new RedisStore({ client: redisClient }),
@@ -53,8 +48,7 @@ export default app => {
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(flash());
-
+  app.use(sessionService(redisClient, { logErrors: true }));
   if (env !== 'test') {
     app.use(lusca({
       xframe: 'SAMEORIGIN',

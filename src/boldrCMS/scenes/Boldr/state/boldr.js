@@ -1,6 +1,8 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
-import { API_BASE, TOKEN_KEY } from '../../../core/config';
+import fetch from '../../../core/fetch';
+import { API_SETTINGS, API_BASE, TOKEN_KEY, API_MENU } from '../../../core/config';
+import { processResponse } from '../../../core/api/helpers';
 import { notificationSend } from './notifications';
 
 export const DONE_LOADING = 'DONE_LOADING';
@@ -8,13 +10,77 @@ export const LOAD_SETTINGS = 'LOAD_SETTINGS';
 export const LOAD_SETTINGS_SUCCESS = 'LOAD_SETTINGS_SUCCESS';
 export const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
 
-export const SETTINGS_ENDPOINT = `${API_BASE}/boldr`;
+export const LOAD_MENUS_REQUEST = 'LOAD_MENUS_REQUEST';
+export const LOAD_MENUS_SUCCESS = 'LOAD_MENUS_SUCCESS';
+export const LOAD_MENUS_FAILURE = 'LOAD_MENUS_FAILURE';
 
 export function goHome(data) {
   return (dispatch) => {
     dispatch(push('/'));
   };
 }
+const beginLoadMenus = () => ({
+  type: LOAD_MENUS_REQUEST
+});
+
+const loadMenusSuccess = (json) => ({
+  type: LOAD_MENUS_SUCCESS,
+  payload: json
+});
+
+// Fail receivers
+const failedToLoadMenus = (err) => ({
+  type: LOAD_MENUS_FAILURE,
+  error: err
+});
+
+/**
+ * Function to retrieve menus from the api.
+ * @return {Array} Menus returned as an array of menu objects.
+ */
+export function loadMenus() {
+  return dispatch => {
+    dispatch(beginLoadMenus());
+    return fetch(`${API_MENU}`)
+      .then(response => processResponse(response))
+      .then(json => dispatch(loadMenusSuccess(json)))
+      .catch(err => {
+        dispatch(failedToLoadSettings(err));
+      });
+  };
+}
+/**
+ * @function fetchMenusIfNeeded
+ * @description Function that determines whether or not menus need to be
+ * fetched from the api. Dispatches either the loadMenus Function
+ * or returns the resolved promise if the menus are up to date.
+ * @return {Promise} Menus Promise that resolves when menus are fetched
+ * or they arent required to be refreshed.
+ */
+export function fetchMenusIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchMenus(getState())) {
+      return dispatch(loadMenus());
+    }
+
+    return Promise.resolve();
+  };
+}
+/**
+ * Called by fetchMenusIfNeeded to retrieve the state containing menus
+ * @param  {Object} state   The blog state which contains menus
+ */
+function shouldFetchMenus(state) {
+  const menus = state.boldr.menus;
+  if (!menus) {
+    return true;
+  }
+  if (state.boldr.isLoading) {
+    return false;
+  }
+  return menus;
+}
+
 
 const loadSettings = () => ({
   type: LOAD_SETTINGS
@@ -32,9 +98,9 @@ const loadSettingsSuccess = (response) => ({
 });
 
 // Fail receivers
-const failedToLoadSettings = (data) => ({
+const failedToLoadSettings = (err) => ({
   type: LOAD_SETTINGS_FAILURE,
-  data
+  error: err
 });
 
 // Public action creators
@@ -42,20 +108,47 @@ export function loadBoldrSettings(data) {
   return dispatch => {
     dispatch(loadSettings());
     return request
-      .get(SETTINGS_ENDPOINT)
-      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
+      .get(`${API_SETTINGS}`)
       .then(response => {
-        if (response.status === 200) {
-          dispatch(loadSettingsSuccess(response));
-        } else {
-          dispatch(failedToLoadSettings('Oops! Something went wrong!'));
-        }
+        dispatch(loadSettingsSuccess(response));
       })
       .catch(err => {
         dispatch(failedToLoadSettings(err));
       });
   };
 }
+/**
+ * @function fetchMenusIfNeeded
+ * @description Function that determines whether or not menus need to be
+ * fetched from the api. Dispatches either the loadMenus Function
+ * or returns the resolved promise if the menus are up to date.
+ * @return {Promise} Menus Promise that resolves when menus are fetched
+ * or they arent required to be refreshed.
+ */
+export function fetchSettingsIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchSettings(getState())) {
+      return dispatch(loadBoldrSettings());
+    }
+
+    return Promise.resolve();
+  };
+}
+/**
+ * Called by fetchMenusIfNeeded to retrieve the state containing menus
+ * @param  {Object} state   The blog state which contains menus
+ */
+function shouldFetchSettings(state) {
+  const settings = state.boldr;
+  if (!settings.siteName) {
+    return true;
+  }
+  if (state.boldr.isLoading) {
+    return false;
+  }
+  return settings;
+}
+
 const SAVE_SETUP_REQUEST = 'SAVE_SETUP_REQUEST';
 const SAVE_SETUP_SUCCESS = 'SAVE_SETUP_SUCCESS';
 const SAVE_SETUP_FAIL = 'SAVE_SETUP_FAIL';
@@ -80,7 +173,7 @@ export function saveBoldrSetup(data) {
   return dispatch => {
     dispatch(startSaveSetup());
     return request
-      .post(`${SETTINGS_ENDPOINT}`)
+      .post(`${API_SETTINGS}`)
       .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .send(data)
       .then(response => {
@@ -125,7 +218,7 @@ export function updateBoldrSettings(data, id) {
   return dispatch => {
     dispatch(beginUpdateSettings());
     return request
-      .put(`${SETTINGS_ENDPOINT}/${id}`)
+      .put(`${API_SETTINGS}/${id}`)
       .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .send(data)
       .then(response => {
@@ -158,12 +251,14 @@ export const INITIAL_STATE = {
   siteUrl: null,
   favicon: null,
   analyticsId: null,
-  allowRegistration: null
+  allowRegistration: null,
+  menus: []
 };
 
 export default function boldrReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case LOAD_SETTINGS:
+    case LOAD_MENUS_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -178,13 +273,20 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         siteUrl: action.siteUrl,
         favicon: action.favicon,
         analyticsId: action.analyticsId,
-        allowRegistration: action.allowRegistration,
-        message: action.message
+        allowRegistration: action.allowRegistration
       };
     case LOAD_SETTINGS_FAILURE:
+    case LOAD_MENUS_FAILURE:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        error: action.error
+      };
+    case LOAD_MENUS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        menus: action.payload
       };
     case SAVE_SETUP_REQUEST:
       return {

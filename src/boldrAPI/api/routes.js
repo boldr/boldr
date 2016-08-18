@@ -6,6 +6,7 @@ import tagRoutes from './tag/tag.router';
 import roleRoutes from './role/role.router';
 import postRoutes from './post/post.router';
 import boldrRoutes from './boldr/boldr.router';
+import menuRoutes from './menu/menu.router';
 import categoryRoutes from './category/category.router';
 import authRoutes from './auth';
 
@@ -27,6 +28,7 @@ router.use('/users', userRoutes);
 router.use('/category', categoryRoutes);
 router.use('/medias', mediaRoutes);
 router.use('/tags', tagRoutes);
+router.use('/menus', menuRoutes);
 router.use('/posts', postRoutes);
 router.use('/roles', roleRoutes);
 router.use('/boldr', boldrRoutes);
