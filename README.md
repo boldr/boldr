@@ -21,6 +21,7 @@ Table of Contents
   * [Documentation](#documentation)
   * [Demo](#demo)
   * [Changelog](#changelog)
+  * [NGINX Config](docs/nginx.md)
 
 Boldr
 =====

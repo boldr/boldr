@@ -1,6 +1,7 @@
 import _debug from 'debug';
 import express from 'express';
 import routes from './api/routes';
+import config from './core/config';
 import { webserver, errorHandling } from './core';
 
 const debug = _debug('boldr:server');
@@ -11,7 +12,7 @@ debug('express middleware');
 webserver(app);
 
 debug('routes');
-app.use('/api/v1', routes);
+app.use(config.apiPrefix, routes);
 
 errorHandling(app);
 

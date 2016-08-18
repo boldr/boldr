@@ -49,15 +49,4 @@ export default app => {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(sessionService(redisClient, { logErrors: true }));
-  if (env !== 'test') {
-    app.use(lusca({
-      xframe: 'SAMEORIGIN',
-      hsts: {
-        maxAge: 31536000, // 1 year, in seconds
-        includeSubDomains: true,
-        preload: true
-      },
-      xssProtection: true
-    }));
-  }
 };

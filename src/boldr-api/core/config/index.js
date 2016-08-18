@@ -30,13 +30,6 @@ const conf = convict({
     env: 'API_PREFIX',
     arg: 'apiprefix'
   },
-  ssrPort: {
-    doc: 'The port bound for the frontend server.',
-    format: 'port',
-    default: 9221,
-    env: 'SSR_PORT',
-    arg: 'ssrport'
-  },
   dateFormat: {
     doc: 'The format by which dates will be displayed.',
     format: String,
@@ -131,8 +124,8 @@ const conf = convict({
     uri: {
       doc: 'The redis connection uri',
       format: String,
-      default: '',
-      env: 'REDIS_CON_URL',
+      default: 'redis://127.0.0.1:6379/4',
+      env: 'REDIS_CONN_URI',
       arg: 'ruri'
     },
     host: {
