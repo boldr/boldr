@@ -33,7 +33,7 @@ app.use(`${API_BASE}/*`, (req, res) => {
 });
 
 app.use(compression());
-app.use('/assets', Express.static('build', { maxAge: '200d' }));
+app.use(Express.static('build'));
 
 app.use((req, res) => {
   if (__DEV__) {

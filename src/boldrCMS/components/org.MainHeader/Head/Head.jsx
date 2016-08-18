@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Head.css';
-import logoImage from './boldr-white.png';
 
 const cx = styles::classNames;
 
@@ -22,7 +21,7 @@ const Head = ({ toggleDropdownHandler, dropdownOpen, theme, closeHeaderDropdown 
     </button>
     <h1 className={ cx('brand') }>
       <a href="/" rel="home" className={ cx('logo') } onClick={ closeHeaderDropdown }>
-      <img src={ logoImage } alt="logo" height="50px" />
+      <img src="https://boldr.io/boldrlogo.png" alt="logo" height="50px" />
       </a>
     </h1>
   </div>;

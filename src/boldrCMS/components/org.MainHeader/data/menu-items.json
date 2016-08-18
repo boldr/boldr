@@ -12,14 +12,12 @@
           {
             "name": "Motivation",
             "id": "motivation",
-            "href": "#",
-            "icon": ""
+            "href": "#"
           },
           {
             "name": "Features",
             "id": "features",
-            "href": "#",
-            "icon": ""
+            "href": "#"
           }
         ]
       }
@@ -39,8 +37,7 @@
           {
             "name": "Overview",
             "id": "overview",
-            "href": "#",
-            "icon": ""
+            "href": "#"
           }
         ]
       }

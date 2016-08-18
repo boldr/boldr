@@ -25,7 +25,6 @@ const DropdownHighlight = ({ data, parentClass, closeDropdowns }) =>
       className={ cx('content') }
       rel={ data.external ? 'external' : null }
     >
-      <img src={ data.thumbnail } alt={ data.title } />
       <h5 className={ cx('title') }>{ data.title }</h5>
       { data.excerpt
         ? <p className={ cx('text') }>{ data.excerpt }</p>

@@ -98,7 +98,7 @@
   height: 2px;
   left: 0;
   right: 0;
-  background-color: #222228;
+  background-color: #fff;
   transition: 0.25s ease-in-out;
 }
 .toggleButton .iconBar:nth-of-type(2) {
