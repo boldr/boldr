@@ -15,6 +15,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import BoldrTheme from '../core/materialTheme';
 import createStore from '../core/state/createStore';
+import { API_TARGET, API_BASE } from '../core/config';
 import getRoutes from '../scenes/index';
 import Html from './Html';
 
@@ -22,12 +23,12 @@ import Html from './Html';
 const app = Express();
 
 const proxy = httpProxy.createProxyServer({
-  target: 'https://api.boldr.io',
+  target: API_TARGET,
   changeOrigin: true
 });
 
-app.use('/v1/*', (req, res) => {
-  const url = `https://api.boldr.io${req.originalUrl}`;
+app.use(`${API_BASE}/*`, (req, res) => {
+  const url = `${API_TARGET}${req.originalUrl}`;
   proxy.web(req, res, { target: url }); // eslint-disable-line
 });
 

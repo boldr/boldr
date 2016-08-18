@@ -45,7 +45,7 @@ const clientDevConfig = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    modulesDirectories: ['src', 'node_modules'],
+    modulesDirectories: ['src/boldrCMS', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }

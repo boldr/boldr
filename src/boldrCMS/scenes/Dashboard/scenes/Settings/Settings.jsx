@@ -8,11 +8,11 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import { loadBoldrSettings, saveBoldrSetup, updateBoldrSettings } from '../../../Boldr/state/boldr';
+import { fetchSettingsIfNeeded, saveBoldrSetup, updateBoldrSettings } from '../../../Boldr/state/boldr';
 import GeneralTab from './components/mol.GeneralTab';
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(loadBoldrSettings())
+  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
 })
 class Settings extends Component {
   constructor(props) {
