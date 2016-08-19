@@ -23,12 +23,12 @@ const conf = convict({
     env: 'PORT',
     arg: 'port'
   },
-  apiPrefix: {
+  apiBase: {
     doc: 'The url prefix for the api',
     format: String,
     default: '/api/v1',
-    env: 'API_PREFIX',
-    arg: 'apiprefix'
+    env: 'API_BASE',
+    arg: 'apibase'
   },
   dateFormat: {
     doc: 'The format by which dates will be displayed.',

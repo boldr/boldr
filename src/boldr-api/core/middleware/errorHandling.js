@@ -26,4 +26,4 @@ export default app => {
       stack: process.env.NODE_ENV === 'development' ? err.stack : {}
     })
   );
-}
+};

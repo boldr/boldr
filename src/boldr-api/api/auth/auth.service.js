@@ -7,7 +7,9 @@ import { User } from '../../db/models';
 
 const config = require('../../core/config');
 
-const validateJwt = expressJwt({ secret: config.session.secret });
+const validateJwt = expressJwt({
+  secret: config.session.secret
+});
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
@@ -15,19 +17,21 @@ const validateJwt = expressJwt({ secret: config.session.secret });
  */
 function isAuthenticated() {
   return compose()
-   // Validate jwt
-    .use(expressJwt({ secret: config.session.secret }))
-   // Attach user to request
-    .use((req, res, next) => {
-      User.findById(req.user.id)
-        .then(user => {
-          if (!user) {
-            res.status(401).end();
-          }
-          req.user = user;
-          next();
-          return user;
-        }).catch(err => next(err));
+    // Validate jwt
+    .use(function(req, res, next) {
+      if (!req.headers.authorization) {
+        return res.status(401).send({
+          message: 'No authorization header is present'
+        });
+      }
+      return validateJwt(req, res, next);
+    })
+    // Attach user to request
+    .use(async (req, res, next) => {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(401).end();
+      req.user = user;
+      return next();
     });
 }
 
@@ -37,17 +41,18 @@ function isAuthenticated() {
  * @returns {Function} - express middleware
  */
 function hasRole(roleRequired) {
-  if (!roleRequired) throw new Error('Required role needs to be set');
+  if (!roleRequired)
+    throw new Error('Required role needs to be set');
 
   return compose()
-        .use(isAuthenticated())
-        .use(function meetsRequirements(req, res, next) {
-          if (req.user.roleId >= roleRequired) {
-            return next();
-          } else {
-            return res.send(403);
-          }
-        });
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req, res, next) {
+      if (req.user.roleId >= roleRequired) {
+        return next();
+      } else {
+        return res.send(403);
+      }
+    });
 }
 
 /**
@@ -98,7 +103,11 @@ function addAuthHeaderFromCookie() {
  * @returns {Promise} - resolves to the signed token
  */
 function signToken(id) {
-  return jwt.sign({ id }, config.session.secret, { expiresIn: 60 * 60 * 5 });
+  return jwt.sign({
+    id
+  }, config.session.secret, {
+    expiresIn: 60 * 60 * 5
+  });
 }
 
 /**
@@ -108,17 +117,12 @@ function signToken(id) {
  * @returns {*} - forgetaboutit
  */
 function setTokenCookie(req, res) {
-  if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.' });
+  if (!req.user) return res.json(404, {
+      message: 'Something went wrong, please try again.'
+    });
   const token = signToken(req.user.id, req.user.role);
   res.cookie('token', token);
   res.redirect('/');
 }
 
-export {
-  isAuthenticated,
-  hasRole,
-  appendUser,
-  addAuthHeaderFromCookie,
-  signToken,
-  setTokenCookie
-};
+export { isAuthenticated, hasRole, appendUser, addAuthHeaderFromCookie, signToken, setTokenCookie };
