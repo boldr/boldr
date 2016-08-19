@@ -1,5 +1,3 @@
-import Boom from 'boom';
-
 import { BoldrDAO } from '../../core';
 import CategoryModel from './category.model';
 

@@ -1,6 +1,6 @@
 import express from 'express';
 import { processQuery } from '../../lib';
-import { isAuthenticated } from '../auth/auth.service';
+import { isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './post.controller';
 
 const router = express.Router();

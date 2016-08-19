@@ -1,10 +1,12 @@
 import Debug from 'debug';
-import Boom from 'boom';
+
 import { User, Role } from '../../db/models';
 import { respondWithResult, handleError, saveUpdates,
   handleEntityNotFound, removeEntity } from '../../lib/helpers';
+import { RespondError, BAD_REQ_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib';
 
 const debug = Debug('boldr:userController');
+
 /**
  * Load user and append to req.
  */
@@ -13,7 +15,7 @@ function load(req, res, next, id) {
     req.user = user;    // eslint-disable-line no-param-reassign
     debug(req.user);
     return next();
-  }).error(e => next(e));
+  }).catch(err => next(new RespondError(BAD_REQ_MSG, 400)));
 }
 
 /**
@@ -32,8 +34,7 @@ const getAllUsers = async (req, res, next) => {
 
     return res.status(200).json(users);
   } catch (error) {
-    Boom.badRequest({ message: error });
-    next();
+    return next(new RespondError(BAD_REQ_MSG, 400, true));
   }
 };
 
@@ -49,11 +50,11 @@ function showUser(req, res, next) {
 
   return User.findById(userId).then(user => {
     if (!user) {
-      return Boom.notFound();
+      return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }
-    res.status(200).json(user);
+    return res.status(200).json(user);
   })
-  .catch(err => next(err));
+  .catch(err => next(new RespondError(BAD_REQ_MSG, 400)));
 }
 
 /**
@@ -133,11 +134,11 @@ function me(req, res, next) {
   const userId = req.user.id;
   return User.findById(userId).then(user => {
     if (!user) {
-      return Boom.unauthorized();
+      return next(new RespondError(UNAUTHORIZED_MSG, 401));
     }
     res.json(user);
   })
-  .catch(err => next(err));
+  .catch(err => next(new RespondError(BAD_REQ_MSG, 400)));
 }
 /**
  * @api {put} /users/me

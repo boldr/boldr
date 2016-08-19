@@ -14,14 +14,14 @@ function sessionService(client, sessionServiceOpts) {
     const oldLogIn = req.logIn;
     const oldLogOut = req.logOut;
     req.login = req.logIn = function(user, options, done) {
-      if (typeof options == 'function') {
+      if (typeof options === 'function') {
         done = options;
         options = {};
       }
       oldLogIn.call(req, user, options, () => {
         const passportUser = req.session.passport.user;
         const sessionId = req.sessionID;
-        client.sadd('user:' + passportUser, sessionId, (err) => {
+        client.sadd(`user:${passportUser}`, sessionId, (err) => {
           if (err && sessionServiceOpts.logErrors) {
             sessionServiceOpts.logErrors(err);
           }
@@ -35,7 +35,7 @@ function sessionService(client, sessionServiceOpts) {
         const passportUser = req.session.passport.user;
         const sessionId = req.sessionID;
         oldLogOut.call(req);
-        client.srem('user:' + passportUser, sessionId , (err) => {
+        client.srem(`user:${passportUser}`, sessionId, (err) => {
           if (err && sessionServiceOpts.logErrors) {
             sessionServiceOpts.logErrors(err);
           }
@@ -47,5 +47,6 @@ function sessionService(client, sessionServiceOpts) {
 
     next();
   };
-};
+}
+
 export default sessionService;

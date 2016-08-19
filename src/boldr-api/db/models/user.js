@@ -300,8 +300,8 @@ function authenticate(password, callback) {
     return this.password === this.encryptPassword(password);
   }
 
-  var _this = this; // eslint-disable-line
-  this.encryptPassword(password, function(err, pwdGen) { // eslint-disable-line
+  const _this = this;
+  this.encryptPassword(password, (err, pwdGen) => {
     if (err) {
       callback(err);
     }

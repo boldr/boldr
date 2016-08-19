@@ -1,6 +1,7 @@
-import Boom from 'boom';
 import { Role, User } from '../../db/models';
 import { respondWithResult, saveUpdates, handleEntityNotFound, removeEntity, handleError } from '../../lib/helpers';
+import RespondError from '../../lib/respond/respondError';
+import { BAD_REQ_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib/respond/messages';
 
 /**
  * @api {get} /roles       Get all roles
@@ -23,8 +24,7 @@ const getAll = async (req, res, next) => {
 
     return res.status(200).json(roles);
   } catch (error) {
-    Boom.badRequest({ message: error });
-    next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
 
@@ -42,17 +42,16 @@ const showRole = async(req, res, next) => {
     });
     return res.status(200).json(role);
   } catch (error) {
-    Boom.badRequest(error);
-    return next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
 
 const updateRole = (req, res, next) => {
   const roleId = req.params.id;
-  return Role.findOne( { where: { id: roleId } })
+  return Role.findOne({ where: { id: roleId } })
   .then(role => {
     if (!role) {
-      return Boom.notFound(post);
+      return next(new RespondError(ACCOUNT_404_MSG, 404));
     }
     const updates = req.body;
     role.updateAttributes(updates)

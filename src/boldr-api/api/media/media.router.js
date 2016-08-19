@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuthenticated } from '../auth/auth.service';
+import { isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './media.controller';
 
 const router = express.Router();

@@ -3,9 +3,9 @@ import expressJwt from 'express-jwt';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import compose from 'composable-middleware';
-import { User } from '../../db/models';
+import { User } from '../db/models';
 
-const config = require('../../core/config');
+const config = require('../core/config');
 
 const validateJwt = expressJwt({
   secret: config.session.secret
@@ -18,7 +18,7 @@ const validateJwt = expressJwt({
 function isAuthenticated() {
   return compose()
     // Validate jwt
-    .use(function(req, res, next) {
+    .use((req, res, next) => {
       if (!req.headers.authorization) {
         return res.status(401).send({
           message: 'No authorization header is present'
@@ -41,8 +41,9 @@ function isAuthenticated() {
  * @returns {Function} - express middleware
  */
 function hasRole(roleRequired) {
-  if (!roleRequired)
+  if (!roleRequired) {
     throw new Error('Required role needs to be set');
+  }
 
   return compose()
     .use(isAuthenticated())
@@ -110,19 +111,4 @@ function signToken(id) {
   });
 }
 
-/**
- * Set token cookie directly for oAuth strategies
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {*} - forgetaboutit
- */
-function setTokenCookie(req, res) {
-  if (!req.user) return res.json(404, {
-      message: 'Something went wrong, please try again.'
-    });
-  const token = signToken(req.user.id, req.user.role);
-  res.cookie('token', token);
-  res.redirect('/');
-}
-
-export { isAuthenticated, hasRole, appendUser, addAuthHeaderFromCookie, signToken, setTokenCookie };
+export { isAuthenticated, hasRole, appendUser, addAuthHeaderFromCookie, signToken };

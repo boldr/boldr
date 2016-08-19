@@ -1,14 +1,16 @@
 import path from 'path';
-import Boom from 'boom';
+import Debug from 'debug';
 import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
-import { logger } from '../../lib';
+import { logger, RespondError, BAD_REQ_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
-import Debug from 'debug';
+
 const config = require('../../core/config');
-const debug = Debug('boldr:media:controller')
+
+const debug = Debug('boldr:media:controller');
+
 const s3 = new AWS.S3({
   accessKeyId: config.aws.keyId,
   secretAccessKey: config.aws.keySecret,
@@ -33,20 +35,6 @@ export const uploadFiles = multer(multerOptions);
 export const uploadAvatar = multer(multerAvatar);
 export const uploadArticle = multer(multerArticle);
 
-/*
-{ fieldname: 'photos',
-[2]      originalname: 'Screen Shot 2016-07-11 at 1.30.34 AM.png',
-[2]      encoding: '7bit',
-[2]      mimetype: 'image/png',
-[2]      size: 174670,
-[2]      bucket: 'boldr',
-[2]      key: 'uploads/files/photos-1468342955875.png',
-[2]      acl: 'public-read',
-[2]      contentType: 'application/octet-stream',
-[2]      metadata: { fieldName: 'photos' },
-[2]      location: 'https://boldr.s3-us-west-1.amazonaws.com/uploads/files/photos-1468342955875.png',
-[2]      etag: '"f6f716d2cc6c25a57b9a39ffd27477df"' }
- */
 export function generalUpload(req, res, next) {
   logger.info(req.files);
   debug(`These are the ${req.files}`);
@@ -58,9 +46,10 @@ export function generalUpload(req, res, next) {
   Media.create(fileFields).then(data => {
     res.status(201).json(data);
   }).catch(err => {
-    res.status(500).send(err);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   });
 }
+
 export function singleUpload(req, res, next) {
   logger.info(req.file);
 
@@ -69,18 +58,14 @@ export function singleUpload(req, res, next) {
     ownerId: req.user.id,
     key: req.file.key
   };
+
   Media.create(fileFields).then(data => {
-    res.status(201).json(data);
+    return res.status(201).json(data);
   }).catch(err => {
-    res.status(500).send(err);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   });
 }
-// const params = {
-//   Bucket: config.S3_BUCKET,
-//   Key: attachments[0].filename,
-//   Body: attachments[0].data
-// };
-// s3.upload(params, (err, data) => { });
+
 /**
  * @api {get} /medias       Get all media files
  * @apiVersion 1.0.0
@@ -98,7 +83,7 @@ export const getAllMedia = async (req, res, next) => {
 
     return res.status(200).json(medias);
   } catch (error) {
-    next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
 export function fromDashboard(req, res, next) {
@@ -109,9 +94,9 @@ export function fromDashboard(req, res, next) {
     filename: req.body.filename
   };
   Media.create(fileFields).then(data => {
-    res.status(201).json(data);
+    return res.status(201).json(data);
   }).catch(err => {
-    res.status(500).send(err);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   });
 }
 /**
@@ -140,18 +125,10 @@ export const showMedia = async (req, res, next) => {
     });
     return res.status(200).json(media);
   } catch (error) {
-    next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
-/*
-{ IsTruncated: false,
-  Contents:
-   [ { Key: 'File Name',
-       LastModified: 2016-06-24T17:13:22.000Z,
-       ETag: '"fa9b614f802524c4853a75c79dc5ca37"',
-       Size: 198098,
-       StorageClass: 'STANDARD' },
- */
+
 export function getAllAWS(req, res, next) {
   const params = {
     Bucket: config.aws.bucket

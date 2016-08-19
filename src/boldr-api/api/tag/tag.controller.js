@@ -1,7 +1,7 @@
-import Boom from 'boom';
 import { Post, User, Tag } from '../../db/models';
 import { respondWithResult, saveUpdates, handleEntityNotFound, removeEntity, handleError } from '../../lib/helpers';
-
+import RespondError from '../../lib/respond/respondError';
+import { BAD_REQ_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib/respond/messages';
 /**
  * @api {get} /tags       Get all tags
  * @apiVersion 1.0.0
@@ -21,10 +21,10 @@ const getAllTags = async (req, res, next) => {
 
     return res.status(200).json(tags);
   } catch (error) {
-    Boom.badRequest({ message: error });
-    next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
+
 function showTag(req, res) {
   const tagId = req.params.tagId;
   return Tag.findOne({
@@ -33,17 +33,17 @@ function showTag(req, res) {
       model: Post
     }
   }).then((tag) => {
-      if (!tag) {
-        return Boom.notFound('Unable to find an article with that slug.');
-      }
-      return res.status(200).json(tag);
-    });
+    if (!tag) {
+      return next(new RespondError(GENERAL_404_MSG, 404));
+    }
+    return res.status(200).json(tag);
+  });
 }
 const getTagPostCount = (req, res, next) => {
   return Tag.scope('tagToPostCount').findAll()
     .then((tag) => {
       if (!tag) {
-        return Boom.notFound('Unable to find an article with that slug.');
+        return next(new RespondError(GENERAL_404_MSG, 404));
       }
       return res.status(200).json(tag);
     });

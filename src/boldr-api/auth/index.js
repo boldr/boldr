@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-import { User } from '../../db/models';
+import { User } from '../db/models';
 import configureLocalPassport from './providers/local';
 import * as ctrl from './auth.controller';
 import { isAuthenticated } from './auth.service';

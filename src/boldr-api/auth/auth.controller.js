@@ -4,13 +4,13 @@ import Boom from 'boom';
 import moment from 'moment';
 import passport from 'passport';
 
-import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm, RespondError } from '../../lib';
-import { UNAUTHORIZED_MSG, ACCOUNT_404_MSG, FUBAR_MSG } from '../../lib/respond/messages';
-import { User, VerificationToken } from '../../db/models';
+import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm, RespondError } from '../lib';
+import { UNAUTHORIZED_MSG, ACCOUNT_404_MSG, FUBAR_MSG } from '../lib/respond/messages';
+import { User, VerificationToken } from '../db/models';
 import { signToken } from './auth.service';
 
 function handleLogin(req, res, next) {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
+  passport.authenticate('local', (err, user, info) => {
     const error = err || info;
     if (error) {
       return next(new RespondError(UNAUTHORIZED_MSG, 401, true));

@@ -1,10 +1,13 @@
 import slug from 'limax';
 import sequelize from 'sequelize';
-import Boom from 'boom';
 import { Post, User, Tag, PostTag } from '../../db/models';
-
 import config from '../../core/config';
-import { respondWithResult, handleError } from '../../lib/helpers';
+import {
+  respondWithResult,
+  handleError,
+  RespondError,
+  BAD_REQ_MSG, CONFLICT_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG
+} from '../../lib';
 import pagination from '../../lib/helpers/pagination';
 
 const debug = require('debug')('boldr:api-article-ctrl');
@@ -50,11 +53,10 @@ const getAllPosts = async(req, res, next) => {
         per_page: req.query.per_page
       },
       res: res
-    })
+    });
   // return res.status(200).send(posts);
   } catch (error) {
-    Boom.badRequest(error);
-    return next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
 
@@ -88,18 +90,14 @@ const showPost = async(req, res, next) => {
     });
     return res.status(200).json(post);
   } catch (error) {
-    Boom.badRequest(error);
-    return next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
 
 async function addTagToPost(req, res, next) {
   const postId = req.params.postId;
   const alreadyAddedError = () => {
-    const error = {
-      message: 'Could not add tag to the article. Is it already added?'
-    };
-    Boom.conflict(error);
+    return next(new RespondError(CONFLICT_MSG, 409));
   };
   if (req.body.tagname !== undefined) {
     Tag.findOrCreate({
@@ -115,7 +113,7 @@ async function addTagToPost(req, res, next) {
       res.status(201).send(json);
     }).catch(alreadyAddedError)
     ).catch(err => {
-      console.log(res, err);
+      debug(res, err);
     });
   } else if (req.body.id !== undefined) {
     const id = req.body.id;
@@ -171,10 +169,10 @@ const createNewPost = (req, res, next) => {
         debug('postTag', postTag);
         return postTag;
       }).catch(sequelize.ValidationError, error => {
-        return Boom.badRequest(error);
+        return next(new RespondError(BAD_REQ_MSG, 400));
       })
       ).catch(sequelize.ValidationError, error => {
-        return Boom.badRequest(error);
+        return next(new RespondError(BAD_REQ_MSG, 400));
       });
     }
     return res.status(201).json(post);
@@ -212,7 +210,7 @@ const findPostBySlug = (req, res, next) => {
   })
     .then((post) => {
       if (!post) {
-        return Boom.notFound('Unable to find an article with that slug.');
+        return next(new RespondError(GENERAL_404_MSG, 404));
       }
       return res.status(200).json(post);
     });
@@ -223,7 +221,7 @@ const updatePostById = (req, res, next) => {
   return Post.findById(postId).then(post => {
     debug('update post promise', post);
     if (!post) {
-      return Boom.notFound(post);
+      return next(new RespondError(GENERAL_404_MSG, 404));
     }
     const updates = req.body;
     debug('the req.body', updates);
@@ -241,7 +239,7 @@ const updatePostBySlug = (req, res, next) => {
   return Post.findBySlug(slug).then(post => {
     debug('update post promise', post);
     if (!post) {
-      return Boom.notFound(post);
+      return next(new RespondError(GENERAL_404_MSG, 404));
     }
     const updates = req.body;
     debug('the req.body', updates);
@@ -258,7 +256,7 @@ const deletePostById = (req, res, next) => {
   const postId = req.params.postId;
   return Post.findById(postId).then(post => {
     if (!post) {
-      return Boom.notFound(post);
+      return next(new RespondError(GENERAL_404_MSG, 404));
     }
     post.destroy()
       .then(() => {
@@ -274,7 +272,7 @@ const deletePostBySlug = (req, res, next) => {
   const slug = req.params.slug;
   return Post.findBySlug(slug).then(post => {
     if (!post) {
-      return Boom.notFound(post);
+      return next(new RespondError(GENERAL_404_MSG, 404));
     }
     post.destroy()
       .then(() => {

@@ -1,6 +1,7 @@
 import { Router } from 'express';
+
+import { hasRole, isAuthenticated } from '../../auth/auth.service';
 import * as ctrl from './role.controller';
-import { hasRole, isAuthenticated } from '../auth/auth.service';
 
 const router = Router();
 

@@ -17,14 +17,14 @@ services:
       - "./volumes/www:/srv/www:rw"
       ## Postgres databases
       - "./volumes/postgres:/var/lib/postgresql/data:rw"
-  nginx:
-      build: ./tools/docker/nginx
-      container_name: nginx
-      ports:
-        - "8000:80"
-        - "8443:443"
-      volumes_from:
-        - datastore
+  # nginx:
+  #     build: ./tools/docker/nginx
+  #     container_name: nginx
+  #     ports:
+  #       - "80:80"
+  #       - "443:443"
+  #     volumes_from:
+  #       - datastore
 
   postgres:
     container_name: boldr_pg

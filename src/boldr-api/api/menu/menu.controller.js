@@ -1,7 +1,6 @@
-import Boom from 'boom';
 import { Menu } from '../../db/models';
 import { respondWithResult, saveUpdates, handleEntityNotFound, removeEntity, handleError } from '../../lib/helpers';
-
+import { logger, RespondError, BAD_REQ_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib';
 /**
  * @api {get} /menus       Get the menus for the website
  * @apiVersion 1.0.0
@@ -21,8 +20,7 @@ const getMenus = async (req, res, next) => {
 
     return res.status(200).json(menus);
   } catch (error) {
-    Boom.badRequest(`There was a problem grabbing the menus: ${error}`);
-    next(error);
+    return next(new RespondError(BAD_REQ_MSG, 400));
   }
 };
 
@@ -36,7 +34,7 @@ const updateMenu = (req, res, next) => {
   const menuId = req.params.id;
   return Menu.find({ where: { id: menuId } }).then(menu => {
     if (!menu) {
-      return Boom.notFound('Unable to locate the requested resource');
+      return next(new RespondError(GENERAL_404_MSG, 404));
     }
     const updates = req.body;
     menu.updateAttributes(updates)

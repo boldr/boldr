@@ -1,9 +1,11 @@
 import RespondError from '../respond/respondError';
+import { GENERAL_404_MSG, FUBAR_MSG } from '../respond/messages';
+
 const debug = require('debug')('boldr:helpers');
 
 function processQuery(req, res, next) {
   function getPagination(page) {
-    page = page ? page : {};
+    page = page || {};
     return {
       number: page.number || 0,
       size: page.size || 10
@@ -59,31 +61,23 @@ function removeEntity(res) {
 function handleEntityNotFound(res, next) {
   return function(entity) {
     if (!entity) {
-      return next(new RespondError('Seems like someone lost the data you requested.', 404, true));
+      return next(new RespondError(GENERAL_404_MSG, 404, true));
     }
     return entity;
   };
 }
 
-function handleError(res, statusCode) {
+function handleError(res, next, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
     debug(err);
-    res.status(statusCode).send(err);
+    return next(new RespondError(err, statusCode));
   };
 }
 
-function loggedIn(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
+function serverError(res, next, err) {
+  next(new RespondError(`${FUBAR_MSG} ${err}`, 500, true));
 }
 
-function serverError(res, err) {
-  next(new RespondError(`The server is having some alone time ${err}`, 400, true));
-}
-
-export { serverError, loggedIn, processQuery, handleError, handleEntityNotFound,
+export { serverError, processQuery, handleError, handleEntityNotFound,
   removeEntity, respondWithResult, saveUpdates };
