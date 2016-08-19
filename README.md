@@ -1,7 +1,7 @@
 ![boldr](https://boldr.io/boldrlogo.png) Boldr
 ====
 [![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr) 
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Gitter](https://badges.gitter.im/boldr/boldr.svg)](https://gitter.im/boldr/boldr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Gitter](https://badges.gitter.im/boldr/Lobby.svg)](https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
