@@ -1,7 +1,7 @@
 /* global describe global it */
 import request from 'supertest';
 import chai, { expect } from 'chai';
-import server from '../../engine';
+import server from '../engine';
 
 const agent = request.agent(server);
 const userData = {
