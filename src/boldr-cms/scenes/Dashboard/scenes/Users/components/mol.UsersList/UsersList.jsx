@@ -35,6 +35,6 @@ const UsersList = (props) => {
 export default UsersList;
 
 UsersList.propTypes = {
-  users: React.PropTypes.array
-
+  users: React.PropTypes.array,
+  rowSelected: React.PropTypes.func
 };

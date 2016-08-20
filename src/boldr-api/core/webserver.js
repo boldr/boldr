@@ -5,7 +5,6 @@ import session from 'express-session';
 import expressJwt from 'express-jwt';
 import methodOverride from 'method-override';
 import cors from 'cors';
-import lusca from 'lusca';
 import morgan from 'morgan';
 import compression from 'compression';
 import passport from 'passport';

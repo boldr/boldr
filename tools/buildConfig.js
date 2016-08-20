@@ -7,6 +7,7 @@ const bcfg = Object.freeze({
   NODE_MODULES_DIR: path.join(ABS_ROOT, 'node_modules'),
   BUILD_DIR: path.join(ABS_ROOT, 'build'),
   DIST_DIR: path.join(ABS_ROOT, 'dist'),
+  SRC_DIR: path.join(ABS_ROOT, 'src'),
   CMS_DIR: path.join(ABS_ROOT, 'src', 'boldr-cms'),
   CMS_SRC: path.join(ABS_ROOT, 'src', 'boldr-cms'),
   API_DIR: path.join(ABS_ROOT, 'src', 'boldr-api'),

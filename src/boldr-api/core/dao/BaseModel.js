@@ -1,4 +1,3 @@
-import Boom from 'boom';
 import Promise from 'bluebird';
 
 /**
@@ -93,7 +92,7 @@ class BaseModel {
         .findById(id, customViewOptions || self.viewOptions)
         .then((row) => {
           if (!row) {
-            throw Boom.notFound('Unable to find a model with that id');
+            throw Error();
           }
           resolve(row);
         })
@@ -118,7 +117,7 @@ class BaseModel {
         .findById(id)
         .then((row) => {
           if (!row) {
-            throw Boom.notFound('Unable to find a model with that id');
+            throw Error();
           }
 
           return self._initBuild(row, data);
@@ -177,7 +176,7 @@ class BaseModel {
         .findById(parentId)
         .then((parent) => {
           if (!parent) {
-            throw Boom.notFound('Parent model not found');
+            throw Error();
           }
           // assign parentRow to parent
           parentRow = parent;
@@ -217,7 +216,7 @@ class BaseModel {
         .findById(id)
         .then((row) => {
           if (!row) {
-            throw Boom.notFound('Unable to find a model with that id');
+            throw Error();
           }
 
           // Update the status to inactive.
@@ -314,7 +313,7 @@ class BaseModel {
         .findById(id)
         .then((row) => {
           if (!row && id) {
-            throw Boom.badRequest(`Invalid value: ${primaryKeyStr} not found`);
+            throw Error();
           }
 
           build['set' + modelName](row); // eslint-disable-line

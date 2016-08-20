@@ -10,10 +10,17 @@ import { loadSiteUsers } from './state/siteUsers';
   fetch: ({ dispatch }) => dispatch(loadSiteUsers())
 })
 class Users extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSelectedRow = this.handleSelectedRow.bind(this);
+  }
+  handleSelectedRow(user) {
+    console.log('selected', user);
+  }
   render() {
     return (
        <div>
-         <UsersList users={ this.props.siteUsers.users } />
+         <UsersList handleSelectedRow={ this.handleSelectedRow } users={ this.props.siteUsers.users } />
        </div>
     );
   }

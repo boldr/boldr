@@ -1,11 +1,18 @@
 import crypto from 'crypto';
 import async from 'async';
-import Boom from 'boom';
 import moment from 'moment';
 import passport from 'passport';
 
-import { handleMail, generateVerifyCode, mailResetPassword, mailPasswordConfirm, RespondError } from '../lib';
-import { UNAUTHORIZED_MSG, ACCOUNT_404_MSG, FUBAR_MSG } from '../lib/respond/messages';
+import {
+  handleMail,
+  generateVerifyCode,
+  mailResetPassword,
+  mailPasswordConfirm,
+  RespondError,
+  UNAUTHORIZED_MSG,
+  ACCOUNT_404_MSG,
+  FUBAR_MSG
+} from '../lib';
 import { User, VerificationToken } from '../db/models';
 import { signToken } from './auth.service';
 
@@ -110,13 +117,13 @@ function checkUser(req, res, next) {
   })
     .then(user => { // don't ever give out the password or salt
       if (!user) {
-        return Boom.unauthorized;
+        return next(new RespondError(UNAUTHORIZED_MSG, 401, true));
       }
       res.json(user);
     })
     .catch(err => {
       req.session.destroy();
-      return Boom.unauthorized('Your token is expired. Please login again.');
+      return next(new RespondError(UNAUTHORIZED_MSG, 401, true));
     });
 }
 
@@ -136,7 +143,9 @@ function forgottenPassword(req, res, next) {
       })
         .then((user) => {
           if (!user) {
-            return next(new RespondError(`The email address ${req.body.email} is not associated with any account.`, 404, true));
+            return next(new RespondError(`
+              The email address ${req.body.email} is not associated with any account.`,
+              404, true));
           }
           user.update({ resetPasswordToken: token });
           user.update({ resetPasswordExpires: new Date(Date.now() + 3600000) }); // expire in 1 hour

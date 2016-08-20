@@ -1,5 +1,4 @@
 import path from 'path';
-import Boom from 'boom';
 import AWS from 'aws-sdk';
 import multer from 'multer';
 import uuid from 'node-uuid';
