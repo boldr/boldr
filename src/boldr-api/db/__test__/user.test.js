@@ -42,7 +42,7 @@ describe('User Model', () => {
   it('should begin with no users', async () => {
     const queryUsers = await User.findAll();
     expect(queryUsers).to.have.length(0);
-    });
+  });
   it('should be able to create users', async function() {
     const userData = {
       firstName: chance.first(),
