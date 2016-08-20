@@ -24,7 +24,7 @@ function load(req, res, next, id) {
  * @apiName getAllUsers
  * @apiGroup User
  */
-const getAllUsers = async (req, res, next) => {
+async function getAllUsers(req, res, next) {
   try {
     const users = await User.findAll({
       include: [{
@@ -36,7 +36,7 @@ const getAllUsers = async (req, res, next) => {
   } catch (error) {
     return next(new RespondError(BAD_REQ_MSG, 400, true));
   }
-};
+}
 
 
 /**
@@ -98,7 +98,7 @@ function changePassword(req, res, next) {
         user.password = newPass;
         return user.save()
           .then(() => {
-            res.status(204).end();
+            return res.status(204).end();
           })
           .catch(handleError(res));
       } else {

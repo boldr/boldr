@@ -1,7 +1,17 @@
 import { Post, User, Tag } from '../../db/models';
-import { respondWithResult, saveUpdates, handleEntityNotFound, removeEntity, handleError } from '../../lib/helpers';
-import RespondError from '../../lib/respond/respondError';
-import { BAD_REQ_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib/respond/messages';
+import {
+  RespondError,
+  BAD_REQ_MSG,
+  ACCOUNT_404_MSG,
+  GENERAL_404_MSG,
+  UNAUTHORIZED_MSG,
+  respondWithResult,
+  saveUpdates,
+  handleEntityNotFound,
+  removeEntity,
+  handleError
+} from '../../lib';
+
 /**
  * @api {get} /tags       Get all tags
  * @apiVersion 1.0.0
@@ -15,7 +25,7 @@ import { BAD_REQ_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from 
  * @apiSuccess {String}  tagname      The name of the tag
  * @apiSuccess {String}  description  The description of the tag
  */
-const getAllTags = async (req, res, next) => {
+async function getAllTags(req, res, next) {
   try {
     const tags = await Tag.findAll({});
 
@@ -23,9 +33,17 @@ const getAllTags = async (req, res, next) => {
   } catch (error) {
     return next(new RespondError(BAD_REQ_MSG, 400));
   }
-};
+}
 
-function showTag(req, res) {
+/**
+ * @api {get} /tags/:id       Get specific tag with related posts
+ * @apiVersion 1.0.0
+ * @apiName showTag
+ * @apiGroup Tag
+ *
+ * @apiParam {String}  id           The Tag ID
+ */
+function showTag(req, res, next) {
   const tagId = req.params.tagId;
   return Tag.findOne({
     where: { id: tagId },
@@ -39,7 +57,15 @@ function showTag(req, res) {
     return res.status(200).json(tag);
   });
 }
-const getTagPostCount = (req, res, next) => {
+
+/**
+ * @api {get} /tags/count      Get list of tags with their post counts
+ * @apiVersion 1.0.0
+ * @apiName getTagPostCount
+ * @apiGroup Tag
+ *
+ */
+function getTagPostCount(req, res, next) {
   return Tag.scope('tagToPostCount').findAll()
     .then((tag) => {
       if (!tag) {
@@ -47,13 +73,28 @@ const getTagPostCount = (req, res, next) => {
       }
       return res.status(200).json(tag);
     });
-};
-const createTag = (req, res, next) => {
+}
+
+/**
+ * @api {post} /tags      Create a new tag
+ * @apiVersion 1.0.0
+ * @apiName createTag
+ * @apiGroup Tag
+ *
+ */
+function createTag(req, res, next) {
   return Tag.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
-};
+}
 
+/**
+ * @api {put} /tags/:id      Update the requested tag.
+ * @apiVersion 1.0.0
+ * @apiName updateTag
+ * @apiGroup Tag
+ *
+ */
 function updateTag(req, res) {
   if (req.body.id) {
     delete req.body.id;
@@ -69,6 +110,13 @@ function updateTag(req, res) {
     .catch(handleError(res));
 }
 
+/**
+ * @api {delete} /tags/:id      Delete the requested tag.
+ * @apiVersion 1.0.0
+ * @apiName destroyTag
+ * @apiGroup Tag
+ *
+ */
 function destroyTag(req, res) {
   return Tag.find({
     where: {
@@ -79,7 +127,6 @@ function destroyTag(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
-
 
 export {
   getAllTags,

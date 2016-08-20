@@ -13,12 +13,12 @@ import { BAD_REQ_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib/respon
  * curl -i http://localhost:3000/api/v1/roles
  *
  */
-const getAll = async (req, res, next) => {
+async function getAll(req, res, next) {
   try {
     const roles = await Role.findAll({
       include: [{
         model: User,
-        attributes: ['id', 'displayName', 'avatarUrl', 'email']
+        attributes: ['id', 'displayName', 'avatarUrl', 'email', 'roleId']
       }]
     });
 
@@ -26,9 +26,9 @@ const getAll = async (req, res, next) => {
   } catch (error) {
     return next(new RespondError(BAD_REQ_MSG, 400));
   }
-};
+}
 
-const showRole = async(req, res, next) => {
+async function showRole(req, res, next) {
   const roleId = req.params.id;
   try {
     const role = await Role.findOne({
@@ -44,9 +44,9 @@ const showRole = async(req, res, next) => {
   } catch (error) {
     return next(new RespondError(BAD_REQ_MSG, 400));
   }
-};
+}
 
-const updateRole = (req, res, next) => {
+function updateRole(req, res, next) {
   const roleId = req.params.id;
   return Role.findOne({ where: { id: roleId } })
   .then(role => {
@@ -61,7 +61,7 @@ const updateRole = (req, res, next) => {
       .then(respondWithResult(202, res))
       .catch(handleError(res));
   });
-};
+}
 
 export {
   getAll,

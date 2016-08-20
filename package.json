@@ -37,7 +37,7 @@
       }
     },
     "dev:api": {
-      "command": "nodemon --config nodemon.json ./src/boldr-api/index.js",
+      "command": "nodemon --watch ./src/boldr-api ./src/boldr-api/index.js",
       "env": {
         "NODE_ENV": "development",
         "NODE_PATH": "src/boldr-api",

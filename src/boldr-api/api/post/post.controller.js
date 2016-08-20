@@ -52,7 +52,7 @@ const getAllPosts = async(req, res, next) => {
         page: req.query.page,
         per_page: req.query.per_page
       },
-      res: res
+      res
     });
   // return res.status(200).send(posts);
   } catch (error) {
@@ -194,7 +194,7 @@ const createNewPost = (req, res, next) => {
  * @apiSuccess {String}  slug       The post slug
  */
 
-const findPostBySlug = (req, res, next) => {
+function findPostBySlug(req, res, next) {
   const postSlug = req.params.slug;
   return Post.findOne({
     where: {
@@ -214,9 +214,9 @@ const findPostBySlug = (req, res, next) => {
       }
       return res.status(200).json(post);
     });
-};
+}
 
-const updatePostById = (req, res, next) => {
+function updatePostById(req, res, next) {
   const postId = req.params.id;
   return Post.findById(postId).then(post => {
     debug('update post promise', post);
@@ -232,9 +232,17 @@ const updatePostById = (req, res, next) => {
       .then(respondWithResult(res))
       .catch(handleError(res));
   });
-};
+}
 
-const updatePostBySlug = (req, res, next) => {
+/**
+ * @api {put} /posts/:slug       Update post based on slug param
+ * @apiVersion 1.0.0
+ * @apiName updatePostBySlug
+ * @apiGroup Post
+ *
+ * @apiParam {String} slug
+ */
+function updatePostBySlug(req, res, next) {
   const slug = req.params.slug;
   return Post.findBySlug(slug).then(post => {
     debug('update post promise', post);
@@ -250,9 +258,9 @@ const updatePostBySlug = (req, res, next) => {
       .then(respondWithResult(202, res))
       .catch(handleError(res));
   });
-};
+}
 
-const deletePostById = (req, res, next) => {
+function deletePostById(req, res, next) {
   const postId = req.params.postId;
   return Post.findById(postId).then(post => {
     if (!post) {
@@ -266,9 +274,9 @@ const deletePostById = (req, res, next) => {
       })
       .catch(handleError(res));
   });
-};
+}
 
-const deletePostBySlug = (req, res, next) => {
+function deletePostBySlug(req, res, next) {
   const slug = req.params.slug;
   return Post.findBySlug(slug).then(post => {
     if (!post) {
@@ -282,6 +290,16 @@ const deletePostBySlug = (req, res, next) => {
       })
       .catch(handleError(res));
   });
-};
+}
 
-export { getAllPosts, showPost, addTagToPost, createNewPost, findPostBySlug, updatePostById, updatePostBySlug, deletePostById, deletePostBySlug };
+export {
+  getAllPosts,
+  showPost,
+  addTagToPost,
+  createNewPost,
+  findPostBySlug,
+  updatePostById,
+  updatePostBySlug,
+  deletePostById,
+  deletePostBySlug
+};
