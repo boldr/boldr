@@ -11,7 +11,7 @@ Table of Contents
 
   * [Boldr](#boldr)
     * [Stack](#stack)
-  * [Getting Started](#getting-started)
+  * [Getting Started](#getting-started--installation)
     * [Environment Variables](#environment-variables)
   * [Usage](#usage)
     * [Development](#development)
@@ -21,7 +21,7 @@ Table of Contents
   * [Demo](#demo)
   * [Changelog](#changelog)
   * [NGINX Config](docs/nginx.md)
-  * [Installation](docs/Installation.md)
+  * [Installation](docs/installation.md)
 
 Boldr
 =====
