@@ -54,7 +54,7 @@
       }
     },
     "start:api": {
-      "command": "node launch.js",
+      "command": "node build/boldrAPI/index.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -137,7 +137,7 @@
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
-    "cp-configs": "cp ./src/boldr-api/core/config/*.json build/boldrAPI/core/config",
+    "cp-configs": "cp ./src/boldr-api/core/config/env/*.json build/boldrAPI/core/config/env",
     "clean": "rimraf build/",
     "dev": "better-npm-run dev",
     "dev:api": "better-npm-run dev:api",

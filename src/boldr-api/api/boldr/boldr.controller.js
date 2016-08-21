@@ -19,11 +19,14 @@ import {
  * @apiGroup Settings
  *
  * @apiExample Example usage:
- * curl -i http://localhost:3000/api/v1/settings
+ * curl -i https://api.boldr.io/v1/boldr
  *
- * @apiSuccess {String}  id           The Tag ID
- * @apiSuccess {String}  tagname      The name of the tag
- * @apiSuccess {String}  description  The description of the tag
+ * @apiSuccess {String}  id
+ * @apiSuccess {String}  siteName      The name of the website
+ * @apiSuccess {String}  description   The description of the website used in meta
+ * @apiSuccess {String}  logo          The logo of the website
+ * @apiSuccess {String}  favicon       The website's favicon
+ * @apiSuccess {String}  location      The website's URL
  */
 async function getSettings(req, res, next) {
   try {
@@ -33,19 +36,6 @@ async function getSettings(req, res, next) {
   } catch (error) {
     return next(new RespondError(BAD_REQ_MSG, 400));
   }
-}
-
-/**
- * @api {post} /settings       Create site settings
- * @apiVersion 1.0.0
- * @apiName createSettings
- * @apiGroup Settings
- *
- */
-function createSettings(req, res, next) {
-  return Setting.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
 }
 
 /**
@@ -70,4 +60,4 @@ function updateSettings(req, res, next) {
   });
 }
 
-export { getSettings, createSettings, updateSettings };
+export { getSettings, updateSettings };

@@ -11,7 +11,6 @@ Table of Contents
 
   * [Boldr](#boldr)
     * [Stack](#stack)
-    * [Overview](#overview)
   * [Getting Started](#getting-started)
     * [Environment Variables](#environment-variables)
   * [Usage](#usage)
@@ -22,6 +21,7 @@ Table of Contents
   * [Demo](#demo)
   * [Changelog](#changelog)
   * [NGINX Config](docs/nginx.md)
+  * [Installation](docs/Installation.md)
 
 Boldr
 =====
@@ -37,45 +37,31 @@ Stack
 * Redis  
 * Docker  
 
-Overview
------------
+Getting Started / Installation
+======
+**A word of caution:** At the moment, Boldr is in active development. Things may change, there will be bugs, and you should not use it in production quite yet. Im not.
 
-If you have been following the development of Boldr, things look differently than they did before 0.4.0. That's to be expected. Hopefully the architectural changes simplify the process in the long run.  
-
-Boldr is broken up into two different modules, BoldrAPI and BoldrCMS.
-
-The API lives within `src/boldrAPI` and the CMS `src/boldrCMS`. You'll need both in order to run Boldr. BoldrAPI is responsible for everything on the backend, **except** rendering. BoldrCMS is primarily all frontend components, other than an Express server used for rendering.
-
-#### Monorepo
-The CMS and API are different beasts, but they share the same repository. We believe this provides a better developer experience. Using a monorepo design, you are able to raise issues, in a more condensed fashion. An issue is an issue and it is no longer necessary to go to *the other repo* to create one. Using a monorepo allows for easier upkeep of dependencies because both portions of the application share a single package.json. Yes, the dependencies look large, but many are small packages. As time goes on, the goal will be to reduce the amount of dependencies. 
-
-
-#### Containerizing all the things
-Boldr is developed with running inside of multiple Docker containers in mind. During development it's recommended to run both the database and redis server containers from the `docker-compose.yml` file. The Makefile is setup to build a container for the cms module and a container for the api module as part of the build-to-deploy process.
-
-Docker documentation is (will be) located [here](docs/docker.md), `docs/docker.md`.
-
-
-![Dashboard](https://boldr.io/dash.png)  
-
-![Blog](https://boldr.io/blog.png)  
+1. `git clone https://github.com/boldr/boldr.git`
+2. `cd boldr && npm install`
+3. `touch .env` then open it up in your preferred editor.
+4. Add the following:  
+```
+SESSION_KEY=secret
+AWS_ACCESS_KEY_ID=secret
+AWS_SECRET_ACCESS_KEY=secret
+MG_API=key-secret
+MG_DOMAIN=yourdomain.com
+POSTGRES_CONN_URI=postgres://postgres:password@localhost:5432/boldr_development
+```
+5. `docker-compose up -d` unless you're running Postgres and Redis already.
+6. `npm run migrate` followed by `npm run seed` this will create the database tables as well as seed some initial content.
+  - To change the database configuration modify or remove the `POSTGRES_CONN_URI` from your .env
+  - Change the configuration file location in `src/boldr-api/core/config/index.js` you can adjust environment specifics in the corresponding json files in the **env** folder.
+7. 
+  - For production: `npm run build:api` and then `npm run start:api` to run it.
+  - For development: `npm run dev` or to only run the api instead of the CMS / SSR webpack `npm run dev:api`
 
 ![Dashboard](https://boldr.io/editor.png)   
-
-Getting Started
-======
-At the moment, Boldr is in active development and not quite ready for use. However, to download it, and run it for development follow these directions.
-
-```bash
-$ git clone git@github.com:boldr/boldr.git
-```
-
-After the repository is cloned, simply enter the directory and run make install. For whatever reason, if the Makefile fails, you'll need to go into the `api` and `cms` directories and `npm install`.  
-
-Environment Variables
------------------
-Below are the **important environment variables** for the CMS. In addition there are the API url and proxy url to configure, they are located in `src/core/config.js`
-
 
 Usage
 =========
@@ -116,8 +102,8 @@ Documentation
 - **API Documentation:** [docs/api](docs/api)  
 - **Docker:** [docs/docker/main.md](docs/docker.md)
 - **Nginx:** [docs/nginx.md](docs/nginx.md)
-- **Roadmap:** [docs/ROADMAP.md](docs/ROADMAP.md)
-
+- **Roadmap:** [ROADMAP.md](ROADMAP.md)
+- **Installation / Setup:** [docs/Installation.md](docs/Installation.md)
 Demo
 =============
 
@@ -127,12 +113,4 @@ View a **very early** demo at https://staging.boldr.io
 Password - password
 
 
-Change Log
-=================
-[View Here](CHANGELOG.md)  
-
-#### Lastest Version
-##### 0.4.0
-> 8/11/2016  
-
-I've been going on and on about 0.4.0 coming soon, or in a few days. I couldnt bring myself to rush and push out something that is half-assed. I'm pleased to say that, 0.4 is quite an improvement over the previous releases.  
+![Blog](https://boldr.io/blog.png)  
