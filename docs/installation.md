@@ -20,4 +20,3 @@ POSTGRES_CONN_URI=postgres://postgres:password@localhost:5432/boldr_development
 7. 
   - For production: `npm run build:api` and then `npm run start:api` to run it.
   - For development: `npm run dev` or to only run the api instead of the CMS / SSR webpack `npm run dev:api`
-
