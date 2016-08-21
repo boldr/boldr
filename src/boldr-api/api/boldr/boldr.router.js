@@ -4,8 +4,7 @@ import * as ctrl from './boldr.controller';
 const router = Router();
 
 router.route('/')
-	.get(ctrl.getSettings)
-  .post(ctrl.createSettings);
+	.get(ctrl.getSettings);
 
 router.route('/:id')
   .put(ctrl.updateSettings);
