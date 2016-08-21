@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import config from '../core/config';
 
-const envVar = config.db.uri;
+const envVar = process.env.POSTGRES_CONN_URL;
 
 export const db = envVar || `postgres://${config.db.user}:${config.db.password}@${config.db.host}/${config.db.name}`;
 

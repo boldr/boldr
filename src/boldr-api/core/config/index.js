@@ -146,12 +146,6 @@ const conf = convict({
     }
   },
   db: {
-    uri: {
-      doc: 'Connection string for the db',
-      format: String,
-      default: 'postgres://postgres:password@127.0.0.1:5432/boldr_development',
-      env: 'POSTGRES_CONN_URL'
-    },
     name: {
       doc: 'Name of the database.',
       format: String,
