@@ -5,11 +5,10 @@ const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-const isomorphicConfig = require('./isomorphic.config');
-const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
-
 const bcfg = require('../buildConfig');
 const VENDOR_BUNDLE = require('../vendorBundle');
+const isomorphicConfig = require('./isomorphic.config');
+const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 
 const appRootPath = appRoot.toString();
 
@@ -70,7 +69,6 @@ const clientProdConfig = {
   postcss(webpack) {
     return [
       require('precss')(),
-      require('pixrem')(),
       require('lost')(),
       require('cssnano')({
         autoprefixer: {

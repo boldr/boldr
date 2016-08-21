@@ -9,11 +9,11 @@ require.extensions['.gif'] = noop => noop;
 require('babel-register');
 require('babel-polyfill');
 
-const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
+const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 
 global.document = doc;
 global.window = document.defaultView;
 global.navigator = window.navigator;
-global.React = require('react')
-global.expect = require('chai').expect
-global.createTest = require('./enzymeHook').default
+global.React = require('react');
+global.expect = require('chai').expect;
+global.createTest = require('./enzymeHook').default;

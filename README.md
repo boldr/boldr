@@ -1,7 +1,7 @@
-![boldr](https://boldr.io/boldrlogo.png) Boldr
+![boldr](https://boldr.io/logo.png) 
 ====
 [![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr) 
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Gitter](https://badges.gitter.im/boldr/Lobby.svg)](https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Gitter](https://badges.gitter.im/boldr/Lobby.svg)](https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Code Climate](https://codeclimate.com/github/boldr/boldr/badges/gpa.svg)](https://codeclimate.com/github/boldr/boldr)
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
@@ -21,6 +21,7 @@ Table of Contents
   * [Documentation](#documentation)
   * [Demo](#demo)
   * [Changelog](#changelog)
+  * [NGINX Config](docs/nginx.md)
 
 Boldr
 =====
@@ -52,7 +53,7 @@ The CMS and API are different beasts, but they share the same repository. We bel
 #### Containerizing all the things
 Boldr is developed with running inside of multiple Docker containers in mind. During development it's recommended to run both the database and redis server containers from the `docker-compose.yml` file. The Makefile is setup to build a container for the cms module and a container for the api module as part of the build-to-deploy process.
 
-Docker documentation is (will be) located [here](docs/docker/main.md), `docs/docker/main.md`.
+Docker documentation is (will be) located [here](docs/docker.md), `docs/docker.md`.
 
 
 ![Dashboard](https://boldr.io/dash.png)  
@@ -114,7 +115,8 @@ Documentation
 =================
 - **API Documentation:** [docs/api](docs/api)  
 - **Docker:** [docs/docker/main.md](docs/docker.md)
-- **Structure:** [docs/structure.md](docs/structure.md)
+- **Nginx:** [docs/nginx.md](docs/nginx.md)
+- **Roadmap:** [docs/ROADMAP.md](docs/ROADMAP.md)
 
 Demo
 =============

@@ -28,7 +28,7 @@ const clientDevConfig = {
   // cheap eval is faster than cheap-module
   // see https://webpack.github.io/docs/build-performance.html#sourcemaps
   devtool: 'cheap-module-eval-source-map',
-  context: bcfg.CMS_SRC,
+  context: bcfg.SRC_DIR,
   entry: {
     main: [
       'react-hot-loader/patch',
@@ -120,7 +120,6 @@ const clientDevConfig = {
   postcss(webpack) {
     return [
       require('precss')(),
-      require('pixrem')(),
       require('lost')(),
       require('cssnano')({
         autoprefixer: {

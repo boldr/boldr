@@ -1,0 +1,14 @@
+engines:
+  eslint:
+    enabled: true
+ratings:
+   paths:
+   - src/boldr-api/**
+   - src/boldr-cms/**
+   - tools/**
+   - "**.js"
+exclude_paths:
+- node_modules/**/*
+- volumes/**
+- build/**
+- docs/**
