@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const appRoot = require('app-root-path');
 const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');

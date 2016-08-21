@@ -16,7 +16,7 @@ global.__DEV__ = process.env.NODE_ENV !== 'production';
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../../../tools/webpack/isomorphic.config'))
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../../tools/webpack/isomorphic.config'))
   .development(__DEV__)
   .server(rootDir, () => {
     require('./engine.js');

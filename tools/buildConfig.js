@@ -15,7 +15,7 @@ const bcfg = Object.freeze({
   API_SRC: path.join(ABS_ROOT, 'src', 'boldr-api'),
   ASSETS_DIR: path.join(ABS_ROOT, 'build', 'assets'),
   HOT_RELOAD_PORT: process.env.HOT_RELOAD_PORT || 3001,
-  SERVER_PORT: process.env.SSR_SERVER_PORT || 3000
+  SERVER_PORT: process.env.SERVER_PORT || 3000
 });
 
 module.exports = bcfg;

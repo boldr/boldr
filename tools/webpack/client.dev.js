@@ -1,9 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-const appRoot = require('app-root-path');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const WebpackNotifierPlugin = require('webpack-notifier');
 const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const bcfg = require('../buildConfig');
@@ -160,7 +158,6 @@ const clientDevConfig = {
       format: '  build libs [:bar] :percent (:elapsed seconds)',
       clear: false
     }),
-    new WebpackNotifierPlugin({ title: '🔥 Webpack' }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.NoErrorsPlugin(),

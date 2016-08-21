@@ -16,7 +16,7 @@ POSTGRES_CONN_URI=postgres://postgres:password@localhost:5432/boldr_development
 5. `docker-compose up -d` unless you're running Postgres and Redis already.
 6. `npm run migrate` followed by `npm run seed` this will create the database tables as well as seed some initial content.
   - To change the database configuration modify or remove the `POSTGRES_CONN_URI` from your .env
-  - Change the configuration file location in `src/boldr-api/core/config/index.js` you can adjust environment specifics in the corresponding json files in the **env** folder.
-7. 
-  - For production: `npm run build:api` and then `npm run start:api` to run it.
-  - For development: `npm run dev` or to only run the api instead of the CMS / SSR webpack `npm run dev:api`
+  - Alternatively, you may change the configuration file location in `src/boldr-api/core/config/index.js`.  
+7.
+  - For production: `npm run build` and then `npm run start:prod` to run it.
+  - For development: `npm run dev`  

@@ -1,7 +1,6 @@
 const path = require('path');
-const appRoot = require('app-root-path');
 
-const appRootPath = appRoot.toString();
+const appRootPath = process.cwd();
 
 module.exports = function createSourceLoader(spec) {
   return Object.keys(spec).reduce((x, key) => {

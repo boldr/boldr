@@ -17,7 +17,6 @@ import { TOKEN_KEY } from './core/config';
 import createStore from './core/state/createStore';
 import { checkAuth } from './scenes/Account/state/auth';
 import getRoutes from './scenes';
-
 import './styles/main.scss';
 
 WebFontLoader.load({

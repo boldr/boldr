@@ -8,7 +8,7 @@
   },
   "betterScripts": {
     "build": {
-      "command": "better-npm-run build:server && better-npm-run build:client",
+      "command": "better-npm-run build:server && better-npm-run build:client && better-npm-run copy-files",
       "env": {
         "NODE_ENV": "production"
       }
@@ -27,6 +27,12 @@
         "NODE_ENV": "production"
       }
     },
+    "copy-files": {
+      "command": "cp tools/scripts/.buildcopy/run.js build/run.js && cp tools/scripts/.buildcopy/isomorphic.js build/isomorphic.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
     "dev": {
       "command": "npm-run-all --parallel watch:client watch:server",
       "env": {
@@ -37,16 +43,10 @@
       }
     },
     "start": {
-      "command": "node -r dotenv/config run.js",
+      "command": "node build/run.js",
       "env": {
         "NODE_ENV": "production",
-        "SSR_SERVER_PORT": 3000
-      }
-    },
-    "start:api": {
-      "command": "node build/boldrAPI/index.js",
-      "env": {
-        "NODE_ENV": "production"
+        "SERVER_PORT": 3000
       }
     },
     "test": {
@@ -63,26 +63,25 @@
       "env": {
         "NODE_ENV": "travis",
         "NODE_PATH": "./src/boldr-cms",
-        "SSR_SERVER_PORT": 3000
+        "SERVER_PORT": 3000
       }
     },
     "watch:client": {
       "command": "babel-node tools/webpack/wp.dev.server.js",
       "env": {
         "NODE_ENV": "development",
-        "NODE_PATH": "./src/boldr-cms",
+        "NODE_PATH": "./src",
         "BABEL_ENV": "client-dev",
-        "SSR_SERVER_PORT": 3000,
+        "SERVER_PORT": 3000,
         "HOT_RELOAD_PORT": 3001
       }
     },
     "watch:server": {
-      "command": "nodemon --config nodemon-cms.json",
+      "command": "nodemon --config nodemon.json",
       "env": {
         "NODE_ENV": "development",
-        "NODE_PATH": "./src/boldr-cms",
         "BABEL_ENV": "server",
-        "SSR_SERVER_PORT": 3000,
+        "SERVER_PORT": 3000,
         "HOT_RELOAD_PORT": 3001
       }
     }
@@ -114,15 +113,14 @@
     "build:server": "better-npm-run build:server",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
     "clean": "rimraf build/",
+    "copy-files": "better-npm-run copy-files",
     "dev": "better-npm-run dev",
-    "dev:api": "better-npm-run dev:api",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "npm run lint -- --fix",
     "migrate": "./node_modules/.bin/sequelize db:migrate",
     "seed": "./node_modules/.bin/sequelize db:seed:all",
     "sequelize": "./node_modules/.bin/sequelize",
     "start": "better-npm-run start",
-    "start:api": "better-npm-run start:api",
     "test": "better-npm-run test",
     "travis": "better-npm-run test",
     "watch:client": "better-npm-run watch:client",
@@ -152,7 +150,6 @@
     "express-jwt": "^3.4.0",
     "express-session": "^1.14.0",
     "helmet": "^2.1.2",
-    "http-proxy": "^1.14.0",
     "ioredis": "^2.3.0",
     "jsonwebtoken": "^7.1.9",
     "limax": "^1.4.0",
@@ -163,7 +160,6 @@
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "multer-s3": "^2.3.2",
-    "npm-run-all": "^2.3.0",
     "node-fetch": "^1.6.0",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.5.0",
@@ -188,6 +184,7 @@
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.24.1",
     "serialize-javascript": "1.3.0",
+    "source-map-support": "^0.4.2",
     "superagent": "^2.2.0",
     "webfontloader": "^1.6.26",
     "webpack-isomorphic-tools": "^2.5.7",
@@ -195,7 +192,6 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "app-root-path": "^1.3.0",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
     "babel-eslint": "6.1.2",
@@ -258,7 +254,6 @@
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2",
     "webpack-node-externals": "^1.3.3",
-    "webpack-notifier": "^1.3.2",
     "webpack-visualizer-plugin": "^0.1.5"
   },
   "stylelint": {

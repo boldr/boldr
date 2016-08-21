@@ -5,6 +5,9 @@ import models from './db/models';
 import { logger } from './lib';
 import config, { conf } from './core/config';
 
+const sourceMaps = require('source-map-support');
+
+sourceMaps.install();
 const debug = require('debug')('boldr:engine');
 
 // Set the environment on app and make it available throughout.
