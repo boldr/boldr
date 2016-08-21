@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
-const config = require('../core/config');
+import Sequelize from 'sequelize';
+import config from '../core/config';
 
-const envVar = process.env.POSTGRES_CONN_URI;
+const envVar = config.db.uri;
 
 export const db = envVar || `postgres://${config.db.user}:${config.db.password}@${config.db.host}/${config.db.name}`;
 

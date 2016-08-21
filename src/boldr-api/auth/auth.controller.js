@@ -13,7 +13,7 @@ import {
   ACCOUNT_404_MSG,
   FUBAR_MSG
 } from '../lib';
-import { User, VerificationToken } from '../db/models';
+import { User } from '../db/models';
 import { signToken } from './auth.service';
 
 function handleLogin(req, res, next) {

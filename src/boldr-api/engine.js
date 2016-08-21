@@ -3,9 +3,10 @@ import https from 'https';
 import app from './boldr';
 import models from './db/models';
 import { logger } from './lib';
+import config, { conf } from './core/config';
 
 const debug = require('debug')('boldr:engine');
-const config = require('./core/config');
+
 
 // Set the environment on app and make it available throughout.
 const env = config.env;
@@ -14,7 +15,7 @@ app.set('env', env);
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(config.port);
+const port = normalizePort(config.api.port);
 app.set('port', port);
 
 /**
@@ -24,13 +25,17 @@ const server = http.createServer(app);
 
 server.on('listening', onListening);
 server.on('error', onError);
+
+async function startServer() {
+  const configValues = await conf.getProperties();
+  debug(configValues);
+  server.listen(port);
+  logger.info(`🌎  ==> Boldr API is running on ${port} in ${env} mode.`);
+}
 /**
  * Listen on provided port, on all network interfaces.
  */
-models.sync().then(() => {
-  server.listen(port);
-  logger.info(`🌎  ==> Boldr API is running on ${port} in ${env} mode.`);
-});
+models.sync().then(startServer);
 
 function onError(error) {
   if (error.syscall !== 'listen') {

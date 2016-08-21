@@ -40,5 +40,8 @@ Postgres
 =========
 The Postgres container is built upon Alpine Linux 3.4.
 
-Commands
+Environment Variables
 ----
+- POSTGRES_PASSWORD=password
+- POSTGRES_USER=postgres
+- POSTGRES_DB=boldr_development

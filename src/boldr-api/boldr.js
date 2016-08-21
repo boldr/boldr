@@ -12,7 +12,7 @@ debug('express middleware');
 webserver(app);
 
 debug('routes');
-app.use(config.apiBase, routes);
+app.use(config.api.base, routes);
 
 errorHandling(app);
 

@@ -11,7 +11,10 @@ upstream boldrcms {
   server 127.0.0.1:3000;
 }
 server {
-  location / {
+    location / {
+      try_files $uri @proxy;
+    }
+    location @proxy {
       proxy_pass http://boldrcms;
       proxy_redirect off;
       proxy_cache_key               sfs$request_uri$scheme;

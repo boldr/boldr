@@ -5,7 +5,7 @@ import uuid from 'node-uuid';
 import multerS3 from 'multer-s3';
 import { Media, User, Category } from '../../db/models';
 
-const config = require('../../core/config');
+import config from '../../core/config';
 
 const s3 = new AWS.S3({
   accessKeyId: config.aws.keyId,

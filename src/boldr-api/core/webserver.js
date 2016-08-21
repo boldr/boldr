@@ -11,9 +11,9 @@ import passport from 'passport';
 import redisClient from '../db/redis';
 import { logger } from '../lib';
 import sessionService from './middleware/sessionService';
+import config from './config';
 
 const RedisStore = require('connect-redis')(session);
-const config = require('./config');
 
 export default app => {
   const env = app.get('env');

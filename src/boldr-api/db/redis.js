@@ -2,7 +2,7 @@ import Redis from 'ioredis';
 import bluebird from 'bluebird';
 import logger from '../lib/logger';
 
-const config = require('../core/config');
+import config from '../core/config';
 
 bluebird.promisifyAll(Redis);
 

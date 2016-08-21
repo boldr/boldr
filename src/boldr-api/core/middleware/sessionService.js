@@ -1,5 +1,8 @@
 import logger from '../../lib/logger';
 
+const debug = require('debug')('boldr:sessionService');
+
+debug('session service');
 function sessionService(client, sessionServiceOpts) {
   if (sessionServiceOpts.logErrors) {
     if (typeof sessionServiceOpts.logErrors !== 'function') {
@@ -22,6 +25,7 @@ function sessionService(client, sessionServiceOpts) {
         const passportUser = req.session.passport.user;
         const sessionId = req.sessionID;
         client.sadd(`user:${passportUser}`, sessionId, (err) => {
+          debug(passportUser, sessionId);
           if (err && sessionServiceOpts.logErrors) {
             sessionServiceOpts.logErrors(err);
           }

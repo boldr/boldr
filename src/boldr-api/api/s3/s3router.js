@@ -2,7 +2,7 @@ import uuid from 'node-uuid';
 import aws from 'aws-sdk';
 import express from 'express';
 
-const config = require('../../core/config');
+import config from '../../core/config';
 
 function checkTrailingSlash(path) {
   if (path && path[path.length - 1] !== '/') {

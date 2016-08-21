@@ -4,8 +4,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import compose from 'composable-middleware';
 import { User } from '../db/models';
-
-const config = require('../core/config');
+import config from '../core/config';
 
 const validateJwt = expressJwt({
   secret: config.session.secret

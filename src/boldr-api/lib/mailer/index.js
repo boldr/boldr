@@ -2,13 +2,12 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 import logger from '../logger';
-
-const config = require('../../core/config');
+import config from '../../core/config';
 
 const auth = {
   auth: {
-    api_key: config.mail.mgApi,
-    domain: config.mail.mgDomain
+    api_key: config.mail.key,
+    domain: config.mail.domain
   }
 };
 
@@ -22,7 +21,7 @@ export function generateVerifyCode() {
 }
 
 export function handleMail(email, subj, verificationToken) {
-  if (config.mail.mgDomain === undefined) { // Env variables are strings. :S
+  if (config.mail.domain === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -30,7 +29,7 @@ export function handleMail(email, subj, verificationToken) {
     const to = email;
     const title = subj;
     const verifyCode = verificationToken;
-    const DEFAULT_URL = 'http://localhost:3000';
+    const DEFAULT_URL = config.mail.baseUrl;
     if (!to || !title || !verifyCode) {
       throw new Error('Incorrect mailing parameters');
     }
@@ -50,7 +49,7 @@ export function handleMail(email, subj, verificationToken) {
   }
 }
 export function mailResetPassword(email, subj, token) {
-  if (config.mail.mgDomain === undefined) { // Env variables are strings. :S
+  if (config.mail.domain === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {
@@ -58,7 +57,7 @@ export function mailResetPassword(email, subj, token) {
     const to = email;
     const title = subj;
     const resetToken = token;
-    const DEFAULT_URL = 'http://localhost:3000';
+    const DEFAULT_URL = config.mail.baseUrl;
     if (!to || !title || !resetToken) {
       throw new Error('Incorrect mailing parameters');
     }
@@ -78,7 +77,7 @@ export function mailResetPassword(email, subj, token) {
   }
 }
 export function mailPasswordConfirm(email, subj) {
-  if (config.mail.mgDomain === undefined) { // Env variables are strings. :S
+  if (config.mail.domain === undefined) { // Env variables are strings. :S
     logger.warn('Attempted to mail, but no credentials were present.');
     return new Promise((resolve, reject) => { return resolve(); });
   } else {

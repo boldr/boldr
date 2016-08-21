@@ -6,8 +6,7 @@
  */
 
 import winston from 'winston';
-
-const config = require('../../core/config');
+import config from '../../core/config';
 
 const transports = [];
 if (config.logger.console) {

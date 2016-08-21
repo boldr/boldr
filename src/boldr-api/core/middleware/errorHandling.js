@@ -7,10 +7,14 @@ export default app => {
       return next(apiError);
     }
     if (err && err.name === 'ValidationError') {
-      return next(new RespondError(`There was a problem validating your data ${err.message}`, 400, true));
+      return next(new RespondError(
+        `There was a problem validating your data ${err.message}`,
+        400, true));
     }
     if (!err.status && err.name && err.name.includes('Sequelize')) {
-      return next(new RespondError(`There was a problem validating your data ${err.message}, ${err.errors}`, 422, true));
+      return next(new RespondError(
+        `There was a problem validating your data ${err.message}, ${err.errors}`,
+        422, true));
     }
   });
   // catch 404 and forward to error handler

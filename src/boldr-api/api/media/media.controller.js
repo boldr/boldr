@@ -7,7 +7,7 @@ import { Media, User, Category } from '../../db/models';
 import { logger, RespondError, BAD_REQ_MSG, GENERAL_404_MSG, ACCOUNT_404_MSG, UNAUTHORIZED_MSG } from '../../lib';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
 
-const config = require('../../core/config');
+import config from '../../core/config';
 
 const debug = Debug('boldr:media:controller');
 
