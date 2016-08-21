@@ -6,11 +6,11 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+const bcfg = require('../buildConfig');
+const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
 const createHappyPlugin = require('./util/createHappyPlugin');
 const createSourceLoader = require('./util/createSourceLoader');
-const bcfg = require('../buildConfig');
-const VENDOR_BUNDLE = require('../vendorBundle');
 
 const appRootPath = appRoot.toString();
 
@@ -33,7 +33,7 @@ const clientDevConfig = {
     main: [
       'react-hot-loader/patch',
       HMR,
-      path.join(bcfg.CMS_SRC, 'client.js')
+      path.join(bcfg.SRC_DIR, 'client.js')
     ],
     vendor: VENDOR_BUNDLE
   },
@@ -143,7 +143,7 @@ const clientDevConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SSR_SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
+        SSR_SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,

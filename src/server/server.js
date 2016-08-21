@@ -1,41 +1,37 @@
 import path from 'path';
-import Express from 'express';
-import httpProxy from 'http-proxy';
+import express from 'express';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
 import compression from 'compression';
-// React Deps
+import _debug from 'debug';
+import { syncHistoryWithStore } from 'react-router-redux';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import match from 'react-router/lib/match';
-import createMemoryHistory from 'react-router/lib/createMemoryHistory';
-import RouterContext from 'react-router/lib/RouterContext';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { createMemoryHistory, RouterContext, match } from 'react-router';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import BoldrTheme from '../core/materialTheme';
 import createStore from '../core/state/createStore';
-import { API_TARGET, API_BASE } from '../core/config';
 import getRoutes from '../scenes/index';
 import Html from './Html';
+import routes from './api/routes';
+import config from './core/config';
+import { webserver, errorHandling } from './core';
 
-// Create our express server.
-const app = Express();
+const debug = _debug('boldr:server');
+const app = express();
+debug('express middleware');
+webserver(app);
 
-const proxy = httpProxy.createProxyServer({
-  target: API_TARGET,
-  changeOrigin: true
-});
+debug('routes');
+app.use(config.api.base, routes);
 
-app.use(`${API_BASE}/*`, (req, res) => {
-  const url = `${API_TARGET}${req.originalUrl}`;
-  proxy.web(req, res, { target: url }); // eslint-disable-line
-});
+app.use(express.static('build'));
 
-app.use(compression());
-app.use(Express.static('build'));
-
-app.use((req, res) => {
+app.get('*', (req, res) => {
   if (__DEV__) {
     webpackIsomorphicTools.refresh();
   }

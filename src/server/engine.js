@@ -1,12 +1,11 @@
 import http from 'http';
 import https from 'https';
-import app from './boldr';
+import app from './server';
 import models from './db/models';
 import { logger } from './lib';
 import config, { conf } from './core/config';
 
 const debug = require('debug')('boldr:engine');
-
 
 // Set the environment on app and make it available throughout.
 const env = config.env;

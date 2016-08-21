@@ -4,15 +4,7 @@ import fetch from '../../../core/fetch';
 import { API_SETTINGS, API_BASE, TOKEN_KEY, API_MENU } from '../../../core/config';
 import { processResponse } from '../../../core/api/helpers';
 import { notificationSend } from './notifications';
-
-export const DONE_LOADING = 'DONE_LOADING';
-export const LOAD_SETTINGS = 'LOAD_SETTINGS';
-export const LOAD_SETTINGS_SUCCESS = 'LOAD_SETTINGS_SUCCESS';
-export const LOAD_SETTINGS_FAILURE = 'LOAD_SETTINGS_FAILURE';
-
-export const LOAD_MENUS_REQUEST = 'LOAD_MENUS_REQUEST';
-export const LOAD_MENUS_SUCCESS = 'LOAD_MENUS_SUCCESS';
-export const LOAD_MENUS_FAILURE = 'LOAD_MENUS_FAILURE';
+import * as types from './constants';
 
 export function goHome(data) {
   return (dispatch) => {
@@ -20,17 +12,17 @@ export function goHome(data) {
   };
 }
 const beginLoadMenus = () => ({
-  type: LOAD_MENUS_REQUEST
+  type: types.LOAD_MENUS_REQUEST
 });
 
 const loadMenusSuccess = (json) => ({
-  type: LOAD_MENUS_SUCCESS,
+  type: types.LOAD_MENUS_SUCCESS,
   payload: json
 });
 
 // Fail receivers
 const failedToLoadMenus = (err) => ({
-  type: LOAD_MENUS_FAILURE,
+  type: types.LOAD_MENUS_FAILURE,
   error: err
 });
 
@@ -83,11 +75,11 @@ function shouldFetchMenus(state) {
 
 
 const loadSettings = () => ({
-  type: LOAD_SETTINGS
+  type: types.LOAD_SETTINGS
 });
 
 const loadSettingsSuccess = (response) => ({
-  type: LOAD_SETTINGS_SUCCESS,
+  type: types.LOAD_SETTINGS_SUCCESS,
   siteName: response.body[0].siteName,
   description: response.body[0].description,
   logo: response.body[0].logo,
@@ -99,7 +91,7 @@ const loadSettingsSuccess = (response) => ({
 
 // Fail receivers
 const failedToLoadSettings = (err) => ({
-  type: LOAD_SETTINGS_FAILURE,
+  type: types.LOAD_SETTINGS_FAILURE,
   error: err
 });
 
@@ -149,22 +141,18 @@ function shouldFetchSettings(state) {
   return settings;
 }
 
-const SAVE_SETUP_REQUEST = 'SAVE_SETUP_REQUEST';
-const SAVE_SETUP_SUCCESS = 'SAVE_SETUP_SUCCESS';
-const SAVE_SETUP_FAIL = 'SAVE_SETUP_FAIL';
-
 const startSaveSetup = () => ({
-  type: SAVE_SETUP_REQUEST
+  type: types.SAVE_SETUP_REQUEST
 });
 
 const saveSetupSuccess = (response) => ({
-  type: SAVE_SETUP_SUCCESS,
+  type: types.SAVE_SETUP_SUCCESS,
   payload: response.body
 });
 
 // Fail receivers
 const failedToSaveSetup = (data) => ({
-  type: SAVE_SETUP_FAIL,
+  type: types.SAVE_SETUP_FAIL,
   data
 });
 
@@ -200,17 +188,17 @@ export function saveBoldrSetup(data) {
   };
 }
 const beginUpdateSettings = () => ({
-  type: UPDATE_SETTINGS_REQUEST
+  type: types.UPDATE_SETTINGS_REQUEST
 });
 
 const updateSettingsSuccess = (response) => ({
-  type: UPDATE_SETTINGS_SUCCESS,
+  type: types.UPDATE_SETTINGS_SUCCESS,
   payload: response.body
 });
 
 // Fail receivers
 const updateSettingsFailed = (data) => ({
-  type: UPDATE_SETTINGS_FAILURE,
+  type: types.UPDATE_SETTINGS_FAILURE,
   data
 });
 
@@ -257,13 +245,13 @@ export const INITIAL_STATE = {
 
 export default function boldrReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case LOAD_SETTINGS:
-    case LOAD_MENUS_REQUEST:
+    case types.LOAD_SETTINGS:
+    case types.LOAD_MENUS_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case LOAD_SETTINGS_SUCCESS:
+    case types.LOAD_SETTINGS_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -275,25 +263,25 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         analyticsId: action.analyticsId,
         allowRegistration: action.allowRegistration
       };
-    case LOAD_SETTINGS_FAILURE:
-    case LOAD_MENUS_FAILURE:
+    case types.LOAD_SETTINGS_FAILURE:
+    case types.LOAD_MENUS_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error
       };
-    case LOAD_MENUS_SUCCESS:
+    case types.LOAD_MENUS_SUCCESS:
       return {
         ...state,
         isLoading: false,
         menus: action.payload
       };
-    case SAVE_SETUP_REQUEST:
+    case types.SAVE_SETUP_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case SAVE_SETUP_SUCCESS:
+    case types.SAVE_SETUP_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -305,7 +293,7 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         analyticsId: action.payload.analyticsId,
         allowRegistration: action.payload.allowRegistration
       };
-    case SAVE_SETUP_FAIL:
+    case types.SAVE_SETUP_FAIL:
       return {
         ...state,
         isLoading: false

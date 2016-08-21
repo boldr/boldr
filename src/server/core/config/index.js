@@ -28,7 +28,7 @@ const conf = convict({
     port: {
       doc: 'The port to bind for the API.',
       format: 'port',
-      default: 9121,
+      default: 3000,
       env: 'API_PORT'
     },
     base: {
@@ -222,7 +222,7 @@ const conf = convict({
 
 // Load environment dependent configuration
 const env = conf.get('env');
-conf.loadFile(path.normalize(`${__dirname}/env/${env}.json`));
+// conf.loadFile(path.normalize(`${__dirname}/env/${env}.json`));
 
 // catch all error without handler
 process.on('uncaughtException', error => {

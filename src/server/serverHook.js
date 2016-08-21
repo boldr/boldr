@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 require('babel-register');
 require('babel-polyfill');
+require('babel-runtime/core-js/promise').default = require('bluebird');
 
 const path = require('path');
 
@@ -18,5 +19,5 @@ const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../../../tools/webpack/isomorphic.config'))
   .development(__DEV__)
   .server(rootDir, () => {
-    require('./index.js');
+    require('./engine.js');
   });

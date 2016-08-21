@@ -16,4 +16,4 @@ export const API_MENU = `${API_BASE}/menus`;
 // Here you can change the name of the token that is put into localStorage.
 export const TOKEN_KEY = 'token';
 
-export const API_TARGET = process.env.API_TARGET || 'http://localhost:9121';
+export const API_TARGET = process.env.API_TARGET || 'http://localhost:3000';
