@@ -1,6 +1,6 @@
 module.exports = {
-  config: './src/boldr-api/core/config/sequelize.js',
-  migrationsPath: './src/boldr-api/db/migrations',
-  modelsPath: './src/boldr-api/db/models',
-  seedersPath: './src/boldr-api/db/seeders'
+  config: './src/core/config/sequelize.js',
+  migrationsPath: './src/db/migrations',
+  modelsPath: './src/db/models',
+  seedersPath: './src/db/seeders'
 };
