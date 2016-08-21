@@ -7,7 +7,7 @@ const debug = require('debug')('boldr:configuration');
 const conf = convict({
   env: {
     doc: 'The environment that we\'re running in.',
-    format: ['production', 'development', 'test', 'staging'],
+    format: ['production', 'development', 'test', 'staging', 'travis'],
     default: 'development',
     env: 'NODE_ENV',
     arg: 'env'

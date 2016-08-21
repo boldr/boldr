@@ -1,3 +1,26 @@
+<a name="0.4.5"></a>
+## [0.4.5](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.5) (2016-08-21)
+
+
+### Bug Fixes
+
+* **build:** resolve loading object[object] instead of the correct image. ([6f0206f](https://github.com/boldr/boldr/commit/6f0206f))
+
+
+### Features
+
+* **blog:** begin creating search for posts by tag ([12abdcc](https://github.com/boldr/boldr/commit/12abdcc))
+* nginx added ([08fa6ad](https://github.com/boldr/boldr/commit/08fa6ad))
+* **global:** add menu creation api ([2b4ee37](https://github.com/boldr/boldr/commit/2b4ee37))
+* **global:** settings are implemented and customizable ([039e6a4](https://github.com/boldr/boldr/commit/039e6a4))
+
+
+### Performance Improvements
+
+* begin removal of :: and other function binding inside render ([20aeec5](https://github.com/boldr/boldr/commit/20aeec5))
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.3) (2016-08-17)
 

@@ -53,7 +53,7 @@ The CMS and API are different beasts, but they share the same repository. We bel
 #### Containerizing all the things
 Boldr is developed with running inside of multiple Docker containers in mind. During development it's recommended to run both the database and redis server containers from the `docker-compose.yml` file. The Makefile is setup to build a container for the cms module and a container for the api module as part of the build-to-deploy process.
 
-Docker documentation is (will be) located [here](docs/docker/main.md), `docs/docker/main.md`.
+Docker documentation is (will be) located [here](docs/docker.md), `docs/docker.md`.
 
 
 ![Dashboard](https://boldr.io/dash.png)  
@@ -115,7 +115,8 @@ Documentation
 =================
 - **API Documentation:** [docs/api](docs/api)  
 - **Docker:** [docs/docker/main.md](docs/docker.md)
-- **Structure:** [docs/structure.md](docs/structure.md)
+- **Nginx:** [docs/nginx.md](docs/nginx.md)
+- **Roadmap:** [docs/ROADMAP.md](docs/ROADMAP.md)
 
 Demo
 =============

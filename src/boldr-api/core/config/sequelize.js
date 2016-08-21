@@ -15,6 +15,13 @@ module.exports = {
     host: process.env.POSTGRES_HOST || '127.0.0.1',
     dialect: 'postgres'
   },
+  travis: {
+    username: 'postgres',
+    password: null,
+    database: 'travis_ci_test',
+    host: '127.0.0.1',
+    dialect: 'postgres'
+  },
   production: {
     use_env_variable: 'POSTGRES_DB_URL',
     username: process.env.POSTGRES_USER || 'postgres',
