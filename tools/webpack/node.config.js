@@ -2,7 +2,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-const appRoot = require('app-root-path');
 const NodeExternals = require('webpack-node-externals');
 
 const bcfg = require('../buildConfig');
@@ -21,11 +20,11 @@ const nodeConfig = { // eslint-disable-line
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  context: bcfg.CMS_DIR,
+  context: bcfg.ABS_ROOT,
   devtool: 'source-map',
   entry: {
     server: [
-      path.join(bcfg.CMS_SRC, 'server', 'index.js')
+      path.join(bcfg.SRC_DIR, 'server', 'engine.js')
     ]
   },
   output: {

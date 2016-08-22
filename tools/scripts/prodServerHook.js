@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-const appRoot = require('app-root-path');
-
-const appRootPath = appRoot.toString();
+const appRootPath = process.cwd();
 
 const devMode = process.env.NODE_ENV !== 'production';
 

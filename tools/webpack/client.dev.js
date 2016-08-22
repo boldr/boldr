@@ -1,18 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-const appRoot = require('app-root-path');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const WebpackNotifierPlugin = require('webpack-notifier');
 const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+const bcfg = require('../buildConfig');
+const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
 const createHappyPlugin = require('./util/createHappyPlugin');
 const createSourceLoader = require('./util/createSourceLoader');
-const bcfg = require('../buildConfig');
-const VENDOR_BUNDLE = require('../vendorBundle');
-
-const appRootPath = appRoot.toString();
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
@@ -28,12 +24,12 @@ const clientDevConfig = {
   // cheap eval is faster than cheap-module
   // see https://webpack.github.io/docs/build-performance.html#sourcemaps
   devtool: 'cheap-module-eval-source-map',
-  context: bcfg.SRC_DIR,
+  context: bcfg.ABS_ROOT,
   entry: {
     main: [
       'react-hot-loader/patch',
       HMR,
-      path.join(bcfg.CMS_SRC, 'client.js')
+      path.join(bcfg.SRC_DIR, 'client.js')
     ],
     vendor: VENDOR_BUNDLE
   },
@@ -143,7 +139,7 @@ const clientDevConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SSR_SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
+        SSR_SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
@@ -160,7 +156,6 @@ const clientDevConfig = {
       format: '  build libs [:bar] :percent (:elapsed seconds)',
       clear: false
     }),
-    new WebpackNotifierPlugin({ title: '🔥 Webpack' }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.NoErrorsPlugin(),
