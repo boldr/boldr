@@ -11,7 +11,6 @@ const VENDOR_BUNDLE = [
   'superagent',
   'redux-form',
   'react-addons-css-transition-group',
-  'normalizr',
   'material-ui',
   'draft-js',
   'classnames'
