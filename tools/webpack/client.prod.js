@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const appRoot = require('app-root-path');
 const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -20,9 +19,9 @@ const clientProdConfig = {
   stats: false, // Don't show stats in the console
   progress: true,
   devtool: false,
-  context: bcfg.CMS_SRC,
+  context: bcfg.ABS_ROOT,
   entry: {
-    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.CMS_SRC, 'client.js')],
+    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.SRC_DIR, 'client.js')],
     vendor: VENDOR_BUNDLE
   },
   output: {
@@ -96,7 +95,7 @@ const clientProdConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        SSR_SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
+        SSR_SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,

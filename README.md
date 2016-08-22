@@ -1,7 +1,8 @@
-![boldr](https://boldr.io/logo.png) 
+![boldr](https://boldr.io/logo.png)
 ====
-[![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr) 
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Gitter](https://badges.gitter.im/boldr/Lobby.svg)](https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Code Climate](https://codeclimate.com/github/boldr/boldr/badges/gpa.svg)](https://codeclimate.com/github/boldr/boldr)
+[![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)[![Code Climate](https://codeclimate.com/github/boldr/boldr/badges/gpa.svg)](https://codeclimate.com/github/boldr/boldr)
+[![Slack Status](https://slack.boldr.io/badge.svg)](https://slack.boldr.io)  
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
@@ -22,6 +23,7 @@ Table of Contents
   * [Changelog](#changelog)
   * [NGINX Config](docs/nginx.md)
   * [Installation](docs/installation.md)
+  * [Troubleshooting](docs/troubleshooting.md)
 
 Boldr
 =====
@@ -56,10 +58,10 @@ POSTGRES_CONN_URI=postgres://postgres:password@localhost:5432/boldr_development
 5. `docker-compose up -d` unless you're running Postgres and Redis already.
 6. `npm run migrate` followed by `npm run seed` this will create the database tables as well as seed some initial content.
   - To change the database configuration modify or remove the `POSTGRES_CONN_URI` from your .env
-  - Change the configuration file location in `src/boldr-api/core/config/index.js` you can adjust environment specifics in the corresponding json files in the **env** folder.
-7. 
-  - For production: `npm run build:api` and then `npm run start:api` to run it.
-  - For development: `npm run dev` or to only run the api instead of the CMS / SSR webpack `npm run dev:api`
+  - Alternatively, you may change the configuration file location in `src/boldr-api/core/config/index.js`.  
+7.
+  - For production: `npm run build` and then `npm run start:prod` to run it.
+  - For development: `npm run dev`  
 
 ![Dashboard](https://boldr.io/editor.png)   
 
@@ -104,6 +106,8 @@ Documentation
 - **Nginx:** [docs/nginx.md](docs/nginx.md)
 - **Roadmap:** [ROADMAP.md](ROADMAP.md)
 - **Installation / Setup:** [docs/Installation.md](docs/Installation.md)
+- **Troubleshooting:** [docs/troubleshooting.md](docs/troubleshooting.md)  
+
 Demo
 =============
 
@@ -111,6 +115,8 @@ View a **very early** demo at https://staging.boldr.io
 
 > Email - admin@boldr.io  
 Password - password
+
+
 
 
 ![Blog](https://boldr.io/blog.png)  
