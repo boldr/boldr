@@ -1,7 +1,8 @@
 ![boldr](https://boldr.io/logo.png)
 ====
 [![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr)
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Gitter](https://badges.gitter.im/boldr/Lobby.svg)](https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Code Climate](https://codeclimate.com/github/boldr/boldr/badges/gpa.svg)](https://codeclimate.com/github/boldr/boldr)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)[![Code Climate](https://codeclimate.com/github/boldr/boldr/badges/gpa.svg)](https://codeclimate.com/github/boldr/boldr)
+[![Slack Status](https://slack.boldr.io/badge.svg)](https://slack.boldr.io)  
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
@@ -22,6 +23,7 @@ Table of Contents
   * [Changelog](#changelog)
   * [NGINX Config](docs/nginx.md)
   * [Installation](docs/installation.md)
+  * [Troubleshooting](docs/troubleshooting.md)
 
 Boldr
 =====
@@ -104,6 +106,8 @@ Documentation
 - **Nginx:** [docs/nginx.md](docs/nginx.md)
 - **Roadmap:** [ROADMAP.md](ROADMAP.md)
 - **Installation / Setup:** [docs/Installation.md](docs/Installation.md)
+- **Troubleshooting:** [docs/troubleshooting.md](docs/troubleshooting.md)  
+
 Demo
 =============
 
@@ -111,6 +115,8 @@ View a **very early** demo at https://staging.boldr.io
 
 > Email - admin@boldr.io  
 Password - password
+
+
 
 
 ![Blog](https://boldr.io/blog.png)  

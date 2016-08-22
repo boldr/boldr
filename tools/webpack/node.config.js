@@ -20,7 +20,7 @@ const nodeConfig = { // eslint-disable-line
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  context: bcfg.SRC_DIR,
+  context: bcfg.ABS_ROOT,
   devtool: 'source-map',
   entry: {
     server: [

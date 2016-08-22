@@ -19,7 +19,7 @@ const clientProdConfig = {
   stats: false, // Don't show stats in the console
   progress: true,
   devtool: false,
-  context: bcfg.SRC_DIR,
+  context: bcfg.ABS_ROOT,
   entry: {
     main: [require.resolve('../scripts/polyfill'), path.join(bcfg.SRC_DIR, 'client.js')],
     vendor: VENDOR_BUNDLE

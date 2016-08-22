@@ -45,6 +45,7 @@ class Media extends Component {
     this.setState({ open: false });
   };
   handleChange = (event, index, value) => this.setState({ value });
+
   handleFinish(signResult) {
     const signUrl = signResult.signedUrl;
     const splitUrl = signUrl.split('?');
@@ -55,6 +56,7 @@ class Media extends Component {
     };
     this.props.uploadFiles(payload);
   }
+
   render() {
     const actions = [
       <FlatButton

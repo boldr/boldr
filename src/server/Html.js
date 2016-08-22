@@ -16,7 +16,7 @@ export default class Html extends Component {
 
     if (stylesArray.length !== 0) {
       return stylesArray.map((style, i) =>
-          <link href={ assets.styles[style] } key={ i } rel="stylesheet" type="text/css" />
+          <link async href={ assets.styles[style] } key={ i } rel="stylesheet" type="text/css" />
         );
     }
 
@@ -32,7 +32,7 @@ export default class Html extends Component {
     const head = Helmet.rewind();
 
     return (
-      <html lang="en-us">
+      <html>
         <head>
           <Helmet />
           { head.base.toComponent() }

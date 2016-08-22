@@ -2,40 +2,40 @@ language: node_js
 sudo: true
 cache:
   directories:
-    - node_modules
+  - node_modules
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
-
+    - g++-4.8
 env:
-  - CXX=g++-4.8
+- CXX=g++-4.8
 services:
-  - redis-server
-
+- redis-server
 install:
-  - npm install
-
+- npm install
 before_script:
-  - sudo /etc/init.d/postgresql stop
-  - sudo apt-get -y remove --purge postgresql-9.1
-  - sudo apt-get -y remove --purge postgresql-9.2
-  - sudo apt-get -y remove --purge postgresql-9.3
-  - sudo apt-get -y remove --purge postgresql-9.4
-  - sudo apt-get -y autoremove
-  - sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 7FCC7D46ACCC4CF8
-  - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list'
-  - sudo apt-get update
-  - sudo apt-get -y install postgresql-9.5
-  - sudo sh -c 'echo "local all postgres trust" > /etc/postgresql/9.5/main/pg_hba.conf'
-  - sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/9.5/main/pg_hba.conf'
-  - sudo /etc/init.d/postgresql restart
-  - psql --version
-  - psql -c 'create database travis_ci_test;' -U postgres
-  - NODE_ENV=travis npm run migrate
-  - NODE_ENV=travis npm run seed
-
+- sudo /etc/init.d/postgresql stop
+- sudo apt-get -y remove --purge postgresql-9.1
+- sudo apt-get -y remove --purge postgresql-9.2
+- sudo apt-get -y remove --purge postgresql-9.3
+- sudo apt-get -y remove --purge postgresql-9.4
+- sudo apt-get -y autoremove
+- sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 7FCC7D46ACCC4CF8
+- sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
+  9.5" >> /etc/apt/sources.list.d/postgresql.list'
+- sudo apt-get update
+- sudo apt-get -y install postgresql-9.5
+- sudo sh -c 'echo "local all postgres trust" > /etc/postgresql/9.5/main/pg_hba.conf'
+- sudo sh -c 'echo -n "host all all 127.0.0.1/32 trust" >> /etc/postgresql/9.5/main/pg_hba.conf'
+- sudo /etc/init.d/postgresql restart
+- psql --version
+- psql -c 'create database travis_ci_test;' -U postgres
+- NODE_ENV=travis npm run migrate
+- NODE_ENV=travis npm run seed
 script:
-  - NODE_ENV=travis npm run travis
+- NODE_ENV=travis npm run travis
+notifications:
+  slack:
+    secure: Yl9bQVmuwEtLfQbfXBGPZxvGjofYgJakJJ06sdmbmE6xnL4ZuQImFK0DrCX47ZTySeC0Oqd+nFBMehd8/0iRTOr6ty+43T9rRQgjU7QnMqcMxFdIARN5KAN8js5EQgLC90zkcb0SoQ1ZW6EBSxgq0PrKrvQ+LCLRiV6YJFP1EtkN3ufkgUXjrlfu39h3XuiGrUwhu9ghZ47aqTPUKqlUWGhvo8QucTlXB4duN08JYePgGeAwXdkl8EXKuntwbFEF3pt8lVsiAOtwYukaW3If/OC8tclknmv1+Dhq9LT1hhx2acc9CsTGDwhizWy9SPefM8wKWAxXADcTQ3VyY7xnZUm4VMoPaI/q6WXtHuGZPyC+Fx1oE46dHPqQpteX3MQwVVESDszUjUa7gjusVAFdnQ0x+u6nHtHLMbTXOC+0i7STyrVFH7ZEMJCx2LLkntazGPh6Ys/DCnfDlrxbGM15uFiKY1yqMBnUOt8SULGasP2nTH6rue0qN4WSeiaPPeHysYN/QlOZpYrCpyekib+CbNwAy94Q84QRJqtri4QdZ0AkrSVdQ6SyHdTPe1x6Jn9Uu+Gu5nqKP+jVUZm6XMXjuN6jAhoMqwaWHrT2oU2Fnb8JoSB8Rch6SZpDK9MFmvo0EvVnTOndv+2ajM5HzDh5F3UyujWaUWrhG8QmY3BmMaI=

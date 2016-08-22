@@ -1,13 +1,9 @@
 import path from 'path';
 import express from 'express';
-import helmet from 'helmet';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-import compression from 'compression';
 import _debug from 'debug';
-import { syncHistoryWithStore } from 'react-router-redux';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { createMemoryHistory, RouterContext, match } from 'react-router';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
@@ -78,10 +74,10 @@ app.get('*', (req, res) => {
         });
         const component = (
           <Provider store={ store } key="provider">
-                    <MuiThemeProvider muiTheme={ muiTheme }>
-                      <RouterContext { ...renderProps } />
-                    </MuiThemeProvider>
-                  </Provider>
+            <MuiThemeProvider muiTheme={ muiTheme }>
+              <RouterContext { ...renderProps } />
+            </MuiThemeProvider>
+          </Provider>
         );
         res.status(200);
 

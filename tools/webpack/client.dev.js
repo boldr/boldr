@@ -10,8 +10,6 @@ const isomorphicConfig = require('./isomorphic.config');
 const createHappyPlugin = require('./util/createHappyPlugin');
 const createSourceLoader = require('./util/createSourceLoader');
 
-const appRootPath = appRoot.toString();
-
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 const WP_DS = 3001;
@@ -26,7 +24,7 @@ const clientDevConfig = {
   // cheap eval is faster than cheap-module
   // see https://webpack.github.io/docs/build-performance.html#sourcemaps
   devtool: 'cheap-module-eval-source-map',
-  context: bcfg.SRC_DIR,
+  context: bcfg.ABS_ROOT,
   entry: {
     main: [
       'react-hot-loader/patch',
