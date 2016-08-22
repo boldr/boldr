@@ -14,9 +14,7 @@ class Users extends Component {
     super(props);
     this.handleSelectedRow = this.handleSelectedRow.bind(this);
   }
-  handleSelectedRow(user) {
-    console.log('selected', user);
-  }
+
   render() {
     return (
        <div>

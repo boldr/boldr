@@ -12,10 +12,10 @@ import redisClient from '../db/redis';
 import { logger } from '../lib';
 import sessionService from './middleware/sessionService';
 import config from './config';
-
+import { io } from '../engine';
 const RedisStore = require('connect-redis')(session);
 
-export default app => {
+export default (app, io) => {
   const env = app.get('env');
   app.disable('x-powered-by');
   app.set('trust proxy', 'loopback');
@@ -37,14 +37,15 @@ export default app => {
     credentialsRequired: false
   }));
 
-  app.use(session({
+  const sessionMiddleware = session({
     store: new RedisStore({ client: redisClient }),
     secret: config.session.secret,
     name: 'boldr:sid',
     resave: false,
     saveUninitialized: false,
     unset: 'destroy'
-  }));
+  });
+  app.use(sessionMiddleware)
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(sessionService(redisClient, { logErrors: true }));
