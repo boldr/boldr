@@ -25,7 +25,7 @@ WebFontLoader.load({
 
 const MOUNT_POINT = document.getElementById('content');
 
-const initialState = window.__data;
+const initialState = window.PRELOAD_STATE;
 const muiTheme = getMuiTheme(BoldrTheme);
 const store = createStore(browserHistory, initialState);
 const { dispatch } = store;
@@ -36,12 +36,16 @@ if (token) {
   store.dispatch(checkAuth(token));
 }
 
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(browserHistory, store, {
+  selectLocationState: (state) => state.routing
+});
+
 const routes = getRoutes(store, history);
 
+// Material-UI requires it for speeding up clicks.
 injectTapEventPlugin();
 
-const render = () => {
+let render = () => {
   const { pathname, search, hash } = window.location;
   const location = `${pathname}${search}${hash}`;
 
@@ -69,8 +73,8 @@ const render = () => {
           params: renderProps.params,
           dispatch
         };
-        if (window.__data) {
-          delete window.__data;
+        if (window.PRELOAD_STATE) {
+          delete window.PRELOAD_STATE;
         } else {
           trigger('fetch', components, locals);
         }
@@ -80,11 +84,31 @@ const render = () => {
   });
 };
 
-const unsubscribeHistory = render();
+if (__DEV__) {
+  if (module.hot) {
+    const renderApp = render;
+    const renderError = (error) => {
+      const RedBox = require('redbox-react').default;
 
-if (module.hot) {
-  module.hot.accept('./scenes/index', () => {
-    unsubscribeHistory();
-    setTimeout(render);
-  });
+      ReactDOM.render(<RedBox error={ error } />, MOUNT_POINT);
+    };
+
+    // Wrap render in try/catch
+    render = () => {
+      try {
+        renderApp();
+      } catch (error) {
+        renderError(error);
+      }
+    };
+
+    module.hot.accept('./scenes/index', () => {
+      setTimeout(() => {
+        ReactDOM.unmountComponentAtNode(MOUNT_POINT);
+        render();
+      });
+    });
+  }
 }
+
+render();

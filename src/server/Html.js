@@ -48,7 +48,7 @@ export default class Html extends Component {
         <body className="layout">
           <div id="content" dangerouslySetInnerHTML={ { __html: content } } />
           <script dangerouslySetInnerHTML={ {
-            __html: `window.__data=${serialize(store.getState())};` } }
+            __html: `window.PRELOAD_STATE=${serialize(store.getState())};` } }
             charSet="UTF-8"
           />
           <script src={ assets.javascript.vendor } charSet="UTF-8" />
