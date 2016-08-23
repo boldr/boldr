@@ -12,7 +12,7 @@ const styles = {
 };
 
 const Tag = (props) => {
-  return <Chip style={ styles.chip }> { props.name }</Chip>;
+  return <Chip style={ styles.chip }>{ props.name }</Chip>;
 };
 
 Tag.propTypes = {

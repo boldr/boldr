@@ -4,7 +4,7 @@ import { notificationSend } from '../../../../Boldr/state/notifications';
 
 export const LOAD_MEMBERS_REQUEST = 'LOAD_MEMBERS_REQUEST';
 export const LOAD_MEMBERS_SUCCESS = 'LOAD_MEMBERS_SUCCESS';
-export const LOAD_MEMBERS_FAIL = 'LOAD_MEMBERS_FAIL';
+export const LOAD_MEMBERS_FAILURE = 'LOAD_MEMBERS_FAILURE';
 
 const loadMembers = () => ({
   type: LOAD_MEMBERS_REQUEST
@@ -18,7 +18,7 @@ const loadMembersSuccess = (response) => ({
 
 // Fail receivers
 const failedToLoadMembers = (err) => ({
-  type: LOAD_MEMBERS_FAIL,
+  type: LOAD_MEMBERS_FAILURE,
   isLoading: false,
   error: err
 });
@@ -120,7 +120,7 @@ export default function membersReducer(state = INITIAL_STATE, action) {
         ...state,
         members: action.payload
       };
-    case LOAD_MEMBERS_FAIL:
+    case LOAD_MEMBERS_FAILURE:
     case UPDATE_MEMBER_FAILURE:
       return {
         ...state,

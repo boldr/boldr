@@ -2,7 +2,7 @@ import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
-
+import { Flex, Box } from 'reflexbox';
 import Loader from '../../../../components/atm.Loader';
 import { fetchPostsIfNeeded } from '../../state/post';
 import PostCard from '../../components/mol.PostCard';
@@ -21,14 +21,19 @@ class PostListing extends Component {
   render() {
     return (
       <div className={ cx('container') }>
-      <div className={ cx('post__grid') }>
-        {
-          this.props.posts.data.map(post =>
-            <div key={ post.id } className={ cx('post__grid-item') }>
-              <PostCard { ...post } />
-            </div>)
-        }
-      </div>
+        <Flex
+          align="center"
+          gutter={ 2 }
+          justify="space-between"
+          wrap
+        >
+            {
+              this.props.posts.data.map(post =>
+                <Box key={ post.id } sm={ 12 } md={ 4 } p={ 2 }>
+                  <PostCard { ...post } />
+                </Box>)
+            }
+        </Flex>
       </div>
     );
   }

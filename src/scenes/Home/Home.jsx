@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import classNames from 'classnames/bind';
+import { Flex, Box } from 'reflexbox';
 import Header from '../../components/org.MainHeader';
 import { Hero, Heading } from '../../components/index';
 import styles from './Home.css';
@@ -14,9 +15,9 @@ const Home = () => {
       <Header theme="dark" />
       <Hero />
       <div>
-      <section className={ cx('root') }>
+      <Flex align="center" justify="space-between">
         <Heading size={ 1 }>Welcome to the Home. Stay tuned...</Heading>
-      </section>
+      </Flex>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Moment from 'moment';
 import Paper from 'material-ui/Paper';
+import { Flex, Box } from 'reflexbox';
 import classNames from 'classnames/bind';
 import { provideHooks } from 'redial';
 
@@ -23,8 +24,15 @@ const SinglePost = ({ isLoading, currentPost }) => {
   return (
       <div className="grid">
       <div className="postbg">
-        <div className="grid__row" style={ { padding: '1em' } }>
-          <div className="grid__twothirds">
+      <div className={ cx('container') }>
+          <Flex
+            gutter={ 2 }
+            justify="space-between"
+          >
+            <Box
+              col={ 8 }
+              p={ 2 }
+            >
             <Paper zDepth={ 2 }>
             {
               isLoading ?
@@ -32,10 +40,14 @@ const SinglePost = ({ isLoading, currentPost }) => {
                 <PostContent { ...currentPost } />
             }
             </Paper>
-          </div>
-          <div className="grid__third">
+            </Box>
+          <Box
+            col={ 4 }
+            p={ 2 }
+          >
             <Sidebar { ...currentPost } />
-          </div>
+          </Box>
+        </Flex>
         </div>
         </div>
       </div>
