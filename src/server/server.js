@@ -19,6 +19,7 @@ import { webserver, errorHandling } from './core';
 
 const debug = _debug('boldr:server');
 const app = express();
+
 debug('express middleware');
 webserver(app);
 

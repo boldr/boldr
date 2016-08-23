@@ -67,9 +67,9 @@ export default (store, connect) => ({
     }
   },
   {
-    path: 'users',
+    path: 'members',
     getComponent(nextState, cb) {
-      System.import('./scenes/Users')
+      System.import('./scenes/Members')
         .then(loadModule(cb))
         .catch(errorLoading);
     }

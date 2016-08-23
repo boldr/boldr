@@ -1,8 +1,8 @@
 ![boldr](https://boldr.io/logo.png)
 ====
-[![Build Status](https://travis-ci.org/boldr/boldr.svg?branch=master)](https://travis-ci.org/boldr/boldr)
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) | [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)[![Code Climate](https://codeclimate.com/github/boldr/boldr/badges/gpa.svg)](https://codeclimate.com/github/boldr/boldr)
-[![Slack Status](https://slack.boldr.io/badge.svg)](https://slack.boldr.io)  
+[![Build Status][travis-img]][travis-link]
+[![Code Climate][cc-img]][cc-link]
+[![Gitter][gitter-img]][gitter-link]
 
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
@@ -105,7 +105,7 @@ Documentation
 - **Docker:** [docs/docker/main.md](docs/docker.md)
 - **Nginx:** [docs/nginx.md](docs/nginx.md)
 - **Roadmap:** [ROADMAP.md](ROADMAP.md)
-- **Installation / Setup:** [docs/Installation.md](docs/Installation.md)
+- **Installation / Setup:** [docs/installation.md](docs/installation.md)
 - **Troubleshooting:** [docs/troubleshooting.md](docs/troubleshooting.md)  
 
 Demo
@@ -120,3 +120,10 @@ Password - password
 
 
 ![Blog](https://boldr.io/blog.png)  
+
+[travis-img]: https://travis-ci.org/boldr/boldr.svg?branch=master
+[travis-link]: https://travis-ci.org/boldr/boldr
+[gitter-img]: https://badges.gitter.im/Join%20Chat.svg
+[gitter-link]: https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[cc-img]: https://codeclimate.com/github/boldr/boldr/badges/gpa.svg
+[cc-link]:https://codeclimate.com/github/boldr/boldr

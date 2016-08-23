@@ -8,6 +8,7 @@ import config, { conf } from './core/config';
 const sourceMaps = require('source-map-support');
 
 sourceMaps.install();
+
 const debug = require('debug')('boldr:engine');
 
 // Set the environment on app and make it available throughout.
@@ -27,6 +28,7 @@ const server = http.createServer(app);
 
 server.on('listening', onListening);
 server.on('error', onError);
+
 
 async function startServer() {
   const configValues = await conf.getProperties();

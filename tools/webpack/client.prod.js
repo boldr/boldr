@@ -9,8 +9,6 @@ const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 
-const appRootPath = appRoot.toString();
-
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 
@@ -52,7 +50,7 @@ const clientProdConfig = {
       { test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
-          loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader!sass-loader'
+          loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader!sass-loader!sass-resources'
         })
       }
     ]
@@ -65,6 +63,7 @@ const clientProdConfig = {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }
   },
+  sassResources: path.resolve(bcfg.SRC_DIR, 'styles/abstracts/*.scss'),
   postcss(webpack) {
     return [
       require('precss')(),

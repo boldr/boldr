@@ -7,30 +7,30 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
-
-import { fetchSettingsIfNeeded, saveBoldrSetup, updateBoldrSettings } from '../../../Boldr/state/boldr';
+import { Loader } from '../../../../components';
+import { fetchSettingsIfNeeded, updateBoldrSettings } from '../../../Boldr/state/boldr';
 import GeneralTab from './components/mol.GeneralTab';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
 })
 class Settings extends Component {
+  static propTypes = {
+    boldr: PropTypes.object.isRequired,
+    updateBoldrSettings: PropTypes.func
+  };
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(values) {
-    if (!this.props.boldr.siteName) {
-      this.props.saveBoldrSetup(values);
-    } else {
-      const id = this.props.boldr.id;
-      this.props.updateBoldrSettings(values, id);
-    }
+    const id = this.props.boldr.id;
+    this.props.updateBoldrSettings(values, id);
   }
   render() {
     if (this.props.boldr.isLoading) {
-      return <div><h1>Settings</h1><h3>Loading...</h3></div>
+      return <Loader />;
     }
     return (
       <div>
@@ -63,14 +63,10 @@ class Settings extends Component {
   }
 }
 
-Settings.propTypes = {
-  boldr: PropTypes.object
-};
-
 const mapStateToProps = (state, ownProps) => {
   return {
     boldr: state.boldr,
     isLoading: state.boldr.isLoading
   };
 };
-export default connect(mapStateToProps, { saveBoldrSetup, updateBoldrSettings })(Settings);
+export default connect(mapStateToProps, { updateBoldrSettings })(Settings);

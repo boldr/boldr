@@ -1,27 +1,38 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import fetch from '../../../core/fetch';
-import { API_SETTINGS, API_BASE, TOKEN_KEY, API_MENU } from '../../../core/config';
-import { processResponse } from '../../../core/api/helpers';
+import {
+  API_SETTINGS,
+  API_BASE,
+  API_MENU,
+  TOKEN_KEY,
+  processResponse,
+  credentials,
+  jsonHeaders
+} from '../../../core';
 import { notificationSend } from './notifications';
 import * as types from './constants';
 
-export function goHome(data) {
+// ------------------------------------
+// React-Router-Redux push location
+// ------------------------------------
+export function goHome() {
   return (dispatch) => {
     dispatch(push('/'));
   };
 }
-const beginLoadMenus = () => ({
-  type: types.LOAD_MENUS_REQUEST
-});
 
-const loadMenusSuccess = (json) => ({
+// ------------------------------------
+// Load Menu
+// ------------------------------------
+const beginLoadMenus = () => ({ type: types.LOAD_MENUS_REQUEST });
+
+const doneLoadMenus = (json) => ({
   type: types.LOAD_MENUS_SUCCESS,
   payload: json
 });
 
-// Fail receivers
-const failedToLoadMenus = (err) => ({
+const failLoadMenus = (err) => ({
   type: types.LOAD_MENUS_FAILURE,
   error: err
 });
@@ -30,17 +41,18 @@ const failedToLoadMenus = (err) => ({
  * Function to retrieve menus from the api.
  * @return {Array} Menus returned as an array of menu objects.
  */
-export function loadMenus() {
+function loadMenus() {
   return dispatch => {
     dispatch(beginLoadMenus());
     return fetch(`${API_MENU}`)
       .then(response => processResponse(response))
-      .then(json => dispatch(loadMenusSuccess(json)))
+      .then(json => dispatch(doneLoadMenus(json)))
       .catch(err => {
-        dispatch(failedToLoadSettings(err));
+        dispatch(failLoadMenus(err));
       });
   };
 }
+
 /**
  * @function fetchMenusIfNeeded
  * @description Function that determines whether or not menus need to be
@@ -73,59 +85,42 @@ function shouldFetchMenus(state) {
   return menus;
 }
 
+// ------------------------------------
+// Load Settings
+// ------------------------------------
+const loadSettings = () => ({ type: types.LOAD_SETTINGS });
 
-const loadSettings = () => ({
-  type: types.LOAD_SETTINGS
-});
+function doneLoadSettings(response) {
+  return {
+    type: types.LOAD_SETTINGS_SUCCESS,
+    siteName: response.body[0].siteName,
+    description: response.body[0].description,
+    logo: response.body[0].logo,
+    siteUrl: response.body[0].siteUrl,
+    favicon: response.body[0].favicon,
+    analyticsId: response.body[0].analyticsId,
+    allowRegistration: response.body[0].allowRegistration
+  };
+}
 
-const loadSettingsSuccess = (response) => ({
-  type: types.LOAD_SETTINGS_SUCCESS,
-  siteName: response.body[0].siteName,
-  description: response.body[0].description,
-  logo: response.body[0].logo,
-  siteUrl: response.body[0].siteUrl,
-  favicon: response.body[0].favicon,
-  analyticsId: response.body[0].analyticsId,
-  allowRegistration: response.body[0].allowRegistration
-});
-
-// Fail receivers
-const failedToLoadSettings = (err) => ({
+const failLoadSettings = (err) => ({
   type: types.LOAD_SETTINGS_FAILURE,
   error: err
 });
 
-// Public action creators
-export function loadBoldrSettings(data) {
+function loadBoldrSettings() {
   return dispatch => {
     dispatch(loadSettings());
-    return request
-      .get(`${API_SETTINGS}`)
-      .then(response => {
-        dispatch(loadSettingsSuccess(response));
-      })
-      .catch(err => {
-        dispatch(failedToLoadSettings(err));
-      });
+    return request(`${API_SETTINGS}`)
+    .then(response => {
+      dispatch(doneLoadSettings(response));
+    })
+    .catch(err => {
+      dispatch(failLoadSettings(err));
+    });
   };
 }
-/**
- * @function fetchMenusIfNeeded
- * @description Function that determines whether or not menus need to be
- * fetched from the api. Dispatches either the loadMenus Function
- * or returns the resolved promise if the menus are up to date.
- * @return {Promise} Menus Promise that resolves when menus are fetched
- * or they arent required to be refreshed.
- */
-export function fetchSettingsIfNeeded() {
-  return (dispatch, getState) => {
-    if (shouldFetchSettings(getState())) {
-      return dispatch(loadBoldrSettings());
-    }
 
-    return Promise.resolve();
-  };
-}
 /**
  * Called by fetchMenusIfNeeded to retrieve the state containing menus
  * @param  {Object} state   The blog state which contains menus
@@ -141,65 +136,39 @@ function shouldFetchSettings(state) {
   return settings;
 }
 
-const startSaveSetup = () => ({
-  type: types.SAVE_SETUP_REQUEST
-});
+/**
+ * @function fetchSettingsIfNeeded
+ * @description Function that determines whether or not menus need to be
+ * fetched from the api. Dispatches either the loadMenus Function
+ * or returns the resolved promise if the menus are up to date.
+ * @return {Promise} Menus Promise that resolves when menus are fetched
+ * or they arent required to be refreshed.
+ */
+export function fetchSettingsIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchSettings(getState())) {
+      return dispatch(loadBoldrSettings());
+    }
 
-const saveSetupSuccess = (response) => ({
-  type: types.SAVE_SETUP_SUCCESS,
-  payload: response.body
-});
-
-// Fail receivers
-const failedToSaveSetup = (data) => ({
-  type: types.SAVE_SETUP_FAIL,
-  data
-});
-
-// Public action creators
-export function saveBoldrSetup(data) {
-  return dispatch => {
-    dispatch(startSaveSetup());
-    return request
-      .post(`${API_SETTINGS}`)
-      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
-      .send(data)
-      .then(response => {
-        if (response.status === 201) {
-          console.log(response);
-          dispatch(saveSetupSuccess(response));
-          dispatch(loadSettings());
-          dispatch(notificationSend({
-            message: 'Your site is set up!',
-            kind: 'info',
-            dismissAfter: 3000
-          }));
-          dispatch(push('/dashboard'));
-        }
-      })
-      .catch(err => {
-        dispatch(failedToSaveSetup(err));
-        dispatch(notificationSend({
-          message: `We ran into a problem with your set up ${err}`,
-          kind: 'error',
-          dismissAfter: 3000
-        }));
-      });
+    return Promise.resolve();
   };
 }
+
+// ------------------------------------
+// Update Settings
+// ------------------------------------
 const beginUpdateSettings = () => ({
   type: types.UPDATE_SETTINGS_REQUEST
 });
 
-const updateSettingsSuccess = (response) => ({
+const doneUpdateSettings = (response) => ({
   type: types.UPDATE_SETTINGS_SUCCESS,
   payload: response.body
 });
 
-// Fail receivers
-const updateSettingsFailed = (data) => ({
+const failUpdateSettings = (err) => ({
   type: types.UPDATE_SETTINGS_FAILURE,
-  data
+  error: err
 });
 
 export function updateBoldrSettings(data, id) {
@@ -210,8 +179,7 @@ export function updateBoldrSettings(data, id) {
       .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .send(data)
       .then(response => {
-        console.log(response);
-        dispatch(updateSettingsSuccess(response));
+        dispatch(doneUpdateSettings(response));
         dispatch(loadSettings());
         dispatch(notificationSend({
           message: 'Your site is set up!',
@@ -221,7 +189,7 @@ export function updateBoldrSettings(data, id) {
         dispatch(push('/dashboard'));
       })
       .catch(err => {
-        dispatch(updateSettingsFailed(err));
+        dispatch(failUpdateSettings(err));
         dispatch(notificationSend({
           message: `We ran into a problem with your set up ${err}`,
           kind: 'error',
@@ -231,6 +199,9 @@ export function updateBoldrSettings(data, id) {
   };
 }
 
+// ------------------------------------
+// Reducer
+// ------------------------------------
 export const INITIAL_STATE = {
   isLoading: false,
   siteName: null,

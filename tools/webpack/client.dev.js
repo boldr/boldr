@@ -41,7 +41,7 @@ const clientDevConfig = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    modulesDirectories: ['src/boldrCMS', 'node_modules'],
+    modulesDirectories: ['src', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }
@@ -108,11 +108,15 @@ const clientDevConfig = {
               sourceMap: true,
               outputStyle: 'expanded'
             }
+          },
+          {
+            loader: 'sass-resources'
           }
         ]
       })
     ]
   },
+  sassResources: path.resolve(bcfg.SRC_DIR, 'styles/abstracts/*.scss'),
   postcss(webpack) {
     return [
       require('precss')(),
