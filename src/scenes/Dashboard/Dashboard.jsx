@@ -101,9 +101,9 @@ class Dashboard extends Component {
           containerElement={ <Link to="/dashboard/settings" /> }
         />
         <MenuItem
-          primaryText="Users"
+          primaryText="Members"
           leftIcon={ <UsersIcon /> }
-          containerElement={ <Link to="/dashboard/users" /> }
+          containerElement={ <Link to="/dashboard/members" /> }
         />
       </Drawer>
 

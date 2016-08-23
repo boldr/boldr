@@ -6,14 +6,19 @@ import { provideHooks } from 'redial';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import UsersList from './components/mol.UsersList';
-import { loadSiteUsers, userSelected, updateUser } from './state/siteUsers';
-import EditUserForm from './components/atm.EditUserForm';
+import MembersList from './components/mol.MembersList';
+import { loadSiteMembers, memberSelected, updateMember } from './state/members';
+import EditMemberForm from './components/atm.EditMemberForm';
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(loadSiteUsers())
+  fetch: ({ dispatch }) => dispatch(loadSiteMembers())
 })
-class Users extends Component {
+class Members extends Component {
+  static propTypes = {
+    members: PropTypes.object,
+    memberSelected: PropTypes.func,
+    updateMember: PropTypes.func
+  };
   constructor(props) {
     super(props);
     this.toggleUser = this.toggleUser.bind(this);
@@ -31,11 +36,10 @@ class Users extends Component {
     this.setState({ open: false });
   };
   toggleUser(userId) {
-    this.props.userSelected(userId);
+    this.props.memberSelected(userId);
     this.setState({ open: true, userId });
   }
   handleSubmit(values) {
-    console.log(values);
     const userData = {
       displayName: values.displayName,
       firstName: values.firstName,
@@ -44,7 +48,7 @@ class Users extends Component {
       id: this.state.userId
     };
 
-    this.props.updateUser(userData);
+    this.props.updateMember(userData);
   }
   render() {
     const actions = [
@@ -64,7 +68,7 @@ class Users extends Component {
     ];
     return (
        <div>
-         <UsersList toggleUser={ this.toggleUser } users={ this.props.siteUsers.users } />
+         <MembersList toggleUser={ this.toggleUser } users={ this.props.members.members } />
          <Dialog
            title="Update User"
            actions={ actions }
@@ -72,24 +76,18 @@ class Users extends Component {
            open={ this.state.open }
            onRequestClose={ this.handleClose }
          >
-          <EditUserForm onSubmit={ this.handleSubmit } />
+          <EditMemberForm onSubmit={ this.handleSubmit } />
         </Dialog>
        </div>
     );
   }
 }
 
-Users.propTypes = {
-  siteUsers: PropTypes.object,
-  userSelected: PropTypes.func,
-  updateUser: PropTypes.func
-};
-
 const mapStateToProps = (state, ownProps) => {
   return {
-    siteUsers: state.siteUsers,
-    selected: state.siteUsers.selected
+    members: state.members,
+    selected: state.members.selected
   };
 };
 
-export default connect(mapStateToProps, { userSelected, updateUser })(Users);
+export default connect(mapStateToProps, { memberSelected, updateMember })(Members);

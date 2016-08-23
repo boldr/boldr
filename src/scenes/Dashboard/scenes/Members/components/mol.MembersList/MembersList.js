@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-import UserTableRow from '../atm.UserTableRow';
+import MemberTableRow from '../atm.MemberTableRow';
 
-const UsersList = (props) => {
+const MembersList = (props) => {
   function handleToggle(userId) {
     props.toggleUser(userId);
   }
@@ -23,7 +23,7 @@ const UsersList = (props) => {
 
         {
           props.users.map((user) =>
-          <UserTableRow
+          <MemberTableRow
             user={ user }
             key={ user.id }
             handleToggle={ handleToggle }
@@ -36,9 +36,9 @@ const UsersList = (props) => {
   );
 };
 
-export default UsersList;
+export default MembersList;
 
-UsersList.propTypes = {
+MembersList.propTypes = {
   users: React.PropTypes.array,
   toggleUser: React.PropTypes.func
 };

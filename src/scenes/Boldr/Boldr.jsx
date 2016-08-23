@@ -10,26 +10,26 @@ import { fetchSettingsIfNeeded, fetchMenusIfNeeded } from './state/boldr';
   defer: ({ dispatch }) => dispatch(fetchMenusIfNeeded())
 })
 class Boldr extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+    fetchSettingsIfNeeded: PropTypes.func
+  };
   componentDidMount() {
     this.props.fetchSettingsIfNeeded();
   }
   render() {
     return (
-    <div>
-      <Helmet
-        title="Boldr"
-        titleTemplate={ '%s | powered by Boldr' }
-      />
-
-      { this.props.children }
-      <Notifications />
+      <div>
+        <Helmet
+          title="Boldr"
+          titleTemplate={ '%s | powered by Boldr' }
+        />
+        { this.props.children }
+        <Notifications />
     </div>
   );
   }
 }
-Boldr.propTypes = {
-  children: PropTypes.node
-};
 
 function mapStateToProps(state) {
   return {

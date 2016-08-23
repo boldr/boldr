@@ -6,7 +6,7 @@ import inlineStyles from '../../../../../../core/inlineStyles';
 import TextField from '../../../../../../components/atm.FormComponents/TextField';
 import SelectField from '../../../../../../components/atm.FormComponents/SelectField';
 
-const EditUserForm = (props) => {
+const EditMemberForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <form onSubmit={ handleSubmit }>
@@ -30,7 +30,7 @@ const EditUserForm = (props) => {
   );
 };
 
-EditUserForm.propTypes = {
+EditMemberForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   reset: PropTypes.func,
   submitting: PropTypes.bool,
@@ -39,5 +39,5 @@ EditUserForm.propTypes = {
 };
 
 export default reduxForm({
-  form: 'editUserForm'
-})(EditUserForm);
+  form: 'editMemberForm'
+})(EditMemberForm);

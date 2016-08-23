@@ -17,7 +17,7 @@ const propTypes = {
   handleToggle: PropTypes.func
 };
 
-const UserTableRow = (props) => {
+const MemberTableRow = (props) => {
   function handleToggle() {
     props.handleToggle(props.user.id);
   }
@@ -46,6 +46,6 @@ const UserTableRow = (props) => {
     );
 };
 
-UserTableRow.propTypes = propTypes;
+MemberTableRow.propTypes = propTypes;
 
-export default UserTableRow;
+export default MemberTableRow;
