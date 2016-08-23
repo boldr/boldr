@@ -1,6 +1,5 @@
 import http from 'http';
 import https from 'https';
-import SocketIO from 'socket.io';
 import app from './server';
 import models from './db/models';
 import { logger } from './lib';
@@ -27,41 +26,16 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
-export const io = SocketIO(server, {});
 
 server.on('listening', onListening);
 server.on('error', onError);
 
-function initSockets(io) {
-  io.on('connection', (socket) => {
-    addListenersToSocket(io, socket);
-    socket.emit('news', {msg: `'Hello World!' from server`});
-
-    socket.on('history', () => {
-      for (let index = 0; index < bufferSize; index++) {
-        const msgNo = (messageIndex + index) % bufferSize;
-        const msg = messageBuffer[msgNo];
-        if (msg) {
-          socket.emit('msg', msg);
-        }
-      }
-    });
-
-    socket.on('msg', (data) => {
-      data.id = messageIndex;
-      messageBuffer[messageIndex % bufferSize] = data;
-      messageIndex++;
-      io.emit('msg', data);
-    });
-  });
-}
 
 async function startServer() {
   const configValues = await conf.getProperties();
   debug(configValues);
   server.listen(port);
   logger.info(`🌎  ==> Boldr API is running on ${port} in ${env} mode.`);
-  await initSockets(io);
 }
 /**
  * Listen on provided port, on all network interfaces.

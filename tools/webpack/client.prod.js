@@ -9,8 +9,6 @@ const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 
-const appRootPath = appRoot.toString();
-
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 

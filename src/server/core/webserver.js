@@ -12,7 +12,6 @@ import redisClient from '../db/redis';
 import { logger } from '../lib';
 import sessionService from './middleware/sessionService';
 import config from './config';
-import { io } from '../engine';
 const RedisStore = require('connect-redis')(session);
 
 export default (app, io) => {
@@ -45,7 +44,7 @@ export default (app, io) => {
     saveUninitialized: false,
     unset: 'destroy'
   });
-  app.use(sessionMiddleware)
+  app.use(sessionMiddleware);
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(sessionService(redisClient, { logErrors: true }));

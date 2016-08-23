@@ -36,7 +36,6 @@ export default function createStore(history, data) {
     module.hot.accept('./reducers', () => {
       System.import('./reducers').then((reducerModule) => {
         const nextReducers = reducerModule.default;
-        // const nextReducers = createReducers(store.asyncReducers);
         store.replaceReducer(nextReducers);
       });
     });

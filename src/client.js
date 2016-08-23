@@ -9,7 +9,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import WebFontLoader from 'webfontloader';
-import io from 'socket.io-client';
 
 // Non-vendor
 import BoldrTheme from './core/materialTheme';
@@ -23,21 +22,6 @@ import './styles/main.scss';
 WebFontLoader.load({
   google: { families: ['Roboto:300,400,500', 'Roboto Condensed:400'] }
 });
-
-function initSocket() {
-  const socket = io('');
-  socket.on('news', (data) => {
-    console.log(data);
-    socket.emit('my other event', { my: 'data from client' });
-  });
-  socket.on('msg', (data) => {
-    console.log(data);
-  });
-
-  return socket;
-}
-
-global.socket = initSocket();
 
 const MOUNT_POINT = document.getElementById('content');
 
@@ -76,7 +60,7 @@ const render = () => {
     return history.listen(location => {
       match({ routes, location }, (error, redirectLocation, renderProps) => {
         if (error) {
-          console.log('==> 😭  React Router match failed.'); // eslint-disable-line no-console
+          console.log('==> React Router match failed.'); // eslint-disable-line no-console
         }
         const { components } = renderProps;
         const locals = {

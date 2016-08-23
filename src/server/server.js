@@ -16,15 +16,13 @@ import Html from './Html';
 import routes from './api/routes';
 import config from './core/config';
 import { webserver, errorHandling } from './core';
-import { io } from './engine';
 
 const debug = _debug('boldr:server');
 const app = express();
 
-app.set('io', io);
 debug('express middleware');
 
-webserver(app, io);
+webserver(app);
 
 debug('routes');
 app.use(config.api.base, routes);
