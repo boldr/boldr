@@ -40,7 +40,7 @@ const ArticleListItem = props => {
           { formattedDate }
         </TableRowColumn>
         <TableRowColumn colSpan="3" style={ inlineStyles.rowColumn } >
-          <Link to={ `/dashboard/articles/${props.article.id}/preview` }>
+          <Link to={ `/dashboard/articles/${props.article.slug}/preview` }>
             <IconButton disableTouchRipple >
               <AvAirplay />
             </IconButton>
