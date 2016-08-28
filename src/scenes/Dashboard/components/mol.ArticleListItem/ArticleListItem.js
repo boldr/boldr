@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import Link from 'react-router/lib/Link';
 import Moment from 'moment';
+
 import IconButton from 'material-ui/IconButton';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
@@ -12,7 +13,8 @@ import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import ActionDone from 'material-ui/svg-icons/action/done';
 import ContentFlag from 'material-ui/svg-icons/content/flag';
 import NotificationPriorityHigh from 'material-ui/svg-icons/notification/priority-high';
-import { inlineStyles } from '../../../../../../core';
+
+import { inlineStyles } from '../../../../core';
 import styles from './style.css';
 
 const cx = styles::classNames;

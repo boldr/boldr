@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createPost } from '../../../../../Blog/state/post';
-import { loadPost, clearCurrentPost, updatePost } from '../../../../../Blog/scenes/SinglePost/actions';
-import NewArticleForm from './ArticleForm';
+
+import { createPost } from '../../../Blog/state/post';
+import { loadPost, clearCurrentPost, updatePost } from '../../../Blog/scenes/SinglePost/actions';
+import EditorForm from '../../components/mol.EditorForm';
 
 class ArticleEditor extends Component {
+  static propTypes = {
+    dispatch: React.PropTypes.func,
+    posts: React.PropTypes.object,
+    params: React.PropTypes.object,
+    currentPost: React.PropTypes.object,
+    clearCurrentPost: React.PropTypes.func,
+    loadPost: React.PropTypes.func
+  };
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,7 +57,7 @@ class ArticleEditor extends Component {
     }
     return (
       <div>
-        <NewArticleForm
+        <EditorForm
           initialValues={ this.props.currentPost }
           editing={ isEditing }
           onSubmit={ this.handleSubmit }
@@ -58,14 +67,6 @@ class ArticleEditor extends Component {
   }
 }
 
-ArticleEditor.propTypes = {
-  dispatch: React.PropTypes.func,
-  posts: React.PropTypes.object,
-  params: React.PropTypes.object,
-  currentPost: React.PropTypes.object,
-  clearCurrentPost: React.PropTypes.func,
-  loadPost: React.PropTypes.func
-};
 
 const mapStateToProps = (state, ownProps) => {
   return {

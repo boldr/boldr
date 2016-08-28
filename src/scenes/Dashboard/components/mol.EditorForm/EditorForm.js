@@ -8,9 +8,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import classNames from 'classnames/bind';
 import Paper from 'material-ui/Paper';
 
-import { RichTextInput } from '../../../../../../components/atm.FormComponents/RichText';
-import RadioButtonGroup from '../../../../../../components/atm.FormComponents/RadioButtonGroup';
-import TextField from '../../../../../../components/atm.FormComponents/TextField';
+import { RichTextInput } from '../../../../components/atm.FormComponents/RichText';
+import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
+import TextField from '../../../../components/atm.FormComponents/TextField';
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -36,7 +36,7 @@ const radioStyle = {
 export const renderRichText = (field) =>
   <RichTextInput key={ field.name } name={ field.name } label={ field.name } />;
 
-class NewArticleForm extends Component {
+class EditorForm extends Component {
   constructor(props) {
     super(props);
 
@@ -139,10 +139,10 @@ class NewArticleForm extends Component {
 }
 
 export default reduxForm({
-  form: 'NewArticleForm'
-})(NewArticleForm);
+  form: 'EditorForm'
+})(EditorForm);
 
-NewArticleForm.propTypes = {
+EditorForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   editing: PropTypes.bool,
   reset: PropTypes.func,

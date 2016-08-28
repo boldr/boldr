@@ -29,7 +29,7 @@ export default (store, connect) => ({
   childRoutes: [{
     path: 'articles',
     getComponent(nextState, cb) {
-      System.import('./scenes/Articles')
+      System.import('./scenes/ArticleList')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
@@ -37,7 +37,7 @@ export default (store, connect) => ({
   {
     path: 'articles/editor(/:slug)',
     getComponent(nextState, cb) {
-      System.import('./scenes/Articles/components/pg.ArticleEditor')
+      System.import('./scenes/ArticleEditor')
         .then(loadModule(cb))
         .catch(errorLoading);
     }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Link } from 'react-router/es6';
 import classNames from 'classnames/bind';
+
 import { List, ListItem } from 'material-ui/List';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -14,10 +15,10 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
-import { inlineStyles } from '../../../../core';
 
+import { inlineStyles } from '../../../../core';
 import { fetchPostsIfNeeded, selectPost } from '../../../Blog/state/post';
-import ArticleListItem from './components/org.ArticleListItem';
+import ArticleListItem from '../../components/mol.ArticleListItem';
 
 import styles from './style.css';
 
@@ -35,7 +36,13 @@ const iconButtonElement = (
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
 })
-class Articles extends Component {
+class ArticleList extends Component {
+  static propTypes = {
+    children: PropTypes.element,
+    posts: PropTypes.object,
+    dispatch: PropTypes.func,
+    current: PropTypes.object
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -113,12 +120,6 @@ class Articles extends Component {
   }
 }
 
-Articles.propTypes = {
-  children: PropTypes.node,
-  posts: PropTypes.object,
-  dispatch: PropTypes.func,
-  current: PropTypes.object
-};
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
@@ -126,4 +127,4 @@ const mapStateToProps = (state, ownProps) => {
     current: state.posts.current
   };
 };
-export default connect(mapStateToProps)(Articles);
+export default connect(mapStateToProps)(ArticleList);
