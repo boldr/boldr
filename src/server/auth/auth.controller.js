@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import async from 'async';
-import moment from 'moment';
 import passport from 'passport';
 
 import {
@@ -25,7 +24,9 @@ function handleLogin(req, res, next) {
     if (!user) {
       return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }
-    const token = signToken(user.id, user.role);
+    const userId = user.id;
+    const roleId = user.roleId;
+    const token = signToken(userId, roleId);
     return res.json({ token, user });
   })(req, res, next);
 }
@@ -34,8 +35,8 @@ function handleLogin(req, res, next) {
 /**
  * DELETE /account
  */
-const accountDelete = (req, res, next) => {
-  return User.findById(req.user.id).destroy().then((user) => {
+const accountDelete = (req, res) => {
+  return User.findById(req.user.id).destroy().then(() => {
     res.status(204).json('Your account has been permanently deleted.');
   });
 };
@@ -87,7 +88,7 @@ async function handleSignup(req, res, next) {
     // // Save token.
     // verificationStorage.save();
     res.status(201).send({
-      token: signToken(user), user
+      token: signToken(user.id, user.roleId), user
     });
   } catch (err) {
     return next(new RespondError(`${FUBAR_MSG} ${err}`, 500, true));

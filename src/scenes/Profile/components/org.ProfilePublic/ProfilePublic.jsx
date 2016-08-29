@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import { provideHooks } from 'redial';
+import { Card, CardActions, CardTitle, CardText } from '../../../../components/md/Cards';
+import { FlatButton } from '../../../../components/md/Buttons';
+import Avatar from '../../../../components/md/Avatars';
 import { getPublicProfile } from '../../../Account/state/account';
 import Header from '../../../../components/org.MainHeader';
 // @provideHooks({
@@ -19,12 +20,11 @@ class ProfilePublic extends Component {
           <Header theme="dark" />
       </div>
         <Card>
-          <CardHeader
+          <CardTitle
             title="title"
             subtitle="Subtitle"
             avatar="http://lorempixel.com/100/100/nature/"
           />
-          <CardTitle title="Card" subtitle="Card subtitle" />
           <CardText>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.

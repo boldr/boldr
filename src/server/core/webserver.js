@@ -1,5 +1,3 @@
-import path from 'path';
-import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import expressJwt from 'express-jwt';
@@ -12,9 +10,10 @@ import redisClient from '../db/redis';
 import { logger } from '../lib';
 import sessionService from './middleware/sessionService';
 import config from './config';
+
 const RedisStore = require('connect-redis')(session);
 
-export default (app, io) => {
+export default (app) => {
   const env = app.get('env');
   app.disable('x-powered-by');
   app.set('trust proxy', 'loopback');

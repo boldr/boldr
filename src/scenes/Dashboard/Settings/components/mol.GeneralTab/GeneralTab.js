@@ -3,12 +3,9 @@ import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import Avatar from 'material-ui/Avatar';
-import Subheader from 'material-ui/Subheader';
-import { List, ListItem } from 'material-ui/List';
-import { RadioButton } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
 
+import Radio from '../../../../../components/md/SelectionControls/Radio';
+import { RaisedButton } from '../../../../../components/md/Buttons';
 import RadioButtonGroup from '../../../../../components/atm.FormComponents/RadioButtonGroup';
 import TextField from '../../../../../components/atm.FormComponents/TextField';
 import styles from './styles.css';
@@ -38,11 +35,11 @@ let GeneralTab = props => { // eslint-disable-line
           <div className={ cx('row') }>
           <Field name="allowRegistration" component={ RadioButtonGroup }>
 
-            <RadioButton
+            <Radio
               value="true"
               label="Yes"
             />
-            <RadioButton
+            <Radio
               value="false"
               label="No"
             />

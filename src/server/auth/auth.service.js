@@ -99,12 +99,14 @@ function addAuthHeaderFromCookie() {
 
 /**
  * Returns a jwt token signed by the app secret
- * @param {String} id - ObjectId of user
+ * @param {String} userId - ObjectId of user
+ * @param {Number} roleId - The user's role id number
  * @returns {Promise} - resolves to the signed token
  */
-function signToken(id) {
+function signToken(userId, roleId) {
   return jwt.sign({
-    id
+    userId,
+    roleId
   }, config.session.secret, {
     expiresIn: 60 * 60 * 5
   });

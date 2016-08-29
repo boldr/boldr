@@ -2,12 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Paper from 'material-ui/Paper';
-import { Tabs, Tab } from 'material-ui/Tabs';
+import Paper from '../../../components/md/Papers';
+import { Tabs, Tab } from '../../../components/md/Tabs';
 
 import { Loader } from '../../../components';
 import { fetchSettingsIfNeeded, updateBoldrSettings } from '../../Boldr/state/boldr';
@@ -37,7 +33,7 @@ class Settings extends Component {
     return (
       <div>
       <Paper>
-        <Tabs>
+        <Tabs primary scrollable>
             <Tab label="General">
               <div>
               <GeneralTab onSubmit={ this.handleSubmit } settings={ this.props.boldr } />

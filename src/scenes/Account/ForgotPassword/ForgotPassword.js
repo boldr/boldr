@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardText, CardActions } from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 import classNames from 'classnames/bind';
 
+import { Card, CardText, CardActions } from '../../../components/md/Cards';
+import TextField from '../../../components/md/TextFields';
+import { RaisedButton } from '../../../components/md/Buttons';
 import Heading from '../../../components/atm.Heading';
 import inlineStyles from '../../../core/inlineStyles';
 import { forgotPassword } from '../state';

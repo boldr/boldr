@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import Divider from 'material-ui/Divider';
+import Divider from '../../../../components/md/Dividers';
 
 import Author from '../mol.Author';
 import TagBlock from '../mol.TagBlock';

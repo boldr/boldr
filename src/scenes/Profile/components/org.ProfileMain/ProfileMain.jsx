@@ -1,15 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import { List, ListItem } from 'material-ui/List';
 import { provideHooks } from 'redial';
-
 import classNames from 'classnames/bind';
+
+import { Card, CardActions, CardTitle, CardText } from '../../../../components/md/Cards';
+import { FlatButton } from '../../../../components/md/Buttons';
 import { getMyProfile } from '../../../Account/state/account';
 import Header from '../../../../components/org.MainHeader';
 import inlineStyles from '../../../../core/inlineStyles';
-
+import Avatar from '../../../../components/md/Avatars';
+import ExpansionList from '../../../../components/md/ExpansionPanels/ExpansionList';
+import ExpansionPanel from '../../../../components/md/ExpansionPanels/ExpansionPanel';
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -19,6 +20,7 @@ const cx = styles::classNames;
 })
 class ProfileMain extends Component {
   render() {
+    const { columnWidths, focused } = this.props;
     return (
       <div>
       <div style={ inlineStyles.headerOverflow }>
@@ -28,10 +30,9 @@ class ProfileMain extends Component {
       <div className="grid__row">
         <div className={ cx('profile__editor') }>
         <Card>
-          <CardHeader
-            title={ this.props.users.firstName }
-            subtitle="Subtitle"
-            avatar={ this.props.users.avatarUrl }
+          <CardTitle
+            title={ this.props.users.displayName }
+            avatar={ <Avatar src={ this.props.users.avatarUrl } /> }
           />
           <CardTitle title="Card" subtitle="Card subtitle" />
           <CardText>
@@ -53,25 +54,50 @@ class ProfileMain extends Component {
         </Card>
         </div>
         <Card className={ cx('profile__card') }>
-          <CardHeader
-            title={ this.props.users.firstName }
-            subtitle="Subtitle"
-            avatar={ this.props.users.picture }
+          <CardTitle
+            title={ `Editing ${this.props.users.displayName}'s profile ` }
+            subtitle="Click the panel for editing options"
+            avatar={ <Avatar src={ this.props.users.avatarUrl } /> }
           />
-          <CardTitle title="Card" subtitle="Card subtitle" />
           <CardText>
-          <List>
-          <ListItem primaryText={ this.props.users.displayName } />
-          <ListItem primaryText={ this.props.users.email } />
-          <ListItem primaryText={ this.props.users.firstName } />
-          <ListItem primaryText={ this.props.users.lastName } />
-          <ListItem primaryText={ this.props.users.gender } />
-          <ListItem primaryText={ this.props.users.birthday } />
-          <ListItem primaryText={ this.props.users.location } />
-          <ListItem primaryText={ this.props.users.website } />
-          <ListItem primaryText={ this.props.users.avatarUrl } />
-
-          </List>
+          <ExpansionList>
+          <ExpansionPanel
+            focused
+            columnWidths={ 10 }
+            label="First name"
+            secondaryLabel={ this.props.users.firstName }
+          />
+          <ExpansionPanel
+            focused
+            columnWidths={ 10 }
+            label="Last name"
+            secondaryLabel={ this.props.users.lastName }
+          />
+          <ExpansionPanel
+            focused
+            columnWidths={ 10 }
+            label="Display name"
+            secondaryLabel={ this.props.users.displayName }
+          />
+          <ExpansionPanel
+            focused
+            columnWidths={ 10 }
+            label="Bio"
+            secondaryLabel={ this.props.users.bio }
+          />
+          <ExpansionPanel
+            focused
+            columnWidths={ 10 }
+            label="Location"
+            secondaryLabel={ this.props.users.location }
+          />
+          <ExpansionPanel
+            focused
+            columnWidths={ 10 }
+            label="Website"
+            secondaryLabel={ this.props.users.website }
+          />
+          </ExpansionList>
           </CardText>
           <CardActions>
             <FlatButton label="Action1" />

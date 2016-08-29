@@ -1,4 +1,4 @@
-import SelectField from 'material-ui/SelectField';
+import SelectField from '../md/SelectFields';
 import createFormComponent from './createFormComponent';
 import mapError from './mapError';
 

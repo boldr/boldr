@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import CircularProgress from 'material-ui/CircularProgress';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+import { CircularProgress } from '../md/Progress';
 
 export default class Loader extends Component {
 
@@ -22,7 +23,15 @@ export default class Loader extends Component {
           display: 'flex',
           alignItems: 'center'
         } }>
-          <CircularProgress style={ { margin: '0 auto' } } />
+        <CSSTransitionGroup
+          component="div"
+          className="text-container"
+          transitionName="opacity"
+          transitionEnterTimeout={ 150 }
+          transitionLeaveTimeout={ 150 }
+        >
+          <CircularProgress key="progress" style={ { margin: '0 auto' } } />
+          </CSSTransitionGroup>
         </div>
       );
       loadingStyle.opacity = 0.2;

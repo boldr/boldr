@@ -10,9 +10,10 @@ const VENDOR_BUNDLE = [
   'redial',
   'superagent',
   'redux-form',
+  'react-addons-transition-group',
   'react-addons-css-transition-group',
-  'material-ui',
   'draft-js',
+  'immutable',
   'classnames'
 ];
 

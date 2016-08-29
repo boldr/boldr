@@ -395,11 +395,6 @@ export default class SelectField extends PureComponent {
     const { position } = this.props;
     let transformOrigin;
     let top;
-    if (SelectField.Positions.BELOW !== position) {
-      const x = SelectField.Positions.TOP_LEFT === position ? '0' : '100%';
-      const y = (diff < 0 ? 0 : height) + (height / 2) + paddingTop;
-      transformOrigin = `${x} ${y}px`;
-    }
 
     // padding top for mobile (desktop is 4)
     if (diff > LIST_PADDING) {

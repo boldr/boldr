@@ -26,7 +26,7 @@ function load(req, res, next, id) {
  */
 async function getAllUsers(req, res, next) {
   try {
-    const users = await User.findAll({
+    const users = await User.find({
       include: [{
         model: Role
       }]

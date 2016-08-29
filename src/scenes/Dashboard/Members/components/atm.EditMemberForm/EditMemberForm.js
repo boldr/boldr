@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+
 import inlineStyles from '../../../../../core/inlineStyles';
+import { RaisedButton } from '../../../../../components/md/Buttons';
 import TextField from '../../../../../components/atm.FormComponents/TextField';
 import SelectField from '../../../../../components/atm.FormComponents/SelectField';
 
@@ -15,14 +15,11 @@ const EditMemberForm = (props) => {
         <Field
           name="roleId"
           component={ SelectField }
-          hintText="Role ID"
-          floatingLabelText="Role ID"
+          label="Role ID"
+          position="below"
+          menuItems={ [1, 2, 3, 4, 5] }
         >
-          <MenuItem value="1" primaryText="Pending" />
-          <MenuItem value="2" primaryText="Member" />
-          <MenuItem value="3" primaryText="Moderator" />
-          <MenuItem value="4" primaryText="Staff" />
-          <MenuItem value="5" primaryText="Admin" />
+
         </Field>
 
         </div>

@@ -4,7 +4,6 @@ import app from './server';
 import models from './db/models';
 import { logger } from './lib';
 import config, { conf } from './core/config';
-import { addListenersToSocket } from './core/middleware/socket';
 
 const sourceMaps = require('source-map-support');
 

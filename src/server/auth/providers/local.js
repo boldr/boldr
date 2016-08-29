@@ -1,7 +1,5 @@
-import { Router } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import * as auth from '../auth.service';
 
 export default function configurePassport(User) {
   passport.use(new LocalStrategy({

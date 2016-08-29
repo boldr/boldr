@@ -2,14 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { RadioButton } from 'material-ui/RadioButton';
 import classNames from 'classnames/bind';
 
+import Radio from '../../../../components/md/SelectionControls/Radio';
 import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
 import Paper from '../../../../components/md/Papers';
 import { RichTextInput } from '../../../../components/atm.FormComponents/RichText';
 import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
 import TextField from '../../../../components/atm.FormComponents/TextField';
+
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -102,17 +103,17 @@ class EditorForm extends Component {
                 <div className={ cx('row') }>
                 <Field name="status" component={ RadioButtonGroup }>
 
-                  <RadioButton
+                  <Radio
                     value="draft"
                     label="Draft"
                     style={ styles.radioButton }
                   />
-                  <RadioButton
+                  <Radio
                     value="published"
                     label="Published"
                     style={ styles.radioButton }
                   />
-                  <RadioButton
+                  <Radio
                     value="archived"
                     label="Archived"
                     style={ styles.radioButton }
