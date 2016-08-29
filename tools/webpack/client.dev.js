@@ -150,17 +150,10 @@ const clientDevConfig = {
       __CLIENT__: true,
       __SERVER__: false
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      children: true,
-      minChunks: Infinity,
-      async: true
-    }),
     new ProgressBarPlugin({
       format: '  build libs [:bar] :percent (:elapsed seconds)',
       clear: false
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.NoErrorsPlugin(),
     webpackIsomorphicToolsPlugin.development(),

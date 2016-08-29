@@ -25,7 +25,7 @@ export default (store, connect) => ({
   childRoutes: [{
     path: 'forgot-password',
     getComponent(nextState, cb) {
-      System.import('./scenes/ForgotPassword')
+      System.import('./ForgotPassword')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
@@ -33,7 +33,7 @@ export default (store, connect) => ({
   {
     path: 'login',
     getComponent(nextState, cb) {
-      System.import('./scenes/Login')
+      System.import('./Login')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
@@ -42,7 +42,7 @@ export default (store, connect) => ({
     path: 'preferences',
     onEnter: connect(UserIsAuthenticated.onEnter),
     getComponent(nextState, cb) {
-      System.import('./scenes/Preferences/components/tpl.Preferences')
+      System.import('./Preferences/components/tpl.Preferences')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
@@ -50,7 +50,7 @@ export default (store, connect) => ({
   {
     path: 'reset-password/:token',
     getComponent(nextState, cb) {
-      System.import('./scenes/ResetPassword')
+      System.import('./ResetPassword')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
@@ -58,7 +58,7 @@ export default (store, connect) => ({
   {
     path: 'signup',
     getComponent(nextState, cb) {
-      System.import('./scenes/Signup')
+      System.import('./Signup')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
