@@ -17,11 +17,6 @@ const LIST_PADDING = 8;
  * A SelectField is a material design inspired `<select>` component.
  */
 export default class SelectField extends PureComponent {
-  static Positions = {
-    TOP_LEFT: Menu.Positions.TOP_LEFT,
-    TOP_RIGHT: Menu.Positions.TOP_RIGHT,
-    BELOW: Menu.Positions.BELOW,
-  };
 
   static propTypes = {
     /**
@@ -133,9 +128,7 @@ export default class SelectField extends PureComponent {
      * ```
      */
     position: PropTypes.oneOf([
-      SelectField.Positions.TOP_LEFT,
-      SelectField.Positions.TOP_RIGHT,
-      SelectField.Positions.BELOW,
+      'below'
     ]),
 
     /**
@@ -595,7 +588,7 @@ export default class SelectField extends PureComponent {
 
   render() {
     const { open, size, activeIndex, listStyle, droppingClassName } = this.state;
-    let { lineDirection } = this.props;
+    const { lineDirection } = this.props;
     const {
       label,
       floatingLabel,
@@ -620,28 +613,24 @@ export default class SelectField extends PureComponent {
     delete props.lineDirection;
 
     const displayLabel = this._getValue(this.props, this.state);
-    const below = Menu.Positions.BELOW === position;
-
-    if (!lineDirection && !below) {
-      lineDirection = Menu.Positions.TOP_LEFT === position ? 'left' : 'right';
-    }
+    const below = true;
 
     const toggle = (
       <SelectFieldControl
-        inputStyle={style}
-        inputClassName={cn(className, droppingClassName)}
-        label={label}
-        value={displayLabel}
-        floatingLabel={floatingLabel}
-        rightIcon={<FontIcon iconClassName={iconClassName}>{iconChildren}</FontIcon>}
-        size={size}
-        disabled={disabled}
-        open={open}
-        below={below}
-        inkDisabled={!below}
-        fullWidth={fullWidth}
-        adjustMinWidth={adjustMinWidth}
-        lineDirection={lineDirection}
+        inputStyle={ style }
+        inputClassName={ cn(className, droppingClassName) }
+        label={ label }
+        value={ displayLabel }
+        floatingLabel={ floatingLabel }
+        rightIcon={ <FontIcon iconClassName={ iconClassName }>{iconChildren}</FontIcon> }
+        size={ size }
+        disabled={ disabled }
+        open={ open }
+        below={ below }
+        inkDisabled={ !below }
+        fullWidth={ fullWidth }
+        adjustMinWidth={ adjustMinWidth }
+        lineDirection={ lineDirection }
       />
     );
 
@@ -649,13 +638,13 @@ export default class SelectField extends PureComponent {
     if (open) {
       items = menuItems.map((item, i) => (
         <ListItem
-          tabIndex={-1}
-          primaryText={isObject(item) ? item[itemLabel] : item}
-          key={item.key || i}
-          tileClassName={cn({
+          tabIndex={ -1 }
+          primaryText={ isObject(item) ? item[itemLabel] : item }
+          key={ item.key || i }
+          tileClassName={ cn({
             'active': i === activeIndex,
             'select-field-btn-tile': below,
-          })}
+          }) }
         />
       ));
     }
@@ -682,7 +671,7 @@ export default class SelectField extends PureComponent {
     }
 
     return (
-      <Menu {...menuProps}>
+      <Menu { ...menuProps }>
         {items}
       </Menu>
     );

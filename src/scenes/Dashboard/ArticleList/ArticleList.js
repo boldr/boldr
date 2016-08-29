@@ -4,16 +4,6 @@ import { provideHooks } from 'redial';
 import { Link } from 'react-router/es6';
 import classNames from 'classnames/bind';
 
-import { List, ListItem } from 'material-ui/List';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Avatar from 'material-ui/Avatar';
-import { grey400 } from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-
 import Paper from '../../../components/md/Papers';
 import {
   DataTable, TableHeader, TableBody, TableRow, TableColumn, EditDialogColumn
@@ -25,15 +15,6 @@ import ArticleListItem from '../components/mol.ArticleListItem';
 import styles from './style.css';
 
 const cx = styles::classNames;
-const iconButtonElement = (
-  <IconButton
-    touch
-    tooltip="more"
-    tooltipPosition="bottom-left"
-  >
-    <MoreVertIcon color={ grey400 } />
-  </IconButton>
-);
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
@@ -63,38 +44,23 @@ class ArticleList extends Component {
       return <h1>Perhaps you should create a new post?</h1>;
     }
 
-    const rightIconMenu = (
-      <IconMenu iconButtonElement={ iconButtonElement }>
-        <MenuItem><Link to={ `/dashboard/articles/editor/${this.state.slug}` }>Edit</Link></MenuItem>
-        <MenuItem>Unpublish</MenuItem>
-        <MenuItem>Delete</MenuItem>
-      </IconMenu>
-    );
-
-    const newButton = (
-      <Link to="/dashboard/articles/editor">
-        <FloatingActionButton style={ inlineStyles.floatButton } disableTouchRipple primary>
-          <ContentAdd />
-        </FloatingActionButton>
-      </Link>
-    );
     return (
       <div className={ cx('dashboard__row') }>
        <Paper zDepth={ 1 } style={ { height: '90vh' } }>
-       {newButton}
+
        <DataTable className="complex-table">
        <TableHeader>
           <TableRow>
-             <TableColumn>
+             <TableColumn tooltipPosition="bottom">
                Title
              </TableColumn>
-             <TableColumn>
+            <TableColumn tooltipPosition="bottom">
                Status
              </TableColumn>
-             <TableColumn>
+             <TableColumn tooltipPosition="bottom">
                Date
              </TableColumn>
-             <TableColumn>
+             <TableColumn tooltipPosition="bottom">
                Action
              </TableColumn>
            </TableRow>

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Paper from 'material-ui/Paper';
+import Paper from '../../../../components/md/Papers';
 
 import Sidebar from '../mol.Sidebar/index';
 import SidebarContent from '../atm.SidebarContent/index';

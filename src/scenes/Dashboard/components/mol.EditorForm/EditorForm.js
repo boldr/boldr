@@ -2,12 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import FlatButton from 'material-ui/FlatButton';
 import { RadioButton } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import classNames from 'classnames/bind';
-import Paper from 'material-ui/Paper';
 
+import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
+import Paper from '../../../../components/md/Papers';
 import { RichTextInput } from '../../../../components/atm.FormComponents/RichText';
 import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
 import TextField from '../../../../components/atm.FormComponents/TextField';

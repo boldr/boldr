@@ -14,13 +14,6 @@ import { onOutsideClick } from '../utils';
  * upon opening a temporary, new sheet of material.
  */
 export default class Menu extends PureComponent {
-  static Positions = {
-    TOP_RIGHT: 'tr',
-    TOP_LEFT: 'tl',
-    BOTTOM_RIGHT: 'br',
-    BOTTOM_LEFT: 'bl',
-    BELOW: 'below',
-  };
 
   static propTypes = {
     /**

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
+
+import {
+  DataTable, TableHeader, TableBody, TableRow, TableColumn, EditDialogColumn
+} from '../../../../../components/md/DataTables';
 import MemberTableRow from '../atm.MemberTableRow';
 
 const MembersList = (props) => {
@@ -9,18 +10,17 @@ const MembersList = (props) => {
     props.toggleUser(userId);
   }
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHeaderColumn>ID</TableHeaderColumn>
-          <TableHeaderColumn>Name</TableHeaderColumn>
-          <TableHeaderColumn>Email</TableHeaderColumn>
-          <TableHeaderColumn>Role</TableHeaderColumn>
-          <TableHeaderColumn>Actions</TableHeaderColumn>
+    <DataTable>
+    <TableHeader>
+       <TableRow>
+          <TableColumn tooltipPosition="bottom">ID</TableColumn>
+          <TableColumn tooltipPosition="bottom">Name</TableColumn>
+          <TableColumn tooltipPosition="bottom">Email</TableColumn>
+          <TableColumn tooltipPosition="bottom">Role</TableColumn>
+          <TableColumn tooltipPosition="bottom">Actions</TableColumn>
         </TableRow>
       </TableHeader>
       <TableBody>
-
         {
           props.users.map((user) =>
           <MemberTableRow
@@ -32,7 +32,7 @@ const MembersList = (props) => {
         }
 
       </TableBody>
-    </Table>
+    </DataTable>
   );
 };
 

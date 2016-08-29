@@ -1,19 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import FontIcon from 'material-ui/FontIcon';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
-import Paper from 'material-ui/Paper';
 import classNames from 'classnames/bind';
 
+import Toolbar from '../../../components/md/Toolbars';
+import FontIcon from '../../../components/md/FontIcons';
+import { RaisedButton, FlatButton, IconButton } from '../../../components/md/Buttons';
+import Paper from '../../../components/md/Papers';
 import S3Uploader from '../../../components/atm.s3Uploader';
 import inlineStyles from '../../../core/inlineStyles';
 import { API_BASE, S3_SIGNING_URL } from '../../../core/config';
@@ -68,17 +61,9 @@ class Media extends Component {
     return (
        <div>
        <Paper>
-       <Toolbar style={ inlineStyles.toolbar }>
-        <ToolbarGroup firstChild>
-          <DropDownMenu value={ this.state.value } onChange={ this.handleChange }>
-            <MenuItem value={ 1 } primaryText="All Files" />
-            <MenuItem value={ 2 } primaryText="All Photos" />
-          </DropDownMenu>
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarTitle text="Upload a file" />
-          <FontIcon className="muidocs-icon-custom-sort" />
-          <ToolbarSeparator />
+       <Toolbar primary title="Upload a file">
+
+
           <S3Uploader
             style={ { paddingTop: '10px', paddingLeft: '5px', verticalAlign: 'middle' } }
             signingUrl={ `${S3_SIGNING_URL}` }
@@ -91,17 +76,7 @@ class Media extends Component {
             contentDisposition="auto"
             server={ `${API_BASE}` }
           />
-          <IconMenu
-            iconButtonElement={
-              <IconButton touch>
-                <NavigationExpandMoreIcon />
-              </IconButton>
-            }
-          >
-            <MenuItem primaryText="Download" />
-            <MenuItem primaryText="More Info" />
-          </IconMenu>
-        </ToolbarGroup>
+
       </Toolbar>
 
         <FileView files={ this.props.media.files } />

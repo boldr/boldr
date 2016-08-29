@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from '../../../../components/md/Cards';
 
 const Widget = (props) => {
   return (

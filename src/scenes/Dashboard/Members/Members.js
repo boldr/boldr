@@ -3,9 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+
+import Dialog from '../../../components/md/Dialogs';
+import { FlatButton, RaisedButton } from '../../../components/md/Buttons';
 import MembersList from './components/mol.MembersList';
 import { loadSiteMembers, memberSelected, updateMember } from './state/members';
 import EditMemberForm from './components/atm.EditMemberForm';
@@ -23,21 +23,21 @@ class Members extends Component {
     super(props);
     this.toggleUser = this.toggleUser.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.state = { isOpen: false };
   }
-  state = {
-    open: false,
+
+  openDialog = () => {
+    this.setState({ isOpen: true });
   };
 
-  handleOpen = () => {
-    this.setState({ open: true });
+  closeDialog = () => {
+    this.setState({ isOpen: false });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
   toggleUser(userId) {
     this.props.memberSelected(userId);
-    this.setState({ open: true, userId });
+    this.setState({ isOpen: true, userId });
   }
   handleSubmit(values) {
     const userData = {
@@ -51,32 +51,20 @@ class Members extends Component {
     this.props.updateMember(userData);
   }
   render() {
-    const actions = [
-      <FlatButton
-        key={ 1 }
-        label="Cancel"
-        primary
-        onTouchTap={ this.handleClose }
-      />,
-      <FlatButton
-        key={ 2 }
-        label="Save"
-        primary
-        keyboardFocused
-        onTouchTap={ this.handleSubmit }
-      />
-    ];
+    const { isOpen } = this.state;
     return (
        <div>
          <MembersList toggleUser={ this.toggleUser } users={ this.props.members.members } />
          <Dialog
            title="Update User"
-           actions={ actions }
-           modal={ false }
-           open={ this.state.open }
-           onRequestClose={ this.handleClose }
+           isOpen={ isOpen }
+           close={ this.closeDialog }
          >
           <EditMemberForm onSubmit={ this.handleSubmit } />
+          <FlatButton
+            label="Save"
+            onTouchTap={ this.handleSubmit }
+          />
         </Dialog>
        </div>
     );

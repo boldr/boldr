@@ -12,6 +12,12 @@ import FontIcon from '../FontIcons';
  * `.prevent-grow`.
  */
 class TableColumn extends PureComponent {
+  static defaultProps = {
+    header: false,
+    sortIconClassName: 'material-icons',
+    tooltipPosition: 'bottom',
+    sortIconChildren: 'arrow_upward',
+  };
   static propTypes = {
     /**
      * The optional className for the table column
@@ -117,10 +123,4 @@ class TableColumn extends PureComponent {
   }
 }
 
-TableColumn.defaultProps = {
-  header: false,
-  sortIconClassName: 'material-icons',
-  tooltipPosition: 'bottom',
-  sortIconChildren: 'arrow_upward',
-};
 export default injectTooltip(TableColumn);
