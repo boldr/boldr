@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const VisualizerPlugin = require('webpack-visualizer-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
@@ -111,6 +112,7 @@ const clientProdConfig = {
       __CLIENT__: true,
       __SERVER__: false
     }),
+    new LodashModuleReplacementPlugin,
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       children: true,
