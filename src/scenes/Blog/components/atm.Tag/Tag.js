@@ -1,5 +1,5 @@
 import React from 'react';
-import Chip from 'material-ui/Chip';
+import Chip from '../../../../components/md/Chips';
 
 const styles = {
   chip: {
@@ -12,7 +12,7 @@ const styles = {
 };
 
 const Tag = (props) => {
-  return <Chip style={ styles.chip }>{ props.name }</Chip>;
+  return <Chip style={ styles.chip } label={ props.name } />;
 };
 
 Tag.propTypes = {

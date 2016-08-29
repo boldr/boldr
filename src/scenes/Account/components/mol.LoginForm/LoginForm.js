@@ -1,36 +1,42 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { CardActions, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-
-import { TextField } from '../../../../components';
+import { CardActions } from '../../../../components/md/Cards';
+import TextField from '../../../../components/md/TextFields';
+import { RaisedButton, FlatButton } from '../../../../components/md/Buttons';
 import inlineStyles from '../../../../core/inlineStyles';
+
+const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
+  <div>
+  <TextField
+    label={ label }
+    className="md-title-text-field"
+    size={ 10 }
+    type={ type }
+    { ...input }
+  />
+  </div>
+);
 
 const LoginForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
-      <form onSubmit={ handleSubmit }>
-        <CardText>
+      <form onSubmit={ handleSubmit } className="card__form">
           <div className="grid__row">
-          <Field name="email"
+          <Field
+            name="email"
             type="email"
-            component={ TextField }
-            floatingLabelText="Email address"
-            fullWidth
-            underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+            label="Email"
+            component={ renderField }
           />
           </div>
           <div className="grid__row">
-          <Field name="password"
+          <Field
+            name="password"
+            label="Password"
             type="password"
-            component={ TextField }
-            floatingLabelText="Password"
-            fullWidth
-            underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+            component={ renderField }
           />
           </div>
-        </CardText>
         <CardActions>
           <RaisedButton secondary type="submit" label="Login" />
           <FlatButton label="Clear values" disabled={ pristine || submitting } onClick={ reset } />

@@ -20,7 +20,7 @@ import getRoutes from './scenes';
 import './styles/main.scss';
 
 WebFontLoader.load({
-  google: { families: ['Roboto:300,400,500', 'Roboto Condensed:400'] }
+  google: { families: ['Roboto:300,400', 'Roboto Condensed:400', 'Material Icons'] }
 });
 
 const MOUNT_POINT = document.getElementById('content');

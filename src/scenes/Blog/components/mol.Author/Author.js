@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from 'material-ui/Avatar';
+import Avatar from '../../../../components/md/Avatars';
 import { Heading } from '../../../../components';
 
 const styles = {

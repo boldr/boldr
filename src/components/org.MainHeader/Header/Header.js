@@ -1,20 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 // import FlatButton from 'material-ui/FlatButton';
 import classNames from 'classnames/bind';
-import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import Burger from 'material-ui/svg-icons/navigation/menu';
 import cxN from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import AvWeb from 'material-ui/svg-icons/av/web';
-import ActionDescription from 'material-ui/svg-icons/action/description';
-import SocialPerson from 'material-ui/svg-icons/social/person';
+import FontIcon from '../../md/FontIcons';
+import { IconButton, RaisedButton } from '../../md/Buttons';
+import { ListItem } from '../../md/Lists';
+import Menu from '../../md/Menus';
 
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { goHome } from '../../../scenes/Boldr/state/boldr';
 import Head from '../Head';
 import Item from '../Item';
@@ -23,12 +18,13 @@ import defaultMenuItems from '../data/menu-items.json';
 import styles from './Header.css';
 
 const cx = styles::classNames;
-
+const kebabMenu = 'more_vert';
 class Header extends Component {
 
   state = {
     navbarDropdownIsOpen: false,
-    mobileState: true
+    mobileState: true,
+    authOpen: false
   };
 
   componentDidMount() {
@@ -91,6 +87,13 @@ class Header extends Component {
       : <RaisedButton className={ className } onClick={ onClick } >{ text }</RaisedButton>;
   }
 
+  toggleAuth = () => {
+    this.setState({ authOpen: !this.state.authOpen });
+  };
+
+  close = () => {
+    this.setState({ authOpen: false });
+  };
 
 
   render() {
@@ -113,6 +116,31 @@ class Header extends Component {
       />
     );
 
+    const renderAuthMenu = (
+      <Menu
+        isOpen={ this.state.authOpen }
+        toggle={ (
+          <IconButton onClick={ this.toggleAuth } tooltipLabel="More options">{kebabMenu}</IconButton>
+        ) }
+        close={ this.close }
+      >
+        <Link to="/profile"><ListItem primaryText="Profile" /></Link>
+        <Link to="/account/preferences" ><ListItem primaryText="Preferences" /></Link>
+        <ListItem primaryText="Sign out" />
+    </Menu>
+  );
+    const renderUnauthMenu = (
+    <Menu
+      isOpen={ this.state.authOpen }
+      toggle={ (
+        <IconButton onClick={ this.toggleAuth } tooltipLabel="More options">{kebabMenu}</IconButton>
+      ) }
+      close={ this.close }
+    >
+      <Link to="/account/login" ><ListItem primaryText="Log In" /></Link>
+      <Link to="/account/signup" ><ListItem primaryText="Sign Up" /></Link>
+  </Menu>
+);
     return (
       <header
         className={ cx('header', [`theme-${theme}`], className, {
@@ -134,44 +162,24 @@ class Header extends Component {
             }) }
               ref="dropdownContent"
             >
-              <ul className={ cx('navigation') }>{ !!children ? children : renderedMenuItems }
-
-
+              <ul className={ cx('navigation') }>
+              { !!children ? children : renderedMenuItems }
               </ul>
             </nav>
             <div className={ cxN(cx('buttons-group', { 'is-dropdown-open': navbarDropdownIsOpen }), {
-                'theme-dark': theme === 'dark'
-              }) }
-            >
+              'theme-dark': theme === 'dark'
+            }) }>
 
             <ul style={ { listStyleType: 'none', display: 'flex', margin: '0' } }>
             <li>
-            <IconMenu
-              iconButtonElement={ <IconButton style={ { padding: '0' } }><SocialPerson color="white" /></IconButton> }
-              anchorOrigin={ { horizontal: 'left', vertical: 'top' } }
-              targetOrigin={ { horizontal: 'left', vertical: 'top' } }
-            >
-            {
-              this.props.auth.isAuthenticated ?
-              <div>
-              <MenuItem primaryText="Profile" containerElement={ <Link to="/profile" /> } />
-              <MenuItem primaryText="Preferences" containerElement={ <Link to="/account/preferences" /> } />
-              <MenuItem primaryText="Sign out" />
-              </div>
-              :
-              <div>
-              <MenuItem primaryText="Log In" containerElement={ <Link to="/account/login" /> } />
-              <MenuItem primaryText="Sign Up" containerElement={ <Link to="/account/signup" /> } /></div>
-            }
-
-            </IconMenu>
+             { this.props.auth.isAuthenticated ? renderAuthMenu : renderUnauthMenu }
 
             </li>
               { this.props.auth.roleId > 4 ?
                 <li>
                   <Link to="/dashboard">
                     <IconButton style={ { padding: '0' } }>
-                      <AvWeb color="white" />
+                    <FontIcon>avWeb</FontIcon>
                     </IconButton>
                   </Link>
                 </li> : null

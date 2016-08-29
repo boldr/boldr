@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import { Flex, Box } from 'reflexbox';
+
 import Loader from '../../../components/atm.Loader';
 import { fetchPostsIfNeeded } from '../state/post';
 import PostCard from '../components/mol.PostCard';

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Card } from 'material-ui/Card';
+
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
-
+import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
 import { Heading } from '../../../components/index';
 import inlineStyles from '../../../core/inlineStyles';
 import { doLogin } from '../state/auth';
@@ -28,8 +28,7 @@ class Login extends Component {
   render() {
     const renderHeader = (
       <div>
-        <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
-          Enter your email address below to reset it.
+        <Heading size={ 1 } bottom="10px">Login</Heading>
       </div>
     );
     const { isLoading } = this.props.auth;
@@ -38,13 +37,16 @@ class Login extends Component {
       <div style={ inlineStyles.headerOverflow }>
         <Helmet title="Login" />
         <section className={ cx('root') }>
-          <Card className={ cx('auth-card') }>
+          <Card>
             { renderHeader }
 
             <LoginForm onSubmit={ this.handleOnSubmit } />
-            <div className={ cx('auth-card__footer') }>
-              <p><Link to="/account/forgot-password">Forgot your password?</Link></p>
-            </div>
+            <CardActions>
+              <p>
+                <Link to="/account/forgot-password">Forgot your password?</Link>
+                <Link to="/account/signup">Create an account</Link>
+              </p>
+            </CardActions>
           </Card>
         </section>
       </div>

@@ -8,14 +8,16 @@ import { List, ListItem } from 'material-ui/List';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Avatar from 'material-ui/Avatar';
-import { Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { grey400 } from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import Paper from 'material-ui/Paper';
 
+import Paper from '../../../components/md/Papers';
+import {
+  DataTable, TableHeader, TableBody, TableRow, TableColumn, EditDialogColumn
+} from '../../../components/md/DataTables';
 import { inlineStyles } from '../../../core';
 import { fetchPostsIfNeeded, selectPost } from '../../Blog/state/post';
 import ArticleListItem from '../components/mol.ArticleListItem';
@@ -53,7 +55,7 @@ class ArticleList extends Component {
   }
 
   handleArticleClick(postId) {
-    console.log('clicked ', postId)
+    console.log('clicked ', postId);
   }
 
   render() {
@@ -78,40 +80,39 @@ class ArticleList extends Component {
     );
     return (
       <div className={ cx('dashboard__row') }>
-
        <Paper zDepth={ 1 } style={ { height: '90vh' } }>
        {newButton}
-       <Table fixedHeader fixedFooter>
-         <TableHeader adjustForCheckbox={ false } displaySelectAll={ false }>
-           <TableRow selectable={ false }>
-             <TableHeaderColumn colSpan="4" style={ inlineStyles.headerColumn }>
+       <DataTable className="complex-table">
+       <TableHeader>
+          <TableRow>
+             <TableColumn>
                Title
-             </TableHeaderColumn>
-             <TableHeaderColumn colSpan="2" style={ inlineStyles.headerColumn }>
+             </TableColumn>
+             <TableColumn>
                Status
-             </TableHeaderColumn>
-             <TableHeaderColumn colSpan="2" style={ inlineStyles.headerColumn }>
+             </TableColumn>
+             <TableColumn>
                Date
-             </TableHeaderColumn>
-             <TableHeaderColumn colSpan="3" style={ inlineStyles.headerColumn }>
+             </TableColumn>
+             <TableColumn>
                Action
-             </TableHeaderColumn>
+             </TableColumn>
            </TableRow>
          </TableHeader>
-         <TableBody displayRowCheckbox={ false }>
-           {this.props.posts.data.map((post, index) => (
-             <ArticleListItem
-               article={ post }
-               key={ post.id }
-               sortRank={ index }
-               content={ post.content }
-               title={ post.title }
-               slug={ post.slug }
-               handleArticleClick={ this.handleArticleClick }
-             />
-           ))}
+         <TableBody>
+         {this.props.posts.data.map((post, index) => (
+           <ArticleListItem
+             article={ post }
+             key={ post.id }
+             sortRank={ index }
+             content={ post.content }
+             title={ post.title }
+             slug={ post.slug }
+             handleArticleClick={ this.handleArticleClick }
+           />
+         ))}
          </TableBody>
-        </Table>
+        </DataTable>
 
         </Paper>
         </div>

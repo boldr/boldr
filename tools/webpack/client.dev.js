@@ -22,7 +22,7 @@ const clientDevConfig = {
   target: 'web',
   stats: false, // Don't show stats in the console
   progress: true,
-  devtool: isDebug ? 'cheap-eval-source-map' : false,
+  devtool: isDebug ? 'cheap-module-eval-source-map' : false,
   context: bcfg.ABS_ROOT,
   debug: isDebug,
   entry: {
@@ -102,7 +102,7 @@ const clientDevConfig = {
             query:
             {
               sourceMap: true,
-              modules: true,
+              modules: false,
               localIdentName: '[local]-[hash:base62:6]',
               minimize: false
             }

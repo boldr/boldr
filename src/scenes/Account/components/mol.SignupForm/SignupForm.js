@@ -1,63 +1,69 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Card, CardActions, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 
-import inlineStyles from '../../../../core/inlineStyles';
-import TextField from '../../../../components/atm.FormComponents/TextField';
+import { CardActions } from '../../../../components/md/Cards';
+import TextField from '../../../../components/md/TextFields';
+import { RaisedButton, FlatButton } from '../../../../components/md/Buttons';
+
 import validate from './validate';
 
+const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
+  <div>
+  <TextField
+    label={ label }
+    className="md-text-field"
+    type={ type }
+    { ...input }
+  />
+  </div>
+);
 
 const SignupForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <form onSubmit={ handleSubmit }>
-      <CardText>
-      <div className="grid__row">
+    <div className="grid__row">
+      <div className="grid__half">
         <Field name="email"
           type="email"
-          component={ TextField }
-          floatingLabelText="Email address"
-          className="grid__half"
-          underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+          component={ renderField }
+          label="Email address"
         />
+      </div>
+      <div className="grid__half">
         <Field name="password"
           type="password"
-          component={ TextField }
-          floatingLabelText="Password"
-          className="grid__half"
-          underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+          component={ renderField }
+          label="Password"
         />
-        </div>
-        <div className="grid__row">
+      </div>
+    </div>
+    <div className="grid__row">
+      <div className="grid__half">
         <Field name="firstName"
           type="text"
-          component={ TextField }
-          floatingLabelText="First name"
-          className="grid__half"
-          underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+          component={ renderField }
+          label="First name"
         />
+      </div>
+      <div className="grid__half">
         <Field name="lastName"
           type="text"
-          component={ TextField }
-          floatingLabelText="Last name"
-          className="grid__half"
-          underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+          component={ renderField }
+          label="Last name"
         />
-        </div>
-        <div className="grid__row">
+      </div>
+      </div>
+      <div className="grid__row">
         <Field name="displayName"
           type="text"
-          component={ TextField }
-          floatingLabelText="Display name"
-          underlineFocusStyle={ inlineStyles.underlineFocusStyle }
+          component={ renderField }
+          label="Display name"
         />
-        </div>
-      </CardText>
+      </div>
       <CardActions>
         <RaisedButton secondary type="submit" label="Create account" />
       </CardActions>
-
     </form>
   );
 };

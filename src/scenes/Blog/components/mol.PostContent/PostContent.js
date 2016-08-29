@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Divider from 'material-ui/Divider';
+import Divider from '../../../../components/md/Dividers';
 import { Heading } from '../../../../components';
 import PostImage from '../../components/atm.PostImage';
 

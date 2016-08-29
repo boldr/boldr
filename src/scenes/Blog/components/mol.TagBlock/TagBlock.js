@@ -14,7 +14,9 @@ const TagBlock = (props) => {
   }
   return (
     <div style={ styles.wrapper } className="tagblock">
-    { props.tags.map(tag => <Tag key={ tag.id } name={ tag.name } id={ tag.id } />) }
+    {
+      props.tags.map(tag => <Tag key={ tag.id } name={ tag.name } id={ tag.id } />)
+    }
     </div>
   );
 };

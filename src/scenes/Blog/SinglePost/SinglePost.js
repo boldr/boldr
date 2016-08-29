@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router/es6';
 import Moment from 'moment';
-import Paper from 'material-ui/Paper';
 import { Flex, Box } from 'reflexbox';
 import classNames from 'classnames/bind';
 import { provideHooks } from 'redial';
 
+import Paper from '../../../components/md/Papers';
 import Loader from '../../../components/atm.Loader';
 import Sidebar from '../components/org.Sidebar';
 

@@ -4,7 +4,6 @@ import Link from 'react-router/lib/Link';
 import Moment from 'moment';
 
 import IconButton from 'material-ui/IconButton';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import AvAirplay from 'material-ui/svg-icons/av/airplay';
 import ActionVisibility from 'material-ui/svg-icons/action/visibility';
@@ -14,6 +13,7 @@ import ActionDone from 'material-ui/svg-icons/action/done';
 import ContentFlag from 'material-ui/svg-icons/content/flag';
 import NotificationPriorityHigh from 'material-ui/svg-icons/notification/priority-high';
 
+import { TableRow, TableColumn } from '../../../../components/md/DataTables';
 import { inlineStyles } from '../../../../core';
 import styles from './style.css';
 
@@ -28,20 +28,20 @@ const ArticleListItem = props => {
   const publishedIcon = <ActionVisibility onClick={ handleclick } />;
   const draftIcon = <ActionVisibilityOff onClick={ handleclick } />;
   return (
-      <TableRow style={ inlineStyles.row }>
-        <TableRowColumn colSpan="4" style={ inlineStyles.rowColumn } >
+      <TableRow>
+        <TableColumn>
           {props.article.title}
-        </TableRowColumn>
-        <TableRowColumn colSpan="2" style={ inlineStyles.rowColumn } >
+        </TableColumn>
+        <TableColumn>
           { props.article.status === 'published' ?
             publishedIcon :
             draftIcon
           }
-        </TableRowColumn>
-        <TableRowColumn colSpan="2" style={ inlineStyles.rowColumn } >
+        </TableColumn>
+        <TableColumn>
           { formattedDate }
-        </TableRowColumn>
-        <TableRowColumn colSpan="3" style={ inlineStyles.rowColumn } >
+        </TableColumn>
+        <TableColumn>
           <Link to={ `/dashboard/articles/${props.article.slug}/preview` }>
             <IconButton disableTouchRipple >
               <AvAirplay />
@@ -55,7 +55,7 @@ const ArticleListItem = props => {
           <IconButton name="delete-button" disableTouchRipple>
             <DeleteForever />
           </IconButton>
-        </TableRowColumn>
+        </TableColumn>
       </TableRow>
   );
 };

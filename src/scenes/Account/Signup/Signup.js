@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Card } from 'material-ui/Card';
+
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
+import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
 import { Heading } from '../../../components/index';
 import inlineStyles from '../../../core/inlineStyles';
 import { createAccount } from '../state/account';
@@ -44,7 +45,7 @@ class Signup extends Component {
         <div style={ inlineStyles.headerOverflow }>
           <Helmet title="Signup" />
           <section className={ cx('root') }>
-            <Card className={ cx('auth-card') }>
+            <Card>
 
               { renderHeader }
 
