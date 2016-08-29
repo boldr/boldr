@@ -38,16 +38,26 @@ const clientProdConfig = {
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: webpackIsomorphicToolsPlugin.regular_expression('svg'), loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.css$/,
+        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
           loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader'
         })
       },
+      {
+        test: /\.(scss|sass|css)/,
+        include: /node_modules/,
+        loader: ExtractTextPlugin.extract({
+          notExtractLoader: 'style-loader',
+          loader: 'css!postcss!sass'
+        })
+      },
       { test: /\.scss$/,
+        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
           loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader!sass-loader!sass-resources'

@@ -14,17 +14,17 @@ const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 const WP_DS = 3001;
 
+const isDebug = process.env.NODE_ENV !== 'production';
+
 dotenv.config({ silent: true });
 const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${bcfg.HOT_RELOAD_PORT}/__webpack_hmr`;
 const clientDevConfig = {
   target: 'web',
   stats: false, // Don't show stats in the console
   progress: true,
-  // use either cheap-eval-source-map or cheap-module-eval-source-map.
-  // cheap eval is faster than cheap-module
-  // see https://webpack.github.io/docs/build-performance.html#sourcemaps
-  devtool: 'cheap-module-eval-source-map',
+  devtool: isDebug ? 'cheap-eval-source-map' : false,
   context: bcfg.ABS_ROOT,
+  debug: isDebug,
   entry: {
     main: [
       'react-hot-loader/patch',
@@ -52,7 +52,8 @@ const clientDevConfig = {
         happy: { id: 'js' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        query: { cacheDirectory: true, compact: true },
+        exclude: bcfg.NODE_MODULES_DIR
       }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -60,9 +61,15 @@ const clientDevConfig = {
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
+      {
+        test: /\.(scss|sass|css)/,
+        include: /node_modules/,
+        loader: 'style!css!postcss!sass'
+      },
       createSourceLoader({
         happy: { id: 'css' },
         test: /\.css$/,
+        exclude: /node_modules/,
         loaders: [
           {
             loader: 'style-loader'
@@ -85,6 +92,7 @@ const clientDevConfig = {
       createSourceLoader({
         happy: { id: 'sass' },
         test: /\.scss$/,
+        exclude: /node_modules/,
         loaders: [
           {
             loader: 'style-loader'
@@ -124,11 +132,11 @@ const clientDevConfig = {
       require('cssnano')({
         autoprefixer: {
           add: true,
-          remove: true,
+          remove: false,
           browsers: 'last 2 versions'
         },
         discardComments: {
-          removeAll: true
+          removeAll: false
         },
         discardUnused: false,
         mergeIdents: false,
@@ -140,6 +148,7 @@ const clientDevConfig = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.LoaderOptionsPlugin({ minimize: !isDebug, debug: isDebug, }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -154,7 +163,6 @@ const clientDevConfig = {
       format: '  build libs [:bar] :percent (:elapsed seconds)',
       clear: false
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.NoErrorsPlugin(),
     webpackIsomorphicToolsPlugin.development(),
     createHappyPlugin('js'),

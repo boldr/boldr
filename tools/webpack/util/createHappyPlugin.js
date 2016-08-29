@@ -1,6 +1,6 @@
 const HappyPack = require('happypack');
 
-const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
+const happyThreadPool = HappyPack.ThreadPool({ size: 6 });
 
 module.exports = function createHappyPlugin(id) {
   return new HappyPack({

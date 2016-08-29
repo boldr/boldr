@@ -1,17 +1,17 @@
 const validate = values => {
   // IMPORTANT: values is an Immutable.Map here!
   const errors = {};
-  if (!values.get('displayName')) {
+  if (!values.displayName) {
     errors.displayName = 'Required';
-  } else if (values.get('displayName').length > 30) {
+  } else if (values.displayName.length > 30) {
     errors.displayName = 'Must be 30 characters or less';
   }
-  if (!values.get('email')) {
+  if (!values.email) {
     errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address';
   }
-  if (!values.get('firstName')) {
+  if (!values.firstName) {
     errors.firstName = 'Required';
   }
   return errors;
