@@ -54,8 +54,7 @@
       "env": {
         "NODE_ENV": "test",
         "NODE_PATH": "./src",
-        "BABEL_ENV": "server",
-        "SERVER_PORT": 3000
+        "BABEL_ENV": "server"
       }
     },
     "travis": {
@@ -228,7 +227,7 @@
     "jsdom": "^9.4.2",
     "json-loader": "0.5.4",
     "lodash-webpack-plugin": "^0.10.0",
-    "lost": "^7.0.4",
+    "lost": "^7.1.0",
     "mocha": "^3.0.2",
     "nock": "^8.0.0",
     "node-noop": "^1.0.0",
