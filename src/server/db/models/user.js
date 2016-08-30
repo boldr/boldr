@@ -215,8 +215,7 @@ function toJSON() {
     location: this.location,
     website: this.website,
     avatarUrl: this.avatarUrl,
-    bio: this.bio,
-    roleId: this.roleId
+    bio: this.bio
   };
 }
 /**

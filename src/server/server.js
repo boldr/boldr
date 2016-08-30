@@ -13,7 +13,8 @@ import createStore from '../core/state/createStore';
 import getRoutes from '../scenes/index';
 import Html from './Html';
 import routes from './api/routes';
-import { webserver, config } from './core';
+import { webserver } from './core';
+import config from './core/config';
 
 const debug = _debug('boldr:server');
 const app = express();

@@ -22,7 +22,6 @@ module.exports = {
         linkedIn: 'http://linkedin.com',
         verified: true,
         provider: 'local',
-        role_id: 5,
         created_at: new Date(),
         updated_at: new Date()
       }

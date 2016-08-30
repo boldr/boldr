@@ -48,7 +48,15 @@ async function getAllUsers(req, res, next) {
 function showUser(req, res, next) {
   const userId = req.params.id;
 
-  return User.findById(userId).then(user => {
+  return User.findOne({
+    where: {
+      id: userId
+    },
+    include: {
+      model: Role,
+      attributes: ['name', 'id']
+    }
+  }).then(user => {
     if (!user) {
       return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }

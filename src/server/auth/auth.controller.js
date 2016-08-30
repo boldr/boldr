@@ -12,7 +12,7 @@ import {
   ACCOUNT_404_MSG,
   FUBAR_MSG
 } from '../lib';
-import { User } from '../db/models';
+import { User, Role } from '../db/models';
 import { signToken } from './auth.service';
 
 function handleLogin(req, res, next) {
@@ -51,6 +51,16 @@ function logout(req, res) {
   res.redirect('/');
 }
 
+function addRole(user) {
+  Role.findOne({ where: {
+    name: 'Member'
+  } }).then((role) => {
+    user.addRoles(role)
+      .then((role) => {
+        user.dataValues.roles = ['Member'];
+      });
+  });
+}
 /**
  * @api {post} /auth/signup           Create a new account.
  * @apiVersion 1.0.0
@@ -73,6 +83,8 @@ async function handleSignup(req, res, next) {
       provider: 'local'
     };
     const user = await User.create(userData);
+    await addRole(user);
+
     // Generate the verification token.
     // const verificationToken = await generateVerifyCode();
     // // Send the verification email.
