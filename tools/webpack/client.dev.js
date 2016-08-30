@@ -52,8 +52,8 @@ const clientDevConfig = {
         happy: { id: 'js' },
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        query: { cacheDirectory: true, compact: true },
-        exclude: bcfg.NODE_MODULES_DIR
+        query: { cacheDirectory: true, compact: false },
+        exclude: /node_modules/
       }),
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -134,15 +134,7 @@ const clientDevConfig = {
           add: true,
           remove: false,
           browsers: 'last 2 versions'
-        },
-        discardComments: {
-          removeAll: false
-        },
-        discardUnused: false,
-        mergeIdents: false,
-        reduceIdents: false,
-        safe: true,
-        sourcemap: true
+        }
       })
     ];
   },

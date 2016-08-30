@@ -146,7 +146,6 @@ export function checkAuth() {
       })
       .catch(() => {
         dispatch(checkAuthFailure('Token is invalid'));
-        localStorage.removeItem('token');
         dispatch(notificationSend({
           message: 'There was a problem authenticating. Please login again.',
           kind: 'error',

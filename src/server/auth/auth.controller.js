@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import async from 'async';
 import passport from 'passport';
-
+import Debug from 'debug';
 import {
   handleMail,
   generateVerifyCode,
@@ -15,6 +15,8 @@ import {
 import { User, Role } from '../db/models';
 import { signToken } from './auth.service';
 
+const debug = Debug('boldr:auth-controller');
+
 function handleLogin(req, res, next) {
   passport.authenticate('local', (err, user, info) => {
     const error = err || info;
@@ -25,8 +27,8 @@ function handleLogin(req, res, next) {
       return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }
     const userId = user.id;
-    const roleId = user.roleId;
-    const token = signToken(userId, roleId);
+    const token = signToken(userId);
+    debug(token);
     return res.json({ token, user });
   })(req, res, next);
 }
@@ -124,11 +126,11 @@ function checkUser(req, res, next) {
       'birthday',
       'gender',
       'avatarUrl',
-      'roleId',
       'provider'
     ]
   })
-    .then(user => { // don't ever give out the password or salt
+    .then(user => {
+      debug(user)
       if (!user) {
         return next(new RespondError(UNAUTHORIZED_MSG, 401, true));
       }

@@ -37,7 +37,7 @@ async function showRole(req, res, next) {
       },
       include: [{
         model: User,
-        attributes: ['firstName', 'lastName', 'displayName', 'avatarUrl', 'email', 'roleId']
+        attributes: ['firstName', 'lastName', 'displayName', 'avatarUrl', 'email']
       }]
     });
     return res.status(200).json(role);

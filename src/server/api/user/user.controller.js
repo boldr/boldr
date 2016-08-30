@@ -27,9 +27,10 @@ function load(req, res, next, id) {
 async function getAllUsers(req, res, next) {
   try {
     const users = await User.find({
-      include: [{
-        model: Role
-      }]
+      include: [Role],
+      through: {
+        attributes: []
+      }
     });
 
     return res.status(200).json(users);
@@ -54,7 +55,10 @@ function showUser(req, res, next) {
     },
     include: {
       model: Role,
-      attributes: ['name', 'id']
+      attributes: ['name', 'id'],
+      through: {
+        attributes: []
+      }
     }
   }).then(user => {
     if (!user) {

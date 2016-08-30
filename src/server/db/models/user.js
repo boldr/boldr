@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import DataTypes from 'sequelize';
 import Model from '../sequelize';
+import { UserRole, Role } from './index';
 
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -205,18 +206,11 @@ const User = Model.define('user', {
  * @return {Object} User Returns the user object without password, salt, and private info.
  */
 function toJSON() {
-  return {
-    id: this.id,
-    email: this.email,
-    displayName: this.displayName,
-    firstName: this.firstName,
-    lastName: this.lastName,
-    gender: this.gender,
-    location: this.location,
-    website: this.website,
-    avatarUrl: this.avatarUrl,
-    bio: this.bio
-  };
+  const values = this.get();
+
+  delete values.password;
+  delete values.salt;
+  return values;
 }
 /**
  * Make salt
@@ -359,7 +353,10 @@ function findByUserId(userid) {
   return this.find({
     where: {
       id: userid
-    }
+    },
+    include: [{
+      model: Role
+    }]
   });
 }
 

@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import expressJwt from 'express-jwt';
-import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import Debug from 'debug';
 import compose from 'composable-middleware';
 import { User } from '../db/models';
 import config from '../core/config';
 
+const debug = Debug('boldr:auth-service');
 const validateJwt = expressJwt({
   secret: config.session.secret
 });
@@ -27,7 +28,7 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(async (req, res, next) => {
-      const user = await User.findById(req.user.id);
+      const user = await User.findOne({ where: { id: req.user.userId } });
       if (!user) return res.status(401).end();
       req.user = user;
       return next();
@@ -103,12 +104,11 @@ function addAuthHeaderFromCookie() {
  * @param {Number} roleId - The user's role id number
  * @returns {Promise} - resolves to the signed token
  */
-function signToken(userId, roleId) {
+function signToken(userId) {
   return jwt.sign({
-    userId,
-    roleId
+    userId
   }, config.session.secret, {
-    expiresIn: 60 * 60 * 5
+    expiresIn: 86400
   });
 }
 
