@@ -29,18 +29,18 @@ describe('Auth API Endpoint', () => {
           done();
         });
   });
-  it('Allows you to login to your account.', (done) => {
-    agent
-        .post('/api/v1/auth/login')
-        .send(userData)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          if (err) return done(err);
-          res.body.should.be.instanceof(Object);
-          res.body.should.property('token');
-          res.body.should.property('user');
-          done();
-        });
-  });
+  // it('Allows you to login to your account.', (done) => {
+  //   agent
+  //       .post('/api/v1/auth/login')
+  //       .send(userData)
+  //       .expect(200)
+  //       .expect('Content-Type', /json/)
+  //       .end((err, res) => {
+  //         if (err) return done(err);
+  //         res.body.should.be.instanceof(Object);
+  //         res.body.should.property('token');
+  //         res.body.should.property('user');
+  //         done();
+  //       });
+  // });
 });

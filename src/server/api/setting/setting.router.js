@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as ctrl from './boldr.controller';
+import * as ctrl from './setting.controller';
 
 const router = Router();
 
