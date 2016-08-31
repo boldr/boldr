@@ -29,7 +29,7 @@ export function loginSuccess(response) {
     lastName: response.body.user.lastName,
     location: response.body.user.location,
     avatarUrl: response.body.user.avatarUrl,
-    roleId: response.body.user.roleId,
+    roleId: response.body.user.roles[0].id,
     website: response.body.user.website
   };
 }
@@ -121,7 +121,6 @@ function checkAuthSuccess(response, token) {
     lastName: response.body.lastName,
     location: response.body.location,
     avatarUrl: response.body.avatarUrl,
-    roleId: response.body.roleId,
     website: response.body.website
   };
 }

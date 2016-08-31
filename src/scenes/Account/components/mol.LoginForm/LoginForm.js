@@ -9,8 +9,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => ( // e
   <div>
   <TextField
     label={ label }
-    className="md-title-text-field"
-    size={ 10 }
+    className="md-text-field form__auth"
     type={ type }
     { ...input }
   />
@@ -35,9 +34,10 @@ const LoginForm = props => {
             label="Password"
             type="password"
             component={ renderField }
+            style={ { marginBottom: '50px' } }
           />
           </div>
-        <CardActions>
+        <CardActions style={{ paddingTop: '75px'}}>
           <RaisedButton secondary type="submit" label="Login" />
           <FlatButton label="Clear values" disabled={ pristine || submitting } onClick={ reset } />
         </CardActions>

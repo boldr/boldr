@@ -2,7 +2,7 @@
 .env
 build/
 
-volumes
+.volumes
 boldr.paw
 # Logs
 logs

@@ -31,7 +31,7 @@ class Signup extends Component {
   }
 
   render() {
-    const { isLoading } = this.props.users;
+    const { isLoading } = this.props.account;
 
     const renderHeader = (
       <div>
@@ -62,9 +62,9 @@ Signup.propTypes = {
   createAccount: PropTypes.func,
   handleOnSubmit: PropTypes.func
 };
-function mapStateToProps({ users }) {
+function mapStateToProps({ account }) {
   return {
-    users
+    account
   };
 }
 

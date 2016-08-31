@@ -20,12 +20,14 @@ import styles from './Header.css';
 const cx = styles::classNames;
 const kebabMenu = 'more_vert';
 class Header extends Component {
-
-  state = {
-    navbarDropdownIsOpen: false,
-    mobileState: true,
-    authOpen: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      navbarDropdownIsOpen: false,
+      mobileState: true,
+      authOpen: false
+    };
+  }
 
   componentDidMount() {
     this.handleResize();
@@ -39,7 +41,7 @@ class Header extends Component {
   setHeightDropdown = () => {
     const height = this.state.mobileState ? `${window.innerHeight - 75}px` : '';
     this.refs.dropdownContent.style.height = height;
-  }
+  };
 
   handleClickHome(dispatch) {
     this.props.actions.goHome();
@@ -79,13 +81,7 @@ class Header extends Component {
     // Only enable focusable elements on key tab pressed
     if (e.keyCode !== 9 || this.state.focusable) return;
     this.setState({ focusable: true });
-  }
-
-  renderButton(link, onClick, text, className) {
-    return !!link
-      ? <a href={ link } className={ className } onClick={ onClick }>{ text }</a>
-      : <RaisedButton className={ className } onClick={ onClick } >{ text }</RaisedButton>;
-  }
+  };
 
   toggleAuth = () => {
     this.setState({ authOpen: !this.state.authOpen });
@@ -95,6 +91,11 @@ class Header extends Component {
     this.setState({ authOpen: false });
   };
 
+  renderButton(link, onClick, text, className) {
+    return !!link
+      ? <a href={ link } className={ className } onClick={ onClick }>{ text }</a>
+      : <RaisedButton className={ className } onClick={ onClick } >{ text }</RaisedButton>;
+  }
 
   render() {
     const {
@@ -120,7 +121,7 @@ class Header extends Component {
       <Menu
         isOpen={ this.state.authOpen }
         toggle={ (
-          <IconButton onClick={ this.toggleAuth } tooltipLabel="More options">{kebabMenu}</IconButton>
+          <IconButton onClick={ this.toggleAuth } className="header__icon" tooltipLabel="Account">{kebabMenu}</IconButton>
         ) }
         close={ this.close }
       >
@@ -133,7 +134,7 @@ class Header extends Component {
     <Menu
       isOpen={ this.state.authOpen }
       toggle={ (
-        <IconButton onClick={ this.toggleAuth } tooltipLabel="More options">{kebabMenu}</IconButton>
+        <IconButton onClick={ this.toggleAuth } className="header__icon" tooltipLabel="More options">{kebabMenu}</IconButton>
       ) }
       close={ this.close }
     >
@@ -178,7 +179,7 @@ class Header extends Component {
               { this.props.auth.roleId > 4 ?
                 <li>
                   <Link to="/dashboard">
-                    <IconButton style={ { padding: '0' } }>
+                    <IconButton className="header__icon" style={ { padding: '0' } }>
                     <FontIcon>avWeb</FontIcon>
                     </IconButton>
                   </Link>

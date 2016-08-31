@@ -18,7 +18,9 @@
     lost-column: 2/3;
     lost-offset: -1/6;
   }
-
+  .md-password-btn {
+    padding-left: 155px !important;
+  }
 }
 
 .auth-card__footer {

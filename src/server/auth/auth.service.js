@@ -104,9 +104,10 @@ function addAuthHeaderFromCookie() {
  * @param {Number} roleId - The user's role id number
  * @returns {Promise} - resolves to the signed token
  */
-function signToken(userId) {
+function signToken(userId, roleId) {
   return jwt.sign({
-    userId
+    userId,
+    roleId
   }, config.session.secret, {
     expiresIn: 86400
   });

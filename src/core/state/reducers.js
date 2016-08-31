@@ -21,7 +21,7 @@ const reducers = combineReducers({
   currentPost,
   members: membersReducer,
   media: mediaReducer,
-  users: accountReducer,
+  account: accountReducer,
   form: formReducer
 });
 

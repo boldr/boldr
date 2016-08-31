@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
+import { Flex, Box } from 'reflexbox';
 
 import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
 import { Heading } from '../../../components/index';
@@ -29,6 +30,10 @@ class Login extends Component {
     const renderHeader = (
       <div>
         <Heading size={ 1 } bottom="10px">Login</Heading>
+        <p>
+          <Link to="/account/forgot-password">Forgot your password?</Link>
+          <Link to="/account/signup">Create an account</Link>
+        </p>
       </div>
     );
     const { isLoading } = this.props.auth;
@@ -37,17 +42,19 @@ class Login extends Component {
       <div style={ inlineStyles.headerOverflow }>
         <Helmet title="Login" />
         <section className={ cx('root') }>
-          <Card>
+          <Flex
+            align="center"
+            justify="center"
+            style={ { margin: '0 auto' } }
+          >
+            <Box px={3}>
+          <Card style={ { width: '450px' } }>
             { renderHeader }
 
             <LoginForm onSubmit={ this.handleOnSubmit } />
-            <CardActions>
-              <p>
-                <Link to="/account/forgot-password">Forgot your password?</Link>
-                <Link to="/account/signup">Create an account</Link>
-              </p>
-            </CardActions>
           </Card>
+              </Box>
+            </Flex>
         </section>
       </div>
     );

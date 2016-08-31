@@ -27,8 +27,11 @@ function handleLogin(req, res, next) {
       return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }
     const userId = user.id;
-    const token = signToken(userId);
-    debug(token);
+    const roleId = user.roles[0].id;
+
+    // req.user.roleId = roleId;
+    const token = signToken(userId, roleId);
+
     return res.json({ token, user });
   })(req, res, next);
 }
@@ -101,6 +104,7 @@ async function handleSignup(req, res, next) {
     // });
     // // Save token.
     // verificationStorage.save();
+
     res.status(201).send({
       token: signToken(user.id, user.roleId), user
     });
@@ -130,7 +134,7 @@ function checkUser(req, res, next) {
     ]
   })
     .then(user => {
-      debug(user)
+      debug(user);
       if (!user) {
         return next(new RespondError(UNAUTHORIZED_MSG, 401, true));
       }

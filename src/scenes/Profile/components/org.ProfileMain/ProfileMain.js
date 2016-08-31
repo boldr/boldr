@@ -19,8 +19,10 @@ const cx = styles::classNames;
   fetch: ({ dispatch }) => dispatch(getMyProfile())
 })
 class ProfileMain extends Component {
+  static propTypes = {
+    account: PropTypes.object.isRequired
+  };
   render() {
-    const { columnWidths, focused } = this.props;
     return (
       <div>
       <div style={ inlineStyles.headerOverflow }>
@@ -28,36 +30,11 @@ class ProfileMain extends Component {
       </div>
       <div className="grid">
       <div className="grid__row">
-        <div className={ cx('profile__editor') }>
-        <Card>
-          <CardTitle
-            title={ this.props.users.displayName }
-            avatar={ <Avatar src={ this.props.users.avatarUrl } /> }
-          />
-          <CardTitle title="Card" subtitle="Card subtitle" />
-          <CardText>
-          displayName
-          email
-          firstName
-          lastName
-          bio
-          gender
-          birthday
-          location
-          website
-          picture
-          </CardText>
-          <CardActions>
-            <FlatButton label="Action1" />
-            <FlatButton label="Action2" />
-          </CardActions>
-        </Card>
-        </div>
         <Card className={ cx('profile__card') }>
           <CardTitle
-            title={ `Editing ${this.props.users.displayName}'s profile ` }
+            title={ `Editing ${this.props.account.displayName}'s profile ` }
             subtitle="Click the panel for editing options"
-            avatar={ <Avatar src={ this.props.users.avatarUrl } /> }
+            avatar={ <Avatar src={ this.props.account.avatarUrl } /> }
           />
           <CardText>
           <ExpansionList>
@@ -65,37 +42,37 @@ class ProfileMain extends Component {
             focused
             columnWidths={ 10 }
             label="First name"
-            secondaryLabel={ this.props.users.firstName }
+            secondaryLabel={ this.props.account.firstName }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Last name"
-            secondaryLabel={ this.props.users.lastName }
+            secondaryLabel={ this.props.account.lastName }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Display name"
-            secondaryLabel={ this.props.users.displayName }
+            secondaryLabel={ this.props.account.displayName }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Bio"
-            secondaryLabel={ this.props.users.bio }
+            secondaryLabel={ this.props.account.bio }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Location"
-            secondaryLabel={ this.props.users.location }
+            secondaryLabel={ this.props.account.location }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Website"
-            secondaryLabel={ this.props.users.website }
+            secondaryLabel={ this.props.account.website }
           />
           </ExpansionList>
           </CardText>
@@ -110,9 +87,5 @@ class ProfileMain extends Component {
     );
   }
 }
-
-ProfileMain.propTypes = {
-  users: PropTypes.object.isRequired
-};
 
 export default ProfileMain;

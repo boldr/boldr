@@ -3,14 +3,16 @@
     "restartable": "rs",
     "colours": true,
     "ignore": [
-      "docs"
+      "docs",
+      ".git",
+      "node_modules/**/*"
     ],
     "ext": "js json",
     "env": {
       "DEBUG":"boldr*"
     },
     "watch": [
-      "./src/server/**/*.js"
+      "src/server/**/*.js"
     ],
     "exec": "babel-node src/server/serverHook.js"
 }

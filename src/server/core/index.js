@@ -1,4 +1,4 @@
-import sessionService from './middleware/sessionService';
+import sessionService from './middleware/sessions';
 import BaseModel from './dao/BaseModel';
 import BoldrDAO from './dao/BoldrDAO';
 import webserver from './webserver';

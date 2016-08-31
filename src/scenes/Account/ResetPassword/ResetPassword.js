@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router/es6';
 
 import { Card, CardText, CardActions } from '../../../components/md/Cards';
 import TextField from '../../../components/md/TextFields';

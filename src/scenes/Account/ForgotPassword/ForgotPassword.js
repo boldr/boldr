@@ -14,7 +14,10 @@ import styles from '../styles.css';
 
 const cx = styles::classNames;
 class ForgotPassword extends Component {
-
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    account: PropTypes.object
+  };
   constructor(props) {
     super(props);
     this.state = { email: '' };
@@ -67,13 +70,9 @@ class ForgotPassword extends Component {
   }
 }
 
-ForgotPassword.propTypes = {
-  dispatch: PropTypes.func.isRequired
-};
-
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    account: state.account
   };
 };
 

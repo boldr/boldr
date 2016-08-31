@@ -1,6 +1,8 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 
+import { Role } from '../../db/models';
+
 export default function configurePassport(User) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
@@ -10,7 +12,8 @@ export default function configurePassport(User) {
     User.find({
       where: {
         email: email.toLowerCase()
-      }
+      },
+      include: [Role]
     })
       .catch(done)
       .then((user) => {

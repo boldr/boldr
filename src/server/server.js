@@ -26,6 +26,12 @@ webserver(app);
 debug('routes');
 app.use(config.api.base, routes);
 
+// Intercept favicon and prevent error
+app.get('/favicon.ico', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+  res.end();
+});
+
 app.use(express.static('build'));
 
 app.get('*', (req, res) => {

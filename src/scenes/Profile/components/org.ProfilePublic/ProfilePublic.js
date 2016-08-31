@@ -46,7 +46,7 @@ ProfilePublic.propTypes = {
   account: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     account: state.account,
     isLoading: state.account.isLoading
