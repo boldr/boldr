@@ -49,10 +49,10 @@ export default class CardMedia extends PureComponent {
 
     return (
       <section
-        {...props}
-        className={cn('md-card-media', className, {
+        { ...props }
+        className={ cn('md-card-media', className, {
           ['md-media-wide']: forceAspect,
-        })}
+        }) }
       >
         {children}
         {overlay && <div className="md-card-media-overlay">{overlay}</div>}
