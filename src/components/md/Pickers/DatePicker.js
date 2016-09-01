@@ -1,0 +1,92 @@
+import React, { PureComponent, PropTypes } from 'react';
+
+import PickerFooter from './PickerFooter';
+import DatePickerHeader from './DatePickerHeader';
+import DatePickerCalendar from './DatePickerCalendar';
+import YearPicker from './YearPicker';
+
+export default class DatePicker extends PureComponent {
+  static propTypes = {
+    className: PropTypes.string.isRequired,
+    okLabel: PropTypes.string.isRequired,
+    okPrimary: PropTypes.bool.isRequired,
+    onOkClick: PropTypes.func.isRequired,
+    cancelLabel: PropTypes.string.isRequired,
+    cancelPrimary: PropTypes.bool.isRequired,
+    onCancelClick: PropTypes.func.isRequired,
+    DateTimeFormat: PropTypes.func.isRequired,
+    locales: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+    ]).isRequired,
+    calendarDate: PropTypes.instanceOf(Date).isRequired,
+    calendarTempDate: PropTypes.instanceOf(Date).isRequired,
+    calendarMode: PropTypes.oneOf(['calendar', 'year']).isRequired,
+    changeCalendarMode: PropTypes.func.isRequired,
+    onSwipeChange: PropTypes.func.isRequired,
+  };
+
+  render() {
+    const {
+      okLabel,
+      okPrimary,
+      onOkClick,
+      cancelLabel,
+      cancelPrimary,
+      onCancelClick,
+      DateTimeFormat,
+      locales,
+      calendarTempDate,
+      calendarMode,
+      changeCalendarMode,
+      className,
+      ...props,
+    } = this.props;
+
+    let picker;
+    if (calendarMode === 'calendar') {
+      picker = (
+        <DatePickerCalendar
+          {...props}
+          key="calendar"
+          calendarTempDate={calendarTempDate}
+          DateTimeFormat={DateTimeFormat}
+          locales={locales}
+        />
+      );
+    } else {
+      picker = (
+        <YearPicker
+          {...props}
+          key="year"
+          calendarTempDate={calendarTempDate}
+          DateTimeFormat={DateTimeFormat}
+          locales={locales}
+        />
+      );
+    }
+
+    return (
+      <div className={`${className} date-picker`}>
+        <DatePickerHeader
+          DateTimeFormat={DateTimeFormat}
+          locales={locales}
+          calendarTempDate={calendarTempDate}
+          calendarMode={calendarMode}
+          changeCalendarMode={changeCalendarMode}
+        />
+        <div className="md-picker-content-container">
+          {picker}
+          <PickerFooter
+            okLabel={okLabel}
+            okPrimary={okPrimary}
+            onOkClick={onOkClick}
+            cancelLabel={cancelLabel}
+            cancelPrimary={cancelPrimary}
+            onCancelClick={onCancelClick}
+          />
+        </div>
+      </div>
+    );
+  }
+}

@@ -4,8 +4,6 @@ import Dashboard from './Dashboard/index';
 import Account from './Account/index';
 import Blog from './Blog';
 
-import { isLoaded as isAuthLoaded, load as loadAuth } from './Account/state/auth';
-
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };

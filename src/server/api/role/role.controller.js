@@ -18,7 +18,7 @@ async function getAll(req, res, next) {
     const roles = await Role.findAll({
       include: [{
         model: User,
-        attributes: ['id', 'displayName', 'avatarUrl', 'email', 'roleId']
+        attributes: ['id', 'displayName', 'avatarUrl', 'email']
       }]
     });
 
@@ -37,7 +37,7 @@ async function showRole(req, res, next) {
       },
       include: [{
         model: User,
-        attributes: ['firstName', 'lastName', 'displayName', 'avatarUrl', 'email', 'roleId']
+        attributes: ['firstName', 'lastName', 'displayName', 'avatarUrl', 'email']
       }]
     });
     return res.status(200).json(role);

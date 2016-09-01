@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import config from '../core/config';
+import { config } from '../core';
 
 const envVar = process.env.POSTGRES_CONN_URL;
 
@@ -7,7 +7,7 @@ export const db = envVar || `postgres://${config.db.user}:${config.db.password}@
 
 const sequelize = new Sequelize(db, {
   logging: false, // set to console.log to see the raw SQL queries
-  omitNull: false,
+  omitNull: true,
   native: false,
   define: {
     freezeTableName: true

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import express from 'express';
 import passport from 'passport';
 
 import { User } from '../db/models';
@@ -18,7 +18,7 @@ passport.deserializeUser((id, done) => {
   }).catch(done);
 });
 
-const router = new Router();
+const router = new express.Router();
 
 router.post('/login', ctrl.handleLogin);
 
@@ -29,6 +29,6 @@ router.post('/reset/:token', ctrl.resetPassword);
 
 router.get('/logout', ctrl.logout);
 router.delete('/account', isAuthenticated(), ctrl.accountDelete);
-router.route('/check').get(isAuthenticated(), ctrl.checkUser);
+router.get('/check', isAuthenticated(), ctrl.checkUser);
 
 export default router;

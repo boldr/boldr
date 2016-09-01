@@ -8,12 +8,43 @@ import Role from './role';
 import Setting from './setting';
 import Tag from './tag';
 import User from './user';
+import UserRole from './userRole';
 
 /*
   User / Role relations
  */
-Role.hasMany(User, { foreignKey: 'roleId' });
-User.belongsTo(Role, { foreignKey: 'roleId' });
+User.belongsToMany(Role, {
+  through: {
+    model: UserRole
+  },
+  foreignKey: {
+    name: 'userId',
+    allowNull: true
+  },
+  constraints: false,
+  onDelete: 'cascade'
+});
+
+Role.belongsToMany(User, {
+  through: {
+    model: UserRole
+  },
+  foreignKey: {
+    name: 'roleId',
+    allowNull: true
+  },
+  constraints: false,
+  onDelete: 'cascade'
+});
+
+/*
+ Post / Tag / PostTag relations
+ */
+User.hasMany(UserRole);
+Role.hasMany(UserRole);
+
+UserRole.belongsTo(User);
+UserRole.belongsTo(Role);
 
 /*
   User / Post relations

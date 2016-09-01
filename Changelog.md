@@ -1,3 +1,19 @@
+<a name="0.4.7"></a>
+## [0.4.7](https://github.com/boldr/boldr/compare/v0.4.5-alpha...v0.4.7) (2016-09-01)
+
+
+### Features
+
+* **blog:** search posts by tag ([f8be0f6](https://github.com/boldr/boldr/commit/f8be0f6))
+* **dashboard:** update user from users list ([2fa05ad](https://github.com/boldr/boldr/commit/2fa05ad))
+
+
+### Performance Improvements
+
+* **global:** remove material-ui for react-md and custom ([157bdcd](https://github.com/boldr/boldr/commit/157bdcd))
+
+
+
 <a name="0.4.5"></a>
 ## [0.4.5](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.5) (2016-08-21)
 

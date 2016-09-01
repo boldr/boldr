@@ -2,7 +2,7 @@ import http from 'http';
 import https from 'https';
 import app from './server';
 import models from './db/models';
-import { logger } from './lib';
+import { logger } from './core';
 import config, { conf } from './core/config';
 
 const sourceMaps = require('source-map-support');

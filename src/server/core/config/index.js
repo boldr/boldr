@@ -213,8 +213,8 @@ const conf = convict({
     },
     expiration: {
       doc: 'The expiration date of the JWT.',
-      format: String,
-      default: '1h',
+      format: Number,
+      default: 86400,
       env: 'SESSION_EXPIRATION'
     }
   }

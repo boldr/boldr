@@ -1,16 +1,14 @@
-import { Post, User, Tag } from '../../db/models';
+import {Post, Tag} from "../../db/models";
 import {
   RespondError,
   BAD_REQ_MSG,
-  ACCOUNT_404_MSG,
   GENERAL_404_MSG,
-  UNAUTHORIZED_MSG,
   respondWithResult,
   saveUpdates,
   handleEntityNotFound,
   removeEntity,
   handleError
-} from '../../lib';
+} from "../../lib";
 
 /**
  * @api {get} /tags       Get all tags
@@ -27,7 +25,7 @@ import {
  */
 async function getAllTags(req, res, next) {
   try {
-    const tags = await Tag.findAll({});
+    const tags = await Tag.findAll();
 
     return res.status(200).json(tags);
   } catch (error) {

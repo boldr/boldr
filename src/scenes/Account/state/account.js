@@ -168,7 +168,7 @@ export function loginPopulateAccount(response) {
     lastName: response.body.user.lastName,
     location: response.body.user.location,
     avatarUrl: response.body.user.avatarUrl,
-    roleId: response.body.user.roleId,
+    roleId: response.body.user.roles[0].id,
     website: response.body.user.website
   };
 }

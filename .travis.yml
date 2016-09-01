@@ -13,6 +13,11 @@ env:
 - CXX=g++-4.8
 services:
 - redis-server
+git:
+  depth: 3
+branches:
+  except:
+  - canary
 install:
 - npm install
 before_script:

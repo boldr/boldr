@@ -1,7 +1,4 @@
-import path from 'path';
-import express from 'express';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import expressJwt from 'express-jwt';
 import methodOverride from 'method-override';
 import cors from 'cors';
@@ -9,13 +6,11 @@ import morgan from 'morgan';
 import compression from 'compression';
 import passport from 'passport';
 import redisClient from '../db/redis';
-import { logger } from '../lib';
-import sessionService from './middleware/sessionService';
+import logger from './logger';
+import sessionService from './middleware/sessions';
 import config from './config';
 
-const RedisStore = require('connect-redis')(session);
-
-export default (app, io) => {
+export default (app) => {
   const env = app.get('env');
   app.disable('x-powered-by');
   app.set('trust proxy', 'loopback');
@@ -37,16 +32,7 @@ export default (app, io) => {
     credentialsRequired: false
   }));
 
-  const sessionMiddleware = session({
-    store: new RedisStore({ client: redisClient }),
-    secret: config.session.secret,
-    name: 'boldr:sid',
-    resave: false,
-    saveUninitialized: false,
-    unset: 'destroy'
-  });
-  app.use(sessionMiddleware);
+  app.use(sessionService(redisClient, { logErrors: true }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(sessionService(redisClient, { logErrors: true }));
 };

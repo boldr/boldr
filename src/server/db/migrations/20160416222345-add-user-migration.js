@@ -56,11 +56,6 @@ module.exports = {
           allowNull: true,
           field: 'avatar_url'
         },
-        roleId: {
-          type: DataTypes.INTEGER,
-          field: 'role_id',
-          defaultValue: 1
-        },
         resetPasswordToken: {
           type: DataTypes.STRING,
           allowNull: true,
@@ -74,6 +69,10 @@ module.exports = {
         provider: {
           type: DataTypes.STRING,
           defaultValue: ''
+        },
+        roleId: {
+          type: DataTypes.INTEGER,
+          field: 'role_id'
         },
         facebookId: {
           type: DataTypes.STRING,

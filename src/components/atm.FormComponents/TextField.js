@@ -1,4 +1,4 @@
-import TextField from 'material-ui/TextField';
+import TextField from '../md/TextFields';
 import createFormComponent from './createFormComponent';
 import mapError from './mapError';
 

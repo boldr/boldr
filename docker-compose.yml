@@ -7,44 +7,29 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - "./volumes/redis/data:/data:rw"
-      - "./tools/docker/postgres/configs:/docker-entrypoint-initdb.d:ro"
-      ## NGINX
-      - "./volumes/sites:/etc/nginx/sites-enabled:rw"
-      - "./volumes/nginx/certs:/etc/nginx/certs:rw"
-      - "./volumes/nginx:/etc/nginx:rw"
-        ## Web root
-      - "./volumes/www:/srv/www:rw"
+      ## Redis DB
+      - "./.volumes/redis:/data:rw"
       ## Postgres databases
-      - "./volumes/postgres:/var/lib/postgresql/data:rw"
-
-  # nginx:
-  #     build: ./tools/docker/nginx
-  #     container_name: nginx
-  #     ports:
-  #       - "80:80"
-  #       - "443:443"
-  #     volumes_from:
-  #       - datastore
+      - "./.volumes/pgdata:/var/lib/postgresql/data:rw"
 
   postgres:
     container_name: boldr_pg
-    image: strues/postgres
+    image: sameersbn/postgresql:9.5-2
     environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=boldr_development
+      - PG_PASSWORD=password
+      - DB_USER=boldr
+      - DB_PASS=password
+      - DB_NAME=boldr_development,boldr_test,boldr
+      - PG_TRUST_LOCALNET=true
     ports:
       - "5432:5432"
     volumes_from:
       - datastore
     networks:
       - boldr
-    # links:
-    #   - "boldr-api"
 
   redis:
-    image: strues/redis
+    image: redis:3.2.3-alpine
     container_name: boldr_redis
     ports:
       - "6379:6379"
@@ -52,8 +37,6 @@ services:
       - datastore
     networks:
       - boldr
-    # links:
-    #   - "boldr-api"
 
 networks:
   boldr:

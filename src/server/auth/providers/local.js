@@ -1,18 +1,18 @@
-import { Router } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import * as auth from '../auth.service';
+
+import { Role } from '../../db/models';
 
 export default function configurePassport(User) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password',
-    session: false // this is the virtual field on the model
+    passwordField: 'password'
   }, (email, password, done) => {
     User.find({
       where: {
         email: email.toLowerCase()
-      }
+      },
+      include: [Role]
     })
       .catch(done)
       .then((user) => {

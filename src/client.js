@@ -5,14 +5,8 @@ import { AppContainer } from 'react-hot-loader';
 import { Router, browserHistory, match } from 'react-router/es6';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { trigger } from 'redial';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import WebFontLoader from 'webfontloader';
-
 // Non-vendor
-import BoldrTheme from './core/materialTheme';
-
 import { TOKEN_KEY } from './core/config';
 import createStore from './core/state/createStore';
 import { checkAuth } from './scenes/Account/state/auth';
@@ -20,13 +14,13 @@ import getRoutes from './scenes';
 import './styles/main.scss';
 
 WebFontLoader.load({
-  google: { families: ['Roboto:300,400,500', 'Roboto Condensed:400'] }
+  google: { families: ['Roboto:300,400', 'Roboto Condensed:400', 'Material Icons'] }
 });
 
 const MOUNT_POINT = document.getElementById('content');
 
 const initialState = window.PRELOAD_STATE;
-const muiTheme = getMuiTheme(BoldrTheme);
+
 const store = createStore(browserHistory, initialState);
 const { dispatch } = store;
 const token = localStorage.getItem(TOKEN_KEY);
@@ -42,9 +36,6 @@ const history = syncHistoryWithStore(browserHistory, store, {
 
 const routes = getRoutes(store, history);
 
-// Material-UI requires it for speeding up clicks.
-injectTapEventPlugin();
-
 let render = () => {
   const { pathname, search, hash } = window.location;
   const location = `${pathname}${search}${hash}`;
@@ -53,9 +44,7 @@ let render = () => {
     ReactDOM.render(
       <AppContainer>
         <Provider store={ store } key="provider">
-          <MuiThemeProvider muiTheme={ muiTheme }>
             <Router routes={ routes } history={ history } key={ Math.random() } />
-          </MuiThemeProvider>
         </Provider>
       </AppContainer>,
       MOUNT_POINT

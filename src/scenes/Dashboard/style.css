@@ -1,3 +1,5 @@
+@custom-media --small-viewport (max-width: 35em);
+
 .dashboard__row {
   lost-utility: clearfix;
   margin-left: auto;
@@ -5,6 +7,6 @@
   max-width: 95%;
 }
 .dashboard__content {
-  margin-left: 150px;
+  margin-left: 175px;
   padding-left: 25px;
 }

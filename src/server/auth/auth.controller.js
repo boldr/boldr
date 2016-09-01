@@ -1,8 +1,7 @@
 import crypto from 'crypto';
 import async from 'async';
-import moment from 'moment';
 import passport from 'passport';
-
+import Debug from 'debug';
 import {
   handleMail,
   generateVerifyCode,
@@ -13,8 +12,10 @@ import {
   ACCOUNT_404_MSG,
   FUBAR_MSG
 } from '../lib';
-import { User } from '../db/models';
+import { User, Role } from '../db/models';
 import { signToken } from './auth.service';
+
+const debug = Debug('boldr:auth-controller');
 
 function handleLogin(req, res, next) {
   passport.authenticate('local', (err, user, info) => {
@@ -25,7 +26,12 @@ function handleLogin(req, res, next) {
     if (!user) {
       return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }
-    const token = signToken(user.id, user.role);
+    const userId = user.id;
+    const roleId = user.roles[0].id;
+
+    // req.user.roleId = roleId;
+    const token = signToken(userId, roleId);
+
     return res.json({ token, user });
   })(req, res, next);
 }
@@ -34,8 +40,8 @@ function handleLogin(req, res, next) {
 /**
  * DELETE /account
  */
-const accountDelete = (req, res, next) => {
-  return User.findById(req.user.id).destroy().then((user) => {
+const accountDelete = (req, res) => {
+  return User.findById(req.user.id).destroy().then(() => {
     res.status(204).json('Your account has been permanently deleted.');
   });
 };
@@ -50,6 +56,16 @@ function logout(req, res) {
   res.redirect('/');
 }
 
+function addRole(user) {
+  Role.findOne({ where: {
+    name: 'Member'
+  } }).then((role) => {
+    user.addRoles(role)
+      .then((role) => {
+        user.dataValues.roles = ['Member'];
+      });
+  });
+}
 /**
  * @api {post} /auth/signup           Create a new account.
  * @apiVersion 1.0.0
@@ -72,6 +88,8 @@ async function handleSignup(req, res, next) {
       provider: 'local'
     };
     const user = await User.create(userData);
+    await addRole(user);
+
     // Generate the verification token.
     // const verificationToken = await generateVerifyCode();
     // // Send the verification email.
@@ -86,8 +104,9 @@ async function handleSignup(req, res, next) {
     // });
     // // Save token.
     // verificationStorage.save();
+
     res.status(201).send({
-      token: signToken(user), user
+      token: signToken(user.id, user.roleId), user
     });
   } catch (err) {
     return next(new RespondError(`${FUBAR_MSG} ${err}`, 500, true));
@@ -111,11 +130,12 @@ function checkUser(req, res, next) {
       'birthday',
       'gender',
       'avatarUrl',
-      'roleId',
       'provider'
-    ]
+    ],
+    include: [Role]
   })
-    .then(user => { // don't ever give out the password or salt
+    .then(user => {
+      debug(user);
       if (!user) {
         return next(new RespondError(UNAUTHORIZED_MSG, 401, true));
       }

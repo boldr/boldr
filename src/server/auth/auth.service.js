@@ -1,14 +1,16 @@
 import _ from 'lodash';
 import expressJwt from 'express-jwt';
-import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import Debug from 'debug';
 import compose from 'composable-middleware';
 import { User } from '../db/models';
 import config from '../core/config';
 
+const debug = Debug('boldr:auth-service');
 const validateJwt = expressJwt({
   secret: config.session.secret
 });
+
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
@@ -27,7 +29,7 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(async (req, res, next) => {
-      const user = await User.findById(req.user.id);
+      const user = await User.findOne({ where: { id: req.user.userId } });
       if (!user) return res.status(401).end();
       req.user = user;
       return next();
@@ -99,14 +101,16 @@ function addAuthHeaderFromCookie() {
 
 /**
  * Returns a jwt token signed by the app secret
- * @param {String} id - ObjectId of user
+ * @param {String} userId - ObjectId of user
+ * @param {Number} roleId - The user's role id number
  * @returns {Promise} - resolves to the signed token
  */
-function signToken(id) {
+function signToken(userId, roleId) {
   return jwt.sign({
-    id
+    userId,
+    roleId
   }, config.session.secret, {
-    expiresIn: 60 * 60 * 5
+    expiresIn: 86400
   });
 }
 

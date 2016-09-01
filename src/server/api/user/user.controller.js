@@ -26,10 +26,11 @@ function load(req, res, next, id) {
  */
 async function getAllUsers(req, res, next) {
   try {
-    const users = await User.findAll({
-      include: [{
-        model: Role
-      }]
+    const users = await User.find({
+      include: [Role],
+      through: {
+        attributes: []
+      }
     });
 
     return res.status(200).json(users);
@@ -48,7 +49,18 @@ async function getAllUsers(req, res, next) {
 function showUser(req, res, next) {
   const userId = req.params.id;
 
-  return User.findById(userId).then(user => {
+  return User.findOne({
+    where: {
+      id: userId
+    },
+    include: {
+      model: Role,
+      attributes: ['name', 'id'],
+      through: {
+        attributes: []
+      }
+    }
+  }).then(user => {
     if (!user) {
       return next(new RespondError(ACCOUNT_404_MSG, 404, true));
     }

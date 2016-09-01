@@ -4,18 +4,18 @@ import _debug from 'debug';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { createMemoryHistory, RouterContext, match } from 'react-router';
+import createMemoryHistory from 'react-router/lib/createMemoryHistory';
+import RouterContext from 'react-router/lib/RouterContext';
+import match from 'react-router/lib/match';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import BoldrTheme from '../core/materialTheme';
+
 import createStore from '../core/state/createStore';
 import getRoutes from '../scenes/index';
 import Html from './Html';
 import routes from './api/routes';
+import { webserver } from './core';
 import config from './core/config';
-import { webserver, errorHandling } from './core';
 
 const debug = _debug('boldr:server');
 const app = express();
@@ -26,14 +26,17 @@ webserver(app);
 debug('routes');
 app.use(config.api.base, routes);
 
+// Intercept favicon and prevent error
+app.get('/favicon.ico', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+  res.end();
+});
 app.use(express.static('build'));
-
 app.get('*', (req, res) => {
   if (__DEV__) {
     webpackIsomorphicTools.refresh();
   }
   const memoryHistory = createMemoryHistory(req.originalUrl);
-  const location = memoryHistory.createLocation(req.originalUrl);
   const store = createStore(memoryHistory);
   const history = syncHistoryWithStore(memoryHistory, store);
 
@@ -49,9 +52,8 @@ app.get('*', (req, res) => {
 
   match({
     history,
-    routes: getRoutes(store),
-    location
-  }, (error, redirectLocation, renderProps, ...args) => {
+    routes: getRoutes(store)
+  }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
@@ -70,14 +72,9 @@ app.get('*', (req, res) => {
       const { components } = renderProps;
 
       trigger('fetch', components, locals).then(() => {
-        const muiTheme = getMuiTheme(BoldrTheme, {
-          userAgent: req.headers['user-agent']
-        });
         const component = (
           <Provider store={ store } key="provider">
-            <MuiThemeProvider muiTheme={ muiTheme }>
               <RouterContext { ...renderProps } />
-            </MuiThemeProvider>
           </Provider>
         );
         res.status(200);

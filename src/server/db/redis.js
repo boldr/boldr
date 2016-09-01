@@ -1,12 +1,11 @@
 import Redis from 'ioredis';
 import bluebird from 'bluebird';
-import logger from '../lib/logger';
-
-import config from '../core/config';
+import { logger } from '../core';
+import { conf } from '../core/config';
 
 bluebird.promisifyAll(Redis);
 
-const redisClient = new Redis(config.redis.uri);
+const redisClient = new Redis(conf.get('redis.uri'));
 
 redisClient.on('connect', () => {
   logger.info('redis has connected');

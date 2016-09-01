@@ -120,26 +120,6 @@ export function createPost(postData) {
   };
 }
 
-/**
- * Select Post
- * @description Used when on the article list state.
- */
-const requestTag = (articleId) => {
-  return {
-    type: types.LOAD_TAG_REQUEST,
-    id: articleId
-  };
-};
-
-const receiveTag = (response) => ({
-  type: types.LOAD_TAG_SUCCESS,
-  payload: response.body
-});
-
-const failedToReceiveTag = (err) => ({
-  type: types.LOAD_TAG_FAILURE,
-  error: err
-});
 
 /**
  * Takes the user selected article and fetches the data from
@@ -171,6 +151,7 @@ export const INITIAL_STATE = {
   data: [],
   pagination: {}
 };
+
 
 /**
  * Blog Reducer

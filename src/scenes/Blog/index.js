@@ -14,26 +14,26 @@ export default (store, connect) => ({
   path: '/blog',
   component: BlogContainer,
   indexRoute: {
-    component: require('./scenes/PostListing').default
+    component: require('./PostListing').default
   },
   childRoutes: [{
     path: ':slug',
     getComponent(nextState, cb) {
-      System.import('./scenes/SinglePost')
+      System.import('./SinglePost')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
   }, {
     path: 'search/:query',
     getComponent(nextState, cb) {
-      System.import('./scenes/Search')
+      System.import('./Search')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
   }, {
     path: 'tags/:id',
     getComponent(nextState, cb) {
-      System.import('./scenes/TagList')
+      System.import('./TagList')
         .then(loadModule(cb))
         .catch(errorLoading);
     }

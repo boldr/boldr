@@ -1,5 +1,5 @@
 @custom-media --medium-viewport (min-width: 30.01em);
-
+@lost flexbox flex;
 .root {
   lost-center: 1140px 30px;
   padding-top: 140px;
@@ -18,7 +18,9 @@
     lost-column: 2/3;
     lost-offset: -1/6;
   }
-
+  .md-password-btn {
+    padding-left: 155px !important;
+  }
 }
 
 .auth-card__footer {
