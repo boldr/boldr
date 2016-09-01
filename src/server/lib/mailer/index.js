@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
-import logger from '../logger';
+import { logger } from '../../core';
 import config from '../../core/config';
 
 const auth = {

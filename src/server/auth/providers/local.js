@@ -6,8 +6,7 @@ import { Role } from '../../db/models';
 export default function configurePassport(User) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password',
-    session: false // this is the virtual field on the model
+    passwordField: 'password'
   }, (email, password, done) => {
     User.find({
       where: {

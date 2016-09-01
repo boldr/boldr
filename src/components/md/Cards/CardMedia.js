@@ -30,15 +30,6 @@ export default class CardMedia extends PureComponent {
      */
     children: PropTypes.node,
 
-    /**
-     * Boolean if the aspect ratio should be forced.
-     */
-    forceAspect: PropTypes.bool,
-
-    /**
-     * The aspect ratio to use.
-     */
-    aspectRatio: 'wide',
 
     /**
      * Boolean if this component should be expandable when there is a `CardExpander`

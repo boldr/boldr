@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { CardActions } from '../../../../components/md/Cards';
-import TextField from '../../../../components/md/TextFields';
-import { RaisedButton, FlatButton } from '../../../../components/md/Buttons';
-import inlineStyles from '../../../../core/inlineStyles';
+
+import { CardActions } from '../../../components/md/Cards';
+import TextField from '../../../components/md/TextFields';
+import { RaisedButton, FlatButton } from '../../../components/md/Buttons';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
   <div>
@@ -37,7 +37,7 @@ const LoginForm = props => {
             style={ { marginBottom: '50px' } }
           />
           </div>
-        <CardActions style={{ paddingTop: '75px'}}>
+        <CardActions style={ { paddingTop: '75px' } }>
           <RaisedButton secondary type="submit" label="Login" />
           <FlatButton label="Clear values" disabled={ pristine || submitting } onClick={ reset } />
         </CardActions>

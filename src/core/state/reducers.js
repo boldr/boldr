@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 
 import postsReducer from '../../scenes/Blog/state/post';
 import currentPost from '../../scenes/Blog/SinglePost/reducer';
+import tagReducer from '../../scenes/Blog/TagList/reducer';
 import membersReducer from '../../scenes/Dashboard/Members/state/members';
 import mediaReducer from '../../scenes/Dashboard/Media/state/media';
 import accountReducer from '../../scenes/Account/state/account';
@@ -22,7 +23,8 @@ const reducers = combineReducers({
   members: membersReducer,
   media: mediaReducer,
   account: accountReducer,
-  form: formReducer
+  form: formReducer,
+  tags: tagReducer
 });
 
 export default reducers;

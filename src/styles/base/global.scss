@@ -22,7 +22,7 @@ body {
   font-size: $font-size-base;
   line-height: $line-height-base;
   background: linear-gradient(rgb(235, 236, 231), rgb(255, 255, 255));
-  color: $text-color;
+  color: $text-color !important;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   margin: 0;
@@ -93,7 +93,6 @@ select:-webkit-autofill:focus {
 .destinations {
   display: flex;
   flex-wrap: wrap;
-  padding-right: $md-default-padding;
 
   .md-chip-container {
     margin: .5em;
@@ -111,11 +110,6 @@ select:-webkit-autofill:focus {
   white-space: nowrap;
 }
 
-.destination-info {
-  border-left: 1px solid $md-border-color;
-  padding-left: $md-default-padding;
-}
-
 .flex-between {
   display: flex;
   flex-wrap: wrap;
@@ -126,64 +120,6 @@ select:-webkit-autofill:focus {
     flex-shrink: 0;
     margin: 1em;
     min-width: 240px;
-  }
-}
-
-.meal-preference-container {
-  display: flex;
-  flex-wrap: wrap;
-
-  .opacity-enter-active {
-    transition: opacity 1s;
-  }
-}
-
-.meal-preference-select {
-  width: 100%;
-}
-
-.meal-preference {
-  flex-grow: 1;
-}
-
-@media only screen and (min-width: $md-mobile-min-width) {
-  .destinations {
-    min-height: $md-chip-height + $md-text-field-mobile-height;
-  }
-
-  .md-panel-column:nth-child(n+2) {
-    display: none;
-  }
-
-  .meal-preference {
-    margin-top: 2em;
-  }
-}
-
-@media only screen and (min-width: $md-mobile-min-width + 100) {
-  .destinations {
-    flex-basis: 60%;
-  }
-}
-
-@media only screen and (min-width: $md-tablet-min-width) {
-  .meal-preference-select {
-    width: initial;
-  }
-
-  .meal-preference {
-    margin-left: 2em;
-    margin-top: 0;
-  }
-}
-
-@media only screen and (min-width: $md-desktop-min-width) {
-  .destinations {
-    min-height: $md-chip-height + $md-text-field-desktop-height + $md-body-desktop-font-size;
-  }
-
-  .md-panel-column:nth-child(n+2) {
-    display: initial;
   }
 }
 
@@ -199,4 +135,12 @@ select:-webkit-autofill:focus {
   padding-top: 0;
   padding-left: 1em;
   padding-right: 1em;
+}
+
+p {
+  color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $text-color;
 }

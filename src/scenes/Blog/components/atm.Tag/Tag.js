@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'react-router/lib/Link';
 import Chip from '../../../../components/md/Chips';
 
 const styles = {
@@ -12,11 +13,15 @@ const styles = {
 };
 
 const Tag = (props) => {
-  return <Chip style={ styles.chip } label={ props.name } />;
+  return (
+  <Link to={ `/blog/tags/${props.id}` }>
+    <Chip style={ styles.chip } label={ props.name } />
+  </Link>);
 };
 
 Tag.propTypes = {
-  name: React.PropTypes.string.isRequired
+  name: React.PropTypes.string.isRequired,
+  id: React.PropTypes.number.isRequired
 };
 
 export default Tag;

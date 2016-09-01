@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import passport from 'passport';
 import redisClient from '../db/redis';
-import { logger } from '../lib';
+import logger from './logger';
 import sessionService from './middleware/sessions';
 import config from './config';
 

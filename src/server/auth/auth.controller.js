@@ -131,7 +131,8 @@ function checkUser(req, res, next) {
       'gender',
       'avatarUrl',
       'provider'
-    ]
+    ],
+    include: [Role]
   })
     .then(user => {
       debug(user);

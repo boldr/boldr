@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import _debug from 'debug';
 import React from 'react';
@@ -31,9 +32,7 @@ app.get('/favicon.ico', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'image/x-icon' });
   res.end();
 });
-
 app.use(express.static('build'));
-
 app.get('*', (req, res) => {
   if (__DEV__) {
     webpackIsomorphicTools.refresh();

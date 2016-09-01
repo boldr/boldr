@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import config from '../core/config';
+import { config } from '../core';
 
 const envVar = process.env.POSTGRES_CONN_URL;
 

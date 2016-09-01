@@ -10,6 +10,7 @@ const debug = Debug('boldr:auth-service');
 const validateJwt = expressJwt({
   secret: config.session.secret
 });
+
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403

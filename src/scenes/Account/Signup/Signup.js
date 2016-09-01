@@ -9,9 +9,8 @@ import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/
 import { Heading } from '../../../components/index';
 import inlineStyles from '../../../core/inlineStyles';
 import { createAccount } from '../state/account';
-import { SignupForm } from '../components';
 import styles from '../styles.css';
-
+import SignupForm from './SignupForm';
 
 const cx = styles::classNames;
 class Signup extends Component {

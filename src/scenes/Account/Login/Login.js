@@ -9,8 +9,8 @@ import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/
 import { Heading } from '../../../components/index';
 import inlineStyles from '../../../core/inlineStyles';
 import { doLogin } from '../state/auth';
-import { LoginForm } from '../components';
 import styles from '../styles.css';
+import LoginForm from './LoginForm';
 
 const cx = styles::classNames;
 
@@ -47,7 +47,7 @@ class Login extends Component {
             justify="center"
             style={ { margin: '0 auto' } }
           >
-            <Box px={3}>
+            <Box px={ 3 }>
           <Card style={ { width: '450px' } }>
             { renderHeader }
 

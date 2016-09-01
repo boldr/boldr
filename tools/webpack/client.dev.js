@@ -116,15 +116,11 @@ const clientDevConfig = {
               sourceMap: true,
               outputStyle: 'expanded'
             }
-          },
-          {
-            loader: 'sass-resources'
           }
         ]
       })
     ]
   },
-  sassResources: path.resolve(bcfg.SRC_DIR, 'styles/abstracts/*.scss'),
   postcss(webpack) {
     return [
       require('precss')(),
