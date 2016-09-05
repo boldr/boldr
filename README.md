@@ -30,6 +30,8 @@ Boldr
 
 Boldr aims to provide a CMS foundation for you to use as a base in your next web project. Built on cutting edge web technologies, along with a few time tested favorites, we believe Boldr could become something special. It's no secret, the world doesn't need another *never-to-be finished* CMS project, nor does it need the "next WordPress". Boldr tries to be none of that.  
 
+The backend for Boldr is currently being rewritten and improved over in the [API repo](https://github.com/boldr/boldr-api). The reasoning for rewriting the API is to drop Sequelize and include additional improved functionality of the current backend. It would be too problematic to include these major changes in the current, functioning repository. Some of the major changes include filtering via querystrings. Faster eager loading and more.
+
 Stack
 -------------
 * Node 6  
