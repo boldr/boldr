@@ -180,7 +180,7 @@ class Header extends Component {
                 <li>
                   <Link to="/dashboard">
                     <IconButton className="header__icon" style={ { padding: '0' } }>
-                    <FontIcon>avWeb</FontIcon>
+                    <FontIcon>settings</FontIcon>
                     </IconButton>
                   </Link>
                 </li> : null

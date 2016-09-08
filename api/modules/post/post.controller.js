@@ -11,7 +11,7 @@ function index(req, res) {
   return findQuery(Post)
     .build(req.query.filter)
     .eager(req.query.include)
-    .orderBy(req.query.sort.by, req.query.sort.order)
+    // .orderBy(req.query.sort.by, req.query.sort.order)
     .page(req.query.page.number, req.query.page.size)
     .then(users => responseHandler(null, res, 200, users))
     .catch(err => responseHandler(err, res));

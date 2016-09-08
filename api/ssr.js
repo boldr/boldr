@@ -33,42 +33,32 @@ export default (req, res) => {
   match({
     history,
     routes: getRoutes(store)
-  }, (error, redirectLocation, renderProps) => {
-    if (redirectLocation) {
-      res.redirect(redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
-      res.status(500);
-      hydrateOnClient();
-    } else if (renderProps) {
-      const { dispatch } = store;
+  }, (err, redirectLocation, renderProps) => {
+    if (err) { return res.status(500).end('internal server error'); }
+    if (redirectLocation) { return res.redirect(redirectLocation.pathname); }
+    if (!renderProps) { return res.status(404).end('not found'); }
+    const { dispatch } = store;
 
-      const locals = {
-        path: renderProps.location.pathname,
-        query: renderProps.location.query,
-        params: renderProps.params,
-        dispatch
-      };
+    const locals = {
+      path: renderProps.location.pathname,
+      query: renderProps.location.query,
+      params: renderProps.params,
+      dispatch
+    };
 
-      const { components } = renderProps;
+    const { components } = renderProps;
 
-      trigger('fetch', components, locals).then(() => {
-        const component = (
+    trigger('fetch', components, locals).then(() => {
+      const component = (
           <Provider store={ store } key="provider">
               <RouterContext { ...renderProps } />
           </Provider>
         );
-        res.status(200);
 
-        res.send('<!doctype html>\n' + // eslint-disable-line
+        res.status(200).send('<!doctype html>\n' + // eslint-disable-line
           ReactDOM.renderToString(
             <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />
           ));
-      }).catch((mountError) => {
-        console.log(mountError.stack);
-        return res.status(500);
-      });
-    } else {
-      res.status(404).send('Not found');
-    }
+    }).catch(err => res.status(500).send(err.stack));
   });
 };

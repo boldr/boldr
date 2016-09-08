@@ -1,5 +1,5 @@
+require('babel-core/register');
 require('babel-polyfill');
-require('babel-register')();
 
 const chai = require('chai');
 
@@ -13,3 +13,8 @@ global.sinon = require('sinon');
 chai.use(require('sinon-chai'));
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-things'));
+
+process.on('unhandledRejection', function(error) {
+  console.error('Unhandled Promise Rejection:');
+  console.error(error && error.stack || error);
+});

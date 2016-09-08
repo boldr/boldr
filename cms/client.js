@@ -6,6 +6,7 @@ import { Router, browserHistory, match } from 'react-router/es6';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { trigger } from 'redial';
 import WebFontLoader from 'webfontloader';
+
 // Non-vendor
 import { TOKEN_KEY } from './core/config';
 import createStore from './core/state/createStore';
@@ -72,32 +73,10 @@ let render = () => {
     });
   });
 };
-
-if (__DEV__) {
-  if (module.hot) {
-    const renderApp = render;
-    const renderError = (error) => {
-      const RedBox = require('redbox-react').default;
-
-      ReactDOM.render(<RedBox error={ error } />, MOUNT_POINT);
-    };
-
-    // Wrap render in try/catch
-    render = () => {
-      try {
-        renderApp();
-      } catch (error) {
-        renderError(error);
-      }
-    };
-
-    module.hot.accept('./scenes/index', () => {
-      setTimeout(() => {
-        ReactDOM.unmountComponentAtNode(MOUNT_POINT);
-        render();
-      });
-    });
-  }
+const unsubscribeHistory = render();
+if (module.hot) {
+  module.hot.accept('./scenes/index', () => {
+    unsubscribeHistory();
+    setTimeout(render);
+  });
 }
-
-render();

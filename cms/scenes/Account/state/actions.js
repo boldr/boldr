@@ -108,7 +108,6 @@ export function login(loginData, redir) {
       .then(response => {
         localStorage.setItem('token', response.body.token);
         dispatch(loginSuccess(response));
-        dispatch(loginPopulateAccount(response));
         dispatch(notificationSend({
           message: 'Welcome back!',
           kind: 'info',
@@ -193,7 +192,7 @@ export function checkAuth(token) {
     dispatch(checkAuthRequest());
     return request
       .get(`${API_AUTH}/check`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `${token}`)
       .then(response => {
         dispatch(checkAuthSuccess(response, token));
       })

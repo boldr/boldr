@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const VisualizerPlugin = require('webpack-visualizer-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -140,7 +139,6 @@ const clientProdConfig = {
 
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
-    new VisualizerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new WatchMissingNodeModulesPlugin(bcfg.NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin

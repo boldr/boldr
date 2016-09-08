@@ -35,3 +35,9 @@ export function settingsClicked() {
     dispatch(push('/dashboard/settings'));
   };
 }
+
+export function homeClicked() {
+  return (dispatch) => {
+    dispatch(push('/'));
+  };
+}

@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 import errorHandler from 'errorhandler';
 import { coreMiddleware, sessionMiddleware, conf } from './core';
 import DbConnection from './db/connection';
@@ -10,8 +11,9 @@ DbConnection.init();
 const app = express();
 
 coreMiddleware(app);
+app.use(passport.initialize());
 app.use(sessionMiddleware);
-
+app.use(passport.session());
 app.use(conf.get('api.base'), routes);
 
 app.get('*', ssr);

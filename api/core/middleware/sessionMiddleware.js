@@ -10,6 +10,12 @@ const sessionMiddleware = session({
   name: 'boldr:sid',
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV !== 'development'
+            && process.env.NODE_ENV !== 'test'
+            && process.env.NODE_ENV !== 'travis',
+    maxAge: 2419200000
+  },
   unset: 'destroy'
 });
 

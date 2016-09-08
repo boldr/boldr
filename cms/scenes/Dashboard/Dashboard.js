@@ -12,7 +12,7 @@ import FontIcon from '../../components/md/FontIcons';
 import styles from './style.css';
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
-  mediaClicked, membersClicked, settingsClicked
+  mediaClicked, membersClicked, settingsClicked, homeClicked
 } from './actions';
 
 
@@ -35,7 +35,8 @@ class Dashboard extends Component {
     dashboardClicked: React.PropTypes.func,
     mediaClicked: React.PropTypes.func,
     membersClicked: React.PropTypes.func,
-    settingsClicked: React.PropTypes.func
+    settingsClicked: React.PropTypes.func,
+    homeClicked: React.PropTypes.func
   };
   render() {
     const navItems = [
@@ -67,6 +68,11 @@ class Dashboard extends Component {
         primaryText: 'Settings',
         leftIcon: <FontIcon>settings</FontIcon>,
         onClick: this.props.settingsClicked
+      },
+      {
+        primaryText: 'Home',
+        leftIcon: <FontIcon>home</FontIcon>,
+        onClick: this.props.homeClicked
       }
     ];
     return (
@@ -98,6 +104,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     articleListClicked, articleEditorClicked, dashboardClicked,
-    mediaClicked, membersClicked, settingsClicked }, dispatch);
+    mediaClicked, membersClicked, settingsClicked, homeClicked }, dispatch);
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

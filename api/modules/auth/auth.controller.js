@@ -1,4 +1,5 @@
 import async from 'async';
+import passport from 'passport';
 import { handleMail } from '../../core';
 import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../core/mailer/mailContent';
 import User from '../user/user.model';
@@ -46,29 +47,56 @@ async function register(req, res) {
   }
 }
 
-async function login(req, res) {
-  try {
-    // lookup the user and return the first match.
-    const user = await User.query().where({ email: req.body.email }).eager('role').first();
+// async function login(req, res) {
+//   try {
+//     // lookup the user and return the first match.
+//     const user = await User.query().where({ email: req.body.email }).eager('role').first();
+//
+//     if (user) {
+//       // check the password being sent against the hash in the database
+//       const passwordMatch = await user.authenticate(req.body.password);
+//       if (passwordMatch) {
+//         // remove the password from the response.
+//         user.stripPassword();
+//         // sign the token
+//         const token = await signToken(user);
+//         req.user = user;
+//         req.role = user.role[0].id;
+//         debug(req.session);
+//         return res.status(200).json({ token, user });
+//       }
+//       return responseHandler(new Error('Wrong username or password'), res, 422);
+//     }
+//     return responseHandler(new Error('Wrong username or password'), res, 422);
+//   } catch (e) {
+//     return responseHandler(e, res, 500);
+//   }
+// }
 
-    if (user) {
-      // check the password being sent against the hash in the database
-      const passwordMatch = await user.authenticate(req.body.password);
-      if (passwordMatch) {
-        // remove the password from the response.
-        user.stripPassword();
-        // sign the token
-        const token = await signToken(user);
-        req.user = user;
-        req.role = user.role[0].id;
-        return res.status(200).json({ token, user });
-      }
-      return responseHandler(new Error('Wrong username or password'), res, 422);
+async function login(req, res, next) {
+  const user = await User.query().where({ email: req.body.email }).eager('role').first();
+  passport.authenticate('local', (err, user, info) => {
+    const error = err || info;
+    if (error) {
+      responseHandler(new Error('Wrong username or password'), res, 422);
     }
-    return responseHandler(new Error('Wrong username or password'), res, 422);
-  } catch (e) {
-    return responseHandler(e, res, 500);
-  }
+    if (!user) {
+      responseHandler(new Error('Wrong username or password'), res, 422);
+    }
+    return req.logIn(user, (loginErr) => {
+      if (loginErr) return res.status(401).json({ message: loginErr });
+      // remove the password from the response.
+      user.stripPassword();
+      // sign the token
+      const token = signToken(user);
+      req.user = user;
+      res.set('authorization', signToken(user));
+      // req.role = user.role[0].id;
+      debug(req.session);
+      return res.json({ token, user });
+    });
+    // return res.json({ token, user });
+  })(req, res, next);
 }
 
 
@@ -90,7 +118,8 @@ async function verify(req, res) {
 }
 
 async function checkUser(req, res) {
-  const validUser = await User.query().findById(req.user.id).eager('role');
+  const userId = req.user.id;
+  const validUser = await User.query().where({ id: userId }).eager('role').first();
   if (!validUser) {
     return responseHandler(new Error('Invalid user', res, 404));
   }
