@@ -29,7 +29,7 @@ const clientDevConfig = {
     main: [
       'react-hot-loader/patch',
       HMR,
-      path.join(bcfg.SRC_DIR, 'client.js')
+      path.join(bcfg.CMS_DIR, 'client.js')
     ],
     vendor: VENDOR_BUNDLE
   },

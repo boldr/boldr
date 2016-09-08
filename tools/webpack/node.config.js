@@ -24,7 +24,7 @@ const nodeConfig = { // eslint-disable-line
   devtool: 'source-map',
   entry: {
     server: [
-      path.join(bcfg.SRC_DIR, 'server', 'engine.js')
+      path.join(bcfg.ABS_ROOT, 'api', 'engine.js')
     ]
   },
   output: {

@@ -6,7 +6,7 @@ const devMode = process.env.NODE_ENV !== 'production';
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('./isomorphic.config'))
     .server(appRootPath, () => {
-      require('./server.js');
+      require('./webserver.js');
     });
 
 global.__CLIENT__ = false;

@@ -21,7 +21,7 @@ const clientProdConfig = {
   devtool: 'source-map',
   context: bcfg.ABS_ROOT,
   entry: {
-    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.SRC_DIR, 'client.js')],
+    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.CMS_DIR, 'client.js')],
     vendor: VENDOR_BUNDLE
   },
   output: {

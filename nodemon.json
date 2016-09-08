@@ -5,14 +5,14 @@
     "ignore": [
       "docs",
       ".git",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "cms/"
     ],
     "ext": "js json",
     "env": {
       "DEBUG":"boldr*"
     },
     "watch": [
-      "src/server/**/*.js"
-    ],
-    "exec": "babel-node src/server/serverHook.js"
+      "api/**/*.js"
+    ]
 }

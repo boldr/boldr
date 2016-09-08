@@ -8,6 +8,6 @@ module.exports = function createSourceLoader(spec) {
 
     return x;
   }, {
-    include: [path.resolve(appRootPath, './src')]
+    include: [path.resolve(appRootPath, './cms')]
   });
 };
