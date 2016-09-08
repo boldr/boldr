@@ -1,60 +1,47 @@
-import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 
-export default class Html extends Component {
-  static propTypes = {
-    assets: PropTypes.object,
-    component: PropTypes.node,
-    store: PropTypes.object
-  };
-  get styles() {
-    const { assets } = this.props;
-    const { styles, assets: _assets } = assets;
-    const stylesArray = Object.keys(styles);
-
-    if (stylesArray.length !== 0) {
-      return stylesArray.map((style, i) =>
-          <link async href={ assets.styles[style] } key={ i } rel="stylesheet" type="text/css" />
-        );
-    }
-
-    const scssPaths = Object.keys(_assets).filter(asset => asset.includes('.scss'));
-    return scssPaths.map((style, i) =>
-        <style dangerouslySetInnerHTML={ { __html: _assets[style]._style } } key={ i } />
-      );
-  }
-
-  render() {
-    const { assets, component, store } = this.props;
-    const content = component ? ReactDOM.renderToString(component) : '';
-    const head = Helmet.rewind();
-
-    return (
-      <html>
+export default (content, initialState) => {
+  const head = Helmet.rewind();
+  const assets = webpackIsomorphicTools.assets();
+  return `
+      <!DOCTYPE html>
+      <html ${head.htmlAttributes.toString()}>
         <head>
-          <Helmet />
-          { head.base.toComponent() }
-          { head.title.toComponent() }
-          { head.meta.toComponent() }
-          { head.link.toComponent() }
-          { head.script.toComponent() }
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Language" content="en" />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-          { this.styles }
+          ${head.base.toString()}
+          ${head.title.toString()}
+          ${head.meta.toString()}
+          ${head.link.toString()}
+          ${
+            Object.keys(assets.styles).map(style =>
+              `<link href="${assets.styles[style]}" media="screen, projection" rel="stylesheet" type="text/css" />`)
+              .join('\n')
+          }
         </head>
         <body className="layout">
-          <div id="content" dangerouslySetInnerHTML={ { __html: content } } />
-          <script dangerouslySetInnerHTML={ {
-            __html: `window.PRELOAD_STATE=${serialize(store.getState())};` } }
-            charSet="UTF-8"
-          />
-          <script src={ assets.javascript.vendor } charSet="UTF-8" />
-          <script src={ assets.javascript.main } charSet="UTF-8" />
+          <div id="content">${content || null}</div>
+
+          <script type="text/javascript">
+            ${initialState && `window.PRELOAD_STATE=${serialize(initialState)}`}
+          </script>
+          <!--[if gte IE 9 ]>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-sham.min.js"></script>
+          <![endif]-->
+          ${
+            /* Reverse the order of scripts for accessing vendor.js first */
+            Object.keys(assets.javascript).reverse().map(script =>
+            `<script src="${assets.javascript[script]}"></script>`)
+            .join('\n')
+          }
+          ${head.script.toString()}
         </body>
       </html>
-    );
-  }
-}
+    `;
+};

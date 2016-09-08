@@ -10,7 +10,7 @@ import { trigger } from 'redial';
 
 import createStore from '../cms/core/state/createStore';
 import getRoutes from '../cms/scenes/index';
-import Html from './Html';
+import renderHtmlPage from './Html';
 
 export default (req, res) => {
   if (__DEV__) {
@@ -19,16 +19,6 @@ export default (req, res) => {
   const memoryHistory = createMemoryHistory(req.originalUrl);
   const store = createStore(memoryHistory);
   const history = syncHistoryWithStore(memoryHistory, store);
-
-  function hydrateOnClient() {
-    res.send('<!doctype html>\n' + // eslint-disable-line
-      ReactDOM.renderToString(<Html assets={ webpackIsomorphicTools.assets() } store={ store } />));
-  }
-
-  if (__DISABLE_SSR__) {
-    hydrateOnClient();
-    return;
-  }
 
   match({
     history,
@@ -49,16 +39,13 @@ export default (req, res) => {
     const { components } = renderProps;
 
     trigger('fetch', components, locals).then(() => {
-      const component = (
+      const content = ReactDOM.renderToString(
           <Provider store={ store } key="provider">
               <RouterContext { ...renderProps } />
           </Provider>
         );
-
-        res.status(200).send('<!doctype html>\n' + // eslint-disable-line
-          ReactDOM.renderToString(
-            <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />
-          ));
+      const initialState = store.getState();
+      res.status(200).send(renderHtmlPage(content, initialState));
     }).catch(err => res.status(500).send(err.stack));
   });
 };
