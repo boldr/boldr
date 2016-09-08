@@ -2,28 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { createPost } from '../../Blog/state/post';
-import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
+import { clearCurrentPost } from '../../Blog/SinglePost/actions';
 import EditorForm from '../components/mol.EditorForm';
 
-class ArticleEditor extends Component {
+class NewArticle extends Component {
   static propTypes = {
     dispatch: React.PropTypes.func,
     posts: React.PropTypes.object,
     params: React.PropTypes.object,
     currentPost: React.PropTypes.object,
-    clearCurrentPost: React.PropTypes.func,
-    loadPost: React.PropTypes.func
+    clearCurrentPost: React.PropTypes.func
   };
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      editing: true
+      editing: false
     };
   }
   componentDidMount() {
-    this.props.loadPost(this.props.params.slug);
+    this.props.clearCurrentPost();
   }
 
   handleSubmit(values) {
@@ -35,8 +34,7 @@ class ArticleEditor extends Component {
       id: this.props.currentPost.id || '',
       origSlug: this.props.params.slug || ''
     };
-    const editId = this.props.currentPost.id;
-    this.props.dispatch(updatePost(postData));
+    this.props.dispatch(createPost(postData));
   }
 
   render() {
@@ -47,7 +45,7 @@ class ArticleEditor extends Component {
       <div>
         <EditorForm
           initialValues={ this.props.currentPost }
-          editing
+          editing={ false }
           onSubmit={ this.handleSubmit }
         />
       </div>
@@ -63,4 +61,4 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.currentPost.isLoading
   };
 };
-export default connect(mapStateToProps, { loadPost, clearCurrentPost })(ArticleEditor);
+export default connect(mapStateToProps, { clearCurrentPost })(NewArticle);

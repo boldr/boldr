@@ -35,9 +35,17 @@ export default (store, connect) => ({
     }
   },
   {
-    path: 'articles/editor(/:slug)',
+    path: 'articles/editor/:slug',
     getComponent(nextState, cb) {
       System.import('./ArticleEditor')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  },
+  {
+    path: 'articles/editor/new',
+    getComponent(nextState, cb) {
+      System.import('./NewArticle')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
