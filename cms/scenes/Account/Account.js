@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Header from '../../../../components/org.MainHeader';
+import Header from '../../components/org.MainHeader';
 
-const AccountLayout = (props) => {
+const Account = (props) => {
   return (
       <div>
         <Header theme="dark" />
@@ -11,7 +11,7 @@ const AccountLayout = (props) => {
       );
 };
 
-AccountLayout.propTypes = {
+Account.propTypes = {
   children: PropTypes.element.isRequired
 };
 
@@ -23,4 +23,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, null)(AccountLayout);
+export default connect(mapStateToProps, null)(Account);

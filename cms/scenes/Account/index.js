@@ -21,7 +21,7 @@ const loadModule = (cb) => (componentModule) => {
 export default (store, connect) => ({
 
   path: 'account',
-  component: require('./components/tpl.AccountLayout').default,
+  component: require('./Account').default,
   childRoutes: [{
     path: 'forgot-password',
     getComponent(nextState, cb) {

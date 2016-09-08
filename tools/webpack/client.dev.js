@@ -1,14 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const bcfg = require('../buildConfig');
 const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
-const createHappyPlugin = require('./util/createHappyPlugin');
-const createSourceLoader = require('./util/createSourceLoader');
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
@@ -48,13 +44,12 @@ const clientDevConfig = {
   },
   module: {
     loaders: [
-      createSourceLoader({
-        happy: { id: 'js' },
+    {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: { cacheDirectory: true, compact: false },
         exclude: /node_modules/
-      }),
+      },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
@@ -66,8 +61,7 @@ const clientDevConfig = {
         include: /node_modules/,
         loader: 'style!css!postcss!sass'
       },
-      createSourceLoader({
-        happy: { id: 'css' },
+      {
         test: /\.css$/,
         exclude: /node_modules/,
         loaders: [
@@ -88,9 +82,8 @@ const clientDevConfig = {
             loader: 'postcss-loader'
           }
         ]
-      }),
-      createSourceLoader({
-        happy: { id: 'sass' },
+      },
+      {
         test: /\.scss$/,
         exclude: /node_modules/,
         loaders: [
@@ -118,13 +111,12 @@ const clientDevConfig = {
             }
           }
         ]
-      })
+      }
     ]
   },
   postcss(webpack) {
     return [
       require('precss')(),
-      require('lost')(),
       require('cssnano')({
         autoprefixer: {
           add: true,
@@ -147,15 +139,8 @@ const clientDevConfig = {
       __CLIENT__: true,
       __SERVER__: false
     }),
-    new ProgressBarPlugin({
-      format: '  build libs [:bar] :percent (:elapsed seconds)',
-      clear: false
-    }),
     new webpack.NoErrorsPlugin(),
-    webpackIsomorphicToolsPlugin.development(),
-    createHappyPlugin('js'),
-    createHappyPlugin('css'),
-    createHappyPlugin('sass')
+    webpackIsomorphicToolsPlugin.development()
   ],
   node: {
     __dirname: true,

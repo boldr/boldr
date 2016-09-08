@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Link } from 'react-router/es6';
-import classNames from 'classnames/bind';
 
 import Paper from '../../../components/md/Papers';
 import {
@@ -11,10 +10,7 @@ import {
 import { inlineStyles } from '../../../core';
 import { fetchPostsIfNeeded, selectPost } from '../../Blog/state/post';
 import ArticleListItem from '../components/mol.ArticleListItem';
-
-import styles from './style.css';
-
-const cx = styles::classNames;
+import { Grid, Col, Row } from '../../../components';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
@@ -45,7 +41,7 @@ class ArticleList extends Component {
     }
 
     return (
-      <div className={ cx('dashboard__row') }>
+      <Row>
        <Paper zDepth={ 1 } style={ { height: '90vh' } }>
 
        <DataTable className="complex-table">
@@ -81,8 +77,7 @@ class ArticleList extends Component {
         </DataTable>
 
         </Paper>
-        </div>
-
+      </Row>
     );
   }
 }

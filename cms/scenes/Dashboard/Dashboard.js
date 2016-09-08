@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import { bindActionCreators } from 'redux';
-import { Flex, Box } from 'reflexbox';
 
-import SiteLogo from '../../components/atm.SiteLogo';
+import { SiteLogo, Grid, Col, Row } from '../../components';
 import NavigationDrawer from '../../components/md/NavigationDrawers';
 import { IconButton } from '../../components/md/Buttons';
 
@@ -76,7 +75,8 @@ class Dashboard extends Component {
       }
     ];
     return (
-      <div className={ cx('dashboard__row') }>
+      <Grid fluid>
+        <Row>
         <NavigationDrawer
           drawerTitle="Navigation"
           toolbarTitle="Dashboard"
@@ -85,12 +85,13 @@ class Dashboard extends Component {
           navItems={ navItems }
         />
         <div className={ cx('dashboard__content') }>
-          <Flex p={ 2 } align="center">
+          <Col xs>
                   { this.props.children }
-          </Flex>
-        </div>
-      </div>
-      );
+          </Col>
+          </div>
+        </Row>
+      </Grid>
+    );
   }
 }
 

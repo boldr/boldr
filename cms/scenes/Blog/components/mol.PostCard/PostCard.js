@@ -8,7 +8,7 @@ import FontIcon from '../../../../components/md/FontIcons';
 import { FlatButton, IconButton } from '../../../../components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
 import Avatar from '../../../../components/md/Avatars';
-
+import { Row } from '../../../../components';
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -36,9 +36,9 @@ const PostCard = props => {
           title={ props.author.display_name }
         />
         <div className={ cx('post__card-footer') }>
-          <div className="grid__row">
+          <Row>
             <TagBlock tags={ props.tags } />
-          </div>
+          </Row>
         </div>
         <CardActions isExpander>
         <Link to={ `/blog/${props.slug}` }>
@@ -55,7 +55,7 @@ const PostCard = props => {
 
 PostCard.propTypes = {
   title: PropTypes.string,
-  createdAt: PropTypes.string,
+  created_at: PropTypes.string,
   display_name: PropTypes.string,
   feature_image: PropTypes.string,
   excerpt: PropTypes.string,

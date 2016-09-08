@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
-import { Flex, Box } from 'reflexbox';
 
 import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
-import { Heading } from '../../../components/index';
+import { Heading, Grid, Col, Row } from '../../../components/index';
 import inlineStyles from '../../../core/inlineStyles';
 import { login } from '../state/actions';
 import styles from '../styles.css';
@@ -41,21 +40,21 @@ class Login extends Component {
     return (
       <div style={ inlineStyles.headerOverflow }>
         <Helmet title="Login" />
-        <section className={ cx('root') }>
-          <Flex
-            align="center"
-            justify="center"
-            style={ { margin: '0 auto' } }
-          >
-            <Box px={ 3 }>
-          <Card style={ { width: '450px' } }>
-            { renderHeader }
+          <Grid fluid>
+            <Row>
+              <Col xs={ 12 }>
+                <Row xsCenter>
+                  <Col xs={ 6 }>
+                    <Card style={ { width: '450px', marginTop: '150px' } }>
+                      { renderHeader }
 
-            <LoginForm onSubmit={ this.handleOnSubmit } />
-          </Card>
-              </Box>
-            </Flex>
-        </section>
+                      <LoginForm onSubmit={ this.handleOnSubmit } />
+                    </Card>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Grid>
       </div>
     );
   }

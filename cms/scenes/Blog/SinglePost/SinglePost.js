@@ -1,20 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router/es6';
-import Moment from 'moment';
-import { Flex, Box } from 'reflexbox';
-import classNames from 'classnames/bind';
-import { provideHooks } from 'redial';
 
+import { provideHooks } from 'redial';
+import { Grid, Col, Row } from '../../../components';
 import Paper from '../../../components/md/Papers';
 import Loader from '../../../components/atm.Loader';
 import Sidebar from '../components/org.Sidebar';
 
 import PostContent from '../components/mol.PostContent';
-import styles from './style.css';
 import { loadPost } from './actions';
-
-const cx = styles::classNames;
 
 const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
@@ -22,34 +17,23 @@ const redial = {
 
 const SinglePost = ({ isLoading, currentPost }) => {
   return (
-      <div className="grid">
-      <div className="postbg">
-      <div className={ cx('container') }>
-          <Flex
-            gutter={ 2 }
-            justify="space-between"
-          >
-            <Box
-              col={ 8 }
-              p={ 2 }
-            >
-            <Paper zDepth={ 2 }>
-            {
-              isLoading ?
-                <Loader /> :
-                <PostContent { ...currentPost } />
-            }
-            </Paper>
-            </Box>
-          <Box
-            col={ 4 }
-            p={ 2 }
-          >
-            <Sidebar { ...currentPost } />
-          </Box>
-        </Flex>
-        </div>
-        </div>
+    <div className="postbg">
+      <Grid fluid>
+        <Row>
+          <Col xs={ 12 } md={ 8 } lg={ 9 }>
+              <Paper zDepth={ 2 }>
+              {
+                isLoading ?
+                  <Loader /> :
+                  <PostContent { ...currentPost } />
+              }
+              </Paper>
+            </Col>
+            <Col xs={ 12 } md={ 4 } lg={ 3 }>
+              <Sidebar { ...currentPost } />
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
 };

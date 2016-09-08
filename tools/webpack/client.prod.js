@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const bcfg = require('../buildConfig');
 const VENDOR_BUNDLE = require('../vendorBundle');
@@ -71,7 +70,6 @@ const clientProdConfig = {
   postcss(webpack) {
     return [
       require('precss')(),
-      require('lost')(),
       require('cssnano')({
         autoprefixer: {
           add: true,
@@ -131,10 +129,6 @@ const clientProdConfig = {
         comments: false,
         screw_ie8: true
       }
-    }),
-    new ProgressBarPlugin({
-      format: '  build libs [:bar] :percent (:elapsed seconds)',
-      clear: false
     }),
 
     // merge common

@@ -1,18 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
 
 import { Card, CardText, CardActions } from '../../../components/md/Cards';
 import TextField from '../../../components/md/TextFields';
 import { RaisedButton } from '../../../components/md/Buttons';
-import Heading from '../../../components/atm.Heading';
+import { Heading, Grid, Col, Row } from '../../../components';
 import inlineStyles from '../../../core/inlineStyles';
 
-
-import styles from '../styles.css';
 import { resetPassword } from '../state/actions';
 
-const cx = styles::classNames;
 class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
@@ -40,37 +36,44 @@ class ResetPassword extends React.Component {
     );
     return (
       <div style={ inlineStyles.headerOverflow }>
-        <section className={ cx('root') }>
-          <Card className={ cx('auth-card') }>
-            <form onSubmit={ this.handleReset }>
-              { renderHeader }
-
-              <CardText>
-              <div className="grid__row">
-                <TextField
-                  type="password"
-                  name="password"
-                  id="password"
-                  floatingLabelText="New password" style={ inlineStyles.underlineFocusStyle }
-                  autoFocus value={ this.state.password } onChange={ this.handleChange }
-                />
-              </div>
-              <div className="grid__row">
-                <TextField
-                  type="password"
-                  name="password"
-                  id="password"
-                  floatingLabelText="Confirm password" style={ inlineStyles.underlineFocusStyle }
-                  value={ this.state.confirm } onChange={ this.handleChange }
-                />
-              </div>
-              </CardText>
-              <CardActions>
-                <RaisedButton secondary type="submit" label="Change Password" />
-              </CardActions>
-            </form>
-          </Card>
-        </section>
+        <Grid fluid>
+        <Row>
+          <Col xs={ 12 }>
+            <Row xsCenter>
+              <Col xs={ 6 }>
+                <Card style={ { marginTop: '150px' } }>
+                  <form onSubmit={ this.handleReset }>
+                    { renderHeader }
+                    <CardText>
+                      <Row>>
+                        <TextField
+                          type="password"
+                          name="password"
+                          id="password"
+                          floatingLabelText="New password" style={ inlineStyles.underlineFocusStyle }
+                          autoFocus value={ this.state.password } onChange={ this.handleChange }
+                        />
+                      </Row>
+                      <Row>
+                        <TextField
+                          type="password"
+                          name="password"
+                          id="password"
+                          floatingLabelText="Confirm password" style={ inlineStyles.underlineFocusStyle }
+                          value={ this.state.confirm } onChange={ this.handleChange }
+                        />
+                      </Row>
+                    </CardText>
+                    <CardActions>
+                      <RaisedButton secondary type="submit" label="Change Password" />
+                    </CardActions>
+                  </form>
+                </Card>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }

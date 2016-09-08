@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import classNames from 'classnames/bind';
 import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
-import { Heading } from '../../../components/index';
+import { Heading, Grid, Col, Row } from '../../../components/index';
 import inlineStyles from '../../../core/inlineStyles';
 import { signup } from '../state/actions';
 import styles from '../styles.css';
@@ -43,23 +43,31 @@ class Signup extends Component {
     return (
         <div style={ inlineStyles.headerOverflow }>
           <Helmet title="Signup" />
-          <section className={ cx('root') }>
-            <Card>
+          <Grid fluid>
+            <Row>
+              <Col xs={ 12 }>
+                <Row xsCenter>
+                  <Col xs={ 6 }>
+                    <Card style={ { marginTop: '150px' } }>
+                      { renderHeader }
 
-              { renderHeader }
-
-              <SignupForm onSubmit={ this.handleOnSubmit } />
-            </Card>
-          </section>
+                      <SignupForm onSubmit={ this.handleOnSubmit } />
+                    </Card>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Grid>
         </div>
     );
   }
 }
 
 Signup.propTypes = {
-  users: PropTypes.object,
   signup: PropTypes.func,
-  handleOnSubmit: PropTypes.func
+  handleOnSubmit: PropTypes.func,
+  isLoading: PropTypes.bool,
+  auth: PropTypes.object
 };
 function mapStateToProps({ auth }) {
   return {
