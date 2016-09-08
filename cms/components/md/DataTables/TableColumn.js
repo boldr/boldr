@@ -1,6 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
 import cn from 'classnames';
-import injectTooltip from '../Tooltips';
 import FontIcon from '../FontIcons';
 
 /**
@@ -15,8 +14,7 @@ class TableColumn extends PureComponent {
   static defaultProps = {
     header: false,
     sortIconClassName: 'material-icons',
-    tooltipPosition: 'bottom',
-    sortIconChildren: 'arrow_upward',
+    sortIconChildren: 'arrow_upward'
   };
   static propTypes = {
     /**
@@ -64,22 +62,7 @@ class TableColumn extends PureComponent {
      * Boolean if this is a `th` component. This value **should** be set
      * automatically for you if it is in the `TableHeader` component.
      */
-    header: PropTypes.bool.isRequired,
-
-    /**
-     * The optional tooltip to render on hover.
-     */
-    tooltipLabel: PropTypes.string,
-
-    /**
-     * The position of the tooltip.
-     */
-    tooltipPosition: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-
-    /**
-     * The optionally injected tooltip from the `injectTooltip` higher order component.
-     */
-    tooltip: PropTypes.node,
+    header: PropTypes.bool.isRequired
   };
 
   render() {
@@ -89,15 +72,14 @@ class TableColumn extends PureComponent {
       adjusted,
       header,
       children,
-      tooltip,
       sorted,
       sortIconChildren,
       sortIconClassName,
-      ...props,
+      ...props
     } = this.props;
     const sortable = typeof sorted === 'boolean';
 
-    let displayedChildren = [children, tooltip];
+    let displayedChildren = [children];
     if (sortable) {
       displayedChildren = [
         <FontIcon
@@ -106,8 +88,7 @@ class TableColumn extends PureComponent {
           iconClassName={ sortIconClassName }
           children={ sortIconChildren }
         />,
-        <span key="children" className="inline-top">{children}</span>,
-        tooltip,
+        <span key="children" className="inline-top">{children}</span>
       ];
     }
 
@@ -123,4 +104,4 @@ class TableColumn extends PureComponent {
   }
 }
 
-export default injectTooltip(TableColumn);
+export default TableColumn;

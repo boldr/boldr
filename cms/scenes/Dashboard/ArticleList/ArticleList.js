@@ -47,22 +47,22 @@ class ArticleList extends Component {
        <DataTable className="complex-table">
        <TableHeader>
           <TableRow>
-             <TableColumn tooltipPosition="bottom">
+             <TableColumn>
                Title
              </TableColumn>
-            <TableColumn tooltipPosition="bottom">
+            <TableColumn>
                Status
              </TableColumn>
-             <TableColumn tooltipPosition="bottom">
+             <TableColumn>
                Date
              </TableColumn>
-             <TableColumn tooltipPosition="bottom">
+             <TableColumn>
                Action
              </TableColumn>
            </TableRow>
          </TableHeader>
          <TableBody>
-         {this.props.posts.results.map((post, index) => (
+         { this.props.posts.results.map((post, index) => (
            <ArticleListItem
              article={ post }
              key={ post.id }

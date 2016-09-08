@@ -1,7 +1,7 @@
 import request from 'superagent';
 import fetch from '../../../../core/fetch';
 import { notificationSend } from '../../../Boldr/state/notifications';
-import { API_BASE, API_MEDIA } from '../../../../core/config';
+import { API_BASE, API_MEDIA, TOKEN_KEY } from '../../../../core/config';
 import * as types from './constants';
 
 const fetchMediaStart = () => {
@@ -61,7 +61,7 @@ export function uploadFiles(payload) {
     dispatch(beginUpload());
     return request
       .post(`${API_MEDIA}/dashboard`, payload)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
       .then(response => {
         if (response.status === 201) {
           dispatch(uploadSuccess(response));

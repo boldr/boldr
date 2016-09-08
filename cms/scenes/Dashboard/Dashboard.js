@@ -80,14 +80,13 @@ class Dashboard extends Component {
         <NavigationDrawer
           drawerTitle="Navigation"
           toolbarTitle="Dashboard"
+          toolbarStyle={ { marginBottom: '25px' } }
           tabletDrawerType={ DrawerType.PERSISTENT_MINI }
           desktopDrawerType={ DrawerType.PERSISTENT_MINI }
           navItems={ navItems }
         />
         <div className={ cx('dashboard__content') }>
-          <Col xs>
                   { this.props.children }
-          </Col>
           </div>
         </Row>
       </Grid>

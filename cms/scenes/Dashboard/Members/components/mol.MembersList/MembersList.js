@@ -13,11 +13,11 @@ const MembersList = (props) => {
     <DataTable>
     <TableHeader>
        <TableRow>
-          <TableColumn tooltipPosition="bottom">ID</TableColumn>
-          <TableColumn tooltipPosition="bottom">Name</TableColumn>
-          <TableColumn tooltipPosition="bottom">Email</TableColumn>
-          <TableColumn tooltipPosition="bottom">Role</TableColumn>
-          <TableColumn tooltipPosition="bottom">Actions</TableColumn>
+          <TableColumn>ID</TableColumn>
+          <TableColumn>Name</TableColumn>
+          <TableColumn>Email</TableColumn>
+          <TableColumn>Role</TableColumn>
+          <TableColumn>Actions</TableColumn>
         </TableRow>
       </TableHeader>
       <TableBody>

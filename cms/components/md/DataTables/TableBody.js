@@ -53,7 +53,7 @@ export default class TableBody extends Component {
     });
 
     return (
-      <tbody {...props} className={cn('md-table-body', className)}>
+      <tbody { ...props } className={ cn('md-table-body', className) }>
       {rows}
       </tbody>
     );

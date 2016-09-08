@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import classNames from 'classnames/bind';
-
+import { Grid, Row, Col } from '../../../components';
 import Toolbar from '../../../components/md/Toolbars';
 import FontIcon from '../../../components/md/FontIcons';
 import { RaisedButton, FlatButton, IconButton } from '../../../components/md/Buttons';
@@ -53,14 +53,16 @@ class Media extends Component {
   render() {
     const actions = [
       <FlatButton
+        key={ 1 }
         label="Close"
         primary
         onTouchTap={ this.handleClose }
       />
     ];
     return (
-       <div>
-       <Paper>
+      <div>
+       <Row>
+       <Paper zDepth={ 1 } style={ { height: '90vh' } }>
        <Toolbar primary title="Upload a file">
 
 
@@ -81,6 +83,7 @@ class Media extends Component {
 
         <FileView files={ this.props.media.files } />
        </Paper>
+       </Row>
        </div>
     );
   }

@@ -17,19 +17,19 @@ const MemberTableRow = (props) => {
   }
   return (
       <TableRow>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           {props.user.id}
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           {props.user.display_name}
         </TableColumn>
-      <TableColumn tooltipPosition="bottom">
+      <TableColumn>
           {props.user.email}
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
-          {props.user.roleId}
+        <TableColumn>
+          {props.user.role[0].name}
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           <IconButton >
             <FontIcon onClick={ handleToggle }>editor</FontIcon>
           </IconButton>

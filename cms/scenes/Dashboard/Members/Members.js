@@ -63,7 +63,7 @@ class Members extends Component {
           <EditMemberForm onSubmit={ this.handleSubmit } />
           <FlatButton
             label="Save"
-            onTouchTap={ this.handleSubmit }
+            onClick={ this.handleSubmit }
           />
         </Dialog>
        </div>

@@ -28,7 +28,7 @@ export function generalUpload(req, res, next) {
   debug(`These are the ${req.files}`);
   const fileFields = {
     s3url: req.files[0].location,
-    ownerId: req.user.id,
+    user_id: req.user.id,
     key: req.files[0].key
   };
   Media.query().insert(fileFields).then(data => {
@@ -43,7 +43,7 @@ export function singleUpload(req, res, next) {
 
   const fileFields = {
     s3url: req.file.location,
-    ownerId: req.user.id,
+    user_id: req.user.id,
     key: req.file.key
   };
 
@@ -77,11 +77,11 @@ export const getAllMedia = async (req, res, next) => {
 export function fromDashboard(req, res, next) {
   const fileFields = {
     s3url: req.body.s3url,
-    userId: req.user.id,
-    key: req.body.filename,
+    user_id: req.user.id,
+    // key: req.body.filename,
     filename: req.body.filename
   };
-  Media.query().insert(fileFields).then(data => {
+  Media.query().insertAndFetch(fileFields).then(data => {
     return res.status(201).json(data);
   }).catch(err => {
     return res.status(500).json(err);

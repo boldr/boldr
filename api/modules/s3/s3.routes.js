@@ -1,8 +1,11 @@
+
 import uuid from 'node-uuid';
 import aws from 'aws-sdk';
 import express from 'express';
 
 import conf from '../../core/config/config';
+
+const debug = require('debug')('boldr:s3');
 
 function checkTrailingSlash(path) {
   if (path && path[path.length - 1] !== '/') {
@@ -10,6 +13,12 @@ function checkTrailingSlash(path) {
   }
   return path;
 }
+
+const s3 = new aws.S3({
+  accessKeyId: conf.get('aws.keyId'),
+  secretAccessKey: conf.get('aws.keySecret'),
+  region: conf.get('aws.region')
+});
 
 export default function S3Router(options) {
   const S3_BUCKET = conf.get('aws.bucket');
@@ -34,16 +43,14 @@ export default function S3Router(options) {
     * to GET an upload.
     */
   function tempRedirect(req, res) {
-    const params = {
+    s3.getSignedUrl('getObject', {
       Bucket: S3_BUCKET,
       Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
-    };
-    const s3 = new aws.S3({
-      accessKeyId: conf.get('aws.keyId'),
-      secretAccessKey: conf.get('aws.keySecret'),
-      region: conf.get('aws.region')
-    });
-    s3.getSignedUrl('getObject', params, (err, url) => {
+    }, (err, url) => {
+      if (err) {
+        debug(err);
+        throw Error(err);
+      }
       res.redirect(url);
     });
   }
@@ -51,7 +58,7 @@ export default function S3Router(options) {
    /**
     * Image specific route.
     */
-  router.get(/\/img\/(.*)/, (req, res) => {
+  router.get(/\/media\/(.*)/, (req, res) => {
     return tempRedirect(req, res);
   });
 
@@ -75,21 +82,15 @@ export default function S3Router(options) {
       res.set(options.headers);
     }
 
-    const s3 = new aws.S3({
-      accessKeyId: conf.get('aws.keyId'),
-      secretAccessKey: conf.get('aws.keySecret'),
-      region: conf.get('aws.region')
-    });
-    const params = {
+    s3.getSignedUrl('putObject', {
       Bucket: S3_BUCKET,
       Key: fileKey,
       Expires: 60,
       ContentType: mimeType,
       ACL: 'public-read'
-    };
-    s3.getSignedUrl('putObject', params, (err, data) => {
+    }, (err, data) => {
       if (err) {
-        console.log(err);
+        debug(err);
         return res.send(500, 'Cannot create S3 signed URL');
       }
       res.json({
