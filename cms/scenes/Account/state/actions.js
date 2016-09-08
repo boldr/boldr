@@ -233,7 +233,7 @@ export function forgotPassword(email) {
       } else {
         return response.json().then((json) => {
           dispatch({
-            type: types.FORGOT_PASSWORD_FAIL,
+            type: types.FORGOT_PASSWORD_FAILURE,
             error: Array.isArray(json) ? json : [json]
           });
         });
@@ -269,7 +269,7 @@ export function resetPassword(password, confirm, pathToken) {
       } else {
         return response.json().then((json) => {
           dispatch({
-            type: types.RESET_PASSWORD_FAIL,
+            type: types.RESET_PASSWORD_FAILURE,
             error: Array.isArray(json) ? json : [json]
           });
         });

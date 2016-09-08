@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   id: '',
   feature_image: '',
   content: '',
-  user: {},
+  author: {},
   tags: []
 };
 
@@ -30,7 +30,7 @@ function currentPost(state = INITIAL_STATE, action = {}) {
         id: action.id,
         feature_image: action.feature_image,
         content: action.content,
-        user: action.user,
+        author: action.author,
         tags: action.tags
       };
     case types.LOAD_POST_FAILURE:
@@ -49,7 +49,7 @@ function currentPost(state = INITIAL_STATE, action = {}) {
         id: '',
         feature_image: '',
         content: '',
-        user: '',
+        author: '',
         tags: ''
       };
     default:

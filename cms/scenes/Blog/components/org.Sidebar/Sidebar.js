@@ -11,7 +11,7 @@ const cx = styles::classNames;
 const Sidebar = props => {
   return (
     <div className={ cx('sidebar') }>
-      <Author { ...props.user } />
+      <Author { ...props.author } />
       <Divider style={ { marginTop: '1em', marginBottom: '1em' } } />
       <TagBlock tags={ props.tags } />
     </div>
@@ -20,7 +20,7 @@ const Sidebar = props => {
 
 Sidebar.propTypes = {
   tags: React.PropTypes.array,
-  user: React.PropTypes.object
+  author: React.PropTypes.object
 };
 
 export default Sidebar;

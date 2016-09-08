@@ -14,13 +14,12 @@ const requestPost = () => {
 };
 const receivedPost = (json) => ({
   type: types.LOAD_POST_SUCCESS,
-  payload: json,
   title: json.title,
   slug: json.slug,
   id: json.id,
   feature_image: json.feature_image,
   content: json.content,
-  user: json.user,
+  author: json.author,
   tags: json.tags
 });
 const receivePostFailed = (err) => ({
@@ -36,7 +35,7 @@ const receivePostFailed = (err) => ({
 export function loadPost(slug) {
   return dispatch => {
     dispatch(requestPost());
-    return fetch(`${API_POSTS}/${slug}`)
+    return fetch(`${API_POSTS}/slug/${slug}`)
       .then(response => processResponse(response))
       .then(json => dispatch(receivedPost(json)))
       .catch(err => {
@@ -71,14 +70,14 @@ export function updatePost(postData) {
   return dispatch => {
     dispatch(updatePostDetails(postData));
     return request
-      .put(`${API_POSTS}/${postData.origSlug}`)
+      .put(`${API_POSTS}/pid/${postData.id}`)
       .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
       .send({
         // title: articleData.title,
         content: postData.content,
         excerpt: postData.excerpt,
         feature_image: postData.feature_image,
-        tags: postData.tags,
+        tag: postData.tag,
         status: postData.status
       })
       .then(response => {

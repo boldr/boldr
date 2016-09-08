@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { push } from 'react-router-redux';
 import fetch from '../../../core/fetch';
-import { API_BASE, API_POSTS } from '../../../core/config';
+import { API_BASE, API_POSTS, TOKEN_KEY } from '../../../core/config';
 import { notificationSend } from '../../Boldr/state/notifications';
 import { processResponse } from '../../../core/api/helpers';
 import * as types from './constants';
@@ -95,7 +95,7 @@ export function createPost(postData) {
     dispatch(beginCreatePost());
     return request
       .post(API_POSTS)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
       .send({
         title: postData.title,
         content: postData.content,

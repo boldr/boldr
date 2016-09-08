@@ -40,7 +40,7 @@ class ArticleList extends Component {
   }
 
   render() {
-    if (!this.props.posts.data.length) {
+    if (!this.props.posts.results.length) {
       return <h1>Perhaps you should create a new post?</h1>;
     }
 
@@ -66,7 +66,7 @@ class ArticleList extends Component {
            </TableRow>
          </TableHeader>
          <TableBody>
-         {this.props.posts.data.map((post, index) => (
+         {this.props.posts.results.map((post, index) => (
            <ArticleListItem
              article={ post }
              key={ post.id }

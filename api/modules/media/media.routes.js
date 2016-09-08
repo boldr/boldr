@@ -14,4 +14,4 @@ router.post('/articles', ctrl.uploadArticle.single('photo'), ctrl.singleUpload);
 
 router.get('/aws/bucket', ctrl.getAllAWS);
 
-export default router
+export default router;

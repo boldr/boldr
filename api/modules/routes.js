@@ -7,6 +7,7 @@ import mediaRoutes from './media/media.routes';
 import pageRoutes from './page/page.routes';
 import postRoutes from './post/post.routes';
 import roleRoutes from './role/role.routes';
+import s3Router from './s3/s3.routes';
 import settingRoutes from './setting/setting.routes';
 import tagRoutes from './tag/tag.routes';
 import typeRoutes from './type/type.routes';
@@ -25,6 +26,10 @@ router.use('/media', mediaRoutes);
 router.use('/pages', pageRoutes);
 router.use('/posts', postRoutes);
 router.use('/roles', roleRoutes);
+router.use('/s3', s3Router({
+  headers: { 'Access-Control-Allow-Origin': '*' }, // optional
+  ACL: 'public-read' // this is default
+}));
 router.use('/settings', settingRoutes);
 router.use('/tags', tagRoutes);
 router.use('/types', typeRoutes);

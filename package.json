@@ -117,6 +117,7 @@
     "lint:fix": "npm run lint -- --fix",
     "migrate": "./node_modules/.bin/knex --knexfile api/core/config/knexfile.js migrate:latest",
     "knex": "./node_modules/.bin/knex --knexfile api/core/config/knexfile.js",
+    "seed": "./node_modules/.bin/knex --knexfile api/core/config/knexfile.js seed:run",
     "start": "better-npm-run start",
     "test": "better-npm-run test",
     "travis": "better-npm-run test",

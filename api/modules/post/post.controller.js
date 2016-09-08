@@ -50,7 +50,8 @@ async function getSlug(req, res) {
   const post = await Post
     .query()
     .where({ slug: req.params.slug })
-    .eager('[tags, author]');
+    .eager('[tags, author]')
+    .first();
   return responseHandler(null, res, 200, post);
 }
 
@@ -58,7 +59,8 @@ async function getId(req, res) {
   const post = await Post
     .query()
     .findById(req.params.id)
-    .eager('[tags, author]');
+    .eager('[tags, author]')
+    .first();
   return responseHandler(null, res, 200, post);
 }
 

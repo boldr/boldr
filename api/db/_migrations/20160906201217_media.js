@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.string('filename').unique().notNullable();
       table.string('file_type');
-      table.string('url');
+      table.string('s3url');
       table.integer('user_id')
         .unsigned()
         .notNullable()
@@ -26,7 +26,7 @@ exports.up = function(knex, Promise) {
       table.string('google_analytics');
       table.json('configuration');
     }),
-    knex.schema.createTableIfNotExists('menu', function(table) {
+    knex.schema.createTableIfNotExists('navigation', function(table) {
       table.increments('id').primary();
       table.string('name');
       table.boolean('primary').default(false);
@@ -42,6 +42,6 @@ exports.down = function(knex, Promise) {
     //fk tables
     knex.schema.dropTableIfExists('media'),
     knex.schema.dropTableIfExists('setting'),
-    knex.schema.dropTableIfExists('menu')
+    knex.schema.dropTableIfExists('navigation')
   ]);
 };

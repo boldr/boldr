@@ -23,6 +23,14 @@ class User extends Model {
           },
           to: 'role.id'
         }
+      },
+      uploads: {
+        relation: Model.HasManyRelation,
+        modelClass: join(__dirname, '..', 'media', 'media.model.js'),
+        join: {
+          from: 'user.id',
+          to: 'media.user_id'
+        }
       }
     };
   }

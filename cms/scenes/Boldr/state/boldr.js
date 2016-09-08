@@ -93,13 +93,14 @@ const loadSettings = () => ({ type: types.LOAD_SETTINGS });
 function doneLoadSettings(response) {
   return {
     type: types.LOAD_SETTINGS_SUCCESS,
-    siteName: response.body[0].site_name,
-    description: response.body[0].description,
-    logo: response.body[0].logo,
-    siteUrl: response.body[0].siteUrl,
-    favicon: response.body[0].favicon,
-    analyticsId: response.body[0].analyticsId,
-    allowRegistration: response.body[0].allowRegistration
+    siteName: response.body.site_name,
+    description: response.body.site_description,
+    logo: response.body.site_logo,
+    slogan: response.body.site_slogan,
+    siteUrl: response.body.site_url,
+    favicon: response.body.site_favicon,
+    analyticsId: response.body.google_analytics,
+    configuration: response.body.configuration
   };
 }
 
@@ -210,8 +211,9 @@ export const INITIAL_STATE = {
   logo: null,
   siteUrl: null,
   favicon: null,
+  slogan: null,
   analyticsId: null,
-  allowRegistration: null,
+  configuration: {},
   menus: []
 };
 
@@ -232,8 +234,9 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         logo: action.logo,
         siteUrl: action.siteUrl,
         favicon: action.favicon,
+        slogan: action.slogan,
         analyticsId: action.analyticsId,
-        allowRegistration: action.allowRegistration
+        configuration: action.configuration
       };
     case types.LOAD_SETTINGS_FAILURE:
     case types.LOAD_MENUS_FAILURE:
@@ -257,13 +260,14 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         isLoading: false,
-        siteName: action.payload.siteName,
-        description: action.payload.description,
-        logo: action.payload.logo,
-        siteUrl: action.payload.siteUrl,
-        favicon: action.payload.favicon,
-        analyticsId: action.payload.analyticsId,
-        allowRegistration: action.payload.allowRegistration
+        siteName: action.payload.site_name,
+        description: action.payload.site_description,
+        logo: action.payload.site_logo,
+        siteUrl: action.payload.site_url,
+        slogan: action.payload.site_slogan,
+        favicon: action.payload.site_favicon,
+        analyticsId: action.payload.google_analytics,
+        configuration: action.payload.configuration
       };
     case types.SAVE_SETUP_FAIL:
       return {

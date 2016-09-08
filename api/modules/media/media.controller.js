@@ -31,7 +31,7 @@ export function generalUpload(req, res, next) {
     ownerId: req.user.id,
     key: req.files[0].key
   };
-  Media.create(fileFields).then(data => {
+  Media.query().insert(fileFields).then(data => {
     res.status(201).json(data);
   }).catch(err => {
     return res.status(500).json(err);
@@ -47,7 +47,7 @@ export function singleUpload(req, res, next) {
     key: req.file.key
   };
 
-  Media.create(fileFields).then(data => {
+  Media.query().insert(fileFields).then(data => {
     return res.status(201).json(data);
   }).catch(err => {
     return res.status(500).json(err);
@@ -67,11 +67,11 @@ export function singleUpload(req, res, next) {
  */
 export const getAllMedia = async (req, res, next) => {
   try {
-    const medias = await Media.findAll();
+    const medias = await Media.query();
 
     return res.status(200).json(medias);
   } catch (error) {
-    return res.status(500).json(err);
+    return res.status(500).json(error);
   }
 };
 export function fromDashboard(req, res, next) {
@@ -81,7 +81,7 @@ export function fromDashboard(req, res, next) {
     key: req.body.filename,
     filename: req.body.filename
   };
-  Media.create(fileFields).then(data => {
+  Media.query().insert(fileFields).then(data => {
     return res.status(201).json(data);
   }).catch(err => {
     return res.status(500).json(err);
@@ -102,15 +102,7 @@ export function fromDashboard(req, res, next) {
  */
 export const showMedia = async (req, res, next) => {
   try {
-    const media = await Media.find({
-      where: {
-        id: req.params.id
-      },
-      include: [{
-        model: User,
-        attributes: ['id', 'first_name', 'last_name', 'display_name', 'avatar_url', 'email']
-      }]
-    });
+    const media = await Media.query().findById(req.params.id);
     return res.status(200).json(media);
   } catch (err) {
     return res.status(500).json(err);
