@@ -183,9 +183,7 @@ export default class Menu extends PureComponent {
         if (!child) { return child; }
 
         return React.cloneElement(child, {
-          key: child.key || key,
-          expanderIconChildren,
-          expanderIconClassName,
+          key: child.key || key
         });
       });
 

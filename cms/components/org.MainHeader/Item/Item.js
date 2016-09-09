@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames/bind';
+import { FlatButton } from '../../md/Buttons';
 import Dropdown from '../Dropdown';
 import styles from './Item.css';
 
@@ -36,15 +37,14 @@ class Item extends Component {
   }
 
   render() {
-    const { item, theme, simpleList, mobile } = this.props;
+    const { item, theme, mobile } = this.props;
 
-    const linkContent = <ItemContent name={ item.name } childrens={ item.childrens } theme={ theme } />;
-    const linkHref = (mobile ? item.mobileHref : null) || item.href;
-    const linkExternal = item.external ? 'external' : null;
+    const linkContent = <ItemContent key={ item } name={ item.name } childrens={ item.childrens } theme="dark" />;
+    const linkHref = item.href;
 
     return (
       <li
-        className={ cx('item', [`item-${item.id}`], [`theme-${theme}`], {
+        className={ cx('item', [`item-${item.id}`], 'theme-dark', {
           'is-dropdown-open': this.state.openDropdown
         }) }
         onMouseEnter={ this.handleDropdown }
@@ -52,20 +52,19 @@ class Item extends Component {
         onMouseLeave={ this.handleDropdown }
         onBlur={ this.handleDropdown }
       >
-        { linkHref
-          ?
+        {
+          linkHref ?
             <a
               href={ linkHref }
               onClick={ this.closeDropdowns }
               className={ cx('link') }
-            >{ linkContent }</a>
-          :
-            <span
-              tabIndex="0"
-              className={ cx('link') }
-            >{ linkContent }</span>
+            >
+              <FlatButton label={ linkContent } />
+            </a> :
+            <span className={ cx('link') }>{ linkContent }</span>
         }
-        { item.childrens
+        {
+          item.childrens
           ?
             <Dropdown
               data={ item }
@@ -107,7 +106,7 @@ const ItemContent = ({ name, childrens, theme }) =>
       </svg>
       : null
     }
-    { childrens ? <span className={ cx('dropdown-caret') }></span> : null }
+    { childrens ? <span className={ cx('dropdown-caret') } /> : null }
   </span>;
 
 ItemContent.propTypes = {

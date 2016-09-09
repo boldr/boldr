@@ -8,7 +8,6 @@ export default {
   headerOverflow: {
     backgroundColor: midnightBlue,
     paddingTop: '50px',
-    height: '110px',
     marginBottom: '50px'
   },
   underlineFocusStyle: {

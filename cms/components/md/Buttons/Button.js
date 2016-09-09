@@ -7,7 +7,7 @@ class Button extends Component {
   static propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
-    label: PropTypes.string,
+    label: PropTypes.any,
     children: PropTypes.node,
     type: PropTypes.string,
     primary: PropTypes.bool,

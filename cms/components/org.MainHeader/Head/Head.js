@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Head.css';
+import FontIcon from '../../md/FontIcons/FontIcon';
 
 const cx = styles::classNames;
 
-const Head = ({ toggleDropdownHandler, dropdownOpen, theme, closeHeaderDropdown }) =>
+const Head = ({ toggleDropdownHandler, logo, dropdownOpen, theme, closeHeaderDropdown }) =>
   <div
-    className={ cx('head', [`theme-${theme}`], {
+    className={ cx('head', 'theme-dark', {
       dropdownOpen
     }) }
   >
@@ -14,23 +15,23 @@ const Head = ({ toggleDropdownHandler, dropdownOpen, theme, closeHeaderDropdown 
       className={ cx('toggleButton', 'collapsed', { closeButton: dropdownOpen }) }
       onClick={ toggleDropdownHandler }
     >
-      <span className={ cx('iconBar') } />
-      <span className={ cx('iconBar') } />
-      <span className={ cx('iconBar') } />
-      <span className={ cx('iconBar') } />
+      <FontIcon>menu</FontIcon>
     </button>
-    <h1 className={ cx('brand') }>
-      <a href="/" rel="home" className={ cx('logo') } onClick={ closeHeaderDropdown }>
-      <img src="https://boldr.io/boldrlogo.png" alt="logo" height="50px" />
+    <a href="/" rel="home" className={ cx('logo') } onClick={ closeHeaderDropdown }>
+      {
+        logo ?
+        <img src={ logo } alt="logo" height="50px" /> :
+        <h1 className={ cx('brand') }>{ siteName }</h1>
+      }
       </a>
-    </h1>
   </div>;
 
 Head.propTypes = {
   toggleDropdownHandler: PropTypes.func,
   dropdownOpen: PropTypes.bool,
   theme: PropTypes.string,
-  closeHeaderDropdown: PropTypes.func
+  closeHeaderDropdown: PropTypes.func,
+  logo: PropTypes.string
 };
 
 export default Head;

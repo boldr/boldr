@@ -11,14 +11,14 @@
       }
     },
     "build:server": {
-      "command": "node -- ./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
+      "command": "./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
       "env": {
         "BABEL_ENV": "server",
         "NODE_ENV": "production"
       }
     },
     "build:client": {
-      "command": "babel-node -- ./node_modules/.bin/webpack --env production --json --config tools/webpack/client.prod.js",
+      "command": "./node_modules/.bin/webpack --env production --json --config tools/webpack/client.prod.js",
       "env": {
         "BABEL_ENV": "client-prod",
         "NODE_ENV": "production"
