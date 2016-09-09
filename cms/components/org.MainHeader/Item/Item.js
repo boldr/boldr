@@ -45,7 +45,6 @@ class Item extends Component {
     return (
       <li
         className={ cx('item', [`item-${item.id}`], [`theme-${theme}`], {
-          'simple-list': simpleList,
           'is-dropdown-open': this.state.openDropdown
         }) }
         onMouseEnter={ this.handleDropdown }
@@ -59,7 +58,6 @@ class Item extends Component {
               href={ linkHref }
               onClick={ this.closeDropdowns }
               className={ cx('link') }
-              rel={ linkExternal }
             >{ linkContent }</a>
           :
             <span
@@ -85,7 +83,6 @@ Item.propTypes = {
   className: PropTypes.string,
   item: PropTypes.object,
   theme: PropTypes.string,
-  simpleList: PropTypes.bool,
   closeHeaderDropdown: PropTypes.func,
   mobile: PropTypes.bool
 };

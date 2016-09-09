@@ -105,10 +105,9 @@ class Header extends Component {
       theme
     } = this.props;
     const { navbarDropdownIsOpen, mobileState, focusable } = this.state;
-
-    const renderedMenuItems = menuItems.map(item =>
+    const renderedMenuItems = this.props.boldr.primaryNav.links.map(item =>
       <Item
-        key={ item.position + item.id }
+        key={ item.position }
         item={ item }
         theme={ theme }
         simpleList={ item.simpleList }

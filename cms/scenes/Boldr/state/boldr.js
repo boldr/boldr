@@ -1,10 +1,11 @@
 import request from 'superagent';
+import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
 import fetch from '../../../core/fetch';
 import {
   API_SETTINGS,
   API_BASE,
-  API_MENU,
+  API_NAVIGATION,
   TOKEN_KEY,
   processResponse,
   credentials,
@@ -13,6 +14,11 @@ import {
 import { notificationSend } from './notifications';
 import * as types from './constants';
 
+debug.enable(process.env.DEBUG);
+const log = {
+  boldr: debug('boldr'),
+  err: debug('boldr:error')
+};
 // ------------------------------------
 // React-Router-Redux push location
 // ------------------------------------
@@ -44,7 +50,7 @@ const failLoadMenus = (err) => ({
 function loadMenus() {
   return dispatch => {
     dispatch(beginLoadMenus());
-    return fetch(`${API_MENU}`)
+    return fetch(`${API_NAVIGATION}`)
       .then(response => processResponse(response))
       .then(json => dispatch(doneLoadMenus(json)))
       .catch(err => {
@@ -75,14 +81,14 @@ export function fetchMenusIfNeeded() {
  * @param  {Object} state   The blog state which contains menus
  */
 function shouldFetchMenus(state) {
-  const menus = state.boldr.menus;
-  if (!menus) {
+  const navs = state.boldr.navs;
+  if (!navs) {
     return true;
   }
   if (state.boldr.isLoading) {
     return false;
   }
-  return menus;
+  return navs;
 }
 
 // ------------------------------------
@@ -204,8 +210,8 @@ export function updateBoldrSettings(data, id) {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export const INITIAL_STATE = {
-  isLoading: false,
+const INITIAL_STATE = {
+  isLoading: true,
   siteName: null,
   description: null,
   logo: null,
@@ -214,7 +220,7 @@ export const INITIAL_STATE = {
   slogan: null,
   analyticsId: null,
   configuration: {},
-  menus: []
+  primaryNav: null
 };
 
 export default function boldrReducer(state = INITIAL_STATE, action) {
@@ -249,30 +255,14 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         isLoading: false,
-        menus: action.payload
-      };
-    case types.SAVE_SETUP_REQUEST:
-      return {
-        ...state,
-        isLoading: true
-      };
-    case types.SAVE_SETUP_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        siteName: action.payload.site_name,
-        description: action.payload.site_description,
-        logo: action.payload.site_logo,
-        siteUrl: action.payload.site_url,
-        slogan: action.payload.site_slogan,
-        favicon: action.payload.site_favicon,
-        analyticsId: action.payload.google_analytics,
-        configuration: action.payload.configuration
-      };
-    case types.SAVE_SETUP_FAIL:
-      return {
-        ...state,
-        isLoading: false
+        primaryNav: {
+          id: action.payload[0].id,
+          name: action.payload[0].name,
+          location: action.payload[0].location,
+          primary: action.payload[0].primary,
+          restricted: action.payload[0].restricted,
+          links: action.payload[0].items.links
+        }
       };
     default:
       return state;

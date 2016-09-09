@@ -39,4 +39,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchSettingsIfNeeded })(Boldr);
+export default connect(mapStateToProps, { fetchSettingsIfNeeded, fetchMenusIfNeeded })(Boldr);
