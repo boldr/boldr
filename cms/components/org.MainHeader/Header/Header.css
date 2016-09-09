@@ -2,12 +2,15 @@
   background-color: #2A3140;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   text-align: left;
-  align-items: middle;
+  align-items: center;
+  height: 80px;
 
 }
 .container {
   margin: 0 auto;
   max-width: 1170px;
+  display: flex;
+  align-items: center;
 }
 @media (min-width: 992px) {
   .header.theme-dark {
@@ -104,8 +107,8 @@
 @media (min-width: 992px) {
   .navigation,
   .buttons-group {
-    margin-top: 41px;
-    margin-bottom: 41px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 @media (max-width: 991px) {
@@ -115,7 +118,7 @@
 }
 @media (min-width: 992px) {
   .buttons-group {
-    float: right;
+    justify-content: flex-end;
   }
 }
 @media (max-width: 991px) {

@@ -12,6 +12,8 @@
         "transform-react-inline-elements",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
+          }], ["provide-modules", {
+            "debug": "debug",
           }]
       ]
     },
@@ -23,6 +25,9 @@
         "transform-class-properties",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
+          }],
+          ["provide-modules", {
+            "debug": "debug",
           }]
       ]
     },
@@ -32,10 +37,15 @@
         "transform-class-properties",
         "transform-react-constant-elements",
         "transform-react-inline-elements",
+        "transform-react-remove-prop-types",
         "transform-decorators-legacy",
+        "add-module-exports",
         "lodash",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
+          }],
+          ["provide-modules", {
+            "debug": "debug",
           }]
       ]
     }

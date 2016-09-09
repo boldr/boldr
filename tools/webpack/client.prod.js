@@ -13,7 +13,17 @@ const webpackIsomorphicToolsPlugin =
 
 const clientProdConfig = {
   target: 'web',
-  stats: false, // Don't show stats in the console
+  stats: {
+    colors: true,
+    reasons: true,
+    hash: true,
+    version: true,
+    timings: true,
+    chunks: true,
+    chunkModules: true,
+    cached: true,
+    cachedAssets: true,
+  },
   progress: true,
   bail: true,
   devtool: 'source-map',
@@ -53,7 +63,7 @@ const clientProdConfig = {
         exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
-          loader: 'css-loader?-autoprefixer&modules=false&sourceMap&minimize=false!postcss-loader!sass-loader!sass-resources'
+          loader: 'css-loader?-autoprefixer&modules=false&sourceMap&minimize=false!postcss-loader!sass-loader'
         })
       }
     ]
@@ -66,7 +76,6 @@ const clientProdConfig = {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }
   },
-  sassResources: path.resolve(bcfg.SRC_DIR, 'styles/abstracts/*.scss'),
   postcss(webpack) {
     return [
       require('precss')(),
@@ -103,10 +112,12 @@ const clientProdConfig = {
     }),
     new LodashModuleReplacementPlugin,
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      children: true,
-      minChunks: 2,
-      async: true,
+      name: [
+        'main',
+        'vendor',
+        'manifest'
+      ],
+      minChunks: Infinity
     }),
 
     // OccurrenceOrderPlugin is needed for long-term caching to work properly.

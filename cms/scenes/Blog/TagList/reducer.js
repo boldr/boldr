@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   error: false,
   id: '',
   name: '',
+  description: '',
   posts: []
 };
 
@@ -24,10 +25,10 @@ export default function tagsReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        id: action.payload.id,
-        name: action.payload.name,
-        posts: action.payload.posts,
-        description: action.payload.description
+        id: action.result.id,
+        name: action.result.name,
+        posts: action.result.posts,
+        description: action.result.description
       };
     case types.LOAD_TAG_FAILURE:
       return {

@@ -18,7 +18,7 @@ const requestTag = () => {
 
 const receiveTag = (json) => ({
   type: LOAD_TAG_SUCCESS,
-  payload: json
+  result: json
 });
 
 const failedToReceiveTag = (err) => ({
@@ -29,7 +29,7 @@ const failedToReceiveTag = (err) => ({
 export function requestPostTags(tagId) {
   return dispatch => {
     dispatch(requestTag());
-    return fetch(`${API_BASE}/tags/${tagId}`)
+    return fetch(`${API_BASE}/tags/${tagId}/posts`)
       .then(response => processResponse(response))
       .then(json => dispatch(receiveTag(json)))
       .catch(err => {

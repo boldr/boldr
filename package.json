@@ -5,20 +5,20 @@
   "author": "Steven Truesdell <steven@strues.io>",
   "betterScripts": {
     "build": {
-      "command": "better-npm-run build:server && better-npm-run build:client && better-npm-run copy-files",
+      "command": "npm run clean && better-npm-run build:client && better-npm-run build:server && npm run copy-files",
       "env": {
         "NODE_ENV": "production"
       }
     },
     "build:server": {
-      "command": "babel-node -- ./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
+      "command": "./node_modules/.bin/webpack --env production --config tools/webpack/node.config.js",
       "env": {
         "BABEL_ENV": "server",
         "NODE_ENV": "production"
       }
     },
     "build:client": {
-      "command": "babel-node -- ./node_modules/.bin/webpack --env production --json --config tools/webpack/client.prod.js",
+      "command": "./node_modules/.bin/webpack --env production --json --config tools/webpack/client.prod.js",
       "env": {
         "BABEL_ENV": "client-prod",
         "NODE_ENV": "production"
@@ -30,7 +30,8 @@
         "NODE_ENV": "development",
         "NODE_PATH": "./cms",
         "SSR_SERVER_PORT": 3000,
-        "HOT_RELOAD_PORT": 3001
+        "HOT_RELOAD_PORT": 3001,
+        "DEBUG": true
       }
     },
     "start": {
@@ -158,11 +159,14 @@
     "babel-core": "^6.14.0",
     "babel-eslint": "6.1.2",
     "babel-loader": "^6.2.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-lodash": "^3.2.8",
+    "babel-plugin-provide-modules": "^1.0.3",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
     "babel-plugin-transform-react-inline-elements": "^6.8.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.2.9",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "6.11.1",

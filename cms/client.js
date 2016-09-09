@@ -23,7 +23,7 @@ const MOUNT_POINT = document.getElementById('content');
 const initialState = window.PRELOAD_STATE;
 
 const store = createStore(browserHistory, initialState);
-const { dispatch } = store;
+const { dispatch, getState } = store;
 const token = localStorage.getItem(TOKEN_KEY);
 
 if (token) {
@@ -61,7 +61,8 @@ let render = () => {
           path: renderProps.location.pathname,
           query: renderProps.location.query,
           params: renderProps.params,
-          dispatch
+          dispatch,
+          getState
         };
         if (window.PRELOAD_STATE) {
           delete window.PRELOAD_STATE;

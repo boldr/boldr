@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-// import FlatButton from 'material-ui/FlatButton';
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import FontIcon from '../../md/FontIcons';
-import { IconButton, RaisedButton } from '../../md/Buttons';
+import { IconButton, RaisedButton, FlatButton } from '../../md/Buttons';
 import { ListItem } from '../../md/Lists';
 import Menu from '../../md/Menus';
 
@@ -14,11 +13,29 @@ import { goHome } from '../../../scenes/Boldr/state/boldr';
 import Head from '../Head';
 import Item from '../Item';
 
-import defaultMenuItems from '../data/menu-items.json';
 import styles from './Header.css';
 
 const cx = styles::classNames;
 const kebabMenu = 'more_vert';
+
+const authLinks = (
+  <span>
+    <Link to="/profile">
+      <ListItem primaryText="Profile" />
+    </Link>
+    <Link to="/account/preferences">
+      <ListItem primaryText="Preferences" />
+    </Link>
+    <ListItem primaryText="Sign out" />
+  </span>
+);
+const unAuthLinks = (
+  <span>
+    <Link to="/account/login" ><ListItem primaryText="Log In" /></Link>
+    <Link to="/account/signup" ><ListItem primaryText="Sign Up" /></Link>
+    </span>
+);
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -91,12 +108,6 @@ class Header extends Component {
     this.setState({ authOpen: false });
   };
 
-  renderButton(link, onClick, text, className) {
-    return !!link
-      ? <a href={ link } className={ className } onClick={ onClick }>{ text }</a>
-      : <RaisedButton className={ className } onClick={ onClick } >{ text }</RaisedButton>;
-  }
-
   render() {
     const {
       className,
@@ -106,45 +117,28 @@ class Header extends Component {
     } = this.props;
     const { navbarDropdownIsOpen, mobileState, focusable } = this.state;
 
-    const renderedMenuItems = menuItems.map(item =>
-      <Item
-        key={ item.position + item.id }
-        item={ item }
-        theme={ theme }
-        simpleList={ item.simpleList }
-        closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
-        mobile={ mobileState }
-      />
+    const renderAuthMenu = (
+      <Menu isOpen={ this.state.authOpen } close={ this.close }
+        toggle={ (
+            <IconButton className="header__icon"
+              tooltipLabel="Account"
+              onClick={ this.toggleAuth }
+            >
+            { kebabMenu }
+            </IconButton>
+        ) }
+      >
+      {
+        this.props.auth.isAuthenticated ?
+        authLinks :
+        unAuthLinks
+      }
+      </Menu>
     );
 
-    const renderAuthMenu = (
-      <Menu
-        isOpen={ this.state.authOpen }
-        toggle={ (
-          <IconButton onClick={ this.toggleAuth } className="header__icon" tooltipLabel="Account">{kebabMenu}</IconButton>
-        ) }
-        close={ this.close }
-      >
-        <Link to="/profile"><ListItem primaryText="Profile" /></Link>
-        <Link to="/account/preferences" ><ListItem primaryText="Preferences" /></Link>
-        <ListItem primaryText="Sign out" />
-    </Menu>
-  );
-    const renderUnauthMenu = (
-    <Menu
-      isOpen={ this.state.authOpen }
-      toggle={ (
-        <IconButton onClick={ this.toggleAuth } className="header__icon" tooltipLabel="More options">{kebabMenu}</IconButton>
-      ) }
-      close={ this.close }
-    >
-      <Link to="/account/login" ><ListItem primaryText="Log In" /></Link>
-      <Link to="/account/signup" ><ListItem primaryText="Sign Up" /></Link>
-  </Menu>
-);
     return (
       <header
-        className={ cx('header', [`theme-${theme}`], className, {
+        className={ cx('header', 'theme-dark', className, {
           'is-dropdown-open': navbarDropdownIsOpen,
           focusable
         }) }
@@ -155,7 +149,7 @@ class Header extends Component {
             <Head
               toggleDropdownHandler={ this.navbarDropdownHandler }
               dropdownOpen={ navbarDropdownIsOpen }
-              theme={ theme }
+              logo={ this.props.boldr.logo }
               closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
             />
             <nav className={ cx('collapse', {
@@ -164,17 +158,29 @@ class Header extends Component {
               ref="dropdownContent"
             >
               <ul className={ cx('navigation') }>
-              { !!children ? children : renderedMenuItems }
+              {
+                this.props.boldr.isLoading ? <h1>Loading</h1> : this.props.boldr.primaryNav.links.map(item =>
+                <Item
+                  key={ item.position }
+                  item={ item }
+                  theme={ theme }
+                  simpleList={ item.simpleList }
+                  closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
+                  mobile={ mobileState }
+                />
+              )
+            }
               </ul>
             </nav>
             <div className={ cxN(cx('buttons-group', { 'is-dropdown-open': navbarDropdownIsOpen }), {
               'theme-dark': theme === 'dark'
             }) }>
 
-            <ul style={ { listStyleType: 'none', display: 'flex', margin: '0' } }>
+            <ul style={ { listStyleType: 'none', display: 'flex', alignItems: 'right' } }>
             <li>
-             { this.props.auth.isAuthenticated ? renderAuthMenu : renderUnauthMenu }
-
+             {
+               renderAuthMenu
+             }
             </li>
               { this.props.auth.user.roleId > 2 ?
                 <li>
@@ -204,12 +210,12 @@ Header.propTypes = {
   breakpoint: PropTypes.number,
   auth: PropTypes.object,
   actions: PropTypes.object,
-  handleBurger: PropTypes.func
+  handleBurger: PropTypes.func,
+  boldr: PropTypes.object
 };
 Header.defaultProps = {
   className: '',
   children: null,
-  menuItems: defaultMenuItems,
   theme: 'light',
   breakpoint: 992
 };
