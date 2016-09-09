@@ -29,16 +29,23 @@ async function create(req, res) {
     });
     await newPost.$relatedQuery('author').relate({ id: req.user.id });
     debug('the post', newPost);
-    const existingTag = await Tag.query().where('name', req.body.tag).first();
-    if (existingTag) {
-      debug(existingTag, 'existing tag found');
-      const taggedPost = await PostTag.query().insert({
-        tag_id: existingTag.id,
-        post_id: newPost.id
-      });
-      debug(taggedPost);
-    } else {
-      await newPost.$relatedQuery('tags').insert({ name: req.body.tag });
+    if (req.body.tags) {
+      req.body.tags = req.body.tags.split(',', 5).map(tag => tag.substr(0, 15));
+    }
+    // @TODO There might be a better / more efficient way than a for loop, but
+    // fuck it. its late and it works for now.
+    for (let i = 0; i < req.body.tags.length; i++) {
+      const existingTag = await Tag.query().where('name', req.body.tags[i]).first();
+      if (existingTag) {
+        debug(existingTag, 'existing tag found');
+        const taggedPost = await PostTag.query().insert({
+          tag_id: existingTag.id,
+          post_id: newPost.id
+        });
+        debug(taggedPost);
+      } else {
+        await newPost.$relatedQuery('tags').insert({ name: req.body.tags[i] });
+      }
     }
     return res.status(201).json(newPost);
   } catch (error) {

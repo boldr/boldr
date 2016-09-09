@@ -60,9 +60,9 @@ class Media extends Component {
       />
     ];
     return (
-      <div>
+      <div style={ { paddingTop: '50px' } }>
        <Row>
-       <Paper zDepth={ 1 } style={ { height: '90vh' } }>
+       <Col xs={ 12 }>
        <Toolbar primary title="Upload a file">
 
 
@@ -82,7 +82,7 @@ class Media extends Component {
       </Toolbar>
 
         <FileView files={ this.props.media.files } />
-       </Paper>
+       </Col>
        </Row>
        </div>
     );

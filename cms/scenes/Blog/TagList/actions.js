@@ -37,5 +37,3 @@ export function requestPostTags(tagId) {
       });
   };
 }
-
-export { requestPostTags }

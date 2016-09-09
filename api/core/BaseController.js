@@ -29,7 +29,7 @@ class BaseController {
       .registerFilter('search', searchFilter)
       .build(req.query.where)
       .eager(req.query.include)
-      .orderBy(req.query.sort.by, req.query.sort.order)
+      // .orderBy(req.query.sort.by, req.query.sort.order)
       .page(req.query.page.number, req.query.page.size)
       .then(items => responseHandler(null, res, 200, items))
       .catch(err => responseHandler(err, res));

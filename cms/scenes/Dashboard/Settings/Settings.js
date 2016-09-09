@@ -31,7 +31,7 @@ class Settings extends Component {
       return <Loader />;
     }
     return (
-      <div>
+      <div style={ { paddingTop: '50px' } }>
       <Paper>
         <Tabs primary scrollable>
             <Tab label="General">
