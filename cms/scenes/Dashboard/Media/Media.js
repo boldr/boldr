@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import { Grid, Row, Col } from '../../../components';
 import Toolbar from '../../../components/md/Toolbars';
 import FontIcon from '../../../components/md/FontIcons';
-import { RaisedButton, FlatButton, IconButton } from '../../../components/md/Buttons';
+import { RaisedButton, FlatButton, IconButton, FloatingButton } from '../../../components/md/Buttons';
 import Paper from '../../../components/md/Papers';
 import S3Uploader from '../../../components/atm.s3Uploader';
 import inlineStyles from '../../../core/inlineStyles';
@@ -62,29 +62,22 @@ class Media extends Component {
     return (
       <div style={ { paddingTop: '50px' } }>
        <Row>
-       <Col xs={ 12 }>
-       <Toolbar primary title="Upload a file">
+         <Col xs={ 12 }>
+            <S3Uploader
+              signingUrl={ `${S3_SIGNING_URL}` }
+              accept="image/*"
+              onProgress={ S3Uploader.onUploadProgress }
+              onError={ S3Uploader.onUploadError }
+              onFinish={ this.handleFinish }
 
-
-          <S3Uploader
-            style={ { paddingTop: '10px', paddingLeft: '5px', verticalAlign: 'middle' } }
-            signingUrl={ `${S3_SIGNING_URL}` }
-            accept="image/*"
-            onProgress={ S3Uploader.onUploadProgress }
-            onError={ S3Uploader.onUploadError }
-            onFinish={ this.handleFinish }
-
-            uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
-            contentDisposition="auto"
-            server={ `${API_BASE}` }
-          />
-
-      </Toolbar>
-
-        <FileView files={ this.props.media.files } />
-       </Col>
+              uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
+              contentDisposition="auto"
+              server={ `${API_BASE}` }
+            />
+            <FileView files={ this.props.media.files } />
+         </Col>
        </Row>
-       </div>
+      </div>
     );
   }
 }

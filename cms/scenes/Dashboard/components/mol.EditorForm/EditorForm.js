@@ -61,9 +61,10 @@ class EditorForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     const { editorState } = this.state;
     return (
-      <section>
-      <form onSubmit={ handleSubmit }>
-          <Col xs={ 12 } md={ 4 }>
+      <Row>
+       <Col xs>
+      <form onSubmit={ handleSubmit } style={ { marginTop: '25px' } }>
+
             <Paper
               zDepth={ 3 }
               style={ {
@@ -120,20 +121,14 @@ class EditorForm extends Component {
                   />
                 </Field>
               </Row>
+              <Field name="content" component={ renderRichText } />
               <div style={ { marginTop: '1em' } }>
                 <RaisedButton type="submit" secondary label="Publish" style={ style } />
               </div>
             </Paper>
-          </Col>
-          <Col xs={ 12 } md={ 8 }>
-            <Paper
-              zDepth={ 3 }
-            >
-            <Field name="content" component={ renderRichText } />
-            </Paper>
-          </Col>
       </form>
-      </section>
+       </Col>
+      </Row>
       );
   }
 }

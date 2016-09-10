@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
 
 import { Row, Col } from '../../../../../components';
@@ -19,7 +19,7 @@ const FileView = props => {
                  aspectRatio={ CardMedia.aspect.equal }
                  overlay={ <CardTitle title={ file.filename } /> }
                >
-                <img className={ cx('fileview__img') } src={ file.s3url } />
+                <img className={ cx('fileview__img') } src={ file.s3url } alt={ file.filename } />
               </CardMedia>
               <CardActions centered>
                 <IconButton>edit</IconButton>
