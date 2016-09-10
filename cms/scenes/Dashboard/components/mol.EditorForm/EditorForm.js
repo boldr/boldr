@@ -72,7 +72,7 @@ class EditorForm extends Component {
             >
 
               <div className={ cx('row') }>
-                <Field name="title" type="text" component={ TextField } floatingLabelText="Post Title" />
+                <Field name="title" type="text" component={ TextField } label="Post Title" />
               </div>
               {
                 this.props.editing ?
@@ -80,22 +80,22 @@ class EditorForm extends Component {
               :
               <div className={ cx('row') }>
                 <Field name="tags" type="text"
-                  hintText= "Separate using commas"
+                  helpText= "Separate using commas"
                   component={ TextField }
-                  floatingLabelText="Tags"
+                  label="Tags"
                 />
               </div>
             }
               <div className={ cx('row') }>
               <Field name="feature_image" type="text"
-                hintText= "URL for your image"
+                helpText= "URL for your image"
                 component={ TextField }
-                floatingLabelText="Feature Image"
+                label="Feature Image"
               />
               </div>
               <div className={ cx('row') }>
                 <Field name="excerpt" type="text"
-                  component={ TextField } hintText= "A short summary or highlight" floatingLabelText="Excerpt"
+                  component={ TextField } helpText= "A short summary or highlight" label="Excerpt"
                   fullWidth
                   multiLine
                 />

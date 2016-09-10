@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
-import styles from './Head.css';
 import FontIcon from '../../md/FontIcons/FontIcon';
+import styles from './Head.css';
 
 const cx = styles::classNames;
 
-const Head = ({ toggleDropdownHandler, logo, dropdownOpen, theme, closeHeaderDropdown }) =>
+const Head = ({ toggleDropdownHandler, logo, siteName, dropdownOpen, theme, closeHeaderDropdown }) =>
   <div
     className={ cx('head', 'theme-dark', {
       dropdownOpen
@@ -31,7 +31,8 @@ Head.propTypes = {
   dropdownOpen: PropTypes.bool,
   theme: PropTypes.string,
   closeHeaderDropdown: PropTypes.func,
-  logo: PropTypes.string
+  logo: PropTypes.string,
+  siteName: PropTypes.string
 };
 
 export default Head;

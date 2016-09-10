@@ -31,8 +31,8 @@ const authLinks = (
 );
 const unAuthLinks = (
   <span>
-    <Link to="/account/login" ><ListItem primaryText="Log In" /></Link>
-    <Link to="/account/signup" ><ListItem primaryText="Sign Up" /></Link>
+    <Link to="/account/login"><ListItem primaryText="Log In" /></Link>
+    <Link to="/account/signup"><ListItem primaryText="Sign Up" /></Link>
     </span>
 );
 
@@ -150,6 +150,7 @@ class Header extends Component {
               toggleDropdownHandler={ this.navbarDropdownHandler }
               dropdownOpen={ navbarDropdownIsOpen }
               logo={ this.props.boldr.logo }
+              siteName={ this.props.boldr.siteName }
               closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
             />
             <nav className={ cx('collapse', {
