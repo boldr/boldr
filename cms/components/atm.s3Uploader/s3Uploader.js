@@ -85,7 +85,7 @@ class S3Uploader extends Component {
   render() {
     return (
       <FileUpload
-        label="Select an image from your computer"
+        label="Select a file"
         onChange={ this.uploadFile }
         accept="image/*"
         primary

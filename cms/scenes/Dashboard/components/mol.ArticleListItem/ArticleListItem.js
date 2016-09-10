@@ -21,19 +21,19 @@ const ArticleListItem = props => {
   const draftIcon = <FontIcon onClick={ handleclick }>visibility_off</FontIcon>;
   return (
       <TableRow>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           {props.article.title}
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           { props.article.status === 'published' ?
             publishedIcon :
             draftIcon
           }
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           { formattedDate }
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           <Link to={ `/dashboard/articles/${props.article.slug}/preview` }>
             <IconButton >
               <FontIcon>airplay</FontIcon>

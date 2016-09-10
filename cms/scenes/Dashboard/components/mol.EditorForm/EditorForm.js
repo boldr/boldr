@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames/bind';
-
+import { Grid, Col, Row } from '../../../../components';
 import Radio from '../../../../components/md/SelectionControls/Radio';
 import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
 import Paper from '../../../../components/md/Papers';
@@ -63,7 +63,7 @@ class EditorForm extends Component {
     return (
       <section>
       <form onSubmit={ handleSubmit }>
-          <div className={ cx('articleEditor__left') }>
+          <Col xs={ 12 } md={ 4 }>
             <Paper
               zDepth={ 3 }
               style={ {
@@ -71,36 +71,36 @@ class EditorForm extends Component {
               } }
             >
 
-              <div className={ cx('row') }>
+              <Row>
                 <Field name="title" type="text" component={ TextField } label="Post Title" />
-              </div>
+              </Row>
               {
                 this.props.editing ?
                 null
               :
-              <div className={ cx('row') }>
+              <Row>
                 <Field name="tags" type="text"
                   helpText= "Separate using commas"
                   component={ TextField }
                   label="Tags"
                 />
-              </div>
+              </Row>
             }
-              <div className={ cx('row') }>
+              <Row>
               <Field name="feature_image" type="text"
                 helpText= "URL for your image"
                 component={ TextField }
                 label="Feature Image"
               />
-              </div>
-              <div className={ cx('row') }>
+              </Row>
+              <Row>
                 <Field name="excerpt" type="text"
                   component={ TextField } helpText= "A short summary or highlight" label="Excerpt"
                   fullWidth
                   multiLine
                 />
-              </div>
-                <div className={ cx('row') }>
+              </Row>
+                <Row>
                 <Field name="status" component={ RadioButtonGroup }>
 
                   <Radio
@@ -119,19 +119,19 @@ class EditorForm extends Component {
                     style={ styles.radioButton }
                   />
                 </Field>
-              </div>
+              </Row>
               <div style={ { marginTop: '1em' } }>
                 <RaisedButton type="submit" secondary label="Publish" style={ style } />
               </div>
             </Paper>
-          </div>
-          <div className={ cx('articleEditor__right') }>
+          </Col>
+          <Col xs={ 12 } md={ 8 }>
             <Paper
               zDepth={ 3 }
             >
             <Field name="content" component={ renderRichText } />
             </Paper>
-          </div>
+          </Col>
       </form>
       </section>
       );
