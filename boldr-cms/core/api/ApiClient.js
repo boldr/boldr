@@ -32,7 +32,7 @@ export default class ApiClient {
         }
 
         if (this.token) {
-          request.set('Authorization', `Bearer ${this.token}`);
+          request.set('Authorization', `${this.token}`);
         }
 
         if (files) {

@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import Notifications from '../../components/atm.Notification';
+
+import { Notifications } from 'components';
 import { fetchSettingsIfNeeded, fetchMenusIfNeeded } from './state/boldr';
 
 @provideHooks({

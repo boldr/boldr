@@ -1,21 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import classNames from 'classnames/bind';
-import { Grid, Row, Col } from '../../../components';
+
+import { S3Uploader, Grid, Row, Col } from 'components';
 import Toolbar from '../../../components/md/Toolbars';
 import FontIcon from '../../../components/md/FontIcons';
 import { RaisedButton, FlatButton, IconButton, FloatingButton } from '../../../components/md/Buttons';
 import Paper from '../../../components/md/Papers';
-import S3Uploader from '../../../components/atm.s3Uploader';
 import inlineStyles from '../../../core/inlineStyles';
+import FileView from '../components/mol.FileView';
 import { API_BASE, S3_SIGNING_URL } from '../../../core/config';
 import { uploadFiles, fetchMedia } from './state/media';
-import FileView from './components/mol.FileView';
 
-import styles from './style.css';
-
-const cx = styles::classNames;
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchMedia())

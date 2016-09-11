@@ -3,11 +3,10 @@ import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-
-import Radio from '../../../../../components/md/SelectionControls/Radio';
-import { RaisedButton } from '../../../../../components/md/Buttons';
-import RadioButtonGroup from '../../../../../components/atm.FormComponents/RadioButtonGroup';
-import TextField from '../../../../../components/atm.FormComponents/TextField';
+import Radio from '../../../../components/md/SelectionControls/Radio';
+import { RaisedButton } from '../../../../components/md/Buttons';
+import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
+import TextField from '../../../../components/atm.FormComponents/TextField';
 import styles from './styles.css';
 
 const cx = styles::classNames;

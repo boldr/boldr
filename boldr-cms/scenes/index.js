@@ -28,7 +28,7 @@ export default (store) => {
     path: '/',
     component: require('./Boldr').default,
     indexRoute: {
-      component: require('./Home').default
+      component: require('../pages/Home').default
     },
     childRoutes: [
       Dashboard(store, connect),

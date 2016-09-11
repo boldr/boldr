@@ -1,5 +1,6 @@
 import path from 'path';
 import http from 'http';
+// Server deps
 import express from 'express';
 import httpProxy from 'http-proxy';
 import compression from 'compression';
@@ -12,11 +13,14 @@ import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
+// Boldr Deps
 import createStore from './core/state/createStore';
 import ApiClient from './core/api/ApiClient';
 import { API_PORT, API_HOST, SSR_PORT, HOST } from './core/config';
 import getRoutes from './scenes/index';
 import Html from './components/Html';
+
+const debug = require('debug')('boldr:ssr-server');
 
 const targetUrl = `http://${API_HOST}:${API_PORT}/api/v1`;
 const app = new express();
@@ -30,13 +34,14 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, '..', 'static')));
 app.use('/assets', express.static('assets'));
+
 app.use('/api/v1', (req, res) => {
   proxy.web(req, res, { target: targetUrl });
 });
 
 proxy.on('error', (error, req, res) => {
   if (error.code !== 'ECONNRESET') {
-    console.error('proxy error', error);
+    debug('proxy error', error);
   }
   if (!res.headersSent) {
     res.writeHead(500, { 'content-type': 'application/json' });
@@ -66,11 +71,7 @@ app.use((req, res) => {
     return;
   }
 
-  match({
-    history,
-    routes: getRoutes(store),
-    location
-  }, (error, redirectLocation, renderProps, ...args) => {
+  match({ history, routes: getRoutes(store), location }, (error, redirectLocation, renderProps, ...args) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
@@ -115,4 +116,4 @@ app.use((req, res) => {
 server.listen(SSR_PORT);
 console.log(`🎯   ===> Application running in ${process.env.NODE_ENV} on ${SSR_PORT}`);
 
-export default app;
+export default server;

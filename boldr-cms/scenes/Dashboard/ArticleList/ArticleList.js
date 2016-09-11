@@ -7,7 +7,7 @@ import Paper from '../../../components/md/Papers';
 import {
   DataTable, TableHeader, TableBody, TableRow, TableColumn, EditDialogColumn
 } from '../../../components/md/DataTables';
-import { inlineStyles } from '../../../core';
+import { inlineStyles } from '../../../theme';
 import { fetchPostsIfNeeded, selectPost } from '../../Blog/state/post';
 import ArticleListItem from '../components/mol.ArticleListItem';
 import { Grid, Col, Row } from '../../../components';
@@ -62,7 +62,8 @@ class ArticleList extends Component {
            </TableRow>
          </TableHeader>
          <TableBody>
-         { this.props.posts.results.map((post, index) => (
+        {
+          this.props.posts.results.map((post, index) => (
            <ArticleListItem
              article={ post }
              key={ post.id }
@@ -72,7 +73,8 @@ class ArticleList extends Component {
              slug={ post.slug }
              handleArticleClick={ this.handleArticleClick }
            />
-         ))}
+         ))
+        }
          </TableBody>
         </DataTable>
 

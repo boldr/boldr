@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Card, CardText, CardActions } from '../../../components/md/Cards';
 import TextField from '../../../components/md/TextFields';
 import { RaisedButton } from '../../../components/md/Buttons';
-import { Heading, Grid, Col, Row } from '../../../components';
-import inlineStyles from '../../../core/inlineStyles';
+import { Heading, Grid, Col, Row } from 'components';
+import inlineStyles from '../../../theme/inlineStyles';
 
 import { resetPassword } from '../state/actions';
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Header from '../../components/org.MainHeader';
+import { Header } from 'components';
 
 const Account = (props) => {
   return (

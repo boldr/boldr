@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import inlineStyles from '../../../../../core/inlineStyles';
-import { RaisedButton } from '../../../../../components/md/Buttons';
-import TextField from '../../../../../components/atm.FormComponents/TextField';
-import SelectField from '../../../../../components/atm.FormComponents/SelectField';
+import inlineStyles from '../../../../theme/inlineStyles';
+import { RaisedButton } from '../../../../components/md/Buttons';
+import TextField from '../../../../components/atm.FormComponents/TextField';
+import SelectField from '../../../../components/atm.FormComponents/SelectField';
 
 const EditMemberForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;

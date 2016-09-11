@@ -2,16 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import classNames from 'classnames/bind';
 
 import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
 import { Heading, Grid, Col, Row } from '../../../components/index';
-import inlineStyles from '../../../core/inlineStyles';
+import inlineStyles from '../../../theme/inlineStyles';
 import { login } from '../state/actions';
-import styles from '../styles.css';
 import LoginForm from './LoginForm';
-
-const cx = styles::classNames;
 
 class Login extends Component {
   constructor(props) {

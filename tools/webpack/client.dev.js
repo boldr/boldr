@@ -48,7 +48,10 @@ const webpackConfig = {
     extensions: ['', '.js', '.jsx', '.json'],
     modulesDirectories: ['boldr-cms', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
+      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
+      core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
     }
   },
   module: {

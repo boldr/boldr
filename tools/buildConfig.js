@@ -14,7 +14,7 @@ const bcfg = Object.freeze({
   ASSETS_DIR: path.join(ABS_ROOT, 'static', 'assets'),
   HOT_RELOAD_PORT: process.env.HOT_RELOAD_PORT || 3001,
   SSR_PORT: process.env.SSR_PORT || 3000,
-  API_SERVER_PORT: process.env.API_SERVER_PORT || 8121
+  API_PORT: process.env.API_SERVER_PORT || 8121
 });
 
 module.exports = bcfg;

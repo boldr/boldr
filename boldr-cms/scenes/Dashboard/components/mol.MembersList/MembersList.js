@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import {
   DataTable, TableHeader, TableBody, TableRow, TableColumn, EditDialogColumn
-} from '../../../../../components/md/DataTables';
+} from '../../../../components/md/DataTables';
 import MemberTableRow from '../atm.MemberTableRow';
 
 const MembersList = (props) => {

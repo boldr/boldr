@@ -1,7 +1,9 @@
 # Environment Configuration
 .env
 build/
-
+static/server.js
+static/server.js.map
+static/webpack-assets.json
 .volumes
 boldr.paw
 # Logs

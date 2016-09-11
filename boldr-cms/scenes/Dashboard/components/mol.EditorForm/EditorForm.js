@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import classNames from 'classnames/bind';
-import { Grid, Col, Row } from '../../../../components';
+
+import { Grid, Col, Row } from 'components';
 import Radio from '../../../../components/md/SelectionControls/Radio';
 import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
 import Paper from '../../../../components/md/Papers';
@@ -11,9 +11,6 @@ import { RichTextInput } from '../../../../components/atm.FormComponents/RichTex
 import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
 import TextField from '../../../../components/atm.FormComponents/TextField';
 
-import styles from './style.css';
-
-const cx = styles::classNames;
 const style = {
   block: {
     maxWidth: 250

@@ -1,21 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
 import { bindActionCreators } from 'redux';
 
-import { SiteLogo, Grid, Col, Row } from '../../components';
+import { SiteLogo, Grid, Col, Row } from 'components';
 import NavigationDrawer from '../../components/md/NavigationDrawers';
 import { IconButton } from '../../components/md/Buttons';
-
 import FontIcon from '../../components/md/FontIcons';
-import styles from './style.css';
+
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
   mediaClicked, membersClicked, settingsClicked, homeClicked
 } from './actions';
-
-
-const cx = styles::classNames;
 
 const DrawerType = {
   FULL_HEIGHT: 'full-height',

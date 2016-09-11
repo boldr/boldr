@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { Heading, Grid, Col, Row } from 'components';
 import { Card, CardText, CardActions } from '../../../components/md/Cards';
 import TextField from '../../../components/md/TextFields';
 import { RaisedButton } from '../../../components/md/Buttons';
-import { Heading, Grid, Col, Row } from '../../../components';
-import inlineStyles from '../../../core/inlineStyles';
+import inlineStyles from '../../../theme/inlineStyles';
 import { forgotPassword } from '../state/actions';
 
 class ForgotPassword extends Component {

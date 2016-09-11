@@ -1,7 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import { Grid, Row, Col, Hero, Heading, Header } from '../../components';
+import { Grid, Row, Col, Hero, Heading, Header } from 'components';
 
 const Home = () => {
   return (

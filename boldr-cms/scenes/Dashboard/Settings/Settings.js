@@ -7,7 +7,7 @@ import { Tabs, Tab } from '../../../components/md/Tabs';
 
 import { Loader } from '../../../components';
 import { fetchSettingsIfNeeded, updateBoldrSettings } from '../../Boldr/state/boldr';
-import GeneralTab from './components/mol.GeneralTab';
+import GeneralTab from '../components/mol.GeneralTab';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())

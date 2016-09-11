@@ -4,15 +4,12 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import { Link } from 'react-router';
-import classNames from 'classnames/bind';
 import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
-import { Heading, Grid, Col, Row } from '../../../components/index';
-import inlineStyles from '../../../core/inlineStyles';
+import { Heading, Grid, Col, Row } from 'components';
+import inlineStyles from '../../../theme/inlineStyles';
 import { signup } from '../state/actions';
-import styles from '../styles.css';
 import SignupForm from './SignupForm';
 
-const cx = styles::classNames;
 class Signup extends Component {
   constructor(props) {
     super(props);

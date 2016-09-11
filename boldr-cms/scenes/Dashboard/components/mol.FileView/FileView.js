@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
 
-import { Row, Col } from '../../../../../components';
-import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../../components/md/Cards';
-import { IconButton } from '../../../../../components/md/Buttons';
+import { Row, Col } from 'components';
+import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
+import { IconButton } from '../../../../components/md/Buttons';
 import styles from './style.css';
 
 const cx = styles::classNames;

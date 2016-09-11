@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import { IconButton } from '../../../../../components/md/Buttons';
-import FontIcon from '../../../../../components/md/FontIcons';
-import { TableRow, TableColumn } from '../../../../../components/md/DataTables';
-import inlineStyles from '../../../../../core/inlineStyles';
+import { IconButton } from '../../../../components/md/Buttons';
+import FontIcon from '../../../../components/md/FontIcons';
+import { TableRow, TableColumn } from '../../../../components/md/DataTables';
+import inlineStyles from '../../../../theme/inlineStyles';
 
 const propTypes = {
   user: PropTypes.object,

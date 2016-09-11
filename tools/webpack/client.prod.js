@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 
@@ -14,8 +13,9 @@ const webpackIsomorphicToolsPlugin =
 
 const clientProdConfig = {
   target: 'web',
-  stats: false, // Don't show stats in the console
+  stats: true,
   progress: true,
+  bail: true,
   devtool: false,
   context: bcfg.ABS_ROOT,
   entry: {
@@ -114,12 +114,18 @@ const clientProdConfig = {
       compress: {
         screw_ie8: true,
         warnings: false
+      },
+      mangle: {
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+        screw_ie8: true
       }
     }),
 
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
-    new VisualizerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new WatchMissingNodeModulesPlugin(bcfg.NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin
