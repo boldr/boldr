@@ -1,0 +1,18 @@
+{
+    "verbose": false,
+    "restartable": "rs",
+    "colours": true,
+    "ignore": [
+      "docs",
+      ".git",
+      "node_modules/**/*",
+      "boldr-cms/"
+    ],
+    "ext": "js json",
+    "env": {
+      "DEBUG":"boldr*"
+    },
+    "watch": [
+      "./**/*.js"
+    ]
+}

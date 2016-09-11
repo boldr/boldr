@@ -11,10 +11,10 @@ docs/logs
 coverage/
 .nyc_output
 .happypack
-
+static/assets
 boldr.sublime-project
 boldr.sublime-workspace
-
+tools/webpack/dlls
 # Runtime data
 pids
 *.pid

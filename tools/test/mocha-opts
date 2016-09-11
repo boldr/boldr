@@ -1,5 +1,6 @@
+--recursive
+--colors
 --reporter spec
---check-leaks
---es_staging
---full-trace
---harmony
+--require ignore-styles
+--require babel-polyfill
+--compilers js:babel-register

@@ -1,8 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const VisualizerPlugin = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+
 const bcfg = require('../buildConfig');
 const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
@@ -13,29 +14,18 @@ const webpackIsomorphicToolsPlugin =
 
 const clientProdConfig = {
   target: 'web',
-  stats: {
-    colors: true,
-    reasons: true,
-    hash: true,
-    version: true,
-    timings: true,
-    chunks: true,
-    chunkModules: true,
-    cached: true,
-    cachedAssets: true,
-  },
+  stats: false, // Don't show stats in the console
   progress: true,
-  bail: true,
-  devtool: 'source-map',
+  devtool: false,
   context: bcfg.ABS_ROOT,
   entry: {
-    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.CMS_DIR, 'client.js')],
+    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.CMS_SRC, 'client.js')],
     vendor: VENDOR_BUNDLE
   },
   output: {
     path: bcfg.ASSETS_DIR,
-    filename: '[name].[chunkhash:8].js',
-    chunkFilename: '[name].[chunkhash:8].chunk.js',
+    filename: '[name]-[hash].js',
+    chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/assets/'
   },
   module: {
@@ -43,27 +33,24 @@ const clientProdConfig = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: bcfg.NODE_MODULES_DIR
       },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      { test: webpackIsomorphicToolsPlugin.regular_expression('svg'), loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.css$/,
-        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
           loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader'
         })
       },
-
       { test: /\.scss$/,
-        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
-          loader: 'css-loader?-autoprefixer&modules=false&sourceMap&minimize=false!postcss-loader!sass-loader'
+          loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader!sass-loader'
         })
       }
     ]
@@ -71,7 +58,7 @@ const clientProdConfig = {
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
     root: bcfg.ABS_ROOT,
-    modulesDirectories: ['src', 'node_modules'],
+    modulesDirectories: ['boldr-cms', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
     }
@@ -90,7 +77,9 @@ const clientProdConfig = {
         },
         discardUnused: true,
         mergeIdents: false,
-        reduceIdents: false
+        reduceIdents: false,
+        safe: true,
+        sourcemap: true
       })
     ];
   },
@@ -103,26 +92,19 @@ const clientProdConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        SSR_SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
       __CLIENT__: true,
-      __SERVER__: false
+      __SERVER__: false,
+      __DLLS__: false
     }),
-    new LodashModuleReplacementPlugin,
     new webpack.optimize.CommonsChunkPlugin({
-      name: [
-        'main',
-        'vendor',
-        'manifest'
-      ],
-      minChunks: Infinity
+      name: ['main', 'vendor', 'manifest'],
+      minChunks: Infinity,
+      async: true
     }),
-
-    // OccurrenceOrderPlugin is needed for long-term caching to work properly.
-    // See http://mxs.is/googmv
-    new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.ProvidePlugin({
       // make fetch available
       fetch: 'exports?self.fetch!whatwg-fetch'
@@ -130,20 +112,14 @@ const clientProdConfig = {
     // needed for long-term caching
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        screw_ie8: true, // React doesn't support IE8
+        screw_ie8: true,
         warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
       }
     }),
 
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
+    new VisualizerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new WatchMissingNodeModulesPlugin(bcfg.NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin

@@ -1,5 +1,17 @@
 {
   "env": {
+    "api": {
+      "presets": [
+        "stage-0",
+        ["es2015", { "modules": "commonjs"}]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        ["transform-runtime", {
+          "polyfill": false, "regenerator": true
+          }]
+      ]
+    },
     "server": {
       "presets": [
         "stage-0",
@@ -12,8 +24,6 @@
         "transform-react-inline-elements",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
-          }], ["provide-modules", {
-            "debug": "debug",
           }]
       ]
     },
@@ -25,9 +35,6 @@
         "transform-class-properties",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
-          }],
-          ["provide-modules", {
-            "debug": "debug",
           }]
       ]
     },
@@ -37,15 +44,9 @@
         "transform-class-properties",
         "transform-react-constant-elements",
         "transform-react-inline-elements",
-        "transform-react-remove-prop-types",
         "transform-decorators-legacy",
-        "add-module-exports",
-        "lodash",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
-          }],
-          ["provide-modules", {
-            "debug": "debug",
           }]
       ]
     }

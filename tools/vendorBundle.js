@@ -1,6 +1,7 @@
 const VENDOR_BUNDLE = [
   'react',
   'react-dom',
+  'react-router',
   'redux',
   'react-redux',
   'react-router-redux',
@@ -9,7 +10,6 @@ const VENDOR_BUNDLE = [
   'redial',
   'superagent',
   'redux-form',
-  'react-addons-transition-group',
   'react-addons-css-transition-group',
   'draft-js',
   'classnames'
