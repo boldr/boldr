@@ -7,12 +7,11 @@ export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
     component: PropTypes.node,
-    store: PropTypes.object,
-    initialState: PropTypes.object
+    store: PropTypes.object
   };
 
   render() {
-    const { assets, component, initialState } = this.props;
+    const { assets, component, store } = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
 
@@ -47,7 +46,7 @@ export default class Html extends Component {
         <body>
           <div id="content" dangerouslySetInnerHTML={ { __html: content } } />
           <script dangerouslySetInnerHTML={ {
-            __html: `window.PRELOAD_STATE=${serialize(initialState)};` } }
+            __html: `window.PRELOAD_STATE=${serialize(store.getState())};` } }
             charSet="UTF-8"
           />
         { __DLLS__ && [<script key="dlls__vendor" src="/assets/dlls/dll__vendor.js" charSet="UTF-8" />] }

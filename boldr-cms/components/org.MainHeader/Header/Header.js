@@ -8,7 +8,7 @@ import FontIcon from '../../md/FontIcons';
 import { IconButton, RaisedButton, FlatButton } from '../../md/Buttons';
 import { ListItem } from '../../md/Lists';
 import Menu from '../../md/Menus';
-
+import defaultMenuItems from '../data/menu-items.json';
 import { goHome } from '../../../scenes/Boldr/state/boldr';
 import Head from '../Head';
 import Item from '../Item';
@@ -116,6 +116,16 @@ class Header extends Component {
       theme
     } = this.props;
     const { navbarDropdownIsOpen, mobileState, focusable } = this.state;
+    const renderedMenuItems = menuItems.map(item =>
+      <Item
+        key={ item.position + item.id }
+        item={ item }
+        theme={ theme }
+        simpleList={ item.simpleList }
+        closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
+        mobile={ mobileState }
+      />
+    );
 
     const renderAuthMenu = (
       <Menu isOpen={ this.state.authOpen } close={ this.close }
@@ -159,18 +169,7 @@ class Header extends Component {
               ref="dropdownContent"
             >
               <ul className={ cx('navigation') }>
-              {
-                this.props.boldr.isLoading ? <h1>Loading</h1> : this.props.boldr.primaryNav.links.map(item =>
-                <Item
-                  key={ item.position }
-                  item={ item }
-                  theme={ theme }
-                  simpleList={ item.simpleList }
-                  closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
-                  mobile={ mobileState }
-                />
-              )
-            }
+              { !!children ? children : renderedMenuItems }
               </ul>
             </nav>
             <div className={ cxN(cx('buttons-group', { 'is-dropdown-open': navbarDropdownIsOpen }), {
@@ -218,6 +217,7 @@ Header.defaultProps = {
   className: '',
   children: null,
   theme: 'light',
+  menuItems: defaultMenuItems,
   breakpoint: 992
 };
 
