@@ -7,8 +7,7 @@ import { Notifications } from 'components';
 import { fetchSettingsIfNeeded, fetchMenusIfNeeded } from './state/boldr';
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded()),
-  defer: ({ dispatch }) => dispatch(fetchMenusIfNeeded())
+  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
 })
 class Boldr extends Component {
   static propTypes = {

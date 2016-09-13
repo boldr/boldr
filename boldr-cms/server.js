@@ -18,7 +18,7 @@ import createStore from './core/state/createStore';
 import ApiClient from './core/api/ApiClient';
 import { API_PORT, API_HOST, SSR_PORT, HOST } from './core/config';
 import getRoutes from './scenes/index';
-import Html from './components/Html';
+import Html from './components/atm.Html';
 
 const debug = require('debug')('boldr:ssr-server');
 
@@ -32,8 +32,8 @@ const proxy = httpProxy.createProxyServer({
 
 app.use(compression());
 
-app.use(express.static(path.join(__dirname, '..', 'static')));
-app.use('/assets', express.static('assets'));
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use('/assets', express.static(__dirname + '/assets'));
 
 app.use('/api/v1', (req, res) => {
   proxy.web(req, res, { target: targetUrl });

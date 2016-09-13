@@ -16,14 +16,14 @@ import getRoutes from './scenes';
 import './styles/main.scss';
 
 WebFontLoader.load({
-  google: { families: ['Roboto:300,400', 'Roboto Condensed:400', 'Material Icons'] }
+  google: { families: ['Roboto:300,400', 'Material Icons'] }
 });
 
 const MOUNT_POINT = document.getElementById('content');
 const client = new ApiClient();
 const initialState = window.PRELOAD_STATE;
 
-const store = createStore(browserHistory, initialState);
+const store = createStore(browserHistory, client, initialState);
 const { dispatch, getState } = store;
 const token = localStorage.getItem(TOKEN_KEY);
 

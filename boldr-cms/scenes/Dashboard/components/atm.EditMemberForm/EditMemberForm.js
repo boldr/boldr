@@ -18,9 +18,7 @@ const EditMemberForm = (props) => {
           label="Role ID"
           position="below"
           menuItems={ [1, 2, 3, 4, 5] }
-        >
-
-        </Field>
+        />
 
         </div>
     </form>

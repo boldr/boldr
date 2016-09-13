@@ -7,7 +7,7 @@ import Toolbar from '../../../components/md/Toolbars';
 import FontIcon from '../../../components/md/FontIcons';
 import { RaisedButton, FlatButton, IconButton, FloatingButton } from '../../../components/md/Buttons';
 import Paper from '../../../components/md/Papers';
-import inlineStyles from '../../../core/inlineStyles';
+import inlineStyles from '../../../theme/inlineStyles';
 import FileView from '../components/mol.FileView';
 import { API_BASE, S3_SIGNING_URL } from '../../../core/config';
 import { uploadFiles, fetchMedia } from './state/media';

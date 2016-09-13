@@ -71,7 +71,7 @@ export function updatePost(postData) {
     dispatch(updatePostDetails(postData));
     return request
       .put(`${API_POSTS}/pid/${postData.id}`)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `${localStorage.getItem('token')}`)
       .send({
         // title: articleData.title,
         content: postData.content,

@@ -1,16 +1,7 @@
 import request from 'superagent';
 import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
-import fetch from '../../../core/fetch';
-import {
-  API_SETTINGS,
-  API_BASE,
-  API_NAVIGATION,
-  TOKEN_KEY,
-  processResponse,
-  credentials,
-  jsonHeaders
-} from '../../../core';
+import { API_SETTINGS, TOKEN_KEY } from '../../../core';
 import { notificationSend } from './notifications';
 import * as types from './constants';
 
@@ -21,69 +12,6 @@ export function goHome() {
   return (dispatch) => {
     dispatch(push('/'));
   };
-}
-
-// ------------------------------------
-// Load Menu
-// ------------------------------------
-const beginLoadMenus = () => ({ type: types.LOAD_MENUS_REQUEST });
-
-const doneLoadMenus = (json) => ({
-  type: types.LOAD_MENUS_SUCCESS,
-  payload: json
-});
-
-const failLoadMenus = (err) => ({
-  type: types.LOAD_MENUS_FAILURE,
-  error: err
-});
-
-/**
- * Function to retrieve menus from the api.
- * @return {Array} Menus returned as an array of menu objects.
- */
-function loadMenus() {
-  return dispatch => {
-    dispatch(beginLoadMenus());
-    return fetch(`${API_NAVIGATION}`)
-      .then(response => processResponse(response))
-      .then(json => dispatch(doneLoadMenus(json)))
-      .catch(err => {
-        dispatch(failLoadMenus(err));
-      });
-  };
-}
-
-/**
- * @function fetchMenusIfNeeded
- * @description Function that determines whether or not menus need to be
- * fetched from the api. Dispatches either the loadMenus Function
- * or returns the resolved promise if the menus are up to date.
- * @return {Promise} Menus Promise that resolves when menus are fetched
- * or they arent required to be refreshed.
- */
-export function fetchMenusIfNeeded() {
-  return (dispatch, getState) => {
-    if (shouldFetchMenus(getState())) {
-      return dispatch(loadMenus());
-    }
-
-    return Promise.resolve();
-  };
-}
-/**
- * Called by fetchMenusIfNeeded to retrieve the state containing menus
- * @param  {Object} state   The blog state which contains menus
- */
-function shouldFetchMenus(state) {
-  const navs = state.boldr.navs;
-  if (!navs) {
-    return true;
-  }
-  if (state.boldr.isLoading) {
-    return false;
-  }
-  return navs;
 }
 
 // ------------------------------------
@@ -179,7 +107,7 @@ export function updateBoldrSettings(data, id) {
     dispatch(beginUpdateSettings());
     return request
       .put(`${API_SETTINGS}/${id}`)
-      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
+      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
       .send(data)
       .then(response => {
         dispatch(doneUpdateSettings(response));
@@ -206,7 +134,7 @@ export function updateBoldrSettings(data, id) {
 // Reducer
 // ------------------------------------
 const INITIAL_STATE = {
-  isLoading: true,
+  isLoading: false,
   siteName: null,
   description: null,
   logo: null,
@@ -221,7 +149,6 @@ const INITIAL_STATE = {
 export default function boldrReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case types.LOAD_SETTINGS:
-    case types.LOAD_MENUS_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -240,24 +167,10 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         configuration: action.configuration
       };
     case types.LOAD_SETTINGS_FAILURE:
-    case types.LOAD_MENUS_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error
-      };
-    case types.LOAD_MENUS_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        primaryNav: {
-          id: action.payload[0].id,
-          name: action.payload[0].name,
-          location: action.payload[0].location,
-          primary: action.payload[0].primary,
-          restricted: action.payload[0].restricted,
-          links: action.payload[0].items.links
-        }
       };
     default:
       return state;

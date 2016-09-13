@@ -50,7 +50,7 @@ const clientProdConfig = {
       { test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
-          loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader!sass-loader'
+          loader: 'css-loader?&minimize=false!postcss-loader!sass-loader'
         })
       }
     ]
@@ -60,7 +60,10 @@ const clientProdConfig = {
     root: bcfg.ABS_ROOT,
     modulesDirectories: ['boldr-cms', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
+      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
+      core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
     }
   },
   postcss(webpack) {
@@ -71,15 +74,7 @@ const clientProdConfig = {
           add: true,
           remove: true,
           browsers: 'last 2 versions'
-        },
-        discardComments: {
-          removeAll: true
-        },
-        discardUnused: true,
-        mergeIdents: false,
-        reduceIdents: false,
-        safe: true,
-        sourcemap: true
+        }
       })
     ];
   },
@@ -114,13 +109,6 @@ const clientProdConfig = {
       compress: {
         screw_ie8: true,
         warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
       }
     }),
 

@@ -35,7 +35,6 @@ class ArticleEditor extends Component {
       id: this.props.currentPost.id || '',
       origSlug: this.props.params.slug || ''
     };
-    const editId = this.props.currentPost.id;
     this.props.dispatch(updatePost(postData));
   }
 
@@ -63,4 +62,4 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.currentPost.isLoading
   };
 };
-export default connect(mapStateToProps, { loadPost, clearCurrentPost })(ArticleEditor);
+export default connect(mapStateToProps, { loadPost, clearCurrentPost, updatePost })(ArticleEditor);

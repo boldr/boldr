@@ -104,17 +104,17 @@ class EditorForm extends Component {
                   <Radio
                     value="draft"
                     label="Draft"
-                    style={ styles.radioButton }
+                    style={ radioStyle }
                   />
                   <Radio
                     value="published"
                     label="Published"
-                    style={ styles.radioButton }
+                    style={ radioStyle }
                   />
                   <Radio
                     value="archived"
                     label="Archived"
-                    style={ styles.radioButton }
+                    style={ radioStyle }
                   />
                 </Field>
               </Row>

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 
+import { Heading, Grid, Col, Row } from 'components';
 import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
-import { Heading, Grid, Col, Row } from '../../../components/index';
 import inlineStyles from '../../../theme/inlineStyles';
 import { login } from '../state/actions';
 import LoginForm from './LoginForm';

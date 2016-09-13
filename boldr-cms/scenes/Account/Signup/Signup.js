@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-
 import { Link } from 'react-router';
-import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
+
 import { Heading, Grid, Col, Row } from 'components';
+import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
 import inlineStyles from '../../../theme/inlineStyles';
 import { signup } from '../state/actions';
 import SignupForm from './SignupForm';

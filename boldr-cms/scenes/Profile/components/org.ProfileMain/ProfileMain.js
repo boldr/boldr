@@ -7,7 +7,7 @@ import { Card, CardActions, CardTitle, CardText } from '../../../../components/m
 import { FlatButton } from '../../../../components/md/Buttons';
 import { getMyProfile } from '../../reducer';
 import Header from '../../../../components/org.MainHeader';
-import inlineStyles from '../../../../core/inlineStyles';
+import inlineStyles from '../../../../theme/inlineStyles';
 import Avatar from '../../../../components/md/Avatars';
 import ExpansionList from '../../../../components/md/ExpansionPanels/ExpansionList';
 import ExpansionPanel from '../../../../components/md/ExpansionPanels/ExpansionPanel';

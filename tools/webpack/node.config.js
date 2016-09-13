@@ -24,7 +24,7 @@ const nodeConfig = { // eslint-disable-line
   devtool: 'source-map',
   entry: {
     server: [
-      path.join(bcfg.CMS_SRC, 'server', 'index.js')
+      path.join(bcfg.CMS_SRC, 'server.js')
     ]
   },
   output: {
@@ -37,7 +37,13 @@ const nodeConfig = { // eslint-disable-line
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
     root: bcfg.ABS_ROOT,
-    modulesDirectories: ['src', 'node_modules']
+    modulesDirectories: ['boldr-cms', 'node_modules'],
+    alias: {
+      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
+      core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
+    }
   },
   module: {
     loaders: [
