@@ -9,9 +9,6 @@
   "ecmaFeatures": {
     "defaultParams": true
   },
-  "settings": {
-
-  },
   "rules": {
     "no-unused-vars": 0,
     "babel/new-cap": 0,

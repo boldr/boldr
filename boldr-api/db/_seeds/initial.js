@@ -25,29 +25,24 @@ exports.seed = function(knex, Promise) {
   return truncate(knex, Promise, tables)
     .then(() => Promise.all([
       knex('role').insert({
-        id: 1,
         name: 'Pending',
         description: 'The role given to a user before validating their account.'
       }),
       knex('role').insert({
-        id: 2,
         name: 'Member',
         description: 'A verified user without special privileges'
       }),
       knex('role').insert({
-        id: 3,
         name: 'Staff',
         description: 'Allows access to the CMS dashboard.'
       }),
       knex('role').insert({
-        id: 4,
         name: 'Admin',
         description: 'Complete control over the CMS'
       })
     ]))
     .then(() => Promise.all([
       knex('user').insert({
-        id: 1,
         first_name: 'Joe',
         last_name: 'Gray',
         display_name: 'Joey',
@@ -57,14 +52,9 @@ exports.seed = function(knex, Promise) {
         location: 'Colorado',
         bio: 'I am me.',
         website: 'https://boldr.io',
-        facebook: 'https://facebook.com',
-        twitter: '@StruesCO',
-        google: 'https://google.com',
-        github: 'https://github.com/strues',
         verified: true
       }),
       knex('user').insert({
-        id: 2,
         first_name: 'Sam',
         last_name: 'Hunt',
         display_name: 'Samus',
@@ -74,14 +64,9 @@ exports.seed = function(knex, Promise) {
         location: 'California',
         bio: 'Someone doing things.',
         website: 'https://boldr.io',
-        facebook: 'https://facebook.com',
-        twitter: '@StruesCO',
-        google: 'https://google.com',
-        github: 'https://github.com/strues',
         verified: true
       }),
       knex('user').insert({
-        id: 3,
         first_name: 'Jessica',
         last_name: 'Smith',
         display_name: 'Jess',
@@ -91,10 +76,6 @@ exports.seed = function(knex, Promise) {
         location: 'Washington',
         bio: 'Just a person',
         website: 'https://boldr.io',
-        facebook: 'https://facebook.com',
-        twitter: '@StruesCO',
-        google: 'https://google.com',
-        github: 'https://github.com/strues',
         verified: true
       })
     ]))
@@ -114,19 +95,16 @@ exports.seed = function(knex, Promise) {
     ]))
     .then(() => Promise.all([
       knex('tag').insert({
-        id: 1,
         name: 'JavaScript',
         description: 'Something something JS'
       }),
       knex('tag').insert({
-        id: 2,
         name: 'Stuff',
         description: 'Stuff about stuff.'
       })
     ]))
     .then(() => Promise.all([
       knex('post').insert({
-        id: 1,
         title: 'Just Another Post',
         slug: 'just-another-post',
         excerpt: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
@@ -143,7 +121,6 @@ exports.seed = function(knex, Promise) {
         user_id: 1
       }),
       knex('post').insert({
-        id: 2,
         title: 'Nother One',
         slug: 'nother-one',
         excerpt: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
@@ -160,7 +137,6 @@ exports.seed = function(knex, Promise) {
         user_id: 3
       }),
       knex('post').insert({
-        id: 3,
         title: 'Random Post Title',
         slug: 'random-post-title',
         excerpt: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +

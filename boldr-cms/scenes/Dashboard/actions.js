@@ -8,7 +8,7 @@ export function articleListClicked() {
 
 export function articleEditorClicked() {
   return (dispatch) => {
-    dispatch(push('/dashboard/articles/editor/new'));
+    dispatch(push('/dashboard/articles/new'));
   };
 }
 

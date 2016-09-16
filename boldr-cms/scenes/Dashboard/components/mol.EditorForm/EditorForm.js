@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { Grid, Col, Row } from 'components';
+import { Grid, Col, Row, BoldrEditor } from 'components';
+
 import Radio from '../../../../components/md/SelectionControls/Radio';
 import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
 import Paper from '../../../../components/md/Papers';
@@ -29,34 +30,33 @@ const radioStyle = {
   float: 'right'
 };
 
-
-export const renderRichText = (field) =>
-  <RichTextInput key={ field.name } name={ field.name } label={ field.name } />;
-
 class EditorForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onChange = (value) => {
-      this.setState({
-        value
-      });
-    };
-
-
-    this.renderReturnedContent = (value) => this._renderReturnedContent(value);
-
-    this.state = {
-      tags: [],
-      open: false,
-      files: []
-    };
-  }
-
-
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
-    const { editorState } = this.state;
+
+    const renderLabel = (htmlFor, label) => <label className="sr-only" htmlFor={ htmlFor }>{label}</label>;
+
+    const renderError = (touched, error) => {
+      if (touched && error) {
+        return <span className="text-danger">{error}</span>;
+      }
+
+      return null;
+    };
+
+    const renderInput = ({ input, type, label, meta: { touched, error } }) => (
+      <div className="form-group">
+        {renderLabel(input.name, label)}
+        <input { ...input } type={ type } className="form-control" placeholder={ label } />
+      </div>
+    );
+
+    const renderEditor = ({ input, label, meta: { touched, error } }) => (
+      <div className="form-group">
+        {renderLabel(input.name, label)}
+        <BoldrEditor { ...input } label={ label } />
+      </div>
+    );
     return (
       <Row>
        <Col xs>
@@ -72,10 +72,6 @@ class EditorForm extends Component {
               <Row>
                 <Field name="title" type="text" component={ TextField } label="Post Title" />
               </Row>
-              {
-                this.props.editing ?
-                null
-              :
               <Row>
                 <Field name="tags" type="text"
                   helpText= "Separate using commas"
@@ -83,7 +79,6 @@ class EditorForm extends Component {
                   label="Tags"
                 />
               </Row>
-            }
               <Row>
               <Field name="feature_image" type="text"
                 helpText= "URL for your image"
@@ -94,8 +89,6 @@ class EditorForm extends Component {
               <Row>
                 <Field name="excerpt" type="text"
                   component={ TextField } helpText= "A short summary or highlight" label="Excerpt"
-                  fullWidth
-                  multiLine
                 />
               </Row>
                 <Row>
@@ -118,7 +111,7 @@ class EditorForm extends Component {
                   />
                 </Field>
               </Row>
-              <Field name="content" component={ renderRichText } />
+              <Field name="content" component={ renderEditor } />
               <div style={ { marginTop: '1em' } }>
                 <RaisedButton type="submit" secondary label="Publish" style={ style } />
               </div>

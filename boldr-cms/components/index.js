@@ -2,6 +2,7 @@ import BoldrLogo from './atm.BoldrLogo';
 import Hero from './mol.Hero';
 import Heading from './atm.Heading';
 import SiteLogo from './atm.SiteLogo';
+import BoldrEditor from './BoldrEditor';
 import RadioButtonGroup from './atm.FormComponents/RadioButtonGroup';
 import RichText from './atm.FormComponents/RichText';
 import TextField from './atm.FormComponents/TextField';
@@ -25,5 +26,6 @@ export {
   Grid,
   Row,
   Col,
-  Notifications
+  Notifications,
+  BoldrEditor
 };

@@ -24,7 +24,10 @@
         "transform-react-inline-elements",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
-          }]
+          }],
+        ["module-resolver", {
+          "root": ["./boldr-cms"]
+        }]
       ]
     },
     "client-dev": {
@@ -35,7 +38,10 @@
         "transform-class-properties",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
-          }]
+          }],
+        ["module-resolver", {
+          "root": ["./boldr-cms"]
+        }]
       ]
     },
     "client-prod": {
@@ -47,7 +53,10 @@
         "transform-decorators-legacy",
         ["transform-runtime", {
           "polyfill": false, "regenerator": true
-          }]
+          }],
+        ["module-resolver", {
+          "root": ["./boldr-cms"]
+        }]
       ]
     }
   }

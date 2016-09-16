@@ -43,9 +43,9 @@ export default (store, connect) => ({
     }
   },
   {
-    path: 'articles/editor/new',
+    path: 'articles/new',
     getComponent(nextState, cb) {
-      System.import('./NewArticle')
+      System.import('./NewArticle/NewArticleContainer')
         .then(loadModule(cb))
         .catch(errorLoading);
     }

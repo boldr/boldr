@@ -90,18 +90,19 @@ const errorCreatingPost = (err) => {
  * @param  {Object} articleData The data from the form / article editor
  * @return {Object}             Response object.
  */
-export function createPost(postData) {
+export function createPost(data) {
   return (dispatch) => {
     dispatch(beginCreatePost());
     return request
       .post(API_POSTS)
-      .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
+      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
       .send({
-        title: postData.title,
-        content: postData.content,
-        tags: postData.tags,
-        status: postData.status,
-        excerpt: postData.excerpt
+        title: data.title,
+        content: data.content,
+        feature_image: data.feature_image,
+        tags: data.tags,
+        status: data.status,
+        excerpt: data.excerpt
       })
       .then(response => {
         if (response.status === 201) {

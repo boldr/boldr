@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { Notifications } from 'components';
-import { fetchSettingsIfNeeded, fetchMenusIfNeeded } from './state/boldr';
+import { fetchSettingsIfNeeded } from './state/boldr';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
@@ -39,4 +39,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchSettingsIfNeeded, fetchMenusIfNeeded })(Boldr);
+export default connect(mapStateToProps, { fetchSettingsIfNeeded })(Boldr);

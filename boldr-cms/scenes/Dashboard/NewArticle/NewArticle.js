@@ -11,18 +11,11 @@ class NewArticle extends Component {
     posts: React.PropTypes.object,
     params: React.PropTypes.object,
     currentPost: React.PropTypes.object,
-    clearCurrentPost: React.PropTypes.func
+    onFormSubmit: React.PropTypes.func
   };
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.state = {
-      editing: false
-    };
-  }
-  componentDidMount() {
-    this.props.clearCurrentPost();
   }
 
   handleSubmit(values) {
@@ -30,9 +23,7 @@ class NewArticle extends Component {
       title: values.title,
       tags: values.tags,
       status: values.status,
-      content: values.content,
-      id: this.props.currentPost.id || '',
-      origSlug: this.props.params.slug || ''
+      content: values.content
     };
     this.props.dispatch(createPost(postData));
   }
@@ -44,9 +35,8 @@ class NewArticle extends Component {
     return (
       <div>
         <EditorForm
-          initialValues={ this.props.currentPost }
           editing={ false }
-          onSubmit={ this.handleSubmit }
+          onSubmit={ this.props.onFormSubmit }
         />
       </div>
     );
@@ -61,4 +51,4 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.currentPost.isLoading
   };
 };
-export default connect(mapStateToProps, { clearCurrentPost })(NewArticle);
+export default connect(mapStateToProps, { createPost })(NewArticle);

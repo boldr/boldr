@@ -17,6 +17,7 @@ static/assets
 boldr.sublime-project
 boldr.sublime-workspace
 tools/webpack/dlls
+tools/webpack/dlls/vendor.json
 # Runtime data
 pids
 *.pid

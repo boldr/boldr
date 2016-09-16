@@ -36,6 +36,7 @@ async function startServer() {
   server.listen(port);
   logger.info(`🌎  ==> Boldr API is running on ${conf.get('api.port')} in ${env} mode.`);
 }
+
 /**
  * Listen on provided port, on all network interfaces.
  */

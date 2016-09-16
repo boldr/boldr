@@ -1,15 +1,15 @@
+/* eslint-disable */
 exports.up = function(knex, Promise) {
-
   return Promise.all([
-
     knex.schema.createTableIfNotExists('post', function(table) {
-      table.increments('id').primary();
+      table.increments('id');
+      table.uuid('uuid');
       table.string('title').unique().notNullable();
       table.string('slug').unique().notNullable();
       table.string('feature_image');
-      table.text('content');
+      table.text('content').notNullable();
       table.text('excerpt');
-      table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
+      table.enu('status', ['published', 'draft', 'arschived']).defaultTo('draft');
       table.integer('user_id').notNullable().references('id').inTable('user');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
