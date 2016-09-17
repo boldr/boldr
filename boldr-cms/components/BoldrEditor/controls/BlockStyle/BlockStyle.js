@@ -25,7 +25,7 @@ const BlockStyleControls = ({ controls, display, editorState, onToggle }) => {
             );
           }
         }
-      )}
+      )
     }
     </div>
   );

@@ -14,7 +14,7 @@ import {
   CustomBlockControls, InlineStyleControls, BlockStyleControls, BLOCK_CONTROLS, INLINE_CONTROLS
 } from './controls';
 import linkDecorator from './decorators/link';
-import styles from './TextEditor.scss';
+import './TextEditor.scss';
 
 class BoldrEditor extends Component {
   static propTypes = {
@@ -390,16 +390,11 @@ class BoldrEditor extends Component {
       );
     }
     return (
-      <div>
-        <div className="btn-toolbar" role="toolbar">
-
+      <div className="DraftJSEditor-root">
         { !this.props.readOnly ? this.renderControls() : null }
         { !this.props.readOnly ? urlInput : null }
         { !this.props.readOnly ? blockInput : null }
-
-        </div>
-
-        <div className={ styles.editor } onClick={ this.onFocus }>
+        <div className={ className } onClick={ this.focus }>
           <Editor ref="editor"
             editorState={ editorState }
             blockRendererFn={ this.renderBlock }

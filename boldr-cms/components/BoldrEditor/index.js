@@ -12,10 +12,10 @@ const defaultBlocks = {
 export default BoldrEditor;
 
 export {
-  DraftJSEditor,
+  BoldrEditor,
   Renderer,
   defaultBlocks,
   convertFromRaw,
   convertToRaw,
-  Entity,
+  Entity
 };
