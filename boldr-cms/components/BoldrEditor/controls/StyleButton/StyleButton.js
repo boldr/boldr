@@ -5,6 +5,7 @@ class StyleButton extends Component {
     onToggle: PropTypes.func,
     style: PropTypes.string,
     active: PropTypes.bool,
+    icon: PropTypes.node,
     label: PropTypes.string
   };
 
@@ -24,7 +25,7 @@ class StyleButton extends Component {
 
     return (
         <span className={ className } onMouseDown={ this.onToggle }>
-          {this.props.label}
+         { this.props.icon ? this.props.icon : this.props.label }
         </span>
       );
   }

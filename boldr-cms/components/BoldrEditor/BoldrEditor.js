@@ -332,6 +332,7 @@ class BoldrEditor extends Component {
         <CustomBlockControls
           customBlocks={ this.props.customBlocks }
           controls={ this.props.customBlockControls }
+          customBlockType={ this.state.customBlockType }
           display={ this.props.controlDisplay }
           key="custom-block-controls"
           onClick={ this.toggleCustomBlockInput }

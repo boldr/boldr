@@ -68,7 +68,6 @@ const clientProdConfig = {
   },
   postcss(webpack) {
     return [
-      require('precss')(),
       require('cssnano')({
         autoprefixer: {
           add: true,

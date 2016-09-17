@@ -1,6 +1,6 @@
 import { Entity } from 'draft-js';
 import React from 'react';
-
+import Photo from '../../icons/Photo';
 export default {
   getBlockRenderer() {
     return {
@@ -20,6 +20,9 @@ export default {
   },
   getLabel() {
     return 'Image';
+  },
+  getIcon() {
+    return <Photo />;
   },
   renderHTML(data) {
     return `<img src="${data.src}" alt="${data.alt}" />`;
