@@ -4,12 +4,14 @@ import errorHandler from 'errorhandler';
 import { coreMiddleware, sessionMiddleware, conf } from './core';
 import DbConnection from './db/connection';
 import routes from './modules/routes';
+import { monkeyPatchRouteMethods } from './utils';
 
 // initialize the database and bind the models, before initializing express.
 DbConnection.init();
 const app = express();
 
 coreMiddleware(app);
+monkeyPatchRouteMethods(app);
 app.use(passport.initialize());
 app.use(sessionMiddleware);
 app.use(passport.session());

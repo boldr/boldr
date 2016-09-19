@@ -2,6 +2,7 @@ import { getErrorStatus, responseHandler, throwNotFound } from './handlers';
 import { encryptPassword, generateVerifyCode } from './hashing';
 import processQuery from './processQuery';
 import textSearch from './textSearch';
+import monkeyPatchRouteMethods from './monkeyPatchRoutes';
 
 export {
   getErrorStatus,
@@ -10,5 +11,6 @@ export {
   encryptPassword,
   processQuery,
   textSearch,
-  generateVerifyCode
+  generateVerifyCode,
+  monkeyPatchRouteMethods
 };
