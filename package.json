@@ -171,7 +171,7 @@
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "pg": "^6.1.0",
-    "react": "15.3.1",
+    "react": "15.3.2",
     "react-addons-css-transition-group": "^15.3.1",
     "react-addons-transition-group": "^15.3.1",
     "react-dom": "15.3.1",
