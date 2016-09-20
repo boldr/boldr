@@ -148,7 +148,7 @@
     "draft-js-utils": "^0.1.5",
     "errorhandler": "^1.4.3",
     "express": "4.14.0",
-    "express-jwt": "^3.4.0",
+    "express-jwt": "^5.0.0",
     "express-session": "^1.14.1",
     "helmet": "^2.1.2",
     "immutable": "^3.8.1",
