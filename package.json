@@ -33,6 +33,15 @@
         "API_PORT": 8121
       }
     },
+    "debug": {
+      "command": "nodemon --config boldr-api/nodemon.json $2 --exec babel-node-debug ./bin/api.js",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./boldr-api",
+        "BABEL_ENV": "api",
+        "API_PORT": 8121
+      }
+    },
     "test:client": {
       "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/boldr-cms/**/*.test.js'",
       "env": {
@@ -97,9 +106,11 @@
     "build-dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/util/vendor.config.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
     "clean": "rimraf static/",
+    "clean:hp": "rimraf .happypack",
     "copy-files": "cp tools/.onbuild/run.js static/run.js && cp tools/.onbuild/isomorphic.config.js static/isomorphic.config.js",
     "dev": "npm-run-all --parallel dev:api watch:client watch:server",
     "dev:api": "better-npm-run dev:api",
+    "debug": "better-npm-run debug",
     "knex": "./node_modules/.bin/knex --knexfile boldr-api/core/config/knexfile.js",
     "lint": "./node_modules/.bin/eslint boldr-cms boldr-api",
     "lint:fix": "npm run lint -- --fix",
@@ -151,7 +162,7 @@
     "nodemailer": "^2.6.0",
     "nodemailer-mailgun-transport": "^1.2.2",
     "npm-run-all": "^3.1.0",
-    "objection": "^0.6.0-rc.3",
+    "objection": "^0.6.0-rc.4",
     "objection-find": "^0.1.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -184,6 +195,7 @@
     "babel-core": "^6.14.0",
     "babel-eslint": "6.1.2",
     "babel-loader": "^6.2.5",
+    "babel-node-debug": "^2.0.0",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",

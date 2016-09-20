@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-
 import { Grid, Col, Row, BoldrEditor } from 'components';
 
-import Radio from '../../../../components/md/SelectionControls/Radio';
-import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
-import Paper from '../../../../components/md/Papers';
-import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
-import TextField from '../../../../components/atm.FormComponents/TextField';
+import Radio from 'components/md/SelectionControls/Radio';
+import { FlatButton, RaisedButton } from 'components/md/Buttons';
+import Paper from 'components/md/Papers';
+import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
+import renderTextField from 'components/atm.FormComponents/TextField';
 
 const style = {
   block: {
@@ -43,13 +41,6 @@ class EditorForm extends Component {
       return null;
     };
 
-    const renderInput = ({ input, type, label, meta: { touched, error } }) => (
-      <div className="form-group">
-        {renderLabel(input.name, label)}
-        <input { ...input } type={ type } className="form-control" placeholder={ label } />
-      </div>
-    );
-
     const renderEditor = ({ input, label, meta: { touched, error } }) => (
       <div className="form-group">
         {renderLabel(input.name, label)}
@@ -59,35 +50,28 @@ class EditorForm extends Component {
     return (
       <Row>
        <Col xs>
-      <form onSubmit={ handleSubmit } style={ { marginTop: '25px' } }>
-
-            <Paper
-              zDepth={ 3 }
-              style={ {
-                padding: 40
-              } }
-            >
-
+        <form onSubmit={ handleSubmit } style={ { marginTop: '25px' } }>
+            <Paper zDepth={ 3 } style={ { padding: 40 } }>
               <Row>
-                <Field name="title" type="text" component={ TextField } label="Post Title" />
+                <Field name="title" type="text" component={ renderTextField } label="Post Title" />
               </Row>
               <Row>
                 <Field name="tags" type="text"
                   helpText= "Separate using commas"
-                  component={ TextField }
+                  component={ renderTextField }
                   label="Tags"
                 />
               </Row>
               <Row>
               <Field name="feature_image" type="text"
                 helpText= "URL for your image"
-                component={ TextField }
+                component={ renderTextField }
                 label="Feature Image"
               />
               </Row>
               <Row>
                 <Field name="excerpt" type="text"
-                  component={ TextField } helpText= "A short summary or highlight" label="Excerpt"
+                  component={ renderTextField } helpText= "A short summary or highlight" label="Excerpt"
                 />
               </Row>
                 <Row>

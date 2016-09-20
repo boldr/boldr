@@ -80,8 +80,10 @@ class Dashboard extends Component {
           desktopDrawerType={ DrawerType.PERSISTENT_MINI }
           navItems={ navItems }
         />
-        <Col xs={ 12 } md={ 10 } mdOffset={ 2 }>
-                  { this.props.children }
+          <Col xs>
+            <div style={ { paddingTop: '4%' } }>
+            { this.props.children }
+            </div>
           </Col>
         </Row>
       </Grid>
