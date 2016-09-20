@@ -35,9 +35,9 @@ const nodeConfig = { // eslint-disable-line
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
     root: bcfg.ABS_ROOT,
-    modulesDirectories: ['boldr-cms', 'node_modules'],
+    modules: ['boldr-cms', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
       components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),

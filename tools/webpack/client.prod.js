@@ -14,7 +14,6 @@ const webpackIsomorphicToolsPlugin =
 const clientProdConfig = {
   target: 'web',
   stats: true,
-  progress: true,
   bail: true,
   devtool: false,
   context: bcfg.ABS_ROOT,
@@ -56,26 +55,15 @@ const clientProdConfig = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
     root: bcfg.ABS_ROOT,
-    modulesDirectories: ['boldr-cms', 'node_modules'],
+    modules: ['boldr-cms', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
       components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
       core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
       scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
     }
-  },
-  postcss(webpack) {
-    return [
-      require('cssnano')({
-        autoprefixer: {
-          add: true,
-          remove: true,
-          browsers: 'last 2 versions'
-        }
-      })
-    ];
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
