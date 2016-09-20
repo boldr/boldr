@@ -13,7 +13,6 @@ dotenv.config({
 const nodeConfig = { // eslint-disable-line
   target: 'node',
   stats: true, // Don't show stats in the console
-  progress: true,
   externals: NodeExternals({ whitelist: [
     /\.(eot|woff|woff2|ttf|otf)$/,
     /\.(svg|png|jpg|jpeg|gif|ico)$/,
@@ -36,7 +35,6 @@ const nodeConfig = { // eslint-disable-line
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
-    root: bcfg.ABS_ROOT,
     modules: ['boldr-cms', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),

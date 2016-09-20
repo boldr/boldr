@@ -4,7 +4,7 @@ import inlineStyles from 'theme/inlineStyles';
 
 const renderLabel = (htmlFor, label) => <label style={ inlineStyles.textField } htmlFor={ htmlFor }>{label}</label>;
 
-const renderTextField = ({ input, type, label, meta: { touched, error } }) => (
+const renderTextField = ({ input, type, label }) => (
   <div className="form-group">
     { renderLabel(input.name, label) }
     <TextField
@@ -14,7 +14,6 @@ const renderTextField = ({ input, type, label, meta: { touched, error } }) => (
       floatingLabel
       lineDirection="right"
       label={ label }
-      errorText={ meta.error }
     />
   </div>
 );
@@ -22,8 +21,7 @@ const renderTextField = ({ input, type, label, meta: { touched, error } }) => (
 renderTextField.propTypes = {
   input: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  meta: PropTypes.object
+  label: PropTypes.string.isRequired
 };
-
+export { renderLabel };
 export default renderTextField;

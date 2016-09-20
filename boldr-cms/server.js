@@ -3,6 +3,7 @@ import http from 'http';
 // Server deps
 import express from 'express';
 import httpProxy from 'http-proxy';
+import PrettyError from 'pretty-error';
 import compression from 'compression';
 // React Deps
 import React from 'react';
@@ -22,6 +23,7 @@ import Html from './components/atm.Html';
 
 const debug = require('debug')('boldr:ssr-server');
 
+const pretty = new PrettyError();
 const targetUrl = `http://${API_HOST}:${API_PORT}/api/v1`;
 const app = new express();
 const server = http.createServer(app);
@@ -62,8 +64,8 @@ app.use((req, res) => {
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {
-    res.send('<!doctype html>\n' + // eslint-disable-line
-      ReactDOM.renderToString(<Html assets={ webpackIsomorphicTools.assets() } store={ store } />));
+    res.send(`<!doctype html>
+      ${ReactDOM.renderToString(<Html assets={ webpackIsomorphicTools.assets() } store={ store } />) }`);
   }
 
   if (__DISABLE_SSR__) {
@@ -71,10 +73,11 @@ app.use((req, res) => {
     return;
   }
 
-  match({ history, routes: getRoutes(store), location }, (error, redirectLocation, renderProps, ...args) => {
+  match({ history, routes: getRoutes(store), location }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
+      console.error('ROUTER ERROR:', pretty.render(error));
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
@@ -99,12 +102,12 @@ app.use((req, res) => {
         );
         res.status(200);
         global.navigator = { userAgent: req.headers['user-agent'] };
-        res.send('<!doctype html>\n' + // eslint-disable-line
-          ReactDOM.renderToString(
-            <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />
-          ));
+        res.send(`<!doctype html>
+        ${ReactDOM.renderToString(
+          <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />
+        )}`);
       }).catch((mountError) => {
-        console.log(mountError.stack);
+        console.error('MOUNT ERROR:', pretty.render(mountError.stack));
         return res.status(500);
       });
     } else {

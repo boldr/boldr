@@ -7,7 +7,7 @@ import Radio from 'components/md/SelectionControls/Radio';
 import { FlatButton, RaisedButton } from 'components/md/Buttons';
 import Paper from 'components/md/Papers';
 import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
-import renderTextField from 'components/atm.FormComponents/TextField';
+import renderTextField, { renderLabel } from 'components/atm.FormComponents/TextField';
 
 const style = {
   block: {
@@ -31,17 +31,7 @@ class EditorForm extends Component {
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
 
-    const renderLabel = (htmlFor, label) => <label className="sr-only" htmlFor={ htmlFor }>{label}</label>;
-
-    const renderError = (touched, error) => {
-      if (touched && error) {
-        return <span className="text-danger">{error}</span>;
-      }
-
-      return null;
-    };
-
-    const renderEditor = ({ input, label, meta: { touched, error } }) => (
+    const renderEditor = ({ input, label }) => (
       <div className="form-group">
         {renderLabel(input.name, label)}
         <BoldrEditor { ...input } label={ label } />
