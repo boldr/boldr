@@ -27,7 +27,7 @@ const conf = convict({
     port: {
       doc: 'The port to bind for the API.',
       format: 'port',
-      default: 8121,
+      default: 3000,
       env: 'API_PORT'
     },
     base: {

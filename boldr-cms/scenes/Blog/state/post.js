@@ -144,13 +144,19 @@ export function selectPost(postId) {
   };
 }
 
+export const postsToState = (list) => (
+  list.reduce((list, a) => ({
+    ...list,
+    [a.id]: a
+  }), {})
+);
 
-export const INITIAL_STATE = {
+
+const INITIAL_STATE = {
   isLoading: false,
   error: null,
   results: []
 };
-
 
 /**
  * Blog Reducer
