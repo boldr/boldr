@@ -181,7 +181,7 @@
     "react-router-redux": "^4.0.5",
     "redial": "^0.4.2",
     "redux": "^3.5.2",
-    "redux-auth-wrapper": "^0.7.0",
+    "redux-auth-wrapper": "^0.8.0",
     "redux-form": "^6.0.1",
     "redux-thunk": "^2.1.0",
     "reflexbox": "^2.1.0",
