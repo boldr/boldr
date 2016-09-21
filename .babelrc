@@ -26,7 +26,7 @@
           "polyfill": false, "regenerator": true
           }],
         ["module-resolver", {
-          "root": ["./boldr-cms"]
+          "root": ["./src"]
         }]
       ]
     },
@@ -40,7 +40,7 @@
           "polyfill": false, "regenerator": true
           }],
         ["module-resolver", {
-          "root": ["./boldr-cms"]
+          "root": ["./src"]
         }]
       ]
     },
@@ -55,7 +55,7 @@
           "polyfill": false, "regenerator": true
           }],
         ["module-resolver", {
-          "root": ["./boldr-cms"]
+          "root": ["./src"]
         }]
       ]
     }

@@ -5,8 +5,6 @@
   "main": "index.js",
   "directories": {
     "docs": "docs",
-    "api": "boldr-api",
-    "cms": "boldr-cms",
     "tools": "tools"
   },
   "betterScripts": {
@@ -24,34 +22,16 @@
         "NODE_ENV": "production"
       }
     },
-    "dev:api": {
-      "command": "nodemon --config boldr-api/nodemon.json ./bin/api.js",
-      "env": {
-        "NODE_ENV": "development",
-        "NODE_PATH": "./boldr-api",
-        "BABEL_ENV": "api",
-        "API_PORT": 8121
-      }
-    },
-    "debug": {
-      "command": "nodemon --config boldr-api/nodemon.json $2 --exec babel-node-debug ./bin/api.js",
-      "env": {
-        "NODE_ENV": "development",
-        "NODE_PATH": "./boldr-api",
-        "BABEL_ENV": "api",
-        "API_PORT": 8121
-      }
-    },
     "test:client": {
       "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './boldr-cms/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
-        "NODE_PATH": "./boldr-cms",
+        "NODE_PATH": "./src",
         "SSR_PORT": 3000
       }
     },
     "test:api": {
-      "command": "mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './boldr-api/**/*.test.js'",
+      "command": "mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './src/api/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
         "BABEL_ENV": "api"
@@ -61,20 +41,22 @@
       "command": "node tools/webpack/wp.dev.server.js",
       "env": {
         "NODE_ENV": "development",
-        "NODE_PATH": "./boldr-cms",
+
         "BABEL_ENV": "client-dev",
         "SSR_PORT": 3000,
-        "HOT_RELOAD_PORT": 3001
+        "HOT_RELOAD_PORT": 3001,
+        "WEBPACK_DLLS": 1
       }
     },
     "watch:server": {
-      "command": "node bin/server.js",
+      "command": "node bin/dev.js",
       "env": {
+        "DEBUG": "boldr:*",
         "NODE_ENV": "development",
-        "NODE_PATH": "./boldr-cms",
         "BABEL_ENV": "server",
         "SSR_PORT": 3000,
-        "HOT_RELOAD_PORT": 3001
+        "HOT_RELOAD_PORT": 3001,
+        "WEBPACK_DLLS": 1
       }
     }
   },
@@ -111,11 +93,11 @@
     "dev": "npm-run-all --parallel watch:client watch:server",
     "dev:api": "better-npm-run dev:api",
     "debug": "better-npm-run debug",
-    "knex": "./node_modules/.bin/knex --knexfile boldr-api/core/config/knexfile.js",
-    "lint": "./node_modules/.bin/eslint boldr-cms boldr-api",
+    "knex": "./node_modules/.bin/knex --knexfile src/api/core/config/knexfile.js",
+    "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "npm run lint -- --fix",
-    "migrate": "./node_modules/.bin/knex --knexfile boldr-api/core/config/knexfile.js migrate:latest",
-    "seed": "./node_modules/.bin/knex --knexfile boldr-api/core/config/knexfile.js seed:run",
+    "migrate": "./node_modules/.bin/knex --knexfile src/api/core/config/knexfile.js migrate:latest",
+    "seed": "./node_modules/.bin/knex --knexfile src/api/core/config/knexfile.js seed:run",
     "test": "npm-run-all -s test:client test:api",
     "test:api": "better-npm-run test:api",
     "test:client": "better-npm-run test:client",
@@ -188,6 +170,7 @@
     "reselect": "^2.5.4",
     "serialize-javascript": "1.3.0",
     "slugify": "^1.0.2",
+    "source-map-support": "^0.4.2",
     "superagent": "^2.3.0",
     "webfontloader": "^1.6.26",
     "webpack-isomorphic-tools": "^2.5.8",

@@ -35,7 +35,7 @@ const nodeConfig = { // eslint-disable-line
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
-    modules: ['boldr-cms', 'node_modules'],
+    modules: ['src', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
       components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),

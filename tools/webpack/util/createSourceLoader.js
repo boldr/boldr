@@ -8,6 +8,6 @@ module.exports = function createSourceLoader(spec) {
 
     return x;
   }, {
-    include: [path.resolve(appRootPath, 'boldr-cms')]
+    include: [path.resolve(appRootPath, 'src')]
   });
 };

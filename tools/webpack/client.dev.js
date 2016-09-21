@@ -42,7 +42,7 @@ const webpackConfig = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    modules: ['boldr-cms', 'node_modules'],
+    modules: ['src', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
       components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
