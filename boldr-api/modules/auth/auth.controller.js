@@ -10,6 +10,12 @@ import signToken from './signToken';
 
 const debug = require('debug')('boldr:auth:controller');
 
+/**
+ * register creates a new account in the database.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
 async function register(req, res) {
   try {
     // look for a matching email address
@@ -47,32 +53,12 @@ async function register(req, res) {
   }
 }
 
-// async function login(req, res) {
-//   try {
-//     // lookup the user and return the first match.
-//     const user = await User.query().where({ email: req.body.email }).eager('role').first();
-//
-//     if (user) {
-//       // check the password being sent against the hash in the database
-//       const passwordMatch = await user.authenticate(req.body.password);
-//       if (passwordMatch) {
-//         // remove the password from the response.
-//         user.stripPassword();
-//         // sign the token
-//         const token = await signToken(user);
-//         req.user = user;
-//         req.role = user.role[0].id;
-//         debug(req.session);
-//         return res.status(200).json({ token, user });
-//       }
-//       return responseHandler(new Error('Wrong username or password'), res, 422);
-//     }
-//     return responseHandler(new Error('Wrong username or password'), res, 422);
-//   } catch (e) {
-//     return responseHandler(e, res, 500);
-//   }
-// }
-
+/**
+ * login takes an email address and password, check the database, and issues a JWT.
+ * @param req
+ * @param res
+ * @param next
+ */
 async function login(req, res, next) {
   const user = await User.query().where({ email: req.body.email }).eager('role').first();
   passport.authenticate('local', (err, user, info) => {
@@ -127,49 +113,57 @@ async function checkUser(req, res) {
   return responseHandler(null, res, 200, { user: validUser });
 }
 
-function forgottenPassword(req, res, next) {
-  async.waterfall([
-    function(done) {
-      const token = generateVerifyCode();
-      done(token);
-    },
-    function(token, done) {
-      User.query().where({
-        email: req.body.email
-      })
-        .then((user) => {
-          if (!user) {
-            return responseHandler(new Error('Invalid user', res, 404));
-          }
-          user.update({ reset_password_token: token });
-          user.update({ reset_password_expiration: new Date(Date.now() + 3600000) }); // expire in 1 hour
-          return done(null, token, user);
-        });
-    },
-    async function(token, user, done) {
-      const mailBody = await forgotPasswordEmail(user);
-      const mailSubject = '[Boldr] Password Reset';
-      handleMail(user, mailBody, mailSubject);
-      return res.status(200).json(user);
+/**
+ * forgottenPassword takes an email address, generates a reset token, updates the user in the database, then sends
+ * an email with the token to reset the account password.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+async function forgottenPassword(req, res) {
+  try {
+    const user = await User.query().where({ email: req.body.email }).first();
+    if (!user) {
+      return responseHandler(new Error('No such user exists'), res, 404);
     }
-  ]);
+    const mailSubject = '[Boldr] Password Reset';
+    const token = generateVerifyCode();
+    await User.query().patchAndFetchById(user.id, { reset_password_token: token, reset_password_expiration: new Date(Date.now() + 3600000) });
+
+    const mailBody = forgotPasswordEmail(user);
+
+    await handleMail(user, mailBody, mailSubject);
+    return responseHandler(null, res, 200, { message: 'Sending email with reset link' });
+  } catch (e) {
+    return responseHandler(e, res, 500);
+  }
 }
 
-async function resetPassword(req, res, next) {
-  const user = await User.query().where({ reset_password_token: req.params.token }).then(user => {
+/**
+ * resetPassword takes the user's reset_password_token, and a new password, hashes it and updates the password
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+async function resetPassword(req, res) {
+  try {
+    const user = await User.query().where({ reset_password_token: req.body.token }).first();
     if (!user) {
       return responseHandler(new Error('Invalid user', res, 404));
-    } else {
-      user.password = req.body.password;
-      user.reset_password_token = null;
-      user.reset_password_expiration = null;
-      return user.save();
     }
-  });
-  const mailBody = await passwordModifiedEmail(user);
-  const mailSubject = '[Boldr] Password Changed';
-  handleMail(user, mailBody, mailSubject);
-  return res.status(200).json('Sent');
+    const mailSubject = '[Boldr] Password Changed';
+    const hash = await User.encryptPassword(req.body.password);
+    await User.query().patchAndFetchById(user.id, {
+      password: hash,
+      reset_password_expiration: null,
+      reset_password_token: null
+    });
+    const mailBody = await passwordModifiedEmail(user);
+    handleMail(user, mailBody, mailSubject);
+    return res.status(200).json('Sent');
+  } catch (error) {
+    return responseHandler(error, res, 500);
+  }
 }
 
 export { register, login, verify, checkUser, forgottenPassword, resetPassword };

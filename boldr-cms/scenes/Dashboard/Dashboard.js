@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { SiteLogo, Grid, Col, Row } from 'components';
-import NavigationDrawer from '../../components/md/NavigationDrawers';
-import { IconButton } from '../../components/md/Buttons';
-import FontIcon from '../../components/md/FontIcons';
+import NavigationDrawer from 'components/md/NavigationDrawers';
+import FontIcon from 'components/md/FontIcons';
 
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
@@ -22,15 +21,15 @@ const DrawerType = {
 
 class Dashboard extends Component {
   static propTypes = {
-    children: React.PropTypes.element,
-    toggleOpen: React.PropTypes.func,
-    articleListClicked: React.PropTypes.func,
-    articleEditorClicked: React.PropTypes.func,
-    dashboardClicked: React.PropTypes.func,
-    mediaClicked: React.PropTypes.func,
-    membersClicked: React.PropTypes.func,
-    settingsClicked: React.PropTypes.func,
-    homeClicked: React.PropTypes.func
+    children: PropTypes.element,
+    toggleOpen: PropTypes.func,
+    articleListClicked: PropTypes.func,
+    articleEditorClicked: PropTypes.func,
+    dashboardClicked: PropTypes.func,
+    mediaClicked: PropTypes.func,
+    membersClicked: PropTypes.func,
+    settingsClicked: PropTypes.func,
+    homeClicked: PropTypes.func
   };
   render() {
     const navItems = [

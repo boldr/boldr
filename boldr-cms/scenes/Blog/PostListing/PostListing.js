@@ -1,44 +1,31 @@
-import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { Loader, Grid, Row, Col } from '../../../components';
-import { fetchPostsIfNeeded } from '../state/post';
-import PostCard from '../components/mol.PostCard';
+import { Loader } from 'components';
+import { getPostsArray } from 'state/dux/post';
+import PostListingGroup from './PostListingGroup';
 
-@provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchPostsIfNeeded())
-})
-class PostListing extends Component {
-  componentDidMount() {
-    this.props.fetchPostsIfNeeded();
-  }
-  render() {
+const PostListing = (props) => {
     return (
-      <Grid fluid>
-        <Row>
-            {
-              this.props.posts.results.map(post =>
-                <Col key={ post.id } xs={ 12 } md={ 4 }>
-                  <PostCard { ...post } />
-                </Col>)
-            }
-        </Row>
-      </Grid>
+      <div>
+        {
+          props.isLoading ? <Loader /> :
+          <PostListingGroup posts={ props.allPosts } />
+        }
+      </div>
     );
-  }
-}
+};
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
+    allPosts: getPostsArray(state),
     isLoading: state.posts.isLoading
   };
 };
 
-export default connect(mapStateToProps, { fetchPostsIfNeeded })(PostListing);
+export default connect(mapStateToProps)(PostListing);
 
 PostListing.propTypes = {
-  fetchPostsIfNeeded: React.PropTypes.func,
-  posts: React.PropTypes.object.isRequired
+  allPosts: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool
 };

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { createPost } from '../../Blog/state/post';
 import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
 import EditorForm from '../components/mol.EditorForm';
 

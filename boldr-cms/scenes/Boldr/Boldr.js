@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { Notifications } from 'components';
-import { fetchSettingsIfNeeded } from './state/boldr';
+import { fetchSettingsIfNeeded } from 'state/dux/boldr';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())

@@ -24,13 +24,13 @@ import routes from '../boldr-api/modules/routes';
 import { monkeyPatchRouteMethods } from '../boldr-api/utils';
 import Post from '../boldr-api/modules/post/post.model';
 // Boldr Deps
-import createStore from './core/state/createStore';
+import createStore from './state/createStore';
 import ApiClient from './core/api/ApiClient';
 
 import { API_PORT, API_HOST, SSR_PORT, HOST } from './core/config';
 import getRoutes from './scenes/index';
 import Html from './components/atm.Html';
-import { postsToState } from './scenes/Blog/state/post';
+import { postsToState } from './state/dux/post';
 
 const debug = require('debug')('boldr:ssr-server');
 
@@ -134,7 +134,7 @@ async function handleInitialRender(req, res) {
         res.status(200);
         global.navigator = { userAgent: req.headers['user-agent'] };
         res.send(`<!doctype html>
-        ${ReactDOM.renderToString(renderHtml)}`);
+        ${ ReactDOM.renderToString(renderHtml) }`);
       }).catch((mountError) => {
         console.error('MOUNT ERROR:', pretty.render(mountError.stack));
         return res.status(500);

@@ -10,8 +10,8 @@ import WebFontLoader from 'webfontloader';
 // Non-vendor
 import { TOKEN_KEY } from './core/config';
 import ApiClient from './core/api/ApiClient';
-import createStore from './core/state/createStore';
-import { checkAuth } from './scenes/Account/state/actions';
+import createStore from './state/createStore';
+import { checkAuth } from './state/dux/auth';
 import getRoutes from './scenes';
 import './styles/main.scss';
 

@@ -10,6 +10,8 @@ import { ListItem } from '../../md/Lists';
 import Menu from '../../md/Menus';
 import defaultMenuItems from '../data/menu-items.json';
 import { goHome } from '../../../scenes/Boldr/state/boldr';
+import { logout } from 'state/dux/auth';
+
 import Head from '../Head';
 import Item from '../Item';
 
@@ -18,23 +20,6 @@ import styles from './Header.css';
 const cx = styles::classNames;
 const kebabMenu = 'more_vert';
 
-const authLinks = (
-  <span>
-    <Link to="/profile">
-      <ListItem primaryText="Profile" />
-    </Link>
-    <Link to="/account/preferences">
-      <ListItem primaryText="Preferences" />
-    </Link>
-    <ListItem primaryText="Sign out" />
-  </span>
-);
-const unAuthLinks = (
-  <span>
-    <Link to="/account/login"><ListItem primaryText="Log In" /></Link>
-    <Link to="/account/signup"><ListItem primaryText="Sign Up" /></Link>
-    </span>
-);
 
 class Header extends Component {
   constructor(props) {
@@ -59,10 +44,6 @@ class Header extends Component {
     const height = this.state.mobileState ? `${window.innerHeight - 75}px` : '';
     this.refs.dropdownContent.style.height = height;
   };
-
-  handleClickHome(dispatch) {
-    this.props.actions.goHome();
-  }
 
   handleResize = () => {
     const mobileState = window.innerWidth < this.props.breakpoint;
@@ -107,7 +88,9 @@ class Header extends Component {
   close = () => {
     this.setState({ authOpen: false });
   };
-
+  handleLogout = () => {
+    this.props.actions.logout();
+  }
   render() {
     const {
       className,
@@ -126,7 +109,23 @@ class Header extends Component {
         mobile={ mobileState }
       />
     );
-
+    const authLinks = (
+      <span>
+        <Link to="/profile">
+          <ListItem primaryText="Profile" />
+        </Link>
+        <Link to="/account/preferences">
+          <ListItem primaryText="Preferences" />
+        </Link>
+        <ListItem primaryText="Sign out" onClick={ this.handleLogout } />
+      </span>
+    );
+    const unAuthLinks = (
+      <span>
+        <Link to="/account/login"><ListItem primaryText="Log In" /></Link>
+        <Link to="/account/signup"><ListItem primaryText="Sign Up" /></Link>
+      </span>
+    );
     const renderAuthMenu = (
       <Menu isOpen={ this.state.authOpen } close={ this.close }
         toggle={ (
@@ -230,7 +229,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({ goHome }, dispatch)
+    actions: bindActionCreators({ goHome, logout }, dispatch)
   };
 };
 

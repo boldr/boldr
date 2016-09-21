@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { CardActions } from '../../../components/md/Cards';
-import TextField from '../../../components/md/TextFields';
-import { RaisedButton, FlatButton } from '../../../components/md/Buttons';
+import { CardActions } from 'components/md/Cards';
+import TextField from 'components/md/TextFields';
+import { RaisedButton } from 'components/md/Buttons';
 
 import validate from './validate';
 

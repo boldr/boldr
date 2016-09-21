@@ -1,19 +1,17 @@
 import request from 'superagent';
-import { combineReducers } from 'redux';
-import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_POSTS } from 'core/config';
-import { notificationSend } from 'state/dux/notifications';
+import { createSelector } from 'reselect';
+import { API_BASE, API_POSTS, TOKEN_KEY } from 'core/config';
 import { processResponse } from 'core/api/helpers';
-import * as types from './constants';
+import * as types from '../actionTypes';
+import { notificationSend } from './notifications';
 
 const requestPosts = () => {
   return { type: types.FETCH_POSTS_REQUEST };
 };
 const receivePosts = (json) => ({
   type: types.FETCH_POSTS_SUCCESS,
-  data: json.data,
-  pagination: json.pagination
+  results: json.results
 });
 const receivePostsFailed = (err) => ({
   type: types.FETCH_POSTS_FAILURE, error: err
@@ -42,7 +40,7 @@ export function fetchPostsIfNeeded() {
  */
 function shouldFetchPosts(state) {
   const posts = state.posts;
-  if (!posts.data) {
+  if (!posts) {
     return true;
   }
   if (posts.isLoading) {
@@ -57,7 +55,7 @@ function shouldFetchPosts(state) {
 export function fetchPosts() {
   return dispatch => {
     dispatch(requestPosts());
-    return fetch(`${API_BASE}/posts`)
+    return fetch(`${API_BASE}/posts?include=[author,tags]`)
       .then(response => processResponse(response))
       .then(json => dispatch(receivePosts(json)))
       .catch(err => {
@@ -66,34 +64,6 @@ export function fetchPosts() {
   };
 }
 
-const requestPost = () => {
-  return { type: types.LOAD_POST_REQUEST };
-};
-const receivedPost = (json) => ({
-  type: types.LOAD_POST_SUCCESS,
-  payload: json
-});
-const receivePostFailed = (err) => ({
-  type: types.LOAD_POST_FAILURE,
-  error: err
-});
-
-/**
- * Retrieves a specific post from the API based on the value of its slug
- * @param  {string} slug the slug is the title of the post normalized / sluggified
- * @return {Object}      The post object
- */
-export function loadPost(slug) {
-  return dispatch => {
-    dispatch(requestPost());
-    return fetch(`${API_POSTS}/${slug}`)
-      .then(response => processResponse(response))
-      .then(json => dispatch(receivedPost(json)))
-      .catch(err => {
-        dispatch(receivePostFailed(err));
-      });
-  };
-}
 /**
  * CREATE ARTICLE ACTIONS
  */
@@ -120,18 +90,19 @@ const errorCreatingPost = (err) => {
  * @param  {Object} articleData The data from the form / article editor
  * @return {Object}             Response object.
  */
-export function createPost(postData) {
+export function createPost(data) {
   return (dispatch) => {
     dispatch(beginCreatePost());
     return request
       .post(API_POSTS)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
       .send({
-        title: postData.title,
-        content: postData.content,
-        tags: postData.tags,
-        status: postData.status,
-        excerpt: postData.excerpt
+        title: data.title,
+        content: data.content,
+        feature_image: data.feature_image,
+        tags: data.tags,
+        status: data.status,
+        excerpt: data.excerpt
       })
       .then(response => {
         if (response.status === 201) {
@@ -149,26 +120,6 @@ export function createPost(postData) {
   };
 }
 
-/**
- * Select Post
- * @description Used when on the article list state.
- */
-const postSelected = (articleId) => {
-  return {
-    type: types.SELECT_POST,
-    id: articleId
-  };
-};
-
-const receiveSelectedPost = (response) => ({
-  type: types.SELECT_POST_SUCCESS,
-  current: response.body
-});
-
-const receiveSelectedPostFailed = (err) => ({
-  type: types.SELECT_POST_FAIL,
-  error: err
-});
 
 /**
  * Takes the user selected article and fetches the data from
@@ -192,69 +143,38 @@ export function selectPost(postId) {
       });
   };
 }
-const updatePostDetails = () => {
-  return { type: types.UPDATE_POST_REQUEST };
-};
-const updatePostSuccess = () => {
-  return { type: types.UPDATE_POST_SUCCESS };
-};
-const errorUpdatingPost = (err) => {
-  return {
-    type: types.UPDATE_POST_FAIL,
-    error: err
-  };
-};
 
-export function updatePost(postData) {
-  // const articleSlug = slug(articleData.title);
-  const payload = {
-    title: postData.title,
-    content: postData.content,
-    excerpt: postData.excerpt,
-    feature_image: postData.feature_image,
-    status: postData.status
-  };
-  return dispatch => {
-    dispatch(updatePostDetails(postData));
-    return request
-      .put(`${API_POSTS}/${postData.origSlug}`)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
-      .send({
-        // title: articleData.title,
-        content: postData.content,
-        excerpt: postData.excerpt,
-        feature_image: postData.feature_image,
-        tags: postData.tags,
-        status: postData.status
-      })
-      .then(response => {
-        dispatch(updatePostSuccess(response));
-        dispatch(notificationSend({
-          message: 'Updated article.',
-          kind: 'info',
-          dismissAfter: 3000
-        }));
-      })
-      .catch(
-        err => {
-          dispatch(errorUpdatingPost(err.message));
-          dispatch(notificationSend({
-            message: 'There was a problem updating the article.',
-            kind: 'error',
-            dismissAfter: 3000
-          }));
-        });
-  };
-}
+//
+// Selectors
+// -----------------
 
-export const INITIAL_STATE = {
+export const postsToState = (list) => (
+  list.reduce((list, a) => ({
+    ...list,
+    [a.id]: a
+  }), {})
+);
+
+export const getPosts = state => state.posts;
+export const getPostIdParam = (state, params) => params.postId;
+
+export const getSelectedPost = createSelector(
+  getPosts,
+  getPostIdParam,
+  (posts, id) => posts[id]
+);
+
+export const getPostsArray = createSelector(
+  getPosts,
+  posts => Object.keys(posts).map(k => posts[k])
+);
+
+//
+// Reducer
+// -----------------
+const INITIAL_STATE = {
   isLoading: false,
-  error: null,
-  data: [],
-  pagination: {},
-  selectedPost: {},
-  current: {},
-  isEditing: false
+  error: null
 };
 
 /**
@@ -262,7 +182,7 @@ export const INITIAL_STATE = {
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
-export default function searchReducer(state = INITIAL_STATE, action = {}) {
+export default function postsReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case types.FETCH_POSTS_REQUEST:
     case types.LOAD_POST_REQUEST:
@@ -274,9 +194,9 @@ export default function searchReducer(state = INITIAL_STATE, action = {}) {
     case types.FETCH_POSTS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        pagination: action.pagination,
-        data: action.data
+        isLoading: false
+        // pagination: action.pagination,
+        // results: action.results
       };
     case types.LOAD_POST_SUCCESS:
       return {
@@ -322,3 +242,4 @@ export default function searchReducer(state = INITIAL_STATE, action = {}) {
       return state;
   }
 }
+

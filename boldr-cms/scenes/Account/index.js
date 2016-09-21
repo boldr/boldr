@@ -50,9 +50,12 @@ export default (store, connect) => ({
   {
     path: 'reset-password/:token',
     getComponent(nextState, cb) {
-      System.import('./ResetPassword')
-        .then(loadModule(cb))
-        .catch(errorLoading);
+      require.ensure([
+        './ResetPassword'
+      ], (require) => {
+        let ResetPage = require('./ResetPassword').default;
+        cb(null, ResetPage);
+      });
     }
   },
   {

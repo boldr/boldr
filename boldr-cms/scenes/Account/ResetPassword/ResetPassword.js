@@ -2,25 +2,28 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { Heading, Grid, Col, Row } from 'components';
-import { Card, CardText, CardActions } from '../../../components/md/Cards';
-import TextField from '../../../components/md/TextFields';
-import { RaisedButton } from '../../../components/md/Buttons';
-import inlineStyles from '../../../theme/inlineStyles';
-import { resetPassword } from '../state/actions';
+import { Card, CardText, CardActions } from 'components/md/Cards';
+import TextField from 'components/md/TextFields';
+import { RaisedButton } from 'components/md/Buttons';
+import inlineStyles from 'theme/inlineStyles';
+import { resetPassword } from 'state/dux/auth';
 
-class ResetPassword extends React.Component {
+class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = { password: '', confirm: '' };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleConfirmChange = this.handleConfirmChange.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ password: event });
   }
-
+  handleConfirmChange(event) {
+    this.setState({ confirm: event });
+  }
   handleReset(event) {
     event.preventDefault();
     this.props.dispatch(resetPassword(this.state.password, this.props.params.token));
@@ -44,7 +47,7 @@ class ResetPassword extends React.Component {
                   <form onSubmit={ this.handleReset }>
                     { renderHeader }
                     <CardText>
-                      <Row>>
+                      <Row>
                         <TextField
                           type="password"
                           name="password"
@@ -59,7 +62,7 @@ class ResetPassword extends React.Component {
                           name="password"
                           id="password"
                           floatingLabelText="Confirm password" style={ inlineStyles.underlineFocusStyle }
-                          value={ this.state.confirm } onChange={ this.handleChange }
+                          value={ this.state.confirm } onChange={ this.handleConfirmChange }
                         />
                       </Row>
                     </CardText>

@@ -1,17 +1,27 @@
-import request from 'superagent';
-import { push } from 'react-router-redux';
+import { SubmissionError } from 'redux-form';
 import decode from 'jwt-decode';
-import fetch from '../../../core/fetch';
-import { API_BASE, API_AUTH } from '../../../core/config';
-
-import { notificationSend } from '../../Boldr/state/notifications';
-import * as types from './constants';
+import * as api from 'core/api/authService';
+import * as types from '../actionTypes';
+import { notificationSend } from './notifications';
+import { TOKEN_KEY } from 'core/config';
 
 /**
- * SIGNUP ACTION TYPES
+ * Error catcher to prevent redux-form from swallowing
+ * @param {object} error
+ * @returns {Promise.<*>}
  */
+const catchValidation = error => {
+  if (error.message) {
+    if (error.message === 'Validation failed' && error.data) {
+      throw new SubmissionError(error.data);
+    }
+    throw new SubmissionError({ _error: error.message });
+  }
+  return Promise.reject(error);
+};
 
 // Signup
+// -----------------
 const beginSignUp = () => {
   return { type: types.CREATE_ACCOUNT_REQUEST };
 };
@@ -37,9 +47,7 @@ export function signup(data) {
   return (dispatch) => {
     dispatch(beginSignUp());
 
-    return request
-      .post(`${API_AUTH}/signup`)
-      .send(data)
+    return api.doSignup(data)
       .then(response => {
         if (response.status === 201) {
           dispatch(signUpSuccess(response));
@@ -64,11 +72,8 @@ export function signup(data) {
   };
 }
 
-
-/**
- * LOGIN ACTIONS
- */
-
+// Login
+// -----------------
 const beginLogin = () => {
   return { type: types.LOGIN_REQUEST };
 };
@@ -98,15 +103,14 @@ function loginError(err) {
     error: err
   };
 }
+
 // Login Action
 export function login(loginData, redir) {
   return (dispatch) => {
     dispatch(beginLogin());
-    return request
-      .post(`${API_BASE}/auth/login`)
-      .send(loginData)
+    return api.doLogin(loginData)
       .then(response => {
-        localStorage.setItem('token', response.body.token);
+        localStorage.setItem(TOKEN_KEY, response.body.token);
         dispatch(loginSuccess(response));
         dispatch(notificationSend({
           message: 'Welcome back!',
@@ -126,25 +130,19 @@ export function login(loginData, redir) {
           kind: 'error',
           dismissAfter: 3000
         }));
-      });
+      }, catchValidation);
   };
 }
 
-/**
- * LOGOUT ACTIONS
- */
-
-export function logoutSuccess() {
+// Logout
+// -----------------
+function logoutSuccess() {
   return { type: types.LOGOUT_USER };
 }
 
-export function logoutError() {
-  return { type: types.LOGOUT_USER_FAIL };
-}
-
-export function logOut() {
+export function logout() {
   return (dispatch) => {
-    localStorage.removeItem('token');
+    localStorage.removeItem(TOKEN_KEY);
     dispatch(logoutSuccess());
     dispatch(notificationSend({
       message: 'You are now logged out of your account.',
@@ -154,10 +152,8 @@ export function logOut() {
   };
 }
 
-/**
- * TOKEN CHECK ACTIONS
- */
-
+// Auth Check
+// -----------------
 function checkAuthRequest() {
   return { type: types.CHECK_AUTH_REQUEST };
 }
@@ -190,9 +186,7 @@ function checkAuthFailure(error) {
 export function checkAuth(token) {
   return (dispatch) => {
     dispatch(checkAuthRequest());
-    return request
-      .get(`${API_AUTH}/check`)
-      .set('Authorization', `${token}`)
+    return api.doAuthCheck(token)
       .then(response => {
         dispatch(checkAuthSuccess(response, token));
       })
@@ -207,21 +201,15 @@ export function checkAuth(token) {
   };
 }
 
-
-/**
- * FORGOT PASSWORD ACTION TYPES
- */
-
+// Forgot Password
+// -----------------
 export function forgotPassword(email) {
   return (dispatch) => {
     dispatch({
       type: types.FORGOT_PASSWORD_REQUEST
     });
-    return fetch(`${API_AUTH}/forgot-password`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    }).then((response) => {
+    return api.doForgotPassword(email)
+      .then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
           dispatch({
@@ -241,22 +229,15 @@ export function forgotPassword(email) {
   };
 }
 
-/**
- * RESET PASSWORD ACTION TYPES
- */
-
-export function resetPassword(password, confirm, pathToken) {
+// Reset Password
+// -----------------
+export function resetPassword(password, token) {
   return (dispatch) => {
     dispatch({
       type: types.RESET_PASSWORD_REQUEST
     });
-    return fetch(`${API_AUTH}/reset-password/${pathToken}`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        password
-      })
-    }).then((response) => {
+    return api.doResetPassword(password, token)
+      .then((response) => {
       if (response.ok) {
         return response.json().then((json) => {
           browserHistory.push('/login');
@@ -275,4 +256,101 @@ export function resetPassword(password, confirm, pathToken) {
       }
     });
   };
+}
+
+/**
+ * INITIAL STATE
+ */
+const INITIAL_STATE = {
+  isAuthenticated: false,
+  error: null,
+  isLoading: false,
+  token: null,
+  hydrated: false,
+  user: {
+    display_name: null,
+    email: null,
+    first_name: null,
+    id: null,
+    last_name: null,
+    avatar_url: null,
+    roleId: null,
+    role: null
+  }
+};
+
+/**
+ * Auth Reducer
+ * @param  {Object} state       The initial state
+ * @param  {Object} action      The action object
+ */
+export default function authReducer(state = INITIAL_STATE, action = {}) {
+  if (!state.hydrated) {
+    state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
+  }
+  switch (action.type) {
+    case types.LOGIN_FAILURE:
+    case types.FORGOT_PASSWORD_FAILURE:
+    case types.CREATE_ACCOUNT_FAILURE:
+    case types.RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+        error: action.error
+      };
+    case types.LOGIN_REQUEST:
+    case types.CHECK_AUTH_REQUEST:
+    case types.CREATE_ACCOUNT_REQUEST:
+    case types.FORGOT_PASSWORD_REQUEST:
+    case types.RESET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isAuthenticated: false
+      };
+    case types.LOGIN_SUCCESS:
+    case types.CHECK_AUTH_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: true,
+        token: action.token,
+        user: {
+          display_name: action.user.display_name,
+          email: action.user.email,
+          first_name: action.user.first_name,
+          id: action.user.id,
+          last_name: action.user.last_name,
+          avatar_url: action.user.avatar_url,
+          roleId: action.user.roleId,
+          role: action.user.role
+        }
+      };
+    case types.LOGOUT_USER:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+        token: '',
+        user: {}
+      };
+    case types.CREATE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case types.RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case types.FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    default:
+      return state;
+  }
 }
