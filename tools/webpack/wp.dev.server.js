@@ -2,10 +2,11 @@ const Express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('../config');
 const wpConfig = require('./client.dev.js');
 
 const host = 'localhost';
-const port = 3001;
+const port = config.HOT_RELOAD_PORT;
 
 const compiler = webpack(wpConfig);
 

@@ -1,6 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
-var projectRootPath = path.resolve(__dirname, '../../../');
+const path = require('path');
+const webpack = require('webpack');
+
+const projectRootPath = path.resolve(__dirname, '../../../');
 
 module.exports = {
   devtool: process.env.NODE_ENV === 'production' ? null : 'inline-source-map',
@@ -16,11 +17,6 @@ module.exports = {
       'babel-polyfill',
 
       // <babel-runtime>
-      //
-      // Generate this list using the following command against the stdout of
-      // webpack running against the source bundle config (dev/prod.js):
-      //
-      //    webpack --config webpack/dev.config.js --display-modules | egrep -o 'babel-runtime/\S+' | sed 's/\.js$//' | sort | uniq
       'babel-runtime/core-js/array/from',
       'babel-runtime/core-js/get-iterator',
       'babel-runtime/core-js/is-iterable',

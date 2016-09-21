@@ -5,14 +5,15 @@
     "ignore": [
       "docs",
       ".git",
-      "node_modules/**/*",
-      "boldr-cms/"
+      "node_modules/**/*"
     ],
     "ext": "js json",
     "env": {
       "DEBUG":"boldr*"
     },
     "watch": [
-      "./**/*.js"
-    ]
+      "./src/api/**/*.js",
+      "./src/server.js"
+    ],
+    "legacyWatch": false
 }

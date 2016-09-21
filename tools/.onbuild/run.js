@@ -8,8 +8,9 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('./isomorphic
     .server(__dirname, () => {
       require('./server.js');
     });
-    global.__CLIENT__ = false;
-    global.__SERVER__ = true;
-    global.__DEV__ = false;
-    global.__DLLS__ = false;
-    global.webpackIsomorphicTools = webpackIsomorphicTools;
+
+global.__CLIENT__ = false;
+global.__SERVER__ = true;
+global.__DEV__ = false;
+global.__DLLS__ = false;
+global.webpackIsomorphicTools = webpackIsomorphicTools;

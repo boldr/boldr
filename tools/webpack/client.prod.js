@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 
-const bcfg = require('../buildConfig');
+const config = require('../config');
 const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
@@ -16,13 +16,13 @@ const clientProdConfig = {
   stats: true,
   bail: true,
   devtool: false,
-  context: bcfg.ABS_ROOT,
+  context: config.ABS_ROOT,
   entry: {
-    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.CMS_SRC, 'client.js')],
+    main: [require.resolve('./util/polyfill'), path.join(config.CMS_SRC, 'client.js')],
     vendor: VENDOR_BUNDLE
   },
   output: {
-    path: bcfg.ASSETS_DIR,
+    path: config.ASSETS_DIR,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/assets/'
@@ -32,7 +32,7 @@ const clientProdConfig = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: bcfg.NODE_MODULES_DIR
+        exclude: config.NODE_MODULES_DIR
       },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -58,10 +58,10 @@ const clientProdConfig = {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
     modules: ['src', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
-      components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
-      core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
-      scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
+      react$: require.resolve(path.join(config.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(config.CMS_SRC, 'components')),
+      core: require.resolve(path.join(config.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(config.CMS_SRC, 'scenes'))
     }
   },
   plugins: [
@@ -101,7 +101,7 @@ const clientProdConfig = {
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new WatchMissingNodeModulesPlugin(bcfg.NODE_MODULES_DIR),
+    new WatchMissingNodeModulesPlugin(config.NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin
   ],
   node: {

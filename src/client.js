@@ -6,6 +6,7 @@ import { Router, browserHistory, match } from 'react-router/es6';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { trigger } from 'redial';
 import WebFontLoader from 'webfontloader';
+import io from 'socket.io-client';
 
 // Non-vendor
 import { TOKEN_KEY } from './core/config';
@@ -37,6 +38,21 @@ const history = syncHistoryWithStore(browserHistory, store, {
 });
 
 const routes = getRoutes(store, history);
+
+function initSocket() {
+  const socket = io('/', { transports: ['websocket'] });
+  socket.on('news', (data) => {
+    console.log(data);
+    socket.emit('my other event', { my: 'data from client' });
+  });
+  socket.on('msg', (data) => {
+    console.log(data);
+  });
+
+  return socket;
+}
+
+global.socket = initSocket();
 
 let render = () => {
   const { pathname, search, hash } = window.location;

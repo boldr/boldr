@@ -29,4 +29,8 @@ redisClient.on('+node', (data) => {
   logger.info(data, 'node is connected');
 });
 
+const pubClient = new Redis('redis://127.0.0.1:6379/4');
+const subClient = new Redis('redis://127.0.0.1:6379/4', { return_buffers: true });
+
+export { pubClient, subClient };
 export default redisClient;

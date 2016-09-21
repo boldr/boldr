@@ -5,14 +5,14 @@ const HappyPack = require('happypack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const debug = require('debug')('webpack:dev');
 
-const bcfg = require('../buildConfig');
+const config = require('../config');
 const isomorphicConfig = require('./isomorphic.config');
 const dllHelpers = require('./util/dllHelpers');
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 
-const assetsPath = bcfg.ASSETS_DIR;
+const assetsPath = config.ASSETS_DIR;
 dotenv.config({ silent: true });
 
 const validDLLs = dllHelpers.isValidDLLs(['vendor'], assetsPath);
@@ -21,33 +21,33 @@ if (process.env.WEBPACK_DLLS === '1' && !validDLLs) {
   debug('webpack dlls disabled');
 }
 
-const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${bcfg.HOT_RELOAD_PORT}/__webpack_hmr`;
+const HMR = `webpack-hot-middleware/client?reload=true&path=http://localhost:${config.HOT_RELOAD_PORT}/__webpack_hmr`;
 const webpackConfig = {
   target: 'web',
   stats: false,
   devtool: 'cheap-module-eval-source-map',
-  context: bcfg.ABS_ROOT,
+  context: config.ABS_ROOT,
   entry: {
     main: [
       'react-hot-loader/patch',
       HMR,
-      path.join(bcfg.CMS_SRC, 'client.js')
+      path.join(config.CMS_SRC, 'client.js')
     ]
   },
   output: {
-    path: bcfg.BUILD_DIR,
+    path: config.BUILD_DIR,
     filename: '[name].js',
     chunkFilename: '[name]-chunk.js',
-    publicPath: `http://localhost:${bcfg.HOT_RELOAD_PORT}/assets/`
+    publicPath: `http://localhost:${config.HOT_RELOAD_PORT}/assets/`
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     modules: ['src', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
-      components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
-      core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
-      scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
+      react$: require.resolve(path.join(config.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(config.CMS_SRC, 'components')),
+      core: require.resolve(path.join(config.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(config.CMS_SRC, 'scenes'))
     }
   },
   module: {
@@ -132,7 +132,5 @@ const webpackConfig = {
     global: true
   }
 };
-if (process.env.WEBPACK_DLLS === '1' && validDLLs) {
-  dllHelpers.installVendorDLL(webpackConfig, 'vendor');
-}
+
 module.exports = webpackConfig;

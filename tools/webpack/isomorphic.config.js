@@ -1,12 +1,12 @@
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const path = require('path');
-const bcfg = require('../buildConfig');
+const config = require('../config');
 
 module.exports = {
   debug: false,
   patch_require: true,
-  webpack_assets_file_path: path.join(bcfg.BUILD_DIR, 'webpack-assets.json'),
-  webpack_stats_file_path: path.join(bcfg.BUILD_DIR, 'webpack-stats.json'),
+  webpack_assets_file_path: path.join(config.BUILD_DIR, 'webpack-assets.json'),
+  webpack_stats_file_path: path.join(config.BUILD_DIR, 'webpack-stats.json'),
   port: 8888,
   assets: {
     images: {

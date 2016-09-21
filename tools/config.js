@@ -2,7 +2,7 @@ const path = require('path');
 
 const ABS_ROOT = path.normalize(path.join(__dirname, '..'));
 
-const bcfg = Object.freeze({
+const config = Object.freeze({
   ABS_ROOT,
   NODE_MODULES_DIR: path.join(ABS_ROOT, 'node_modules'),
   BUILD_DIR: path.join(ABS_ROOT, 'static'),
@@ -17,4 +17,4 @@ const bcfg = Object.freeze({
   API_PORT: process.env.API_SERVER_PORT || 8121
 });
 
-module.exports = bcfg;
+module.exports = config;

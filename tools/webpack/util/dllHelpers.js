@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+
 const projectRootPath = path.resolve(__dirname, '../../../');
 
 function installVendorDLL(config, dllName) {

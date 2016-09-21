@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const NodeExternals = require('webpack-node-externals');
 
-const bcfg = require('../buildConfig');
+const config = require('../config');
 
 dotenv.config({
   silent: true
@@ -19,15 +19,15 @@ const nodeConfig = { // eslint-disable-line
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  context: bcfg.CMS_DIR,
+  context: config.CMS_DIR,
   devtool: 'source-map',
   entry: {
     server: [
-      path.join(bcfg.CMS_SRC, 'server.js')
+      path.join(config.CMS_SRC, 'server.js')
     ]
   },
   output: {
-    path: bcfg.BUILD_DIR,
+    path: config.BUILD_DIR,
     publicPath: '/assets/',
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name].js',
@@ -37,10 +37,10 @@ const nodeConfig = { // eslint-disable-line
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
     modules: ['src', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
-      components: require.resolve(path.join(bcfg.CMS_SRC, 'components')),
-      core: require.resolve(path.join(bcfg.CMS_SRC, 'core')),
-      scenes: require.resolve(path.join(bcfg.CMS_SRC, 'scenes'))
+      react$: require.resolve(path.join(config.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(config.CMS_SRC, 'components')),
+      core: require.resolve(path.join(config.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(config.CMS_SRC, 'scenes'))
     }
   },
   module: {
@@ -48,7 +48,7 @@ const nodeConfig = { // eslint-disable-line
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: bcfg.NODE_MODULES_DIR
+        exclude: config.NODE_MODULES_DIR
       },
       { test: /\.json$/, loader: 'json-loader' },
       {

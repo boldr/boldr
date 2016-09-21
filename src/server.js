@@ -5,10 +5,13 @@ import express from 'express';
 import compression from 'compression';
 import passport from 'passport';
 import errorHandler from 'errorhandler';
+import SocketIO from 'socket.io';
+import adapter from 'socket.io-redis';
+import { subClient, pubClient } from './api/db/redis';
 
 // Boldr API Deps
 import { coreMiddleware, sessionMiddleware } from './api';
-
+import socketHandler from './api/middleware/socketHandler';
 import DbConnection from './api/db/connection';
 import routes from './api/modules/routes';
 import { monkeyPatchRouteMethods } from './api/utils';
@@ -25,7 +28,7 @@ DbConnection.init();
 
 const app = new express();
 const server = http.createServer(app);
-
+const io = new SocketIO(server);
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'assets')));
@@ -57,12 +60,50 @@ app.use((req, res, next) => {
 
   next();
 });
+io.set('transports', ['websocket']);
+
+io.adapter(adapter({ pubClient, subClient }));
+io.use((socket, next) => {
+    // Wrap the express middleware
+  sessionMiddleware(socket.request, {}, next);
+});
+socketHandler(io);
 
 app.use(conf.get('api.base'), routes);
 
 app.get('*', handleInitialRender);
 
-server.listen(SSR_PORT);
-console.log(`🎯   ===> Application running in ${process.env.NODE_ENV} on ${SSR_PORT}`);
+const bufferSize = 100;
+const messageBuffer = new Array(bufferSize);
+let messageIndex = 0;
+
+if (SSR_PORT) {
+  io.on('connection', (socket) => {
+    socket.emit('news', { msg: 'socket connected' });
+    socket.join('/');
+    socket.on('history', () => {
+      for (let index = 0; index < bufferSize; index++) {
+        const msgNo = (messageIndex + index) % bufferSize;
+        const msg = messageBuffer[msgNo];
+        if (msg) {
+          socket.emit('msg', msg);
+        }
+      }
+    });
+
+    socket.on('msg', (data) => {
+      data.id = messageIndex;
+      messageBuffer[messageIndex % bufferSize] = data;
+      messageIndex++;
+      io.emit('msg', data);
+    });
+  });
+
+  server.listen(SSR_PORT);
+  console.log(`🎯   ===> Application running in ${process.env.NODE_ENV} on ${SSR_PORT}`);
+} else {
+  console.log('You need to specify a port in the configuration.');
+}
+
 
 export default server;
