@@ -1,8 +1,8 @@
 import request from 'superagent';
-import fetch from '../../../../core/fetch';
-import { notificationSend } from '../../../Boldr/state/notifications';
-import { API_BASE, API_MEDIA, TOKEN_KEY } from '../../../../core/config';
-import * as types from './constants';
+import fetch from 'isomorphic-fetch';
+import { notificationSend } from 'state/dux/notifications';
+import { API_BASE, API_MEDIA, TOKEN_KEY } from 'core/config';
+import * as types from '../actionTypes';
 
 const fetchMediaStart = () => {
   return { type: types.GET_MEDIA_REQUEST };

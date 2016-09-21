@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { createPost } from '../../Blog/state/post';
-import { clearCurrentPost } from '../../Blog/SinglePost/actions';
+import { createPost } from 'state/dux/post';
 import EditorForm from '../components/mol.EditorForm';
 
 class NewArticle extends Component {
   static propTypes = {
-    dispatch: React.PropTypes.func,
-    posts: React.PropTypes.object,
-    params: React.PropTypes.object,
-    currentPost: React.PropTypes.object,
-    onFormSubmit: React.PropTypes.func
+    dispatch: PropTypes.func,
+    posts: PropTypes.object,
+    params: PropTypes.object,
+    currentPost: PropTypes.object,
+    onFormSubmit: PropTypes.func
   };
   constructor(props) {
     super(props);
@@ -29,9 +28,6 @@ class NewArticle extends Component {
   }
 
   render() {
-    if (this.props.currentPost.isLoading && !this.props.currentPost.content.length) {
-      return <p>Loading...</p>;
-    }
     return (
       <div>
         <EditorForm
@@ -44,11 +40,9 @@ class NewArticle extends Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
-    currentPost: state.currentPost,
-    isLoading: state.currentPost.isLoading
+    posts: state.posts
   };
 };
 export default connect(mapStateToProps, { createPost })(NewArticle);

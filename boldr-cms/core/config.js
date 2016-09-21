@@ -17,7 +17,7 @@ export const TOKEN_KEY = 'token';
 
 export const API_TARGET = process.env.API_TARGET || 'http://localhost:3000';
 
-export const API_PORT = process.env.API_PORT || 8121;
+export const API_PORT = process.env.API_PORT || 3000;
 export const API_HOST = process.env.API_HOST || 'localhost';
 export const SSR_PORT = process.env.SSR_PORT || 3000;
 export const HOST = process.env.HOST || 'localhost';

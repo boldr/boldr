@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { Heading, Grid, Col, Row } from 'components';
-import { Card, CardText, CardActions } from '../../../components/md/Cards';
-import TextField from '../../../components/md/TextFields';
-import { RaisedButton } from '../../../components/md/Buttons';
-import inlineStyles from '../../../theme/inlineStyles';
-import { forgotPassword } from '../state/actions';
+import { Card, CardText, CardActions } from 'components/md/Cards';
+import TextField from 'components/md/TextFields';
+import { RaisedButton } from 'components/md/Buttons';
+import inlineStyles from 'theme/inlineStyles';
+import { forgotPassword } from 'state/dux/auth';
 
 class ForgotPassword extends Component {
   static propTypes = {
@@ -22,10 +22,10 @@ class ForgotPassword extends Component {
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ email: event });
   }
 
-  handleForgot(event) {
+  handleForgot(event, dispatch) {
     event.preventDefault();
     this.props.dispatch(forgotPassword(this.state.email));
   }
@@ -52,7 +52,7 @@ class ForgotPassword extends Component {
                           type="email"
                           name="email"
                           id="email"
-                          floatingLabelText="Email address" style={ inlineStyles.underlineFocusStyle }
+                          label="Email address" style={ inlineStyles.underlineFocusStyle }
                           autoFocus value={ this.state.email } onChange={ this.handleChange }
                         />
                       </Row>

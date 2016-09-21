@@ -17,6 +17,12 @@ const conf = convict({
     env: 'HTTPS_SERVER',
     default: false
   },
+  host: {
+    doc: 'The web address of your site',
+    format: String,
+    default: 'http://localhost:3000',
+    env: 'HOST'
+  },
   api: {
     host: {
       doc: 'The host address to bind.',
@@ -27,7 +33,7 @@ const conf = convict({
     port: {
       doc: 'The port to bind for the API.',
       format: 'port',
-      default: 8121,
+      default: 3000,
       env: 'API_PORT'
     },
     base: {

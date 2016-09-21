@@ -4,9 +4,9 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 
 import { Heading, Grid, Col, Row } from 'components';
-import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
-import inlineStyles from '../../../theme/inlineStyles';
-import { login } from '../state/actions';
+import { Card, CardMedia, CardTitle, CardActions } from 'components/md/Cards';
+import inlineStyles from 'theme/inlineStyles';
+import { login } from 'state/dux/auth';
 import LoginForm from './LoginForm';
 
 class Login extends Component {

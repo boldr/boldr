@@ -14,12 +14,8 @@ import {
 
 import { processResponse, credentials, jsonHeaders } from './api/helpers';
 
-import reducers from './state/reducers';
-import createStore from './state/createStore';
 
 export {
-  createStore,
-  reducers,
   API_BASE,
   S3_SIGNING_URL,
   API_AUTH,

@@ -9,8 +9,8 @@ import { RaisedButton, FlatButton, IconButton, FloatingButton } from '../../../c
 import Paper from '../../../components/md/Papers';
 import inlineStyles from '../../../theme/inlineStyles';
 import FileView from '../components/mol.FileView';
-import { API_BASE, S3_SIGNING_URL } from '../../../core/config';
-import { uploadFiles, fetchMedia } from './state/media';
+import { API_BASE, S3_SIGNING_URL } from 'core/config';
+import { uploadFiles, fetchMedia } from 'state/dux/media';
 
 
 @provideHooks({
@@ -47,14 +47,6 @@ class Media extends Component {
   }
 
   render() {
-    const actions = [
-      <FlatButton
-        key={ 1 }
-        label="Close"
-        primary
-        onTouchTap={ this.handleClose }
-      />
-    ];
     return (
       <div style={ { paddingTop: '50px' } }>
        <Row>

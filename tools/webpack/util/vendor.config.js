@@ -71,14 +71,14 @@ module.exports = {
       'redux-form',
       'react-addons-css-transition-group',
       'draft-js',
-      'classnames'
+      'classnames',
+      'isomorphic-fetch',
+      'reselect'
     ]
   },
 
   resolve: {
-    root: path.resolve(projectRootPath, 'node_modules'),
-    extensions: ['', '.js'],
-    postfixes: [],
+    extensions: ['.js']
   },
 
   plugins: [

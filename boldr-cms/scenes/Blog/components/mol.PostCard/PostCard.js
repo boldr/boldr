@@ -15,7 +15,7 @@ const cx = styles::classNames;
 
 const PostCard = props => {
   const formattedDate = Moment(props.created_at).format('MMMM Do YYYY, h:mm:ss a');
-  const profileLink = `profile/public/${props.author.id}`;
+  // const profileLink = `profile/public/${props.author.id}`;
   const overlay = (
     <CardTitle
       key="overlay"

@@ -56,7 +56,6 @@ const clientProdConfig = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
-    root: bcfg.ABS_ROOT,
     modules: ['boldr-cms', 'node_modules'],
     alias: {
       react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react')),
