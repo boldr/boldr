@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from '../../components/org.MainHeader';
 import inlineStyles from '../../theme/inlineStyles';
-import { fetchPostsIfNeeded } from './state/post';
 
 // @TODO: set header theme from config file
 const BlogContainer = (props) => {

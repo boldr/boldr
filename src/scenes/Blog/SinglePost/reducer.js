@@ -1,4 +1,4 @@
-import * as types from '../state/constants';
+import * as types from 'state/actionTypes';
 
 const INITIAL_STATE = {
   isEditing: false,

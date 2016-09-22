@@ -23,18 +23,11 @@
       }
     },
     "test:client": {
-      "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './boldr-cms/**/*.test.js'",
+      "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
         "NODE_PATH": "./src",
         "SSR_PORT": 3000
-      }
-    },
-    "test:api": {
-      "command": "mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './src/api/**/*.test.js'",
-      "env": {
-        "NODE_ENV": "test",
-        "BABEL_ENV": "api"
       }
     },
     "watch:client": {
@@ -84,21 +77,18 @@
     "build": "npm-run-all -s clean build:server build:client copy-files",
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
-    "build-dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/util/vendor.config.js",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
+    "build:dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/util/vendor.config.js",
     "clean": "rimraf static/",
     "clean:hp": "rimraf .happypack",
     "copy-files": "cp tools/.onbuild/run.js static/run.js && cp tools/.onbuild/isomorphic.config.js static/isomorphic.config.js",
     "dev": "npm-run-all --parallel watch:client watch:server",
     "dev:api": "better-npm-run dev:api",
-    "debug": "better-npm-run debug",
     "knex": "./node_modules/.bin/knex --knexfile src/api/core/config/knexfile.js",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "npm run lint -- --fix",
     "migrate": "./node_modules/.bin/knex --knexfile src/api/core/config/knexfile.js migrate:latest",
     "seed": "./node_modules/.bin/knex --knexfile src/api/core/config/knexfile.js seed:run",
-    "test": "npm-run-all -s test:client test:api",
-    "test:api": "better-npm-run test:api",
+    "test": "npm-run-all -s test:client",
     "test:client": "better-npm-run test:client",
     "watch:client": "better-npm-run watch:client",
     "watch:server": "better-npm-run watch:server"
@@ -123,7 +113,6 @@
     "dotenv": "^2.0.0",
     "draft-js": "^0.9.1",
     "draft-js-export-html": "^0.4.0",
-    "errorhandler": "^1.4.3",
     "express": "4.14.0",
     "express-session": "^1.14.1",
     "helmet": "^2.2.0",
@@ -138,7 +127,6 @@
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "multer-s3": "^2.3.2",
-    "node-fetch": "^1.6.1",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.6.0",
     "nodemailer-mailgun-transport": "^1.2.2",
@@ -168,14 +156,10 @@
     "reselect": "^2.5.4",
     "serialize-javascript": "1.3.0",
     "slugify": "^1.0.2",
-    "socket.io": "^1.4.8",
-    "socket.io-client": "^1.4.8",
-    "socket.io-redis": "^1.0.0",
     "source-map-support": "^0.4.2",
     "superagent": "^2.3.0",
     "webfontloader": "^1.6.26",
     "webpack-isomorphic-tools": "^2.5.8",
-    "whatwg-fetch": "^1.0.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
@@ -196,11 +180,8 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "chai-things": "^0.2.0",
-    "chalk": "^1.1.3",
-    "chance": "^1.0.4",
     "css-loader": "^0.25.0",
     "cssnano": "^3.7.5",
-    "cz-conventional-changelog": "^1.2.0",
     "enzyme": "^2.4.1",
     "eslint": "^3.5.0",
     "eslint-config-boldr": "^1.1.1",
@@ -229,14 +210,9 @@
     "supertest": "^2.0.0",
     "supertest-as-promised": "^4.0.0",
     "url-loader": "^0.5.7",
-    "webpack": "^2.1.0-beta.24s",
+    "webpack": "^2.1.0-beta.24",
     "webpack-dev-middleware": "1.8.1",
     "webpack-hot-middleware": "2.12.2",
     "webpack-node-externals": "^1.4.3"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

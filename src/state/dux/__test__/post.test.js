@@ -4,29 +4,22 @@ import expect from 'expect';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import request from 'supertest';
+import reducer from '../post';
 import {
-  LOAD_POST_REQUEST,
-  LOAD_POST_SUCCESS,
-  LOAD_POST_FAILURE } from '../state/constants';
-import reducer from './reducer';
+FETCH_POSTS_REQUEST,
+FETCH_POSTS_SUCCESS,
+FETCH_POSTS_FAILURE } from '../../actionTypes';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 // request = request('http://localhost:8000/api/v1/articles');
 
 
-describe('currentPost', () => {
+describe('postReducer', () => {
   const initialState = {
-    isEditing: false,
     isLoading: false,
     error: null,
-    title: '',
-    slug: '',
-    id: '',
-    feature_image: '',
-    content: '',
-    user: {},
-    tags: []
+    results: []
   };
 
   it('should return the initial state', () => {
@@ -35,35 +28,28 @@ describe('currentPost', () => {
     ).toEqual(initialState);
   });
 
-  it('should handle LOAD_POST_REQUEST', () => {
+  it('should handle FETCH_POSTS_REQUEST', () => {
     expect(
-      reducer(undefined, { type: LOAD_POST_REQUEST })
+      reducer(undefined, { type: FETCH_POSTS_REQUEST })
     ).toEqual({
       ...initialState,
       isLoading: true
     });
   });
 
-  it('should handle LOAD_POST_SUCCESS', () => {
+  it('should handle FETCH_POSTS_SUCCESS', () => {
     expect(
-      reducer(undefined, { type: LOAD_POST_SUCCESS })
+      reducer(undefined, { type: FETCH_POSTS_SUCCESS })
     ).toEqual({
       ...initialState,
       isLoading: false,
-      error: null,
-      title: undefined,
-      slug: undefined,
-      id: undefined,
-      feature_image: undefined,
-      content: undefined,
-      user: undefined,
-      tags: undefined
+      results: undefined
     });
   });
 
-  it('should handle LOAD_POST_FAILURE', () => {
+  it('should handle FETCH_POSTS_FAILURE', () => {
     expect(
-      reducer(undefined, { type: LOAD_POST_FAILURE })
+      reducer(undefined, { type: FETCH_POSTS_FAILURE })
     ).toEqual({
       ...initialState,
       error: undefined

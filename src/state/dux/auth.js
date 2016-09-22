@@ -1,9 +1,9 @@
 import { SubmissionError } from 'redux-form';
 import decode from 'jwt-decode';
 import * as api from 'core/api/authService';
+import { TOKEN_KEY } from 'core/config';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
-import { TOKEN_KEY } from 'core/config';
 
 /**
  * Error catcher to prevent redux-form from swallowing
@@ -210,22 +210,22 @@ export function forgotPassword(email) {
     });
     return api.doForgotPassword(email)
       .then((response) => {
-      if (response.ok) {
-        return response.json().then((json) => {
-          dispatch({
-            type: types.FORGOT_PASSWORD_SUCCESS,
-            error: [json]
+        if (response.ok) {
+          return response.json().then((json) => {
+            dispatch({
+              type: types.FORGOT_PASSWORD_SUCCESS,
+              error: [json]
+            });
           });
-        });
-      } else {
-        return response.json().then((json) => {
-          dispatch({
-            type: types.FORGOT_PASSWORD_FAILURE,
-            error: Array.isArray(json) ? json : [json]
+        } else {
+          return response.json().then((json) => {
+            dispatch({
+              type: types.FORGOT_PASSWORD_FAILURE,
+              error: Array.isArray(json) ? json : [json]
+            });
           });
-        });
-      }
-    });
+        }
+      });
   };
 }
 
@@ -238,23 +238,23 @@ export function resetPassword(password, token) {
     });
     return api.doResetPassword(password, token)
       .then((response) => {
-      if (response.ok) {
-        return response.json().then((json) => {
-          browserHistory.push('/login');
-          dispatch({
-            type: types.RESET_PASSWORD_SUCCESS,
-            error: [json]
+        if (response.ok) {
+          return response.json().then((json) => {
+            browserHistory.push('/login');
+            dispatch({
+              type: types.RESET_PASSWORD_SUCCESS,
+              error: [json]
+            });
           });
-        });
-      } else {
-        return response.json().then((json) => {
-          dispatch({
-            type: types.RESET_PASSWORD_FAILURE,
-            error: Array.isArray(json) ? json : [json]
+        } else {
+          return response.json().then((json) => {
+            dispatch({
+              type: types.RESET_PASSWORD_FAILURE,
+              error: Array.isArray(json) ? json : [json]
+            });
           });
-        });
-      }
-    });
+        }
+      });
   };
 }
 

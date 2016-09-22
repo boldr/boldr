@@ -4,22 +4,18 @@ import expect from 'expect';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import request from 'supertest';
-import reducer from './post';
-import {
-FETCH_POSTS_REQUEST,
-FETCH_POSTS_SUCCESS,
-FETCH_POSTS_FAILURE } from './constants';
+import reducer from '../members';
+import { LOAD_MEMBERS_REQUEST, LOAD_MEMBERS_SUCCESS, LOAD_MEMBERS_FAILURE } from '../../actionTypes';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
-// request = request('http://localhost:8000/api/v1/articles');
 
-
-describe('postReducer', () => {
+describe('members', () => {
   const initialState = {
     isLoading: false,
+    members: [],
     error: null,
-    results: []
+    selected: {}
   };
 
   it('should return the initial state', () => {
@@ -28,28 +24,28 @@ describe('postReducer', () => {
     ).toEqual(initialState);
   });
 
-  it('should handle FETCH_POSTS_REQUEST', () => {
+  it('should handle LOAD_MEMBERS_REQUEST', () => {
     expect(
-      reducer(undefined, { type: FETCH_POSTS_REQUEST })
+      reducer(undefined, { type: LOAD_MEMBERS_REQUEST })
     ).toEqual({
       ...initialState,
       isLoading: true
     });
   });
 
-  it('should handle FETCH_POSTS_SUCCESS', () => {
+  it('should handle LOAD_MEMBERS_SUCCESS', () => {
     expect(
-      reducer(undefined, { type: FETCH_POSTS_SUCCESS })
+      reducer(undefined, { type: LOAD_MEMBERS_SUCCESS })
     ).toEqual({
       ...initialState,
       isLoading: false,
-      results: undefined
+      members: undefined
     });
   });
 
-  it('should handle FETCH_POSTS_FAILURE', () => {
+  it('should handle LOAD_MEMBERS_FAILURE', () => {
     expect(
-      reducer(undefined, { type: FETCH_POSTS_FAILURE })
+      reducer(undefined, { type: LOAD_MEMBERS_FAILURE })
     ).toEqual({
       ...initialState,
       error: undefined

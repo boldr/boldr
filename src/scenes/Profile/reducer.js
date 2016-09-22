@@ -2,8 +2,8 @@ import request from 'superagent';
 import { push } from 'react-router-redux';
 import decode from 'jwt-decode';
 import browserHistory from 'react-router/lib/browserHistory';
-import fetch from '../../core/fetch';
-import { notificationSend } from '../Boldr/state/notifications';
+import fetch from 'isomorphic-fetch';
+import { notificationSend } from 'state/dux/notifications';
 import { API_BASE, API_AUTH } from '../../core/config';
 import * as types from './constants';
 

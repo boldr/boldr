@@ -1,9 +1,9 @@
 import request from 'superagent';
-import fetch from '../../../core/fetch';
+import fetch from 'isomorphic-fetch';
 import { API_BASE, API_POSTS } from '../../../core/config';
-import { notificationSend } from '../../Boldr/state/notifications';
+import { notificationSend } from 'state/dux/notifications';
 import { processResponse } from '../../../core/api/helpers';
-import * as types from '../state/constants';
+import * as types from 'state/actionTypes';
 
 export function clearCurrentPost() {
   return { type: types.CLEAR_CURRENT_POST };

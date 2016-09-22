@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { provideHooks } from 'redial';
 import { connect } from 'react-redux';
 import { Loader, Grid, Col, Row } from 'components';
-import TagListCard from './TagListCard';
 import { requestPostTags } from 'state/dux/tag';
+import TagListCard from './TagListCard';
 
 @provideHooks({
   fetch: ({ dispatch, params: { id } }) => dispatch(requestPostTags(id))

@@ -9,7 +9,7 @@ import { IconButton, RaisedButton, FlatButton } from '../../md/Buttons';
 import { ListItem } from '../../md/Lists';
 import Menu from '../../md/Menus';
 import defaultMenuItems from '../data/menu-items.json';
-import { goHome } from '../../../scenes/Boldr/state/boldr';
+import { goHome } from 'state/dux/boldr';
 import { logout } from 'state/dux/auth';
 
 import Head from '../Head';
