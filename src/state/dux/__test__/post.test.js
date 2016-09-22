@@ -18,8 +18,7 @@ const mockStore = configureStore(middlewares);
 describe('postReducer', () => {
   const initialState = {
     isLoading: false,
-    error: null,
-    results: []
+    error: null
   };
 
   it('should return the initial state', () => {
@@ -42,8 +41,7 @@ describe('postReducer', () => {
       reducer(undefined, { type: FETCH_POSTS_SUCCESS })
     ).toEqual({
       ...initialState,
-      isLoading: false,
-      results: undefined
+      isLoading: false
     });
   });
 

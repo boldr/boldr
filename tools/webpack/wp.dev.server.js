@@ -27,7 +27,7 @@ const app = new Express();
 app.use(webpackDevMiddleware(compiler, serverOptions));
 app.use(webpackHotMiddleware(compiler));
 
-app.listen(port, function onAppListening(err) {
+app.listen(port, onAppListening = (err) => {
   if (err) {
     console.error(err);
   } else {

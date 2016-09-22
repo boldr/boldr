@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
-
+import * as api from 'core/api/boldrService';
 import { API_SETTINGS, TOKEN_KEY } from 'core';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
@@ -41,7 +41,7 @@ const failLoadSettings = (err) => ({
 function loadBoldrSettings() {
   return dispatch => {
     dispatch(loadSettings());
-    return request(`${API_SETTINGS}`)
+    return api.doLoadSettings()
     .then(response => {
       dispatch(doneLoadSettings(response));
     })
@@ -105,10 +105,7 @@ const failUpdateSettings = (err) => ({
 export function updateBoldrSettings(data, id) {
   return dispatch => {
     dispatch(beginUpdateSettings());
-    return request
-      .put(`${API_SETTINGS}/${id}`)
-      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
-      .send(data)
+    return api.doUpdateSettings()
       .then(response => {
         dispatch(doneUpdateSettings(response));
         dispatch(loadSettings());

@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { API_BASE, API_POSTS } from 'core/config';
 import { processResponse } from 'core/api/helpers';
+import * as api from 'core/api/tagService';
 import * as types from '../actionTypes';
 /**
  * Select Post
@@ -25,8 +26,7 @@ const failedToReceiveTag = (err) => ({
 export function requestPostTags(tagId) {
   return dispatch => {
     dispatch(requestTag());
-    return fetch(`${API_BASE}/tags/${tagId}/posts`)
-      .then(response => processResponse(response))
+    return api.doFetchTags(tagId)
       .then(json => dispatch(receiveTag(json)))
       .catch(err => {
         dispatch(failedToReceiveTag(err));

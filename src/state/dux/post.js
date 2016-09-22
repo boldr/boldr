@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch';
 import { createSelector } from 'reselect';
 import { API_BASE, API_POSTS, TOKEN_KEY } from 'core/config';
 import { processResponse } from 'core/api/helpers';
+import * as api from 'core/api/postService';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
@@ -55,8 +56,7 @@ function shouldFetchPosts(state) {
 export function fetchPosts() {
   return dispatch => {
     dispatch(requestPosts());
-    return fetch(`${API_BASE}/posts?include=[author,tags]`)
-      .then(response => processResponse(response))
+    return api.doFetchPosts()
       .then(json => dispatch(receivePosts(json)))
       .catch(err => {
         dispatch(receivePostsFailed(err));
@@ -93,17 +93,7 @@ const errorCreatingPost = (err) => {
 export function createPost(data) {
   return (dispatch) => {
     dispatch(beginCreatePost());
-    return request
-      .post(API_POSTS)
-      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
-      .send({
-        title: data.title,
-        content: data.content,
-        feature_image: data.feature_image,
-        tags: data.tags,
-        status: data.status,
-        excerpt: data.excerpt
-      })
+    return api.doCreatePost(data)
       .then(response => {
         if (response.status === 201) {
           dispatch(createPostSuccess(response));
@@ -131,8 +121,7 @@ export function createPost(data) {
 export function selectPost(postId) {
   return (dispatch) => {
     dispatch(postSelected(postId));
-    return request
-      .get(`${API_POSTS}/id/${postId}`)
+    return api.doSelectPost(postId)
       .then(response => {
         if (response.status === 200) {
           dispatch(receiveSelectedPost(response));
@@ -242,4 +231,3 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
       return state;
   }
 }
-

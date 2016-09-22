@@ -101,7 +101,7 @@ const conf = convict({
     bucket: {
       doc: 'Path or bucket name for images to be served publicly.',
       format: String,
-      default: 'boldr'
+      default: 'boldrcms'
     },
     region: {
       doc: 'The region to use for S3 uploads',

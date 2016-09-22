@@ -117,11 +117,7 @@ export function login(loginData, redir) {
           kind: 'info',
           dismissAfter: 3000
         }));
-        if (redir) {
-          dispatch(push(redir));
-        } else {
-          dispatch(push('/'));
-        }
+        dispatch(push('/'));
       })
       .catch(err => {
         dispatch(loginError(err));

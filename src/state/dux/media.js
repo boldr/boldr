@@ -2,6 +2,7 @@ import request from 'superagent';
 import fetch from 'isomorphic-fetch';
 import { notificationSend } from 'state/dux/notifications';
 import { API_BASE, API_MEDIA, TOKEN_KEY } from 'core/config';
+import * as api from 'core/api/mediaService';
 import * as types from '../actionTypes';
 
 const fetchMediaStart = () => {
@@ -25,8 +26,7 @@ export function fetchMediaFail(err) {
 export function fetchMedia() {
   return (dispatch) => {
     dispatch(fetchMediaStart());
-    return request
-      .get(`${API_MEDIA}`)
+    return api.doFetchMedia()
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchMediaSuccess(response));
@@ -59,9 +59,7 @@ export function uploadFail(err) {
 export function uploadFiles(payload) {
   return (dispatch) => {
     dispatch(beginUpload());
-    return request
-      .post(`${API_MEDIA}/dashboard`, payload)
-      .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
+    return api.doUpload(payload)
       .then(response => {
         if (response.status === 201) {
           dispatch(uploadSuccess(response));

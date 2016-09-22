@@ -1,6 +1,7 @@
 import request from 'superagent';
 import { API_USERS } from 'core/config';
 import { notificationSend } from 'state/dux/notifications';
+import * as api from 'core/api/memberService';
 
 export const LOAD_MEMBERS_REQUEST = 'LOAD_MEMBERS_REQUEST';
 export const LOAD_MEMBERS_SUCCESS = 'LOAD_MEMBERS_SUCCESS';
@@ -27,8 +28,7 @@ const failedToLoadMembers = (err) => ({
 export function loadSiteMembers() {
   return dispatch => {
     dispatch(loadMembers());
-    return request
-      .get(`${API_USERS}`)
+    return api.doFetchMembers()
       .then(response => {
         if (response.status === 200) {
           dispatch(loadMembersSuccess(response));
@@ -59,18 +59,9 @@ const failUpdateMember = (err) => {
 };
 
 export function updateMember(userData) {
-  const payload = {
-    display_name: userData.display_name,
-    first_name: userData.first_name,
-    last_name: userData.last_name,
-    roleId: userData.roleId
-  };
   return dispatch => {
-    dispatch(beginUpdateMember(userData));
-    return request
-      .put(`${API_USERS}/${userData.id}`)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
-      .send(payload)
+    dispatch(beginUpdateMember());
+    return api.doUpdateMember(userData)
       .then(response => {
         dispatch(doneUpdateMember(response));
         dispatch(notificationSend({
