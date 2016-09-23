@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { CardActions } from '../../../components/md/Cards';
-import TextField from '../../../components/md/TextFields';
-import { RaisedButton, FlatButton } from '../../../components/md/Buttons';
+import { CardActions } from 'components/md/Cards';
+import TextField from 'components/md/TextFields';
+import { RaisedButton } from 'components/md/Buttons';
 
 import validate from './validate';
 
@@ -40,14 +40,14 @@ const SignupForm = (props) => {
     </div>
     <div className="grid__row">
       <div className="grid__half">
-        <Field name="firstName"
+        <Field name="first_name"
           type="text"
           component={ renderField }
           label="First name"
         />
       </div>
       <div className="grid__half">
-        <Field name="lastName"
+        <Field name="last_name"
           type="text"
           component={ renderField }
           label="Last name"
@@ -55,7 +55,7 @@ const SignupForm = (props) => {
       </div>
       </div>
       <div className="grid__row">
-        <Field name="displayName"
+        <Field name="display_name"
           type="text"
           component={ renderField }
           label="Display name"
@@ -72,7 +72,6 @@ SignupForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   reset: PropTypes.func,
   submitting: PropTypes.bool,
-  fields: PropTypes.object,
   pristine: PropTypes.bool
 };
 

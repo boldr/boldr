@@ -25,8 +25,7 @@ Preferences.propTypes = {
 function mapStateToProps(state) {
   return {
     boldr: state.boldr,
-    auth: state.auth,
-    account: state.account
+    auth: state.auth
   };
 }
 

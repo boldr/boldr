@@ -8,14 +8,14 @@ import FontIcon from '../../../../components/md/FontIcons';
 import { FlatButton, IconButton } from '../../../../components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
 import Avatar from '../../../../components/md/Avatars';
-
+import { Row } from '../../../../components';
 import styles from './style.css';
 
 const cx = styles::classNames;
 
 const PostCard = props => {
-  const formattedDate = Moment(props.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-  const profileLink = `profile/public/${props.user.id}`;
+  const formattedDate = Moment(props.created_at).format('MMMM Do YYYY, h:mm:ss a');
+  // const profileLink = `profile/public/${props.author.id}`;
   const overlay = (
     <CardTitle
       key="overlay"
@@ -29,16 +29,16 @@ const PostCard = props => {
     <div>
       <Card>
         <CardMedia overlay={ overlay }>
-          <img className={ cx('post__card-image') } src={ props.featureImage } height="350px" />
+          <img className={ cx('post__card-image') } src={ props.feature_image } height="350px" />
         </CardMedia>
         <CardTitle
-          avatar={ <Avatar src={ props.user.avatarUrl } alt="Author avatar image" /> }
-          title={ props.user.displayName }
+          avatar={ <Avatar src={ props.author.avatar_url } alt="Author avatar image" /> }
+          title={ props.author.display_name }
         />
         <div className={ cx('post__card-footer') }>
-          <div className="grid__row">
+          <Row>
             <TagBlock tags={ props.tags } />
-          </div>
+          </Row>
         </div>
         <CardActions isExpander>
         <Link to={ `/blog/${props.slug}` }>
@@ -55,13 +55,13 @@ const PostCard = props => {
 
 PostCard.propTypes = {
   title: PropTypes.string,
-  createdAt: PropTypes.string,
-  displayName: PropTypes.string,
-  featureImage: PropTypes.string,
+  created_at: PropTypes.string,
+  display_name: PropTypes.string,
+  feature_image: PropTypes.string,
   excerpt: PropTypes.string,
   tags: PropTypes.array,
   content: PropTypes.string,
-  user: PropTypes.object,
+  author: PropTypes.object,
   slug: PropTypes.string
 };
 

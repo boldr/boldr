@@ -1,63 +1,59 @@
 /* eslint-disable react/prefer-es6-class */
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import S3Upload from '../../core/api/s3Upload';
+import FileUpload from '../md/FileInputs/FileUpload';
 
-const S3Uploader = React.createClass({
-  propTypes: {
-    signingUrl: React.PropTypes.string,
-    getSignedUrl: React.PropTypes.func,
-    onProgress: React.PropTypes.func,
-    onFinish: React.PropTypes.func,
-    onError: React.PropTypes.func,
-    signingUrlHeaders: React.PropTypes.object,
-    signingUrlQueryParams: React.PropTypes.object,
-    uploadRequestHeaders: React.PropTypes.object,
-    contentDisposition: React.PropTypes.string,
-    server: React.PropTypes.string
-  },
+class S3Uploader extends Component {
+  static propTypes = {
+    signingUrl: PropTypes.string,
+    preprocess: PropTypes.func,
+    getSignedUrl: PropTypes.func,
+    onProgress: PropTypes.func,
+    onFinish: PropTypes.func,
+    onError: PropTypes.func,
+    signingUrlHeaders: PropTypes.object,
+    signingUrlQueryParams: PropTypes.object,
+    uploadRequestHeaders: PropTypes.object,
+    contentDisposition: PropTypes.string,
+    server: PropTypes.string
+  };
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      onProgress(percent, message) {
-        console.log(`Upload progress: ${percent} % ${message}`);
-      },
-      onFinish(signResult) {
-        console.log(signResult)
-        // /api/v1/s3/uploads/0fb879b7-fff3-4281-a86e-6e866b717282_Screen_Shot_2016-07-28_at_12.30.02_PM.png
-        // <BUCKET>.<REGION>.amazonaws.com/0fb879b7-fff3-4281-a86e-6e866b717282_Screen_Shot_2016-07-28_at_12.30.02_PM.png
-        console.log(`Upload finished: ${signResult.publicUrl}`);
-        this.setState({
-          file: signResult.publicUrl
-        });
-      },
-      onError(message) {
-        console.log(`Upload error: ${message}`);
-      },
-      server: ''
-    };
-  },
-  getInputProps() {
-    const temporaryProps = Object.assign({}, this.props, { className: 'uploader', type: 'file', onChange: this.uploadFile });
-    const inputProps = {};
+    this.uploadFile = this.uploadFile.bind(this);
+    this.preprocess = this.preprocess.bind(this);
+    this.onFinish = this.onFinish.bind(this);
+  }
+  onProgress(percent, message) {
+    console.log(`Upload progress: ${percent} % ${message}`);
+  }
+  onFinish(signResult) {
+    console.log(signResult);
+    this.props.onFinish(signResult);
+    this.setState({
+      file: signResult.publicUrl
+    });
+  }
+  onError(message) {
+    console.log(`Upload error: ${message}`);
+  }
 
-    const invalidProps = Object.keys(S3Uploader.propTypes);
-
-    for (const key in temporaryProps) {
-      if (temporaryProps.hasOwnProperty(key) && invalidProps.indexOf(key) === -1) {
-        inputProps[key] = temporaryProps[key];
-      }
-    }
-
-    return inputProps;
-  },
-  uploadFile() {
+  preprocess(file, next) {
+    console.log(`Pre-process: ${file.name}`);
+    next(file);
+  }
+  _setFile = (file) => {
+    this.setState({ file });
+  };
+  uploadFile(event) {
     new S3Upload({ // eslint-disable-line
-      fileElement: ReactDOM.findDOMNode(this),
-      signingUrl: this.props.signingUrl,
+      fileElement: event,
+      signingUrl: this.props.signingUrl || '/s3/sign',
       getSignedUrl: this.props.getSignedUrl,
-      onProgress: this.props.onProgress,
-      onFinishS3Put: this.props.onFinish,
+      preprocess: this.preprocess,
+      onProgress: this.onProgress,
+      onFinishS3Put: this.onFinish,
       onError: this.props.onError,
       signingUrlHeaders: this.props.signingUrlHeaders,
       signingUrlQueryParams: this.props.signingUrlQueryParams,
@@ -65,32 +61,37 @@ const S3Uploader = React.createClass({
       contentDisposition: this.props.contentDisposition,
       server: this.props.server
     });
-  },
-  clear() {
-    clearInputFile(ReactDOM.findDOMNode(this));
-  },
-
-  render() {
-    return React.DOM.input(this.getInputProps());
   }
-
-
-});
-
-// http://stackoverflow.com/a/24608023/194065
-function clearInputFile(f) {
-  if (f.value) {
-    try {
-      f.value = ''; // for IE11, latest Chrome/Firefox/Opera...
-    } catch (err) { console.log(err);}
-    if (f.value) { // for IE5 ~ IE10
-      const form = document.createElement('form');
-      const parentNode = f.parentNode;
-      const ref = f.nextSibling;
-      form.appendChild(f);
-      form.reset();
-      parentNode.insertBefore(f, ref);
+  // http://stackoverflow.com/a/24608023/194065
+  clearInputFile(f) {
+    if (f.value) {
+      try {
+        f.value = ''; // for IE11, latest Chrome/Firefox/Opera...
+      } catch (err) { console.log(err);}
+      if (f.value) { // for IE5 ~ IE10
+        const form = document.createElement('form');
+        const parentNode = f.parentNode;
+        const ref = f.nextSibling;
+        form.appendChild(f);
+        form.reset();
+        parentNode.insertBefore(f, ref);
+      }
     }
   }
+  clear(event) {
+    this.clearInputFile(event.target);
+  }
+
+  render() {
+    return (
+      <FileUpload
+        label="Select a file"
+        onChange={ this.uploadFile }
+        accept="image/*"
+        primary
+      />
+    );
+  }
 }
-module.exports = S3Uploader;
+
+export default S3Uploader;

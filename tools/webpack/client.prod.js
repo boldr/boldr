@@ -1,11 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-const VisualizerPlugin = require('webpack-visualizer-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-const bcfg = require('../buildConfig');
+const OptimizeJsPlugin = require('optimize-js-plugin');
+const config = require('../config');
 const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
@@ -15,19 +13,18 @@ const webpackIsomorphicToolsPlugin =
 
 const clientProdConfig = {
   target: 'web',
-  stats: false, // Don't show stats in the console
-  progress: true,
+  stats: true,
   bail: true,
-  devtool: 'source-map',
-  context: bcfg.ABS_ROOT,
+  devtool: false,
+  context: config.ABS_ROOT,
   entry: {
-    main: [require.resolve('../scripts/polyfill'), path.join(bcfg.SRC_DIR, 'client.js')],
+    main: [require.resolve('./util/polyfill'), path.join(config.CMS_SRC, 'client.js')],
     vendor: VENDOR_BUNDLE
   },
   output: {
-    path: bcfg.ASSETS_DIR,
-    filename: '[name].[chunkhash:8].js',
-    chunkFilename: '[name].[chunkhash:8].chunk.js',
+    path: config.ASSETS_DIR,
+    filename: '[name]-[hash].js',
+    chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/assets/'
   },
   module: {
@@ -35,58 +32,37 @@ const clientProdConfig = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: config.NODE_MODULES_DIR
       },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      { test: webpackIsomorphicToolsPlugin.regular_expression('svg'), loader: 'url?limit=10000&mimetype=image/svg+xml' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.css$/,
-        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
           loader: 'css-loader?-autoprefixer&modules&sourceMap&minimize=false&localIdentName=[local]-[hash:base62:6]!postcss-loader'
         })
       },
-
       { test: /\.scss$/,
-        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
-          loader: 'css-loader?-autoprefixer&modules=false&sourceMap&minimize=false!postcss-loader!sass-loader!sass-resources'
+          loader: 'css-loader?&minimize=false!postcss-loader!sass-loader'
         })
       }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    root: bcfg.ABS_ROOT,
-    modulesDirectories: ['src', 'node_modules'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
+    modules: ['src', 'node_modules'],
     alias: {
-      react$: require.resolve(path.join(bcfg.NODE_MODULES_DIR, 'react'))
+      react$: require.resolve(path.join(config.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(config.CMS_SRC, 'components')),
+      core: require.resolve(path.join(config.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(config.CMS_SRC, 'scenes'))
     }
-  },
-  sassResources: path.resolve(bcfg.SRC_DIR, 'styles/abstracts/*.scss'),
-  postcss(webpack) {
-    return [
-      require('precss')(),
-      require('lost')(),
-      require('cssnano')({
-        autoprefixer: {
-          add: true,
-          remove: true,
-          browsers: 'last 2 versions'
-        },
-        discardComments: {
-          removeAll: true
-        },
-        discardUnused: true,
-        mergeIdents: false,
-        reduceIdents: false
-      })
-    ];
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
@@ -97,24 +73,19 @@ const clientProdConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        SSR_SERVER_PORT: parseInt(process.env.SERVER_PORT, 10)
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
       __CLIENT__: true,
-      __SERVER__: false
+      __SERVER__: false,
+      __DLLS__: false
     }),
-    new LodashModuleReplacementPlugin,
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      children: true,
-      minChunks: 2,
-      async: true,
+      name: ['main', 'vendor', 'manifest'],
+      minChunks: Infinity,
+      async: true
     }),
-
-    // OccurrenceOrderPlugin is needed for long-term caching to work properly.
-    // See http://mxs.is/googmv
-    new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.ProvidePlugin({
       // make fetch available
       fetch: 'exports?self.fetch!whatwg-fetch'
@@ -122,27 +93,17 @@ const clientProdConfig = {
     // needed for long-term caching
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        screw_ie8: true, // React doesn't support IE8
+        screw_ie8: true,
         warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
       }
     }),
-    new ProgressBarPlugin({
-      format: '  build libs [:bar] :percent (:elapsed seconds)',
-      clear: false
+    new OptimizeJsPlugin({
+      sourceMap: false
     }),
-
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
-    new VisualizerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new WatchMissingNodeModulesPlugin(bcfg.NODE_MODULES_DIR),
+    new WatchMissingNodeModulesPlugin(config.NODE_MODULES_DIR),
     webpackIsomorphicToolsPlugin
   ],
   node: {

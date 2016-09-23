@@ -22,6 +22,7 @@ Table of Contents
   * [Demo](#demo)
   * [Changelog](#changelog)
   * [NGINX Config](docs/nginx.md)
+  * [API Documentation](https://docs.boldr.io)
   * [Installation](docs/installation.md)
   * [Troubleshooting](docs/troubleshooting.md)
 

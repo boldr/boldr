@@ -1,6 +1,6 @@
 import request from 'superagent';
-import { API_USERS } from '../../../../core/config';
-import { notificationSend } from '../../../Boldr/state/notifications';
+import { API_USERS } from 'core/config';
+import { notificationSend } from 'state/dux/notifications';
 
 export const LOAD_MEMBERS_REQUEST = 'LOAD_MEMBERS_REQUEST';
 export const LOAD_MEMBERS_SUCCESS = 'LOAD_MEMBERS_SUCCESS';
@@ -60,9 +60,9 @@ const failUpdateMember = (err) => {
 
 export function updateMember(userData) {
   const payload = {
-    displayName: userData.displayName,
-    firstName: userData.firstName,
-    lastName: userData.lastName,
+    display_name: userData.display_name,
+    first_name: userData.first_name,
+    last_name: userData.last_name,
     roleId: userData.roleId
   };
   return dispatch => {

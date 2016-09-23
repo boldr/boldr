@@ -4,7 +4,7 @@ import { provideHooks } from 'redial';
 import { Card, CardActions, CardTitle, CardText } from '../../../../components/md/Cards';
 import { FlatButton } from '../../../../components/md/Buttons';
 import Avatar from '../../../../components/md/Avatars';
-import { getPublicProfile } from '../../../Account/state/account';
+import { getMyProfile } from '../../reducer';
 import Header from '../../../../components/org.MainHeader';
 // @provideHooks({
 //   fetch: ({ dispatch }) => dispatch(getPublicProfile(this.props.routeParams.id))
@@ -43,13 +43,13 @@ class ProfilePublic extends Component {
 }
 
 ProfilePublic.propTypes = {
-  account: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    account: state.account,
-    isLoading: state.account.isLoading
+    profile: state.profile,
+    isLoading: state.profile.isLoading
   };
 };
 

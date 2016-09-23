@@ -1,4 +1,4 @@
-import * as types from '../state/constants';
+import * as types from 'state/actionTypes';
 
 const INITIAL_STATE = {
   isEditing: false,
@@ -7,9 +7,9 @@ const INITIAL_STATE = {
   title: '',
   slug: '',
   id: '',
-  featureImage: '',
+  feature_image: '',
   content: '',
-  user: {},
+  author: {},
   tags: []
 };
 
@@ -28,9 +28,9 @@ function currentPost(state = INITIAL_STATE, action = {}) {
         title: action.title,
         slug: action.slug,
         id: action.id,
-        featureImage: action.featureImage,
+        feature_image: action.feature_image,
         content: action.content,
-        user: action.user,
+        author: action.author,
         tags: action.tags
       };
     case types.LOAD_POST_FAILURE:
@@ -47,9 +47,9 @@ function currentPost(state = INITIAL_STATE, action = {}) {
         title: '',
         slug: '',
         id: '',
-        featureImage: '',
+        feature_image: '',
         content: '',
-        user: '',
+        author: '',
         tags: ''
       };
     default:

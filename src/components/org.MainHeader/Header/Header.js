@@ -1,24 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-// import FlatButton from 'material-ui/FlatButton';
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import FontIcon from '../../md/FontIcons';
-import { IconButton, RaisedButton } from '../../md/Buttons';
-import { ListItem } from '../../md/Lists';
-import Menu from '../../md/Menus';
+import { goHome } from 'state/dux/boldr';
+import { logout } from 'state/dux/auth';
 
-import { goHome } from '../../../scenes/Boldr/state/boldr';
+import FontIcon from 'components/md/FontIcons';
+import { IconButton, RaisedButton, FlatButton } from 'components/md/Buttons';
+import { ListItem } from 'components/md/Lists';
+import Menu from 'components/md/Menus';
+import defaultMenuItems from '../data/menu-items.json';
+
+
 import Head from '../Head';
 import Item from '../Item';
 
-import defaultMenuItems from '../data/menu-items.json';
 import styles from './Header.css';
 
 const cx = styles::classNames;
 const kebabMenu = 'more_vert';
+
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -42,10 +46,6 @@ class Header extends Component {
     const height = this.state.mobileState ? `${window.innerHeight - 75}px` : '';
     this.refs.dropdownContent.style.height = height;
   };
-
-  handleClickHome(dispatch) {
-    this.props.actions.goHome();
-  }
 
   handleResize = () => {
     const mobileState = window.innerWidth < this.props.breakpoint;
@@ -90,13 +90,9 @@ class Header extends Component {
   close = () => {
     this.setState({ authOpen: false });
   };
-
-  renderButton(link, onClick, text, className) {
-    return !!link
-      ? <a href={ link } className={ className } onClick={ onClick }>{ text }</a>
-      : <RaisedButton className={ className } onClick={ onClick } >{ text }</RaisedButton>;
+  handleLogout = () => {
+    this.props.actions.logout();
   }
-
   render() {
     const {
       className,
@@ -105,10 +101,9 @@ class Header extends Component {
       theme
     } = this.props;
     const { navbarDropdownIsOpen, mobileState, focusable } = this.state;
-
-    const renderedMenuItems = menuItems.map(item =>
+    const renderedMenuItems = this.props.navigation.items.links.map((item, i) =>
       <Item
-        key={ item.position + item.id }
+        key={ i }
         item={ item }
         theme={ theme }
         simpleList={ item.simpleList }
@@ -116,35 +111,45 @@ class Header extends Component {
         mobile={ mobileState }
       />
     );
-
+    const authLinks = (
+      <span>
+        <Link to="/profile">
+          <ListItem primaryText="Profile" />
+        </Link>
+        <Link to="/account/preferences">
+          <ListItem primaryText="Preferences" />
+        </Link>
+        <ListItem primaryText="Sign out" onClick={ this.handleLogout } />
+      </span>
+    );
+    const unAuthLinks = (
+      <span>
+        <Link to="/account/login"><ListItem primaryText="Log In" /></Link>
+        <Link to="/account/signup"><ListItem primaryText="Sign Up" /></Link>
+      </span>
+    );
     const renderAuthMenu = (
-      <Menu
-        isOpen={ this.state.authOpen }
+      <Menu isOpen={ this.state.authOpen } close={ this.close }
         toggle={ (
-          <IconButton onClick={ this.toggleAuth } className="header__icon" tooltipLabel="Account">{kebabMenu}</IconButton>
+            <IconButton className="header__icon"
+              tooltipLabel="Account"
+              onClick={ this.toggleAuth }
+            >
+            { kebabMenu }
+            </IconButton>
         ) }
-        close={ this.close }
       >
-        <Link to="/profile"><ListItem primaryText="Profile" /></Link>
-        <Link to="/account/preferences" ><ListItem primaryText="Preferences" /></Link>
-        <ListItem primaryText="Sign out" />
-    </Menu>
-  );
-    const renderUnauthMenu = (
-    <Menu
-      isOpen={ this.state.authOpen }
-      toggle={ (
-        <IconButton onClick={ this.toggleAuth } className="header__icon" tooltipLabel="More options">{kebabMenu}</IconButton>
-      ) }
-      close={ this.close }
-    >
-      <Link to="/account/login" ><ListItem primaryText="Log In" /></Link>
-      <Link to="/account/signup" ><ListItem primaryText="Sign Up" /></Link>
-  </Menu>
-);
+      {
+        this.props.auth.isAuthenticated ?
+        authLinks :
+        unAuthLinks
+      }
+      </Menu>
+    );
+
     return (
       <header
-        className={ cx('header', [`theme-${theme}`], className, {
+        className={ cx('header', 'theme-dark', className, {
           'is-dropdown-open': navbarDropdownIsOpen,
           focusable
         }) }
@@ -155,7 +160,8 @@ class Header extends Component {
             <Head
               toggleDropdownHandler={ this.navbarDropdownHandler }
               dropdownOpen={ navbarDropdownIsOpen }
-              theme={ theme }
+              logo={ this.props.boldr.logo }
+              siteName={ this.props.boldr.siteName }
               closeHeaderDropdown={ this.closeDropdownOnButtonClick() }
             />
             <nav className={ cx('collapse', {
@@ -171,16 +177,17 @@ class Header extends Component {
               'theme-dark': theme === 'dark'
             }) }>
 
-            <ul style={ { listStyleType: 'none', display: 'flex', margin: '0' } }>
+            <ul style={ { listStyleType: 'none', display: 'flex', alignItems: 'right' } }>
             <li>
-             { this.props.auth.isAuthenticated ? renderAuthMenu : renderUnauthMenu }
-
+             {
+               renderAuthMenu
+             }
             </li>
-              { this.props.auth.roleId > 4 ?
+              { this.props.auth.user.roleId > 2 ?
                 <li>
                   <Link to="/dashboard">
                     <IconButton className="header__icon" style={ { padding: '0' } }>
-                    <FontIcon>avWeb</FontIcon>
+                    <FontIcon>settings</FontIcon>
                     </IconButton>
                   </Link>
                 </li> : null
@@ -204,26 +211,29 @@ Header.propTypes = {
   breakpoint: PropTypes.number,
   auth: PropTypes.object,
   actions: PropTypes.object,
-  handleBurger: PropTypes.func
+  handleBurger: PropTypes.func,
+  boldr: PropTypes.object,
+  navigation: PropTypes.object
 };
 Header.defaultProps = {
   className: '',
   children: null,
-  menuItems: defaultMenuItems,
   theme: 'light',
+  menuItems: defaultMenuItems,
   breakpoint: 992
 };
 
 const mapStateToProps = (state) => {
   return {
     boldr: state.boldr,
-    auth: state.auth
+    auth: state.auth,
+    navigation: state.navigation
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({ goHome }, dispatch)
+    actions: bindActionCreators({ goHome, logout }, dispatch)
   };
 };
 

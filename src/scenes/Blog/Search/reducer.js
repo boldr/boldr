@@ -1,10 +1,10 @@
 import request from 'superagent';
 import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
-import fetch from '../../../core/fetch';
-import { API_BASE, API_POSTS } from '../../../core/config';
-import { notificationSend } from '../../Boldr/state/notifications';
-import { processResponse } from '../../../core/api/helpers';
+import fetch from 'isomorphic-fetch';
+import { API_BASE, API_POSTS } from 'core/config';
+import { notificationSend } from 'state/dux/notifications';
+import { processResponse } from 'core/api/helpers';
 import * as types from './constants';
 
 const requestPosts = () => {
@@ -211,7 +211,7 @@ export function updatePost(postData) {
     title: postData.title,
     content: postData.content,
     excerpt: postData.excerpt,
-    featureImage: postData.featureImage,
+    feature_image: postData.feature_image,
     status: postData.status
   };
   return dispatch => {
@@ -223,7 +223,7 @@ export function updatePost(postData) {
         // title: articleData.title,
         content: postData.content,
         excerpt: postData.excerpt,
-        featureImage: postData.featureImage,
+        feature_image: postData.feature_image,
         tags: postData.tags,
         status: postData.status
       })

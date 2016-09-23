@@ -5,9 +5,9 @@ import classNames from 'classnames/bind';
 
 import { Card, CardActions, CardTitle, CardText } from '../../../../components/md/Cards';
 import { FlatButton } from '../../../../components/md/Buttons';
-import { getMyProfile } from '../../../Account/state/account';
+import { getMyProfile } from '../../reducer';
 import Header from '../../../../components/org.MainHeader';
-import inlineStyles from '../../../../core/inlineStyles';
+import inlineStyles from '../../../../theme/inlineStyles';
 import Avatar from '../../../../components/md/Avatars';
 import ExpansionList from '../../../../components/md/ExpansionPanels/ExpansionList';
 import ExpansionPanel from '../../../../components/md/ExpansionPanels/ExpansionPanel';
@@ -20,7 +20,7 @@ const cx = styles::classNames;
 })
 class ProfileMain extends Component {
   static propTypes = {
-    account: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired
   };
   render() {
     return (
@@ -32,9 +32,9 @@ class ProfileMain extends Component {
       <div className="grid__row">
         <Card className={ cx('profile__card') }>
           <CardTitle
-            title={ `Editing ${this.props.account.displayName}'s profile ` }
+            title={ `Editing ${this.props.profile.display_name}'s profile ` }
             subtitle="Click the panel for editing options"
-            avatar={ <Avatar src={ this.props.account.avatarUrl } /> }
+            avatar={ <Avatar src={ this.props.profile.avatar_url } /> }
           />
           <CardText>
           <ExpansionList>
@@ -42,37 +42,37 @@ class ProfileMain extends Component {
             focused
             columnWidths={ 10 }
             label="First name"
-            secondaryLabel={ this.props.account.firstName }
+            secondaryLabel={ this.props.profile.first_name }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Last name"
-            secondaryLabel={ this.props.account.lastName }
+            secondaryLabel={ this.props.profile.last_name }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Display name"
-            secondaryLabel={ this.props.account.displayName }
+            secondaryLabel={ this.props.profile.display_name }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Bio"
-            secondaryLabel={ this.props.account.bio }
+            secondaryLabel={ this.props.profile.bio }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Location"
-            secondaryLabel={ this.props.account.location }
+            secondaryLabel={ this.props.profile.location }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Website"
-            secondaryLabel={ this.props.account.website }
+            secondaryLabel={ this.props.profile.website }
           />
           </ExpansionList>
           </CardText>

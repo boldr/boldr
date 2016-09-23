@@ -1,25 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import Widget from '../components/org.Widget';
+import { Grid, Col, Row } from '../../../components';
 
 class DashboardWidgets extends Component {
 
   render() {
     return (
       <div>
-        <div className="grid__row">
-          <div className="grid__quarter">
+        <Row>
+          <Col xs={ 6 } md={ 3 }>
             <Widget name="Widget A" />
-          </div>
-          <div className="grid__quarter">
+          </Col>
+          <Col xs={ 6 } md={ 3 }>
             <Widget name="Widget C" />
-          </div>
-          <div className="grid__half">
+          </Col>
+          <Col xs={ 12 } md={ 6 }>
             <Widget name="Widget D" />
-          </div>
-        </div>
-        <div className="grid__row" style={ { marginTop: '1.5em' } }>
-        <Widget name="Widget E" />
-        </div>
+          </Col>
+        </Row>
+        <Row style={ { marginTop: '1.5em' } }>
+          <Widget name="Widget E" />
+        </Row>
       </div>
     );
   }

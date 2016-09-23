@@ -28,21 +28,12 @@ export default (store) => {
     path: '/',
     component: require('./Boldr').default,
     indexRoute: {
-      component: require('./Home').default
+      component: require('../pages/Home').default
     },
     childRoutes: [
       Dashboard(store, connect),
       Account(store, connect),
       Blog(store, connect),
-      {
-        path: 'about',
-        getComponent(nextState, cb) {
-          System.import('./About')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-        }
-      },
-
       {
         path: 'profile',
         onEnter: connect(UserIsAuthenticated.onEnter),

@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const NodeExternals = require('webpack-node-externals');
 
-const bcfg = require('../buildConfig');
+const config = require('../config');
 
 dotenv.config({
   silent: true
@@ -13,38 +13,42 @@ dotenv.config({
 const nodeConfig = { // eslint-disable-line
   target: 'node',
   stats: true, // Don't show stats in the console
-  progress: true,
   externals: NodeExternals({ whitelist: [
     /\.(eot|woff|woff2|ttf|otf)$/,
     /\.(svg|png|jpg|jpeg|gif|ico)$/,
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  context: bcfg.ABS_ROOT,
+  context: config.CMS_DIR,
   devtool: 'source-map',
   entry: {
     server: [
-      path.join(bcfg.SRC_DIR, 'server', 'engine.js')
+      path.join(config.CMS_SRC, 'server.js')
     ]
   },
   output: {
-    path: bcfg.BUILD_DIR,
+    path: config.BUILD_DIR,
     publicPath: '/assets/',
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss'],
-    root: bcfg.ABS_ROOT,
-    modulesDirectories: ['src', 'node_modules']
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
+    modules: ['src', 'node_modules'],
+    alias: {
+      react$: require.resolve(path.join(config.NODE_MODULES_DIR, 'react')),
+      components: require.resolve(path.join(config.CMS_SRC, 'components')),
+      core: require.resolve(path.join(config.CMS_SRC, 'core')),
+      scenes: require.resolve(path.join(config.CMS_SRC, 'scenes'))
+    }
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: bcfg.NODE_MODULES_DIR
+        exclude: config.NODE_MODULES_DIR
       },
       { test: /\.json$/, loader: 'json-loader' },
       {
@@ -67,7 +71,7 @@ const nodeConfig = { // eslint-disable-line
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_PORT: parseInt(process.env.SSR_SERVER_PORT, 10)
+        SERVER_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,

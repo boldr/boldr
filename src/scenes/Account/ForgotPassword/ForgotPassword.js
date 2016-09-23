@@ -1,18 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
 
-import { Card, CardText, CardActions } from '../../../components/md/Cards';
-import TextField from '../../../components/md/TextFields';
-import { RaisedButton } from '../../../components/md/Buttons';
-import Heading from '../../../components/atm.Heading';
-import inlineStyles from '../../../core/inlineStyles';
-import { forgotPassword } from '../state';
+import { Heading, Grid, Col, Row } from 'components';
+import { Card, CardText, CardActions } from 'components/md/Cards';
+import TextField from 'components/md/TextFields';
+import { RaisedButton } from 'components/md/Buttons';
+import inlineStyles from 'theme/inlineStyles';
+import { forgotPassword } from 'state/dux/auth';
 
-
-import styles from '../styles.css';
-
-const cx = styles::classNames;
 class ForgotPassword extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -27,10 +22,10 @@ class ForgotPassword extends Component {
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ email: event });
   }
 
-  handleForgot(event) {
+  handleForgot(event, dispatch) {
     event.preventDefault();
     this.props.dispatch(forgotPassword(this.state.email));
   }
@@ -43,28 +38,35 @@ class ForgotPassword extends Component {
     );
     return (
       <div style={ inlineStyles.headerOverflow }>
-      <section className={ cx('root') }>
-
-          <Card className={ cx('auth-card') }>
-            <form onSubmit={ this.handleForgot }>
-              { renderHeader }
-              <CardText>
-              <div className="grid__row">
-                <TextField
-                  type="email"
-                  name="email"
-                  id="email"
-                  floatingLabelText="Email address" style={ inlineStyles.underlineFocusStyle }
-                  autoFocus value={ this.state.email } onChange={ this.handleChange }
-                />
-              </div>
-              </CardText>
-              <CardActions>
-                <RaisedButton secondary type="submit" label="Reset Password" />
-              </CardActions>
-            </form>
-          </Card>
-        </section>
+        <Grid fluid>
+          <Row>
+            <Col xs={ 12 }>
+              <Row xsCenter>
+                <Col xs={ 6 }>
+                  <Card style={ { marginTop: '150px' } }>
+                    <form onSubmit={ this.handleForgot }>
+                      { renderHeader }
+                      <CardText>
+                      <Row>
+                        <TextField
+                          type="email"
+                          name="email"
+                          id="email"
+                          label="Email address" style={ inlineStyles.underlineFocusStyle }
+                          autoFocus value={ this.state.email } onChange={ this.handleChange }
+                        />
+                      </Row>
+                      </CardText>
+                      <CardActions>
+                        <RaisedButton secondary type="submit" label="Reset Password" />
+                      </CardActions>
+                    </form>
+                  </Card>
+                </Col>
+              </Row>
+              </Col>
+            </Row>
+        </Grid>
       </div>
     );
   }
@@ -72,7 +74,7 @@ class ForgotPassword extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.account
+    auth: state.auth
   };
 };
 

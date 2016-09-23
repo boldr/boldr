@@ -21,7 +21,7 @@ const loadModule = (cb) => (componentModule) => {
 export default (store, connect) => ({
 
   path: 'account',
-  component: require('./components/tpl.AccountLayout').default,
+  component: require('./Account').default,
   childRoutes: [{
     path: 'forgot-password',
     getComponent(nextState, cb) {
@@ -50,9 +50,12 @@ export default (store, connect) => ({
   {
     path: 'reset-password/:token',
     getComponent(nextState, cb) {
-      System.import('./ResetPassword')
-        .then(loadModule(cb))
-        .catch(errorLoading);
+      require.ensure([
+        './ResetPassword'
+      ], (require) => {
+        let ResetPage = require('./ResetPassword').default;
+        cb(null, ResetPage);
+      });
     }
   },
   {

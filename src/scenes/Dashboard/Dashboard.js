@@ -1,22 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
 import { bindActionCreators } from 'redux';
-import { Flex, Box } from 'reflexbox';
 
-import SiteLogo from '../../components/atm.SiteLogo';
-import NavigationDrawer from '../../components/md/NavigationDrawers';
-import { IconButton } from '../../components/md/Buttons';
+import { SiteLogo, Grid, Col, Row } from 'components';
+import NavigationDrawer from 'components/md/NavigationDrawers';
+import FontIcon from 'components/md/FontIcons';
 
-import FontIcon from '../../components/md/FontIcons';
-import styles from './style.css';
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
-  mediaClicked, membersClicked, settingsClicked
+  mediaClicked, membersClicked, settingsClicked, homeClicked,
+  navigationClicked
 } from './actions';
-
-
-const cx = styles::classNames;
 
 const DrawerType = {
   FULL_HEIGHT: 'full-height',
@@ -28,14 +22,16 @@ const DrawerType = {
 
 class Dashboard extends Component {
   static propTypes = {
-    children: React.PropTypes.element,
-    toggleOpen: React.PropTypes.func,
-    articleListClicked: React.PropTypes.func,
-    articleEditorClicked: React.PropTypes.func,
-    dashboardClicked: React.PropTypes.func,
-    mediaClicked: React.PropTypes.func,
-    membersClicked: React.PropTypes.func,
-    settingsClicked: React.PropTypes.func
+    children: PropTypes.element,
+    toggleOpen: PropTypes.func,
+    articleListClicked: PropTypes.func,
+    articleEditorClicked: PropTypes.func,
+    dashboardClicked: PropTypes.func,
+    mediaClicked: PropTypes.func,
+    membersClicked: PropTypes.func,
+    settingsClicked: PropTypes.func,
+    homeClicked: PropTypes.func,
+    navigationClicked: PropTypes.func
   };
   render() {
     const navItems = [
@@ -64,27 +60,40 @@ class Dashboard extends Component {
         onClick: this.props.membersClicked
       },
       {
+        primaryText: 'Navigation',
+        leftIcon: <FontIcon>link</FontIcon>,
+        onClick: this.props.navigationClicked
+      },
+      {
         primaryText: 'Settings',
         leftIcon: <FontIcon>settings</FontIcon>,
         onClick: this.props.settingsClicked
+      },
+      {
+        primaryText: 'Home',
+        leftIcon: <FontIcon>home</FontIcon>,
+        onClick: this.props.homeClicked
       }
     ];
     return (
-      <div className={ cx('dashboard__row') }>
+      <Grid fluid>
+        <Row>
         <NavigationDrawer
           drawerTitle="Navigation"
           toolbarTitle="Dashboard"
+          toolbarStyle={ { marginBottom: '25px' } }
           tabletDrawerType={ DrawerType.PERSISTENT_MINI }
           desktopDrawerType={ DrawerType.PERSISTENT_MINI }
           navItems={ navItems }
         />
-        <div className={ cx('dashboard__content') }>
-          <Flex p={ 2 } align="center">
-                  { this.props.children }
-          </Flex>
-        </div>
-      </div>
-      );
+          <Col xs style={ { paddingTop: '6%' } }>
+            <div>
+            { this.props.children }
+            </div>
+          </Col>
+        </Row>
+      </Grid>
+    );
   }
 }
 
@@ -98,6 +107,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     articleListClicked, articleEditorClicked, dashboardClicked,
-    mediaClicked, membersClicked, settingsClicked }, dispatch);
+    mediaClicked, membersClicked, settingsClicked, homeClicked, navigationClicked }, dispatch);
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

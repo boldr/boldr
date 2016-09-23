@@ -6,9 +6,9 @@ import { provideHooks } from 'redial';
 
 import Dialog from '../../../components/md/Dialogs';
 import { FlatButton, RaisedButton } from '../../../components/md/Buttons';
-import MembersList from './components/mol.MembersList';
-import { loadSiteMembers, memberSelected, updateMember } from './state/members';
-import EditMemberForm from './components/atm.EditMemberForm';
+import MembersList from '../components/mol.MembersList';
+import EditMemberForm from '../components/atm.EditMemberForm';
+import { loadSiteMembers, memberSelected, updateMember } from 'state/dux/members';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(loadSiteMembers())
@@ -41,9 +41,9 @@ class Members extends Component {
   }
   handleSubmit(values) {
     const userData = {
-      displayName: values.displayName,
-      firstName: values.firstName,
-      lastName: values.lastName,
+      display_name: values.display_name,
+      first_name: values.first_name,
+      last_name: values.last_name,
       roleId: values.roleId,
       id: this.state.userId
     };
@@ -63,7 +63,7 @@ class Members extends Component {
           <EditMemberForm onSubmit={ this.handleSubmit } />
           <FlatButton
             label="Save"
-            onTouchTap={ this.handleSubmit }
+            onClick={ this.handleSubmit }
           />
         </Dialog>
        </div>

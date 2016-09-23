@@ -1,36 +1,32 @@
 import React, { Component, PropTypes } from 'react';
-
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-
 import { Link } from 'react-router';
-import classNames from 'classnames/bind';
-import { Card, CardMedia, CardTitle, CardActions } from '../../../components/md/Cards';
-import { Heading } from '../../../components/index';
-import inlineStyles from '../../../core/inlineStyles';
-import { createAccount } from '../state/account';
-import styles from '../styles.css';
+
+import { Heading, Grid, Col, Row } from 'components';
+import { Card, CardTitle, CardActions } from 'components/md/Cards';
+import inlineStyles from 'theme/inlineStyles';
+import { signup } from 'state/dux/auth';
 import SignupForm from './SignupForm';
 
-const cx = styles::classNames;
 class Signup extends Component {
   constructor(props) {
     super(props);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
   handleOnSubmit(values) {
-    const { createAccount } = this.props;
-    createAccount({
+    const { signup } = this.props;
+    signup({
       email: values.email,
       password: values.password,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      displayName: values.displayName
+      first_name: values.first_name,
+      last_name: values.last_name,
+      display_name: values.display_name
     });
   }
 
   render() {
-    const { isLoading } = this.props.account;
+    const { isLoading } = this.props.auth;
 
     const renderHeader = (
       <div>
@@ -43,28 +39,36 @@ class Signup extends Component {
     return (
         <div style={ inlineStyles.headerOverflow }>
           <Helmet title="Signup" />
-          <section className={ cx('root') }>
-            <Card>
+          <Grid fluid>
+            <Row>
+              <Col xs={ 12 }>
+                <Row xsCenter>
+                  <Col xs={ 6 }>
+                    <Card style={ { marginTop: '150px' } }>
+                      { renderHeader }
 
-              { renderHeader }
-
-              <SignupForm onSubmit={ this.handleOnSubmit } />
-            </Card>
-          </section>
+                      <SignupForm onSubmit={ this.handleOnSubmit } />
+                    </Card>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Grid>
         </div>
     );
   }
 }
 
 Signup.propTypes = {
-  users: PropTypes.object,
-  createAccount: PropTypes.func,
-  handleOnSubmit: PropTypes.func
+  signup: PropTypes.func,
+  handleOnSubmit: PropTypes.func,
+  isLoading: PropTypes.bool,
+  auth: PropTypes.object
 };
-function mapStateToProps({ account }) {
+function mapStateToProps({ auth }) {
   return {
-    account
+    auth
   };
 }
 
-export default connect(mapStateToProps, { createAccount })(Signup);
+export default connect(mapStateToProps, { signup })(Signup);

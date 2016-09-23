@@ -12,7 +12,8 @@
       "DEBUG":"boldr*"
     },
     "watch": [
-      "src/server/**/*.js"
+      "./src/api/**/*.js",
+      "./src/server.js"
     ],
-    "exec": "babel-node src/server/serverHook.js"
+    "legacyWatch": false
 }

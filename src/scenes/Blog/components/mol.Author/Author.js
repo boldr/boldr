@@ -12,15 +12,15 @@ const styles = {
 const Author = (props) => {
   return (
     <div style={ styles.wrapper }>
-      <Avatar src={ props.avatarUrl } />
-      <Heading size={ 3 }> { props.displayName }</Heading>
+      <Avatar src={ props.avatar_url } />
+      <Heading size={ 3 }> { props.display_name }</Heading>
     </div>
   );
 };
 
 Author.propTypes = {
-  displayName: React.PropTypes.string.isRequired,
-  avatarUrl: React.PropTypes.string
+  display_name: React.PropTypes.string.isRequired,
+  avatar_url: React.PropTypes.string
 };
 
 export default Author;

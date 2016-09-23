@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { provideHooks } from 'redial';
 import { connect } from 'react-redux';
-import { Flex, Box } from 'reflexbox';
-import { Loader } from '../../../components';
+import { Loader, Grid, Col, Row } from 'components';
+import { requestPostTags } from 'state/dux/tag';
 import TagListCard from './TagListCard';
-import { requestPostTags } from './actions';
 
 @provideHooks({
   fetch: ({ dispatch, params: { id } }) => dispatch(requestPostTags(id))
@@ -16,22 +15,18 @@ class TagList extends Component {
   render() {
     return (
       <div>
-        <Flex
-          align="center"
-          gutter={ 2 }
-          p={ 2 }
-          justify="space-between"
-          wrap
-        >
+        <Grid fluid>
+        <Row>
         {
           this.props.tags.isLoading ?
           <Loader /> :
           this.props.tags.posts.map(post =>
-            <Box key={ post.id } sm={ 12 } md={ 4 } p={ 2 }>
+            <Col key={ post.id } xs={ 12 } md={ 4 }>
               <TagListCard { ...post } />
-            </Box>)
+            </Col>)
         }
-        </Flex>
+        </Row>
+        </Grid>
       </div>
     );
   }

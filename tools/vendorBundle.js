@@ -10,11 +10,10 @@ const VENDOR_BUNDLE = [
   'redial',
   'superagent',
   'redux-form',
-  'react-addons-transition-group',
   'react-addons-css-transition-group',
   'draft-js',
-  'immutable',
-  'classnames'
+  'classnames',
+  'react-sortable-hoc'
 ];
 
 module.exports = VENDOR_BUNDLE;

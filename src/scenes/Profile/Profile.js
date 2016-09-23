@@ -4,8 +4,8 @@ import ProfileMain from './components/org.ProfileMain';
 
 const mapStateToProps = (state) => {
   return {
-    account: state.account,
-    isLoading: state.account.isLoading
+    profile: state.profile,
+    isLoading: state.profile.isLoading
   };
 };
 

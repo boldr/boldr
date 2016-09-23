@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { createPost } from '../../Blog/state/post';
 import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
 import EditorForm from '../components/mol.EditorForm';
 
@@ -19,18 +18,11 @@ class ArticleEditor extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      editing: false
+      editing: true
     };
   }
   componentDidMount() {
-    if (this.props.params.slug) {
-      this.props.loadPost(this.props.params.slug);
-      this.setState({ // eslint-disable-line
-        editing: true
-      });
-    } else {
-      this.props.clearCurrentPost();
-    }
+    this.props.loadPost(this.props.params.slug);
   }
 
   handleSubmit(values) {
@@ -42,24 +34,18 @@ class ArticleEditor extends Component {
       id: this.props.currentPost.id || '',
       origSlug: this.props.params.slug || ''
     };
-    if (this.state.editing === true) {
-      const editId = this.props.currentPost.id;
-      this.props.dispatch(updatePost(postData));
-    } else {
-      this.props.dispatch(createPost(postData));
-    }
+    this.props.dispatch(updatePost(postData));
   }
 
   render() {
-    const isEditing = this.state.editing === 'true';
-    if (this.props.currentPost.isLoading && !this.props.currentPost.user.length) {
+    if (this.props.currentPost.isLoading && !this.props.currentPost.content.length) {
       return <p>Loading...</p>;
     }
     return (
       <div>
         <EditorForm
           initialValues={ this.props.currentPost }
-          editing={ isEditing }
+          editing
           onSubmit={ this.handleSubmit }
         />
       </div>
@@ -75,4 +61,4 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.currentPost.isLoading
   };
 };
-export default connect(mapStateToProps, { loadPost, clearCurrentPost })(ArticleEditor);
+export default connect(mapStateToProps, { loadPost, clearCurrentPost, updatePost })(ArticleEditor);

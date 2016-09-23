@@ -1,9 +1,9 @@
 import request from 'superagent';
-import fetch from '../../../core/fetch';
+import fetch from 'isomorphic-fetch';
 import { API_BASE, API_POSTS } from '../../../core/config';
-import { notificationSend } from '../../Boldr/state/notifications';
+import { notificationSend } from 'state/dux/notifications';
 import { processResponse } from '../../../core/api/helpers';
-import * as types from '../state/constants';
+import * as types from 'state/actionTypes';
 
 export function clearCurrentPost() {
   return { type: types.CLEAR_CURRENT_POST };
@@ -14,13 +14,12 @@ const requestPost = () => {
 };
 const receivedPost = (json) => ({
   type: types.LOAD_POST_SUCCESS,
-  payload: json,
   title: json.title,
   slug: json.slug,
   id: json.id,
-  featureImage: json.featureImage,
+  feature_image: json.feature_image,
   content: json.content,
-  user: json.user,
+  author: json.author,
   tags: json.tags
 });
 const receivePostFailed = (err) => ({
@@ -36,7 +35,7 @@ const receivePostFailed = (err) => ({
 export function loadPost(slug) {
   return dispatch => {
     dispatch(requestPost());
-    return fetch(`${API_POSTS}/${slug}`)
+    return fetch(`${API_POSTS}/slug/${slug}`)
       .then(response => processResponse(response))
       .then(json => dispatch(receivedPost(json)))
       .catch(err => {
@@ -65,20 +64,20 @@ export function updatePost(postData) {
     title: postData.title,
     content: postData.content,
     excerpt: postData.excerpt,
-    featureImage: postData.featureImage,
+    feature_image: postData.feature_image,
     status: postData.status
   };
   return dispatch => {
     dispatch(updatePostDetails(postData));
     return request
-      .put(`${API_POSTS}/${postData.origSlug}`)
-      .set('Authorization', `Bearer ${localStorage.getItem('token')}`)
+      .put(`${API_POSTS}/pid/${postData.id}`)
+      .set('Authorization', `${localStorage.getItem('token')}`)
       .send({
         // title: articleData.title,
         content: postData.content,
         excerpt: postData.excerpt,
-        featureImage: postData.featureImage,
-        tags: postData.tags,
+        feature_image: postData.feature_image,
+        tag: postData.tag,
         status: postData.status
       })
       .then(response => {

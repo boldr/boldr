@@ -2,46 +2,7 @@
   {
     "name": "About",
     "id": "about",
-    "simpleList": true,
-    "mobileHref": "#",
-    "childrens": [
-      {
-        "componentType": "list",
-        "key": "about-list",
-        "items": [
-          {
-            "name": "Motivation",
-            "id": "motivation",
-            "href": "#"
-          },
-          {
-            "name": "Features",
-            "id": "features",
-            "href": "#"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Content",
-    "id": "content",
-    "simpleList": true,
-    "mobileHref": "#",
-    "childrens": [
-      {
-        "componentType": "list",
-        "key": "content-list",
-        "hasArrows": true,
-        "items": [
-          {
-            "name": "Overview",
-            "id": "overview",
-            "href": "#"
-          }
-        ]
-      }
-    ]
+    "href": "#"
   },
   {
     "name": "Blog",
@@ -51,36 +12,7 @@
   {
     "name": "Documentation",
     "id": "documentation",
-    "href": "#",
+    "href": "https://docs.boldr.io",
     "external": true
-  },
-  {
-    "name": "More",
-    "id": "more",
-    "simpleList": true,
-    "childrens": [
-      {
-        "componentType": "list",
-        "title": "Additional info",
-        "key": "adittional-list",
-        "items": [
-          {
-            "name": "API",
-            "id": "api",
-            "href": "#"
-          },
-          {
-            "name": "CMS",
-            "id": "cms",
-            "href": "#"
-          },
-          {
-            "name": "Contribute",
-            "id": "contribute",
-            "href": "#"
-          }
-        ]
-      }
-    ]
   }
 ]

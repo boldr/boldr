@@ -35,9 +35,17 @@ export default (store, connect) => ({
     }
   },
   {
-    path: 'articles/editor(/:slug)',
+    path: 'articles/editor/:slug',
     getComponent(nextState, cb) {
       System.import('./scenes/Articles/components/pg.ArticleEditor')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  },
+  {
+    path: 'articles/new',
+    getComponent(nextState, cb) {
+      System.import('./NewArticle/NewArticleContainer')
         .then(loadModule(cb))
         .catch(errorLoading);
     }
@@ -46,6 +54,14 @@ export default (store, connect) => ({
     path: 'media',
     getComponent(nextState, cb) {
       System.import('./scenes/Media')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  },
+  {
+    path: 'navigation',
+    getComponent(nextState, cb) {
+      System.import('./Navigation')
         .then(loadModule(cb))
         .catch(errorLoading);
     }

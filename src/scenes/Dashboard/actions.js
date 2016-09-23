@@ -8,7 +8,7 @@ export function articleListClicked() {
 
 export function articleEditorClicked() {
   return (dispatch) => {
-    dispatch(push('/dashboard/articles/editor'));
+    dispatch(push('/dashboard/articles/new'));
   };
 }
 
@@ -30,8 +30,20 @@ export function membersClicked() {
   };
 }
 
+export function navigationClicked() {
+  return (dispatch) => {
+    dispatch(push('/dashboard/navigation'));
+  };
+}
+
 export function settingsClicked() {
   return (dispatch) => {
     dispatch(push('/dashboard/settings'));
+  };
+}
+
+export function homeClicked() {
+  return (dispatch) => {
+    dispatch(push('/'));
   };
 }

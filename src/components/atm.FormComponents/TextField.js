@@ -1,5 +1,27 @@
+import React, { PropTypes } from 'react';
 import TextField from '../md/TextFields';
-import createFormComponent from './createFormComponent';
-import mapError from './mapError';
+import inlineStyles from 'theme/inlineStyles';
 
-export default createFormComponent(TextField, mapError);
+const renderLabel = (htmlFor, label) => <label style={ inlineStyles.textField } htmlFor={ htmlFor }>{label}</label>;
+
+const renderTextField = ({ input, type, label }) => (
+  <div className="form-group">
+    { renderLabel(input.name, label) }
+    <TextField
+      { ...input }
+      className="md-text-field"
+      type={ type }
+      floatingLabel
+      lineDirection="right"
+      label={ label }
+    />
+  </div>
+);
+
+renderTextField.propTypes = {
+  input: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired
+};
+export { renderLabel };
+export default renderTextField;

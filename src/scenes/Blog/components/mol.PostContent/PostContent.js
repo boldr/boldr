@@ -7,8 +7,8 @@ const PostContent = props => {
   function createMarkup() { return { __html: props.content }; }
   return (
     <article style={ { overflow: 'hidden' } }>
-      { props.featureImage ?
-        <PostImage imageSrc={ props.featureImage } /> :
+      { props.feature_image ?
+        <PostImage imageSrc={ props.feature_image } /> :
         null
       }
       <div style={ { padding: '2em 1.5em' } }>
@@ -23,7 +23,7 @@ const PostContent = props => {
 PostContent.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.any,
-  featureImage: PropTypes.string
+  feature_image: PropTypes.string
 };
 
 export default PostContent;

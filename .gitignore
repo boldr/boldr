@@ -1,7 +1,9 @@
 # Environment Configuration
 .env
 build/
-
+static/server.js
+static/server.js.map
+static/webpack-assets.json
 .volumes
 boldr.paw
 # Logs
@@ -11,10 +13,11 @@ docs/logs
 coverage/
 .nyc_output
 .happypack
-
+static/assets
 boldr.sublime-project
 boldr.sublime-workspace
-
+tools/webpack/dlls
+tools/webpack/dlls/vendor.json
 # Runtime data
 pids
 *.pid

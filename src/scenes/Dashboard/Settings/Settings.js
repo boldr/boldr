@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
-import Paper from '../../../components/md/Papers';
-import { Tabs, Tab } from '../../../components/md/Tabs';
+import Paper from 'components/md/Papers';
+import { Tabs, Tab } from 'components/md/Tabs';
 
-import { Loader } from '../../../components';
-import { fetchSettingsIfNeeded, updateBoldrSettings } from '../../Boldr/state/boldr';
-import GeneralTab from './components/mol.GeneralTab';
+import { Loader } from 'components';
+import { fetchSettingsIfNeeded, updateBoldrSettings } from 'state/dux/boldr';
+import GeneralTab from '../components/mol.GeneralTab';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
@@ -31,7 +31,7 @@ class Settings extends Component {
       return <Loader />;
     }
     return (
-      <div>
+      <div style={ { paddingTop: '50px' } }>
       <Paper>
         <Tabs primary scrollable>
             <Tab label="General">

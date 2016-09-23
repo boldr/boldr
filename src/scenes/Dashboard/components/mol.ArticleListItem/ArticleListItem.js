@@ -1,15 +1,11 @@
 import React from 'react';
-import classNames from 'classnames/bind';
 import Link from 'react-router/lib/Link';
 import Moment from 'moment';
 
 import { IconButton } from '../../../../components/md/Buttons';
 import FontIcon from '../../../../components/md/FontIcons';
 import { TableRow, TableColumn } from '../../../../components/md/DataTables';
-import { inlineStyles } from '../../../../core';
-import styles from './style.css';
-
-const cx = styles::classNames;
+import { inlineStyles } from '../../../../theme';
 
 const ArticleListItem = props => {
   function handleclick() {
@@ -21,19 +17,19 @@ const ArticleListItem = props => {
   const draftIcon = <FontIcon onClick={ handleclick }>visibility_off</FontIcon>;
   return (
       <TableRow>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           {props.article.title}
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           { props.article.status === 'published' ?
             publishedIcon :
             draftIcon
           }
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           { formattedDate }
         </TableColumn>
-        <TableColumn tooltipPosition="bottom">
+        <TableColumn>
           <Link to={ `/dashboard/articles/${props.article.slug}/preview` }>
             <IconButton >
               <FontIcon>airplay</FontIcon>

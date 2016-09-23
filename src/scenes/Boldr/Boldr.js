@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import Notifications from '../../components/atm.Notification';
-import { fetchSettingsIfNeeded, fetchMenusIfNeeded } from './state/boldr';
+
+import { Notifications } from 'components';
+import { fetchSettingsIfNeeded } from 'state/dux/boldr';
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded()),
-  defer: ({ dispatch }) => dispatch(fetchMenusIfNeeded())
+  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
 })
 class Boldr extends Component {
   static propTypes = {

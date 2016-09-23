@@ -29,7 +29,7 @@ const TagListCard = props => {
     <div>
       <Card>
         <CardMedia overlay={ overlay }>
-          <img className={ cx('post__card-image') } src={ props.featureImage } height="350px" width="100%" />
+          <img className={ cx('post__card-image') } src={ props.feature_image } height="350px" width="100%" />
         </CardMedia>
 
         <CardActions isExpander>
@@ -48,8 +48,8 @@ const TagListCard = props => {
 TagListCard.propTypes = {
   title: PropTypes.string,
   createdAt: PropTypes.string,
-  displayName: PropTypes.string,
-  featureImage: PropTypes.string,
+  display_name: PropTypes.string,
+  feature_image: PropTypes.string,
   excerpt: PropTypes.string,
   tags: PropTypes.array,
   content: PropTypes.string,

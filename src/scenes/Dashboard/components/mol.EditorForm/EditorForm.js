@@ -1,19 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import classNames from 'classnames/bind';
+import { Grid, Col, Row, BoldrEditor } from 'components';
 
-import Radio from '../../../../components/md/SelectionControls/Radio';
-import { FlatButton, RaisedButton } from '../../../../components/md/Buttons';
-import Paper from '../../../../components/md/Papers';
-import { RichTextInput } from '../../../../components/atm.FormComponents/RichText';
-import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
-import TextField from '../../../../components/atm.FormComponents/TextField';
+import Radio from 'components/md/SelectionControls/Radio';
+import { FlatButton, RaisedButton } from 'components/md/Buttons';
+import Paper from 'components/md/Papers';
+import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
+import renderTextField, { renderLabel } from 'components/atm.FormComponents/TextField';
 
-import styles from './style.css';
-
-const cx = styles::classNames;
 const style = {
   block: {
     maxWidth: 250
@@ -32,108 +27,71 @@ const radioStyle = {
   float: 'right'
 };
 
-
-export const renderRichText = (field) =>
-  <RichTextInput key={ field.name } name={ field.name } label={ field.name } />;
-
 class EditorForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onChange = (value) => {
-      this.setState({
-        value
-      });
-    };
-
-
-    this.renderReturnedContent = (value) => this._renderReturnedContent(value);
-
-    this.state = {
-      tags: [],
-      open: false,
-      files: []
-    };
-  }
-
-
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
-    const { editorState } = this.state;
-    return (
-      <section>
-      <form onSubmit={ handleSubmit }>
-          <div className={ cx('articleEditor__left') }>
-            <Paper
-              zDepth={ 3 }
-              style={ {
-                padding: 40
-              } }
-            >
 
-              <div className={ cx('row') }>
-                <Field name="title" type="text" component={ TextField } floatingLabelText="Post Title" />
-              </div>
-              {
-                this.props.editing ?
-                null
-              :
-              <div className={ cx('row') }>
+    const renderEditor = ({ input, label }) => (
+      <div className="form-group">
+        {renderLabel(input.name, label)}
+        <BoldrEditor { ...input } label={ label } />
+      </div>
+    );
+    return (
+      <Row>
+       <Col xs>
+        <form onSubmit={ handleSubmit } style={ { marginTop: '25px' } }>
+            <Paper zDepth={ 3 } style={ { padding: 40 } }>
+              <Row>
+                <Field name="title" type="text" component={ renderTextField } label="Post Title" />
+              </Row>
+              <Row>
                 <Field name="tags" type="text"
-                  hintText= "Separate using commas"
-                  component={ TextField }
-                  floatingLabelText="Tags"
+                  helpText= "Separate using commas"
+                  component={ renderTextField }
+                  label="Tags"
                 />
-              </div>
-            }
-              <div className={ cx('row') }>
-              <Field name="featureImage" type="text"
-                hintText= "URL for your image"
-                component={ TextField }
-                floatingLabelText="Feature Image"
+              </Row>
+              <Row>
+              <Field name="feature_image" type="text"
+                helpText= "URL for your image"
+                component={ renderTextField }
+                label="Feature Image"
               />
-              </div>
-              <div className={ cx('row') }>
+              </Row>
+              <Row>
                 <Field name="excerpt" type="text"
-                  component={ TextField } hintText= "A short summary or highlight" floatingLabelText="Excerpt"
-                  fullWidth
-                  multiLine
+                  component={ renderTextField } helpText= "A short summary or highlight" label="Excerpt"
                 />
-              </div>
-                <div className={ cx('row') }>
+              </Row>
+                <Row>
                 <Field name="status" component={ RadioButtonGroup }>
 
                   <Radio
                     value="draft"
                     label="Draft"
-                    style={ styles.radioButton }
+                    style={ radioStyle }
                   />
                   <Radio
                     value="published"
                     label="Published"
-                    style={ styles.radioButton }
+                    style={ radioStyle }
                   />
                   <Radio
                     value="archived"
                     label="Archived"
-                    style={ styles.radioButton }
+                    style={ radioStyle }
                   />
                 </Field>
-              </div>
+              </Row>
+              <Field name="content" component={ renderEditor } />
               <div style={ { marginTop: '1em' } }>
                 <RaisedButton type="submit" secondary label="Publish" style={ style } />
               </div>
             </Paper>
-          </div>
-          <div className={ cx('articleEditor__right') }>
-            <Paper
-              zDepth={ 3 }
-            >
-            <Field name="content" component={ renderRichText } />
-            </Paper>
-          </div>
       </form>
-      </section>
+       </Col>
+      </Row>
       );
   }
 }
