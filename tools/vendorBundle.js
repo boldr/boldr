@@ -12,7 +12,8 @@ const VENDOR_BUNDLE = [
   'redux-form',
   'react-addons-css-transition-group',
   'draft-js',
-  'classnames'
+  'classnames',
+  'react-sortable-hoc'
 ];
 
 module.exports = VENDOR_BUNDLE;

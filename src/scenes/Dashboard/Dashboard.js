@@ -8,7 +8,8 @@ import FontIcon from 'components/md/FontIcons';
 
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
-  mediaClicked, membersClicked, settingsClicked, homeClicked
+  mediaClicked, membersClicked, settingsClicked, homeClicked,
+  navigationClicked
 } from './actions';
 
 const DrawerType = {
@@ -29,7 +30,8 @@ class Dashboard extends Component {
     mediaClicked: PropTypes.func,
     membersClicked: PropTypes.func,
     settingsClicked: PropTypes.func,
-    homeClicked: PropTypes.func
+    homeClicked: PropTypes.func,
+    navigationClicked: PropTypes.func
   };
   render() {
     const navItems = [
@@ -58,6 +60,11 @@ class Dashboard extends Component {
         onClick: this.props.membersClicked
       },
       {
+        primaryText: 'Navigation',
+        leftIcon: <FontIcon>link</FontIcon>,
+        onClick: this.props.navigationClicked
+      },
+      {
         primaryText: 'Settings',
         leftIcon: <FontIcon>settings</FontIcon>,
         onClick: this.props.settingsClicked
@@ -79,8 +86,8 @@ class Dashboard extends Component {
           desktopDrawerType={ DrawerType.PERSISTENT_MINI }
           navItems={ navItems }
         />
-          <Col xs>
-            <div style={ { paddingTop: '4%' } }>
+          <Col xs style={ { paddingTop: '6%' } }>
+            <div>
             { this.props.children }
             </div>
           </Col>
@@ -100,6 +107,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     articleListClicked, articleEditorClicked, dashboardClicked,
-    mediaClicked, membersClicked, settingsClicked, homeClicked }, dispatch);
+    mediaClicked, membersClicked, settingsClicked, homeClicked, navigationClicked }, dispatch);
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -4,13 +4,15 @@ import cxN from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import FontIcon from '../../md/FontIcons';
-import { IconButton, RaisedButton, FlatButton } from '../../md/Buttons';
-import { ListItem } from '../../md/Lists';
-import Menu from '../../md/Menus';
-import defaultMenuItems from '../data/menu-items.json';
 import { goHome } from 'state/dux/boldr';
 import { logout } from 'state/dux/auth';
+
+import FontIcon from 'components/md/FontIcons';
+import { IconButton, RaisedButton, FlatButton } from 'components/md/Buttons';
+import { ListItem } from 'components/md/Lists';
+import Menu from 'components/md/Menus';
+import defaultMenuItems from '../data/menu-items.json';
+
 
 import Head from '../Head';
 import Item from '../Item';
@@ -210,7 +212,8 @@ Header.propTypes = {
   auth: PropTypes.object,
   actions: PropTypes.object,
   handleBurger: PropTypes.func,
-  boldr: PropTypes.object
+  boldr: PropTypes.object,
+  navigation: PropTypes.object
 };
 Header.defaultProps = {
   className: '',

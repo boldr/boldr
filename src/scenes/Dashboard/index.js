@@ -59,6 +59,14 @@ export default (store, connect) => ({
     }
   },
   {
+    path: 'navigation',
+    getComponent(nextState, cb) {
+      System.import('./Navigation')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  },
+  {
     path: 'pages',
     getComponent(nextState, cb) {
       System.import('./Pages')

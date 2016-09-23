@@ -30,6 +30,12 @@ export function membersClicked() {
   };
 }
 
+export function navigationClicked() {
+  return (dispatch) => {
+    dispatch(push('/dashboard/navigation'));
+  };
+}
+
 export function settingsClicked() {
   return (dispatch) => {
     dispatch(push('/dashboard/settings'));
