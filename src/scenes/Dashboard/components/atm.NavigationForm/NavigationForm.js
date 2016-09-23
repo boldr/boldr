@@ -8,7 +8,7 @@ class NavigationForm extends Component {
 
     this.state = {
       name: ''
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
