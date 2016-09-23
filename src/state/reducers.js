@@ -10,6 +10,7 @@ import mediaReducer from './dux/media';
 import boldrReducer from './dux/boldr';
 import notificationReducer from './dux/notifications';
 import authReducer from './dux/auth';
+import navigationReducer from './dux/navigation';
 import postsReducer from './dux/post';
 
 const reducers = combineReducers({
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   auth: authReducer,
   boldr: boldrReducer,
   posts: postsReducer,
+  navigation: navigationReducer,
   currentPost,
   members: membersReducer,
   media: mediaReducer,

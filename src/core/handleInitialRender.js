@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { trigger } from 'redial';
 import Post from '../api/modules/post/post.model';
 import Setting from '../api/modules/setting/setting.model';
+import Navigation from '../api/modules/navigation/navigation.model';
 // Boldr Deps
 import createStore from '../state/createStore';
 import getRoutes from '../scenes/index';
@@ -27,10 +28,11 @@ async function handleInitialRender(req, res) {
 
   const preloadPostData = await Post.query().eager('[tags, author]');
   const preloadSettingsData = await Setting.query().findById(1);
-
+  const preloadNavigationData = await Navigation.query().findById(1);
   const PRELOAD_STATE = {
     posts: postsToState(preloadPostData),
-    boldr: preloadSettingsData
+    boldr: preloadSettingsData,
+    navigation: preloadNavigationData
   };
   const client = new ApiClient(req);
   const memoryHistory = createMemoryHistory(req.originalUrl);

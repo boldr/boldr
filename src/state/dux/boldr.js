@@ -60,7 +60,7 @@ function shouldFetchSettings(state) {
   if (!settings.siteName) {
     return true;
   }
-  if (state.boldr.isLoading) {
+  if (state.boldr.siteName) {
     return false;
   }
   return settings;

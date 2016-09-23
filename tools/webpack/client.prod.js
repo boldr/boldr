@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-
+const OptimizeJsPlugin = require('optimize-js-plugin');
 const config = require('../config');
 const VENDOR_BUNDLE = require('../vendorBundle');
 const isomorphicConfig = require('./isomorphic.config');
@@ -97,7 +97,9 @@ const clientProdConfig = {
         warnings: false
       }
     }),
-
+    new OptimizeJsPlugin({
+      sourceMap: false
+    }),
     // merge common
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

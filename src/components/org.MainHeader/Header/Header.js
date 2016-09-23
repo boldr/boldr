@@ -99,9 +99,9 @@ class Header extends Component {
       theme
     } = this.props;
     const { navbarDropdownIsOpen, mobileState, focusable } = this.state;
-    const renderedMenuItems = menuItems.map(item =>
+    const renderedMenuItems = this.props.navigation.items.links.map((item, i) =>
       <Item
-        key={ item.position + item.id }
+        key={ i }
         item={ item }
         theme={ theme }
         simpleList={ item.simpleList }
@@ -223,7 +223,8 @@ Header.defaultProps = {
 const mapStateToProps = (state) => {
   return {
     boldr: state.boldr,
-    auth: state.auth
+    auth: state.auth,
+    navigation: state.navigation
   };
 };
 
