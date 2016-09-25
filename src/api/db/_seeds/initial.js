@@ -179,5 +179,14 @@ exports.seed = function(knex, Promise) {
         google_analytics: 'UA-23423',
         configuration: '{"mail":{"address":"mail@boldr.io"}}'
       })
+    ]))
+    .then(() => Promise.all([
+      knex('navigation').insert({
+        name: 'Main',
+        primary: true,
+        restricted: false,
+        location: 'global',
+        items: '{"links":[{"name":"About", "href":"/about", "position":1}]}'
+      })
     ]));
 };
