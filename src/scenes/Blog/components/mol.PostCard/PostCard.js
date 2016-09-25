@@ -4,7 +4,7 @@ import Moment from 'moment';
 import classNames from 'classnames/bind';
 
 import TagBlock from '../mol.TagBlock';
-import FontIcon from '../../../../components/md/FontIcons';
+import FontIcon from 'components/md/FontIcons';
 import { FlatButton, IconButton } from '../../../../components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
 import Avatar from '../../../../components/md/Avatars';
@@ -32,7 +32,7 @@ const PostCard = props => {
           <img className={ cx('post__card-image') } src={ props.feature_image } height="350px" />
         </CardMedia>
         <CardTitle
-          avatar={ <Avatar src={ props.author.avatar_url } alt="Author avatar image" /> }
+          avatar={ <Link to={`/profile/public/${props.author.id}`}><Avatar src={ props.author.avatar_url } alt="Author avatar image" /></Link> }
           title={ props.author.display_name }
         />
         <div className={ cx('post__card-footer') }>

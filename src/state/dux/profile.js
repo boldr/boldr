@@ -71,19 +71,21 @@ const INITIAL_STATE = {
   error: null,
   public: {},
   hydrated: false,
-  bio: '',
-  birthday: '',
-  display_name: '',
-  email: '',
-  first_name: '',
-  gender: '',
-  id: '',
-  last_name: '',
-  location: '',
-  avatar_url: '',
-  roleId: '',
-  role: '',
-  website: ''
+  private: {
+    bio: '',
+    birthday: '',
+    display_name: '',
+    email: '',
+    first_name: '',
+    gender: '',
+    id: '',
+    last_name: '',
+    location: '',
+    avatar_url: '',
+    roleId: '',
+    role: '',
+    website: ''
+  }
 };
 
 /**
@@ -107,16 +109,18 @@ export default function profileReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        bio: action.payload.user.bio,
-        display_name: action.payload.user.display_name,
-        email: action.payload.user.email,
-        first_name: action.payload.user.first_name,
-        id: action.payload.user.id,
-        last_name: action.payload.user.last_name,
-        location: action.payload.user.location,
-        avatar_url: action.payload.user.avatar_url,
-        roleId: action.payload.user.roleId,
-        website: action.payload.user.website
+        private: {
+          bio: action.payload.user.bio,
+          display_name: action.payload.user.display_name,
+          email: action.payload.user.email,
+          first_name: action.payload.user.first_name,
+          id: action.payload.user.id,
+          last_name: action.payload.user.last_name,
+          location: action.payload.user.location,
+          avatar_url: action.payload.user.avatar_url,
+          roleId: action.payload.user.roleId,
+          website: action.payload.user.website
+        }
       };
     case types.GET_MY_PROFILE_FAIL:
     case types.PUBLIC_PROFILE_FAIL:

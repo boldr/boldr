@@ -34,9 +34,9 @@ class ProfileMain extends Component {
       <div className="grid__row">
         <Card className={ cx('profile__card') }>
           <CardTitle
-            title={ `Editing ${this.props.profile.display_name}'s profile ` }
+            title={ `Editing ${this.props.profile.private.display_name}'s profile ` }
             subtitle="Click the panel for editing options"
-            avatar={ <Avatar src={ this.props.profile.avatar_url } /> }
+            avatar={ <Avatar src={ this.props.profile.private.avatar_url } /> }
           />
           <CardText>
           <ExpansionList>
@@ -44,37 +44,37 @@ class ProfileMain extends Component {
             focused
             columnWidths={ 10 }
             label="First name"
-            secondaryLabel={ this.props.profile.first_name }
+            secondaryLabel={ this.props.profile.private.first_name }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Last name"
-            secondaryLabel={ this.props.profile.last_name }
+            secondaryLabel={ this.props.profile.private.last_name }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Display name"
-            secondaryLabel={ this.props.profile.display_name }
+            secondaryLabel={ this.props.profile.private.display_name }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Bio"
-            secondaryLabel={ this.props.profile.bio }
+            secondaryLabel={ this.props.profile.private.bio }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Location"
-            secondaryLabel={ this.props.profile.location }
+            secondaryLabel={ this.props.profile.private.location }
           />
           <ExpansionPanel
             focused
             columnWidths={ 10 }
             label="Website"
-            secondaryLabel={ this.props.profile.website }
+            secondaryLabel={ this.props.profile.private.website }
           />
           </ExpansionList>
           </CardText>

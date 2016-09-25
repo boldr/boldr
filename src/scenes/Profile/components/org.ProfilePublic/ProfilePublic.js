@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
 import { FlatButton } from '../../../../components/md/Buttons';
-import { getMyProfile } from 'state/dux/profile';
+import { getPublicProfile } from 'state/dux/profile';
 import Header from 'components/org.MainHeader';
-// @provideHooks({
-//   fetch: ({ dispatch }) => dispatch(getPublicProfile(this.props.routeParams.id))
-// })
+
+@provideHooks({
+  fetch: ({ dispatch, params: { id } }) => dispatch(getPublicProfile(id))
+})
 class ProfilePublic extends Component {
-  componentDidMount() {
-    this.props.getPublicProfile(this.props.params.id);
-  }
   render() {
     return (
       <div>
@@ -20,7 +18,7 @@ class ProfilePublic extends Component {
       </div>
         <Card>
           <CardTitle
-            title="title"
+            title={ this.props.profile.public.display_name }
             subtitle="Subtitle"
             avatar="http://lorempixel.com/100/100/nature/"
           />
@@ -49,6 +47,7 @@ ProfilePublic.propTypes = {
 const mapStateToProps = (state) => {
   return {
     profile: state.profile,
+    public: state.profile.public,
     isLoading: state.profile.isLoading
   };
 };
