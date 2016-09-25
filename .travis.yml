@@ -18,7 +18,6 @@ git:
 branches:
   except:
   - canary
-  - develop
 install:
 - npm install
 before_script:
