@@ -25,6 +25,7 @@ exports.up = function(knex, Promise) {
       table.string('site_slogan');
       table.string('site_description');
       table.string('google_analytics');
+      table.boolean('allow_registration').default(true);
       table.json('configuration');
     }),
     knex.schema.createTableIfNotExists('navigation', function(table) {

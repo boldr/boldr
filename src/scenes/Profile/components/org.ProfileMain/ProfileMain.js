@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import classNames from 'classnames/bind';
 
-import { Card, CardActions, CardTitle, CardText } from '../../../../components/md/Cards';
-import { FlatButton } from '../../../../components/md/Buttons';
-import { getMyProfile } from '../../reducer';
-import Header from '../../../../components/org.MainHeader';
-import inlineStyles from '../../../../theme/inlineStyles';
-import Avatar from '../../../../components/md/Avatars';
-import ExpansionList from '../../../../components/md/ExpansionPanels/ExpansionList';
-import ExpansionPanel from '../../../../components/md/ExpansionPanels/ExpansionPanel';
+import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
+import { FlatButton } from 'components/md/Buttons';
+import { getMyProfile } from 'state/dux/profile';
+import Header from 'components/org.MainHeader';
+import inlineStyles from 'theme/inlineStyles';
+import Avatar from 'components/md/Avatars';
+import ExpansionList from 'components/md/ExpansionPanels/ExpansionList';
+import ExpansionPanel from 'components/md/ExpansionPanels/ExpansionPanel';
+import Authenticated from 'components/hoc.Authenticated';
 import styles from './style.css';
 
 const cx = styles::classNames;
@@ -18,6 +19,7 @@ const cx = styles::classNames;
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(getMyProfile())
 })
+@Authenticated
 class ProfileMain extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired
@@ -88,4 +90,11 @@ class ProfileMain extends Component {
   }
 }
 
-export default ProfileMain;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+    isLoading: state.profile.isLoading
+  };
+};
+
+export default connect(mapStateToProps)(ProfileMain);

@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import { Card, CardActions, CardTitle, CardText } from '../../../../components/md/Cards';
+import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
 import { FlatButton } from '../../../../components/md/Buttons';
-import Avatar from '../../../../components/md/Avatars';
-import { getMyProfile } from '../../reducer';
-import Header from '../../../../components/org.MainHeader';
+import { getMyProfile } from 'state/dux/profile';
+import Header from 'components/org.MainHeader';
 // @provideHooks({
 //   fetch: ({ dispatch }) => dispatch(getPublicProfile(this.props.routeParams.id))
 // })
@@ -16,7 +15,7 @@ class ProfilePublic extends Component {
   render() {
     return (
       <div>
-      <div style={ {backgroundColor: '#324A70', height: '110px', width: '100%' } }>
+      <div style={ { backgroundColor: '#324A70', height: '110px', width: '100%' } }>
           <Header theme="dark" />
       </div>
         <Card>
@@ -43,7 +42,8 @@ class ProfilePublic extends Component {
 }
 
 ProfilePublic.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  getPublicProfile: PropTypes.func
 };
 
 const mapStateToProps = (state) => {

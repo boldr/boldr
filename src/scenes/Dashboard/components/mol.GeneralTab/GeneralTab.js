@@ -17,22 +17,22 @@ let GeneralTab = props => { // eslint-disable-line
      <div className={ cx('root') }>
         <form onSubmit={ handleSubmit }>
           <div className={ cx('row') }>
-          <Field name="siteName" type="text" component={ TextField } label="Website name" />
+          <Field name="site_name" type="text" component={ TextField } label="Website name" />
           </div>
           <div className={ cx('row') }>
-          <Field name="siteUrl" type="text" component={ TextField } label="Website URL" />
+          <Field name="site_url" type="text" component={ TextField } label="Website URL" />
           </div>
           <div className={ cx('row') }>
-          <Field name="description" type="text"
+          <Field name="site_description" type="text"
             component={ TextField } multiLine rows={ 3 }
             label="Website description"
           />
           </div>
           <div className={ cx('row') }>
-          <Field name="analyticsId" type="text" component={ TextField } label="Google Analytics ID" />
+          <Field name="google_analytics" type="text" component={ TextField } label="Google Analytics ID" />
           </div>
           <div className={ cx('row') }>
-          <Field name="allowRegistration" component={ RadioButtonGroup }>
+          <Field name="allow_registration" component={ RadioButtonGroup }>
 
             <Radio
               value="true"

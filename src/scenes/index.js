@@ -1,5 +1,3 @@
-import { UserAuthWrapper } from 'redux-auth-wrapper';
-import { routerActions } from 'react-router-redux';
 import Dashboard from './Dashboard/index';
 import Account from './Account/index';
 import Blog from './Blog';
@@ -11,14 +9,6 @@ const errorLoading = (err) => {
 const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
-const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.auth, // how to get the user state
-  failureRedirectPath: '/account/login',
-  redirectAction: routerActions.replace, // the redux action to dispatch for redirect
-  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check
-  predicate: auth => auth.isAuthenticated === true,
-  allowRedirectBack: true
-});
 
 export default (store) => {
   const connect = (fn) => (nextState, replaceState) => fn(store, nextState, replaceState);
@@ -36,19 +26,18 @@ export default (store) => {
       Blog(store, connect),
       {
         path: 'profile',
-        onEnter: connect(UserIsAuthenticated.onEnter),
         getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, UserIsAuthenticated(require('./Profile').default));
-          });
+          System.import('./Profile')
+            .then(loadModule(cb))
+            .catch(errorLoading);
         }
       },
       {
         path: 'profile/public/:id',
         getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Profile/components/org.ProfilePublic').default);
-          });
+          System.import('./Profile/components/org.ProfilePublic')
+            .then(loadModule(cb))
+            .catch(errorLoading);
         }
       }
     ]

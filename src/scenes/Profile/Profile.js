@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import ProfileMain from './components/org.ProfileMain';
 
-
 const mapStateToProps = (state) => {
   return {
     profile: state.profile,
