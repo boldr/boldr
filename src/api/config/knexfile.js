@@ -23,19 +23,22 @@ module.exports = {
     }
   },
 
-  staging: {
+  travis: {
     client: 'postgresql',
     connection: {
-      database: conf.get('db.name'),
-      user: conf.get('db.user'),
-      password: conf.get('db.password')
+      database: 'travis_ci_test',
+      user: 'postgres'
     },
     pool: {
-      min: 2,
+      min: 1,
       max: 10
     },
     migrations: {
+      directory: path.resolve(__dirname, '../db/_migrations'),
       tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: path.resolve(__dirname, '../db/_seeds'),
     }
   },
 

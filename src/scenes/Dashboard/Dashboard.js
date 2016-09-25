@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { SiteLogo, Grid, Col, Row } from 'components';
+import Authenicated from 'components/hoc.Authenticated';
 import NavigationDrawer from 'components/md/NavigationDrawers';
 import FontIcon from 'components/md/FontIcons';
 
@@ -20,6 +21,7 @@ const DrawerType = {
   PERSISTENT_MINI: 'mini'
 };
 
+@Authenicated
 class Dashboard extends Component {
   static propTypes = {
     children: PropTypes.element,

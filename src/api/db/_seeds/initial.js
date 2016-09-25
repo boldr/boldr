@@ -177,7 +177,17 @@ exports.seed = function(knex, Promise) {
         site_slogan: 'Why shouldnt your CMS be a little Boldr?',
         site_description: 'Universal JavaScript CMS powered by React, Redux, Express, and Postgres',
         google_analytics: 'UA-23423',
+        allow_registration: true,
         configuration: '{"mail":{"address":"mail@boldr.io"}}'
+      })
+    ]))
+    .then(() => Promise.all([
+      knex('navigation').insert({
+        name: 'Main',
+        primary: true,
+        restricted: false,
+        location: 'global',
+        items: '{"links":[{"name":"About", "href":"/about", "position":1}]}'
       })
     ]));
 };

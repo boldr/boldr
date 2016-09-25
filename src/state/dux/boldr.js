@@ -104,7 +104,7 @@ const failUpdateSettings = (err) => ({
 export function updateBoldrSettings(data, id) {
   return dispatch => {
     dispatch(beginUpdateSettings());
-    return api.doUpdateSettings()
+    return api.doUpdateSettings(data, id)
       .then(response => {
         dispatch(doneUpdateSettings(response));
         dispatch(loadSettings());

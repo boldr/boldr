@@ -1,11 +1,8 @@
 import request from 'superagent';
-import { push } from 'react-router-redux';
-import decode from 'jwt-decode';
-import browserHistory from 'react-router/lib/browserHistory';
 import fetch from 'isomorphic-fetch';
 import { notificationSend } from 'state/dux/notifications';
-import { API_BASE, API_AUTH } from '../../core/config';
-import * as types from './constants';
+import { API_BASE, API_AUTH } from 'core/config';
+import * as types from '../actionTypes';
 
 
 /**
@@ -74,19 +71,21 @@ const INITIAL_STATE = {
   error: null,
   public: {},
   hydrated: false,
-  bio: '',
-  birthday: '',
-  display_name: '',
-  email: '',
-  first_name: '',
-  gender: '',
-  id: '',
-  last_name: '',
-  location: '',
-  avatar_url: '',
-  roleId: '',
-  role: '',
-  website: ''
+  private: {
+    bio: '',
+    birthday: '',
+    display_name: '',
+    email: '',
+    first_name: '',
+    gender: '',
+    id: '',
+    last_name: '',
+    location: '',
+    avatar_url: '',
+    roleId: '',
+    role: '',
+    website: ''
+  }
 };
 
 /**
@@ -110,16 +109,18 @@ export default function profileReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        bio: action.payload.bio,
-        display_name: action.payload.display_name,
-        email: action.payload.email,
-        first_name: action.payload.first_name,
-        id: action.payload.id,
-        last_name: action.payload.last_name,
-        location: action.payload.location,
-        avatar_url: action.payload.avatar_url,
-        roleId: action.payload.roleId,
-        website: action.payload.website
+        private: {
+          bio: action.payload.user.bio,
+          display_name: action.payload.user.display_name,
+          email: action.payload.user.email,
+          first_name: action.payload.user.first_name,
+          id: action.payload.user.id,
+          last_name: action.payload.user.last_name,
+          location: action.payload.user.location,
+          avatar_url: action.payload.user.avatar_url,
+          roleId: action.payload.user.roleId,
+          website: action.payload.user.website
+        }
       };
     case types.GET_MY_PROFILE_FAIL:
     case types.PUBLIC_PROFILE_FAIL:

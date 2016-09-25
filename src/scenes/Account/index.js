@@ -1,15 +1,3 @@
-import { UserAuthWrapper } from 'redux-auth-wrapper';
-import { routerActions } from 'react-router-redux';
-
-const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.auth,
-  failureRedirectPath: '/account/login',
-  redirectAction: routerActions.replace,
-  wrapperDisplayName: 'UserIsAuthenticated',
-  predicate: auth => auth.isAuthenticated === true,
-  allowRedirectBack: true
-});
-
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
@@ -40,7 +28,6 @@ export default (store, connect) => ({
   },
   {
     path: 'preferences',
-    onEnter: connect(UserIsAuthenticated.onEnter),
     getComponent(nextState, cb) {
       System.import('./Preferences/components/tpl.Preferences')
         .then(loadModule(cb))
