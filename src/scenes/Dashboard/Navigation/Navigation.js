@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Paper from 'components/md/Papers';
+import { FloatingButton } from 'components/md/Buttons';
 import { List, ListItem } from 'components/md/Lists';
 import { Row, Col } from 'components';
+import { updateNav } from 'state/dux/navigation';
 import NavigationEditor from '../components/mol.NavigationEditor';
 
 function mapStateToProps(state) {
@@ -12,7 +14,9 @@ function mapStateToProps(state) {
 @connect(mapStateToProps)
 class Navigation extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    dispatch: PropTypes.func,
+    handleItemClick: PropTypes.func
   }
   constructor() {
     super();
@@ -27,6 +31,11 @@ class Navigation extends Component {
 
     this.handleItemClick = this.handleItemClick.bind(this);
   }
+  // @TODO: Shape the form data to match the state then send to api,
+  // or create "links table"
+  onUpdateFormSubmit = (data) => {
+    this.props.dispatch(updateNav(data));
+  }
 
   handleItemClick(item) {
     this.setState({
@@ -37,6 +46,7 @@ class Navigation extends Component {
       }
     });
   }
+
   render() {
     const { navigation } = this.props;
 
@@ -57,12 +67,11 @@ class Navigation extends Component {
           <Col xs>
             <Paper zDepth={ 2 }>
               <NavigationEditor
-                name={ this.state.link.name }
-                position={ this.state.link.position }
-                href={ this.state.link.href }
                 initialValues={ this.state.link }
+                onFormSubmit={ this.onUpdateFormSubmit }
               />
             </Paper>
+            <FloatingButton primary>add</FloatingButton>
           </Col>
         </Row>
       </div>

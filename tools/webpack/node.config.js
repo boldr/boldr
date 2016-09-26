@@ -90,9 +90,7 @@ const nodeConfig = { // eslint-disable-line
     process: true,
     Buffer: true,
     __filaname: true,
-    __dirname: true,
-    fs: true,
-    path: true
+    __dirname: true
   }
 };
 module.exports = nodeConfig;

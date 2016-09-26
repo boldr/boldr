@@ -35,7 +35,7 @@ export default (store) => {
       {
         path: 'profile/public/:id',
         getComponent(nextState, cb) {
-          System.import('./Profile/components/org.ProfilePublic')
+          System.import('./Profile/PublicProfile')
             .then(loadModule(cb))
             .catch(errorLoading);
         }

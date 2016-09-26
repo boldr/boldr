@@ -1,4 +1,4 @@
-import { join } from 'path';
+import path from 'path';
 import { Model } from 'objection';
 
 class Post extends Model {
@@ -10,7 +10,7 @@ class Post extends Model {
     return {
       author: {
         relation: Model.BelongsToOneRelation,
-        modelClass: join(__dirname, '..', 'user', 'user.model.js'),
+        modelClass: path.join(__dirname, '..', 'user', 'user.model.js'),
         join: {
           from: 'post.user_id',
           to: 'user.id'
@@ -18,7 +18,7 @@ class Post extends Model {
       },
       tags: {
         relation: Model.ManyToManyRelation,
-        modelClass: join(__dirname, '..', 'tag', 'tag.model.js'),
+        modelClass: path.join(__dirname, '..', 'tag', 'tag.model.js'),
         join: {
           from: 'post.id',
           through: {

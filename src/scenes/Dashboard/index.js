@@ -45,6 +45,14 @@ export default (store, connect) => ({
     }
   },
   {
+    path: 'content',
+    getComponent(nextState, cb) {
+      System.import('./Collections')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    }
+  },
+  {
     path: 'navigation',
     getComponent(nextState, cb) {
       System.import('./Navigation')

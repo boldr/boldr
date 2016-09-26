@@ -1,8 +1,15 @@
 import Button from './Button';
-export default Button;
+import FlatButton from './FlatButton';
+import RaisedButton from './RaisedButton';
+import FloatingButton from './FloatingButton';
+import IconButton from './IconButton';
+import AccessibleFakeButton from './AccessibleFakeButton';
 
-export FlatButton from './FlatButton';
-export RaisedButton from './RaisedButton';
-export FloatingButton from './FloatingButton';
-export IconButton from './IconButton';
-export AccessibleFakeButton from './AccessibleFakeButton';
+export {
+	Button,
+	FlatButton,
+	RaisedButton,
+	FloatingButton,
+	IconButton,
+	AccessibleFakeButton
+};

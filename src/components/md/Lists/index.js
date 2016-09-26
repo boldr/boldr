@@ -1,3 +1,9 @@
-export List from './List';
-export ListItem from './ListItem';
-export ListItemControl from './ListItemControl';
+import List from './List';
+import ListItem from './ListItem';
+import ListItemControl from './ListItemControl';
+
+export {
+	List,
+ListItem,
+ListItemControl
+}

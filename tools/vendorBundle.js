@@ -13,7 +13,7 @@ const VENDOR_BUNDLE = [
   'react-addons-css-transition-group',
   'draft-js',
   'classnames',
-  'react-sortable-hoc'
+  'reselect'
 ];
 
 module.exports = VENDOR_BUNDLE;

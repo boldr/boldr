@@ -108,7 +108,9 @@ const clientProdConfig = {
   ],
   node: {
     __dirname: true,
-    __filename: true
+    __filename: true,
+    global: true,
+    path: true
   }
 };
 module.exports = clientProdConfig;

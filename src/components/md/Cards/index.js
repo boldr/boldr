@@ -1,10 +1,15 @@
 import Card from './Card';
-export default Card;
+import CardTitle from './CardTitle';
+import CardMedia from './CardMedia';
+import CardActions from './CardActions';
+import CardText from './CardText';
+import CardActionOverlay from './CardActionOverlay';
 
-export { Card };
-
-export CardTitle from './CardTitle';
-export CardMedia from './CardMedia';
-export CardActions from './CardActions';
-export CardText from './CardText';
-export CardActionOverlay from './CardActionOverlay';
+export {
+	Card,
+	CardTitle,
+	CardMedia,
+	CardActions,
+	CardText,
+	CardActionOverlay
+}

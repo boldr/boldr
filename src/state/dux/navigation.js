@@ -1,6 +1,48 @@
-const LOAD = 'navigation/LOAD';
-const LOAD_SUCCESS = 'navigation/LOAD_SUCCESS';
-const LOAD_FAILURE = 'navigation/LOAD_FAILURE';
+import request from 'superagent';
+import { notificationSend } from 'state/dux/notifications';
+import * as api from 'core/api/navigationService';
+import * as types from '../actionTypes';
+
+const beginUpdateNav = () => {
+  return { type: types.UPDATE_NAVIGATION_REQUEST };
+};
+
+const doneUpdateNav = (response) => {
+  return { type: types.UPDATE_NAVIGATION_SUCCESS };
+};
+
+const failUpdateNav = (err) => {
+  return {
+    type: types.UPDATE_NAVIGATION_SUCCESS,
+    error: err
+  };
+};
+
+export function updateNav(data) {
+  console.log('updatenav ', data);
+  return dispatch => {
+    dispatch(beginUpdateNav());
+    return api.doUpdateNavigation(data)
+      .then(response => {
+        dispatch(doneUpdateNav(response));
+        dispatch(notificationSend({
+          message: 'Updated user.',
+          kind: 'info',
+          dismissAfter: 3000
+        }));
+      })
+      .catch(
+        err => {
+          dispatch(failUpdateNav(err.message));
+          dispatch(notificationSend({
+            message: 'There was a problem updating the user.',
+            kind: 'error',
+            dismissAfter: 3000
+          }));
+        });
+  };
+}
+
 
 const initialState = {
   loaded: false
@@ -8,19 +50,19 @@ const initialState = {
 
 export default function navigationReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case LOAD:
+    case types.LOAD_NAVIGATION_REQUEST:
       return {
         ...state,
         loading: true
       };
-    case LOAD_SUCCESS:
+    case types.LOAD_NAVIGATION_SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
         primary: action.result
       };
-    case LOAD_FAILURE:
+    case types.LOAD_NAVIGATION_FAILURE:
       return {
         ...state,
         loading: false,
@@ -38,7 +80,7 @@ export function isLoaded(globalState) {
 
 export function loadPrimary() {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAILURE],
+    types: [LOAD_NAVIGATION_REQUEST, LOAD_NAVIGATION_SUCCESS, LOAD_NAVIGATION_FAILURE],
     promise: (client) => client.get('/navigations/1')
   };
 }

@@ -49,59 +49,7 @@ import TextField from './TextFields';
 import Toolbar from './Toolbars';
 import Tooltip from './Tooltips';
 
-export { AccessibleFakeButton };
-export { Autocomplete };
-export { Avatar };
-export { BottomNavigation };
-export { Card };
-export { CardActions };
-export { CardActionOverlay };
-export { CardHeader };
-export { CardMedia };
-export { CardText };
-export { CardTitle };
-export { Checkbox };
-export { Chip };
-export { CircularProgress };
-export { DatePicker };
-export { DataTable };
-export { Dialog };
-export { Divider };
-export { EditDialogColumn };
-export { FlatButton };
-export { FloatingButton };
-export { FileInput };
-export { FileUpload };
-export { FontIcon };
-export { IconButton };
-export { Ink };
-export { LinearProgress };
-export { List };
-export { ListItem };
-export { Menu };
-export { NavigationDrawer };
-export { Paper };
-export { Radio };
-export { RadioGroup };
-export { RaisedButton };
-export { Slider };
-export { Sidebar };
-export { Snackbar };
-export { SpeedDial };
-export { Subheader };
-export { Switch };
-export { Tab };
-export { TableBody };
-export { TableColumn };
-export { TableHeader };
-export { TableRow };
-export { Tabs };
-export { TextField };
-export { TimePicker };
-export { Toolbar };
-export { Tooltip };
-
-export default {
+export {
   Autocomplete,
   Avatar,
   BottomNavigation,
@@ -153,5 +101,5 @@ export default {
   TextField,
   TimePicker,
   Toolbar,
-  Tooltip,
+  Tooltip
 };

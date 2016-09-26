@@ -36,6 +36,19 @@ export function navigationClicked() {
   };
 }
 
+export function contentClicked() {
+  return (dispatch) => {
+    dispatch(push('/dashboard/content'));
+  };
+}
+
+
+export function pagesClicked() {
+  return (dispatch) => {
+    dispatch(push('/dashboard/pages'));
+  };
+}
+
 export function settingsClicked() {
   return (dispatch) => {
     dispatch(push('/dashboard/settings'));

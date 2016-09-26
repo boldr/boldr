@@ -2,15 +2,19 @@ import React, { PropTypes } from 'react';
 import NavigationForm from '../atm.NavigationForm';
 
 const NavigationEditor = (props) => {
-
   return (
     <div>
-      <NavigationForm name={ props.name } position={ props.position } href={ props.href } />
-      Name: { props.name }
-      Position: { props.position }
-      Href: { props.href }
+      <NavigationForm initialValues={ props.initialValues } enableReinitialize onSubmit={ props.onFormSubmit } />
     </div>
   );
 };
 
+NavigationEditor.propTypes = {
+  onFormSubmit: PropTypes.func,
+  initialValues: PropTypes.shape({
+    position: PropTypes.number,
+    href: PropTypes.string,
+    name: PropTypes.string
+  })
+};
 export default NavigationEditor;
