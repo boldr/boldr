@@ -186,8 +186,31 @@ exports.seed = function(knex, Promise) {
         name: 'Main',
         primary: true,
         restricted: false,
-        location: 'global',
-        items: '{"links":[{"name":"About", "href":"/about", "position":1}]}'
+        location: 'header'
+      })
+    ]))
+    .then(() => Promise.all([
+      knex('link').insert({
+        name: 'About',
+        position: 1,
+        href: '/about',
+        icon: 'info'
+      }),
+      knex('link').insert({
+        name: 'Blog',
+        position: 2,
+        href: '/blog',
+        icon: 'info'
+      })
+    ]))
+    .then(() => Promise.all([
+      knex('navigation_link').insert({
+        navigation_id: 1,
+        link_id: 1
+      }),
+      knex('navigation_link').insert({
+        navigation_id: 1,
+        link_id: 2
       })
     ]));
 };

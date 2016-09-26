@@ -33,8 +33,19 @@ exports.up = function(knex, Promise) {
       table.string('name');
       table.boolean('primary').default(false);
       table.boolean('restricted').default(false);
-      table.string('location');
-      table.json('items');
+      table.enu('location', ['header', 'sidebar', 'footer', 'admin']).defaultTo('header');
+    }),
+    knex.schema.createTableIfNotExists('link', function(table) {
+      table.increments('id');
+      table.string('name');
+      table.integer('position');
+      table.string('href');
+      table.string('icon');
+    }),
+    knex.schema.createTableIfNotExists('navigation_link', function(table) {
+      table.integer('navigation_id').notNullable().references('id').inTable('navigation');
+      table.integer('link_id').notNullable().references('id').inTable('link');
+      table.primary(['navigation_id', 'link_id']);
     })
   ])
 };
@@ -44,6 +55,8 @@ exports.down = function(knex, Promise) {
     //fk tables
     knex.schema.dropTableIfExists('media'),
     knex.schema.dropTableIfExists('setting'),
-    knex.schema.dropTableIfExists('navigation')
+    knex.schema.dropTableIfExists('navigation'),
+    knex.schema.dropTableIfExists('links'),
+    knex.schema.dropTableIfExists('navigation_link')
   ]);
 };

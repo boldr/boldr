@@ -28,7 +28,7 @@ async function handleInitialRender(req, res) {
 
   const preloadPostData = await Post.query().eager('[tags, author]');
   const preloadSettingsData = await Setting.query().findById(1);
-  const preloadNavigationData = await Navigation.query().findById(1);
+  const preloadNavigationData = await Navigation.query().findById(1).eager('[links]');
   const PRELOAD_STATE = {
     posts: postsToState(preloadPostData),
     boldr: preloadSettingsData,
