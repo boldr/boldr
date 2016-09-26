@@ -23,10 +23,11 @@
       }
     },
     "test:client": {
-      "command": "BABEL_ENV=server mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/**/*.test.js'",
+      "command": "mocha --compilers js:./tools/test/mocha.js --require tools/test/clientHelper.js --require ignore-styles --opts ./tools/test/mocha.opts './src/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
         "NODE_PATH": "./src",
+        "BABEL_ENV": "test",
         "SSR_PORT": 3000
       }
     },
