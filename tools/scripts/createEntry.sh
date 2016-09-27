@@ -1,5 +1,7 @@
 #!/bin/bash
-echo "Building the entrypoint"
-cp ${PWD}/tools/scripts/prodServerHook.js ${PWD}/build/index.js
-echo "Copying config"
-cp ${PWD}/tools/webpack/isomorphic.config.js ${PWD}/build/isomorphic.config.js
+echo "Starting bundling process"
+npm run build
+echo "Copying env file"
+cp ${PWD}/.env ${PWD}/static
+echo "Building docker image"
+docker build -t strues/boldr .
