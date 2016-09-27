@@ -49,12 +49,16 @@ module.exports = {
       user: conf.get('db.user'),
       password: conf.get('db.password')
     },
+    migrations: {
+      directory: path.resolve(__dirname, '../db/_migrations'),
+      tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: path.resolve(__dirname, '../db/_seeds'),
+    },
     pool: {
       min: 2,
       max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
     }
   }
 

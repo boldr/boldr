@@ -5,9 +5,9 @@ import BaseModel from '../BaseModel';
 import Role from '../role/role.model';
 import Media from '../media/media.model';
 
-const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
+const bcrypt = Promise.promisifyAll(require('bcrypt'));
 
-class User extends BaseModel {
+class User extends Model {
   static get tableName() {
     return 'user';
   }
@@ -74,7 +74,7 @@ class User extends BaseModel {
    * @returns {*}
    */
   authenticate(plainText) {
-    return bcrypt.compareAsync(plainText, this.password);
+    return bcrypt.compareSync(plainText, this.password);
   }
   /**
    * Before updating make sure we hash the password if provided.
@@ -85,7 +85,7 @@ class User extends BaseModel {
     super.$beforeUpdate(queryContext);
 
     if (this.hasOwnProperty('password')) {
-      this.password = bcrypt.hashAsync(this.password, 10);
+      this.password = bcrypt.hashSync(this.password, 10);
     }
   }
 }
