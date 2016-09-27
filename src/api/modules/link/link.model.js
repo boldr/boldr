@@ -1,8 +1,9 @@
 import path from 'path';
 import { Model } from 'objection';
 import Navigation from '../navigation/navigation.model';
+import BaseModel from '../BaseModel';
 
-class Link extends Model {
+class Link extends BaseModel {
   static get tableName() { return 'link'; }
   static get relationMappings() {
     return {

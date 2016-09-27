@@ -1,5 +1,5 @@
 import findQuery from 'objection-find';
-import { searchFilter, responseHandler, throwNotFound } from './utils';
+import { searchFilter, responseHandler, throwNotFound } from '../utils';
 
 class BaseController {
 

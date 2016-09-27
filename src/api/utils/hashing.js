@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import CryptoJS from 'crypto-js';
 
-const bcrypt = Promise.promisifyAll(require('bcrypt'));
+const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
 const debug = require('debug')('boldr:hashing');
 
 const SALT_ROUNDS = 10;

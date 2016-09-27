@@ -20,6 +20,8 @@ exports.up = function(knex, Promise) {
       table.string('description');
       table.boolean('restricted').default(false);
       table.string('slug');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
     knex.schema.createTableIfNotExists('collection', function(table) {
       table.increments('id');

@@ -3,8 +3,9 @@ import conf from './config/config';
 import coreMiddleware from './middleware/coreMiddleware';
 import sessionMiddleware from './middleware/sessionMiddleware';
 import handleMail from './mailer';
-import BaseController from './BaseController';
-import { DbConnection, redisClient } from './db';
+import BaseController from './modules/BaseController';
+import BaseModel from './modules/BaseModel';
+import { knex, redisClient } from './db';
 
 export {
   logger,
@@ -13,6 +14,7 @@ export {
   conf,
   handleMail,
   BaseController,
-  DbConnection,
+  BaseModel,
+  knex,
   redisClient
 };

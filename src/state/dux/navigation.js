@@ -13,20 +13,19 @@ const doneUpdateNav = (response) => {
 
 const failUpdateNav = (err) => {
   return {
-    type: types.UPDATE_NAVIGATION_SUCCESS,
+    type: types.UPDATE_NAVIGATION_FAILURE,
     error: err
   };
 };
 
-export function updateNav(data) {
-  console.log('updatenav ', data);
+export function updateNavLinks(data) {
   return dispatch => {
     dispatch(beginUpdateNav());
-    return api.doUpdateNavigation(data)
+    return api.doUpdateNavigationLinks(data)
       .then(response => {
         dispatch(doneUpdateNav(response));
         dispatch(notificationSend({
-          message: 'Updated user.',
+          message: 'Updated link.',
           kind: 'info',
           dismissAfter: 3000
         }));
@@ -35,7 +34,7 @@ export function updateNav(data) {
         err => {
           dispatch(failUpdateNav(err.message));
           dispatch(notificationSend({
-            message: 'There was a problem updating the user.',
+            message: 'There was a problem updating the navigation link.',
             kind: 'error',
             dismissAfter: 3000
           }));
@@ -43,7 +42,44 @@ export function updateNav(data) {
   };
 }
 
+const beginAddNavLink = () => {
+  return { type: types.ADD_NAVIGATION_LINK_REQUEST };
+};
 
+const doneAddNavLink = (response) => {
+  return { type: types.ADD_NAVIGATION_LINK_SUCCESS };
+};
+
+const failAddNavLink = (err) => {
+  return {
+    type: types.ADD_NAVIGATION_LINK_FAILURE,
+    error: err
+  };
+};
+
+export function addNavLinks(data) {
+  return dispatch => {
+    dispatch(beginAddNavLink());
+    return api.doAddNavigationLinks(data)
+      .then(response => {
+        dispatch(doneAddNavLink(response));
+        dispatch(notificationSend({
+          message: 'Link added.',
+          kind: 'info',
+          dismissAfter: 3000
+        }));
+      })
+      .catch(
+        err => {
+          dispatch(failAddNavLink(err.message));
+          dispatch(notificationSend({
+            message: 'There was a problem creating the link.',
+            kind: 'error',
+            dismissAfter: 3000
+          }));
+        });
+  };
+}
 const initialState = {
   loaded: false
 };
@@ -51,6 +87,8 @@ const initialState = {
 export default function navigationReducer(state = initialState, action = {}) {
   switch (action.type) {
     case types.LOAD_NAVIGATION_REQUEST:
+    case types.UPDATE_NAVIGATION_REQUEST:
+    case types.ADD_NAVIGATION_LINK_REQUEST:
       return {
         ...state,
         loading: true
@@ -63,6 +101,8 @@ export default function navigationReducer(state = initialState, action = {}) {
         primary: action.result
       };
     case types.LOAD_NAVIGATION_FAILURE:
+    case types.UPDATE_NAVIGATION_FAILURE:
+    case types.ADD_NAVIGATION_LINK_FAILURE:
       return {
         ...state,
         loading: false,

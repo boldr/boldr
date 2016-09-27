@@ -25,6 +25,8 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.string('name').notNullable();
       table.text('description');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
     knex.schema.createTableIfNotExists('user_role', function(table) {
       table.integer('user_id')
@@ -45,6 +47,7 @@ exports.up = function(knex, Promise) {
       table.string('name').notNullable().unique();
       table.string('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
     })
   ])
 };

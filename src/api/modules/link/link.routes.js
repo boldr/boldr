@@ -1,9 +1,9 @@
 import express from 'express';
-import BaseController from '../../BaseController';
+import BaseController from '../BaseController';
 import Link from './link.model';
 import * as ctrl from './link.controller';
 
-const controller = new BaseController(Navigation);
+const controller = new BaseController(Link);
 
 const router = express.Router();
 

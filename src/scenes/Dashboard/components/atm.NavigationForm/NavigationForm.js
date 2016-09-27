@@ -9,21 +9,15 @@ import Divider from 'components/md/Dividers';
 let NavigationForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
-    <form onSubmit={ handleSubmit }>
-      <Row>
-          <Field name="name" component={ renderTextField } type="text" label="Name" />
-      </Row>
-      <Row>
-          <Field name="position" component={ renderTextField } type="text" label="Position" />
-      </Row>
-      <Row>
-          <Field name="href" component={ renderTextField } type="text" label="Link" />
-      </Row>
-      <Row>
-      <Divider />
-      <RaisedButton type="submit" secondary label="Save" disabled={ pristine || submitting } />
+    <form className="form__navigation" onSubmit={ handleSubmit }>
+      <Field name="name" component={ renderTextField } type="text" label="Name" />
+      <Field name="position" component={ renderTextField } type="text" label="Position" />
+      <Field name="href" component={ renderTextField } type="text" label="Link" />
+      <Field name="icon" component={ renderTextField } type="text" label="Icon" />
+      <div className="form__footer">
+      <RaisedButton type="submit" label="Save" disabled={ pristine || submitting } style={ { marginRight: '10px' } } />
       <FlatButton type="button" label="Cancel" onClick={ reset } disabled={ pristine || submitting } />
-      </Row>
+      </div>
     </form>
   );
 };

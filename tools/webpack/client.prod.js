@@ -15,7 +15,7 @@ const clientProdConfig = {
   target: 'web',
   stats: true,
   bail: true,
-  devtool: false,
+  devtool: 'hidden-source-map',
   context: config.ABS_ROOT,
   entry: {
     main: [require.resolve('./util/polyfill'), path.join(config.CMS_SRC, 'client.js')],

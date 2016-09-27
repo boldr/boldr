@@ -25,6 +25,15 @@ export default (store) => {
       Account(store, connect),
       Blog(store, connect),
       {
+        path: 'about',
+        getComponent(nextState, cb) {
+         require.ensure(['../pages/About'], (require) => {
+            let AboutPage = require('../pages/About').default;
+            cb(null, AboutPage);
+          });
+        }
+      },
+      {
         path: 'profile',
         getComponent(nextState, cb) {
           System.import('./Profile')

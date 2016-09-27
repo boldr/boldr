@@ -1,5 +1,5 @@
 import express from 'express';
-import BaseController from '../../BaseController';
+import BaseController from '../BaseController';
 import { processQuery } from '../../utils';
 import Collection from './collection.model';
 

@@ -30,8 +30,8 @@ function create(req, res) {
 
 function update(req, res) {
   return Link.query()
-    .patchAndFetchById(1, req.body)
-    .then(navigation => res.status(201).json(navigation));
+    .patchAndFetchById(req.params.id, req.body)
+    .then(navigation => res.status(202).json(navigation));
 }
 
 export { index, update, getId };

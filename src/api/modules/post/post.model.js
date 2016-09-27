@@ -1,7 +1,10 @@
 import path from 'path';
 import { Model } from 'objection';
+import Tag from '../tag/tag.model';
+import User from '../user/user.model';
+import BaseModel from '../BaseModel';
 
-class Post extends Model {
+class Post extends BaseModel {
   static get tableName() {
     return 'post';
   }
@@ -10,7 +13,7 @@ class Post extends Model {
     return {
       author: {
         relation: Model.BelongsToOneRelation,
-        modelClass: path.join(__dirname, '..', 'user', 'user.model.js'),
+        modelClass: User,
         join: {
           from: 'post.user_id',
           to: 'user.id'
@@ -18,7 +21,7 @@ class Post extends Model {
       },
       tags: {
         relation: Model.ManyToManyRelation,
-        modelClass: path.join(__dirname, '..', 'tag', 'tag.model.js'),
+        modelClass: Tag,
         join: {
           from: 'post.id',
           through: {

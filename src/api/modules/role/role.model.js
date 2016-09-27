@@ -1,7 +1,9 @@
 import { join } from 'path';
 import { Model } from 'objection';
+import User from '../user/user.model';
+import BaseModel from '../BaseModel';
 
-class Role extends Model {
+class Role extends BaseModel {
   static get tableName() {
     return 'role';
   }
@@ -10,7 +12,7 @@ class Role extends Model {
     return {
       role: {
         relation: Model.ManyToManyRelation,
-        modelClass: join(__dirname, '..', 'user', 'user.model.js'),
+        modelClass: User,
         join: {
           from: 'role.id',
           through: {
