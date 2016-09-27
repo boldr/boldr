@@ -1,4 +1,4 @@
-import DbConnection from './connection';
+import knex from './connection';
 import redisClient from './redis';
 
-export { DbConnection, redisClient };
+export { knex, redisClient };

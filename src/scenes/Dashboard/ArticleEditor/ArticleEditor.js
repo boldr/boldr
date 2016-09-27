@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
-import EditorForm from '../components/mol.EditorForm';
+import EditorForm from '../components/atm.EditorForm';
 
 class ArticleEditor extends Component {
   static propTypes = {

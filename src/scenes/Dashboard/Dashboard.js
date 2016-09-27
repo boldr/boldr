@@ -10,7 +10,7 @@ import FontIcon from 'components/md/FontIcons';
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
   mediaClicked, membersClicked, settingsClicked, homeClicked,
-  navigationClicked
+  navigationClicked, contentClicked, pagesClicked
 } from './actions';
 
 const DrawerType = {
@@ -33,7 +33,9 @@ class Dashboard extends Component {
     membersClicked: PropTypes.func,
     settingsClicked: PropTypes.func,
     homeClicked: PropTypes.func,
-    navigationClicked: PropTypes.func
+    navigationClicked: PropTypes.func,
+    pagesClicked: PropTypes.func,
+    contentClicked: PropTypes.func
   };
   render() {
     const navItems = [
@@ -65,6 +67,16 @@ class Dashboard extends Component {
         primaryText: 'Navigation',
         leftIcon: <FontIcon>link</FontIcon>,
         onClick: this.props.navigationClicked
+      },
+      {
+        primaryText: 'Pages',
+        leftIcon: <FontIcon>book</FontIcon>,
+        onClick: this.props.pagesClicked
+      },
+      {
+        primaryText: 'Content',
+        leftIcon: <FontIcon>content_copy</FontIcon>,
+        onClick: this.props.contentClicked
       },
       {
         primaryText: 'Settings',
@@ -109,6 +121,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     articleListClicked, articleEditorClicked, dashboardClicked,
-    mediaClicked, membersClicked, settingsClicked, homeClicked, navigationClicked }, dispatch);
+    mediaClicked, membersClicked, settingsClicked, homeClicked, navigationClicked,
+    contentClicked, pagesClicked }, dispatch);
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

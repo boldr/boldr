@@ -15,7 +15,7 @@ const clientProdConfig = {
   target: 'web',
   stats: true,
   bail: true,
-  devtool: false,
+  devtool: 'hidden-source-map',
   context: config.ABS_ROOT,
   entry: {
     main: [require.resolve('./util/polyfill'), path.join(config.CMS_SRC, 'client.js')],
@@ -108,7 +108,9 @@ const clientProdConfig = {
   ],
   node: {
     __dirname: true,
-    __filename: true
+    __filename: true,
+    global: true,
+    path: true
   }
 };
 module.exports = clientProdConfig;

@@ -1,1 +1,3 @@
-export Height from './Height';
+import Height from './Height';
+
+export default Height;

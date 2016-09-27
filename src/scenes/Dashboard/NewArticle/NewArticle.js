@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { createPost } from 'state/dux/post';
-import EditorForm from '../components/mol.EditorForm';
+import EditorForm from '../components/atm.EditorForm';
 
 class NewArticle extends Component {
   static propTypes = {

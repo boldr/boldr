@@ -1,7 +1,17 @@
-export DataTable from './DataTable';
-export TableHeader from './TableHeader';
-export TableBody from './TableBody';
-export TableRow from './TableRow';
-export TableColumn from './TableColumn';
-export EditDialogColumn from './EditDialogColumn';
-export TablePagination from './TablePagination';
+import DataTable from './DataTable';
+import TableHeader from './TableHeader';
+import TableBody from './TableBody';
+import TableRow from './TableRow';
+import TableColumn from './TableColumn';
+import EditDialogColumn from './EditDialogColumn';
+import TablePagination from './TablePagination';
+
+export {
+  DataTable,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableColumn,
+  EditDialogColumn,
+  TablePagination
+};

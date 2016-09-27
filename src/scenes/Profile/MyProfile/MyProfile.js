@@ -20,7 +20,7 @@ const cx = styles::classNames;
   fetch: ({ dispatch }) => dispatch(getMyProfile())
 })
 @Authenticated
-class ProfileMain extends Component {
+class MyProfile extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired
   };
@@ -97,4 +97,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfileMain);
+export default connect(mapStateToProps)(MyProfile);

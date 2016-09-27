@@ -6,7 +6,7 @@ import compression from 'compression';
 import passport from 'passport';
 
 // Boldr API Deps
-import { conf, DbConnection, coreMiddleware, sessionMiddleware } from './api';
+import { conf, knex, coreMiddleware, sessionMiddleware } from './api';
 import routes from './api/modules/routes';
 import { monkeyPatchRouteMethods } from './api/utils';
 import getRoutes from './scenes/index';
@@ -16,7 +16,6 @@ const debug = require('debug')('boldr:ssr-server');
 const sourceMaps = require('source-map-support');
 
 sourceMaps.install();
-DbConnection.init();
 
 const app = new express();
 const server = http.createServer(app);
@@ -24,9 +23,6 @@ const server = http.createServer(app);
 const port = conf.get('api.port');
 
 app.use(compression());
-
-app.use(express.static(path.join(__dirname, 'assets')));
-app.use(express.static(path.join(__dirname, '..', 'static')));
 
 coreMiddleware(app);
 monkeyPatchRouteMethods(app);
@@ -43,6 +39,13 @@ app.use((req, res, next) => {
 });
 
 app.use(conf.get('api.base'), routes);
+app.use(
+  '/assets/',
+  express.static('./static', { maxAge: '365d' })
+);
+
+// Configure static serving of our "public" root http path static files.
+app.use(express.static('static'));
 
 app.get('*', handleInitialRender);
 

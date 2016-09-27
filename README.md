@@ -7,6 +7,12 @@
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
 
+<p align='center'>
+  <h1 align='center'>Blog Posts</h1>
+  <p align='center'><img width='720' src='https://boldr.io/images/blog.png' /></p>
+</p>
+
+
 Table of Contents
 -----------------
 
@@ -29,9 +35,8 @@ Table of Contents
 Boldr
 =====
 
-Boldr aims to provide a CMS foundation for you to use as a base in your next web project. Built on cutting edge web technologies, along with a few time tested favorites, we believe Boldr could become something special. It's no secret, the world doesn't need another *never-to-be finished* CMS project, nor does it need the "next WordPress". Boldr tries to be none of that.  
+Boldr aims to provide strong CMS foundation for you to use as a base in your next web project. Built on cutting edge web technologies, along with a few time tested favorites, we believe Boldr could become something special. It's no secret, the world doesn't need another *never-to-be finished* CMS project, nor does it need the "next WordPress". Boldr tries to be none of that.  
 
-The backend for Boldr is currently being rewritten and improved over in the [API repo](https://github.com/boldr/boldr-api). The reasoning for rewriting the API is to drop Sequelize and include additional improved functionality of the current backend. It would be too problematic to include these major changes in the current, functioning repository. Some of the major changes include filtering via querystrings. Faster eager loading and more.
 
 Stack
 -------------
@@ -44,7 +49,7 @@ Stack
 
 Getting Started / Installation
 ======
-**A word of caution:** At the moment, Boldr is in active development. Things may change, there will be bugs, and you should not use it in production quite yet. Im not.
+**A word of caution:** At the moment, Boldr is in active development.
 
 1. `git clone https://github.com/boldr/boldr.git`
 2. `cd boldr && npm install`
@@ -61,12 +66,15 @@ POSTGRES_CONN_URI=postgres://postgres:password@localhost:5432/boldr_development
 5. `docker-compose up -d` unless you're running Postgres and Redis already.
 6. `npm run migrate` followed by `npm run seed` this will create the database tables as well as seed some initial content.
   - To change the database configuration modify or remove the `POSTGRES_CONN_URI` from your .env
-  - Alternatively, you may change the configuration file location in `src/boldr-api/core/config/index.js`.  
+  - Alternatively, you may change the configuration file location in `src/api/config/config.js`.  
 7.
   - For production: `npm run build` and then `npm run start:prod` to run it.
   - For development: `npm run dev`  
 
-![Dashboard](https://boldr.io/editor.png)   
+<p align='center'>
+  <h1 align='center'>Editor</h1>
+  <p align='center'><img width='720' src='https://boldr.io/images/editor.png' /></p>
+</p>
 
 Usage
 =========
@@ -118,11 +126,6 @@ View a **very early** demo at https://staging.boldr.io
 
 > Email - admin@boldr.io  
 Password - password
-
-
-
-
-![Blog](https://boldr.io/blog.png)  
 
 [travis-img]: https://travis-ci.org/boldr/boldr.svg?branch=master
 [travis-link]: https://travis-ci.org/boldr/boldr

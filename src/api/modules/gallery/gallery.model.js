@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { Model } from 'objection';
-
-class Gallery extends Model {
+import BaseModel from '../BaseModel';
+class Gallery extends BaseModel {
   static get tableName() { return 'gallery'; }
 
 }

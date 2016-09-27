@@ -1,9 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Paper from 'components/md/Papers';
+import Dialog from 'components/md/Dialogs';
+import { FloatingButton } from 'components/md/Buttons';
 import { List, ListItem } from 'components/md/Lists';
 import { Row, Col } from 'components';
+import { updateNavLinks, addNavLinks } from 'state/dux/navigation';
 import NavigationEditor from '../components/mol.NavigationEditor';
+import NavigationForm from '../components/atm.NavigationForm';
 
 function mapStateToProps(state) {
   return { navigation: state.navigation };
@@ -12,35 +16,59 @@ function mapStateToProps(state) {
 @connect(mapStateToProps)
 class Navigation extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    dispatch: PropTypes.func,
+    handleItemClick: PropTypes.func
   }
   constructor() {
     super();
 
     this.state = {
+      isOpen: false,
       link: {
         name: null,
         position: null,
-        href: null
+        href: null,
+        id: null,
+        icon: null
       }
     };
 
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
+  onUpdateFormSubmit = (data) => {
+    const id = this.state.link.id;
+    this.props.dispatch(updateNavLinks(data, id));
+  }
+
+  onFormSubmit = (data) => {
+    this.props.dispatch(addNavLinks(data));
+  }
+  openDialog = () => {
+    this.setState({ isOpen: true });
+  };
+
+  closeDialog = () => {
+    this.setState({ isOpen: false });
+  };
+
   handleItemClick(item) {
     this.setState({
       link: {
         name: item.name,
         position: item.position,
-        href: item.href
+        href: item.href,
+        id: item.id,
+        icon: item.icon
       }
     });
   }
+
   render() {
     const { navigation } = this.props;
-
-    const listItems = navigation.items.links.map((item, i) => {
+    const { isOpen } = this.state;
+    const listItems = navigation.links.map((item, i) => {
       return <ListItem key={ i } primaryText={ item.name } onClick={ () => this.handleItemClick(item) } />;
     });
 
@@ -53,18 +81,25 @@ class Navigation extends Component {
             { listItems }
             </List>
           </Paper>
+          <FloatingButton primary onClick={ this.openDialog }>add</FloatingButton>
           </Col>
-          <Col xs>
+          <Col xs={ 12 } md={ 4 }>
             <Paper zDepth={ 2 }>
               <NavigationEditor
-                name={ this.state.link.name }
-                position={ this.state.link.position }
-                href={ this.state.link.href }
                 initialValues={ this.state.link }
+                onFormSubmit={ this.onUpdateFormSubmit }
               />
             </Paper>
           </Col>
         </Row>
+        <Dialog
+          isOpen={ isOpen }
+          title="Add a link"
+          close={ this.closeDialog }
+          dialogStyle={ { width: 520 } }
+        >
+          <NavigationForm onSubmit={ this.onFormSubmit } />
+        </Dialog>
       </div>
     );
   }

@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
-import { FlatButton } from '../../../../components/md/Buttons';
+import { FlatButton } from 'components/md/Buttons';
 import { getPublicProfile } from 'state/dux/profile';
 import Header from 'components/org.MainHeader';
 
 @provideHooks({
   fetch: ({ dispatch, params: { id } }) => dispatch(getPublicProfile(id))
 })
-class ProfilePublic extends Component {
+class PublicProfile extends Component {
   render() {
     return (
       <div>
@@ -39,7 +39,7 @@ class ProfilePublic extends Component {
   }
 }
 
-ProfilePublic.propTypes = {
+PublicProfile.propTypes = {
   profile: PropTypes.object.isRequired,
   getPublicProfile: PropTypes.func
 };
@@ -52,4 +52,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getPublicProfile })(ProfilePublic);
+export default connect(mapStateToProps, { getPublicProfile })(PublicProfile);

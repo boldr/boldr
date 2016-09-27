@@ -1,2 +1,7 @@
-export DatePicker from './DatePickerContainer';
-export TimePicker from './TimePickerContainer';
+import DatePicker from './DatePickerContainer';
+import TimePicker from './TimePickerContainer';
+
+export {
+  DatePicker,
+  TimePicker
+};

@@ -1,59 +1,25 @@
 {
   "env": {
-    "api": {
-      "presets": [
-        "stage-0",
-        ["es2015", { "modules": "commonjs"}]
-      ],
-      "plugins": [
-        "transform-class-properties",
-        ["transform-runtime", {
-          "polyfill": false, "regenerator": true
-          }]
-      ]
-    },
-    "server": {
-      "presets": [
-        "stage-0",
-        "react",
-        ["es2015", { "modules": "commonjs"}]
-      ],
-      "plugins": [
-        "transform-class-properties",
-        "transform-react-constant-elements",
-        "transform-react-inline-elements",
-        ["transform-runtime", {
-          "polyfill": false, "regenerator": true
-          }],
-        ["module-resolver", {
-          "root": ["./src"]
-        }]
-      ]
-    },
-    "client-dev": {
-      "presets": [["es2015", { "modules": false }], "react", "stage-0"],
+    "development": {
+      "presets": ["boldr"],
       "plugins": [
         "react-hot-loader/babel",
-        "transform-decorators-legacy",
-        "transform-class-properties",
-        ["transform-runtime", {
-          "polyfill": false, "regenerator": true
-          }],
         ["module-resolver", {
           "root": ["./src"]
         }]
       ]
     },
-    "client-prod": {
-      "presets": [["es2015", { "modules": false }], "react", "stage-0"],
+    "production": {
+      "presets": ["boldr"],
       "plugins": [
-        "transform-class-properties",
-        "transform-react-constant-elements",
-        "transform-react-inline-elements",
-        "transform-decorators-legacy",
-        ["transform-runtime", {
-          "polyfill": false, "regenerator": true
-          }],
+        ["module-resolver", {
+          "root": ["./src"]
+        }]
+      ]
+    },
+    "test": {
+      "presets": ["boldr"],
+      "plugins": [
         ["module-resolver", {
           "root": ["./src"]
         }]

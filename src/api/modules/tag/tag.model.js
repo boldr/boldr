@@ -1,13 +1,15 @@
 import { join } from 'path';
 import { Model } from 'objection';
+import BaseModel from '../BaseModel';
+import Post from '../post/post.model';
 
-class Tag extends Model {
+class Tag extends BaseModel {
   static get tableName() { return 'tag'; }
   static get relationMappings() {
     return {
       posts: {
         relation: Model.ManyToManyRelation,
-        modelClass: join(__dirname, '..', 'post', 'post.model.js'),
+        modelClass: Post,
         join: {
           from: 'tag.id',
           through: {

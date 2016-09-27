@@ -101,7 +101,7 @@ class Header extends Component {
       theme
     } = this.props;
     const { navbarDropdownIsOpen, mobileState, focusable } = this.state;
-    const renderedMenuItems = this.props.navigation.items.links.map((item, i) =>
+    const renderedMenuItems = this.props.navigation.links.map((item, i) =>
       <Item
         key={ i }
         item={ item }

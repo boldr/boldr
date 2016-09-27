@@ -8,6 +8,7 @@ export const S3_SIGNING_URL = '/s3/sign';
 export const API_AUTH = `${API_BASE}/auth`;
 export const API_POSTS = `${API_BASE}/posts`;
 export const API_USERS = `${API_BASE}/users`;
+export const API_LINKS = `${API_BASE}/links`;
 export const API_MEDIA = `${API_BASE}/media`;
 export const API_TAG = `${API_BASE}/tags`;
 export const API_SETTINGS = `${API_BASE}/settings`;

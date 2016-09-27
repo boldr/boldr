@@ -1,2 +1,7 @@
-export LinearProgress from './LinearProgress';
-export CircularProgress from './CircularProgress';
+import LinearProgress from './LinearProgress';
+import CircularProgress from './CircularProgress';
+
+export {
+	LinearProgress,
+	CircularProgress
+}

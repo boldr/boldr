@@ -19,12 +19,10 @@ const nodeConfig = { // eslint-disable-line
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  context: config.CMS_DIR,
   devtool: 'source-map',
+  context: path.join(__dirname, '..', '..', 'src'),
   entry: {
-    server: [
-      path.join(config.CMS_SRC, 'server.js')
-    ]
+    server: './server'
   },
   output: {
     path: config.BUILD_DIR,
@@ -90,9 +88,7 @@ const nodeConfig = { // eslint-disable-line
     process: true,
     Buffer: true,
     __filaname: true,
-    __dirname: true,
-    fs: true,
-    path: true
+    __dirname: true
   }
 };
 module.exports = nodeConfig;

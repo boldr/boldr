@@ -6,7 +6,7 @@ import Navigation from './navigation.model';
 const debug = require('debug')('boldr:navigation-controller');
 
 async function index(req, res) {
-  const navigations = await Navigation.query();
+  const navigations = await Navigation.query().eager('[links]');
 
   if (!navigations) {
     responseHandler(null, res, 500);
