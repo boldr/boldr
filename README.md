@@ -7,6 +7,12 @@
 > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
 
+<p align='center'>
+  <h1 align='center'>Blog Posts</h1>
+  <p align='center'><img width='720' src='https://boldr.io/images/blog.png' /></p>
+</p>
+
+
 Table of Contents
 -----------------
 
@@ -120,12 +126,6 @@ View a **very early** demo at https://staging.boldr.io
 
 > Email - admin@boldr.io  
 Password - password
-
-
-<p align='center'>
-  <h1 align='center'>Blog Posts</h1>
-  <p align='center'><img width='720' src='https://boldr.io/images/blog.png' /></p>
-</p>
 
 [travis-img]: https://travis-ci.org/boldr/boldr.svg?branch=master
 [travis-link]: https://travis-ci.org/boldr/boldr
