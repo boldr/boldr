@@ -1,5 +1,6 @@
 import async from 'async';
 import passport from 'passport';
+import uuid from 'node-uuid';
 import { handleMail } from '../../mailer';
 import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/mailContent';
 import User from '../user/user.model';
@@ -29,6 +30,7 @@ async function register(req, res) {
     // const hash = await encryptPassword(req.body.password);
     const verificationToken = await generateVerifyCode();
     const userInfo = {
+      id: uuid.v4(),
       email: req.body.email,
       password: req.body.password,
       first_name: req.body.first_name,

@@ -3,6 +3,9 @@ import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import chaiSinon from 'sinon-chai';
 
+function noop() {
+  return null;
+}
 require.extensions['.jpg'] = noop => noop;
 require.extensions['.jpeg'] = noop => noop;
 require.extensions['.png'] = noop => noop;

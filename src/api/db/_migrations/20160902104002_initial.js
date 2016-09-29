@@ -2,8 +2,7 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('user', function(table) {
-      table.increments('id');
-      table.uuid('uuid');
+      table.uuid('id').primary();
       table.string('first_name').notNullable();
       table.string('last_name');
       table.string('display_name').notNullable();
@@ -28,9 +27,10 @@ exports.up = function(knex, Promise) {
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
+
     knex.schema.createTableIfNotExists('user_role', function(table) {
       table.increments('id').primary();
-      table.integer('user_id').unsigned().notNullable();
+      table.uuid('user_id').unsigned().notNullable();
       table.integer('role_id').unsigned().notNullable();
       table.unique(['user_id', 'role_id']);
       table.foreign('role_id').references('id').inTable('role').onDelete('cascade').onUpdate('cascade');
@@ -39,6 +39,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTableIfNotExists('tag', function(table) {
       table.increments('id');
+      table.uuid('uuid');
       table.string('name').notNullable().unique();
       table.string('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
