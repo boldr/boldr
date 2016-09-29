@@ -18,7 +18,7 @@ export function fetchMediaSuccess(response) {
 // Fetch Articles Error
 export function fetchMediaFail(err) {
   return {
-    type: types.GET_MEDIA_FAIL,
+    type: types.GET_MEDIA_FAILURE,
     error: err
   };
 }
@@ -51,7 +51,7 @@ export function uploadSuccess(response) {
 // Fetch Articles Error
 export function uploadFail(err) {
   return {
-    type: types.UPLOAD_FAIL,
+    type: types.UPLOAD_FAILURE,
     error: err
   };
 }
@@ -87,6 +87,7 @@ export default function mediaReducer(state = INITIAL_STATE, action = {}) {
   }
   switch (action.type) {
     case types.GET_MEDIA_REQUEST:
+    case types.UPLOAD_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -97,7 +98,12 @@ export default function mediaReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         files: action.payload
       };
-    case types.GET_MEDIA_FAIL:
+    case types.UPLOAD_SUCCESS:
+      return {
+        ...state
+      };
+    case types.GET_MEDIA_FAILURE:
+    case types.UPLOAD_FAILURE:
       return {
         ...state,
         isLoading: false,

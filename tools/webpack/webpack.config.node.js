@@ -1,52 +1,43 @@
-/* eslint-disable no-console */
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
-const dotenv = require('dotenv');
 const NodeExternals = require('webpack-node-externals');
 
 const config = require('../config');
 
-dotenv.config({
-  silent: true
-});
-
 const nodeConfig = { // eslint-disable-line
   target: 'node',
-  stats: true, // Don't show stats in the console
+  stats: true,
+  bail: true,
   externals: NodeExternals({ whitelist: [
     /\.(eot|woff|woff2|ttf|otf)$/,
     /\.(svg|png|jpg|jpeg|gif|ico)$/,
     /\.(mp4|mp3|ogg|swf|webp)$/,
     /\.(css|scss|sass|sss|less)$/
   ] }),
-  devtool: 'source-map',
-  context: path.join(__dirname, '..', '..', 'src'),
+  devtool: '#source-map',
   entry: {
-    server: './server'
+    server: [
+      path.resolve(path.join(config.SRC_DIR, 'server.js'))
+    ]
   },
   output: {
-    path: config.BUILD_DIR,
-    publicPath: '/assets/',
+    path: path.resolve(config.STATIC_DIR),
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
+    extensions: ['.js', '.jsx', '.json'],
     modules: ['src', 'node_modules'],
-    alias: {
-      react$: require.resolve(path.join(config.NODE_MODULES_DIR, 'react')),
-      components: require.resolve(path.join(config.CMS_SRC, 'components')),
-      core: require.resolve(path.join(config.CMS_SRC, 'core')),
-      scenes: require.resolve(path.join(config.CMS_SRC, 'scenes'))
-    }
+    mainFields: ['main']
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: config.NODE_MODULES_DIR
+        exclude: /(node_modules)/
       },
       { test: /\.json$/, loader: 'json-loader' },
       {
@@ -68,16 +59,15 @@ const nodeConfig = { // eslint-disable-line
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SERVER_PORT: parseInt(process.env.SSR_PORT, 10)
+        NODE_ENV: JSON.stringify('production'),
+        SSR_PORT: parseInt(process.env.SSR_PORT, 10)
       },
       __DEV__: process.env.NODE_ENV !== 'production',
       __DISABLE_SSR__: false,
       __CLIENT__: false,
       __SERVER__: true
     }),
-    new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, 'node-noop'),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, 'node-noop'), // eslint-disable-line
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     })
@@ -91,4 +81,5 @@ const nodeConfig = { // eslint-disable-line
     __dirname: true
   }
 };
+
 module.exports = nodeConfig;

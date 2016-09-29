@@ -13,6 +13,7 @@ const VENDOR_BUNDLE = [
   'react-addons-css-transition-group',
   'draft-js',
   'classnames',
+  'stardust',
   'reselect'
 ];
 

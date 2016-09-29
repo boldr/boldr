@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
 import { FlatButton } from 'components/md/Buttons';
 import { getMyProfile } from 'state/dux/profile';
-import Header from 'components/org.MainHeader';
+import PrimaryHeader from 'components/org.PrimaryHeader';
 import inlineStyles from 'theme/inlineStyles';
 import Avatar from 'components/md/Avatars';
 import ExpansionList from 'components/md/ExpansionPanels/ExpansionList';
@@ -28,7 +28,7 @@ class MyProfile extends Component {
     return (
       <div>
       <div style={ inlineStyles.headerOverflow }>
-          <Header theme="dark" />
+          <PrimaryHeader />
       </div>
       <div className="grid">
       <div className="grid__row">

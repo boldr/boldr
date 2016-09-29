@@ -22,7 +22,7 @@ WebFontLoader.load({
 
 const MOUNT_POINT = document.getElementById('content');
 const client = new ApiClient();
-const initialState = window.PRELOAD_STATE;
+const initialState = window.PRELOAD_STATE || {};
 
 const store = createStore(browserHistory, client, initialState);
 const { dispatch, getState } = store;
@@ -32,7 +32,6 @@ if (token) {
   // Update application state. User has token and is probably authenticated
   store.dispatch(checkAuth(token));
 }
-
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.routing
 });
@@ -77,10 +76,9 @@ const renderer = () => {
   });
 };
 
-const unsubscribeHistory = renderer();
 if (module.hot) {
   module.hot.accept('./scenes/index', () => {
-    unsubscribeHistory();
-    setTimeout(render);
+    renderer();
+    setTimeout(renderer);
   });
 }

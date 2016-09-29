@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Header from '../../components/org.MainHeader';
+import PrimaryHeader from 'components/org.PrimaryHeader';
 import inlineStyles from '../../theme/inlineStyles';
 
-// @TODO: set header theme from config file
 const BlogContainer = (props) => {
   return (
     <div>
       <div style={ inlineStyles.headerOverflow }>
-        <Header theme="dark" />
+        <PrimaryHeader />
       </div>
         { props.children }
     </div>

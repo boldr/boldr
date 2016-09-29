@@ -1,13 +1,12 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-
-import { Grid, Row, Col, Hero, Heading, Header } from 'components';
+import { Grid, Row, Col, Hero, Heading, PrimaryHeader } from 'components';
 
 const Home = () => {
   return (
     <div>
       <Helmet title="Home" />
-        <Header theme="dark" />
+        <PrimaryHeader />
         <Hero />
         <Grid fluid>
         <Row>

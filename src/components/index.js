@@ -10,6 +10,7 @@ import S3Uploader from './atm.s3Uploader';
 import Notifications from './atm.Notification';
 import Header from './org.MainHeader';
 import { Grid, Row, Col } from './org.Layout';
+import PrimaryHeader from './org.PrimaryHeader';
 
 export {
   BoldrLogo,
@@ -25,5 +26,6 @@ export {
   Row,
   Col,
   Notifications,
-  BoldrEditor
+  BoldrEditor,
+  PrimaryHeader
 };

@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import { Card, Button, Form, Input, Message } from 'stardust';
 import { Heading, Grid, Col, Row } from 'components';
-import { Card, CardText, CardActions } from 'components/md/Cards';
-import TextField from 'components/md/TextFields';
-import { RaisedButton } from 'components/md/Buttons';
+import { CardText, CardActions } from 'components/md/Cards';
 import inlineStyles from 'theme/inlineStyles';
 import { forgotPassword } from 'state/dux/auth';
 
@@ -31,36 +29,35 @@ class ForgotPassword extends Component {
   }
   render() {
     const renderHeader = (
-      <div>
-        <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
-          Enter your email address below to reset it.
-      </div>
+      <Card.Header>
+      <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
+      </Card.Header>
     );
     return (
       <div style={ inlineStyles.headerOverflow }>
-        <Grid fluid>
+        <Grid>
           <Row>
             <Col xs={ 12 }>
               <Row xsCenter>
                 <Col xs={ 6 }>
-                  <Card style={ { marginTop: '150px' } }>
-                    <form onSubmit={ this.handleForgot }>
+                  <Card style={ { width: '450px', marginTop: '150px' } }>
+                    <Form onSubmit={ this.handleForgot } className="card__form">
+                    <Card.Content>
                       { renderHeader }
-                      <CardText>
-                      <Row>
-                        <TextField
-                          type="email"
-                          name="email"
-                          id="email"
-                          label="Email address" style={ inlineStyles.underlineFocusStyle }
-                          autoFocus value={ this.state.email } onChange={ this.handleChange }
-                        />
-                      </Row>
-                      </CardText>
-                      <CardActions>
-                        <RaisedButton secondary type="submit" label="Reset Password" />
-                      </CardActions>
-                    </form>
+                      <Card.Meta>
+                        Enter your email address below to reset it.
+                      </Card.Meta>
+
+                      <Form.Input
+                        label="Email address"
+                        value={ this.state.email }
+                        onChange={ this.handleChange }
+                        placeholder="Enter your email"
+                      />
+
+                      <Button primary type="submit">Reset Password</Button>
+                      </Card.Content>
+                    </Form>
                   </Card>
                 </Col>
               </Row>

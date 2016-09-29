@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-
+import { Card } from 'stardust';
 import { Heading, Grid, Col, Row } from 'components';
-import { Card, CardTitle, CardActions } from 'components/md/Cards';
 import inlineStyles from 'theme/inlineStyles';
 import { signup } from 'state/dux/auth';
 import SignupForm from './SignupForm';
@@ -29,25 +28,26 @@ class Signup extends Component {
     const { isLoading } = this.props.auth;
 
     const renderHeader = (
-      <div>
-        <Heading size={ 1 } bottom="10px">Create your identity</Heading>
-          Already have an account?
-          <Link to="/account/login"> Login</Link>
-      </div>
+      <Card.Header>
+        <Heading size={ 1 } bottom="10px">Signup</Heading>
+      </Card.Header>
     );
 
     return (
         <div style={ inlineStyles.headerOverflow }>
           <Helmet title="Signup" />
-          <Grid fluid>
+          <Grid>
             <Row>
               <Col xs={ 12 }>
                 <Row xsCenter>
                   <Col xs={ 6 }>
-                    <Card style={ { marginTop: '150px' } }>
+                    <Card style={ { width: '450px', marginTop: '150px' } }>
                       { renderHeader }
-
+                      <Card.Content>
                       <SignupForm onSubmit={ this.handleOnSubmit } />
+                      Already have an account?
+                      <Link to="/account/login"> Login</Link>
+                      </Card.Content>
                     </Card>
                   </Col>
                 </Row>

@@ -61,13 +61,13 @@ export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE';
 
 // Media
 // -----------------
-export const GET_MEDIA_REQUEST = 'GET_MEDIA_REQUEST';
-export const GET_MEDIA_SUCCESS = 'GET_MEDIA_SUCCESS';
-export const GET_MEDIA_FAIL = 'GET_MEDIA_FAIL';
+export const GET_MEDIA_REQUEST = 'media/GET_MEDIA_REQUEST';
+export const GET_MEDIA_SUCCESS = 'media/GET_MEDIA_SUCCESS';
+export const GET_MEDIA_FAILURE = 'media/GET_MEDIA_FAILURE';
 
-export const UPLOAD_REQUEST = 'UPLOAD_REQUEST';
-export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
-export const UPLOAD_FAIL = 'UPLOAD_FAIL';
+export const UPLOAD_REQUEST = 'media/UPLOAD_REQUEST';
+export const UPLOAD_SUCCESS = 'media/UPLOAD_SUCCESS';
+export const UPLOAD_FAILURE = 'media/UPLOAD_FAILURE';
 
 // Members
 // -----------------

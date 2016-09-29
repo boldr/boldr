@@ -58,4 +58,4 @@ if (port) {
 }
 
 
-export default server;
+export { server, app };

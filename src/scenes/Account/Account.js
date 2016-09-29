@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Header } from 'components';
+import { PrimaryHeader } from 'components';
 
 const Account = (props) => {
   return (
       <div>
-        <Header theme="dark" />
+        <PrimaryHeader />
         { props.children }
       </div>
       );

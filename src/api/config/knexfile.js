@@ -44,11 +44,8 @@ module.exports = {
 
   production: {
     client: 'postgresql',
-    connection: {
-      database: conf.get('db.name'),
-      user: conf.get('db.user'),
-      password: conf.get('db.password')
-    },
+    connection: process.env.POSTGRES_CONN_URI,
+    searchPath: 'knex,public',
     migrations: {
       directory: path.resolve(__dirname, '../db/_migrations'),
       tableName: 'knex_migrations'

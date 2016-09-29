@@ -35,7 +35,7 @@ export default class Html extends Component {
             />
             )
           }
-
+          <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css" rel="stylesheet" />
           {/* (will be present only in development mode) */}
           {
             Object.keys(assets.styles).length === 0 ?

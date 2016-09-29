@@ -1,5 +1,6 @@
 import { SubmissionError } from 'redux-form';
 import decode from 'jwt-decode';
+import { push } from 'react-router-redux';
 import * as api from 'core/api/authService';
 import { TOKEN_KEY } from 'core/config';
 import * as types from '../actionTypes';

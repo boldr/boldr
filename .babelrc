@@ -12,6 +12,7 @@
     "production": {
       "presets": ["boldr"],
       "plugins": [
+        "lodash",
         ["module-resolver", {
           "root": ["./src"]
         }]

@@ -77,7 +77,8 @@ Media.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    media: state.media
+    media: state.media,
+    isLoading: state.media.isLoading
   };
 };
 

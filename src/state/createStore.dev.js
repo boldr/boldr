@@ -3,7 +3,7 @@ import { routerMiddleware } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { isServer } from '../core/util/helpers';
-import createMiddleware from '../core/clientMiddleware';
+import clientMiddleware from '../core/clientMiddleware';
 import reducers from './reducers';
 
 const ISDEV = process.env.NODE_ENV === 'development';
@@ -20,7 +20,7 @@ export default function createStore(history, client, PRELOAD_STATE) {
   const reduxRouterMiddleware = routerMiddleware(history);
   // Logs Redux actions / state to the console.
   const logger = createLogger(loggerOptions);
-  const middleware = [createMiddleware(client), thunkMiddleware, reduxRouterMiddleware, logger];
+  const middleware = [clientMiddleware(client), thunkMiddleware, reduxRouterMiddleware, logger];
 
   const finalCreateStore = compose(
       applyMiddleware(...middleware),

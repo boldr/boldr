@@ -5,7 +5,7 @@ import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../
 import User from '../user/user.model';
 import UserRole from '../user/userRole.model';
 import Role from '../role/role.model';
-import { responseHandler, encryptPassword, generateVerifyCode } from '../../utils';
+import { responseHandler, generateVerifyCode } from '../../utils';
 import signToken from './signToken';
 
 const debug = require('debug')('boldr:auth:controller');
@@ -26,11 +26,11 @@ async function register(req, res) {
       return responseHandler(new Error('A user with that email already exists'), res, 409);
     }
 
-    const hash = await encryptPassword(req.body.password);
+    // const hash = await encryptPassword(req.body.password);
     const verificationToken = await generateVerifyCode();
     const userInfo = {
       email: req.body.email,
-      password: hash,
+      password: req.body.password,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       display_name: req.body.display_name,
@@ -152,9 +152,9 @@ async function resetPassword(req, res) {
       return responseHandler(new Error('Invalid user', res, 404));
     }
     const mailSubject = '[Boldr] Password Changed';
-    const hash = await User.encryptPassword(req.body.password);
+
     await User.query().patchAndFetchById(user.id, {
-      password: hash,
+      password: req.body.password,
       reset_password_expiration: null,
       reset_password_token: null
     });
