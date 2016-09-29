@@ -1,35 +1,29 @@
 import React, { PropTypes } from 'react';
-import classNames from 'classnames/bind';
+import { Grid } from 'stardust';
+import File from '../atm.File';
 
-import { Row, Col } from 'components';
-import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
-import { IconButton } from '../../../../components/md/Buttons';
-import styles from './style.css';
-
-const cx = styles::classNames;
+const { Column, Row } = Grid;
 
 const FileView = props => {
   return (
-      <Row>
+      <Grid>
+      <Row columns={ 4 }>
         {
-          props.files.map((file) =>
-          <Col key={ file.id } xs={ 12 } md={ 3 } lg={ 4 }>
-            <Card>
-               <CardMedia
-                 aspectRatio={ CardMedia.aspect.equal }
-                 overlay={ <CardTitle title={ file.filename } /> }
-               >
-                <img className={ cx('fileview__img') } src={ file.s3url } alt={ file.filename } />
-              </CardMedia>
-              <CardActions centered>
-                <IconButton>edit</IconButton>
-                <IconButton>delete</IconButton>
-              </CardActions>
-            </Card>
-          </Col>)
+          props.files.map((file, i) =>
+          <File key={ i } file={ file } removeMedia={ props.removeMedia } />)
          }
-      </Row>
+         </Row>
+      </Grid>
   );
+};
+
+FileView.propTypes = {
+  files: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    filename: PropTypes.string.isRequired,
+    s3url: PropTypes.string.isRequired
+  }).isRequired).isRequired,
+  removeMedia: PropTypes.func
 };
 
 export default FileView;

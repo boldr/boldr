@@ -41,15 +41,15 @@ export function fetchMedia() {
 const beginUpload = () => {
   return { type: types.UPLOAD_REQUEST };
 };
-// Fetch Articles Success
-export function uploadSuccess(response) {
+
+function uploadSuccess(response) {
   return {
     type: types.UPLOAD_SUCCESS,
     payload: response.body
   };
 }
-// Fetch Articles Error
-export function uploadFail(err) {
+
+function uploadFail(err) {
   return {
     type: types.UPLOAD_FAILURE,
     error: err
@@ -71,6 +71,29 @@ export function uploadFiles(payload) {
   };
 }
 
+const deleteMediaFail = (err) => ({
+  type: types.DELETE_MEDIA_FAILURE,
+  error: err
+});
+
+export function deleteMedia(id) {
+  return (dispatch) => {
+    dispatch({
+      type: types.DELETE_MEDIA_REQUEST
+    });
+    return api.doRemoveMedia(id)
+      .then(response => {
+        dispatch({
+          type: types.DELETE_MEDIA_SUCCESS,
+          id
+        });
+      })
+      .catch(err => {
+        dispatch(deleteMediaFail(err));
+      });
+  };
+}
+
 const INITIAL_STATE = {
   isLoading: false,
   error: null,
@@ -88,6 +111,7 @@ export default function mediaReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case types.GET_MEDIA_REQUEST:
     case types.UPLOAD_REQUEST:
+    case types.DELETE_MEDIA_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -102,8 +126,14 @@ export default function mediaReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state
       };
+    case types.DELETE_MEDIA_SUCCESS:
+      return {
+        ...state,
+        files: [...state.files].filter((file) => file.id !== parseInt(action.id, 10))
+      };
     case types.GET_MEDIA_FAILURE:
     case types.UPLOAD_FAILURE:
+    case types.DELETE_MEDIA_FAILURE:
       return {
         ...state,
         isLoading: false,

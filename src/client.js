@@ -75,10 +75,10 @@ const renderer = () => {
     });
   });
 };
-
+const unsubscribeHistory = renderer();
 if (module.hot) {
   module.hot.accept('./scenes/index', () => {
-    renderer();
-    setTimeout(renderer);
+    unsubscribeHistory();
+    setTimeout(render);
   });
 }

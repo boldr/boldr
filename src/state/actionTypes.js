@@ -1,3 +1,4 @@
+
 // Globals
 // -----------------
 export const DONE_LOADING = 'DONE_LOADING';
@@ -68,6 +69,10 @@ export const GET_MEDIA_FAILURE = 'media/GET_MEDIA_FAILURE';
 export const UPLOAD_REQUEST = 'media/UPLOAD_REQUEST';
 export const UPLOAD_SUCCESS = 'media/UPLOAD_SUCCESS';
 export const UPLOAD_FAILURE = 'media/UPLOAD_FAILURE';
+
+export const DELETE_MEDIA_FAILURE = 'media/DELETE_MEDIA_FAILURE';
+export const DELETE_MEDIA_REQUEST = 'media/DELETE_MEDIA_REQUEST';
+export const DELETE_MEDIA_SUCCESS = 'media/DELETE_MEDIA_SUCCESS';
 
 // Members
 // -----------------
