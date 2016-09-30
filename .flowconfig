@@ -5,12 +5,33 @@
 <PROJECT_ROOT>/.*/static/.*
 <PROJECT_ROOT>/.*/docs/.*
 <PROJECT_ROOT>/.*/happypack/.*
+<PROJECT_ROOT>/react-side-effect/.*
 <PROJECT_ROOT>/node_modules/fbjs/lib/Deferred\.js\.flow
-./node_modules/fbjs/.*
+# Ugh
+.*/node_modules/babel.*
+.*/node_modules/babylon.*
+.*/node_modules/invariant.*
+.*/node_modules/react-side-effect/node_modules/fbjs/.*
+.*/node_modules/bcryptjs/.*
+# Ignore react and fbjs where there are overlaps, but don't ignore
+# anything that react-native relies on
+.*/node_modules/fbjs/lib/Map.js
+.*/node_modules/fbjs/lib/fetch.js
+.*/node_modules/fbjs/lib/ExecutionEnvironment.js
+.*/node_modules/fbjs/lib/ErrorUtils.js
+.*/node_modules/editions/.*
+.*/node_modules/fbjs/lib/fetchWithRetries.js
+.*/node_modules/react-side-effect/.*/node_modules/.*
+.*/node_modules/draft-js/.*
+# Flow has a built-in definition for the 'react' module which we prefer to use
+# over the currently-untyped source
+.*/node_modules/react/react.js
+.*/node_modules/react/lib/React.js
+.*/node_modules/react/lib/ReactDOM.js
 
 [libs]
-./node_modules/fbjs/flow/lib
-tools/flow/flow-typed/npm
+
+flow-typed/npm
 tools/flow/definitions
 
 [options]
@@ -19,8 +40,8 @@ module.system=haste
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 
-munge_underscores=falses
-module.name_mapper='^\(.*\)\.\(css\|eot\|gif\|ico\|jpg\|jpeg\|less\|otf\|mp3\|mp4\|ogg\|png\|sass\|scss\|sss\|svg\|swf\|ttf\|webp\|woff\|woff2\)$' -> '<PROJECT_ROOT>/tools/flow/stubs/WebpackAsset.js.flow'
+munge_underscores=false
+module.name_mapper='^\(.*\)\.\(css\|eot\|gif\|ico\|jpg\|jpeg\|less\|otf\|mp3\|mp4\|ogg\|png\|sass\|scss\|sss\|svg\|swf\|ttf\|webp\|woff\|woff2\|dll\)$' -> '<PROJECT_ROOT>/tools/flow/definitions/WebpackAsset.js.flow'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
@@ -33,4 +54,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-0.32.0
+0.33.0

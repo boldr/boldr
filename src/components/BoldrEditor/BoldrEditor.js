@@ -1,4 +1,4 @@
-/* @flow */
+
 import React, { Component, PropTypes } from 'react';
 import {
   AtomicBlockUtils,
@@ -15,34 +15,27 @@ import {
   CustomBlockControls, InlineStyleControls, BlockStyleControls, BLOCK_CONTROLS, INLINE_CONTROLS
 } from './controls';
 import linkDecorator from './decorators/link';
-import './TextEditor.scss';
+
+import './TextEditor.scss'; // $FlowExpectedError
+
+type Props = {
+  onChange: () => void,
+  onBlur?: () => void,
+  onFocus?: () => void,
+  removeLink?: () => void,
+  content: Object,
+  readOnly?: Boolean,
+  placeholder?: String,
+  customBlocks?: Object,
+  spellCheck?: Boolean,
+  stripPastedStyles?:Boolean,
+  controlDisplay?: any,
+  blockControls?: any,
+  inlineControls?: any,
+  customBlockControls?: any
+};
 
 class BoldrEditor extends Component {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
-    content: PropTypes.object,
-    controlDisplay: React.PropTypes.oneOf(['block', 'inline']),
-    blockControls: React.PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.arrayOf(React.PropTypes.string),
-    ]),
-    inlineControls: React.PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.arrayOf(React.PropTypes.string),
-    ]),
-    customBlockControls: React.PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.arrayOf(React.PropTypes.string),
-    ]),
-    readOnly: PropTypes.bool,
-    linkTarget: PropTypes.oneOf(['_blank', '_parent', '_self', '_top']),
-    placeholder: PropTypes.string,
-    customBlocks: PropTypes.object,
-    spellCheck: PropTypes.bool,
-    stripPastedStyles: PropTypes.bool
-  };
   constructor(props) {
     super(props);
 
@@ -83,6 +76,8 @@ class BoldrEditor extends Component {
     this.onBlockDataChange = this._onBlockDataChange.bind(this);
     this.renderBlock = this._renderBlock.bind(this);
   }
+
+  props: Props;
 
   componentWillReceiveProps(newProps) {
     const contentState = this.state.editorState.getCurrentContent();

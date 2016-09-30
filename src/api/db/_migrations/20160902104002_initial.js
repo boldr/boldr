@@ -33,8 +33,8 @@ exports.up = function(knex, Promise) {
       table.uuid('user_id').unsigned().notNullable();
       table.integer('role_id').unsigned().notNullable();
       table.unique(['user_id', 'role_id']);
-      table.foreign('role_id').references('id').inTable('role').onDelete('cascade').onUpdate('cascade');
-      table.foreign('user_id').references('id').inTable('user').onDelete('cascade').onUpdate('cascade');
+      table.foreign('role_id').references('id').inTable('role').onDelete('restrict').onUpdate('cascade');
+      table.foreign('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
     }),
 
     knex.schema.createTableIfNotExists('tag', function(table) {
