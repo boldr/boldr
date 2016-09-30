@@ -14,7 +14,8 @@ const VENDOR_BUNDLE = [
   'draft-js',
   'classnames',
   'stardust',
-  'reselect'
+  'reselect',
+  'date-fns'
 ];
 
 module.exports = VENDOR_BUNDLE;

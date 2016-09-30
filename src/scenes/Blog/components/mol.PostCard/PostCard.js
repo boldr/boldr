@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Moment from 'moment';
 import dateFns from 'date-fns';
 import classNames from 'classnames/bind';
 import { Button, Card, Image } from 'stardust';
@@ -10,7 +9,6 @@ import { FlatButton, IconButton } from '../../../../components/md/Buttons';
 // import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
 import Avatar from '../../../../components/md/Avatars';
 import { Row } from '../../../../components';
-import styles from './style.css';
 
 const cx = styles::classNames;
 

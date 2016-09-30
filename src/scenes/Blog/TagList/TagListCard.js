@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Moment from 'moment';
-import classNames from 'classnames/bind';
+import dateFns from 'date-fns';
 
 import TagBlock from '../components/mol.TagBlock';
 import FontIcon from '../../../components/md/FontIcons';
@@ -9,12 +8,8 @@ import { FlatButton, IconButton } from '../../../components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../components/md/Cards';
 import Avatar from '../../../components/md/Avatars';
 
-import styles from './style.css';
-
-const cx = styles::classNames;
-
 const TagListCard = props => {
-  const formattedDate = Moment(props.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+  const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
 
   const overlay = (
     <CardTitle

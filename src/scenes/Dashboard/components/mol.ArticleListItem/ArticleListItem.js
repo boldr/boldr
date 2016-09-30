@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import Moment from 'moment';
+import dateFns from 'date-fns';
 
 import { IconButton } from '../../../../components/md/Buttons';
 import FontIcon from '../../../../components/md/FontIcons';
@@ -18,7 +18,7 @@ const ArticleListItem = props => {
     const postStatus = 'published';
     props.handleArticleDraftClick(postId, postStatus);
   }
-  const formattedDate = Moment(props.article.createdAt).format('MM D YYYY');
+  const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
   const publishedIcon = <FontIcon onClick={ handlePublishClick }> visibility</FontIcon>;
   const draftIcon = <FontIcon onClick={ handleDraftClick }>visibility_off</FontIcon>;
   return (

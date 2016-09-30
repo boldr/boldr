@@ -6,8 +6,6 @@ import classNames from 'classnames/bind';
 import Loader from '../../../components/atm.Loader';
 import PostCard from '../components/mol.PostCard';
 
-import styles from './style.css';
-
 const cx = styles::classNames;
 
 class Search extends Component {
