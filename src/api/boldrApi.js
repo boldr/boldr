@@ -18,8 +18,7 @@ const sourceMaps = require('source-map-support');
 
 sourceMaps.install();
 module.exports = function boldrServerModule() {
-  let boldrApi = express();
-
+  const boldrApi = express();
 
   const port = conf.get('api.port') || 3000;
 

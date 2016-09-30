@@ -1,6 +1,5 @@
 delete process.env.BROWSER;
-require('babel-register');
-require('babel-polyfill');
+require('babel-core/register');
 
 const path = require('path');
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');

@@ -13,21 +13,28 @@ class ForgotPassword extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = { email: '' };
+    this.state = { serializedForm: {} };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleForgot = this.handleForgot.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ email: event });
-  }
+  handleChange = (e, { value }) => this.setState({ value });
 
   handleForgot(event, dispatch) {
     event.preventDefault();
     this.props.dispatch(forgotPassword(this.state.email));
   }
+
+  handleSubmit = (e, serializedForm) => {
+    e.preventDefault();
+    this.setState({ serializedForm });
+
+    const email = serializedForm.email;
+    this.props.dispatch(forgotPassword(email));
+  }
   render() {
+    const { serializedForm, value } = this.state;
     const renderHeader = (
       <Card.Header>
       <Heading size={ 1 } bottom="10px">Forgot your password?</Heading>
@@ -41,7 +48,7 @@ class ForgotPassword extends Component {
               <Row xsCenter>
                 <Col xs={ 6 }>
                   <Card style={ { width: '450px', marginTop: '150px' } }>
-                    <Form onSubmit={ this.handleForgot } className="card__form">
+                    <Form onSubmit={ this.handleSubmit } className="card__form">
                     <Card.Content>
                       { renderHeader }
                       <Card.Meta>
@@ -50,8 +57,7 @@ class ForgotPassword extends Component {
 
                       <Form.Input
                         label="Email address"
-                        value={ this.state.email }
-                        onChange={ this.handleChange }
+                        name="email"
                         placeholder="Enter your email"
                       />
 

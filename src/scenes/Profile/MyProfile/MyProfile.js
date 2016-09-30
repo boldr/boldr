@@ -27,9 +27,7 @@ class MyProfile extends Component {
   render() {
     return (
       <div>
-      <div style={ inlineStyles.headerOverflow }>
           <PrimaryHeader />
-      </div>
       <div className="grid">
       <div className="grid__row">
         <Card className={ cx('profile__card') }>

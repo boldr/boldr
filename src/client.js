@@ -77,6 +77,7 @@ const renderer = () => {
 };
 const unsubscribeHistory = renderer();
 if (module.hot) {
+  module.hot.accept('./client.js');
   module.hot.accept('./scenes/index', () => {
     unsubscribeHistory();
     setTimeout(render);

@@ -1,5 +1,7 @@
+/* eslint-disable default-case */
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
+import { merge } from 'lodash';
 import { createSelector } from 'reselect';
 import { API_BASE, API_POSTS, TOKEN_KEY } from 'core/config';
 import { processResponse } from 'core/api/helpers';
@@ -133,6 +135,38 @@ export function selectPost(postId) {
   };
 }
 
+const beginChangeStatus = () => {
+  return { type: types.CHANGE_STATUS_REQUEST };
+};
+
+const changeStatusDone = (response) => {
+  return {
+    type: types.CHANGE_STATUS_SUCCESS,
+    payload: response.body
+  };
+};
+const changeStatusFailed = (err) => {
+  return {
+    type: types.CHANGE_STATUS_FAILURE,
+    error: err
+  };
+};
+
+export function changePostStatus(postId, postStatus) {
+  return (dispatch) => {
+    dispatch(beginChangeStatus());
+    return api.doChangeStatus(postId, postStatus)
+    .then(response => {
+      if (response.status === 202) {
+        dispatch(changeStatusDone(response));
+      }
+    })
+    .catch(err => {
+      dispatch(changeStatusFailed(err));
+    });
+  };
+}
+
 //
 // Selectors
 // -----------------
@@ -176,6 +210,7 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
     case types.FETCH_POSTS_REQUEST:
     case types.LOAD_POST_REQUEST:
     case types.CREATE_POST_REQUEST:
+    case types.CHANGE_STATUS_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -198,9 +233,26 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
         ...state,
         isLoading: false
       };
+    case types.CHANGE_STATUS_SUCCESS:
+      return {
+        ...state,
+        [action.payload.id]: {
+          created_at: state.created_at,
+          excerpt: state.excerpt,
+          feature_image: action.payload.feature_image,
+          id: action.payload.id,
+          slug: action.payload.slug,
+          title: action.payload.title,
+          updated_at: action.payload.updated_at,
+          user_id: action.payload.user_id,
+          status: action.payload.status
+        }
+      };
+
     case types.FETCH_POSTS_FAILURE:
     case types.LOAD_POST_FAILURE:
     case types.CREATE_POST_FAIL:
+    case types.CHANGE_STATUS_FAILURE:
       return {
         ...state,
         isLoading: false,

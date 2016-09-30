@@ -39,7 +39,7 @@ module.exports = function webpackConfig() {
       main: removeEmpty([
         ifDev('react-hot-loader/patch'),
         ifDev(`webpack-hot-middleware/client?reload=true&path=http://${config.HOST}:${config.HMR_PORT}/__webpack_hmr`),
-        ifProd(require.resolve('./util/polyfill')),
+        'regenerator-runtime/runtime',
         path.join(config.SRC_DIR, 'client.js')
       ]),
       vendor: ifProd([
@@ -143,7 +143,7 @@ module.exports = function webpackConfig() {
       // See util/createHappyPlugin.js and https://github.com/amireh/happypack for more.
       ifDev(new HappyPack({
         id: 'jsx',
-        threads: 4,
+        threads: 6,
         loaders: ['babel']
       })),
       // Used for requiring assets in a way that works within a node environment so that

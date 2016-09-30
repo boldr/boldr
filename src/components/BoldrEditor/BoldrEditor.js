@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import {
   AtomicBlockUtils,
@@ -46,7 +47,7 @@ class BoldrEditor extends Component {
     super(props);
 
     const decorator = new CompositeDecorator([
-      linkDecorator,
+      linkDecorator
     ]);
 
     let editorState = EditorState.createEmpty(decorator);
@@ -59,7 +60,7 @@ class BoldrEditor extends Component {
       urlValue: '',
       showCustomBlockInput: false,
       customBlockType: null,
-      customBlockData: {},
+      customBlockData: {}
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -95,14 +96,6 @@ class BoldrEditor extends Component {
       this.setState({ editorState });
     }
   }
-  // onChange = (editorState) => {
-  //   this.setState({
-  //     editorState
-  //   });
-  //
-  //   const html = stateToHTML(editorState.getCurrentContent());
-  //   this.props.onChange(html);
-  // }
 
   onFocus = (e) => {
     this.refs.editor.focus();

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Paper from 'components/md/Papers';
 import { DataTable, TableHeader, TableBody, TableRow, TableColumn } from 'components/md/DataTables';
 import { Row } from 'components';
-import { getPostsArray } from 'state/dux/post';
+import { getPostsArray, changePostStatus } from 'state/dux/post';
 import ArticleListItem from '../components/mol.ArticleListItem';
 
 class ArticleList extends Component {
@@ -12,15 +12,22 @@ class ArticleList extends Component {
     children: PropTypes.element,
     posts: PropTypes.object,
     dispatch: PropTypes.func,
-    current: PropTypes.object
+    current: PropTypes.object,
+    allPosts: PropTypes.array,
+    changePostStatus: PropTypes.funcs
   };
+
   constructor(props) {
     super(props);
-    this.handleArticleClick = this.handleArticleClick.bind(this);
+    this.handleArticlePublishClick = this.handleArticlePublishClick.bind(this);
+    this.handleArticleDraftClick = this.handleArticleDraftClick.bind(this);
   }
 
-  handleArticleClick(postId) {
-    console.log('clicked ', postId);
+  handleArticlePublishClick(postId, postStatus) {
+    this.props.changePostStatus(postId, postStatus);
+  }
+  handleArticleDraftClick(postId, postStatus) {
+    this.props.changePostStatus(postId, postStatus);
   }
 
   render() {
@@ -55,7 +62,8 @@ class ArticleList extends Component {
              content={ post.content }
              title={ post.title }
              slug={ post.slug }
-             handleArticleClick={ this.handleArticleClick }
+             handleArticlePublishClick={ this.handleArticlePublishClick }
+             handleArticleDraftClick={ this.handleArticleDraftClick }
            />
          ))
         }
@@ -74,4 +82,4 @@ const mapStateToProps = (state) => {
     allPosts: getPostsArray(state)
   };
 };
-export default connect(mapStateToProps)(ArticleList);
+export default connect(mapStateToProps, { changePostStatus })(ArticleList);

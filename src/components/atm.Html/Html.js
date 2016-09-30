@@ -42,6 +42,7 @@ export default class Html extends Component {
             <style dangerouslySetInnerHTML={ { __html: '#content{display:none}' } } /> :
             null
           }
+          <script src="//cdn.polyfill.io/v2/polyfill.min.js" />
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={ { __html: content } } />

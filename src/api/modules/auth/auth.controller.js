@@ -1,7 +1,7 @@
 import async from 'async';
 import passport from 'passport';
 import uuid from 'node-uuid';
-import { handleMail } from '../../mailer';
+import handleMail from '../../mailer';
 import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/mailContent';
 import User from '../user/user.model';
 import UserRole from '../user/userRole.model';
@@ -132,7 +132,7 @@ async function forgottenPassword(req, res) {
     const token = generateVerifyCode();
     await User.query().patchAndFetchById(user.id, { reset_password_token: token, reset_password_expiration: new Date(Date.now() + 3600000) });
 
-    const mailBody = forgotPasswordEmail(user);
+    const mailBody = forgotPasswordEmail(user, token);
 
     await handleMail(user, mailBody, mailSubject);
     return responseHandler(null, res, 200, { message: 'Sending email with reset link' });
@@ -149,9 +149,9 @@ async function forgottenPassword(req, res) {
  */
 async function resetPassword(req, res) {
   try {
-    const user = await User.query().where({ reset_password_token: req.body.token }).first();
+    const user = await User.query().where({ reset_password_token: req.params.token }).first();
     if (!user) {
-      return responseHandler(new Error('Invalid user', res, 404));
+      return res.status(404).json('Unable to find a user or token matching.');
     }
     const mailSubject = '[Boldr] Password Changed';
 

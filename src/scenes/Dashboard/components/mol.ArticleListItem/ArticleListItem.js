@@ -8,13 +8,19 @@ import { TableRow, TableColumn } from '../../../../components/md/DataTables';
 import { inlineStyles } from '../../../../theme';
 
 const ArticleListItem = props => {
-  function handleclick() {
-    const articleId = props.article.id;
-    props.handleArticleClick(articleId);
+  function handlePublishClick() {
+    const postId = props.article.id;
+    const postStatus = 'draft';
+    props.handleArticlePublishClick(postId, postStatus);
+  }
+  function handleDraftClick() {
+    const postId = props.article.id;
+    const postStatus = 'published';
+    props.handleArticleDraftClick(postId, postStatus);
   }
   const formattedDate = Moment(props.article.createdAt).format('MM D YYYY');
-  const publishedIcon = <FontIcon onClick={ handleclick }> visibility</FontIcon>;
-  const draftIcon = <FontIcon onClick={ handleclick }>visibility_off</FontIcon>;
+  const publishedIcon = <FontIcon onClick={ handlePublishClick }> visibility</FontIcon>;
+  const draftIcon = <FontIcon onClick={ handleDraftClick }>visibility_off</FontIcon>;
   return (
       <TableRow>
         <TableColumn>
@@ -50,7 +56,8 @@ const ArticleListItem = props => {
 
 ArticleListItem.propTypes = {
   article: React.PropTypes.object.isRequired,
-  handleArticleClick: React.PropTypes.func,
+  handleArticlePublishClick: React.PropTypes.func,
+  handleArticleDraftClick: React.PropTypes.func,
   slug: React.PropTypes.string
 };
 

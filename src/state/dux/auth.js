@@ -210,9 +210,14 @@ export function forgotPassword(email) {
         if (response.ok) {
           return response.json().then((json) => {
             dispatch({
-              type: types.FORGOT_PASSWORD_SUCCESS,
-              error: [json]
+              type: types.FORGOT_PASSWORD_SUCCESS
             });
+            dispatch(push('/'));
+            dispatch(notificationSend({
+              message: 'An email has been sent with instructions to reset your password.',
+              kind: 'info',
+              dismissAfter: 3000
+            }));
           });
         } else {
           return response.json().then((json) => {
@@ -239,9 +244,14 @@ export function resetPassword(password, token) {
           return response.json().then((json) => {
             browserHistory.push('/login');
             dispatch({
-              type: types.RESET_PASSWORD_SUCCESS,
-              error: [json]
+              type: types.RESET_PASSWORD_SUCCESS
             });
+            dispatch(push('/'));
+            dispatch(notificationSend({
+              message: 'Your password has been reset. You may now login with it.',
+              kind: 'info',
+              dismissAfter: 3000
+            }));
           });
         } else {
           return response.json().then((json) => {

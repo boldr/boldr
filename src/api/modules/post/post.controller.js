@@ -83,7 +83,7 @@ async function destroy(req, res) {
 function update(req, res) {
   return Post.query()
     .patchAndFetchById(req.params.id, req.body)
-    .then(post => res.status(201).json(post));
+    .then(post => res.status(202).json(post));
 }
 
 async function addTag(req, res) {

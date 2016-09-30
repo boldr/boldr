@@ -13,6 +13,7 @@
       "presets": ["boldr"],
       "plugins": [
         "lodash",
+        "transform-flow-strip-types",
         ["module-resolver", {
           "root": ["./src"]
         }]
