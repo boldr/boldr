@@ -1,18 +1,6 @@
-// @flow
 import React, { PropTypes } from 'react';
 
-type Props = {
-  size: any,
-  color: String,
-  align: String,
-  children?: any,
-  top: String,
-  bottom: String,
-  override: String,
-  textDeco: String
-};
-
-const Heading = (props: Props) => {
+const Heading = (props) => {
   const tagName = `h${props.size}`;
   const className = `heading heading--${props.size}`;
   const style = {
@@ -27,3 +15,14 @@ const Heading = (props: Props) => {
 };
 
 export default Heading;
+
+Heading.propTypes = {
+  size: PropTypes.oneOf([1, 2, 3, 4, 5, 6]).isRequired,
+  color: PropTypes.string,
+  align: PropTypes.string,
+  children: PropTypes.node,
+  top: PropTypes.string,
+  bottom: PropTypes.string,
+  override: PropTypes.string,
+  textDeco: PropTypes.string
+};

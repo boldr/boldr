@@ -1,0 +1,30 @@
+.dropdownList {
+  float: left;
+  height: 100%;
+  padding: 5px 20px;
+  /*width: 180px;*/
+}
+.dropdownList ul {
+  list-style-type: none;
+  padding: 0;
+}
+@media (max-width: 991px) {
+  .dropdownList {
+    float: none;
+    width: 100%;
+    margin: 0;
+    height: auto;
+    padding: 0;
+    padding-bottom: 15px;
+  }
+}
+@media (min-width: 992px) {
+  .moreDropdownList {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 150px;
+  }
+  .moreDropdownList:first-child {
+    padding-left: 20px;
+  }
+}

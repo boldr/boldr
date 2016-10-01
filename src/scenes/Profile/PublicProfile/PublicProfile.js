@@ -4,7 +4,7 @@ import { provideHooks } from 'redial';
 import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
 import { FlatButton } from 'components/md/Buttons';
 import { getPublicProfile } from 'state/dux/profile';
-import PrimaryHeader from 'components/org.PrimaryHeader';
+import Header from 'components/org.MainHeader';
 
 @provideHooks({
   fetch: ({ dispatch, params: { id } }) => dispatch(getPublicProfile(id))
@@ -14,7 +14,7 @@ class PublicProfile extends Component {
     return (
       <div>
       <div style={ { backgroundColor: '#324A70', height: '110px', width: '100%' } }>
-          <PrimaryHeader />
+          <Header theme="dark" />
       </div>
         <Card>
           <CardTitle

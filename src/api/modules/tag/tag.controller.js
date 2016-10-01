@@ -1,10 +1,12 @@
+import findQuery from 'objection-find';
+import slugify from 'slugify';
 import { responseHandler, throwNotFound } from '../../utils';
 
 import Post from '../post/post.model';
 import PostTag from '../post/postTag.model';
 import Tag from './tag.model';
 
-const debug = require('debug')('boldr:tag-controller');
+const debug = require('debug')('boldr:post-controller');
 
 async function getTaggedPosts(req, res) {
   const tags = await Tag
@@ -12,7 +14,6 @@ async function getTaggedPosts(req, res) {
     .findById(req.params.id)
     .eager('[posts]')
     .first();
-  debug(tags);
   return responseHandler(null, res, 200, tags);
 }
 

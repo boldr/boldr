@@ -1,7 +1,3 @@
-/* eslint-disable import/imports-first */
-// require.ensure polyfill
-if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
-
 import Dashboard from './Dashboard/index';
 import Account from './Account/index';
 import Blog from './Blog';
@@ -16,6 +12,7 @@ const loadModule = (cb) => (componentModule) => {
 
 export default (store) => {
   const connect = (fn) => (nextState, replaceState) => fn(store, nextState, replaceState);
+  if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 
   return {
     path: '/',
@@ -30,9 +27,8 @@ export default (store) => {
       {
         path: 'about',
         getComponent(nextState, cb) {
-          require.ensure(['../pages/About'], (require) => {
-            const AboutPage = require('../pages/About').default;
-
+         require.ensure(['../pages/About'], (require) => {
+            let AboutPage = require('../pages/About').default;
             cb(null, AboutPage);
           });
         }

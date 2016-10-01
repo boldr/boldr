@@ -2,22 +2,24 @@ import request from 'superagent';
 import { API_USERS } from 'core/config';
 import { notificationSend } from 'state/dux/notifications';
 import * as api from 'core/api/memberService';
-import * as notif from 'core/notificationMessages';
-import * as types from '../actionTypes';
+
+export const LOAD_MEMBERS_REQUEST = 'LOAD_MEMBERS_REQUEST';
+export const LOAD_MEMBERS_SUCCESS = 'LOAD_MEMBERS_SUCCESS';
+export const LOAD_MEMBERS_FAILURE = 'LOAD_MEMBERS_FAILURE';
 
 const loadMembers = () => ({
-  type: types.LOAD_MEMBERS_REQUEST
+  type: LOAD_MEMBERS_REQUEST
 });
 
 const loadMembersSuccess = (response) => ({
-  type: types.LOAD_MEMBERS_SUCCESS,
+  type: LOAD_MEMBERS_SUCCESS,
   isLoading: false,
   payload: response.body
 });
 
 // Fail receivers
 const failedToLoadMembers = (err) => ({
-  type: types.LOAD_MEMBERS_FAILURE,
+  type: LOAD_MEMBERS_FAILURE,
   isLoading: false,
   error: err
 });
@@ -38,18 +40,20 @@ export function loadSiteMembers() {
   };
 }
 
-
+const UPDATE_MEMBER_REQUEST = 'UPDATE_MEMBER_REQUEST';
+const UPDATE_MEMBER_SUCCESS = 'UPDATE_MEMBER_SUCCESS';
+const UPDATE_MEMBER_FAILURE = 'UPDATE_MEMBER_FAILURE';
 const beginUpdateMember = () => {
-  return { type: types.UPDATE_MEMBER_REQUEST };
+  return { type: UPDATE_MEMBER_REQUEST };
 };
 
 const doneUpdateMember = (response) => {
-  return { type: types.UPDATE_MEMBER_SUCCESS };
+  return { type: UPDATE_MEMBER_SUCCESS };
 };
 
 const failUpdateMember = (err) => {
   return {
-    type: types.UPDATE_MEMBER_FAILURE,
+    type: UPDATE_MEMBER_FAILURE,
     error: err
   };
 };
@@ -60,22 +64,30 @@ export function updateMember(userData) {
     return api.doUpdateMember(userData)
       .then(response => {
         dispatch(doneUpdateMember(response));
-        dispatch(notificationSend(notif.MSG_UPDATE_MEMBER_SUCCESS));
+        dispatch(notificationSend({
+          message: 'Updated user.',
+          kind: 'info',
+          dismissAfter: 3000
+        }));
       })
       .catch(
         err => {
           dispatch(failUpdateMember(err.message));
-          dispatch(notificationSend(notif.MSG_UPDATE_MEMBER_ERROR));
+          dispatch(notificationSend({
+            message: 'There was a problem updating the user.',
+            kind: 'error',
+            dismissAfter: 3000
+          }));
         });
   };
 }
 
 
-
+export const MEMBER_SELECTED = 'MEMBER_SELECTED';
 
 export function memberSelected(userId) {
   return {
-    type: types.MEMBER_SELECTED,
+    type: MEMBER_SELECTED,
     id: userId
   };
 }
@@ -88,29 +100,29 @@ const INITIAL_STATE = {
 
 export default function membersReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case types.LOAD_MEMBERS_REQUEST:
-    case types.UPDATE_MEMBER_REQUEST:
+    case LOAD_MEMBERS_REQUEST:
+    case UPDATE_MEMBER_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case types.LOAD_MEMBERS_SUCCESS:
+    case LOAD_MEMBERS_SUCCESS:
       return {
         ...state,
         members: action.payload
       };
-    case types.LOAD_MEMBERS_FAILURE:
-    case types.UPDATE_MEMBER_FAILURE:
+    case LOAD_MEMBERS_FAILURE:
+    case UPDATE_MEMBER_FAILURE:
       return {
         ...state,
         error: action.error,
         isLoading: false
       };
-    case types.UPDATE_MEMBER_SUCCESS:
+    case UPDATE_MEMBER_SUCCESS:
       return {
         ...state
       };
-    case types.MEMBER_SELECTED:
+    case MEMBER_SELECTED:
       return {
         ...state,
         selected: state.members.map((member, index) => {

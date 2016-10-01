@@ -35,6 +35,7 @@ function S3Upload(options) {
 }
 
 S3Upload.prototype.handleFileSelect = function(file) {
+  console.log('handle file select', this.file);
   const result = [];
   this.preprocess(file, (processedFile) => {
     this.onProgress(0, 'Waiting', processedFile);
@@ -104,8 +105,6 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
   } else {
     xhr.onload = function() {
       if (xhr.status === 200) {
-        console.log('uploading-------', file);
-        // file.size, file.name, file.type
         this.onProgress(100, 'Upload completed', file);
         return this.onFinishS3Put(signResult, file);
       } else {

@@ -10,8 +10,8 @@ router.route('/')
 
 router.route('/:id')
       .get(ctrl.show)
-      .put(ensureAuthenticated, ctrl.update)
-      .patch(ensureAuthenticated, ctrl.update)
-      .delete(ensureAuthenticated, ctrl.destroy);
+      .put(ctrl.update)
+      .patch(ctrl.update)
+      .delete(ctrl.destroy);
 
 export default router;

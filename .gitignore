@@ -4,7 +4,6 @@ build/
 static/server.js
 static/server.js.map
 static/webpack-assets.json
-static/webpack-stats.json
 .volumes
 boldr.paw
 # Logs

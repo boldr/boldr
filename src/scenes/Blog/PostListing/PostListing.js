@@ -6,10 +6,14 @@ import { getPostsArray } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
 
 const PostListing = (props) => {
-  return (
+    return (
+      <div>
+        {
           props.isLoading ? <Loader /> :
           <PostListingGroup posts={ props.allPosts } />
-  );
+        }
+      </div>
+    );
 };
 
 const mapStateToProps = (state) => {
