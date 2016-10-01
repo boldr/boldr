@@ -1,15 +1,17 @@
+
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 
-export default class Html extends Component {
-  static propTypes = {
-    assets: PropTypes.object,
-    component: PropTypes.node,
-    store: PropTypes.object
-  };
+type Props = {
+  assets: Object,
+  component: ?React$Element<any>,
+  store: Object
+};
 
+export default class Html extends Component {
+  props: Props;
   render() {
     const { assets, component, store } = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
@@ -35,13 +37,14 @@ export default class Html extends Component {
             />
             )
           }
-
+          <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css" rel="stylesheet" />
           {/* (will be present only in development mode) */}
           {
             Object.keys(assets.styles).length === 0 ?
             <style dangerouslySetInnerHTML={ { __html: '#content{display:none}' } } /> :
             null
           }
+          <script src="//cdn.polyfill.io/v2/polyfill.min.js" />
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={ { __html: content } } />

@@ -14,3 +14,9 @@ export function doUpload(payload) {
     .post(`${API_MEDIA}/dashboard`, payload)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`);
 }
+
+export function doRemoveMedia(id) {
+  return request
+    .delete(`${API_MEDIA}/${id}`)
+    .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`);
+}

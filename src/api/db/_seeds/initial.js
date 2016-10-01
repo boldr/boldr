@@ -1,4 +1,3 @@
-
 function truncate(knex, Promise, tables) {
   return Promise.each(tables,
     (table) => knex.raw(`TRUNCATE TABLE ${table} RESTART IDENTITY CASCADE`));
@@ -43,6 +42,7 @@ exports.seed = function(knex, Promise) {
     ]))
     .then(() => Promise.all([
       knex('user').insert({
+        id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
         first_name: 'Joe',
         last_name: 'Gray',
         display_name: 'Joey',
@@ -55,6 +55,7 @@ exports.seed = function(knex, Promise) {
         verified: true
       }),
       knex('user').insert({
+        id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
         first_name: 'Sam',
         last_name: 'Hunt',
         display_name: 'Samus',
@@ -67,6 +68,7 @@ exports.seed = function(knex, Promise) {
         verified: true
       }),
       knex('user').insert({
+        id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
         first_name: 'Jessica',
         last_name: 'Smith',
         display_name: 'Jess',
@@ -81,15 +83,15 @@ exports.seed = function(knex, Promise) {
     ]))
     .then(() => Promise.all([
       knex('user_role').insert({
-        user_id: 1,
+        user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
         role_id: 4
       }),
       knex('user_role').insert({
-        user_id: 2,
+        user_id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
         role_id: 2
       }),
       knex('user_role').insert({
-        user_id: 3,
+        user_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
         role_id: 3
       })
     ]))
@@ -105,12 +107,13 @@ exports.seed = function(knex, Promise) {
     ]))
     .then(() => Promise.all([
       knex('post').insert({
+        id: '5c9ed236-79f0-4ff7-93bd-2815f06c74b4',
         title: 'Just Another Post',
         slug: 'just-another-post',
         excerpt: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-        feature_image: 'http://lorempixel.com/output/abstract-q-c-751-410-4.jpg',
+        feature_image: 'https://boldr.io/image1.jpg',
         content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.' +
@@ -118,15 +121,16 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when',
         status: 'published',
-        user_id: 1
+        user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0'
       }),
       knex('post').insert({
+        id: 'cb61bbae-c91e-4014-b665-3485734b88fb',
         title: 'Nother One',
         slug: 'nother-one',
         excerpt: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-        feature_image: 'http://lorempixel.com/output/abstract-q-c-751-410-10.jpg',
+        feature_image: 'https://boldr.io/image3.jpg',
         content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.' +
@@ -134,15 +138,16 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when',
         status: 'published',
-        user_id: 3
+        user_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f'
       }),
       knex('post').insert({
+        id: 'ab33a0ca-b349-4cf8-947f-94f415149492',
         title: 'Random Post Title',
         slug: 'random-post-title',
         excerpt: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-        feature_image: 'http://lorempixel.com/output/abstract-q-c-751-410-2.jpg',
+        feature_image: 'https://boldr.io/image2.jpg',
         content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.' +
@@ -150,20 +155,20 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when',
         status: 'published',
-        user_id: 1
+        user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0'
       })
     ]))
     .then(() => Promise.all([
       knex('post_tag').insert({
-        post_id: 1,
+        post_id: '5c9ed236-79f0-4ff7-93bd-2815f06c74b4',
         tag_id: 2
       }),
       knex('post_tag').insert({
-        post_id: 2,
+        post_id: 'cb61bbae-c91e-4014-b665-3485734b88fb',
         tag_id: 1
       }),
       knex('post_tag').insert({
-        post_id: 3,
+        post_id: 'ab33a0ca-b349-4cf8-947f-94f415149492',
         tag_id: 2
       })
     ]))

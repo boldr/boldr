@@ -1,70 +1,53 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-
-import { CardActions } from 'components/md/Cards';
-import TextField from 'components/md/TextFields';
-import { RaisedButton } from 'components/md/Buttons';
+import { Button, Form, Input, Message } from 'stardust';
 
 import validate from './validate';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
-  <div>
-  <TextField
+  <Form.Input
     label={ label }
-    className="md-text-field"
+    className="form__auth"
     type={ type }
     { ...input }
   />
-  </div>
 );
 
 const SignupForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
-    <form onSubmit={ handleSubmit }>
-    <div className="grid__row">
-      <div className="grid__half">
-        <Field name="email"
-          type="email"
-          component={ renderField }
-          label="Email address"
-        />
-      </div>
-      <div className="grid__half">
-        <Field name="password"
-          type="password"
-          component={ renderField }
-          label="Password"
-        />
-      </div>
-    </div>
-    <div className="grid__row">
-      <div className="grid__half">
-        <Field name="first_name"
-          type="text"
-          component={ renderField }
-          label="First name"
-        />
-      </div>
-      <div className="grid__half">
-        <Field name="last_name"
-          type="text"
-          component={ renderField }
-          label="Last name"
-        />
-      </div>
-      </div>
-      <div className="grid__row">
+    <Form onSubmit={ handleSubmit } className="card__form">
+      <Form.Group widths="equal">
         <Field name="display_name"
           type="text"
           component={ renderField }
           label="Display name"
         />
-      </div>
-      <CardActions>
-        <RaisedButton secondary type="submit" label="Create account" />
-      </CardActions>
-    </form>
+        <Field name="password"
+          type="password"
+          component={ renderField }
+          label="Password"
+        />
+      </Form.Group>
+      <Form.Group widths="equal">
+        <Field name="first_name"
+          type="text"
+          component={ renderField }
+          label="First name"
+        />
+        <Field name="last_name"
+          type="text"
+          component={ renderField }
+          label="Last name"
+        />
+      </Form.Group>
+      <Field name="email"
+        type="email"
+        component={ renderField }
+        label="Email address"
+      />
+      <Button primary type="submit">Create Account</Button>
+    </Form>
   );
 };
 

@@ -13,7 +13,9 @@ const VENDOR_BUNDLE = [
   'react-addons-css-transition-group',
   'draft-js',
   'classnames',
-  'reselect'
+  'stardust',
+  'reselect',
+  'date-fns'
 ];
 
 module.exports = VENDOR_BUNDLE;

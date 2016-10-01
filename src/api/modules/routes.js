@@ -1,5 +1,5 @@
 import express from 'express';
-
+import activityRoutes from './activity/activity.routes';
 import authRoutes from './auth/auth.routes';
 import collectionRoutes from './collection/collection.routes';
 import galleryRoutes from './gallery/gallery.routes';
@@ -21,6 +21,7 @@ router.get('/health-check', (req, res) =>
 	res.send('OK, it works')
 );
 
+router.use('/activities', activityRoutes);
 router.use('/auth', authRoutes);
 router.use('/collections', collectionRoutes);
 router.use('/galleries', galleryRoutes);

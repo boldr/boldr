@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([
 
     knex.schema.createTableIfNotExists('gallery', function(table) {
-      table.increments('id');
+      table.uuid('id').primary();
       table.string('name').unique().notNullable();
       table.string('slug');
       table.string('description');
@@ -16,6 +16,7 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTableIfNotExists('content_type', function(table) {
       table.increments('id');
+      table.uuid('uuid');
       table.string('name');
       table.string('description');
       table.boolean('restricted').default(false);
@@ -25,6 +26,7 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTableIfNotExists('collection', function(table) {
       table.increments('id');
+      table.uuid('uuid');
       table.string('name');
       table.string('description');
       table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
@@ -35,7 +37,7 @@ exports.up = function(knex, Promise) {
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
     knex.schema.createTableIfNotExists('page', function(table) {
-      table.increments('id');
+      table.uuid('id').primary();
       table.string('name');
       table.string('slug');
       table.string('layout');
@@ -48,7 +50,8 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTableIfNotExists('page_helper', function(table) {
       table.increments('id');
-      table.integer('page_id').notNullable().references('id').inTable('page');
+      table.uuid('uuid');
+      table.uuid('page_id').notNullable().references('id').inTable('page');
       table.string('name');
       table.string('scope');
       table.enu('type', ['string', 'int', 'boolean', 'array']);

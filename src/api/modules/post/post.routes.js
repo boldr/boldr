@@ -14,8 +14,8 @@ router.route('/slug/:slug')
 
 router.route('/pid/:id')
       .get(ctrl.getId)
-      .post(ctrl.addTag)
-      .put(ctrl.update)
-      .delete(ctrl.destroy);
+      .post(ensureAuthenticated, ctrl.addTag)
+      .put(ensureAuthenticated, ctrl.update)
+      .delete(ensureAuthenticated, ctrl.destroy);
 
 export default router;

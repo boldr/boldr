@@ -1,6 +1,7 @@
 import findQuery from 'objection-find';
 import slugify from 'slugify';
 import { responseHandler, throwNotFound } from '../../utils';
+import { InternalError, PostNotFoundError } from '../../utils/errors';
 import Tag from '../tag/tag.model';
 import Post from './post.model';
 import PostTag from './postTag.model';
@@ -11,6 +12,7 @@ function index(req, res) {
   return findQuery(Post)
     .build(req.query.filter)
     .eager(req.query.include)
+    .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
     // .orderBy(req.query.sort.by, req.query.sort.order)
     .page(req.query.page.number, req.query.page.size)
     .then(users => responseHandler(null, res, 200, users))
@@ -25,6 +27,7 @@ async function create(req, res) {
       excerpt: req.body.excerpt,
       content: req.body.content,
       feature_image: req.body.feature_image,
+      meta: req.body.meta,
       user_id: req.user.id
     });
     await newPost.$relatedQuery('author').relate({ id: req.user.id });
@@ -49,7 +52,7 @@ async function create(req, res) {
     }
     return res.status(201).json(newPost);
   } catch (error) {
-    return responseHandler(error, res);
+    throw new InternalError(error);
   }
 }
 
@@ -58,32 +61,46 @@ async function getSlug(req, res) {
     .query()
     .where({ slug: req.params.slug })
     .eager('[tags, author]')
+    .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
     .first();
+
+  if (!post) {
+    return res.status(404).json('Unable to find the requested post.');
+  }
   return responseHandler(null, res, 200, post);
 }
 
 async function getId(req, res) {
-  const post = await Post
-    .query()
-    .findById(req.params.id)
-    .eager('[tags, author]')
-    .first();
-  return responseHandler(null, res, 200, post);
+  try {
+    const post = await Post
+      .query()
+      .findById(req.params.id)
+      .eager('[tags, author]')
+      .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
+      .first();
+    return responseHandler(null, res, 200, post);
+  } catch (error) {
+    throw new InternalError(error);
+  }
 }
 
 async function destroy(req, res) {
-  await Post
-    .query()
-    .delete()
-    .where('id', req.params.id);
+  try {
+    await Post
+      .query()
+      .delete()
+      .where('id', req.params.id);
 
-  res.status(204).send({});
+    res.status(204).send({});
+  } catch (error) {
+    throw new InternalError(error);
+  }
 }
 
 function update(req, res) {
   return Post.query()
     .patchAndFetchById(req.params.id, req.body)
-    .then(post => res.status(201).json(post));
+    .then(post => res.status(202).json(post));
 }
 
 async function addTag(req, res) {
@@ -92,7 +109,7 @@ async function addTag(req, res) {
     .findById(req.params.id);
 
   if (!post) {
-    return throwNotFound();
+    throw new PostNotFoundError();
   }
 
   const tag = await post

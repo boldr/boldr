@@ -1,5 +1,5 @@
-require('babel-register');
-require('babel-polyfill');
+delete process.env.BROWSER;
+require('babel-core/register');
 
 const path = require('path');
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
@@ -13,6 +13,8 @@ global.__SERVER__ = true;
 global.__DISABLE_SSR__ = false;
 global.__DEV__ = process.env.NODE_ENV !== 'production';
 global.__DLLS__ = process.env.WEBPACK_DLLS === '1';
+global.nodeRequire = require;
+global.regeneratorRuntime = require('regenerator-runtime');
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
   .development(__DEV__)

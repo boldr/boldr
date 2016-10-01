@@ -4,6 +4,7 @@
       "presets": ["boldr"],
       "plugins": [
         "react-hot-loader/babel",
+        "system-import-transformer",
         ["module-resolver", {
           "root": ["./src"]
         }]
@@ -12,6 +13,8 @@
     "production": {
       "presets": ["boldr"],
       "plugins": [
+        "lodash",
+        "transform-flow-strip-types",
         ["module-resolver", {
           "root": ["./src"]
         }]
@@ -20,6 +23,7 @@
     "test": {
       "presets": ["boldr"],
       "plugins": [
+        "system-import-transformer",
         ["module-resolver", {
           "root": ["./src"]
         }]

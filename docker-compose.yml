@@ -1,21 +1,24 @@
 version: '2'
 services:
-
-  datastore:
-    image: busybox
+  # volumes_source:
+  #   image: tianon/true
+  #   volumes:
+  #     - ${HOST_APP_DIRECTORY}:/var/www/
+  volumes_data:
+    image: tianon/true
     container_name: boldr_data
-    tty: true
-    stdin_open: true
     volumes:
       ## Redis DB
-      - "./.volumes/redis:/data:rw"
+      - "./.volumes/redis:/data"
       ## Postgres databases
-      - "./.volumes/pgdata:/var/lib/postgresql/data:rw"
+      - "./.volumes/pgdata:/var/lib/postgresql/data"
 
   postgres:
     container_name: boldr_pg
     image: sameersbn/postgresql:9.5-2
+    restart: always
     environment:
+      - PGDATA=/var/lib/postgresql/data
       - PG_PASSWORD=password
       - DB_USER=boldr
       - DB_PASS=password
@@ -24,17 +27,18 @@ services:
     ports:
       - "5432:5432"
     volumes_from:
-      - datastore
+      - volumes_data
     networks:
       - boldr
 
   redis:
     image: redis:3.2.3-alpine
     container_name: boldr_redis
+    restart: always
     ports:
       - "6379:6379"
     volumes_from:
-      - datastore
+      - volumes_data
     networks:
       - boldr
 
@@ -56,7 +60,3 @@ services:
 networks:
   boldr:
     driver: bridge
-
-volumes:
-  datastore:
-    driver: local

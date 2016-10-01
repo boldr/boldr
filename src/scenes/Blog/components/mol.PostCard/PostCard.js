@@ -1,53 +1,38 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Moment from 'moment';
-import classNames from 'classnames/bind';
-
+import dateFns from 'date-fns';
+import { Button, Card, Image } from 'stardust';
+import { FlatButton } from 'components/md/Buttons';
+import { Row } from 'components';
 import TagBlock from '../mol.TagBlock';
-import FontIcon from 'components/md/FontIcons';
-import { FlatButton, IconButton } from '../../../../components/md/Buttons';
-import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../../components/md/Cards';
-import Avatar from '../../../../components/md/Avatars';
-import { Row } from '../../../../components';
-import styles from './style.css';
-
-const cx = styles::classNames;
 
 const PostCard = props => {
-  const formattedDate = Moment(props.created_at).format('MMMM Do YYYY, h:mm:ss a');
-  // const profileLink = `profile/public/${props.author.id}`;
-  const overlay = (
-    <CardTitle
-      key="overlay"
-      title={ props.title }
-      subtitle={ formattedDate }
-    >
-      <IconButton className="margin-left-auto">star_outline</IconButton>
-    </CardTitle>
-  );
+  const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
   return (
     <div>
-      <Card>
-        <CardMedia overlay={ overlay }>
-          <img className={ cx('post__card-image') } src={ props.feature_image } height="350px" />
-        </CardMedia>
-        <CardTitle
-          avatar={ <Link to={`/profile/public/${props.author.id}`}><Avatar src={ props.author.avatar_url } alt="Author avatar image" /></Link> }
-          title={ props.author.display_name }
-        />
-        <div className={ cx('post__card-footer') }>
-          <Row>
-            <TagBlock tags={ props.tags } />
-          </Row>
-        </div>
-        <CardActions isExpander>
+      <Card fluid>
+
+          <Image className="post__card-image" src={ props.feature_image } />
+          <Card.Content>
+          <Card.Header>
+          { props.title }
+
+        </Card.Header>
+          <Card.Meta>
+            { formattedDate }
+          </Card.Meta>
+       <Card.Description>
+        { props.excerpt }
+         </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+        <Row>
         <Link to={ `/blog/${props.slug}` }>
           <FlatButton label="Read more" secondary />
         </Link>
-        </CardActions>
-        <CardText expandable>
-        { props.excerpt }
-        </CardText>
+        <TagBlock tags={ props.tags } />
+        </Row>
+        </Card.Content>
       </Card>
       </div>
     );

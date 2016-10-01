@@ -2,18 +2,39 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-
+import { Card } from 'stardust';
 import { Heading, Grid, Col, Row } from 'components';
-import { Card, CardMedia, CardTitle, CardActions } from 'components/md/Cards';
+import { CardMedia, CardTitle, CardActions } from 'components/md/Cards';
 import inlineStyles from 'theme/inlineStyles';
 import { login } from 'state/dux/auth';
 import LoginForm from './LoginForm';
 
+const renderHeader = (
+  <Card.Header>
+    <Heading size={ 1 }>Login</Heading>
+  </Card.Header>
+);
+
+const cardMeta = (
+  <span>
+    <Link to="/account/forgot-password">Forgot your password? </Link>
+    <Link to="/account/signup">Create an account</Link>
+  </span>
+);
+
 class Login extends Component {
+  static propTypes = {
+    auth: PropTypes.object,
+    login: PropTypes.func,
+    redirect: PropTypes.string,
+    handleOnSubmit: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
+
   handleOnSubmit(values) {
     const { login } = this.props;
     const loginData = { email: values.email, password: values.password };
@@ -22,29 +43,22 @@ class Login extends Component {
   }
 
   render() {
-    const renderHeader = (
-      <div>
-        <Heading size={ 1 } bottom="10px">Login</Heading>
-        <p>
-          <Link to="/account/forgot-password">Forgot your password?</Link>
-          <Link to="/account/signup">Create an account</Link>
-        </p>
-      </div>
-    );
     const { isLoading } = this.props.auth;
 
     return (
       <div style={ inlineStyles.headerOverflow }>
         <Helmet title="Login" />
-          <Grid fluid>
+          <Grid>
             <Row>
               <Col xs={ 12 }>
                 <Row xsCenter>
                   <Col xs={ 6 }>
                     <Card style={ { width: '450px', marginTop: '150px' } }>
+                      <Card.Content>
                       { renderHeader }
-
                       <LoginForm onSubmit={ this.handleOnSubmit } />
+                      { cardMeta }
+                      </Card.Content>
                     </Card>
                   </Col>
                 </Row>
@@ -55,12 +69,6 @@ class Login extends Component {
     );
   }
 }
-Login.propTypes = {
-  auth: PropTypes.object,
-  login: PropTypes.func,
-  redirect: PropTypes.string,
-  handleOnSubmit: PropTypes.func
-};
 
 const mapStateToProps = (state, ownProps) => {
   return {

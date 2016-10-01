@@ -2,11 +2,11 @@ import _ from 'lodash';
 // Wrap each express route method with code that passes unhandled exceptions
 // from async functions to the `next` callback. This way we don't need to
 // wrap our route handlers in try-catch blocks.
-function monkeyPatchRouteMethods(app) {
+function monkeyPatchRouteMethods(boldrApi) {
   ['get', 'put', 'post', 'delete', 'patch'].forEach((routeMethodName) => {
-    const originalRouteMethod = app[routeMethodName];
+    const originalRouteMethod = boldrApi[routeMethodName];
 
-    app[routeMethodName] = function() {
+    boldrApi[routeMethodName] = function() {
       const args = _.toArray(arguments);
       const originalRouteHandler = _.last(args);
 

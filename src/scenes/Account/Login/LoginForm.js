@@ -1,34 +1,30 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-
+import { Button, Form, Input, Message } from 'stardust';
 import { CardActions } from '../../../components/md/Cards';
 import TextField from '../../../components/md/TextFields';
 import { RaisedButton, FlatButton } from '../../../components/md/Buttons';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
-  <div>
-  <TextField
+  <Form.Input
     label={ label }
-    className="md-text-field form__auth"
+    className="form__auth"
     type={ type }
     { ...input }
   />
-  </div>
 );
 
 const LoginForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
-      <form onSubmit={ handleSubmit } className="card__form">
-          <div className="grid__row">
+      <Form onSubmit={ handleSubmit } className="card__form">
           <Field
             name="email"
             type="email"
             label="Email"
             component={ renderField }
           />
-          </div>
-          <div className="grid__row">
+
           <Field
             name="password"
             label="Password"
@@ -36,12 +32,10 @@ const LoginForm = props => {
             component={ renderField }
             style={ { marginBottom: '50px' } }
           />
-          </div>
-        <CardActions style={ { paddingTop: '75px' } }>
-          <RaisedButton secondary type="submit" label="Login" />
-          <FlatButton label="Clear values" disabled={ pristine || submitting } onClick={ reset } />
-        </CardActions>
-      </form>
+           <Button primary type="submit">Login</Button>
+           <Button disabled={ pristine || submitting } onClick={ reset }>Clear</Button>
+
+      </Form>
     );
 };
 

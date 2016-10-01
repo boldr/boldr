@@ -1,11 +1,12 @@
 import async from 'async';
 import passport from 'passport';
-import { handleMail } from '../../mailer';
+import uuid from 'node-uuid';
+import handleMail from '../../mailer';
 import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/mailContent';
 import User from '../user/user.model';
 import UserRole from '../user/userRole.model';
 import Role from '../role/role.model';
-import { responseHandler, encryptPassword, generateVerifyCode } from '../../utils';
+import { responseHandler, generateVerifyCode } from '../../utils';
 import signToken from './signToken';
 
 const debug = require('debug')('boldr:auth:controller');
@@ -26,11 +27,12 @@ async function register(req, res) {
       return responseHandler(new Error('A user with that email already exists'), res, 409);
     }
 
-    const hash = await encryptPassword(req.body.password);
+    // const hash = await encryptPassword(req.body.password);
     const verificationToken = await generateVerifyCode();
     const userInfo = {
+      id: uuid.v4(),
       email: req.body.email,
-      password: hash,
+      password: req.body.password,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       display_name: req.body.display_name,
@@ -75,6 +77,7 @@ async function login(req, res, next) {
       user.stripPassword();
       // sign the token
       const token = signToken(user);
+      const userData = user;
       req.user = user;
       res.set('authorization', signToken(user));
       // req.role = user.role[0].id;
@@ -130,7 +133,7 @@ async function forgottenPassword(req, res) {
     const token = generateVerifyCode();
     await User.query().patchAndFetchById(user.id, { reset_password_token: token, reset_password_expiration: new Date(Date.now() + 3600000) });
 
-    const mailBody = forgotPasswordEmail(user);
+    const mailBody = forgotPasswordEmail(user, token);
 
     await handleMail(user, mailBody, mailSubject);
     return responseHandler(null, res, 200, { message: 'Sending email with reset link' });
@@ -147,14 +150,14 @@ async function forgottenPassword(req, res) {
  */
 async function resetPassword(req, res) {
   try {
-    const user = await User.query().where({ reset_password_token: req.body.token }).first();
+    const user = await User.query().where({ reset_password_token: req.params.token }).first();
     if (!user) {
-      return responseHandler(new Error('Invalid user', res, 404));
+      return res.status(404).json('Unable to find a user or token matching.');
     }
     const mailSubject = '[Boldr] Password Changed';
-    const hash = await User.encryptPassword(req.body.password);
+
     await User.query().patchAndFetchById(user.id, {
-      password: hash,
+      password: req.body.password,
       reset_password_expiration: null,
       reset_password_token: null
     });
