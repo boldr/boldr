@@ -1,16 +1,17 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Grid, Row, Col, Hero, Heading, PrimaryHeader } from 'components';
+
+import { Grid, Row, Col, Hero, Heading, Header } from 'components';
 
 const Home = () => {
   return (
     <div>
       <Helmet title="Home" />
-        <PrimaryHeader />
+        <Header theme="dark" />
         <Hero />
         <Grid fluid>
         <Row>
-          <Heading size={ 1 }>Why shouldn't your CMS be a little, Boldr?</Heading>
+          <Heading size={ 1 }>Welcome to the Home. Stay tuned...</Heading>
         </Row>
       </Grid>
     </div>

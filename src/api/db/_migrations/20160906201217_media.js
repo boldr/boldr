@@ -4,19 +4,22 @@ exports.up = function(knex, Promise) {
   return Promise.all([
 
     knex.schema.createTableIfNotExists('media', function(table) {
-      table.uuid('id').primary();
+      table.increments('id');
       table.string('filename').unique().notNullable();
       table.string('file_type');
       table.string('s3url');
-      table.uuid('user_id').unsigned().notNullable();
+      table.integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('user');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
-      table.foreign('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
     }),
     knex.schema.createTableIfNotExists('setting', function(table) {
       table.increments('id');
-      table.string('site_name').notNullable();
-      table.string('site_url').notNullable();
+      table.string('site_name');
+      table.string('site_url');
       table.string('site_logo');
       table.string('site_favicon');
       table.string('site_slogan');
@@ -29,8 +32,7 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTableIfNotExists('navigation', function(table) {
       table.increments('id');
-      table.uuid('uuid');
-      table.string('name').notNullable();
+      table.string('name');
       table.boolean('primary').default(false);
       table.boolean('restricted').default(false);
       table.enu('location', ['header', 'sidebar', 'footer', 'admin']).defaultTo('header');
@@ -39,10 +41,9 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTableIfNotExists('link', function(table) {
       table.increments('id');
-      table.uuid('uuid');
-      table.string('name', 50).notNullable();
+      table.string('name');
       table.integer('position');
-      table.string('href').notNullable();
+      table.string('href');
       table.string('icon');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());

@@ -1,0 +1,22 @@
+@custom-media --small-viewport (max-width: 30em);
+
+.profile__card {
+  @media(--small-viewport) {
+    lost-utility: clearfix;
+    lost-column: 1/1;
+  }
+
+  lost-column: 3/4;
+
+
+
+}
+.profile__editor {
+  @media(--small-viewport) {
+    lost-utility: clearfix;
+    lost-column: 1/1;
+  }
+
+  lost-column: 1/4 0;
+
+  }

@@ -5,11 +5,7 @@ import conf from '../config/config';
 
 bluebird.promisifyAll(Redis);
 
-const host = conf.get('redis.host') || '127.0.0.1';
-const port = conf.get('redis.port') || 6379;
-// Prefer connection uri string
-const redisConnection = process.env.REDIS_CONN_URI || `redis://${host}:${port}/1`;
-const redisClient = new Redis(redisConnection);
+const redisClient = new Redis('redis://127.0.0.1:6379/4');
 
 redisClient.on('connect', () => {
   logger.info('Redis connection has been established!');

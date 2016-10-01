@@ -78,6 +78,7 @@ export function fromDashboard(req, res, next) {
   const fileFields = {
     s3url: req.body.s3url,
     user_id: req.user.id,
+    // key: req.body.filename,
     filename: req.body.filename
   };
   Media.query().insertAndFetch(fileFields).then(data => {
@@ -112,13 +113,11 @@ export function getAllAWS(req, res, next) {
   const params = {
     Bucket: conf.get('aws.bucket')
   };
-
-  s3.listObjectsV2(params, (err, bucketData) => {
+  s3.listObjectsV2(params, (err, data) => {
     if (err) {
       debug(err, err.stack);
-      return res.status(500).json(err);
     } else {
-      return res.status(200).json(bucketData);
+      debug(data);
     }
   });
 }

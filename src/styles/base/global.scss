@@ -77,6 +77,9 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+.card__form {
+  padding: 1em;
+}
 .md-panel-content .md-text-field-container {
   padding-left: 0;
   padding-right: 0;
@@ -122,6 +125,16 @@ select:-webkit-autofill:focus {
 
 .header__icon {
   color: #fff;
+}
+
+.form__auth {
+  width: 385px;
+}
+
+.card__form {
+  padding-top: 0;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 p {

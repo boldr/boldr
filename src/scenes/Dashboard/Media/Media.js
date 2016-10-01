@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { S3Uploader, Grid, Row, Col } from 'components';
-import { API_BASE, S3_SIGNING_URL } from 'core/config';
-import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/media';
-import Paper from 'components/md/Papers';
-import inlineStyles from 'theme/inlineStyles';
+import Toolbar from '../../../components/md/Toolbars';
+import FontIcon from '../../../components/md/FontIcons';
+import { RaisedButton, FlatButton, IconButton, FloatingButton } from '../../../components/md/Buttons';
+import Paper from '../../../components/md/Papers';
+import inlineStyles from '../../../theme/inlineStyles';
 import FileView from '../components/mol.FileView';
+import { API_BASE, S3_SIGNING_URL } from 'core/config';
+import { uploadFiles, fetchMedia } from 'state/dux/media';
+
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchMedia())
@@ -19,7 +23,6 @@ class Media extends Component {
       value: 3,
       open: false
     };
-    this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
     this.handleFinish = this.handleFinish.bind(this);
   }
 
@@ -43,10 +46,6 @@ class Media extends Component {
     this.props.uploadFiles(payload);
   }
 
-  handleRemoveMedia(mediaId) {
-    this.props.deleteMedia(mediaId);
-  }
-
   render() {
     return (
       <div style={ { paddingTop: '50px' } }>
@@ -63,7 +62,7 @@ class Media extends Component {
               contentDisposition="auto"
               server={ `${API_BASE}` }
             />
-            <FileView files={ this.props.media.files } removeMedia={ this.handleRemoveMedia } />
+            <FileView files={ this.props.media.files } />
          </Col>
        </Row>
       </div>
@@ -73,15 +72,13 @@ class Media extends Component {
 
 Media.propTypes = {
   uploadFiles: React.PropTypes.func,
-  media: React.PropTypes.object,
-  deleteMedia: React.PropTypes.func
+  media: React.PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
-    media: state.media,
-    isLoading: state.media.isLoading
+    media: state.media
   };
 };
 
-export default connect(mapStateToProps, { uploadFiles, deleteMedia })(Media);
+export default connect(mapStateToProps, { uploadFiles })(Media);

@@ -27,12 +27,3 @@ export function doSelectPost(postId) {
   return request
     .get(`${API_POSTS}/id/${postId}`);
 }
-
-export function doChangeStatus(postId, postStatus) {
-  return request
-    .put(`${API_POSTS}/pid/${postId}`)
-    .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
-    .send({
-      status: postStatus
-    });
-}

@@ -1,19 +1,21 @@
-// @flow
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-// $FlowFixMe
-import { PrimaryHeader } from 'components';
+import { Header } from 'components';
 
-const Account = (props: { children: any }) => {
+const Account = (props) => {
   return (
       <div>
-        <PrimaryHeader />
+        <Header theme="dark" />
         { props.children }
       </div>
       );
 };
 
-function mapStateToProps(state: Object) {
+Account.propTypes = {
+  children: PropTypes.element.isRequired
+};
+
+function mapStateToProps(state) {
   return {
     router: state.router,
     boldr: state.boldr,
@@ -21,4 +23,4 @@ function mapStateToProps(state: Object) {
   };
 }
 
-export default connect(mapStateToProps)(Account);
+export default connect(mapStateToProps, null)(Account);

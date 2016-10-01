@@ -1,16 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
+import classNames from 'classnames/bind';
 
 import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
 import { FlatButton } from 'components/md/Buttons';
 import { getMyProfile } from 'state/dux/profile';
-import PrimaryHeader from 'components/org.PrimaryHeader';
+import Header from 'components/org.MainHeader';
 import inlineStyles from 'theme/inlineStyles';
 import Avatar from 'components/md/Avatars';
 import ExpansionList from 'components/md/ExpansionPanels/ExpansionList';
 import ExpansionPanel from 'components/md/ExpansionPanels/ExpansionPanel';
 import Authenticated from 'components/hoc.Authenticated';
+import styles from './style.css';
+
+const cx = styles::classNames;
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(getMyProfile())
@@ -23,10 +27,12 @@ class MyProfile extends Component {
   render() {
     return (
       <div>
-          <PrimaryHeader />
+      <div style={ inlineStyles.headerOverflow }>
+          <Header theme="dark" />
+      </div>
       <div className="grid">
       <div className="grid__row">
-        <Card className="profile__card">
+        <Card className={ cx('profile__card') }>
           <CardTitle
             title={ `Editing ${this.props.profile.private.display_name}'s profile ` }
             subtitle="Click the panel for editing options"

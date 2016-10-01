@@ -1,8 +1,0 @@
---timeout 5000
---compilers js:./tools/test/setup.js
---require ignore-styles
---recursive
---colors
---reporter spec
-
-src/**/*.test.js

@@ -1,0 +1,4 @@
+.fileview__img {
+  max-width: 375px;
+  object-fit: cover;
+}

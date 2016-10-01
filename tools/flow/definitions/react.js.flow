@@ -1,3 +1,0 @@
-// @flow
-declare var ReactComponent: typeof React$Component;
-declare var ReactElement: typeof React$Element;

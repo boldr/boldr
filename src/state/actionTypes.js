@@ -1,4 +1,3 @@
-
 // Globals
 // -----------------
 export const DONE_LOADING = 'DONE_LOADING';
@@ -36,9 +35,6 @@ export const CREATE_POST_REQUEST = 'CREATE_POST_REQUEST';
 export const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
 export const CREATE_POST_FAIL = 'CREATE_POST_FAIL';
 export const CLEAR_CURRENT_POST = 'CLEAR_CURRENT_POST';
-export const CHANGE_STATUS_REQUEST = 'post/CHANGE_STATUS_REQUEST';
-export const CHANGE_STATUS_SUCCESS = 'post/CHANGE_STATUS_SUCCESS';
-export const CHANGE_STATUS_FAILURE = 'post/CHANGE_STATUS_FAILURE';
 
 // Auth
 // -----------------
@@ -65,27 +61,19 @@ export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE';
 
 // Media
 // -----------------
-export const GET_MEDIA_REQUEST = 'media/GET_MEDIA_REQUEST';
-export const GET_MEDIA_SUCCESS = 'media/GET_MEDIA_SUCCESS';
-export const GET_MEDIA_FAILURE = 'media/GET_MEDIA_FAILURE';
+export const GET_MEDIA_REQUEST = 'GET_MEDIA_REQUEST';
+export const GET_MEDIA_SUCCESS = 'GET_MEDIA_SUCCESS';
+export const GET_MEDIA_FAIL = 'GET_MEDIA_FAIL';
 
-export const UPLOAD_REQUEST = 'media/UPLOAD_REQUEST';
-export const UPLOAD_SUCCESS = 'media/UPLOAD_SUCCESS';
-export const UPLOAD_FAILURE = 'media/UPLOAD_FAILURE';
-
-export const DELETE_MEDIA_FAILURE = 'media/DELETE_MEDIA_FAILURE';
-export const DELETE_MEDIA_REQUEST = 'media/DELETE_MEDIA_REQUEST';
-export const DELETE_MEDIA_SUCCESS = 'media/DELETE_MEDIA_SUCCESS';
+export const UPLOAD_REQUEST = 'UPLOAD_REQUEST';
+export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 
 // Members
 // -----------------
-export const LOAD_MEMBERS_REQUEST = 'members/LOAD_MEMBERS_REQUEST';
-export const LOAD_MEMBERS_SUCCESS = 'members/LOAD_MEMBERS_SUCCESS';
-export const LOAD_MEMBERS_FAILURE = 'members/LOAD_MEMBERS_FAILURE';
-export const UPDATE_MEMBER_REQUEST = 'members/UPDATE_MEMBER_REQUEST';
-export const UPDATE_MEMBER_SUCCESS = 'members/UPDATE_MEMBER_SUCCESS';
-export const UPDATE_MEMBER_FAILURE = 'members/UPDATE_MEMBER_FAILURE';
-export const MEMBER_SELECTED = 'members/MEMBER_SELECTED';
+export const LOAD_MEMBERS_REQUEST = 'LOAD_MEMBERS_REQUEST';
+export const LOAD_MEMBERS_SUCCESS = 'LOAD_MEMBERS_SUCCESS';
+export const LOAD_MEMBERS_FAILURE = 'LOAD_MEMBERS_FAILURE';
 
 // Navigation / Links
 // -----------------

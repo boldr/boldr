@@ -13,7 +13,7 @@ import {
 } from './config';
 
 import { processResponse, credentials, jsonHeaders } from './api/helpers';
-import ApiClient from './api/ApiClient';
+
 
 export {
   API_BASE,
@@ -29,6 +29,5 @@ export {
   TOKEN_KEY,
   processResponse,
   credentials,
-  jsonHeaders,
-  ApiClient
+  jsonHeaders
 };

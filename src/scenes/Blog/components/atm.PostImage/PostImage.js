@@ -1,9 +1,13 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import styles from './style.css';
+
+const cx = styles::classNames;
+
 const PostImage = (props) => {
   return (
-    <div className="postimage__wrap">
-      <img src={ props.imageSrc } alt="post image" className="postimage" />
+    <div className={ cx('postimage__wrap') }>
+      <img src={ props.imageSrc } alt="post image" className={ cx('postimage') } />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router/es6';
 
 import { provideHooks } from 'redial';
 import { Grid, Col, Row } from '../../../components';

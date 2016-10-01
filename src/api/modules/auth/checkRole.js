@@ -21,7 +21,7 @@ function checkRole(requiredRole) {
       if (req.role >= requiredRole) {
         return next();
       } else {
-        return res.send(403).json('Forbidden. You do not meet the required permissions.')
+        return res.send(403);
       }
     });
 }

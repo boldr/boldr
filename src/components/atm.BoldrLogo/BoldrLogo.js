@@ -1,7 +1,6 @@
-// @flow
 /* eslint-disable */
 import React from 'react';
-export default (props: { width: Number, height: Number }) => {
+export default (props) => {
     return (
       <svg width={ props.width } height={ props.height } viewBox="1430 566 336 384"><title>BoldrLogo</title>
       <g id="boldrlogo" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(1431.000000, 566.000000)">
