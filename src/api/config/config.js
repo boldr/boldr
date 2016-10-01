@@ -128,7 +128,7 @@ const conf = convict({
     uri: {
       doc: 'The redis connection uri',
       format: String,
-      default: 'redis://127.0.0.1:6379/4',
+      default: 'redis://127.0.0.1:6379/1',
       env: 'REDIS_CONN_URI'
     },
     host: {

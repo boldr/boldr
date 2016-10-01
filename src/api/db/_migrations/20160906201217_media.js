@@ -40,7 +40,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('link', function(table) {
       table.increments('id');
       table.uuid('uuid');
-      table.string('name').notNullable();
+      table.string('name', 50).notNullable();
       table.integer('position');
       table.string('href').notNullable();
       table.string('icon');

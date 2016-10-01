@@ -1,14 +1,12 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import { Menu, Dropdown, Button } from 'stardust';
+import { Menu, Dropdown, Button, Container } from 'stardust';
 import { push } from 'react-router-redux';
 import Link from 'react-router/lib/Link';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// $FlowFixMe
 import { goHome } from 'state/dux/boldr';
-// $FlowFixMe
 import { logout } from 'state/dux/auth';
 
 type Props = {
@@ -111,12 +109,14 @@ class PrimaryHeader extends Component {
     );
 
     return (
-      <Menu size="massive">
+      <Menu size="big">
+      <Container>
         <Menu.Item>
           <img src={ this.props.boldr.site_logo } alt="logo" onClick={ this.handleLogoClick } />
         </Menu.Item>
         { renderedMenuItems }
         { this.props.auth.isAuthenticated ? this.renderAuthenticated() : this.renderUnauthenticated() }
+        </Container>
       </Menu>
     );
   }

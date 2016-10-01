@@ -3,8 +3,11 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('activity', function(table) {
       table.uuid('id').primary();
+      table.string('name', 100);
       table.uuid('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
       table.string('action').notNullable();
+      table.integer('type').notNullable();
+      table.json('data').notNullable();
       table.uuid('entry_id').notNullable();
       table.string('entry_table').notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());

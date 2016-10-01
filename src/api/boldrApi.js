@@ -1,26 +1,19 @@
-import path from 'path';
-import http from 'http';
-// Server deps
-import express from 'express';
+import Express from 'express';
 import compression from 'compression';
 import passport from 'passport';
 
 // Boldr API Deps
-import getRoutes from '../scenes/index';
 import handleInitialRender from '../core/handleInitialRender';
-import { conf, knex, coreMiddleware, sessionMiddleware } from './index';
+import { conf, coreMiddleware, sessionMiddleware } from './index';
 import routes from './modules/routes';
+import { BaseError } from './utils/errors';
 import { monkeyPatchRouteMethods } from './utils';
+import logger from './logger';
 
+const debug = require('debug')('boldr:boldrApi');
 
-const debug = require('debug')('boldr:ssr-server');
-const sourceMaps = require('source-map-support');
-
-sourceMaps.install();
-module.exports = function boldrServerModule() {
-  const boldrApi = express();
-
-  const port = conf.get('api.port') || 3000;
+function boldrServerModule() {
+  const boldrApi = new Express();
 
   boldrApi.use(compression());
 
@@ -32,7 +25,7 @@ module.exports = function boldrServerModule() {
   boldrApi.use(passport.session());
 
   boldrApi.use((req, res, next) => {
-    passport.authenticate('jwt', (err, user, info) => {
+    passport.authenticate('jwt', (err, user) => {
       res.locals.user = !!user ? user : null;
       return next();
     })(req, res, next);
@@ -41,12 +34,25 @@ module.exports = function boldrServerModule() {
   boldrApi.use(conf.get('api.base'), routes);
   boldrApi.use(
   '/assets/',
-  express.static('./static', { maxAge: '365d' })
+    Express.static('./static', { maxAge: '365d' })
 );
-
-// Configure static serving of our "public" root http path static files.
-  boldrApi.use(express.static('static'));
+  // Configure static serving of our "public" root http path static files.
+  boldrApi.use(Express.static('static'));
 
   boldrApi.get('*', handleInitialRender);
+
+  boldrApi.use((err, req, res, next) => {
+    if (err instanceof BaseError) {
+      res.status(err.getHttpStatus());
+      res.json(err.message);
+    } else {
+      logger.warn(err);
+      res.status(500);
+      res.json('Internal Server Error');
+    }
+  });
+
   return boldrApi;
-};
+}
+
+export default boldrServerModule;

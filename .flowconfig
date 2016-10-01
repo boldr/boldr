@@ -5,29 +5,11 @@
 <PROJECT_ROOT>/.*/static/.*
 <PROJECT_ROOT>/.*/docs/.*
 <PROJECT_ROOT>/.*/happypack/.*
-<PROJECT_ROOT>/react-side-effect/.*
-<PROJECT_ROOT>/node_modules/fbjs/lib/Deferred\.js\.flow
-# Ugh
-.*/node_modules/babel.*
-.*/node_modules/babylon.*
-.*/node_modules/invariant.*
-.*/node_modules/react-side-effect/node_modules/fbjs/.*
 .*/node_modules/bcryptjs/.*
-# Ignore react and fbjs where there are overlaps, but don't ignore
-# anything that react-native relies on
-.*/node_modules/fbjs/lib/Map.js
-.*/node_modules/fbjs/lib/fetch.js
-.*/node_modules/fbjs/lib/ExecutionEnvironment.js
-.*/node_modules/fbjs/lib/ErrorUtils.js
+.*/node_modules/fbjs/.*
+.*/node_modules/react-side-effect/.*
 .*/node_modules/editions/.*
-.*/node_modules/fbjs/lib/fetchWithRetries.js
-.*/node_modules/react-side-effect/.*/node_modules/.*
 .*/node_modules/draft-js/.*
-# Flow has a built-in definition for the 'react' module which we prefer to use
-# over the currently-untyped source
-.*/node_modules/react/react.js
-.*/node_modules/react/lib/React.js
-.*/node_modules/react/lib/ReactDOM.js
 
 [libs]
 
@@ -42,6 +24,12 @@ esproposal.class_instance_fields=enable
 
 munge_underscores=false
 module.name_mapper='^\(.*\)\.\(css\|eot\|gif\|ico\|jpg\|jpeg\|less\|otf\|mp3\|mp4\|ogg\|png\|sass\|scss\|sss\|svg\|swf\|ttf\|webp\|woff\|woff2\|dll\)$' -> '<PROJECT_ROOT>/tools/flow/definitions/WebpackAsset.js.flow'
+
+module.name_mapper='^components\/\(.*\)$' -> '<PROJECT_ROOT>/src/components/\1'
+module.name_mapper='^scenes\/\(.*\)$' -> '<PROJECT_ROOT>/src/scenes/\1'
+module.name_mapper='^state\/\(.*\)$' -> '<PROJECT_ROOT>/src/state/\1'
+module.name_mapper='^core\/\(.*\)$' -> '<PROJECT_ROOT>/src/core/\1'
+module.name_mapper='^theme\/\(.*\)$' -> '<PROJECT_ROOT>/src/theme/\1'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe

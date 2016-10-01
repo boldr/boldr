@@ -1,19 +1,21 @@
-require('babel-core/register');
+require('babel-register');
 
 process.env.NODE_ENV = 'test';
 
-function noop() {
-  return null;
-}
+global.nodeRequire = require;
+global.regeneratorRuntime = require('regenerator-runtime');
 
-require.extensions['.css'] = noop;
-require.extensions['.scss'] = noop;
-require.extensions['.md'] = noop;
-require.extensions['.png'] = noop;
-require.extensions['.svg'] = noop;
-require.extensions['.jpg'] = noop;
-require.extensions['.jpeg'] = noop;
-require.extensions['.gif'] = noop;
+const noop = (module, file) => {
+  module._compile('', file);
+};
+
+[
+  '.css', '.less', '.scss',
+  '.gif', '.jpg', '.png', '.svg',
+  '.ttf', '.eot', '.woff', '.woff2'
+].forEach((extension) => {
+  require.extensions[extension] = noop;
+});
 
 const chai = require('chai');
 
@@ -27,3 +29,4 @@ global.sinon = require('sinon');
 chai.use(require('sinon-chai'));
 chai.use(require('chai-as-promised'));
 // chai.use(require('chai-http'));
+

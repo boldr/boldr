@@ -26,7 +26,7 @@
       }
     },
     "test:client": {
-      "command": "mocha --opts ./tools/test/mocha.opts --require tools/test/clientHelper.js './src/**/*.test.js'",
+      "command": "mocha --opts ./tools/test/mocha.opts --require tools/test/clientHelper.js",
       "env": {
         "NODE_ENV": "test",
         "NODE_PATH": "./src",
@@ -34,11 +34,11 @@
       }
     },
     "test:api": {
-      "command": "NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --opts tools/test/mocha.opts --recursive src/api/**/*-test.js",
+      "command": "NODE_ENV=test mocha --opts ./tools/test/mocha.opts",
       "env": {
         "NODE_ENV": "test",
         "BABEL_ENV": "test",
-        "SSR_PORT": 3000
+        "SSR_PORT": 3003
       }
     },
     "dev:client": {
@@ -103,7 +103,7 @@
     "seed": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js seed:run",
     "start:prod": "NODE_ENV=production node static/run.js",
     "test:client": "better-npm-run test:client",
-    "test:api": "better-npm-run test:api",
+    "test:api": "./node_modules/.bin/mocha --opts tools/test/mocha.opts",
     "typecheck": "flow"
   },
   "dependencies": {

@@ -3,29 +3,32 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('user', function(table) {
       table.uuid('id').primary();
-      table.string('first_name').notNullable();
-      table.string('last_name');
-      table.string('display_name').notNullable();
+      table.string('first_name', 50).notNullable();
+      table.string('last_name', 100);
+      table.string('display_name', 50).notNullable();
       table.string('avatar_url');
-      table.string('email').unique().notNullable();
+      table.string('email', 100).unique().notNullable();
       table.string('password').notNullable();
-      table.string('location');
+      table.string('location', 100);
       table.string('bio');
-      table.string('website');
+      table.string('website', 100);
       table.string('account_token');
       table.string('reset_password_token');
       table.dateTime('reset_password_expiration');
       table.boolean('verified').defaultTo(false);
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
+
+      table.index('email')
     }),
 
     knex.schema.createTableIfNotExists('role', function(table) {
-      table.increments('id');
+      table.increments('id').primary();
       table.string('name').notNullable();
       table.text('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
+      table.index('name');
     }),
 
     knex.schema.createTableIfNotExists('user_role', function(table) {
@@ -38,12 +41,13 @@ exports.up = function(knex, Promise) {
     }),
 
     knex.schema.createTableIfNotExists('tag', function(table) {
-      table.increments('id');
+      table.increments('id').primary();
       table.uuid('uuid');
       table.string('name').notNullable().unique();
       table.string('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
+      table.index('name');
     })
   ])
 };

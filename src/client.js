@@ -79,7 +79,13 @@ const unsubscribeHistory = renderer();
 if (module.hot) {
   module.hot.accept('./client.js');
   module.hot.accept('./scenes/index', () => {
-    unsubscribeHistory();
-    setTimeout(render);
+    ReactDOM.render(
+      <AppContainer>
+        <Provider store={ store } key="provider">
+            <Router routes={ routes } history={ history } key={ Math.random() } helpers={ { client } } />
+        </Provider>
+      </AppContainer>,
+      MOUNT_POINT
+    );
   });
 }

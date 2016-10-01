@@ -1,6 +1,7 @@
 import path from 'path';
 import { Model } from 'objection';
 import Tag from '../tag/tag.model';
+import Media from '../media/media.model';
 import User from '../user/user.model';
 import BaseModel from '../BaseModel';
 
@@ -29,6 +30,18 @@ class Post extends BaseModel {
             to: 'post_tag.tag_id',
           },
           to: 'tag.id',
+        },
+      },
+      attachments: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Media,
+        join: {
+          from: 'post.id',
+          through: {
+            from: 'post_media.post_id',
+            to: 'post_media.media_id',
+          },
+          to: 'media.id',
         },
       }
     };

@@ -6,9 +6,7 @@ import { Link } from 'react-router';
 import { Card } from 'stardust';
 // $FlowFixMe
 import { Heading, Grid, Col, Row } from 'components';
-// $FlowFixMe
 import inlineStyles from 'theme/inlineStyles';
-// $FlowFixMe
 import { signup } from 'state/dux/auth';
 import SignupForm from './SignupForm';
 
