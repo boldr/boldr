@@ -1,7 +1,8 @@
 --timeout 5000
---compilers js:babel-core/register
---require tools/test/setup.js
+--compilers js:./tools/test/setup.js
 --require ignore-styles
 --recursive
 --colors
 --reporter spec
+
+src/**/*.test.js

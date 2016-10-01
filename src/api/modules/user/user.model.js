@@ -51,6 +51,8 @@ class User extends BaseModel {
   stripPassword() {
     delete this['password']; // eslint-disable-line
     delete this['account_token']; // eslint-disable-line
+    delete this['reset_password_token'];
+    delete this['reset_password_expiration'];
     return this;
   }
   /**

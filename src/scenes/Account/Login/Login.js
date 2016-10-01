@@ -11,7 +11,7 @@ import LoginForm from './LoginForm';
 
 const renderHeader = (
   <Card.Header>
-    <Heading size={ 1 } bottom="10px">Login</Heading>
+    <Heading size={ 1 }>Login</Heading>
   </Card.Header>
 );
 
@@ -54,9 +54,8 @@ class Login extends Component {
                 <Row xsCenter>
                   <Col xs={ 6 }>
                     <Card style={ { width: '450px', marginTop: '150px' } }>
-                    <Card.Content>
+                      <Card.Content>
                       { renderHeader }
-
                       <LoginForm onSubmit={ this.handleOnSubmit } />
                       { cardMeta }
                       </Card.Content>

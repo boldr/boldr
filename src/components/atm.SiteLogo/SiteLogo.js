@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import BoldrLogo from '../atm.BoldrLogo';
 
@@ -13,15 +14,10 @@ const inlineStyle = {
     color: '#333'
   }
 };
-export default function SiteLogo(props) {
+export default function SiteLogo(props: { site_logo: String, logoHeight: Number }) {
   return (
     <div className="sitelogo" style={ inlineStyle.logo }>
-      <img src={ require('./boldr-white.png') } alt="logo" height={ props.logoHeight } style={ inlineStyle.img } />
+      <img src={ props.site_logo } alt="logo" height={ props.logoHeight } style={ inlineStyle.img } />
     </div>
   );
 }
-
-SiteLogo.propTypes = {
-  SiteLogoOrTitle: React.PropTypes.string,
-  logoHeight: React.PropTypes.string
-};

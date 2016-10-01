@@ -1,26 +1,30 @@
+// @flow
+
 import React, { Component, PropTypes } from 'react';
-import { Menu, Dropdown, Button } from 'stardust';
+import { Menu, Dropdown, Button, Container } from 'stardust';
 import { push } from 'react-router-redux';
 import Link from 'react-router/lib/Link';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { goHome } from 'state/dux/boldr';
 import { logout } from 'state/dux/auth';
 
+type Props = {
+  navigate: () => void,
+  actions: Object,
+  navigation: Object,
+  boldr: Object,
+  auth: Object,
+  handleDashClick: () => void
+};
+// $FlowFixMe
 class PrimaryHeader extends Component {
-  static propTypes = {
-    navigate: PropTypes.func,
-    actions: PropTypes.object,
-    navigation: PropTypes.object,
-    boldr: PropTypes.object,
-    auth: PropTypes.object,
-    handleDashClick: PropTypes.func
-  }
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  props: Props;
 
   handleItemClick = (e, { name, href }) => {
     this.setState({
@@ -39,6 +43,10 @@ class PrimaryHeader extends Component {
 
   handleProfileClick = (e) => {
     this.props.navigate('/profile');
+  }
+
+  handleLogoClick = (e) => {
+    this.props.navigate('/');
   }
 
   handleLogoutClick = (e) => {
@@ -86,6 +94,7 @@ class PrimaryHeader extends Component {
   }
 
   render() {
+    // $FlowFixMe
     const { activeItem } = this.state;
     const renderedMenuItems = this.props.navigation.links.map((item, i) =>
       <Menu.Item
@@ -100,18 +109,20 @@ class PrimaryHeader extends Component {
     );
 
     return (
-      <Menu size="massive">
+      <Menu size="big">
+      <Container>
         <Menu.Item>
-          <img src={ this.props.boldr.site_logo } />
+          <img src={ this.props.boldr.site_logo } alt="logo" onClick={ this.handleLogoClick } />
         </Menu.Item>
         { renderedMenuItems }
         { this.props.auth.isAuthenticated ? this.renderAuthenticated() : this.renderUnauthenticated() }
+        </Container>
       </Menu>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:Object) => {
   return {
     boldr: state.boldr,
     auth: state.auth,

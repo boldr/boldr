@@ -24,7 +24,7 @@ const TagListCard = props => {
     <div>
       <Card>
         <CardMedia overlay={ overlay }>
-          <img className={ cx('post__card-image') } src={ props.feature_image } height="350px" width="100%" />
+          <img className="post__card-image" src={ props.feature_image } height="350px" width="100%" />
         </CardMedia>
 
         <CardActions isExpander>

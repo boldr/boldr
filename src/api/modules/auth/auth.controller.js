@@ -77,6 +77,7 @@ async function login(req, res, next) {
       user.stripPassword();
       // sign the token
       const token = signToken(user);
+      const userData = user;
       req.user = user;
       res.set('authorization', signToken(user));
       // req.role = user.role[0].id;

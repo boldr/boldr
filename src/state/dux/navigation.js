@@ -1,6 +1,7 @@
 import request from 'superagent';
 import { notificationSend } from 'state/dux/notifications';
 import * as api from 'core/api/navigationService';
+import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 
 const beginUpdateNav = () => {
@@ -24,20 +25,12 @@ export function updateNavLinks(data) {
     return api.doUpdateNavigationLinks(data)
       .then(response => {
         dispatch(doneUpdateNav(response));
-        dispatch(notificationSend({
-          message: 'Updated link.',
-          kind: 'info',
-          dismissAfter: 3000
-        }));
+        dispatch(notificationSend(notif.MSG_UPDATE_LINK_SUCCESS));
       })
       .catch(
         err => {
           dispatch(failUpdateNav(err.message));
-          dispatch(notificationSend({
-            message: 'There was a problem updating the navigation link.',
-            kind: 'error',
-            dismissAfter: 3000
-          }));
+          dispatch(notificationSend(notif.MSG_UPDATE_LINK_ERROR));
         });
   };
 }
@@ -62,22 +55,13 @@ export function addNavLinks(data) {
     dispatch(beginAddNavLink());
     return api.doAddNavigationLinks(data)
       .then(response => {
+        if (!response.status === 201) {
+          dispatch(failAddNavLink('Error'));
+          dispatch(notificationSend(notif.MSG_ADD_LINK_ERROR));
+        }
         dispatch(doneAddNavLink(response));
-        dispatch(notificationSend({
-          message: 'Link added.',
-          kind: 'info',
-          dismissAfter: 3000
-        }));
+        dispatch(notificationSend(notif.MSG_ADD_LINK_SUCCESS));
       })
-      .catch(
-        err => {
-          dispatch(failAddNavLink(err.message));
-          dispatch(notificationSend({
-            message: 'There was a problem creating the link.',
-            kind: 'error',
-            dismissAfter: 3000
-          }));
-        });
   };
 }
 const initialState = {

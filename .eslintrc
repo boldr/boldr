@@ -13,6 +13,7 @@
   "parserOptions": {
     "sourceType": "module"
   },
+  "plugins": ["flowtype"],
   "rules": {
     "no-unused-vars": 0,
     "babel/new-cap": 0,

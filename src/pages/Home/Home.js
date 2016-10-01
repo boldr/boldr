@@ -10,7 +10,7 @@ const Home = () => {
         <Hero />
         <Grid fluid>
         <Row>
-          <Heading size={ 1 }>Welcome to the Home. Stay tuned...</Heading>
+          <Heading size={ 1 }>Why shouldn't your CMS be a little, Boldr?</Heading>
         </Row>
       </Grid>
     </div>

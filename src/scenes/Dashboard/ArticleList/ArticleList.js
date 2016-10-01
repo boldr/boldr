@@ -14,7 +14,7 @@ class ArticleList extends Component {
     dispatch: PropTypes.func,
     current: PropTypes.object,
     allPosts: PropTypes.array,
-    changePostStatus: PropTypes.funcs
+    changePostStatus: PropTypes.func
   };
 
   constructor(props) {

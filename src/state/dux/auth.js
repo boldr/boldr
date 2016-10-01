@@ -3,6 +3,7 @@ import decode from 'jwt-decode';
 import { push } from 'react-router-redux';
 import * as api from 'core/api/authService';
 import { TOKEN_KEY } from 'core/config';
+import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
@@ -50,27 +51,15 @@ export function signup(data) {
 
     return api.doSignup(data)
       .then(response => {
-        if (response.status === 201) {
-          dispatch(signUpSuccess(response));
-          dispatch(push('/'));
-          dispatch(notificationSend({
-            message: 'Your account has been created!',
-            kind: 'info',
-            dismissAfter: 3000
-          }));
-        } else {
+        if (!response.status === 201) {
           dispatch(signUpError('Oops! Something went wrong'));
-          dispatch(notificationSend({
-            message: 'There was a problem creating your account.',
-            kind: 'error',
-            dismissAfter: 3000
-          }));
+          dispatch(notificationSend(notif.MSG_SIGNUP_ERROR));
         }
-      })
-      .catch(err => {
-        dispatch(signUpError(err));
-      });
-  };
+        dispatch(signUpSuccess(response));
+        dispatch(push('/'));
+        dispatch(notificationSend(notif.MSG_SIGNUP_SUCCESS));
+    });
+  }
 }
 
 // Login
@@ -111,23 +100,15 @@ export function login(loginData, redir) {
     dispatch(beginLogin());
     return api.doLogin(loginData)
       .then(response => {
+        if (!response.status === 200) {
+          dispatch(loginError(err));
+          dispatch(notificationSend(notif.MSG_LOGIN_ERROR(err)));
+        }
         localStorage.setItem(TOKEN_KEY, response.body.token);
         dispatch(loginSuccess(response));
-        dispatch(notificationSend({
-          message: 'Welcome back!',
-          kind: 'info',
-          dismissAfter: 3000
-        }));
+        dispatch(notificationSend(notif.MSG_LOGIN_SUCCESS));
         dispatch(push('/'));
       })
-      .catch(err => {
-        dispatch(loginError(err));
-        dispatch(notificationSend({
-          message: `There was a problem logging in ${err}`,
-          kind: 'error',
-          dismissAfter: 3000
-        }));
-      }, catchValidation);
   };
 }
 
@@ -141,11 +122,7 @@ export function logout() {
   return (dispatch) => {
     localStorage.removeItem(TOKEN_KEY);
     dispatch(logoutSuccess());
-    dispatch(notificationSend({
-      message: 'You are now logged out of your account.',
-      kind: 'info',
-      dismissAfter: 3000
-    }));
+    dispatch(notificationSend(notif.MSG_LOGOUT));
   };
 }
 
@@ -185,16 +162,12 @@ export function checkAuth(token) {
     dispatch(checkAuthRequest());
     return api.doAuthCheck(token)
       .then(response => {
+        if (!response.status === 200) {
+          dispatch(checkAuthFailure('Token is invalid'));
+          dispatch(notificationSend(notif.MSG_AUTH_ERROR));
+        }
         dispatch(checkAuthSuccess(response, token));
       })
-      .catch(() => {
-        dispatch(checkAuthFailure('Token is invalid'));
-        dispatch(notificationSend({
-          message: 'There was a problem authenticating. Please login again.',
-          kind: 'error',
-          dismissAfter: 3000
-        }));
-      });
   };
 }
 
@@ -213,11 +186,7 @@ export function forgotPassword(email) {
               type: types.FORGOT_PASSWORD_SUCCESS
             });
             dispatch(push('/'));
-            dispatch(notificationSend({
-              message: 'An email has been sent with instructions to reset your password.',
-              kind: 'info',
-              dismissAfter: 3000
-            }));
+            dispatch(notificationSend(notif.MSG_FORGOT_PW_ERROR));
           });
         } else {
           return response.json().then((json) => {
@@ -247,11 +216,7 @@ export function resetPassword(password, token) {
               type: types.RESET_PASSWORD_SUCCESS
             });
             dispatch(push('/'));
-            dispatch(notificationSend({
-              message: 'Your password has been reset. You may now login with it.',
-              kind: 'info',
-              dismissAfter: 3000
-            }));
+            dispatch(notificationSend(notifs.MSG_RESET_PW_SUCCESS));
           });
         } else {
           return response.json().then((json) => {

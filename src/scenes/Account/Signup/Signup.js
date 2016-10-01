@@ -1,19 +1,32 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import { Card } from 'stardust';
+// $FlowFixMe
 import { Heading, Grid, Col, Row } from 'components';
 import inlineStyles from 'theme/inlineStyles';
 import { signup } from 'state/dux/auth';
 import SignupForm from './SignupForm';
 
-class Signup extends Component {
+type Props = {
+  signup: () => void,
+  handleOnSubmit: () => void,
+  isLoading: Boolean,
+  auth: Object
+};
+
+class Signup<Void> extends Component {
   constructor(props) {
     super(props);
+    // $FlowFixMe
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
-  handleOnSubmit(values) {
+
+  props: Props;
+
+  handleOnSubmit(values: Object) {
     const { signup } = this.props;
     signup({
       email: values.email,
@@ -59,12 +72,6 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
-  signup: PropTypes.func,
-  handleOnSubmit: PropTypes.func,
-  isLoading: PropTypes.bool,
-  auth: PropTypes.object
-};
 function mapStateToProps({ auth }) {
   return {
     auth

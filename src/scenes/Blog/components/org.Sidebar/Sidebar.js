@@ -7,7 +7,7 @@ import TagBlock from '../mol.TagBlock';
 
 const Sidebar = props => {
   return (
-    <div className={ cx('sidebar') }>
+    <div className="sidebar">
       <Author { ...props.author } />
       <Divider style={ { marginTop: '1em', marginBottom: '1em' } } />
       <TagBlock tags={ props.tags } />

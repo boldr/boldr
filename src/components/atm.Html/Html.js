@@ -1,15 +1,17 @@
+
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 
-export default class Html extends Component {
-  static propTypes = {
-    assets: PropTypes.object,
-    component: PropTypes.node,
-    store: PropTypes.object
-  };
+type Props = {
+  assets: Object,
+  component: ?React$Element<any>,
+  store: Object
+};
 
+export default class Html extends Component {
+  props: Props;
   render() {
     const { assets, component, store } = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
