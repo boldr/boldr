@@ -15,7 +15,7 @@ const styles = {
 
 const Tag = (props) => {
   return (
-  <Link to={ `/blog/tags/${props.id}` }>
+  <Link to={ `/blog/tags/${props.name}` }>
     <Label image>
         <Icon name="tag" />
           { props.name }
@@ -25,7 +25,7 @@ const Tag = (props) => {
 
 Tag.propTypes = {
   name: React.PropTypes.string.isRequired,
-  id: React.PropTypes.number.isRequired
+  id: React.PropTypes.number
 };
 
 export default Tag;

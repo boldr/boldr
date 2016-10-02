@@ -9,7 +9,7 @@ export function doFetchPosts() {
     .then(response => processResponse(response));
 }
 
-export function doFetchTags(tagId) {
-  return fetch(`${API_BASE}/tags/${tagId}/posts`)
+export function doFetchTags(tagName) {
+  return fetch(`${API_BASE}/tags/posts/${tagName}`)
     .then(response => processResponse(response));
 }

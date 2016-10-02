@@ -44,7 +44,9 @@ class PrimaryHeader extends Component {
   handleProfileClick = (e) => {
     this.props.navigate('/profile');
   }
-
+  handlePreferencesClick = (e) => {
+    this.props.navigate('/account/preferences');
+  }
   handleLogoClick = (e) => {
     this.props.navigate('/');
   }
@@ -83,6 +85,7 @@ class PrimaryHeader extends Component {
       <Dropdown as={ Menu.Item } text="Account">
         <Dropdown.Menu>
           <Dropdown.Item onClick={ this.handleProfileClick }>Profile</Dropdown.Item>
+          <Dropdown.Item onClick={ this.handlePreferencesClick }>Preferences</Dropdown.Item>
           <Dropdown.Item onClick={ this.handleLogoutClick }>Logout</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

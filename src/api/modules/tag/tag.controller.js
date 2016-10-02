@@ -16,4 +16,13 @@ async function getTaggedPosts(req, res) {
   return responseHandler(null, res, 200, tags);
 }
 
-export { getTaggedPosts };
+async function getTaggedPostsByName(req, res) {
+  const tags = await Tag
+    .query()
+    .where({ name: req.params.name })
+    .eager('[posts]')
+    .first();
+  debug(tags);
+  return responseHandler(null, res, 200, tags);
+}
+export { getTaggedPosts, getTaggedPostsByName };

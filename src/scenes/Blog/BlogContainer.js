@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+/* @flow */
+import React from 'react';
 import { connect } from 'react-redux';
 import PrimaryHeader from 'components/org.PrimaryHeader';
 
-const BlogContainer = (props) => {
+const BlogContainer = (props: { children: any }) => {
   return (
     <div>
         <PrimaryHeader />
@@ -19,7 +20,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(BlogContainer);
-
-BlogContainer.propTypes = {
-  children: PropTypes.element
-};

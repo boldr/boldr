@@ -1,11 +1,10 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
-import Dialog from '../../../components/md/Dialogs';
-import { FlatButton, RaisedButton } from '../../../components/md/Buttons';
+import Dialog from 'components/md/Dialogs';
+import { FlatButton } from 'components/md/Buttons';
 import MembersList from '../components/mol.MembersList';
 import EditMemberForm from '../components/atm.EditMemberForm';
 import { loadSiteMembers, memberSelected, updateMember } from 'state/dux/members';

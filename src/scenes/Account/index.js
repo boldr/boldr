@@ -29,7 +29,7 @@ export default (store, connect) => ({
   {
     path: 'preferences',
     getComponent(nextState, cb) {
-      System.import('./Preferences/components/tpl.Preferences')
+      System.import('./Preferences')
         .then(loadModule(cb))
         .catch(errorLoading);
     }

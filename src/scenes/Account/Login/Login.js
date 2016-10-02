@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
@@ -5,7 +6,6 @@ import { Link } from 'react-router';
 import { Card } from 'stardust';
 import { Heading, Grid, Col, Row } from 'components';
 import { CardMedia, CardTitle, CardActions } from 'components/md/Cards';
-import inlineStyles from 'theme/inlineStyles';
 import { login } from 'state/dux/auth';
 import LoginForm from './LoginForm';
 
@@ -21,19 +21,18 @@ const cardMeta = (
     <Link to="/account/signup">Create an account</Link>
   </span>
 );
-
+type Props = {
+  auth: Object,
+  login: () => void,
+  redirect: String,
+  handleOnSubmit: () => void
+}
 class Login extends Component {
-  static propTypes = {
-    auth: PropTypes.object,
-    login: PropTypes.func,
-    redirect: PropTypes.string,
-    handleOnSubmit: PropTypes.func
-  };
-
   constructor(props) {
     super(props);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
+  props: Props;
 
   handleOnSubmit(values) {
     const { login } = this.props;
@@ -43,10 +42,8 @@ class Login extends Component {
   }
 
   render() {
-    const { isLoading } = this.props.auth;
-
     return (
-      <div style={ inlineStyles.headerOverflow }>
+      <div>
         <Helmet title="Login" />
           <Grid>
             <Row>

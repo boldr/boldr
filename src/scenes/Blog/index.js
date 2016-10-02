@@ -31,7 +31,7 @@ export default (store, connect) => ({
         .catch(errorLoading);
     }
   }, {
-    path: 'tags/:id',
+    path: 'tags/:name',
     getComponent(nextState, cb) {
       System.import('./TagList')
         .then(loadModule(cb))

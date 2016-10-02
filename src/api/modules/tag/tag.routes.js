@@ -10,6 +10,7 @@ const router = new express.Router();
 
 router.get('/', processQuery, controller.index.bind(controller));
 router.get('/:id', controller.show.bind(controller));
+router.get('/posts/:name', ctrl.getTaggedPostsByName);
 router.get('/:id/posts', ctrl.getTaggedPosts);
 router.post('/', controller.create.bind(controller));
 router.put('/:id', controller.update.bind(controller));

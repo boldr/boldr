@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 
 import {
-  DataTable, TableHeader, TableBody, TableRow, TableColumn, EditDialogColumn
-} from '../../../../components/md/DataTables';
+  DataTable, TableHeader, TableBody, TableRow, TableColumn,
+} from 'components/md/DataTables';
 import MemberTableRow from '../atm.MemberTableRow';
 
 const MembersList = (props) => {

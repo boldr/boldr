@@ -6,7 +6,7 @@ import { requestPostTags } from 'state/dux/tag';
 import TagListCard from './TagListCard';
 
 @provideHooks({
-  fetch: ({ dispatch, params: { id } }) => dispatch(requestPostTags(id))
+  fetch: ({ dispatch, params: { name } }) => dispatch(requestPostTags(name))
 })
 class TagList extends Component {
   static propTypes = {

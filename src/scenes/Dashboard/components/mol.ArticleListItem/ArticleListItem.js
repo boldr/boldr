@@ -1,15 +1,14 @@
+/* @flow */
 import React from 'react';
 import Link from 'react-router/lib/Link';
 import dateFns from 'date-fns';
-
-import { IconButton } from '../../../../components/md/Buttons';
-import FontIcon from '../../../../components/md/FontIcons';
-import { TableRow, TableColumn } from '../../../../components/md/DataTables';
-import { inlineStyles } from '../../../../theme';
+import { IconButton } from 'components/md/Buttons';
+import FontIcon from 'components/md/FontIcons';
+import { TableRow, TableColumn } from 'components/md/DataTables';
 
 const ArticleListItem = props => {
   function handlePublishClick() {
-    const postId = props.article.id;
+    const postId:String = props.article.id;
     const postStatus = 'draft';
     props.handleArticlePublishClick(postId, postStatus);
   }

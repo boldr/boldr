@@ -10,49 +10,53 @@ import { BaseError } from './utils/errors';
 import { monkeyPatchRouteMethods } from './utils';
 import logger from './logger';
 
-const debug = require('debug')('boldr:boldrApi');
+const debug = require('debug')('boldr:app');
+const app = Express();
 
-function boldrServerModule() {
-  const boldrApi = new Express();
+app.use(compression());
 
-  boldrApi.use(compression());
+coreMiddleware(app);
+monkeyPatchRouteMethods(app);
 
-  coreMiddleware(boldrApi);
-  monkeyPatchRouteMethods(boldrApi);
+app.use(passport.initialize());
+app.use(sessionMiddleware);
+app.use(passport.session());
 
-  boldrApi.use(passport.initialize());
-  boldrApi.use(sessionMiddleware);
-  boldrApi.use(passport.session());
+app.use((req, res, next) => {
+  passport.authenticate('jwt', (err, user) => {
+    res.locals.user = !!user ? user : null;
+    return next();
+  })(req, res, next);
+});
 
-  boldrApi.use((req, res, next) => {
-    passport.authenticate('jwt', (err, user) => {
-      res.locals.user = !!user ? user : null;
-      return next();
-    })(req, res, next);
-  });
-
-  boldrApi.use(conf.get('api.base'), routes);
-  boldrApi.use(
+app.use(conf.get('api.base'), routes);
+app.use(
   '/assets/',
     Express.static('./static', { maxAge: '365d' })
 );
   // Configure static serving of our "public" root http path static files.
-  boldrApi.use(Express.static('static'));
+app.use(Express.static('static'));
 
-  boldrApi.get('*', handleInitialRender);
+app.get('*', handleInitialRender);
 
-  boldrApi.use((err, req, res, next) => {
-    if (err instanceof BaseError) {
-      res.status(err.getHttpStatus());
-      res.json(err.message);
-    } else {
-      logger.warn(err);
-      res.status(500);
-      res.json('Internal Server Error');
-    }
+app.use((err, req, res, next) => {
+  if (err instanceof BaseError) {
+    res.status(err.getHttpStatus());
+    res.json(err.message);
+  } else {
+    logger.warn(err);
+    res.status(500);
+    res.json('Internal Server Error');
+  }
+});
+if (process.env.NODE_ENV === 'development') {
+  app.use((err, req, res) => {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
   });
-
-  return boldrApi;
 }
 
-export default boldrServerModule;
+module.exports = exports = app;

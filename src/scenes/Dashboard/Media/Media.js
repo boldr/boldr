@@ -1,13 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+/* @flow */
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { S3Uploader, Grid, Row, Col } from 'components';
 import { API_BASE, S3_SIGNING_URL } from 'core/config';
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/media';
-import Paper from 'components/md/Papers';
-import inlineStyles from 'theme/inlineStyles';
 import FileView from '../components/mol.FileView';
+
+type Props = {
+  handleFinish: () => void,
+  media: Object,
+  deleteMedia: () => void,
+  uploadFiles: () => void
+}
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchMedia())
@@ -22,14 +28,8 @@ class Media extends Component {
     this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
     this.handleFinish = this.handleFinish.bind(this);
   }
+  props: Props;
 
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
   handleChange = (event, index, value) => this.setState({ value });
 
   handleFinish(signResult) {
@@ -70,12 +70,6 @@ class Media extends Component {
     );
   }
 }
-
-Media.propTypes = {
-  uploadFiles: React.PropTypes.func,
-  media: React.PropTypes.object,
-  deleteMedia: React.PropTypes.func
-};
 
 const mapStateToProps = state => {
   return {

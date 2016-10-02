@@ -23,10 +23,11 @@ const failedToReceiveTag = (err) => ({
   error: err
 });
 
-export function requestPostTags(tagId) {
+export function requestPostTags(tagName) {
   return dispatch => {
+    console.log(tagName)
     dispatch(requestTag());
-    return api.doFetchTags(tagId)
+    return api.doFetchTags(tagName)
       .then(json => dispatch(receiveTag(json)))
       .catch(err => {
         dispatch(failedToReceiveTag(err));

@@ -1,3 +1,3 @@
-import Preferences from './components/tpl.Preferences';
+import Preferences from './Preferences';
 
 export default Preferences;
