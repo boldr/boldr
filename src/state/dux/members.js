@@ -1,7 +1,7 @@
 import request from 'superagent';
-import { API_USERS } from 'core/config';
+import { API_USERS } from 'core';
 import { notificationSend } from 'state/dux/notifications';
-import * as api from 'core/api/memberService';
+import * as api from 'core/api/member.service';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 
@@ -38,7 +38,6 @@ export function loadSiteMembers() {
   };
 }
 
-
 const beginUpdateMember = () => {
   return { type: types.UPDATE_MEMBER_REQUEST };
 };
@@ -69,9 +68,6 @@ export function updateMember(userData) {
         });
   };
 }
-
-
-
 
 export function memberSelected(userId) {
   return {

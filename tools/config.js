@@ -11,7 +11,10 @@ const config = Object.freeze({
   API_DIR: path.resolve(path.join(ABS_ROOT, 'src', 'api')),
   ASSETS_DIR: path.resolve(path.join(ABS_ROOT, 'static', 'assets')),
   HMR_PORT: process.env.HOT_RELOAD_PORT || 3001,
-  SSR_PORT: process.env.SSR_PORT || 3000
+  API_PORT: process.env.API_PORT || 2121,
+  API_HOST: process.env.API_HOST || 'localhost',
+  SSR_PORT: process.env.SSR_PORT || 3000,
+  SSR_HOST: process.env.SSR_HOST || 'localhost'
 });
 
 module.exports = config;

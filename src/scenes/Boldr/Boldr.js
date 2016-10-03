@@ -5,6 +5,7 @@ import { provideHooks } from 'redial';
 
 import { Notifications } from 'components';
 import { fetchSettingsIfNeeded } from 'state/dux/boldr';
+import { loadPrimary } from 'state/dux/navigation';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
@@ -35,7 +36,8 @@ function mapStateToProps(state) {
   return {
     boldr: state.boldr,
     auth: state.auth,
-    notifications: state.notifications
+    notifications: state.notifications,
+    navigation: state.navigation
   };
 }
 

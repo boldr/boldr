@@ -9,10 +9,10 @@ import {
   API_TAG,
   API_CATEGORY,
   API_SETTINGS,
-  TOKEN_KEY
-} from './config';
+  TOKEN_KEY,
+  processResponse, credentials, jsonHeaders
+} from './api/helpers';
 
-import { processResponse, credentials, jsonHeaders } from './api/helpers';
 import ApiClient from './api/ApiClient';
 
 export {

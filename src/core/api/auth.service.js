@@ -1,7 +1,7 @@
 import request from 'superagent';
 import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_AUTH } from 'core/config';
+import { API_BASE, API_AUTH } from 'core';
 
 export const doSignup = (data) => request.post(`${API_AUTH}/signup`).send(data);
 

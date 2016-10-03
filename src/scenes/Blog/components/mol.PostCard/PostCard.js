@@ -11,19 +11,17 @@ const PostCard = props => {
   return (
     <div>
       <Card fluid>
-
-          <Image className="post__card-image" src={ props.feature_image } />
-          <Card.Content>
+        <Image className="post__card-image" src={ props.feature_image } />
+        <Card.Content>
           <Card.Header>
-          { props.title }
-
-        </Card.Header>
+            { props.title }
+          </Card.Header>
           <Card.Meta>
             { formattedDate }
           </Card.Meta>
-       <Card.Description>
-        { props.excerpt }
-         </Card.Description>
+          <Card.Description>
+            { props.excerpt }
+          </Card.Description>
         </Card.Content>
         <Card.Content extra>
         <Row>

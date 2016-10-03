@@ -1,5 +1,9 @@
+import 'source-map-support/register';
+import http from 'http';
+import Express from 'express';
+import httpProxy from 'http-proxy';
+import compression from 'compression';
 import PrettyError from 'pretty-error';
-// React Deps
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import match from 'react-router/lib/match';
@@ -8,36 +12,65 @@ import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
-import Post from '../api/modules/post/post.model';
-import Setting from '../api/modules/setting/setting.model';
-import Navigation from '../api/modules/navigation/navigation.model';
-// Boldr Deps
-import createStore from '../state/createStore';
-import getRoutes from '../scenes/index';
-import Html from '../components/atm.Html';
-import { postsToState } from '../state/dux/post';
-import ApiClient from './api/ApiClient';
-import { API_PORT, API_HOST, SSR_PORT, HOST } from './config';
+// Server deps
+import config from '../tools/config';
+import createStore from '../src/state/createStore';
+import getRoutes from '../src/scenes/index';
+import Html from '../src/components/atm.Html';
+import ApiClient from '../src/core/api/ApiClient';
+
+const debug = require('debug')('boldr:server');
 
 const pretty = new PrettyError();
+const port = process.env.SSR_PORT || 3000;
 
-async function handleInitialRender(req, res) {
+debug('Booting Boldr API Server');
+const targetUrl = `http://${config.API_HOST}:${config.API_PORT}`;
+const app = Express();
+const server = http.Server(app);
+
+const proxy = httpProxy.createProxyServer({
+  target: targetUrl,
+  ws: true
+});
+
+app.use(compression());
+app.use('/api/v1', (req, res) => {
+  proxy.web(req, res, { target: `${targetUrl}/api/v1` });
+});
+
+server.on('upgrade', (req, socket, head) => {
+  proxy.ws(req, socket, head);
+});
+
+proxy.on('error', (error, req, res) => {
+  if (error.code !== 'ECONNRESET') {
+    console.error('proxy error', error);
+  }
+
+  if (!res.headersSent) {
+    res.writeHead(500, { 'content-type': 'application/json' });
+  }
+
+  const json = { error: 'proxy_error', reason: error.message };
+
+  res.end(JSON.stringify(json));
+});
+app.use(
+  '/assets/',
+  Express.static('./static', { maxAge: '365d' })
+);
+
+// Configure static serving of our "public" root http path static files.
+app.use(Express.static('static'));
+app.use(async (req, res) => {
   if (__DEV__) {
     webpackIsomorphicTools.refresh();
   }
-
-  const preloadPostData = await Post.query().eager('[tags, author]');
-  const preloadSettingsData = await Setting.query().findById(1);
-  const preloadNavigationData = await Navigation.query().findById(1).eager('[links]');
-  const PRELOAD_STATE = {
-    posts: postsToState(preloadPostData),
-    boldr: preloadSettingsData,
-    navigation: preloadNavigationData
-  };
   const client = new ApiClient(req);
   const memoryHistory = createMemoryHistory(req.originalUrl);
   const location = memoryHistory.createLocation(req.originalUrl);
-  const store = createStore(memoryHistory, client, PRELOAD_STATE);
+  const store = createStore(memoryHistory, client);
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {
@@ -92,6 +125,22 @@ async function handleInitialRender(req, res) {
       res.status(404).send('Not found');
     }
   });
-}
+});
 
-export default handleInitialRender;
+server.on('error', (error) => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  if (error.code) {
+    console.warn(`Cannot listen for connections (${error.code}): ${error.message}`);
+    throw error;
+  }
+  throw error;
+});
+
+server.on('listening', () => {
+  const addr = server.address();
+  console.info(`🎯  Listening on port ${addr.family}/(${addr.address}):${addr.port}`);
+});
+server.listen(port);
+

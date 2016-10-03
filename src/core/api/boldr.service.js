@@ -1,7 +1,7 @@
 import request from 'superagent';
 import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_SETTINGS, TOKEN_KEY } from 'core/config';
+import { API_BASE, API_SETTINGS, TOKEN_KEY } from 'core';
 
 export function doUpdateSettings(data, id) {
   return request.put(`${API_SETTINGS}/${id}`)
@@ -10,5 +10,5 @@ export function doUpdateSettings(data, id) {
 }
 
 export function doLoadSettings() {
-  return request(`${API_SETTINGS}`);
+  return request.get(`${API_SETTINGS}`);
 }

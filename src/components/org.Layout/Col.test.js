@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import test from 'ava';
 import Col from './Col';
 
-describe('<Col />', () => {
-  it('should have a class reflective of size props', () => {
-    const wrapper = shallow(<Col xs={ 12 } />);
-    expect(wrapper).to.have.className('grid__col--xs-12');
-  });
+test('<Col />, should have a class reflective of size props', t => {
+  const wrapper = mount(<Col xs={ 12 } />);
+  const wrapperClass = wrapper.find('.grid__col--xs-12')
+  t.is(wrapperClass.is('.grid__col--xs-12'), true);
 });

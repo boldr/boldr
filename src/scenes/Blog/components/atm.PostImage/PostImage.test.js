@@ -1,12 +1,11 @@
 /* eslint-env mocha */
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import { mount } from 'enzyme';
+import test from 'ava';
 import PostImage from './PostImage';
 
-describe('<PostImage />', () => {
-  it('renders the post image without blowing up', () => {
-    const wrapper = shallow(<PostImage />);
-    expect(wrapper.find('.postimage')).to.have.length(1);
-  });
+test('<PostImage />, renders the post image without blowing up', t => {
+  const wrapper = mount(<PostImage />);
+  const innerWrapper = wrapper.find('.postimage')
+  t.is(innerWrapper.is('.postimage'), true);
 });

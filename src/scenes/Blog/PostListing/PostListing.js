@@ -1,27 +1,37 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import { provideHooks } from 'redial';
 import { Loader } from 'components';
-import { getPostsArray } from 'state/dux/post';
+import { getPostsArray, fetchPosts } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
 
-const PostListing = (props) => {
-  return (
-          props.isLoading ? <Loader /> :
-          <PostListingGroup posts={ props.allPosts } />
-  );
-};
+@provideHooks({
+  fetch: ({ dispatch }) => dispatch(fetchPosts())
+})
+class PostListing extends Component {
+  componentDidMount() {
+    this.props.fetchPosts();
+  }
+  render() {
+    return (
+        this.props.isLoading ?
+           <Loader /> :
+          <PostListingGroup posts={ this.props.posts.results } />
+    );
+  };
+}
 
 const mapStateToProps = (state) => {
   return {
-    allPosts: getPostsArray(state),
+    posts: state.posts,
     isLoading: state.posts.isLoading
   };
 };
 
-export default connect(mapStateToProps)(PostListing);
+export default connect(mapStateToProps, { fetchPosts })(PostListing);
 
 PostListing.propTypes = {
-  allPosts: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool
+  posts: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  fetchPosts: PropTypes.func
 };

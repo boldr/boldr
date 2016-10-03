@@ -1,12 +1,9 @@
-/* eslint-env mocha */
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import test from 'ava';
 import BoldrLogo from './BoldrLogo';
 
-describe('<BoldrLogo />', () => {
-  it('renders the logo svg component', () => {
+test('<BoldrLogo /> renders the logo svg component', t => {
     const wrapper = shallow(<BoldrLogo />);
-    expect(wrapper.find('#boldrlogo')).to.have.length(1);
-  });
+    t.is(wrapper.find('#boldrlogo').length, 1);
 });

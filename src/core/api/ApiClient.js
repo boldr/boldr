@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import config from '../config';
+import { API_HOST, API_PORT } from './helpers';
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -7,7 +7,7 @@ function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? `/${path}` : path;
   if (__SERVER__) {
     // Prepend host and port of the API server to the path.
-    return `http://${config.API_HOST}:${config.API_PORT + adjustedPath}`;
+    return `http://${API_HOST}:${API_PORT + adjustedPath}`;
   }
   // Prepend `/api` to relative URL, to proxy to API server.
   return `/api/v1${adjustedPath}`;

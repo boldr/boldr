@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Menu } from 'stardust';
+import { Row, Col } from 'components';
 
 class Preferences extends Component {
   handleItemClick = (name) => this.setState({ activeItem: name })
@@ -13,23 +14,31 @@ class Preferences extends Component {
           title="Preferences"
           titleTemplate={ '%s | powered by Boldr' }
         />
-        <Menu vertical>
-          <Menu.Item>
-            <Menu.Header>Profile</Menu.Header>
+        <Row>
+          <Col xs={ 12 } md={ 2 }>
+            <Menu vertical>
+              <Menu.Item>
+                <Menu.Header>Profile</Menu.Header>
 
-            <Menu.Menu>
-              <Menu.Item name="Edit Profile" active={ activeItem === 'Edit Profile' } onClick={this.handleItemClick} />
-              <Menu.Item name="View Profile" active={ activeItem === 'View Profile' } onClick={this.handleItemClick} />
-            </Menu.Menu>
-          </Menu.Item>
-          <Menu.Item>
-            <Menu.Header>Settings</Menu.Header>
+                <Menu.Menu>
+                  <Menu.Item name="Edit Profile" active={ activeItem === 'Edit Profile' } onClick={this.handleItemClick} />
+                  <Menu.Item name="View Profile" active={ activeItem === 'View Profile' } onClick={this.handleItemClick} />
+                </Menu.Menu>
+              </Menu.Item>
+              <Menu.Item>
+                <Menu.Header>Settings</Menu.Header>
 
-            <Menu.Menu>
-              <Menu.Item name="Change..." active={ activeItem === 'Change...' } onClick={this.handleItemClick} />
-            </Menu.Menu>
-          </Menu.Item>
-        </Menu>
+                <Menu.Menu>
+                  <Menu.Item name="Change..." active={ activeItem === 'Change...' } onClick={this.handleItemClick} />
+                </Menu.Menu>
+              </Menu.Item>
+            </Menu>
+            </Col>
+          <Col xs={ 12 } md={ 10 }>
+            Swag
+          </Col>
+        </Row>
+
       </div>
     )
   }

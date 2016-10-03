@@ -54,7 +54,7 @@ class ArticleList extends Component {
          </TableHeader>
          <TableBody>
         {
-          this.props.allPosts.map((post, index) => (
+          this.props.posts.results.map((post, index) => (
            <ArticleListItem
              article={ post }
              key={ post.id }
@@ -69,7 +69,6 @@ class ArticleList extends Component {
         }
          </TableBody>
         </DataTable>
-
         </Paper>
       </Row>
     );

@@ -1,8 +1,8 @@
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
 import { notificationSend } from 'state/dux/notifications';
-import { API_BASE, API_MEDIA, TOKEN_KEY } from 'core/config';
-import * as api from 'core/api/mediaService';
+import { API_BASE, API_MEDIA, TOKEN_KEY } from 'core';
+import * as api from 'core/api/media.service';
 import * as types from '../actionTypes';
 
 const fetchMediaStart = () => {

@@ -1,7 +1,7 @@
 import request from 'superagent';
 import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
-import * as api from 'core/api/boldrService';
+import * as api from 'core/api/boldr.service';
 import { API_SETTINGS, TOKEN_KEY } from 'core';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
@@ -24,7 +24,7 @@ function doneLoadSettings(response) {
     type: types.LOAD_SETTINGS_SUCCESS,
     siteName: response.body.site_name,
     description: response.body.site_description,
-    logo: response.body.site_logo,
+    siteLogo: response.body.site_logo,
     slogan: response.body.site_slogan,
     siteUrl: response.body.site_url,
     favicon: response.body.site_favicon,
@@ -130,16 +130,7 @@ export function updateBoldrSettings(data, id) {
 // Reducer
 // ------------------------------------
 const INITIAL_STATE = {
-  isLoading: false,
-  siteName: null,
-  description: null,
-  logo: null,
-  siteUrl: null,
-  favicon: null,
-  slogan: null,
-  analyticsId: null,
-  configuration: {},
-  primaryNav: null
+  isLoading: false
 };
 
 export default function boldrReducer(state = INITIAL_STATE, action) {
@@ -155,7 +146,7 @@ export default function boldrReducer(state = INITIAL_STATE, action) {
         isLoading: false,
         siteName: action.siteName,
         description: action.description,
-        logo: action.logo,
+        siteLogo: action.siteLogo,
         siteUrl: action.siteUrl,
         favicon: action.favicon,
         slogan: action.slogan,

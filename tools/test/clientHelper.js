@@ -1,7 +1,4 @@
 import jsdom from 'jsdom';
-import chai from 'chai';
-import chaiEnzyme from 'chai-enzyme';
-import chaiSinon from 'sinon-chai';
 
 function noop() {
   return null;
@@ -12,9 +9,6 @@ require.extensions['.png'] = noop => noop;
 require.extensions['.gif'] = noop => noop;
 
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
-
-chai.use(chaiSinon);
-chai.use(chaiEnzyme());
 
 global.document = doc;
 global.window = document.defaultView;

@@ -1,13 +1,9 @@
-/* eslint-env mocha */
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { expect } from 'chai';
+import test from 'ava';
 import Heading from './Heading';
 
-describe('<Heading />', () => {
-  it('renders the heading component with props', () => {
-    const wrapper = mount(<Heading size={ 1 } />);
-    expect(wrapper.props().size).to.equal(1);
-  });
-
+test('<Heading />, renders the heading component with props', t => {
+  const wrapper = mount(<Heading size={ 1 } />);
+  t.is(wrapper.props().size, 1);
 });

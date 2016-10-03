@@ -1,17 +1,18 @@
 /* @flow */
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PrimaryHeader from 'components/org.PrimaryHeader';
+import { fetchPosts } from 'state/dux/post';
 
-const BlogContainer = (props: { children: any }) => {
-  return (
+// $FlowFixMe
+const BlogContainer = (props: { children: any } ) => {
+    return (
     <div>
         <PrimaryHeader />
         { props.children }
     </div>
   );
 };
-
 const mapStateToProps = (state) => {
   return {
     posts: state.posts,
@@ -19,4 +20,5 @@ const mapStateToProps = (state) => {
   };
 };
 
+// $FlowFixMe
 export default connect(mapStateToProps)(BlogContainer);

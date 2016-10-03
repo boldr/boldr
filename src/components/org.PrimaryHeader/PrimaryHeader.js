@@ -3,11 +3,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Menu, Dropdown, Button, Container } from 'stardust';
 import { push } from 'react-router-redux';
-import Link from 'react-router/lib/Link';
+import { provideHooks } from 'redial';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { goHome } from 'state/dux/boldr';
 import { logout } from 'state/dux/auth';
+import { loadPrimary } from 'state/dux/navigation';
 
 type Props = {
   navigate: () => void,
@@ -17,7 +18,10 @@ type Props = {
   auth: Object,
   handleDashClick: () => void
 };
-// $FlowFixMe
+
+@provideHooks({
+  fetch: ({ dispatch }) => dispatch(loadPrimary())
+})
 class PrimaryHeader extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +29,9 @@ class PrimaryHeader extends Component {
   }
 
   props: Props;
-
+  componentDidMount() {
+    this.props.actions.loadPrimary();
+  }
   handleItemClick = (e, { name, href }) => {
     this.setState({
       activeItem: name
@@ -99,7 +105,13 @@ class PrimaryHeader extends Component {
   render() {
     // $FlowFixMe
     const { activeItem } = this.state;
-    const renderedMenuItems = this.props.navigation.links.map((item, i) =>
+    if (!this.props.navigation.primary) {
+      return (
+        <h1>loading</h1>
+      )
+    }
+
+    const renderedMenuItems = this.props.navigation.primary.links.map((item, i) =>
       <Menu.Item
         key={ item.id }
         name={ item.name }
@@ -115,7 +127,7 @@ class PrimaryHeader extends Component {
       <Menu size="big">
       <Container>
         <Menu.Item>
-          <img src={ this.props.boldr.site_logo } alt="logo" onClick={ this.handleLogoClick } />
+          <img src={ this.props.boldr.siteLogo } alt="logo" onClick={ this.handleLogoClick } />
         </Menu.Item>
         { renderedMenuItems }
         { this.props.auth.isAuthenticated ? this.renderAuthenticated() : this.renderUnauthenticated() }
@@ -129,13 +141,14 @@ const mapStateToProps = (state:Object) => {
   return {
     boldr: state.boldr,
     auth: state.auth,
-    navigation: state.navigation
+    navigation: state.navigation,
+    loading: state.navigation.loaded
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({ goHome, logout }, dispatch),
+    actions: bindActionCreators({ goHome, logout, loadPrimary }, dispatch),
     navigate: (url) => dispatch(push(url)),
     dispatch
   };

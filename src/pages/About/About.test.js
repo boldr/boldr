@@ -1,17 +1,11 @@
 /* eslint-env mocha */
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import test from 'ava';
 import { Heading, PrimaryHeader } from '../../components';
 import About from './About';
 
-describe('<About />', () => {
-  it('renders the <PrimaryHeader />', () => {
-    const wrapper = shallow(<About />);
-    expect(wrapper.find(PrimaryHeader)).to.have.length(1);
-  });
-  it('renders the <Heading />', () => {
-    const wrapper = shallow(<About />);
-    expect(wrapper.find(Heading)).to.have.length(1);
-  });
+test('<About />, renders the <PrimaryHeader />', t => {
+  const wrapper = shallow(<About />);
+  t.is(wrapper.find(PrimaryHeader).length, 1);
 });

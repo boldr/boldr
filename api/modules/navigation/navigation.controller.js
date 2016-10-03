@@ -22,7 +22,9 @@ async function getId(req, res) {
   try {
     const navigation = await Navigation
       .query()
+      .eager('[links]')
       .findById(req.params.id);
+
     return responseHandler(null, res, 200, navigation);
   } catch (error) {
     throw new InternalError(error);

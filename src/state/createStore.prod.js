@@ -2,7 +2,7 @@ import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import { isServer } from '../core/util/helpers';
-import clientMiddleware from '../core/clientMiddleware';
+import clientMiddleware from './clientMiddleware';
 import reducers from './reducers';
 
 

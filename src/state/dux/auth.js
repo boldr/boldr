@@ -1,8 +1,8 @@
 import { SubmissionError } from 'redux-form';
 import decode from 'jwt-decode';
 import { push } from 'react-router-redux';
-import * as api from 'core/api/authService';
-import { TOKEN_KEY } from 'core/config';
+import * as api from 'core/api/auth.service';
+import { TOKEN_KEY } from 'core/api/helpers';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
@@ -58,8 +58,8 @@ export function signup(data) {
         dispatch(signUpSuccess(response));
         dispatch(push('/'));
         dispatch(notificationSend(notif.MSG_SIGNUP_SUCCESS));
-    });
-  }
+      });
+  };
 }
 
 // Login
@@ -108,7 +108,7 @@ export function login(loginData, redir) {
         dispatch(loginSuccess(response));
         dispatch(notificationSend(notif.MSG_LOGIN_SUCCESS));
         dispatch(push('/'));
-      })
+      });
   };
 }
 
@@ -167,7 +167,7 @@ export function checkAuth(token) {
           dispatch(notificationSend(notif.MSG_AUTH_ERROR));
         }
         dispatch(checkAuthSuccess(response, token));
-      })
+      });
   };
 }
 

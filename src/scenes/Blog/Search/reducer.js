@@ -2,7 +2,7 @@ import request from 'superagent';
 import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_POSTS } from 'core/config';
+import { API_BASE, API_POSTS } from 'core/api/helpers';
 import { notificationSend } from 'state/dux/notifications';
 import { processResponse } from 'core/api/helpers';
 import * as types from './constants';

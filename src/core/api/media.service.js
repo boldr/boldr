@@ -1,8 +1,7 @@
 import request from 'superagent';
 import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_MEDIA, TOKEN_KEY } from 'core/config';
-import { processResponse } from './helpers';
+import { API_BASE, API_MEDIA, TOKEN_KEY, processResponse } from 'core';
 
 export function doFetchMedia() {
   return request

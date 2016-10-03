@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { notificationSend } from 'state/dux/notifications';
-import * as api from 'core/api/navigationService';
+import * as api from 'core/api/navigation.service';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 
@@ -104,7 +104,7 @@ export function isLoaded(globalState) {
 
 export function loadPrimary() {
   return {
-    types: [LOAD_NAVIGATION_REQUEST, LOAD_NAVIGATION_SUCCESS, LOAD_NAVIGATION_FAILURE],
+    types: [types.LOAD_NAVIGATION_REQUEST, types.LOAD_NAVIGATION_SUCCESS, types.LOAD_NAVIGATION_FAILURE],
     promise: (client) => client.get('/navigations/1')
   };
 }

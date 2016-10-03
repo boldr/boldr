@@ -23,6 +23,26 @@ const conf = convict({
     default: 'http://localhost:3000',
     env: 'HOST'
   },
+  ssr: {
+    host: {
+      doc: 'The host address to bind.',
+      format: String,
+      default: 'localhost',
+      env: 'SSR_HOST'
+    },
+    port: {
+      doc: 'The port to bind for the SSR server.',
+      format: 'port',
+      default: 3000,
+      env: 'SSR_PORT'
+    },
+    base: {
+      doc: 'The url prefix for the api',
+      format: String,
+      default: '/api/v1',
+      env: 'SSR_BASE'
+    }
+  },
   api: {
     host: {
       doc: 'The host address to bind.',
@@ -33,7 +53,7 @@ const conf = convict({
     port: {
       doc: 'The port to bind for the API.',
       format: 'port',
-      default: 3000,
+      default: 2121,
       env: 'API_PORT'
     },
     base: {

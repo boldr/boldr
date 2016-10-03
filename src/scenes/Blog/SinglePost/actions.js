@@ -1,8 +1,7 @@
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_POSTS } from '../../../core/config';
 import { notificationSend } from 'state/dux/notifications';
-import { processResponse } from '../../../core/api/helpers';
+import { processResponse, API_BASE, API_POSTS } from '../../../core/api/helpers';
 import * as types from 'state/actionTypes';
 
 export function clearCurrentPost() {

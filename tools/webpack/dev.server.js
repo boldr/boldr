@@ -9,7 +9,7 @@ const wpConfig = require('./index.js');
 const compiler = webpack(wpConfig);
 
 const serverOptions = {
-  contentBase: `http://${config.HOST}:${config.HMR_PORT}`,
+  contentBase: `http://${config.SSR_HOST}:${config.SSR_PORT}`,
   quiet: true,
   noInfo: true,
   headers: { 'Access-Control-Allow-Origin': '*' },
@@ -26,7 +26,7 @@ const app = new Express();
 app.use(webpackDevMiddleware(compiler, serverOptions));
 app.use(webpackHotMiddleware(compiler));
 
-app.listen(config.HMR_PORT, onAppListening = (err) => {
+app.listen(config.HMR_PORT, (err) => {
   if (err) {
     debug(err);
   } else {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Button } from 'stardust';
 import { Grid, Col, Row, BoldrEditor, S3Uploader } from 'components';
-import { API_BASE, S3_SIGNING_URL } from 'core/config';
+import { API_BASE, S3_SIGNING_URL } from 'core/api/helpers';
 import inlineStyles from 'theme/inlineStyles';
 import Radio from 'components/md/SelectionControls/Radio';
 import Paper from 'components/md/Papers';

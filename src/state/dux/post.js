@@ -3,18 +3,18 @@ import request from 'superagent';
 import fetch from 'isomorphic-fetch';
 import { merge } from 'lodash';
 import { createSelector } from 'reselect';
-import { API_BASE, API_POSTS, TOKEN_KEY } from 'core/config';
-import { processResponse } from 'core/api/helpers';
-import * as api from 'core/api/postService';
+import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
+import * as api from 'core/api/post.service';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
 const requestPosts = () => {
   return { type: types.FETCH_POSTS_REQUEST };
 };
-const receivePosts = (json) => ({
+const receivePosts = (response) => ({
   type: types.FETCH_POSTS_SUCCESS,
-  results: json.results
+  results: response.body.results,
+  total: response.body.total
 });
 const receivePostsFailed = (err) => ({
   type: types.FETCH_POSTS_FAILURE, error: err
@@ -42,7 +42,7 @@ export function fetchPostsIfNeeded() {
  * @param  {Object} state   The blog state which contains posts
  */
 function shouldFetchPosts(state) {
-  const posts = state.posts;
+  const posts = state.posts.results;
   if (!posts) {
     return true;
   }
@@ -59,7 +59,13 @@ export function fetchPosts() {
   return dispatch => {
     dispatch(requestPosts());
     return api.doFetchPosts()
-      .then(json => dispatch(receivePosts(json)))
+      .then(response => {
+        if (!response.status === 200) {
+          dispatch(receivePostsFailed());
+        }
+        console.log(response);
+        dispatch(receivePosts(response));
+      })
       .catch(err => {
         dispatch(receivePostsFailed(err));
       });
@@ -218,9 +224,9 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
     case types.FETCH_POSTS_SUCCESS:
       return {
         ...state,
-        isLoading: false
-        // pagination: action.pagination,
-        // results: action.results
+        isLoading: false,
+        total: action.total,
+        results: action.results
       };
     case types.LOAD_POST_SUCCESS:
       return {
