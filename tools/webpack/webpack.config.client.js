@@ -10,7 +10,9 @@ const OptimizeJsPlugin = require('optimize-js-plugin');
 
 const debug = require('debug')('boldr:webpack');
 
-const config = require('../config');
+const config = require('../../config');
+const paths = config.paths;
+const conf = config.conf;
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 const { removeEmpty, ifElse, merge, removeEmptyKeys } = require('./util/helpers');
 const dllHelpers = require('./util/dllHelpers');
@@ -33,14 +35,14 @@ module.exports = function webpackConfig() {
     stats: false,
     bail: true, // eslint-disable-line
     devtool: isDev ? 'cheap-module-eval-source-map' : 'source-map',
-    context: config.ROOT_DIR,
+    context: paths.ROOT_DIR,
     cache: isDev,
     entry: removeEmptyKeys({
       main: removeEmpty([
         ifDev('react-hot-loader/patch'),
-        ifDev(`webpack-hot-middleware/client?reload=true&path=http://${config.HOST}:${config.HMR_PORT}/__webpack_hmr`),
+        ifDev(`webpack-hot-middleware/client?reload=true&path=http://${conf.get('ssr.host')}:${conf.get('hmr')}/__webpack_hmr`),
         'regenerator-runtime/runtime',
-        path.join(config.SRC_DIR, 'client.js')
+        path.join(paths.CMS_SRC, 'client.js')
       ]),
       vendor: ifProd([
         'react',
@@ -59,10 +61,10 @@ module.exports = function webpackConfig() {
       ])
     }),
     output: {
-      path: path.resolve(config.ASSETS_DIR),
+      path: path.resolve(paths.ASSETS_DIR),
       filename: ifProd('[name]-[chunkhash].js', '[name].js'),
       chunkFilename: ifDev('[name]-[id].chunk.js', '[name]-[id].[chunkhash].js'),
-      publicPath: isDev ? `http://${config.HOST}:${config.HMR_PORT}/assets/` : '/assets/'
+      publicPath: isDev ? `http://${conf.get('ssr.host')}:${conf.get('hmr')}/assets/` : '/assets/'
     },
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
@@ -211,7 +213,7 @@ module.exports = function webpackConfig() {
       ifProd(new webpack.optimize.AggressiveMergingPlugin()),
 
       new AssetsPlugin({
-        path: path.resolve(config.ASSETS_DIR),
+        path: path.resolve(paths.STATIC_DIR),
         filename: 'assets.js',
         processOutput: x => `module.exports = ${JSON.stringify(x)};`
       }),

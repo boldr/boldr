@@ -3,7 +3,9 @@ require('babel-core/register');
 
 const path = require('path');
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-
+const config = require('../config');
+const conf = config.conf;
+const paths = config.paths;
 const isomorphicConfig = require('../tools/webpack/isomorphic.config');
 
 const ROOT_DIR = path.resolve(process.cwd());
@@ -18,6 +20,6 @@ global.regeneratorRuntime = require('regenerator-runtime');
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
   .development(__DEV__)
-  .server(ROOT_DIR, () => {
-    require('../src/server.js');
+  .server(paths.ABS_ROOT, () => {
+    require(`${paths.CMS_SRC}/server.js`);
   });

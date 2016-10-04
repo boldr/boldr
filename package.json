@@ -98,27 +98,26 @@
     "npm": "3.7.3"
   },
   "scripts": {
-    "build": "npm-run-all -s clean build:server build:client copy-files",
+    "build": "npm-run-all -s clean build:server build:client",
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
     "build:dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/dll.config.js",
-    "clean": "rimraf static/",
+    "clean": "rimraf cms/static/assets && rimraf cms/dist",
     "clean:hp": "rimraf .happypack",
     "copy-files": "./tools/scripts/copyFiles.sh",
     "dev": "npm-run-all --parallel dev:api dev:client dev:server",
     "dev:client": "better-npm-run dev:client",
     "dev:server": "better-npm-run dev:server",
     "dev:api": "better-npm-run dev:api",
-    "knex": "./node_modules/.bin/knex --knexfile ./api/config/knexfile.js",
+    "knex": "./node_modules/.bin/knex --knexfile ./config/knexfile.js",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "npm run lint -- --fix",
-    "migrate": "./node_modules/.bin/knex --knexfile ./api/config/knexfile.js migrate:latest",
-    "seed": "./node_modules/.bin/knex --knexfile ./api/config/knexfile.js seed:run",
+    "migrate": "./node_modules/.bin/knex --knexfile ./config/knexfile.js migrate:latest",
+    "seed": "./node_modules/.bin/knex --knexfile ./config/knexfile.js seed:run",
     "start:prod": "NODE_ENV=production node static/run.js",
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
-    "typecheck": "flow",
-    "test": "NODE_ENV=test ava"
+    "typecheck": "flow"
   },
   "ava": {
     "concurrency": 5,
@@ -127,8 +126,7 @@
     "require": [
       "ignore-styles",
       "babel-register"
-    ],
-    "babel": "inherit"
+    ]
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -153,6 +151,7 @@
     "express": "4.14.0",
     "express-session": "^1.14.1",
     "express-winston": "^2.0.0",
+    "fs-extra": "^0.30.0",
     "helmet": "^2.3.0",
     "http-proxy": "^1.15.1",
     "ioredis": "^2.4.0",

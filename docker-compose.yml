@@ -4,14 +4,14 @@ services:
   #   image: tianon/true
   #   volumes:
   #     - ${HOST_APP_DIRECTORY}:/var/www/
-  volumes_data:
-    image: tianon/true
-    container_name: boldr_data
-    volumes:
-      ## Redis DB
-      - "./.volumes/redis:/data"
-      ## Postgres databases
-      - "./.volumes/pgdata:/var/lib/postgresql/data"
+  # volumes_data:
+  #   image: tianon/true
+  #   container_name: boldr_data
+  #   volumes:
+  #     ## Redis DB
+  #     - "./.volumes/redis:/data"
+  #     ## Postgres databases
+  #     - "./.volumes/pgdata:/var/lib/postgresql/data"
 
   postgres:
     container_name: boldr_pg
@@ -26,8 +26,8 @@ services:
       - PG_TRUST_LOCALNET=true
     ports:
       - "5432:5432"
-    volumes_from:
-      - volumes_data
+    volumes:
+      - pg_volume:/var/lib/postgresql/data
     networks:
       - boldr
 
@@ -37,8 +37,8 @@ services:
     restart: always
     ports:
       - "6379:6379"
-    volumes_from:
-      - volumes_data
+    volumes:
+      - redis_volume:/data
     networks:
       - boldr
 
@@ -60,3 +60,7 @@ services:
 networks:
   boldr:
     driver: bridge
+
+volumes:
+  pg_volume:
+  redis_volume:

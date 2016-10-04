@@ -6,7 +6,7 @@
         "react-hot-loader/babel",
         "system-import-transformer",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     },
@@ -16,7 +16,7 @@
         "lodash",
         "transform-flow-strip-types",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     },
@@ -25,7 +25,7 @@
       "plugins": [
         "system-import-transformer",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     }
