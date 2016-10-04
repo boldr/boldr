@@ -6,35 +6,93 @@ import compression from 'compression';
 import passport from 'passport';
 
 // Boldr API Deps
+import config from '../../config';
 import knex from './db/connection';
 import coreMiddleware from './middleware/coreMiddleware';
 import sessionMiddleware from './middleware/sessionMiddleware';
 import routes from './modules/routes';
+import logger from './logger';
 import { monkeyPatchRouteMethods } from './utils';
-import config from '../../config';
 
 const conf = config.conf;
 const debug = require('debug')('boldr:ssr-server');
 
-const app = express();
-app.disable('x-powered-by');
-app.set('trust proxy', 'loopback');
-app.use(compression());
+/**
+ * Normalize a port into a number, string, or false.
+ */
 
-coreMiddleware(app);
-monkeyPatchRouteMethods(app);
+function normalizePort(val) {
+  const port = parseInt(val, 10);
 
-app.use(passport.initialize());
-app.use(sessionMiddleware);
-app.use(passport.session());
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-app.use((req, res, next) => {
-  passport.authenticate('jwt', (err, user, info) => {
-    res.locals.user = !!user ? user : null;
-    return next();
-  })(req, res, next);
-});
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-app.use(conf.get('api.base'), routes);
+  return false;
+}
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(conf.get('api.port'));
+
+/**
+ * Create HTTP server.
+ */
+const app = coreMiddleware(routes);
+const server = http.createServer(app);
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      logger.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      logger.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  logger.info(`🎯   ===> API running in ${process.env.NODE_ENV} on ${bind}`);
+}
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+setImmediate(() => {
+  server.listen(port);
+})
+
+server.on('error', onError);
+server.on('listening', onListening);
 
 export default app;

@@ -34,9 +34,9 @@
       }
     },
     "test:api": {
-      "command": "ava --require babel-register --require ignore-styles",
+      "command": "ava --require babel-register --require ignore-styles --files='api/src/**/*.test.js'",
       "env": {
-        "NODE_PATH": "./api",
+        "NODE_PATH": "./api/src",
         "NODE_ENV": "test",
         "BABEL_ENV": "test"
       }
@@ -114,19 +114,10 @@
     "lint:fix": "npm run lint -- --fix",
     "migrate": "./node_modules/.bin/knex --knexfile ./config/knexfile.js migrate:latest",
     "seed": "./node_modules/.bin/knex --knexfile ./config/knexfile.js seed:run",
-    "start:prod": "NODE_ENV=production node static/run.js",
+    "start:prod": "NODE_ENV=production node bin/ssr.js",
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
     "typecheck": "flow"
-  },
-  "ava": {
-    "concurrency": 5,
-    "timeout": "2m",
-    "babel": "inherit",
-    "require": [
-      "ignore-styles",
-      "babel-register"
-    ]
   },
   "dependencies": {
     "async": "^2.0.1",

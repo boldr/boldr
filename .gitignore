@@ -21,6 +21,11 @@ tools/webpack/dlls
 tools/webpack/dlls/vendor.json
 flow-typed
 .boldrrc.json
+cms/dist/
+api/dist/
+cms/static/assets/
+cms/static/assets.js
+
 # Runtime data
 pids
 *.pid

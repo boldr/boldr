@@ -6,12 +6,18 @@ import methodOverride from 'method-override';
 import expressWinston from 'express-winston';
 import cors from 'cors';
 import morgan from 'morgan';
+import config from '../../../config';
 
+import { monkeyPatchRouteMethods } from '../utils';
 import winstonInstance from '../logger';
+import sessionMiddleware from './sessionMiddleware';
+const conf = config.conf;
 
-export default (app) => {
+export default (routes) => {
+  const app = express();
   const env = app.get('env');
-
+  app.disable('x-powered-by');
+  app.set('trust proxy', 'loopback');
   app.use(compression());
 
   if (env !== 'production') {
@@ -37,4 +43,19 @@ export default (app) => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(methodOverride('X-HTTP-Method-Override'));
   app.options('*', (req, res) => res.sendStatus(200));
+  app.use(passport.initialize());
+  app.use(sessionMiddleware);
+  app.use(passport.session());
+
+  app.use((req, res, next) => {
+    passport.authenticate('jwt', (err, user, info) => {
+      res.locals.user = !!user ? user : null;
+      return next();
+    })(req, res, next);
+  });
+
+  monkeyPatchRouteMethods(app);
+  app.use(conf.get('api.base'), routes);
+
+  return app;
 }

@@ -21,8 +21,6 @@ function fileExists(filePath) {
   }
 }
 
-debug('does it exist? ', fileExists(rcPath));
-
 if (!fileExists(rcPath)) {
   fs.writeFile(rcPath, JSON.stringify(config), function(error) {
      if (error) {
@@ -33,7 +31,7 @@ if (!fileExists(rcPath)) {
   });
 }
 
-debug('Configuration file loaded successfully.', config);
+debug('Configuration file loaded successfully.');
 
 process.on('uncaughtException', error => {
   debug(`Caught exception without specific handler: ${util.inspect(error)}`);

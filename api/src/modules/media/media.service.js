@@ -4,7 +4,8 @@ import multer from 'multer';
 import uuid from 'node-uuid';
 import multerS3 from 'multer-s3';
 
-import conf from '../../config/config';
+import config from '../../../../config';
+const conf = config.conf;
 
 const debug = require('debug')('boldr:media-service');
 

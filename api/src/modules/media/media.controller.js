@@ -4,12 +4,12 @@ import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 
-import conf from '../../config/config';
+import config from '../../../../config';
 import { responseHandler, throwNotFound } from '../../utils';
 
 import Media from './media.model';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
-
+const conf = config.conf;
 const debug = Debug('boldr:media:controller');
 
 // create a new S3 object
