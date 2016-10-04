@@ -20,6 +20,7 @@ boldr.sublime-workspace
 tools/webpack/dlls
 tools/webpack/dlls/vendor.json
 flow-typed
+.boldrrc.json
 # Runtime data
 pids
 *.pid
