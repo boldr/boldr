@@ -124,7 +124,7 @@
     "debug": "^2.2.0",
     "dotenv": "^2.0.0",
     "draft-js": "^0.9.1",
-    "draft-js-export-html": "^0.4.0",
+    "draft-js-export-html": "^0.5.0",
     "express": "4.14.0",
     "express-session": "^1.14.1",
     "helmet": "^2.2.0",
