@@ -26,10 +26,9 @@
       }
     },
     "test:client": {
-      "command": "ava --require babel-register --require ignore-styles --require ./tools/test/clientHelper.js --files='src/**/*.test.js'",
+      "command": "jest",
       "env": {
         "NODE_ENV": "test",
-        "NODE_PATH": "./src",
         "BABEL_ENV": "test"
       }
     },
@@ -93,6 +92,12 @@
   "engines": {
     "node": "6.5.0",
     "npm": "3.7.3"
+  },
+  "jest": {
+   "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
+     "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
+   }
   },
   "scripts": {
     "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
@@ -197,6 +202,7 @@
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "7.0.0",
+    "babel-jest": "^16.0.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-lodash": "^3.2.9",
     "babel-plugin-module-resolver": "^2.2.0",
@@ -211,28 +217,26 @@
     "eslint": "^3.7.0",
     "eslint-config-boldr": "^1.1.1",
     "eslint-plugin-flowtype": "^2.19.0",
-    "expect": "^1.20.2",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.9.0",
     "flow-bin": "^0.33.0",
     "happypack": "^2.2.1",
-    "ignore-styles": "^5.0.1",
-    "jsdom": "^9.5.0",
+    "jest": "^16.0.1",
     "json-loader": "0.5.4",
     "lodash-webpack-plugin": "^0.10.1",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.2",
     "optimize-js-plugin": "0.0.4",
     "postcss-loader": "^0.13.0",
+    "react-addons-test-utils": "^15.3.2",
     "react-hot-loader": "3.0.0-beta.5",
+    "react-test-renderer": "^15.3.2",
     "redux-logger": "^2.6.1",
     "redux-mock-store": "^1.2.1",
     "regenerator-runtime": "^0.9.5",
     "rimraf": "2.5.4",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
-    "supertest": "^2.0.0",
-    "supertest-as-promised": "^4.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-middleware": "1.8.3",

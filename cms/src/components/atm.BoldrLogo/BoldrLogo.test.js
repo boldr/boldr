@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import test from 'ava';
 import BoldrLogo from './BoldrLogo';
 
-test('<BoldrLogo /> renders the logo svg component', t => {
+it('<BoldrLogo /> renders the logo svg component', () => {
     const wrapper = shallow(<BoldrLogo />);
-    t.is(wrapper.find('#boldrlogo').length, 1);
+    expect(wrapper.find('#boldrlogo').length).toBe(1);
 });
