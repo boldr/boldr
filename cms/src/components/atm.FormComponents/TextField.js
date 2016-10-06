@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Form, Input } from 'stardust';
+import { Form, Input } from 'semantic-ui-react';
 
 const renderTextField = ({ input, type, label }) => (
     <Form.Input { ...input } type={ type } placeholder={ label } />

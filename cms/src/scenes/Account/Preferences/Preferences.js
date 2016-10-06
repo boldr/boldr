@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { Menu } from 'stardust';
+import { Menu } from 'semantic-ui-react';
 import { Row, Col } from 'components';
 
 class Preferences extends Component {

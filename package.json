@@ -34,11 +34,11 @@
       }
     },
     "test:api": {
-      "command": "ava --require babel-register --require ignore-styles --files='api/src/**/*.test.js'",
+      "command": "BABEL_ENV=api node_modules/.bin/mocha --compilers js:babel-register --opts ./tools/test/mocha.opts --require ./tools/test/setup.js './api/src/**/*.spec.js'",
       "env": {
-        "NODE_PATH": "./api/src",
         "NODE_ENV": "test",
-        "BABEL_ENV": "test"
+        "BABEL_ENV": "api",
+        "API_PORT": 2121
       }
     },
     "dev:client": {
@@ -68,11 +68,8 @@
       "env": {
         "DEBUG": "boldr:*",
         "NODE_ENV": "development",
-        "BABEL_ENV": "development",
-        "SSR_PORT": 3000,
-        "API_PORT": 2121,
-        "HMR_PORT": 3001,
-        "WEBPACK_DLLS": 1
+        "BABEL_ENV": "api",
+        "API_PORT": 2121
       }
     }
   },
@@ -98,7 +95,9 @@
     "npm": "3.7.3"
   },
   "scripts": {
+    "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
     "build": "npm-run-all -s clean build:server build:client",
+    "build:api": "NODE_ENV=production npm run babel -- ./api/src -d ./api/compiled",
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
     "build:dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/dll.config.js",
@@ -139,6 +138,7 @@
     "dotenv": "^2.0.0",
     "draft-js": "^0.9.1",
     "draft-js-export-html": "^0.4.0",
+    "errorhandler": "^1.4.3",
     "express": "4.14.0",
     "express-session": "^1.14.1",
     "express-winston": "^2.0.0",
@@ -160,7 +160,7 @@
     "nodemailer": "^2.6.4",
     "nodemailer-mailgun-transport": "^1.2.2",
     "npm-run-all": "^3.1.0",
-    "objection": "^0.6.0-rc.5",
+    "objection": "^0.6.0-rc.6",
     "objection-find": "^0.1.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -182,10 +182,10 @@
     "redux-form": "^6.0.5",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
+    "semantic-ui-react": "^0.54.2",
     "serialize-javascript": "1.3.0",
     "slugify": "^1.0.2",
     "source-map-support": "^0.4.3",
-    "stardust": "^0.52.3",
     "superagent": "^2.3.0",
     "webfontloader": "^1.6.26",
     "webpack-isomorphic-tools": "^2.5.8",
@@ -201,11 +201,10 @@
     "babel-plugin-lodash": "^3.2.9",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-plugin-system-import-transformer": "^2.4.0",
+    "babel-plugin-transform-class-properties": "^6.16.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-preset-boldr": "^1.0.2",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "chai-enzyme": "^0.5.2",
+    "babel-preset-latest": "^6.16.0",
     "css-loader": "^0.25.0",
     "cssnano": "^3.7.5",
     "enzyme": "^2.4.1",
@@ -221,12 +220,9 @@
     "jsdom": "^9.5.0",
     "json-loader": "0.5.4",
     "lodash-webpack-plugin": "^0.10.1",
-    "mocha": "^3.1.0",
-    "node-noop": "^1.0.0",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.2",
     "optimize-js-plugin": "0.0.4",
-    "piping": "^1.0.0-rc.4",
     "postcss-loader": "^0.13.0",
     "react-hot-loader": "3.0.0-beta.5",
     "redux-logger": "^2.6.1",
@@ -234,8 +230,6 @@
     "regenerator-runtime": "^0.9.5",
     "rimraf": "2.5.4",
     "sass-loader": "^4.0.2",
-    "sinon": "^1.17.6",
-    "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
     "supertest": "^2.0.0",
     "supertest-as-promised": "^4.0.0",

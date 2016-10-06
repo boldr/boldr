@@ -1,10 +1,18 @@
 {
   "env": {
+    "api": {
+      "presets": ["latest"],
+      "plugins": [
+        "transform-class-properties",
+        ["module-resolver", {
+          "root": ["./api/src"]
+        }]
+      ]
+    },
     "development": {
       "presets": ["boldr"],
       "plugins": [
         "react-hot-loader/babel",
-        "system-import-transformer",
         ["module-resolver", {
           "root": ["./cms/src"]
         }]

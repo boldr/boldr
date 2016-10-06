@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import { Card } from 'stardust';
+import { Card } from 'semantic-ui-react';
 // $FlowFixMe
 import { Heading, Grid, Col, Row } from 'components';
 import inlineStyles from 'theme/inlineStyles';

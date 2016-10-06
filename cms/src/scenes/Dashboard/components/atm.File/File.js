@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Image, Grid, Card } from 'stardust';
+import { Image, Grid, Card } from 'semantic-ui-react';
 import { CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
 import { IconButton } from 'components/md/Buttons';
 

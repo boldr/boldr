@@ -1,1 +1,1 @@
-module.exports = {"main":{"js":"http://localhost:3001/assets/main.js"}};
+module.exports = {"main":{"js":"/assets/main.6c8ec8a5d37002a04bf3.js","css":"/assets/main.6c8ec8a5d37002a04bf3.css"},"vendor":{"js":"/assets/vendor.77e2e9f792aa9193567c.js"}};

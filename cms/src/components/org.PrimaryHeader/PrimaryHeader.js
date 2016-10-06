@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import { Menu, Dropdown, Button, Container } from 'stardust';
+import { Menu, Dropdown, Button, Container } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import { provideHooks } from 'redial';
 import { connect } from 'react-redux';

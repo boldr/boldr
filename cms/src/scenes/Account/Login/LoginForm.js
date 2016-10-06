@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Form, Input, Message } from 'stardust';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
   <Form.Input

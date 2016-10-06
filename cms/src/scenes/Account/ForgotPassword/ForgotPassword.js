@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button, Form, Input, Message } from 'stardust';
+import { Card, Button, Form, Input, Message } from 'semantic-ui-react';
 import { Heading, Grid, Col, Row } from 'components';
 import { CardText, CardActions } from 'components/md/Cards';
 import inlineStyles from 'theme/inlineStyles';

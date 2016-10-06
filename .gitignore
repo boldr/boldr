@@ -25,7 +25,7 @@ cms/dist/
 api/dist/
 cms/static/assets/
 cms/static/assets.js
-
+api/compiled
 # Runtime data
 pids
 *.pid

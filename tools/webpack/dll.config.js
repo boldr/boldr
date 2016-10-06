@@ -69,7 +69,7 @@ module.exports = {
       'react-addons-css-transition-group',
       'draft-js',
       'classnames',
-      'stardust',
+      'semantic-ui-react',
       'isomorphic-fetch',
       'reselect'
     ]

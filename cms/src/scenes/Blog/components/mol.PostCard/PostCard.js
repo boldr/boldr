@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
-import { Button, Card, Image } from 'stardust';
+import { Button, Card, Image } from 'semantic-ui-react';
 import { FlatButton } from 'components/md/Buttons';
 import { Row } from 'components';
 import TagBlock from '../mol.TagBlock';

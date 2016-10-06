@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Grid } from 'stardust';
+import { Grid } from 'semantic-ui-react';
 import File from '../atm.File';
 
 const { Column, Row } = Grid;

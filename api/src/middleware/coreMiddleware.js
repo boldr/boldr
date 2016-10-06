@@ -13,8 +13,7 @@ import winstonInstance from '../logger';
 import sessionMiddleware from './sessionMiddleware';
 const conf = config.conf;
 
-export default (routes) => {
-  const app = express();
+export default function(app) {
   const env = app.get('env');
   app.disable('x-powered-by');
   app.set('trust proxy', 'loopback');
@@ -53,9 +52,4 @@ export default (routes) => {
       return next();
     })(req, res, next);
   });
-
-  monkeyPatchRouteMethods(app);
-  app.use(conf.get('api.base'), routes);
-
-  return app;
 }

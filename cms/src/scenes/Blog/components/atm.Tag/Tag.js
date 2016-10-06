@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import { Icon, Label } from 'stardust';
+import { Icon, Label } from 'semantic-ui-react';
 
 const Tag = (props: { name: String }) => {
   return (

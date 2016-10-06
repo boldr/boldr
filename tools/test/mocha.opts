@@ -1,4 +1,4 @@
---timeout 5000
---compilers js:./tools/test/setup.js
 --recursive
-
+--colors
+--reporter spec
+--require ignore-styles
