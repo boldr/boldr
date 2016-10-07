@@ -10,6 +10,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import redisClient from './db/redis';
 import conf from './config/config';
+import knex from './db/connection';
 
 const RedisStore = require('connect-redis')(session);
 
