@@ -1,4 +1,9 @@
+const path = require('path');
 const convict = require('convict');
+const debug = require('debug')('boldr:configuration');
+const fs = require('fs-extra');
+
+const rcPath = path.join(`${path.resolve(process.cwd())}/.boldrrc.json`);
 
 const conf = convict({
   env: {
@@ -252,4 +257,31 @@ const conf = convict({
   }
 });
 
-module.exports = conf;
+function fileExists(filePath) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (err) {
+    return false;
+  }
+}
+
+if (!fileExists(rcPath)) {
+  fs.writeFile(rcPath, JSON.stringify(config), (error) => {
+    if (error) {
+      console.error(`write error:  ${error.message}`);
+    } else {
+      console.log(`Successful Write to ${filePath}`);
+    }
+  });
+}
+
+process.on('uncaughtException', error => {
+  debug(`Caught exception without specific handler: ${util.inspect(error)}`);
+  debug(error.stack, 'error');
+  process.exit(1);
+});
+conf.validate({
+  strict: true
+});
+debug('Configuration file loaded successfully.');
+export default conf;

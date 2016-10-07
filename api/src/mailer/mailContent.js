@@ -1,6 +1,4 @@
-import config from '../../../config';
-
-const conf = config.conf;
+import conf from '../config/config';
 
 const welcomeEmail = (user) => `
     <div style='margin: 0; padding: 0; width: 100%; font-family: Trebuchet MS, sans-serif;'>

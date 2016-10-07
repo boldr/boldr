@@ -1,16 +1,14 @@
 import http from 'http';
 import https from 'https';
-
-import config from '../../config';
+import conf from './config/config';
 import logger from './logger';
 import app from './app';
 
-const conf = config.conf;
-
-
 const debug = require('debug')('boldr:engine');
+
 const env = process.env.NODE_ENV || 'development';
-const port = normalizePort(2121);
+const port = normalizePort(conf.get('api.port'));
+
 app.set('port', port);
 
 const server = http.createServer(app);
@@ -31,13 +29,13 @@ function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
-  
+
   const bind = (
     typeof port === 'string'
       ? `Pipe ${port}`
       : `Port ${port}`
   );
-  
+
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
@@ -69,17 +67,17 @@ function onListening() {
  */
 function normalizePort(val) {
   const port = parseInt(val, 10);
-  
+
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-  
+
   if (port >= 0) {
     // port number
     return port;
   }
-  
+
   return false;
 }
 

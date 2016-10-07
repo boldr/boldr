@@ -1,7 +1,6 @@
 import passport from 'passport';
-import config from '../../../../../config';
+import conf from '../../../config/config';
 
-const conf = config.conf;
 
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;

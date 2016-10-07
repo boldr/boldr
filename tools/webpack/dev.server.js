@@ -3,14 +3,13 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const debug = require('debug')('boldr:webpack-ds');
-const config = require('../../config');
-const conf = config.conf;
+
 const wpConfig = require('./index.js');
 
 const compiler = webpack(wpConfig);
 
 const serverOptions = {
-  contentBase: `http://${conf.get('ssr.host')}:${conf.get('hmr')}`,
+  contentBase: 'http://localhost:3001',
   quiet: true,
   noInfo: true,
   headers: { 'Access-Control-Allow-Origin': '*' },
@@ -27,10 +26,10 @@ const app = new Express();
 app.use(webpackDevMiddleware(compiler, serverOptions));
 app.use(webpackHotMiddleware(compiler));
 
-app.listen(conf.get('hmr'), (err) => {
+app.listen(3001, (err) => {
   if (err) {
     debug(err);
   } else {
-    debug('==> 🚧  Webpack development server listening on port %s', conf.get('hmr'));
+    debug('==> 🚧  Webpack development server listening on port %s', 3001);
   }
 });

@@ -1,9 +1,7 @@
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { responseHandler, encryptPassword, generateVerifyCode } from '../../../utils';
-import config from '../../../../../config';
-
-const conf = config.conf;
+import conf from '../../../config/config';
 
 const EXISTS = `There is already a Facebook account that belongs to you. Sign in with
 that account or delete it, then link it with your current account.`;

@@ -1,9 +1,8 @@
 const path = require('path');
 const debug = require('debug')('webpack');
-const config = require('../../config');
+const paths = require('../paths');
 const dllHelpers = require('./util/dllHelpers');
 
-const paths = config.paths;
 const validDLLs = dllHelpers.isValidDLLs(['vendor'], path.resolve(paths.ASSETS_DIR));
 
 if (process.env.WEBPACK_DLLS === '1' && !validDLLs) {

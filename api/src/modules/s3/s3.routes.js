@@ -2,9 +2,7 @@
 import uuid from 'node-uuid';
 import aws from 'aws-sdk';
 import express from 'express';
-
-import config from '../../../../config';
-const conf = config.conf;
+import conf from '../../config/config';
 
 const debug = require('debug')('boldr:s3');
 

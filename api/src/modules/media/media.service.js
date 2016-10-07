@@ -3,9 +3,7 @@ import AWS from 'aws-sdk';
 import multer from 'multer';
 import uuid from 'node-uuid';
 import multerS3 from 'multer-s3';
-
-import config from '../../../../config';
-const conf = config.conf;
+import conf from '../../config/config';
 
 const debug = require('debug')('boldr:media-service');
 

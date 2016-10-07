@@ -1,10 +1,12 @@
 import 'source-map-support/register';
+// Express
 import http from 'http';
 import path from 'path';
 import Express from 'express';
 import httpProxy from 'http-proxy';
 import compression from 'compression';
 import PrettyError from 'pretty-error';
+// React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import match from 'react-router/lib/match';
@@ -13,21 +15,23 @@ import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { trigger } from 'redial';
-// Server deps
-import config from '../../config';
+// App deps
 import createStore from './state/createStore';
 import getRoutes from './scenes/index';
 import Html from './components/atm.Html';
 import ApiClient from './core/api/ApiClient';
 
 const debug = require('debug')('boldr:server');
-const paths = config.paths;
-const conf = config.conf;
+
 const pretty = new PrettyError();
 const port = process.env.SSR_PORT || 3000;
+// FIXME: Refactor to use something else?
+const API_PORT = 2121;
+const API_HOST = 'localhost';
 
 debug('Booting Boldr API Server');
-const targetUrl = `http://${conf.get('api.host')}:${conf.get('api.port')}`;
+
+const targetUrl = `http://${API_HOST}:${API_PORT}`;
 const app = Express();
 const server = http.Server(app);
 
@@ -58,6 +62,7 @@ proxy.on('error', (error, req, res) => {
 
   res.end(JSON.stringify(json));
 });
+
 app.use(
   '/assets/',
   Express.static('static', { maxAge: '365d' })

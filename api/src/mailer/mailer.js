@@ -1,9 +1,7 @@
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
-import config from '../../../config';
-
-const conf = config.conf;
+import conf from '../config/config';
 
 const debug = require('debug')('boldr:auth:controller');
 

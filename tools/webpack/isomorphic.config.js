@@ -1,8 +1,7 @@
 
 const path = require('path');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-const config = require('../../config');
-const paths = config.paths;
+const paths = require('../paths');
 
 module.exports = {
   debug: false,

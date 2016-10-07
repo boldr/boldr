@@ -1,15 +1,13 @@
 const path = require('path');
-const config = require('./index');
-const paths = config.paths;
-const conf = config.conf;
+const paths = require('./paths');
 
 module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: conf.get('db.name'),
-      user: conf.get('db.user'),
-      password: conf.get('db.password')
+      database: process.env.POSTGRES_DB || 'boldr',
+      user: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASSWORD || 'password'
     },
     migrations: {
       directory: path.resolve(paths.API_DIR, '_migrations'),
@@ -47,9 +45,9 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      database: conf.get('db.name'),
-      user: conf.get('db.user'),
-      password: conf.get('db.password')
+      database: process.env.POSTGRES_DB || 'boldr',
+      user: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASSWORD || 'password'
     },
     searchPath: 'knex,public',
     migrations: {

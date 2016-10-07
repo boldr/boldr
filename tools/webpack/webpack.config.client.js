@@ -9,10 +9,8 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 
 const debug = require('debug')('boldr:webpack');
+const paths = require('../paths');
 
-const config = require('../../config');
-const paths = config.paths;
-const conf = config.conf;
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 const { removeEmpty, ifElse, merge, removeEmptyKeys } = require('./util/helpers');
 const dllHelpers = require('./util/dllHelpers');
@@ -40,7 +38,7 @@ module.exports = function webpackConfig() {
     entry: removeEmptyKeys({
       main: removeEmpty([
         ifDev('react-hot-loader/patch'),
-        ifDev(`webpack-hot-middleware/client?reload=true&path=http://${conf.get('ssr.host')}:${conf.get('hmr')}/__webpack_hmr`),
+        ifDev('webpack-hot-middleware/client?reload=true&path=http://localhost:3001/__webpack_hmr'),
         'regenerator-runtime/runtime',
         path.join(paths.CMS_SRC, 'client.js')
       ]),
@@ -64,7 +62,7 @@ module.exports = function webpackConfig() {
       path: path.resolve(paths.ASSETS_DIR),
       filename: ifProd('[name]-[chunkhash].js', '[name].js'),
       chunkFilename: ifDev('[name]-[id].chunk.js', '[name]-[id].[chunkhash].js'),
-      publicPath: isDev ? `http://${conf.get('ssr.host')}:${conf.get('hmr')}/assets/` : '/assets/'
+      publicPath: isDev ? 'http://localhost:3001/assets/' : '/assets/'
     },
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
@@ -181,7 +179,7 @@ module.exports = function webpackConfig() {
         filename: '[name].[chunkhash].js',
         minChunks: Infinity
       })),
-      ifProd(new WatchMissingNodeModulesPlugin(config.NODE_MODULES_DIR)),
+      ifProd(new WatchMissingNodeModulesPlugin(paths.NM_DIR)),
       // Create smaller Lodash builds by replacing feature sets of modules with
       // noop, identity, or simpler alternatives.
       // https://github.com/lodash/lodash-webpack-plugin

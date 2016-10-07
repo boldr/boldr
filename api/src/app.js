@@ -9,6 +9,7 @@ import expressWinston from 'express-winston';
 import morgan from 'morgan';
 import session from 'express-session';
 import redisClient from './db/redis';
+import conf from './config/config';
 
 const RedisStore = require('connect-redis')(session);
 
@@ -21,7 +22,7 @@ import routes from './modules/routes';
 const debug = require('debug')('boldr:ssr-server');
 
 const app = Express();
-const env = process.env.NODE_ENV || 'development';
+const env = conf.get('env') || 'development';
 
 app.disable('x-powered-by');
 app.set('trust proxy', 'loopback');

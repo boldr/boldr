@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-import config from '../../../../config';
-
-const conf = config.conf;
+import conf from '../../config/config';
 
 function signToken(user) {
   const roleinfo = user.role[0];

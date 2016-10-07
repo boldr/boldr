@@ -2,10 +2,9 @@ delete process.env.BROWSER;
 require('babel-core/register');
 
 const path = require('path');
+const paths = require('../tools/paths');
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-const config = require('../config');
-const conf = config.conf;
-const paths = config.paths;
+
 const isomorphicConfig = require('../tools/webpack/isomorphic.config');
 
 const ROOT_DIR = path.resolve(process.cwd());

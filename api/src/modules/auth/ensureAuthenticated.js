@@ -1,7 +1,5 @@
 import passport from 'passport';
-import config from '../../../../config';
-
-const conf = config.conf;
+import conf from '../../config/config';
 
 const debug = require('debug')('boldr:auth-ensureAuth');
 

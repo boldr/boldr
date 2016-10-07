@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import compose from 'composable-middleware';
+import conf from '../../config/config';
 import ensureAuthenticated from './ensureAuthenticated';
-import config from '../../../config';
 
-const conf = config.conf;
 const debug = require('debug')('boldr:auth-ensureAuth');
 
 /**
