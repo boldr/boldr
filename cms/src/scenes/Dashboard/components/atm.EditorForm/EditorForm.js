@@ -8,7 +8,7 @@ import inlineStyles from 'theme/inlineStyles';
 import Radio from 'components/md/SelectionControls/Radio';
 import Paper from 'components/md/Papers';
 import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
-import renderTextField, { renderLabel } from 'components/atm.FormComponents/TextField';
+import renderTextField from 'components/atm.FormComponents/TextField';
 
 const EditorForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
@@ -21,7 +21,6 @@ const EditorForm = (props) => {
    */
   const renderEditor = ({ input, label }) => (
     <div>
-      { renderLabel(input.name, label) }
       <BoldrEditor { ...input } label={ label } />
     </div>
   );

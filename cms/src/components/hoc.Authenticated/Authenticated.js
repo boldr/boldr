@@ -1,10 +1,10 @@
-import React, { Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 
-export default (Component) => {
+export default (ComposedComponent) => {
   const mapStateToProps = (state) => ({
-    isAuthenticated: !!state.auth
+    isAuthenticated: state.auth.isAuthenticated
   });
   const mapDispatchToProps = { replace };
 
@@ -30,10 +30,9 @@ export default (Component) => {
 
     render() {
       return this.props.isAuthenticated ?
-             <Component {...this.props} /> :
-             null;
+        <ComposedComponent { ...this.props } /> : null;
     }
   }
 
   return Authenticated;
-}
+};

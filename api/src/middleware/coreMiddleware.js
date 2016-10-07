@@ -6,12 +6,9 @@ import methodOverride from 'method-override';
 import expressWinston from 'express-winston';
 import cors from 'cors';
 import morgan from 'morgan';
-import config from '../../../config';
 
-import { monkeyPatchRouteMethods } from '../utils';
 import winstonInstance from '../logger';
 import sessionMiddleware from './sessionMiddleware';
-const conf = config.conf;
 
 export default function(app) {
   const env = app.get('env');

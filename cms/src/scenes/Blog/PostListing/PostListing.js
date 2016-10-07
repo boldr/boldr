@@ -18,7 +18,7 @@ class PostListing extends Component {
            <Loader /> :
           <PostListingGroup posts={ this.props.posts.results } />
     );
-  };
+  }
 }
 
 const mapStateToProps = (state) => {

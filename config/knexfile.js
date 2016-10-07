@@ -12,11 +12,11 @@ module.exports = {
       password: conf.get('db.password')
     },
     migrations: {
-      directory: path.resolve(paths.API_SRC, '_migrations'),
+      directory: path.resolve(paths.API_DIR, '_migrations'),
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(paths.API_SRC, '_seeds'),
+      directory: path.resolve(paths.API_DIR, '_seeds'),
     },
     debug: false,
     pool: {
@@ -36,11 +36,11 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: path.resolve(paths.API_SRC, '_migrations'),
+      directory: path.resolve(paths.API_DIR, '_migrations'),
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(paths.API_SRC, '_seeds'),
+      directory: path.resolve(paths.API_DIR, '_seeds'),
     }
   },
 

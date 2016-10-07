@@ -71,7 +71,8 @@ module.exports = {
       'classnames',
       'semantic-ui-react',
       'isomorphic-fetch',
-      'reselect'
+      'reselect',
+      'normalizr'
     ]
   },
 

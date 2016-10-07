@@ -6,12 +6,9 @@
  */
 
 import winston from 'winston';
-import config from '../../../config';
-
-const conf = config.conf;
 
 const transports = [];
-if (conf.get('logger.console')) {
+if (!process.env.NODE_ENV === 'production') {
   transports.push(
     new winston.transports.Console({
       handleExceptions: false,
@@ -23,7 +20,7 @@ if (conf.get('logger.console')) {
     })
   );
 }
-if (conf.get('logger.files')) {
+if (process.env.NODE_ENV === 'production') {
   transports.push(
     new winston.transports.File({
       handleExceptions: false,

@@ -18,7 +18,7 @@ import userRoutes from './user/user.routes';
 const router = express.Router();
 
 router.get('/health-check', (req, res) =>
-	res.send('OK, it works')
+	res.status(200).json('OK, it works')
 );
 
 router.use('/activities', activityRoutes);

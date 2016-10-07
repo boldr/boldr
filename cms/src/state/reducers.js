@@ -16,7 +16,6 @@ import profileReducer from './dux/profile';
 const reducers = combineReducers({
   routing: routerReducer,
   form: formReducer,
-
   notifications: notificationReducer,
   auth: authReducer,
   boldr: boldrReducer,

@@ -108,7 +108,7 @@ class PrimaryHeader extends Component {
     if (!this.props.navigation.primary) {
       return (
         <h1>loading</h1>
-      )
+      );
     }
 
     const renderedMenuItems = this.props.navigation.primary.links.map((item, i) =>
@@ -124,7 +124,7 @@ class PrimaryHeader extends Component {
     );
 
     return (
-      <Menu size="big">
+      <Menu size="huge">
       <Container>
         <Menu.Item>
           <img src={ this.props.boldr.siteLogo } alt="logo" onClick={ this.handleLogoClick } />

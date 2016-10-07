@@ -9,29 +9,17 @@ const conf = config.conf;
 
 
 const debug = require('debug')('boldr:engine');
-
-// Set the environment on app and make it available throughout.
-const env = conf.get('env');
-app.set('env', env);
-
-/**
- * Get port from environment and store in Express.
- */
-const port = normalizePort(conf.get('api.port'));
+const env = process.env.NODE_ENV || 'development';
+const port = normalizePort(2121);
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
 const server = http.createServer(app);
-
 server.on('listening', onListening);
 server.on('error', onError);
 
-
 function startServer() {
   server.listen(port);
-  logger.info(`🌎  ==> Boldr API is running on ${port} in ${env} mode.`);
+  logger.info(`🌎  ==> API is running on ${port} in ${env} mode.`);
 }
 /**
  * Listen on provided port, on all network interfaces.
@@ -43,13 +31,13 @@ function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
-
+  
   const bind = (
     typeof port === 'string'
       ? `Pipe ${port}`
       : `Port ${port}`
   );
-
+  
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
@@ -81,17 +69,17 @@ function onListening() {
  */
 function normalizePort(val) {
   const port = parseInt(val, 10);
-
+  
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-
+  
   if (port >= 0) {
     // port number
     return port;
   }
-
+  
   return false;
 }
 

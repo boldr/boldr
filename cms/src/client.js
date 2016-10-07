@@ -31,6 +31,10 @@ if (token) {
   // Update application state. User has token and is probably authenticated
   store.dispatch(checkAuth(token));
 }
+if (window.devToolsExtension) {
+  window.devToolsExtension.updateStore(store);
+}
+
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.routing
 });

@@ -33,11 +33,10 @@
       }
     },
     "test:api": {
-      "command": "BABEL_ENV=api node_modules/.bin/mocha --compilers js:babel-register --opts ./tools/test/mocha.opts --require ./tools/test/setup.js './api/src/**/*.spec.js'",
+      "command": "./node_modules/.bin/mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './api/src/**/*.test.js'",
       "env": {
-        "NODE_ENV": "test",
-        "BABEL_ENV": "api",
-        "API_PORT": 2121
+        "BABEL_ENV": "test",
+        "NODE_ENV": "test"
       }
     },
     "dev:client": {
@@ -94,10 +93,10 @@
     "npm": "3.7.3"
   },
   "jest": {
-   "moduleNameMapper": {
+    "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
-     "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
-   }
+      "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
+    }
   },
   "scripts": {
     "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
@@ -142,7 +141,7 @@
     "debug": "^2.2.0",
     "dotenv": "^2.0.0",
     "draft-js": "^0.9.1",
-    "draft-js-export-html": "^0.4.0",
+    "draft-js-export-html": "^0.5.0",
     "errorhandler": "^1.4.3",
     "express": "4.14.0",
     "express-session": "^1.14.1",
@@ -150,6 +149,7 @@
     "fs-extra": "^0.30.0",
     "helmet": "^2.3.0",
     "http-proxy": "^1.15.1",
+    "humps": "^1.1.0",
     "ioredis": "^2.4.0",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.1.9",
@@ -164,6 +164,7 @@
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.6.4",
     "nodemailer-mailgun-transport": "^1.2.2",
+    "normalizr": "^2.2.1",
     "npm-run-all": "^3.1.0",
     "objection": "^0.6.0-rc.6",
     "objection-find": "^0.1.1",
@@ -173,12 +174,13 @@
     "passport-local": "^1.0.0",
     "pg": "^6.1.0",
     "pretty-error": "^2.0.1",
+    "qs": "^6.2.1",
     "react": "15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-transition-group": "^15.3.2",
     "react-dom": "15.3.2",
     "react-helmet": "^3.1.0",
-    "react-redux": "^4.4.5",
+    "react-redux": "^5.0.0-beta.3",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.6",
     "redial": "^0.5.0",
@@ -198,7 +200,6 @@
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.4.0",
-    "ava": "^0.16.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "7.0.0",
@@ -211,6 +212,7 @@
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-preset-boldr": "^1.0.2",
     "babel-preset-latest": "^6.16.0",
+    "chai": "^3.5.0",
     "css-loader": "^0.25.0",
     "cssnano": "^3.7.5",
     "enzyme": "^2.4.1",
@@ -224,6 +226,7 @@
     "jest": "^16.0.1",
     "json-loader": "0.5.4",
     "lodash-webpack-plugin": "^0.10.1",
+    "mocha": "^3.1.0",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.2",
     "optimize-js-plugin": "0.0.4",
@@ -236,7 +239,11 @@
     "regenerator-runtime": "^0.9.5",
     "rimraf": "2.5.4",
     "sass-loader": "^4.0.2",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
+    "supertest": "^2.0.0",
+    "supertest-as-promised": "^4.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-middleware": "1.8.3",
