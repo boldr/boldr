@@ -1,12 +1,20 @@
 {
   "env": {
+    "api": {
+      "presets": ["latest"],
+      "plugins": [
+        "transform-class-properties",
+        ["module-resolver", {
+          "root": ["./api/src"]
+        }]
+      ]
+    },
     "development": {
       "presets": ["boldr"],
       "plugins": [
         "react-hot-loader/babel",
-        "system-import-transformer",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     },
@@ -16,7 +24,7 @@
         "lodash",
         "transform-flow-strip-types",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     },
@@ -25,7 +33,7 @@
       "plugins": [
         "system-import-transformer",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     }

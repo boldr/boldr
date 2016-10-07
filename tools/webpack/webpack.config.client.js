@@ -9,8 +9,8 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 
 const debug = require('debug')('boldr:webpack');
+const paths = require('../paths');
 
-const config = require('../config');
 const WatchMissingNodeModulesPlugin = require('./util/WatchMissingModulesPlugin');
 const { removeEmpty, ifElse, merge, removeEmptyKeys } = require('./util/helpers');
 const dllHelpers = require('./util/dllHelpers');
@@ -33,14 +33,14 @@ module.exports = function webpackConfig() {
     stats: false,
     bail: true, // eslint-disable-line
     devtool: isDev ? 'cheap-module-eval-source-map' : 'source-map',
-    context: config.ROOT_DIR,
+    context: paths.ROOT_DIR,
     cache: isDev,
     entry: removeEmptyKeys({
       main: removeEmpty([
         ifDev('react-hot-loader/patch'),
-        ifDev(`webpack-hot-middleware/client?reload=true&path=http://${config.HOST}:${config.HMR_PORT}/__webpack_hmr`),
+        ifDev('webpack-hot-middleware/client?reload=true&path=http://localhost:3001/__webpack_hmr'),
         'regenerator-runtime/runtime',
-        path.join(config.SRC_DIR, 'client.js')
+        path.join(paths.CMS_SRC, 'client.js')
       ]),
       vendor: ifProd([
         'react',
@@ -59,10 +59,10 @@ module.exports = function webpackConfig() {
       ])
     }),
     output: {
-      path: path.resolve(config.ASSETS_DIR),
+      path: path.resolve(paths.ASSETS_DIR),
       filename: ifProd('[name]-[chunkhash].js', '[name].js'),
       chunkFilename: ifDev('[name]-[id].chunk.js', '[name]-[id].[chunkhash].js'),
-      publicPath: isDev ? `http://${config.HOST}:${config.HMR_PORT}/assets/` : '/assets/'
+      publicPath: isDev ? 'http://localhost:3001/assets/' : '/assets/'
     },
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
@@ -179,7 +179,7 @@ module.exports = function webpackConfig() {
         filename: '[name].[chunkhash].js',
         minChunks: Infinity
       })),
-      ifProd(new WatchMissingNodeModulesPlugin(config.NODE_MODULES_DIR)),
+      ifProd(new WatchMissingNodeModulesPlugin(paths.NM_DIR)),
       // Create smaller Lodash builds by replacing feature sets of modules with
       // noop, identity, or simpler alternatives.
       // https://github.com/lodash/lodash-webpack-plugin
@@ -211,7 +211,7 @@ module.exports = function webpackConfig() {
       ifProd(new webpack.optimize.AggressiveMergingPlugin()),
 
       new AssetsPlugin({
-        path: path.resolve(config.ASSETS_DIR),
+        path: path.resolve(paths.STATIC_DIR),
         filename: 'assets.js',
         processOutput: x => `module.exports = ${JSON.stringify(x)};`
       }),

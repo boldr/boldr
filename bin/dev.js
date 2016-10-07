@@ -2,6 +2,7 @@ delete process.env.BROWSER;
 require('babel-core/register');
 
 const path = require('path');
+const paths = require('../tools/paths');
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 
 const isomorphicConfig = require('../tools/webpack/isomorphic.config');
@@ -18,6 +19,6 @@ global.regeneratorRuntime = require('regenerator-runtime');
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
   .development(__DEV__)
-  .server(ROOT_DIR, () => {
-    require('../src/server.js');
+  .server(paths.ABS_ROOT, () => {
+    require(`${paths.CMS_SRC}/server.js`);
   });

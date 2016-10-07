@@ -3,7 +3,12 @@ const fs = require('fs');
 const webpack = require('webpack');
 const NodeExternals = require('webpack-node-externals');
 
-const config = require('../config');
+const config = require('../../config');
+const paths = config.paths;
+
+function noop() {
+  return null;
+}
 
 const nodeConfig = { // eslint-disable-line
   target: 'node',
@@ -18,11 +23,11 @@ const nodeConfig = { // eslint-disable-line
   devtool: '#source-map',
   entry: {
     server: [
-      path.resolve(path.join(config.SRC_DIR, 'server.js'))
+      path.resolve(path.join(paths.CMS_SRC, 'server.js'))
     ]
   },
   output: {
-    path: path.resolve(config.BUILD_DIR),
+    path: path.resolve(paths.CMS_DIR + '/dist'),
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name].js',
     libraryTarget: 'commonjs2'
@@ -67,7 +72,7 @@ const nodeConfig = { // eslint-disable-line
       __CLIENT__: false,
       __SERVER__: true
     }),
-    new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, 'node-noop'), // eslint-disable-line
+    new webpack.NormalModuleReplacementPlugin(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|mp4|mp3|ogg|pdf)$/, noop()), // eslint-disable-line
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     })

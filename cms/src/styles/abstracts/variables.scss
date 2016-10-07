@@ -1,0 +1,40 @@
+$white: #fff;
+$snow: rgba(237, 237, 237, 1);
+$grape: rgba(64, 64, 78, 1);
+$mirage: rgba(27, 27, 37, 1);
+$pinkish: rgb(229, 0, 80);
+$md-black-base: #000;
+$shadow-color: rgba(0, 0, 0, .2);
+$box-shadow: 0 0 5px $shadow-color;
+
+$main-color: $grape;
+$accent-color: $pinkish;
+
+$link-color: $accent-color;
+$text-color: #4B435C;
+
+$font-size-base: 1em;
+$line-height-base: 1.5em;
+$font-weight-base: 400;
+
+$heading-weight: 300;
+$heading-case: none;
+$window-medium: 768px;
+$window-large: 992px;
+$window-xlarge: 1200px;
+
+$padding: 4px;
+$transition-function: cubic-bezier(.25, .8, .25, 1);
+$transition-duration: .25s;
+$error-color: rgb(244, 67, 54);
+
+$toolbar-height: 64px;
+$toolbar-z-index: 6;
+
+$tiny: 480px;  /* Extra small screen / phone */
+$small: 768px;  /* Small screen / tablet */
+$medium: 992px;  /* Medium screen / desktop */
+$large: 1200px; /* Large screen / wide desktop */
+$grid-width: 1170px;
+$grid-columns: 12;
+$grid-gutter-width: 1.875rem;

@@ -6,7 +6,7 @@
   ],
   "verbose": true,
   "watch": [
-    "src/api/"
+    "./api/src"
   ],
   "env": {
     "NODE_ENV": "development",

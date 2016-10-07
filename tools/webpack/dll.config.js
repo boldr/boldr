@@ -1,13 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
-
+const config = require('../../config');
+const paths = config.paths;
 const projectRootPath = path.resolve(__dirname, '../../');
 
 module.exports = {
   devtool: process.env.NODE_ENV === 'production' ? null : 'inline-source-map',
 
   output: {
-    path: path.join(projectRootPath, 'static/assets/dlls'),
+    path: path.join(paths.ASSETS_DIR, 'dlls'),
     filename: 'dll__[name].js',
     library: 'DLL_[name]_[hash]'
   },
@@ -68,9 +69,10 @@ module.exports = {
       'react-addons-css-transition-group',
       'draft-js',
       'classnames',
-      'stardust',
+      'semantic-ui-react',
       'isomorphic-fetch',
-      'reselect'
+      'reselect',
+      'normalizr'
     ]
   },
 
@@ -84,7 +86,7 @@ module.exports = {
     }),
 
     new webpack.DllPlugin({
-      path: path.join(projectRootPath, 'tools/webpack/dlls/[name].json'),
+      path: path.join(paths.ABS_ROOT, 'tools/webpack/dlls/[name].json'),
       name: 'DLL_[name]_[hash]'
     })
   ]
