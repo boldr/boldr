@@ -6,9 +6,11 @@ import { provideHooks } from 'redial';
 import { Notifications } from 'components';
 import { fetchSettingsIfNeeded } from 'state/dux/boldr';
 import { loadPrimary } from 'state/dux/navigation';
+import { fetchPagesIfNeeded } from 'state/dux/page';
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
+  fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded()),
+  defer: ({ dispatch }) => dispatch(fetchPagesIfNeeded())
 })
 class Boldr extends Component {
   static propTypes = {
@@ -41,4 +43,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchSettingsIfNeeded })(Boldr);
+export default connect(mapStateToProps, { fetchSettingsIfNeeded, fetchPagesIfNeeded })(Boldr);

@@ -39,8 +39,8 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('page', function(table) {
       table.uuid('id').primary();
       table.string('name');
-      table.string('slug');
-      table.string('layout');
+      table.string('url');
+      table.json('layout');
       table.text('markup');
       table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
       table.boolean('restricted').default(false);

@@ -19,6 +19,7 @@ boldr.sublime-project
 boldr.sublime-workspace
 tools/webpack/dlls
 tools/webpack/dlls/vendor.json
+.boldrrc.json
 flow-typed
 .boldrrc.json
 cms/dist/
