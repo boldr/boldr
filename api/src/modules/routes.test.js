@@ -7,7 +7,7 @@ function request() {
 }
 
 describe('API Routes', () => {
-  it('GET - /api/v1/heatlh | should return a json response', function(done) {
+  it('GET - /api/v1/heatlh | should return a json response', (done) => {
     request()
     .get('/api/v1/health-check')
     .set('Accept', 'application/json')
