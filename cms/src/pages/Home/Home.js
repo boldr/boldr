@@ -1,14 +1,24 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import { Grid, Row, Col, Hero, Heading, PrimaryHeader } from 'components';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import { fetchPages } from 'state/dux/page';
+import { Header, Icon } from 'semantic-ui-react';
+import PostListing from 'scenes/Blog/PostListing';
+import { Grid, Row, Col, Hero, Heading, PrimaryHeader, Footer } from '../../components';
+import { fetchPages } from '../../state/dux/page';
+
+type Props = {
+  loaded: Boolean,
+  pages: Object,
+  entities: Object
+}
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchPages())
 })
 class Home extends Component {
+  props: Props;
   render() {
     if (!this.props.loaded) {
       return (
@@ -20,12 +30,28 @@ class Home extends Component {
       <div>
         <Helmet title={ this.props.pages.entities.home.name } />
           <PrimaryHeader />
-          <Hero />
+          {
+            this.props.pages.entities.home.layout.showHero ?
+            <Hero /> :
+            null
+          }
           <Grid fluid>
-          <Row>
-            <Heading size={ 1 }>Why shouldn't your CMS be a little, Boldr?</Heading>
+          <Row style={ { padding: '25px' } }>
+          <Header as="h1">
+            <Icon name="newspaper" />
+            <Header.Content>
+              Recent posts
+            </Header.Content>
+          </Header>
+
           </Row>
+          {
+            this.props.pages.entities.home.layout.showPosts ?
+            <PostListing /> :
+            null
+          }
         </Grid>
+        <Footer />
       </div>
     );
   }

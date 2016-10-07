@@ -124,7 +124,7 @@ class PrimaryHeader extends Component {
     );
 
     return (
-      <Menu size="huge">
+      <Menu size="large">
       <Container>
         <Menu.Item>
           <img src={ this.props.boldr.siteLogo } alt="logo" onClick={ this.handleLogoClick } />

@@ -3,7 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import { Card } from 'semantic-ui-react';
+import { Card, Header, Icon } from 'semantic-ui-react';
+
 import { Heading, Grid, Col, Row } from 'components';
 import { CardMedia, CardTitle, CardActions } from 'components/md/Cards';
 import { login } from 'state/dux/auth';
@@ -11,7 +12,12 @@ import LoginForm from './LoginForm';
 
 const renderHeader = (
   <Card.Header>
-    <Heading size={ 1 }>Login</Heading>
+  <Header as="h1" textAlign="center">
+    <Icon name="sign in" />
+    <Header.Content>
+      Login
+    </Header.Content>
+  </Header>
   </Card.Header>
 );
 

@@ -1,15 +1,16 @@
-import BoldrLogo from './atm.BoldrLogo';
-import Hero from './mol.Hero';
-import Heading from './atm.Heading';
-import SiteLogo from './atm.SiteLogo';
+import BoldrLogo from './BoldrLogo';
+import Hero from './Hero';
+import Heading from './Heading';
+import SiteLogo from './SiteLogo';
 import BoldrEditor from './BoldrEditor';
-import RadioButtonGroup from './atm.FormComponents/RadioButtonGroup';
-import TextField from './atm.FormComponents/TextField';
-import Loader from './atm.Loader';
-import S3Uploader from './atm.s3Uploader';
-import Notifications from './atm.Notification';
-import { Grid, Row, Col } from './org.Layout';
-import PrimaryHeader from './org.PrimaryHeader';
+import RadioButtonGroup from './FormComponents/RadioButtonGroup';
+import TextField from './FormComponents/TextField';
+import Loader from './Loader';
+import S3Uploader from './s3Uploader';
+import Notifications from './Notification';
+import { Grid, Row, Col } from './Layout';
+import PrimaryHeader from './PrimaryHeader';
+import Footer from './Footer';
 
 export {
   BoldrLogo,
@@ -25,5 +26,6 @@ export {
   Col,
   Notifications,
   BoldrEditor,
-  PrimaryHeader
+  PrimaryHeader,
+  Footer
 };

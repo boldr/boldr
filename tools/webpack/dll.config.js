@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const config = require('../../config');
-const paths = config.paths;
+const paths = require('../paths');
 const projectRootPath = path.resolve(__dirname, '../../');
 
 module.exports = {
@@ -71,8 +70,7 @@ module.exports = {
       'classnames',
       'semantic-ui-react',
       'isomorphic-fetch',
-      'reselect',
-      'normalizr'
+      'reselect'
     ]
   },
 

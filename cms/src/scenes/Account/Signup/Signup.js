@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import { Card } from 'semantic-ui-react';
+import { Card, Header, Icon } from 'semantic-ui-react';
 // $FlowFixMe
 import { Heading, Grid, Col, Row } from 'components';
 import inlineStyles from 'theme/inlineStyles';
@@ -41,9 +41,14 @@ class Signup<Void> extends Component {
     const { isLoading } = this.props.auth;
 
     const renderHeader = (
-      <Card.Header>
-        <Heading size={ 1 } bottom="10px">Signup</Heading>
-      </Card.Header>
+        <Card.Header>
+        <Header as="h1" textAlign="center">
+          <Icon name="sign in" />
+          <Header.Content>
+            Signup
+          </Header.Content>
+        </Header>
+        </Card.Header>
     );
 
     return (

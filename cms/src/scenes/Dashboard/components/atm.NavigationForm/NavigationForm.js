@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import renderTextField, { renderLabel } from 'components/atm.FormComponents/TextField';
+import renderTextField, { renderLabel } from 'components/FormComponents/TextField';
 import { FlatButton, RaisedButton } from 'components/md/Buttons';
-import { Row } from 'components/org.Layout';
+import { Row } from 'components/Layout';
 import Divider from 'components/md/Dividers';
 
 let NavigationForm = props => {

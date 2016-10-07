@@ -19,9 +19,10 @@ tools/flow/definitions
 [options]
 module.system=haste
 
-esproposal.class_static_fields=enable
-esproposal.class_instance_fields=enable
-
+esproposal.class_static_fields=ignore
+esproposal.class_instance_fields=ignore
+esproposal.decorators=ignore
+esproposal.export_star_as=ignore
 munge_underscores=false
 module.name_mapper='^\(.*\)\.\(css\|eot\|gif\|ico\|jpg\|jpeg\|less\|otf\|mp3\|mp4\|ogg\|png\|sass\|scss\|sss\|svg\|swf\|ttf\|webp\|woff\|woff2\|dll\)$' -> '<PROJECT_ROOT>/tools/flow/definitions/WebpackAsset.js.flow'
 

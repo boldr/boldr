@@ -68,7 +68,7 @@ class Navigation extends Component {
   render() {
     const { navigation } = this.props;
     const { isOpen } = this.state;
-    const listItems = navigation.links.map((item, i) => {
+    const listItems = navigation.primary.links.map((item, i) => {
       return <ListItem key={ i } primaryText={ item.name } onClick={ () => this.handleItemClick(item) } />;
     });
 

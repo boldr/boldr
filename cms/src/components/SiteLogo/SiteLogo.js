@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import BoldrLogo from '../atm.BoldrLogo';
+import BoldrLogo from '../BoldrLogo';
 
 const inlineStyle = {
   logo: {

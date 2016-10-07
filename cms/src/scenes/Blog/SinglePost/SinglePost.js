@@ -5,7 +5,7 @@ import Link from 'react-router/lib/Link';
 import { provideHooks } from 'redial';
 import { Grid, Col, Row } from '../../../components';
 import Paper from '../../../components/md/Papers';
-import Loader from '../../../components/atm.Loader';
+import Loader from '../../../components/Loader';
 import Sidebar from '../components/org.Sidebar';
 
 import PostContent from '../components/mol.PostContent';

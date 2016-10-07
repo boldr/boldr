@@ -3,8 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 
 import inlineStyles from '../../../../theme/inlineStyles';
 import { RaisedButton } from '../../../../components/md/Buttons';
-import TextField from '../../../../components/atm.FormComponents/TextField';
-import SelectField from '../../../../components/atm.FormComponents/SelectField';
+import TextField from '../../../../components/FormComponents/TextField';
+import SelectField from '../../../../components/FormComponents/SelectField';
 
 const EditMemberForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;

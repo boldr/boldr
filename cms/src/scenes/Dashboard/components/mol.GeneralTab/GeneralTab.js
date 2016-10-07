@@ -4,8 +4,8 @@ import { Field, reduxForm } from 'redux-form';
 
 import Radio from '../../../../components/md/SelectionControls/Radio';
 import { RaisedButton } from '../../../../components/md/Buttons';
-import RadioButtonGroup from '../../../../components/atm.FormComponents/RadioButtonGroup';
-import TextField from '../../../../components/atm.FormComponents/TextField';
+import RadioButtonGroup from '../../../../components/FormComponents/RadioButtonGroup';
+import TextField from '../../../../components/FormComponents/TextField';
 
 let GeneralTab = props => { // eslint-disable-line
   const { handleSubmit, pristine, reset, submitting } = props;

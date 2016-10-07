@@ -7,8 +7,8 @@ import { API_BASE, S3_SIGNING_URL } from 'core/api/helpers';
 import inlineStyles from 'theme/inlineStyles';
 import Radio from 'components/md/SelectionControls/Radio';
 import Paper from 'components/md/Papers';
-import RadioButtonGroup from 'components/atm.FormComponents/RadioButtonGroup';
-import renderTextField from 'components/atm.FormComponents/TextField';
+import RadioButtonGroup from 'components/FormComponents/RadioButtonGroup';
+import renderTextField from 'components/FormComponents/TextField';
 
 const EditorForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
