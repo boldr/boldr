@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
 
-import TagBlock from '../components/mol.TagBlock';
-import FontIcon from '../../../components/md/FontIcons';
-import { FlatButton, IconButton } from '../../../components/md/Buttons';
-import { Card, CardMedia, CardTitle, CardActions, CardText } from '../../../components/md/Cards';
-import Avatar from '../../../components/md/Avatars';
+import TagBlock from 'components/TagBlock';
+import FontIcon from 'components/md/FontIcons';
+import { FlatButton, IconButton } from 'components/md/Buttons';
+import { Card, CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
+import Avatar from 'components/md/Avatars';
 
 const TagListCard = props => {
   const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');

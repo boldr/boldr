@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/media';
 import { createPost } from 'state/dux/post';
-import EditorForm from '../components/atm.EditorForm';
+import EditorForm from 'components/EditorForm';
 
 class NewArticle extends Component {
   static propTypes = {

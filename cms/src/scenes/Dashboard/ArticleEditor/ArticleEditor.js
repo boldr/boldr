@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
-import EditorForm from '../components/atm.EditorForm';
+import EditorForm from 'components/EditorForm';
 
 class ArticleEditor extends Component {
   static propTypes = {
@@ -45,7 +45,6 @@ class ArticleEditor extends Component {
       <div>
         <EditorForm
           initialValues={ this.props.currentPost }
-          editing
           onSubmit={ this.handleSubmit }
         />
       </div>

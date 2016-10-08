@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import { Grid, Row, Col } from 'components';
-import PostCard from '../components/mol.PostCard';
+import PostCard from 'components/PostCard';
 
 const PostListingGroup = (props) => {
   if (!props.posts) {

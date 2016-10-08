@@ -5,8 +5,8 @@ import { provideHooks } from 'redial';
 
 import Dialog from 'components/md/Dialogs';
 import { FlatButton } from 'components/md/Buttons';
-import MembersList from '../components/mol.MembersList';
-import EditMemberForm from '../components/atm.EditMemberForm';
+import MembersList from 'components/MembersList';
+import EditMemberForm from 'components/EditMemberForm';
 import { loadSiteMembers, memberSelected, updateMember } from 'state/dux/members';
 
 @provideHooks({

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import Link from 'react-router/lib/Link';
 
 import { provideHooks } from 'redial';
-import { Grid, Col, Row } from '../../../components';
-import Paper from '../../../components/md/Papers';
-import Loader from '../../../components/Loader';
-import Sidebar from '../components/org.Sidebar';
+import { Grid, Col, Row } from 'components';
+import Paper from 'components/md/Papers';
+import Loader from 'components/Loader';
+import PostSidebar from 'components/PostSidebar';
 
-import PostContent from '../components/mol.PostContent';
+import PostContent from 'components/PostContent';
 import { loadPost } from './actions';
 
 const redial = {
@@ -30,7 +30,7 @@ const SinglePost = ({ isLoading, currentPost }) => {
               </Paper>
             </Col>
             <Col xs={ 12 } md={ 4 } lg={ 3 }>
-              <Sidebar { ...currentPost } />
+              <PostSidebar { ...currentPost } />
             </Col>
           </Row>
         </Grid>

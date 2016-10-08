@@ -6,8 +6,8 @@ import { FloatingButton } from 'components/md/Buttons';
 import { List, ListItem } from 'components/md/Lists';
 import { Row, Col } from 'components';
 import { updateNavLinks, addNavLinks } from 'state/dux/navigation';
-import NavigationEditor from '../components/mol.NavigationEditor';
-import NavigationForm from '../components/atm.NavigationForm';
+import NavigationEditor from './components/NavigationEditor';
+import NavigationForm from './components/NavigationForm';
 
 function mapStateToProps(state) {
   return { navigation: state.navigation };

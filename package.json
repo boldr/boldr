@@ -120,7 +120,9 @@
     "start:prod": "NODE_ENV=production node bin/ssr.js",
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
-    "typecheck": "flow"
+    "typecheck": "flow",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -247,6 +249,7 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-middleware": "1.8.3",
     "webpack-hot-middleware": "2.12.2",
-    "webpack-node-externals": "^1.4.3"
+    "webpack-node-externals": "^1.4.3",
+    "@kadira/storybook": "^2.21.0"
   }
 }
