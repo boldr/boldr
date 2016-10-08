@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
-import styles from './style.css';
 import BoldrLogo from '../BoldrLogo';
+import styles from './style.css';
 
 const cx = styles::classNames;
 
