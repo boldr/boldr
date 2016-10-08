@@ -2,9 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const NodeExternals = require('webpack-node-externals');
-
-const config = require('../../config');
-const paths = config.paths;
+const paths = require('../paths');
 
 function noop() {
   return null;

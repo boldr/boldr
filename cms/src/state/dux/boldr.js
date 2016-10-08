@@ -14,6 +14,25 @@ export function goHome() {
   };
 }
 
+/**
+ * Change route path.
+ *
+ * @param {string} pathname
+ * @param {Object} [options]
+ * @param {string} [options.param]
+ * @param {string} [options.query]
+ * @param {Object} [options.state]
+ *
+ * @returns {function}
+ */
+export function goTo(pathname, options = {}) {
+  return push({
+    pathname,
+    search: options.search,
+    state: options.state
+  });
+}
+
 // ------------------------------------
 // Load Settings
 // ------------------------------------

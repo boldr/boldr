@@ -12,14 +12,17 @@ import authReducer from './dux/auth';
 import navigationReducer from './dux/navigation';
 import postsReducer from './dux/post';
 import profileReducer from './dux/profile';
+import pageReducer, { pageSelector } from './dux/page';
 
 const reducers = combineReducers({
   routing: routerReducer,
   form: formReducer,
   notifications: notificationReducer,
   auth: authReducer,
+  pages: pageReducer,
   boldr: boldrReducer,
   posts: postsReducer,
+  pagebyurl: pageSelector,
   navigation: navigationReducer,
   currentPost,
   members: membersReducer,

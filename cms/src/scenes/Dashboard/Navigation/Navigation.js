@@ -6,8 +6,8 @@ import { FloatingButton } from 'components/md/Buttons';
 import { List, ListItem } from 'components/md/Lists';
 import { Row, Col } from 'components';
 import { updateNavLinks, addNavLinks } from 'state/dux/navigation';
-import NavigationEditor from '../components/mol.NavigationEditor';
-import NavigationForm from '../components/atm.NavigationForm';
+import NavigationEditor from './components/NavigationEditor';
+import NavigationForm from './components/NavigationForm';
 
 function mapStateToProps(state) {
   return { navigation: state.navigation };
@@ -68,7 +68,7 @@ class Navigation extends Component {
   render() {
     const { navigation } = this.props;
     const { isOpen } = this.state;
-    const listItems = navigation.links.map((item, i) => {
+    const listItems = navigation.primary.links.map((item, i) => {
       return <ListItem key={ i } primaryText={ item.name } onClick={ () => this.handleItemClick(item) } />;
     });
 

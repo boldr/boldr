@@ -2,6 +2,7 @@ const path = require('path');
 const convict = require('convict');
 const debug = require('debug')('boldr:configuration');
 const fs = require('fs-extra');
+// const util = require('util');
 
 const rcPath = path.join(`${path.resolve(process.cwd())}/.boldrrc.json`);
 
@@ -275,11 +276,6 @@ if (!fileExists(rcPath)) {
   });
 }
 
-process.on('uncaughtException', error => {
-  debug(`Caught exception without specific handler: ${util.inspect(error)}`);
-  debug(error.stack, 'error');
-  process.exit(1);
-});
 conf.validate({
   strict: true
 });

@@ -1,6 +1,7 @@
 import path from 'path';
 import Debug from 'debug';
 import AWS from 'aws-sdk';
+import uuid from 'node-uuid';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 
@@ -76,6 +77,7 @@ export const getAllMedia = async (req, res, next) => {
 };
 export function fromDashboard(req, res, next) {
   const fileFields = {
+    id: uuid.v4(),
     s3url: req.body.s3url,
     user_id: req.user.id,
     filename: req.body.filename

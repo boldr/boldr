@@ -7,13 +7,13 @@ class Activity extends BaseModel {
   static get tableName() { return 'activity'; }
   static get relationMappings() {
     return {
-      posts: {
+      owner: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
           from: 'activity.user_id',
-          to: 'user.id',
-        },
+          to: 'user.id'
+        }
       }
     };
   }

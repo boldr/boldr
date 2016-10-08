@@ -2,8 +2,8 @@ import { provideHooks } from 'redial';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Loader from '../../../components/atm.Loader';
-import PostCard from '../components/mol.PostCard';
+import Loader from 'components/Loader';
+import PostCard from 'components/PostCard';
 
 class Search extends Component {
   render() {

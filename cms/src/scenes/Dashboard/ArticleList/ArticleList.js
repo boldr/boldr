@@ -5,7 +5,7 @@ import Paper from 'components/md/Papers';
 import { DataTable, TableHeader, TableBody, TableRow, TableColumn } from 'components/md/DataTables';
 import { Row } from 'components';
 import { getPostsArray, changePostStatus } from 'state/dux/post';
-import ArticleListItem from '../components/mol.ArticleListItem';
+import ArticleListItem from 'components/ArticleListItem';
 
 class ArticleList extends Component {
   static propTypes = {
@@ -57,6 +57,7 @@ class ArticleList extends Component {
           this.props.posts.results.map((post, index) => (
            <ArticleListItem
              article={ post }
+             created_at={ post.created_at }
              key={ post.id }
              sortRank={ index }
              content={ post.content }

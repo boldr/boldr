@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Widget from '../components/org.Widget';
+import Widget from 'components/Widget';
 import { Grid, Col, Row } from '../../../components';
 
 class DashboardWidgets extends Component {

@@ -15,8 +15,7 @@ const VENDOR_BUNDLE = [
   'classnames',
   'semantic-ui-react',
   'reselect',
-  'date-fns',
-  'normalizr'
+  'date-fns'
 ];
 
 module.exports = VENDOR_BUNDLE;
