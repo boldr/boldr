@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import PrimaryHeader from 'components/PrimaryHeader';
 import { fetchPosts } from 'state/dux/post';
 
-// $FlowFixMe
-const BlogContainer = (props: { children: any } ) => {
-    return (
+const BlogContainer = (props: { children: any }) => {
+  return (
     <div>
         <PrimaryHeader />
         { props.children }
@@ -20,5 +19,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// $FlowFixMe
 export default connect(mapStateToProps)(BlogContainer);

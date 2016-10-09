@@ -1,9 +1,12 @@
+/* @flow */
 import React, { PropTypes } from 'react';
 
 import { Grid, Row, Col } from 'components';
 import PostCard from 'components/PostCard';
 
-const PostListingGroup = (props) => {
+export type Props = {posts?: Array<any>};
+
+const PostListingGroup = (props:Object) => {
   if (!props.posts) {
     return (
       <div>Loading</div>
@@ -21,10 +24,6 @@ const PostListingGroup = (props) => {
       </Row>
     </Grid>
   );
-};
-
-PostListingGroup.propTypes = {
-  posts: PropTypes.array
 };
 
 export default PostListingGroup;

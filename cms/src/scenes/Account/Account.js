@@ -1,7 +1,9 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Header } from 'components';
+import { Header } from 'components/index';
 
+export type Props = {children?: React.Element};
 const Account = (props) => {
   return (
       <div>
@@ -9,10 +11,6 @@ const Account = (props) => {
         { props.children }
       </div>
       );
-};
-
-Account.propTypes = {
-  children: PropTypes.element.isRequired
 };
 
 function mapStateToProps(state) {

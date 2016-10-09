@@ -6,18 +6,21 @@ import { CardText, CardActions } from 'components/md/Cards';
 import inlineStyles from 'theme/inlineStyles';
 import { forgotPassword } from 'state/dux/auth';
 
+export type Props = {
+  dispatch?: Function,
+  account?: Object,
+};
+
 class ForgotPassword extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    account: PropTypes.object
-  };
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = { serializedForm: {} };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleForgot = this.handleForgot.bind(this);
   }
+
+  props: Props;
 
   handleChange = (e, { value }) => this.setState({ value });
 

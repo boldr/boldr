@@ -35,7 +35,7 @@ export default class Html extends Component {
             />
             )
           }
-
+          <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css" rel="stylesheet" />
           {/* (will be present only in development mode) */}
           {
             Object.keys(assets.styles).length === 0 ?
@@ -50,9 +50,9 @@ export default class Html extends Component {
             charSet="UTF-8"
           />
           { __DLLS__ ? <script key="dlls__vendor" src="/assets/dlls/dll__vendor.js" charSet="UTF-8" /> :
-                 <script key="vendor" src={ assets.javascript.vendor } charSet="UTF-8" /> }
+                 <script key="vendor" defer src={ assets.javascript.vendor } charSet="UTF-8" /> }
 
-                   <script src={ assets.javascript.main } charSet="UTF-8" />
+                   <script defer src={ assets.javascript.main } charSet="UTF-8" />
       {
         Object.keys(assets.styles).length === 0 ?
         <script dangerouslySetInnerHTML={ { __html: 'document.getElementById("content").style.display="block";' } } />

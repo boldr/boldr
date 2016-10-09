@@ -1,3 +1,12 @@
+export type Props = {
+  onFormSubmit?: Function,
+  initialValues?: {
+    position?: number,
+    href?: string,
+    name?: string,
+  },
+};
+
 import React, { PropTypes } from 'react';
 import NavigationForm from '../NavigationForm';
 
@@ -9,12 +18,4 @@ const NavigationEditor = (props) => {
   );
 };
 
-NavigationEditor.propTypes = {
-  onFormSubmit: PropTypes.func,
-  initialValues: PropTypes.shape({
-    position: PropTypes.number,
-    href: PropTypes.string,
-    name: PropTypes.string
-  })
-};
 export default NavigationEditor;

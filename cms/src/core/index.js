@@ -32,5 +32,6 @@ export {
   TOKEN_KEY,
   processResponse,
   credentials,
-  jsonHeaders
+  jsonHeaders,
+  ApiClient
 };

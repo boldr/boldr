@@ -12,14 +12,14 @@ import ExpansionList from 'components/md/ExpansionPanels/ExpansionList';
 import ExpansionPanel from 'components/md/ExpansionPanels/ExpansionPanel';
 import Authenticated from 'components/hoc.Authenticated';
 
+export type Props = {profile?: Object};
+
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(getMyProfile())
 })
 @Authenticated
 class MyProfile extends Component {
-  static propTypes = {
-    profile: PropTypes.object.isRequired
-  };
+  props: Props;
   render() {
     return (
       <div>

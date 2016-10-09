@@ -7,10 +7,16 @@ import { getPublicProfile } from 'state/dux/profile';
 
 import PrimaryHeader from 'components/PrimaryHeader';
 
+export type Props = {
+  profile?: Object,
+  getPublicProfile?: Function,
+};
+
 @provideHooks({
   fetch: ({ dispatch, params: { id } }) => dispatch(getPublicProfile(id))
 })
 class PublicProfile extends Component {
+  props: Props;
   render() {
     return (
       <div>
@@ -39,11 +45,6 @@ class PublicProfile extends Component {
     );
   }
 }
-
-PublicProfile.propTypes = {
-  profile: PropTypes.object.isRequired,
-  getPublicProfile: PropTypes.func
-};
 
 const mapStateToProps = (state) => {
   return {

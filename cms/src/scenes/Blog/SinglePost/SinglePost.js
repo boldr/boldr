@@ -1,15 +1,21 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router/es6';
 
 import { provideHooks } from 'redial';
-import { Grid, Col, Row } from 'components';
+import { Grid, Col, Row } from 'components/index';
 import Paper from 'components/md/Papers';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
 
 import PostContent from 'components/PostContent';
 import { loadPost } from './actions';
+
+export type Props = {
+  isLoading?: boolean,
+  currentPost?: Object,
+};
 
 const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
@@ -36,11 +42,6 @@ const SinglePost = ({ isLoading, currentPost }) => {
         </Grid>
       </div>
     );
-};
-
-SinglePost.propTypes = {
-  isLoading: PropTypes.bool,
-  currentPost: PropTypes.object
 };
 
 const mapStateToProps = (state) => {

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
@@ -8,7 +9,19 @@ import { FlatButton, IconButton } from 'components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
 import Avatar from 'components/md/Avatars';
 
-const TagListCard = props => {
+type Props = {
+  title?: string,
+  created_at?: string,
+  display_name?: string,
+  feature_image?: string,
+  excerpt?: string,
+  tags?: Array<any>,
+  content?: string,
+  user?: Object,
+  slug?: string,
+};
+
+const TagListCard = (props: Props) => {
   const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
 
   const overlay = (
@@ -38,18 +51,6 @@ const TagListCard = props => {
       </Card>
       </div>
     );
-};
-
-TagListCard.propTypes = {
-  title: PropTypes.string,
-  createdAt: PropTypes.string,
-  display_name: PropTypes.string,
-  feature_image: PropTypes.string,
-  excerpt: PropTypes.string,
-  tags: PropTypes.array,
-  content: PropTypes.string,
-  user: PropTypes.object,
-  slug: PropTypes.string
 };
 
 export default TagListCard;

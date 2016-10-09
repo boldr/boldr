@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
@@ -9,17 +10,21 @@ import { getPostsArray, changePostStatus } from 'state/dux/post';
 import ArticleListItem from 'components/ArticleListItem';
 
 
+export type Props = {
+  children?: React.Element,
+  posts?: Object,
+  dispatch?: Function,
+  current?: Object,
+};
+
+
 class ArticleList extends Component {
-  static propTypes = {
-    children: PropTypes.element,
-    posts: PropTypes.object,
-    dispatch: PropTypes.func,
-    current: PropTypes.object
-  };
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.handleArticleClick = this.handleArticleClick.bind(this);
   }
+
+  props: Props;
 
   handleArticleClick(postId) {
     console.log('clicked ', postId);

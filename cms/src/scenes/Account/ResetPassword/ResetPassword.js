@@ -1,15 +1,26 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { Heading, Grid, Col, Row } from 'components';
+import { Heading, Grid, Col, Row } from 'components/index';
 import { Card, CardText, CardActions } from 'components/md/Cards';
 import TextField from 'components/md/TextFields';
 import { RaisedButton } from 'components/md/Buttons';
 import inlineStyles from 'theme/inlineStyles';
 import { resetPassword } from 'state/dux/auth';
 
+export type Props = {
+  dispatch?: Function,
+  params?: Object
+};
+
+export type State = {
+  password: string,
+  confirm: string
+}
+
 class ResetPassword extends Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = { password: '', confirm: '' };
 
@@ -17,6 +28,8 @@ class ResetPassword extends Component {
     this.handleConfirmChange = this.handleConfirmChange.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
+  state: State;
+  props: Props;
 
   handleChange(event) {
     this.setState({ password: event });
@@ -24,7 +37,7 @@ class ResetPassword extends Component {
   handleConfirmChange(event) {
     this.setState({ confirm: event });
   }
-  handleReset(event) {
+  handleReset(event): void {
     event.preventDefault();
     this.props.dispatch(resetPassword(this.state.password, this.props.params.token));
   }
@@ -80,10 +93,6 @@ class ResetPassword extends Component {
     );
   }
 }
-ResetPassword.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  params: PropTypes.object
-};
 const mapStateToProps = (state) => {
   return state;
 };

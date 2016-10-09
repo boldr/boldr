@@ -1,9 +1,15 @@
+/* @flow */
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form, Input, Message } from 'semantic-ui-react';
-
 import validate from './validate';
 
+export type Props = {
+  handleSubmit?: Function,
+  reset?: Function,
+  submitting?: boolean,
+  pristine?: boolean,
+};
 const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
   <Form.Input
     label={ label }
@@ -49,13 +55,6 @@ const SignupForm = (props) => {
       <Button primary type="submit">Create Account</Button>
     </Form>
   );
-};
-
-SignupForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  reset: PropTypes.func,
-  submitting: PropTypes.bool,
-  pristine: PropTypes.bool
 };
 
 export default reduxForm({

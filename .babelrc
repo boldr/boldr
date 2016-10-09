@@ -14,7 +14,13 @@
       "plugins": [
         "react-hot-loader/babel",
         ["module-resolver", {
-          "root": ["./cms/src"]
+          "root": ["./cms/src"],
+          "alias": {
+             "components": "./cms/src/components",
+             "state": "./cms/src/state",
+             "theme": "./cms/src/theme",
+             "scenes": "./cms/src/scenes"
+           }
         }]
       ]
     },
@@ -23,7 +29,13 @@
       "plugins": [
         "transform-flow-strip-types",
         ["module-resolver", {
-          "root": ["./cms/src"]
+          "root": ["./cms/src"],
+          "alias": {
+             "components": "./cms/src/components",
+             "state": "./cms/src/state",
+             "theme": "./cms/src/theme",
+             "scenes": "./cms/src/scenes"
+           }
         }]
       ]
     },
@@ -32,7 +44,13 @@
       "plugins": [
         "istanbul",
         ["module-resolver", {
-          "root": ["./cms/src"]
+          "root": ["./cms/src"],
+          "alias": {
+             "components": "./cms/src/components",
+             "state": "./cms/src/state",
+             "theme": "./cms/src/theme",
+             "scenes": "./cms/src/scenes"
+           }
         }]
       ]
     }

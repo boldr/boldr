@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Paper from 'components/md/Papers';
@@ -13,13 +14,14 @@ function mapStateToProps(state) {
   return { navigation: state.navigation };
 }
 
+export type Props = {
+  navigation?: Object,
+  dispatch?: Function,
+  handleItemClick?: Function,
+};
+
 @connect(mapStateToProps)
 class Navigation extends Component {
-  static propTypes = {
-    navigation: PropTypes.object,
-    dispatch: PropTypes.func,
-    handleItemClick: PropTypes.func
-  }
   constructor() {
     super();
 
@@ -45,6 +47,7 @@ class Navigation extends Component {
   onFormSubmit = (data) => {
     this.props.dispatch(addNavLinks(data));
   }
+  props: Props;
   openDialog = () => {
     this.setState({ isOpen: true });
   };

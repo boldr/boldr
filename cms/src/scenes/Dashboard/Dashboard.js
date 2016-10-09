@@ -21,22 +21,24 @@ const DrawerType = {
   PERSISTENT_MINI: 'mini'
 };
 
+export type Props = {
+  children?: React.Element,
+  toggleOpen?: Function,
+  articleListClicked?: Function,
+  articleEditorClicked?: Function,
+  dashboardClicked?: Function,
+  mediaClicked?: Function,
+  membersClicked?: Function,
+  settingsClicked?: Function,
+  homeClicked?: Function,
+  navigationClicked?: Function,
+  pagesClicked?: Function,
+  contentClicked?: Function,
+};
+
 @Authenicated
 class Dashboard extends Component {
-  static propTypes = {
-    children: PropTypes.element,
-    toggleOpen: PropTypes.func,
-    articleListClicked: PropTypes.func,
-    articleEditorClicked: PropTypes.func,
-    dashboardClicked: PropTypes.func,
-    mediaClicked: PropTypes.func,
-    membersClicked: PropTypes.func,
-    settingsClicked: PropTypes.func,
-    homeClicked: PropTypes.func,
-    navigationClicked: PropTypes.func,
-    pagesClicked: PropTypes.func,
-    contentClicked: PropTypes.func
-  };
+  props: Props;
   render() {
     const navItems = [
       {

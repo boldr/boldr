@@ -9,18 +9,21 @@ import { Loader } from 'components';
 import { fetchSettingsIfNeeded, updateBoldrSettings } from 'state/dux/boldr';
 import GeneralTab from 'components/GeneralTab';
 
+export type Props = {
+  boldr?: Object,
+  updateBoldrSettings?: Function,
+};
+
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
 })
 class Settings extends Component {
-  static propTypes = {
-    boldr: PropTypes.object.isRequired,
-    updateBoldrSettings: PropTypes.func
-  };
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  props: Props;
 
   handleSubmit(values) {
     const id = this.props.boldr.id;

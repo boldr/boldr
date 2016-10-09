@@ -4,10 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { isServer } from '../core/util/helpers';
 import clientMiddleware from './middleware/clientMiddleware';
-// import reducers from './reducers';
 import createReducer from './reducers';
-
-const ISDEV = process.env.NODE_ENV === 'development';
 
 /**
  * createStore

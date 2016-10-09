@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { createPost } from 'state/dux/post';
 import NewArticle from './NewArticle';
 
+export type Props = {dispatch?: Function};
+
 class NewArticleContainer extends Component {
+  props: Props;
 
   onFormSubmit = (data) => {
     this.props.dispatch(createPost(data));
@@ -18,10 +21,6 @@ class NewArticleContainer extends Component {
 
 NewArticleContainer.contextTypes = {
   router: PropTypes.object
-};
-
-NewArticleContainer.propTypes = {
-  dispatch: PropTypes.func
 };
 
 export default connect()(NewArticleContainer);

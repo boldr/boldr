@@ -1,19 +1,21 @@
+/* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
 import EditorForm from 'components/EditorForm';
 
+export type Props = {
+  dispatch?: Function,
+  posts?: Object,
+  params?: Object,
+  currentPost?: Object,
+  clearCurrentPost?: Function,
+  loadPost?: Function,
+};
+
 class ArticleEditor extends Component {
-  static propTypes = {
-    dispatch: React.PropTypes.func,
-    posts: React.PropTypes.object,
-    params: React.PropTypes.object,
-    currentPost: React.PropTypes.object,
-    clearCurrentPost: React.PropTypes.func,
-    loadPost: React.PropTypes.func
-  };
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -21,10 +23,11 @@ class ArticleEditor extends Component {
       editing: true
     };
   }
+
   componentDidMount() {
     this.props.loadPost(this.props.params.slug);
   }
-
+  props: Props;
   handleSubmit(values) {
     const postData = {
       title: values.title,

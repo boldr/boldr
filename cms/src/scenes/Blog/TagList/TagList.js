@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, { Component, PropTypes } from 'react';
 import { provideHooks } from 'redial';
 import { connect } from 'react-redux';
@@ -5,13 +7,13 @@ import { Loader, Grid, Col, Row } from 'components';
 import { requestPostTags } from 'state/dux/tag';
 import TagListCard from './TagListCard';
 
+export type Props = {tags?: Object};
+
 @provideHooks({
   fetch: ({ dispatch, params: { name } }) => dispatch(requestPostTags(name))
 })
 class TagList extends Component {
-  static propTypes = {
-    tags: PropTypes.object.isRequired
-  }
+  props: Props;
   render() {
     return (
       <div>

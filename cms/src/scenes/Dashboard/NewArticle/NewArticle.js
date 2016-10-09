@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import { createPost } from 'state/dux/post';
 import EditorForm from 'components/EditorForm';
 
+export type Props = {
+  dispatch?: Function,
+  posts?: Object,
+  params?: Object,
+  currentPost?: Object,
+  onFormSubmit?: Function,
+};
+
 class NewArticle extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func,
-    posts: PropTypes.object,
-    params: PropTypes.object,
-    currentPost: PropTypes.object,
-    onFormSubmit: PropTypes.func
-  };
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  props: Props;
 
   handleSubmit(values) {
     const postData = {

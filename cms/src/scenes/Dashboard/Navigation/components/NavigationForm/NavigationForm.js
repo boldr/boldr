@@ -1,3 +1,11 @@
+export type Props = {
+  handleSubmit?: Function,
+  reset?: Function,
+  submitting?: boolean,
+  fields?: Object,
+  pristine?: boolean,
+};
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -20,13 +28,6 @@ let NavigationForm = props => {
       </div>
     </form>
   );
-};
-NavigationForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  reset: PropTypes.func,
-  submitting: PropTypes.bool,
-  fields: PropTypes.object,
-  pristine: PropTypes.bool
 };
 NavigationForm = reduxForm({
   form: 'navigationForm'

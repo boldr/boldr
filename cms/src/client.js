@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { unmountComponentAtNode } from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 import { Router, browserHistory, match } from 'react-router/es6';
@@ -32,9 +32,6 @@ if (token) {
   // Update application state. User has token and is probably authenticated
   store.dispatch(checkAuth(token));
 }
-if (window.devToolsExtension) {
-  window.devToolsExtension.updateStore(store);
-}
 
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.routing
@@ -42,7 +39,7 @@ const history = syncHistoryWithStore(browserHistory, store, {
 
 const routes = getRoutes(store, history);
 
-const renderer = () => {
+const renderBoldr = () => {
   const { pathname, search, hash } = window.location;
   const location = `${pathname}${search}${hash}`;
 
@@ -79,17 +76,23 @@ const renderer = () => {
     });
   });
 };
-const unsubscribeHistory = renderer();
 if (module.hot) {
-  module.hot.accept('./client.js');
-  module.hot.accept('./scenes/index', () => {
-    ReactDOM.render(
-      <AppContainer>
-        <Provider store={ store } key="provider">
-            <Router routes={ routes } history={ history } key={ Math.random() } helpers={ { client } } />
-        </Provider>
-      </AppContainer>,
-      MOUNT_POINT
-    );
+  const reRenderBoldr = () => {
+    try {
+      renderBoldr();
+    } catch (error) {
+      const RedBox = require('redbox-react').default;
+
+      render(<RedBox error={ error } />, MOUNT_POINT);
+    }
+  };
+
+  module.hot.accept('./scenes', () => {
+    setImmediate(() => {
+      // Preventing the hot reloading error from react-router
+      unmountComponentAtNode(MOUNT_POINT);
+      reRenderBoldr();
+    });
   });
 }
+renderBoldr();

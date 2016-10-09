@@ -5,8 +5,6 @@ const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const HappyPack = require('happypack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const OptimizeJsPlugin = require('optimize-js-plugin');
 
 const debug = require('debug')('boldr:webpack');
 const paths = require('../paths');
@@ -192,6 +190,7 @@ module.exports = function webpackConfig() {
       // ifProd(new LodashModuleReplacementPlugin),
       // Extracts all stylesheets into a main file. During development styles are dumped
       // into the head and/or added dynamically.
+
       ifProd(new ExtractTextPlugin({
         filename: '[name].[chunkhash].css'
       })),

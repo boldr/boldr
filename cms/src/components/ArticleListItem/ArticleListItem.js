@@ -1,12 +1,12 @@
 /* @flow */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
 import dateFns from 'date-fns';
 import { IconButton } from 'components/md/Buttons';
 import FontIcon from 'components/md/FontIcons';
 import { TableRow, TableColumn } from 'components/md/DataTables';
-// $flowFixMe
-const ArticleListItem = props => {
+
+const ArticleListItem = (props) => {
   function handlePublishClick() {
     const postId:String = props.article.id;
     const postStatus = 'draft';
@@ -57,7 +57,8 @@ ArticleListItem.propTypes = {
   article: React.PropTypes.object.isRequired,
   handleArticlePublishClick: React.PropTypes.func,
   handleArticleDraftClick: React.PropTypes.func,
-  slug: React.PropTypes.string
+  slug: React.PropTypes.string,
+  props: PropTypes.object
 };
 
 export default ArticleListItem;

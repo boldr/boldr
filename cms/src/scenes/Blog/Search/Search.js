@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import Loader from 'components/Loader';
 import PostCard from 'components/PostCard';
 
+export type Props = {posts?: Object};
+
 class Search extends Component {
+  props: Props;
   render() {
     return (
       <div>
@@ -28,7 +31,3 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps)(Search);
-
-Search.propTypes = {
-  posts: React.PropTypes.object.isRequired
-};

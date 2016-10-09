@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -9,22 +10,25 @@ import MembersList from 'components/MembersList';
 import EditMemberForm from 'components/EditMemberForm';
 import { loadSiteMembers, memberSelected, updateMember } from './actions';
 
+export type Props = {
+  members?: Object,
+  memberSelected?: Function,
+  updateMember?: Function,
+};
+
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(loadSiteMembers())
 })
 class Members extends Component {
-  static propTypes = {
-    members: PropTypes.object,
-    memberSelected: PropTypes.func,
-    updateMember: PropTypes.func
-  };
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.toggleUser = this.toggleUser.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = { isOpen: false };
   }
+
+  props: Props;
 
   openDialog = () => {
     this.setState({ isOpen: true });

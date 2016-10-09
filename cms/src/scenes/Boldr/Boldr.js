@@ -1,25 +1,29 @@
+/* @flow */
+
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
-import { Notifications } from 'components';
+import { Notifications } from 'components/index';
 import { fetchSettingsIfNeeded } from 'state/dux/boldr';
 import { loadPrimary } from 'state/dux/navigation';
 import { fetchPagesIfNeeded } from 'state/dux/page';
+
+export type Props = {
+  children?: number | string | React.Element<*> | Array<any>,
+  fetchSettingsIfNeeded?: Function
+};
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded()),
   defer: ({ dispatch }) => dispatch(fetchPagesIfNeeded())
 })
 class Boldr extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    fetchSettingsIfNeeded: PropTypes.func
-  };
   componentDidMount() {
     this.props.fetchSettingsIfNeeded();
   }
+  props: Props;
   render() {
     return (
       <div>
