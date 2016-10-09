@@ -5,20 +5,16 @@ import { merge } from 'lodash';
 import { createSelector } from 'reselect';
 import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
 import * as api from 'core/api/post.service';
+import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
-const requestPosts = () => {
-  return { type: types.FETCH_POSTS_REQUEST };
-};
-const receivePosts = (response) => ({
-  type: types.FETCH_POSTS_SUCCESS,
-  results: response.body.results,
-  total: response.body.total
-});
-const receivePostsFailed = (err) => ({
-  type: types.FETCH_POSTS_FAILURE, error: err
-});
+/**
+  * FETCH POST ACTIONS
+  * -------------------------
+  * @exports fetchPosts
+  * @exports fetchPostsIfNeeded
+  *****************************************************************/
 
 /**
  * @function fetchPostsIfNeeded
@@ -37,20 +33,7 @@ export function fetchPostsIfNeeded() {
     return Promise.resolve();
   };
 }
-/**
- * Called by fetchPostsIfNeeded to retrieve the state containing posts
- * @param  {Object} state   The blog state which contains posts
- */
-function shouldFetchPosts(state) {
-  const posts = state.posts.results;
-  if (!posts) {
-    return true;
-  }
-  if (posts.isLoading) {
-    return false;
-  }
-  return posts;
-}
+
 /**
  * Function to retrieve posts from the api.
  * @return {Array} Posts returned as an array of post objects.
@@ -60,10 +43,9 @@ export function fetchPosts() {
     dispatch(requestPosts());
     return api.doFetchPosts()
       .then(response => {
-        if (!response.status === 200) {
+        if (response.status !== 200) {
           dispatch(receivePostsFailed());
         }
-        console.log(response);
         dispatch(receivePosts(response));
       })
       .catch(err => {
@@ -73,8 +55,66 @@ export function fetchPosts() {
 }
 
 /**
- * CREATE ARTICLE ACTIONS
+ * Called by fetchPostsIfNeeded to retrieve the state containing posts
+ * @param  {Object} state   The blog state which contains posts
  */
+function shouldFetchPosts(state) {
+  const posts = state.posts;
+  if (!posts) {
+    return true;
+  }
+  if (posts.isLoading) {
+    return false;
+  }
+  return posts;
+}
+
+const requestPosts = () => {
+  return { type: types.FETCH_POSTS_REQUEST };
+};
+
+const receivePosts = (response) => {
+  return {
+    type: types.FETCH_POSTS_SUCCESS,
+    results: response.body.results,
+    total: response.body.total
+  };
+};
+
+const receivePostsFailed = (err) => ({
+  type: types.FETCH_POSTS_FAILURE, error: err
+});
+
+/**
+  * CREATE POST ACTIONS
+  * -------------------------
+  * @exports createPost
+  *****************************************************************/
+
+/**
+ * Create a new post takes the submitted form-data as data and
+ * sends the information to the api.
+ * @param  {Object} data        The data from the form / post editor
+ * @return {Object}             Response object.
+ */
+export function createPost(data) {
+  return (dispatch) => {
+    dispatch(beginCreatePost());
+    return api.doCreatePost(data)
+      .then(response => {
+        if (response.status !== 201) {
+          dispatch(errorCreatingPost(response));
+        }
+        dispatch(createPostSuccess(response));
+        dispatch(notificationSend(notif.MSG_CREATE_POST_SUCCESS));
+      })
+      .catch(err => {
+        dispatch(errorCreatingPost(err));
+        dispatch(notificationSend(notif.MSG_CREATE_POST_FAILURE));
+      });
+  };
+}
+
 const beginCreatePost = () => {
   return { type: types.CREATE_POST_REQUEST };
 };
@@ -85,38 +125,13 @@ const createPostSuccess = (response) => {
     payload: response.body
   };
 };
+
 const errorCreatingPost = (err) => {
   return {
     type: types.CREATE_POST_FAIL,
     error: err
   };
 };
-
-/**
- * Create a new article takes the submitted form-data as articleData and
- * sends the information to the api.
- * @param  {Object} articleData The data from the form / article editor
- * @return {Object}             Response object.
- */
-export function createPost(data) {
-  return (dispatch) => {
-    dispatch(beginCreatePost());
-    return api.doCreatePost(data)
-      .then(response => {
-        if (response.status === 201) {
-          dispatch(createPostSuccess(response));
-          dispatch(notificationSend({
-            message: 'Post created successfully.',
-            kind: 'info',
-            dismissAfter: 3000
-          }));
-        }
-      })
-      .catch(err => {
-        dispatch(errorCreatingPost(err));
-      });
-  };
-}
 
 
 /**
@@ -184,20 +199,6 @@ export const postsToState = (list) => (
   }), {})
 );
 
-export const getPosts = state => state.posts;
-export const getPostIdParam = (state, params) => params.postId;
-
-export const getSelectedPost = createSelector(
-  getPosts,
-  getPostIdParam,
-  (posts, id) => posts[id]
-);
-
-export const getPostsArray = createSelector(
-  getPosts,
-  posts => Object.keys(posts).map(k => posts[k])
-);
-
 //
 // Reducer
 // -----------------
@@ -207,7 +208,7 @@ const INITIAL_STATE = {
 };
 
 /**
- * Blog Reducer
+ *  postsReducer
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */

@@ -104,7 +104,7 @@ class BoldrEditor extends Component {
         const html = stateToHTML(editorState.getCurrentContent());
         if (contentState.hasText()) {
           this.props.onChange(html);
-          this.props.onChange(convertToRaw(contentState));
+          // this.props.onChange(convertToRaw(contentState));
         } else {
           this.props.onChange(null);
         }

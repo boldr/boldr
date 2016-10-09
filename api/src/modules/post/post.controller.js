@@ -1,5 +1,6 @@
 import findQuery from 'objection-find';
 import slugify from 'slugify';
+import uuid from 'node-uuid';
 import { responseHandler, throwNotFound } from '../../utils';
 import { InternalError, PostNotFoundError } from '../../utils/errors';
 import Tag from '../tag/tag.model';
@@ -20,40 +21,38 @@ function index(req, res) {
 }
 
 async function create(req, res) {
-  try {
-    const newPost = await Post.query().insert({
-      title: req.body.title,
-      slug: slugify(req.body.title),
-      excerpt: req.body.excerpt,
-      content: req.body.content,
-      feature_image: req.body.feature_image,
-      meta: req.body.meta,
-      user_id: req.user.id
-    });
-    await newPost.$relatedQuery('author').relate({ id: req.user.id });
-    debug('the post', newPost);
-    if (req.body.tags) {
-      req.body.tags = req.body.tags.split(',', 5).map(tag => tag.substr(0, 15));
-    }
+  const newPost = await Post.query().insert({
+    id: uuid.v4(),
+    title: req.body.title,
+    slug: slugify(req.body.title),
+    excerpt: req.body.excerpt,
+    content: req.body.content,
+    feature_image: req.body.feature_image,
+    meta: req.body.meta,
+    user_id: req.user.id
+  });
+
+  await newPost.$relatedQuery('author').relate({ id: req.user.id });
+
+  if (req.body.tags) {
+    req.body.tags = req.body.tags.split(',', 5).map(tag => tag.substr(0, 15));
+  }
     // @TODO There might be a better / more efficient way than a for loop, but
     // fuck it. its late and it works for now.
-    for (let i = 0; i < req.body.tags.length; i++) {
-      const existingTag = await Tag.query().where('name', req.body.tags[i]).first();
-      if (existingTag) {
-        debug(existingTag, 'existing tag found');
-        const taggedPost = await PostTag.query().insert({
-          tag_id: existingTag.id,
-          post_id: newPost.id
-        });
-        debug(taggedPost);
-      } else {
-        await newPost.$relatedQuery('tags').insert({ name: req.body.tags[i] });
-      }
+  for (let i = 0; i < req.body.tags.length; i++) {
+    const existingTag = await Tag.query().where('name', req.body.tags[i]).first();
+    if (existingTag) {
+      debug(existingTag, 'existing tag found');
+      const taggedPost = await PostTag.query().insert({
+        tag_id: existingTag.id,
+        post_id: newPost.id
+      });
+      debug(taggedPost);
+    } else {
+      await newPost.$relatedQuery('tags').insert({ name: req.body.tags[i] });
     }
-    return res.status(201).json(newPost);
-  } catch (error) {
-    throw new InternalError(error);
   }
+  return res.status(201).json(newPost);
 }
 
 async function getSlug(req, res) {

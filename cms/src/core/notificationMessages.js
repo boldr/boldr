@@ -55,3 +55,13 @@ export const MSG_ADD_LINK_ERROR = {
 export const MSG_ADD_LINK_SUCCESS = {
   message: 'Link added.', kind: 'success', dismissAfter: 3000
 };
+
+export const MSG_CREATE_POST_SUCCESS = {
+  message: 'Your post was created.', kind: 'success', dismissAfter: 3000
+};
+
+export const MSG_CREATE_POST_FAILURE = (err) => {
+  return {
+    message: `There was a problem creating your post: ${err}`, kind: 'error', dismissAfter: 3000
+  };
+};
