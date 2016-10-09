@@ -1,1 +1,1 @@
-module.exports = {"main":{"js":"/assets/main.f552492986e9e49f39ce.js","css":"/assets/main.f552492986e9e49f39ce.css"},"vendor":{"js":"/assets/vendor.e703988b6b47ed04529f.js"}};
+module.exports = {"main":{"js":"/assets/main.e2640cf45415c21c1474.js","css":"/assets/main.e2640cf45415c21c1474.css"},"vendor":{"js":"/assets/vendor.797936619b49352b630f.js"}};

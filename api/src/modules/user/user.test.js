@@ -40,7 +40,6 @@ describe('API -- User', () => {
         .set('Accept', 'application/json')
         .set('Authorization', 'INCORRECT')
         .send({ first_name: 'Yolo' })
-        .expect('Content-Type', /json/)
         .expect(401, done);
     });
   });

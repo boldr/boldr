@@ -40,7 +40,7 @@ describe('GET /api/v1/posts', () => {
         .get('/api/v1/posts')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .end(res => {
+        .expect(res => {
           expect(res.status).to.equal(200);
           expect(res.body.total).to.not.be.null;
         }).end(done);

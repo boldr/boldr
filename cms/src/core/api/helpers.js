@@ -17,7 +17,7 @@ export const API_NAVIGATION = `${API_BASE}/navigations`;
 // Here you can change the name of the token that is put into localStorage.
 export const TOKEN_KEY = 'token';
 
-export const API_PORT = process.env.API_PORT || 3000;
+export const API_PORT = process.env.API_PORT || 2121;
 export const API_HOST = process.env.API_HOST || 'localhost';
 export const SSR_PORT = process.env.SSR_PORT || 3000;
 export const HOST = process.env.SSR_HOST || 'localhost';

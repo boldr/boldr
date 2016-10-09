@@ -21,6 +21,7 @@
     "production": {
       "presets": ["boldr"],
       "plugins": [
+        "transform-flow-strip-types",
         ["module-resolver", {
           "root": ["./cms/src"]
         }]
