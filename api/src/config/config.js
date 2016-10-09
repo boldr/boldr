@@ -257,24 +257,24 @@ const conf = convict({
     }
   }
 });
-
-function fileExists(filePath) {
-  try {
-    return fs.statSync(filePath).isFile();
-  } catch (err) {
-    return false;
-  }
-}
-
-if (!fileExists(rcPath)) {
-  fs.writeFile(rcPath, JSON.stringify(config), (error) => {
-    if (error) {
-      console.error(`write error:  ${error.message}`);
-    } else {
-      console.log(`Successful Write to ${filePath}`);
-    }
-  });
-}
+//
+// function fileExists(filePath) {
+//   try {
+//     return fs.statSync(filePath).isFile();
+//   } catch (err) {
+//     return false;
+//   }
+// }
+//
+// if (!fileExists(rcPath)) {
+//   fs.writeFile(rcPath, JSON.stringify(config), (error) => {
+//     if (error) {
+//       console.error(`write error:  ${error.message}`);
+//     } else {
+//       console.log(`Successful Write to ${filePath}`);
+//     }
+//   });
+// }
 
 conf.validate({
   strict: true

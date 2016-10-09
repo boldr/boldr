@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Moment from 'moment';
-import classNames from 'classnames/bind';
+import dateFns from 'date-fns';
 
 import TagBlock from 'components/TagBlock';
 import FontIcon from 'components/md/FontIcons';
@@ -9,12 +8,8 @@ import { FlatButton, IconButton } from 'components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
 import Avatar from 'components/md/Avatars';
 
-import styles from './style.css';
-
-const cx = styles::classNames;
-
 const TagListCard = props => {
-  const formattedDate = Moment(props.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+  const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
 
   const overlay = (
     <CardTitle
@@ -29,7 +24,7 @@ const TagListCard = props => {
     <div>
       <Card>
         <CardMedia overlay={ overlay }>
-          <img className={ cx('post__card-image') } src={ props.feature_image } height="350px" width="100%" />
+          <img className="post__card-image" src={ props.feature_image } height="350px" width="100%" />
         </CardMedia>
 
         <CardActions isExpander>

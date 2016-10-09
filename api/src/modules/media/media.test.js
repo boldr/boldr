@@ -8,6 +8,9 @@ function request() {
 }
 
 describe('API -- Media', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('GET /api/v1/media', () => {
     it('It should return media from the db', (done) => {
       request()

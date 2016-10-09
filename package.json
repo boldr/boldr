@@ -25,20 +25,6 @@
         "SSR_PORT": 3000
       }
     },
-    "test:client": {
-      "command": "jest",
-      "env": {
-        "NODE_ENV": "test",
-        "BABEL_ENV": "test"
-      }
-    },
-    "test:api": {
-      "command": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './api/src/**/*.test.js'",
-      "env": {
-        "BABEL_ENV": "test",
-        "NODE_ENV": "test"
-      }
-    },
     "dev:client": {
       "command": "node ./tools/webpack/dev.server.js",
       "env": {
@@ -69,6 +55,21 @@
         "BABEL_ENV": "api",
         "API_PORT": 2121
       }
+    },
+    "test:client": {
+      "command": "jest",
+      "env": {
+        "NODE_ENV": "test",
+        "BABEL_ENV": "test"
+      }
+    },
+    "test:api": {
+      "command": "nyc mocha --compilers js:babel-register --opts ./tools/test/mocha.opts --require ./tools/test/mocha.js './api/src/**/*.test.js'",
+      "env": {
+        "NODE_ENV": "test",
+        "BABEL_ENV": "test",
+        "API_PORT": 2121
+      }
     }
   },
   "repository": {
@@ -96,7 +97,11 @@
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
       "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
-    }
+    },
+    "collectCoverage": true,
+    "testPathDirs": [
+      "<rootDir>/cms"
+    ]
   },
   "scripts": {
     "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
@@ -118,11 +123,38 @@
     "migrate": "./node_modules/.bin/knex migrate:latest",
     "seed": "./node_modules/.bin/knex seed:run",
     "start:prod": "NODE_ENV=production node bin/ssr.js",
+    "test": "npm-run-all -s test:client test:api",
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
     "typecheck": "flow",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 65,
+    "statements": 65,
+    "functions": 45,
+    "include": [
+      "cms/src/**/*.js",
+      "api/src/**/*.js"
+    ],
+    "exclude": [
+      "cms/src/**/*.test.js",
+      "api/src/**/*.test.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -162,6 +194,7 @@
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "multer-s3": "^2.3.2",
+    "node-noop": "^1.0.0",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.6.4",
     "nodemailer-mailgun-transport": "^1.2.2",
@@ -199,12 +232,15 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
     "assets-webpack-plugin": "^3.4.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "7.0.0",
     "babel-jest": "^16.0.0",
     "babel-loader": "^6.2.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-istanbul": "^2.0.1",
     "babel-plugin-lodash": "^3.2.9",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-plugin-system-import-transformer": "^2.4.0",
@@ -220,6 +256,7 @@
     "eslint-config-boldr": "^1.1.1",
     "eslint-plugin-flowtype": "^2.19.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "faker": "^3.1.0",
     "file-loader": "^0.9.0",
     "flow-bin": "^0.33.0",
     "happypack": "^2.2.1",
@@ -227,8 +264,10 @@
     "json-loader": "0.5.4",
     "lodash-webpack-plugin": "^0.10.1",
     "mocha": "^3.1.0",
+    "mocha-lcov-reporter": "^1.2.0",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.2",
+    "nyc": "^8.3.1",
     "optimize-js-plugin": "0.0.4",
     "postcss-loader": "^0.13.0",
     "react-addons-test-utils": "^15.3.2",
@@ -248,7 +287,6 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-middleware": "1.8.3",
     "webpack-hot-middleware": "2.12.2",
-    "webpack-node-externals": "^1.4.3",
-    "@kadira/storybook": "^2.21.0"
+    "webpack-node-externals": "^1.4.3"
   }
 }

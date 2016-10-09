@@ -55,4 +55,5 @@ export default class ApiClient {
   setJwtToken(token) {
     this.token = token;
   }
+   empty() {}
 }

@@ -40,4 +40,4 @@ before_script:
 - NODE_ENV=test npm run migrate
 - NODE_ENV=test npm run seed
 script:
-- NODE_ENV=test npm run test:client
+- NODE_ENV=test npm test
