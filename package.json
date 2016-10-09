@@ -200,7 +200,7 @@
     "nodemailer-mailgun-transport": "^1.2.2",
     "normalizr": "^2.2.1",
     "npm-run-all": "^3.1.0",
-    "objection": "^0.6.0-rc.6",
+    "objection": "^0.6.0",
     "objection-find": "^0.1.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
