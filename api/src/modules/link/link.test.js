@@ -7,8 +7,10 @@ function request() {
   return supertest(server.listen());
 }
 
-describe('API -- Link', () => {
   describe('GET /api/v1/links', () => {
+    afterEach(() => {
+      server.close();
+    });
     it('It should return links', (done) => {
       request()
         .get('/api/v1/links')
@@ -20,4 +22,3 @@ describe('API -- Link', () => {
         });
     });
   });
-});

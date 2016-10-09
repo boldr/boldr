@@ -8,6 +8,9 @@ function request() {
 }
 
 describe('API -- Navigation', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('GET /api/v1/navigations', () => {
     it('It should return the navigations', (done) => {
       request()

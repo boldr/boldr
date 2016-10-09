@@ -8,6 +8,9 @@ function request() {
 }
 
 describe('API -- User', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('GET /api/v1/users', () => {
     it('It should return an array of users', (done) => {
       request()
@@ -23,11 +26,11 @@ describe('API -- User', () => {
         .get('/api/v1/users/1b062e26-df71-48ce-b363-4ae9b966e7a0')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .end((err, res) => {
+        .expect(res => {
           expect(res.status).to.equal(200);
           expect(res.body).to.have.property('first_name');
-          done();
-        });
+        })
+        .end(done);
     });
   });
   describe('PUT /api/v1/users/:id', () => {
@@ -35,13 +38,9 @@ describe('API -- User', () => {
       request()
         .put('/api/v1/users/1b062e26-df71-48ce-b363-4ae9b966e7a0')
         .set('Accept', 'application/json')
+        .set('Authorization', 'INCORRECT')
         .send({ first_name: 'Yolo' })
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(401);
-          // expect(res.body).to.have.property('first_name');
-          done();
-        });
+        .expect(401, done);
     });
   });
 });

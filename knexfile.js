@@ -25,9 +25,9 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      database: process.env.POSTGRES_DB || 'boldr_test',
+      database: process.env.POSTGRES_DB || 'travis_ci_test',
       user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || 'password'
+      password: process.env.POSTGRES_PASSWORD || ''
     },
     migrations: {
       directory: path.resolve(paths.API_DIR, '_migrations'),
@@ -42,25 +42,6 @@ module.exports = {
       max: 1
     }
   },
-  travis: {
-    client: 'postgresql',
-    connection: {
-      database: 'travis_ci_test',
-      user: 'postgres'
-    },
-    pool: {
-      min: 1,
-      max: 10
-    },
-    migrations: {
-      directory: path.resolve(paths.API_DIR, '_migrations'),
-      tableName: 'knex_migrations'
-    },
-    seeds: {
-      directory: path.resolve(paths.API_DIR, '_seeds'),
-    }
-  },
-
   production: {
     client: 'postgresql',
     connection: {

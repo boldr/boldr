@@ -8,16 +8,16 @@ function request() {
 }
 
 describe('API -- Tag', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('GET /api/v1/tags', () => {
     it('It should return tags', (done) => {
       request()
         .get('/api/v1/tags')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          done();
-        });
+        .expect(200, done);
     });
   });
 });

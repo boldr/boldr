@@ -8,6 +8,9 @@ function request() {
 }
 
 describe('API -- Page', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('GET /api/v1/pages', () => {
     it('It should return pages', (done) => {
       request()

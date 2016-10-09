@@ -21,6 +21,7 @@
     "production": {
       "presets": ["boldr"],
       "plugins": [
+        "transform-flow-strip-types",
         ["module-resolver", {
           "root": ["./cms/src"]
         }]
@@ -29,6 +30,7 @@
     "test": {
       "presets": ["boldr"],
       "plugins": [
+        "istanbul",
         ["module-resolver", {
           "root": ["./cms/src"]
         }]

@@ -53,7 +53,13 @@ module.exports = function webpackConfig() {
         'redux-thunk',
         'redial',
         'superagent',
+        'redux-form',
+        'react-addons-css-transition-group',
+        'draft-js',
         'classnames',
+        'reselect',
+        'semantic-ui-react',
+        'date-fns',
         'lodash',
         'webfontloader'
       ])
@@ -66,7 +72,7 @@ module.exports = function webpackConfig() {
     },
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
-      modules: ['src', 'node_modules']
+      modules: ['cms/src', 'node_modules']
     },
     module: {
       loaders: removeEmpty([
@@ -183,24 +189,20 @@ module.exports = function webpackConfig() {
       // Create smaller Lodash builds by replacing feature sets of modules with
       // noop, identity, or simpler alternatives.
       // https://github.com/lodash/lodash-webpack-plugin
-      ifProd(new LodashModuleReplacementPlugin),
+      // ifProd(new LodashModuleReplacementPlugin),
       // Extracts all stylesheets into a main file. During development styles are dumped
       // into the head and/or added dynamically.
       ifProd(new ExtractTextPlugin({
         filename: '[name].[chunkhash].css'
       })),
-      ifProd(
-        new OptimizeJsPlugin({ sourceMap: false })),
+      // ifProd(
+      //   new OptimizeJsPlugin({ sourceMap: false })),
       // Becareful adding too much for Uglify to do because it has a talent for breaking bundles.
       ifProd(new webpack.optimize.UglifyJsPlugin({
         compress: {
           screw_ie8: true,
           warnings: false
-        },
-        output: {
-          comments: false
-        },
-        sourceMap: false
+        }
       })),
       // Assigns the module and chunk ids by occurrence count.
       // http://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
