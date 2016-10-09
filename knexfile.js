@@ -25,9 +25,9 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      database: process.env.POSTGRES_DB || 'boldr_test',
+      database: process.env.POSTGRES_DB || 'travis_ci_test',
       user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || 'password'
+      password: process.env.POSTGRES_PASSWORD || ''
     },
     migrations: {
       directory: path.resolve(paths.API_DIR, '_migrations'),

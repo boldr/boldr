@@ -1,13 +1,12 @@
 import { join } from 'path';
 import { Model } from 'objection';
-import Promise from 'bluebird';
+import bcrypt from 'bcryptjs';
+
 import BaseModel from '../BaseModel';
 import Role from '../role/role.model';
 import Media from '../media/media.model';
 
-const bcrypt = Promise.promisifyAll(require('bcrypt'));
-
-class User extends Model {
+class User extends BaseModel {
   static get tableName() {
     return 'user';
   }
@@ -18,7 +17,6 @@ class User extends Model {
    * @type {array}
    */
   static hidden = [
-      'password'
   ];
 
   static get relationMappings() {
@@ -53,6 +51,8 @@ class User extends Model {
   stripPassword() {
     delete this['password']; // eslint-disable-line
     delete this['account_token']; // eslint-disable-line
+    delete this['reset_password_token'];
+    delete this['reset_password_expiration'];
     return this;
   }
   /**
@@ -64,7 +64,7 @@ class User extends Model {
     super.$beforeInsert(queryContext);
 
     if (this.hasOwnProperty('password')) {
-        this.password = bcrypt.hashAsync(this.password, 10);
+      this.password = bcrypt.hashSync(this.password, 10);
     }
   }
   /**
