@@ -4,7 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { isServer } from '../core/util/helpers';
 import clientMiddleware from './middleware/clientMiddleware';
-import reducers from './reducers';
+// import reducers from './reducers';
+import createReducer from './reducers';
 
 const ISDEV = process.env.NODE_ENV === 'development';
 
@@ -29,12 +30,13 @@ export default function createStore(history, client, PRELOAD_STATE) {
         f => f
     )(_createStore);
 
-  const store = finalCreateStore(reducers, PRELOAD_STATE);
-
+  const store = finalCreateStore(createReducer(), PRELOAD_STATE);
+  store.asyncReducers = {};
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       System.import('./reducers').then((reducerModule) => {
-        const nextReducers = reducerModule.default;
+        const createReducers = reducerModule.default;
+        const nextReducers = createReducers(store.asyncReducers);
         store.replaceReducer(nextReducers);
       });
     });

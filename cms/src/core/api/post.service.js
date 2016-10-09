@@ -8,8 +8,9 @@ export function doFetchPosts() {
 }
 
 export function doCreatePost(data) {
+  console.log('data from post.service', data);
   return request
-    .post(API_POSTS)
+    .post(`${API_POSTS}`)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
     .send({
       title: data.title,

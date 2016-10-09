@@ -86,15 +86,6 @@ export const DELETE_MEDIA_FAILURE = 'media/DELETE_MEDIA_FAILURE';
 export const DELETE_MEDIA_REQUEST = 'media/DELETE_MEDIA_REQUEST';
 export const DELETE_MEDIA_SUCCESS = 'media/DELETE_MEDIA_SUCCESS';
 
-// Members
-// -----------------
-export const LOAD_MEMBERS_REQUEST = 'members/LOAD_MEMBERS_REQUEST';
-export const LOAD_MEMBERS_SUCCESS = 'members/LOAD_MEMBERS_SUCCESS';
-export const LOAD_MEMBERS_FAILURE = 'members/LOAD_MEMBERS_FAILURE';
-export const UPDATE_MEMBER_REQUEST = 'members/UPDATE_MEMBER_REQUEST';
-export const UPDATE_MEMBER_SUCCESS = 'members/UPDATE_MEMBER_SUCCESS';
-export const UPDATE_MEMBER_FAILURE = 'members/UPDATE_MEMBER_FAILURE';
-export const MEMBER_SELECTED = 'members/MEMBER_SELECTED';
 
 // Navigation / Links
 // -----------------

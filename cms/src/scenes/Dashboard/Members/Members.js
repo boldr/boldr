@@ -7,7 +7,7 @@ import Dialog from 'components/md/Dialogs';
 import { FlatButton } from 'components/md/Buttons';
 import MembersList from 'components/MembersList';
 import EditMemberForm from 'components/EditMemberForm';
-import { loadSiteMembers, memberSelected, updateMember } from 'state/dux/members';
+import { loadSiteMembers, memberSelected, updateMember } from './actions';
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(loadSiteMembers())
