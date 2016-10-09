@@ -29,22 +29,21 @@ describe('GET /api/v1/posts', () => {
         .get('/api/v1/posts')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .end((err, res) => {
+        .expect(res => {
           expect(res.status).to.equal(200);
           expect(res.body.results).to.be.an('array');
-          done();
-        });
+        })
+        .end(done);
   });
   it('It should return the total number of posts', (done) => {
     request()
         .get('/api/v1/posts')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .end((err, res) => {
+        .end(res => {
           expect(res.status).to.equal(200);
           expect(res.body.total).to.not.be.null;
-          done();
-        });
+        }).end(done);
   });
   it('It should return posts with tags included', (done) => {
     request()
@@ -122,40 +121,41 @@ describe('POST /api/v1/posts', () => {
           done();
         });
   });
-  it('It should return the total number of posts', (done) => {
-    request()
-        .get('/api/v1/posts')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body.total).to.not.be.null;
-          done();
-        });
-  });
-  it('It should return posts with tags included', (done) => {
-    request()
-        .get('/api/v1/posts?include=[tags]')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body.results[0]).to.include.keys('tags');
-          done();
-        });
-  });
-  it('It should return posts with tags and author', (done) => {
-    request()
-        .get('/api/v1/posts?include=[tags,author]')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body.results[0]).to.include.keys('tags');
-          expect(res.body.results[0]).to.include.keys('author');
-          expect(res.body.results[0]).to.include.keys('slug');
-
-          done();
-        });
-  });
+  // it('It should create a new post and save to the database', (done) => {
+  //   request()
+  //       .post('/api/v1/posts')
+  //       .set('Accept', 'application/json')
+  //       .set('')
+  //       .end((err, res) => {
+  //         expect('Content-Type', /json/);
+  //         expect(res.status).to.equal(200);
+  //         expect(res.body.total).to.not.be.null;
+  //         done();
+  //       });
+  // });
+  // it('It should return posts with tags included', (done) => {
+  //   request()
+  //       .get('/api/v1/posts?include=[tags]')
+  //       .set('Accept', 'application/json')
+  //       .expect('Content-Type', /json/)
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(200);
+  //         expect(res.body.results[0]).to.include.keys('tags');
+  //         done();
+  //       });
+  // });
+  // it('It should return posts with tags and author', (done) => {
+  //   request()
+  //       .get('/api/v1/posts?include=[tags,author]')
+  //       .set('Accept', 'application/json')
+  //       .expect('Content-Type', /json/)
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(200);
+  //         expect(res.body.results[0]).to.include.keys('tags');
+  //         expect(res.body.results[0]).to.include.keys('author');
+  //         expect(res.body.results[0]).to.include.keys('slug');
+  //
+  //         done();
+  //       });
+  // });
 });

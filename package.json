@@ -25,20 +25,14 @@
         "SSR_PORT": 3000
       }
     },
-    "test:client": {
+    "test": {
       "command": "jest",
       "env": {
         "NODE_ENV": "test",
         "BABEL_ENV": "test"
       }
     },
-    "test:api": {
-      "command": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:./tools/test/mocha.js --opts ./tools/test/mocha.opts './api/src/**/*.test.js'",
-      "env": {
-        "BABEL_ENV": "test",
-        "NODE_ENV": "test"
-      }
-    },
+
     "dev:client": {
       "command": "node ./tools/webpack/dev.server.js",
       "env": {
@@ -118,8 +112,7 @@
     "migrate": "./node_modules/.bin/knex migrate:latest",
     "seed": "./node_modules/.bin/knex seed:run",
     "start:prod": "NODE_ENV=production node bin/ssr.js",
-    "test:client": "better-npm-run test:client",
-    "test:api": "better-npm-run test:api",
+    "test": "better-npm-run test",
     "typecheck": "flow",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
