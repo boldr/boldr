@@ -124,7 +124,9 @@ export default function mediaReducer(state = INITIAL_STATE, action = {}) {
       };
     case types.UPLOAD_SUCCESS:
       return {
-        ...state
+        ...state,
+        isLoading: false,
+        files: [...state.files, ...action.payload]
       };
     case types.DELETE_MEDIA_SUCCESS:
       return {
