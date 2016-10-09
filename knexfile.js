@@ -42,25 +42,6 @@ module.exports = {
       max: 1
     }
   },
-  travis: {
-    client: 'postgresql',
-    connection: {
-      database: 'travis_ci_test',
-      user: 'postgres'
-    },
-    pool: {
-      min: 1,
-      max: 10
-    },
-    migrations: {
-      directory: path.resolve(paths.API_DIR, '_migrations'),
-      tableName: 'knex_migrations'
-    },
-    seeds: {
-      directory: path.resolve(paths.API_DIR, '_seeds'),
-    }
-  },
-
   production: {
     client: 'postgresql',
     connection: {

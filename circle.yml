@@ -1,0 +1,30 @@
+machine:
+  services:
+    - redis
+    - postgresql
+  timezone:
+    America/Denver
+
+  # Version of ruby to use
+  node:
+    version:
+      6
+
+  environment:
+    NODE_ENV: test
+    CIRCLE_ENV: test
+    POSTGRES_CONN_URI: postgres://ubuntu:@127.0.0.1:5432/circle_test
+    POSTGRES_HOST: 127.0.0.1
+    POSTGRES_USER: ubuntu
+    POSTGRES_DB: circle_test
+    REDIS_HOST: 127.0.0.1
+    REDIS_PORT: 6379
+
+dependencies:
+  pre:
+    - npm install
+    - NODE_ENV=test npm run migrate
+    - NODE_ENV=test npm run seed
+
+  cache_directories:
+    - "~/node_modules"   # relative to the build directory
