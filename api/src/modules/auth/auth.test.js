@@ -95,23 +95,23 @@ describe('API -- Auth', () => {
           done();
         });
     });
-    it('Should create a user', (done) => {
-      request()
-        .post('/api/v1/auth/signup')
-        .set('Accept', 'application/json')
-        .send({
-          email: 'test@boldr.io',
-          password: 'test',
-          display_name: 'admin',
-          first_name: 'test',
-          last_name: 'user'
-        })
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(201);
-          expect(res.body).to.include.keys('email');
-          done();
-        });
-    });
+    // it('Should create a user', (done) => {
+    //   request()
+    //     .post('/api/v1/auth/signup')
+    //     .set('Accept', 'application/json')
+    //     .send({
+    //       email: 'test@boldr.io',
+    //       password: 'test',
+    //       display_name: 'admin',
+    //       first_name: 'test',
+    //       last_name: 'user'
+    //     })
+    //     .expect('Content-Type', /json/)
+    //     .end((err, res) => {
+    //       expect(res.status).to.equal(201);
+    //       expect(res.body).to.include.keys('email');
+    //       done();
+    //     });
+    // });
   });
 });
