@@ -35,6 +35,7 @@ describe('API -- User', () => {
       request()
         .put('/api/v1/users/1b062e26-df71-48ce-b363-4ae9b966e7a0')
         .set('Accept', 'application/json')
+        .set('Authorization', 'INCORRECT')
         .send({ first_name: 'Yolo' })
         .expect('Content-Type', /json/)
         .end((err, res) => {
