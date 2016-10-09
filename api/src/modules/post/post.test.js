@@ -7,10 +7,10 @@ function request() {
   return supertest(server.listen());
 }
 
-describe('Post', () => {
-  describe('GET /api/v1/posts', () => {
-    it('It should return an array of posts', (done) => {
-      request()
+
+describe('GET /api/v1/posts', () => {
+  it('It should return an array of posts', (done) => {
+    request()
         .get('/api/v1/posts')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -19,9 +19,9 @@ describe('Post', () => {
           expect(res.body.results).to.be.an('array');
           done();
         });
-    });
-    it('It should return the total number of posts', (done) => {
-      request()
+  });
+  it('It should return the total number of posts', (done) => {
+    request()
         .get('/api/v1/posts')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -30,9 +30,9 @@ describe('Post', () => {
           expect(res.body.total).to.not.be.null;
           done();
         });
-    });
-    it('It should return posts with tags included', (done) => {
-      request()
+  });
+  it('It should return posts with tags included', (done) => {
+    request()
         .get('/api/v1/posts?include=[tags]')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -41,9 +41,9 @@ describe('Post', () => {
           expect(res.body.results[0]).to.include.keys('tags');
           done();
         });
-    });
-    it('It should return posts with tags and author', (done) => {
-      request()
+  });
+  it('It should return posts with tags and author', (done) => {
+    request()
         .get('/api/v1/posts?include=[tags,author]')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -55,11 +55,11 @@ describe('Post', () => {
 
           done();
         });
-    });
   });
-  describe('GET /api/v1/posts/pid/:id', () => {
-    it('It should return the requested post', (done) => {
-      request()
+});
+describe('GET /api/v1/posts/pid/:id', () => {
+  it('It should return the requested post', (done) => {
+    request()
         .get('/api/v1/posts/pid/5c9ed236-79f0-4ff7-93bd-2815f06c74b4')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -69,11 +69,11 @@ describe('Post', () => {
           expect(res.body).to.include.keys('slug');
           done();
         });
-    });
   });
-  describe('GET /api/v1/posts/slug/:slug', () => {
-    it('It should return the requested post', (done) => {
-      request()
+});
+describe('GET /api/v1/posts/slug/:slug', () => {
+  it('It should return the requested post', (done) => {
+    request()
         .get('/api/v1/posts/slug/just-another-post')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -83,6 +83,5 @@ describe('Post', () => {
           expect(res.body).to.include.keys('slug');
           done();
         });
-    });
   });
 });
