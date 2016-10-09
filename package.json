@@ -64,7 +64,7 @@
       }
     },
     "test:api": {
-      "command": "./node_modules/.bin/mocha --compilers js:babel-register --opts ./tools/test/mocha.opts --require ./tools/test/mocha.js './api/src/**/*.test.js'",
+      "command": "nyc mocha --compilers js:babel-register --opts ./tools/test/mocha.opts --require ./tools/test/mocha.js './api/src/**/*.test.js'",
       "env": {
         "NODE_ENV": "test",
         "BABEL_ENV": "test",
@@ -98,7 +98,10 @@
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
       "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
     },
-    "testPathDirs": ["<rootDir>/cms"]
+    "collectCoverage": true,
+    "testPathDirs": [
+      "<rootDir>/cms"
+    ]
   },
   "scripts": {
     "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
@@ -126,6 +129,32 @@
     "typecheck": "flow",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 65,
+    "statements": 65,
+    "functions": 45,
+    "include": [
+      "cms/src/**/*.js",
+      "api/src/**/*.js"
+    ],
+    "exclude": [
+      "cms/src/**/*.test.js",
+      "api/src/**/*.test.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -211,6 +240,7 @@
     "babel-jest": "^16.0.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-istanbul": "^2.0.1",
     "babel-plugin-lodash": "^3.2.9",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-plugin-system-import-transformer": "^2.4.0",
@@ -234,8 +264,10 @@
     "json-loader": "0.5.4",
     "lodash-webpack-plugin": "^0.10.1",
     "mocha": "^3.1.0",
+    "mocha-lcov-reporter": "^1.2.0",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.2",
+    "nyc": "^8.3.1",
     "optimize-js-plugin": "0.0.4",
     "postcss-loader": "^0.13.0",
     "react-addons-test-utils": "^15.3.2",

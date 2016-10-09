@@ -202,11 +202,7 @@ module.exports = function webpackConfig() {
         compress: {
           screw_ie8: true,
           warnings: false
-        },
-        output: {
-          comments: false
-        },
-        sourceMap: true
+        }
       })),
       // Assigns the module and chunk ids by occurrence count.
       // http://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin

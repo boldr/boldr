@@ -30,6 +30,7 @@
     "test": {
       "presets": ["boldr"],
       "plugins": [
+        "istanbul",
         ["module-resolver", {
           "root": ["./cms/src"]
         }]
