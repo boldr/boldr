@@ -27,7 +27,8 @@
     "comma-dangle": 0,
     "no-undef": 0,
     "react/jsx-sort-props": 0,
-    "prefer-rest-params": 0
+    "prefer-rest-params": 0,
+    "no-constant-condition": 0
   },
   "globals": {
     "__DEVELOPMENT__": true,

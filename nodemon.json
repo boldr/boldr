@@ -1,18 +1,16 @@
 {
-    "verbose": false,
-    "restartable": "rs",
-    "colours": true,
-    "ignore": [
-      "docs",
-      ".git",
-      "node_modules/**/*"
-    ],
-    "env": {
-      "DEBUG":"boldr*"
-    },
-    "watch": [
-      "./src/api/**/*.js",
-      "./src/server.js"
-    ],
-    "legacyWatch": false
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "verbose": true,
+  "watch": [
+    "./api/src"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "boldr:*"
+  },
+  "ext": "js json"
 }

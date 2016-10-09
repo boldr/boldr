@@ -2,6 +2,7 @@ require('babel-register');
 require('babel-polyfill');
 
 const path = require('path');
+const paths = require('../tools/paths');
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 
 const isomorphicConfig = require('../tools/webpack/isomorphic.config');
@@ -16,6 +17,6 @@ global.__DLLS__ = process.env.WEBPACK_DLLS === '1';
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
   .development(__DEV__)
-  .server(ROOT_DIR, () => {
-    require('../src/server.js');
+  .server(paths.ABS_ROOT, () => {
+    require(`${paths.CMS_SRC}/server.js`);
   });

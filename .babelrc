@@ -1,11 +1,20 @@
 {
   "env": {
+    "api": {
+      "presets": ["latest"],
+      "plugins": [
+        "transform-class-properties",
+        ["module-resolver", {
+          "root": ["./api/src"]
+        }]
+      ]
+    },
     "development": {
       "presets": ["boldr"],
       "plugins": [
         "react-hot-loader/babel",
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     },
@@ -13,7 +22,7 @@
       "presets": ["boldr"],
       "plugins": [
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     },
@@ -21,7 +30,7 @@
       "presets": ["boldr"],
       "plugins": [
         ["module-resolver", {
-          "root": ["./src"]
+          "root": ["./cms/src"]
         }]
       ]
     }
