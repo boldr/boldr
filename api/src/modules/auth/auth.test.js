@@ -18,6 +18,9 @@ const badLoginData = {
 };
 
 describe('API -- Auth', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('POST /api/v1/auth/login', () => {
     it('It should fail to login with an incorrect password', (done) => {
       request()

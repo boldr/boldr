@@ -200,6 +200,7 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
     "assets-webpack-plugin": "^3.4.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
@@ -221,6 +222,7 @@
     "eslint-config-boldr": "^1.1.1",
     "eslint-plugin-flowtype": "^2.19.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "faker": "^3.1.0",
     "file-loader": "^0.9.0",
     "flow-bin": "^0.33.0",
     "happypack": "^2.2.1",
@@ -249,7 +251,6 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-middleware": "1.8.3",
     "webpack-hot-middleware": "2.12.2",
-    "webpack-node-externals": "^1.4.3",
-    "@kadira/storybook": "^2.21.0"
+    "webpack-node-externals": "^1.4.3"
   }
 }

@@ -8,6 +8,9 @@ function request() {
 }
 
 describe('API -- User', () => {
+  afterEach(() => {
+    server.close();
+  });
   describe('GET /api/v1/users', () => {
     it('It should return an array of users', (done) => {
       request()
