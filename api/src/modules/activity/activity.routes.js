@@ -8,9 +8,8 @@ const controller = new BaseController(Activity);
 
 const router = new express.Router();
 
-router.get('/', processQuery, controller.index.bind(controller));
+router.get('/', ctrl.index);
 router.get('/:id', controller.show.bind(controller));
 router.post('/', controller.create.bind(controller));
-
 
 export default router;

@@ -1,4 +1,4 @@
-import { normalize } from 'normalizr';
+import { normalize, arrayOf } from 'normalizr';
 import _ from 'lodash';
 import humps from 'humps';
 import Schemas from './schemas';
@@ -44,7 +44,7 @@ function normalizeResponse(response, schema) {
 
 export default {
   grabPosts() {
-    return get(`${API_ROOT}/posts?include=[tags,author]`, Schemas.POST_ARRAY);
+    return get(`${API_ROOT}/posts?include=[tags,author]`, arrayOf(Schemas.post));
   },
   login({ email, password }) {
     return post(`${API_ROOT}auth/token/`, { email, password })

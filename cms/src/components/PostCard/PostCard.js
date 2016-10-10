@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
 import { Button, Card, Image } from 'semantic-ui-react';
-import { FlatButton } from 'components/md/Buttons';
 import { Row } from 'components';
 import TagBlock from '../TagBlock';
 
@@ -26,7 +25,7 @@ const PostCard = props => {
         <Card.Content extra>
         <Row>
         <Link to={ `/blog/${props.slug}` }>
-          <FlatButton label="Read more" secondary />
+          <Button>Read More</Button>
         </Link>
         <TagBlock tags={ props.tags } />
         </Row>

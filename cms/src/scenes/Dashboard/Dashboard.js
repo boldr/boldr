@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+import { provideHooks } from 'redial';
 import { SiteLogo, Grid, Col, Row } from 'components';
 import Authenicated from 'components/hoc.Authenticated';
 import NavigationDrawer from 'components/md/NavigationDrawers';
 import FontIcon from 'components/md/FontIcons';
-
 import {
   articleListClicked, articleEditorClicked, dashboardClicked,
   mediaClicked, membersClicked, settingsClicked, homeClicked,

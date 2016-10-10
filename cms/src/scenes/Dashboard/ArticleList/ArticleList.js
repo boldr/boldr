@@ -4,19 +4,18 @@ import { connect } from 'react-redux';
 
 import Paper from 'components/md/Papers';
 import { DataTable, TableHeader, TableBody, TableRow, TableColumn } from 'components/md/DataTables';
-import { Row } from 'components';
+import { Row } from 'components/index';
 
-import { getPostsArray, changePostStatus } from 'state/dux/post';
+import { changePostStatus } from 'state/dux/post';
 import ArticleListItem from 'components/ArticleListItem';
 
 
 export type Props = {
-  children?: React.Element,
+  children?: React$Element<any>,
   posts?: Object,
   dispatch?: Function,
-  current?: Object,
+  current?: Object
 };
-
 
 class ArticleList extends Component {
   constructor(props: Props) {
@@ -25,8 +24,8 @@ class ArticleList extends Component {
   }
 
   props: Props;
-
-  handleArticleClick(postId) {
+  // postId is a uuid, not an integer
+  handleArticleClick(postId: string): void {
     console.log('clicked ', postId);
   }
 
@@ -54,7 +53,7 @@ class ArticleList extends Component {
          </TableHeader>
          <TableBody>
         {
-          this.props.posts.results.map((post, index) => (
+          this.props.posts.entities.map((post, index) => (
            <ArticleListItem
              article={ post }
              created_at={ post.created_at }
@@ -77,8 +76,7 @@ class ArticleList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
-    allPosts: getPostsArray(state)
+    posts: state.posts
   };
 };
 export default connect(mapStateToProps)(ArticleList);

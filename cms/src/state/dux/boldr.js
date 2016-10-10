@@ -52,9 +52,8 @@ function doneLoadSettings(response) {
   };
 }
 
-const failLoadSettings = (err) => ({
-  type: types.LOAD_SETTINGS_FAILURE,
-  error: err
+const failLoadSettings = () => ({
+  type: types.LOAD_SETTINGS_FAILURE
 });
 
 function loadBoldrSettings() {
@@ -62,6 +61,9 @@ function loadBoldrSettings() {
     dispatch(loadSettings());
     return api.doLoadSettings()
     .then(response => {
+      if (response.status !== 200) {
+        dispatch(failLoadSettings());
+      }
       dispatch(doneLoadSettings(response));
     })
     .catch(err => {

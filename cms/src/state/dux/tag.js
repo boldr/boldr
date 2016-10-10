@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { combineReducers } from 'redux';
 import { API_BASE, API_POSTS, processResponse } from 'core';
 import * as api from 'core/api/tag.service';
 import * as types from '../actionTypes';
@@ -49,6 +50,45 @@ const INITIAL_STATE = {
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
+
+//  export const getTagsForPost = (state) => state.posts.ids.map(id => state.posts.byId[id]);
+//  const byId = (state = {}, action) => {
+//    let nextState;
+//    switch (action.type) {
+//      case types.FETCH_POSTS_SUCCESS:
+//
+//        for (const prop in action.payload.entities.tags) {
+//          if (action.payload.entities.tags.hasOwnProperty(prop)) {
+//            Object.assign(action.payload.entities.tags[prop]);
+//          }
+//        }
+//
+//        return {
+//          ...state,
+//          ...action.payload.entities.tags
+//        };
+//      default:
+//        return state;
+//    }
+//  };
+//
+//  const ids = (state = [], action) => {
+//    switch (action.type) {
+//      case types.FETCH_POSTS_SUCCESS:
+//        return [...state, ...action.payload.result];
+//
+//      case types.FETCH_POST_SUCCESS:
+//        return [...state, action.payload.result];
+//
+//      default:
+//        return state;
+//    }
+//  };
+//
+// export default combineReducers({
+// 	byId,
+// 	ids
+// });
 export default function tagsReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case types.LOAD_TAG_REQUEST:

@@ -56,10 +56,10 @@ export function fetchPages() {
     dispatch(requestPages());
     return api.doFetchPages()
       .then(response => {
-        if (!response.status === 200) {
+        if (response.status !== 200) {
           dispatch(receivePagesFailed());
         }
-        console.log(response);
+
         dispatch(receivePages(response));
       })
       .catch(err => {

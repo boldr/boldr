@@ -7,6 +7,7 @@ export const S3_SIGNING_URL = '/s3/sign';
 // Define all endpoints for easy imports.
 export const API_AUTH = `${API_BASE}/auth`;
 export const API_POSTS = `${API_BASE}/posts`;
+export const API_ACTIVITY = `${API_BASE}/activities`;
 export const API_USERS = `${API_BASE}/users`;
 export const API_PAGE = `${API_BASE}/pages`;
 export const API_LINKS = `${API_BASE}/links`;

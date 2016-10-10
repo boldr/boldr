@@ -1,5 +1,9 @@
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
+import { camelizeKeys } from 'humps';
+import { combineReducers } from 'redux';
+import { normalize, arrayOf } from 'normalizr';
+import { post as postSchema } from 'core/api/schemas';
 import { createSelector } from 'reselect';
 import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
 import * as api from 'core/api/post.service';
@@ -44,6 +48,8 @@ export function fetchPosts() {
         if (response.status !== 200) {
           dispatch(receivePostsFailed());
         }
+        // const camelizedJson = camelizeKeys(response.body);
+        // const normalized = normalize(camelizedJson, arrayOf(postSchema, { idAttribute: 'slug' }));
         dispatch(receivePosts(response));
       })
       .catch(err => {
@@ -74,8 +80,7 @@ const requestPosts = () => {
 const receivePosts = (response) => {
   return {
     type: types.FETCH_POSTS_SUCCESS,
-    results: response.body.results,
-    total: response.body.total
+    payload: response.body
   };
 };
 
@@ -178,6 +183,51 @@ const INITIAL_STATE = {
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
+// export const getAllPosts = (state) => state.posts.slugs.map(slug => state.posts.bySlug[slug]);
+// const bySlug = (state = {}, action) => {
+//   let nextState;
+//   switch (action.type) {
+//     case types.FETCH_POSTS_SUCCESS:
+//
+//       for (const prop in action.payload.entities.posts) {
+//         if (action.payload.entities.posts.hasOwnProperty(prop)) {
+//           Object.assign(action.payload.entities.posts[prop]);
+//         }
+//       }
+//
+//       return {
+//         ...state,
+//         ...action.payload.entities.posts
+//       };
+//
+//     case types.EDIT_POST:
+//       nextState = { ...state };
+//       nextState[action._id] = { ...state[action._id], text: action.text };
+//
+//       return nextState;
+//
+//     default:
+//       return state;
+//   }
+// };
+//
+// const slugs = (state = [], action) => {
+//   switch (action.type) {
+//     case types.FETCH_POSTS_SUCCESS:
+//       return [...state, ...action.payload.result];
+//
+//     case types.FETCH_POST_SUCCESS:
+//       return [...state, action.payload.result];
+//
+//     default:
+//       return state;
+//   }
+// };
+//
+// export default combineReducers({
+//   bySlug,
+//   slugs
+// });
 export default function postsReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case types.FETCH_POSTS_REQUEST:
@@ -191,8 +241,7 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        total: action.total,
-        results: action.results
+        entities: action.payload
       };
     case types.LOAD_POST_SUCCESS:
       return {

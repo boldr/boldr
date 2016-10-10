@@ -9,6 +9,7 @@ import {
   API_TAG,
   API_PAGE,
   API_CATEGORY,
+  API_ACTIVITY,
   API_SETTINGS,
   TOKEN_KEY,
   processResponse, credentials, jsonHeaders
@@ -26,6 +27,7 @@ export {
   API_MEDIA,
   API_NAVIGATION,
   API_TAG,
+  API_ACTIVITY,
   API_CATEGORY,
   API_PAGE,
   API_SETTINGS,

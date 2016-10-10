@@ -1,7 +1,15 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { provideHooks } from 'redial';
 import Widget from 'components/Widget';
-import { Grid, Col, Row } from '../../../components';
 
+import { Grid, Col, Row } from '../../../components';
+import { loadSiteActivity } from '../Activity/actions';
+import ActivityWidget from './components/ActivityWidget';
+
+@provideHooks({
+  fetch: ({ dispatch }) => dispatch(loadSiteActivity())
+})
 class DashboardWidgets extends Component {
 
   render() {
@@ -19,11 +27,16 @@ class DashboardWidgets extends Component {
           </Col>
         </Row>
         <Row style={ { marginTop: '1.5em' } }>
-          <Widget name="Widget E" />
+          <ActivityWidget { ...this.props.activity } />
         </Row>
       </div>
     );
   }
 }
 
-export default DashboardWidgets;
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  };
+}
+export default connect(mapStateToProps, { loadSiteActivity })(DashboardWidgets);

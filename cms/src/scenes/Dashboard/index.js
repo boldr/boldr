@@ -14,7 +14,19 @@ export default (store, connect) => {
     path: 'dashboard',
     component: require('./Dashboard').default,
     indexRoute: {
-      component: require('./DashboardWidgets').default
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('./Activity/reducer'),
+          System.import('./DashboardWidgets')
+        ]);
+        const renderRoute = loadModule(cb);
+        importModules.then(([reducer, component]) => {
+          injectReducer('activity', reducer.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      }
     },
     childRoutes: [{
       path: 'articles',

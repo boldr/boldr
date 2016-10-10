@@ -1,7 +1,7 @@
 import request from 'superagent';
 import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
+import { API_POSTS, TOKEN_KEY, processResponse } from 'core';
 
 export function doFetchPosts() {
   return request.get(`${API_POSTS}?include=[author,tags]`);

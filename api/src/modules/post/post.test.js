@@ -31,7 +31,7 @@ describe('GET /api/v1/posts', () => {
         .expect('Content-Type', /json/)
         .expect(res => {
           expect(res.status).to.equal(200);
-          expect(res.body.results).to.be.an('array');
+          expect(res.body).to.be.an('array');
         })
         .end(done);
   });
@@ -40,10 +40,7 @@ describe('GET /api/v1/posts', () => {
         .get('/api/v1/posts')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(res => {
-          expect(res.status).to.equal(200);
-          expect(res.body.total).to.not.be.null;
-        }).end(done);
+        .expect(200, done);
   });
   it('It should return posts with tags included', (done) => {
     request()
@@ -52,7 +49,7 @@ describe('GET /api/v1/posts', () => {
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.results[0]).to.include.keys('tags');
+          expect(res.body[0]).to.include.keys('tags');
           done();
         });
   });
@@ -63,9 +60,9 @@ describe('GET /api/v1/posts', () => {
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.results[0]).to.include.keys('tags');
-          expect(res.body.results[0]).to.include.keys('author');
-          expect(res.body.results[0]).to.include.keys('slug');
+          expect(res.body[0]).to.include.keys('tags');
+          expect(res.body[0]).to.include.keys('author');
+          expect(res.body[0]).to.include.keys('slug');
 
           done();
         });

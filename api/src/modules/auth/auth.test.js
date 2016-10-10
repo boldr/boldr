@@ -50,11 +50,11 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send(loginData)
         .expect('Content-Type', /json/)
-        .end((err, res) => {
+        .expect(res => {
           expect(res.status).to.equal(200);
           expect(res.body).to.include.keys('user');
-          done();
-        });
+        })
+        .end(done);
     });
     it('It should be return a jsonwebtoken', (done) => {
       request()
@@ -62,11 +62,11 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send(loginData)
         .expect('Content-Type', /json/)
-        .end((err, res) => {
+        .expect(res => {
           expect(res.status).to.equal(200);
-          expect(res.body.token).to.not.be.null;
-          done();
-        });
+          expect(res.body.token).to.not.be.null; // eslint-disable-line
+        })
+        .end(done);
     });
   });
   describe('POST /api/v1/auth/signup', () => {
@@ -76,10 +76,7 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send({ email: 'abc@test.com', first_name: 'test', last_name: 'user' })
         .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(500);
-          done();
-        });
+        .expect(500, done);
     });
     it('Should fail using an existing email', (done) => {
       request()
@@ -93,10 +90,7 @@ describe('API -- Auth', () => {
           last_name: 'user'
         })
         .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(500);
-          done();
-        });
+        .expect(500, done);
     });
     // it('Should create a user', (done) => {
     //   request()

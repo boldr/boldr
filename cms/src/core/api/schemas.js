@@ -2,7 +2,7 @@ import { Schema, arrayOf } from 'normalizr';
 
 const user = new Schema('users');
 const tag = new Schema('tags');
-const post = new Schema('posts');
+const post = new Schema('posts', { idAttribute: 'slug' });
 
 post.define({
   tags: arrayOf(tag),

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Loader } from 'components/index';
-import { getPostsArray, fetchPosts } from 'state/dux/post';
+import { getAllPosts, fetchPosts } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
 
 export type Props = {
@@ -24,7 +24,7 @@ class PostListing extends Component {
     return (
         this.props.isLoading ?
            <Loader /> :
-          <PostListingGroup posts={ this.props.posts.results } />
+          <PostListingGroup posts={ this.props.posts.entities } />
     );
   }
 }

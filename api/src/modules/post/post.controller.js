@@ -4,6 +4,7 @@ import uuid from 'node-uuid';
 import { responseHandler, throwNotFound } from '../../utils';
 import { InternalError, PostNotFoundError } from '../../utils/errors';
 import Tag from '../tag/tag.model';
+import Activity from '../activity/activity.model';
 import Post from './post.model';
 import PostTag from './postTag.model';
 
@@ -14,8 +15,9 @@ function index(req, res) {
     .build(req.query.filter)
     .eager(req.query.include)
     .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
+    .skipUndefined()
     // .orderBy(req.query.sort.by, req.query.sort.order)
-    .page(req.query.page.number, req.query.page.size)
+    // .page(req.query.page.number, req.query.page.size)
     .then(users => responseHandler(null, res, 200, users))
     .catch(err => responseHandler(err, res));
 }
@@ -52,6 +54,17 @@ async function create(req, res) {
       await newPost.$relatedQuery('tags').insert({ name: req.body.tags[i] });
     }
   }
+
+  await Activity.query().insert({
+    id: uuid.v4(),
+    name: newPost.title,
+    user_id: req.user.id,
+    action: 'New post',
+    type: 1,
+    data: { newPost },
+    entry_id: newPost.id,
+    entry_table: 'post'
+  });
   return res.status(201).json(newPost);
 }
 

@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PropTypes } from 'react';
 
-import { Grid, Row, Col } from 'components';
+import { Grid, Row, Col } from 'components/index';
 import PostCard from 'components/PostCard';
 
 export type Props = {posts?: Array<any>};

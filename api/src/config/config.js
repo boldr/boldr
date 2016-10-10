@@ -258,14 +258,14 @@ const conf = convict({
   }
 });
 //
-// function fileExists(filePath) {
+// function fileExists(rcPath) {
 //   try {
-//     return fs.statSync(filePath).isFile();
+//     return fs.statSync(rcPath).isFile();
 //   } catch (err) {
 //     return false;
 //   }
 // }
-//
+// const config = conf.getProperties();
 // if (!fileExists(rcPath)) {
 //   fs.writeFile(rcPath, JSON.stringify(config), (error) => {
 //     if (error) {

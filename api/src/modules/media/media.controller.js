@@ -7,7 +7,7 @@ import multerS3 from 'multer-s3';
 
 import conf from '../../config/config';
 import { responseHandler, throwNotFound } from '../../utils';
-
+import Activity from '../activity/activity.model';
 import Media from './media.model';
 import { multerOptions, multerAvatar, multerArticle } from './media.service';
 
@@ -75,19 +75,31 @@ export const getAllMedia = async (req, res, next) => {
     return res.status(500).json(error);
   }
 };
-export function fromDashboard(req, res, next) {
-  const fileFields = {
-    id: uuid.v4(),
-    s3url: req.body.s3url,
-    user_id: req.user.id,
-    // key: req.body.filename,
-    filename: req.body.filename
-  };
-  Media.query().insertAndFetch(fileFields).then(data => {
-    return res.status(201).json(data);
-  }).catch(err => {
-    return res.status(500).json(err);
-  });
+
+export async function fromDashboard(req, res, next) {
+  try {
+    const fileFields = {
+      id: uuid.v4(),
+      s3url: req.body.s3url,
+      user_id: req.user.id,
+      // key: req.body.filename,
+      filename: req.body.filename
+    };
+    const newMedia = await Media.query().insertAndFetch(fileFields);
+    await Activity.query().insert({
+      id: uuid.v4(),
+      name: newMedia.filename,
+      user_id: req.user.id,
+      action: 'New upload',
+      type: 1,
+      data: { newMedia },
+      entry_id: newMedia.id,
+      entry_table: 'media'
+    });
+    return res.status(201).json(newMedia);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 /**
  * @api {get} /medias/:id  Get a specific file by its id
