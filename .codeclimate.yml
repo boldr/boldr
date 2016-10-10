@@ -12,4 +12,4 @@ exclude_paths:
 - volumes/**
 - build/**
 - docs/**
-- **/dist/**
+- cms/dist/**
