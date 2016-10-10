@@ -4,9 +4,69 @@
   "description": "",
   "main": "index.js",
   "private": true,
+  "betterScripts": {
+    "start": {
+      "command": "node index.js",
+      "env": {
+        "NODE_ENV": "production",
+        "API_PORT": 2121
+      }
+    }
+  },
   "scripts": {
+    "start": "better-npm-run start",
+    "migrate": "./node_modules/.bin/knex migrate:latest",
+    "seed": "./node_modules/.bin/knex seed:run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "aws-sdk": "^2.6.6",
+    "babel-register": "^6.16.3",
+    "bcryptjs": "^2.3.0",
+    "better-npm-run": "0.0.11",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "composable-middleware": "^0.3.0",
+    "compression": "^1.6.2",
+    "connect-redis": "^3.1.0",
+    "convict": "^1.5.0",
+    "cors": "^2.8.1",
+    "crypto-js": "^3.1.6",
+    "date-fns": "^1.4.0",
+    "debug": "^2.2.0",
+    "dotenv": "^2.0.0",
+    "errorhandler": "^1.4.3",
+    "express": "4.14.0",
+    "express-session": "^1.14.1",
+    "express-winston": "^2.0.0",
+    "fs-extra": "^0.30.0",
+    "helmet": "^2.3.0",
+    "http-proxy": "^1.15.1",
+    "ioredis": "^2.4.0",
+    "jsonwebtoken": "^7.1.9",
+    "knex": "^0.12.3",
+    "lodash": "^4.16.2",
+    "method-override": "^2.3.6",
+    "moment": "^2.15.1",
+    "morgan": "^1.7.0",
+    "multer": "^1.2.0",
+    "multer-s3": "^2.3.2",
+    "node-noop": "^1.0.0",
+    "node-uuid": "^1.4.7",
+    "nodemailer": "^2.6.4",
+    "nodemailer-mailgun-transport": "^1.2.2",
+    "objection": "^0.6.0",
+    "objection-find": "^0.1.1",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-jwt": "^2.1.0",
+    "passport-local": "^1.0.0",
+    "pg": "^6.1.0",
+    "pretty-error": "^2.0.1",
+    "slugify": "^1.0.2",
+    "winston": "^2.2.0"
+  }
 }
