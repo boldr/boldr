@@ -57,7 +57,7 @@
       }
     },
     "test:client": {
-      "command": "jest",
+      "command": "nyc jest",
       "env": {
         "NODE_ENV": "test",
         "BABEL_ENV": "test"
@@ -101,6 +101,10 @@
     "collectCoverage": true,
     "testPathDirs": [
       "<rootDir>/cms"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
     ]
   },
   "scripts": {
@@ -140,6 +144,12 @@
       "api/src/**/*.js"
     ],
     "exclude": [
+      "node_modules/**",
+      "cms/dist/**",
+      "api/compiled/**",
+      "docs/**",
+      "bin/**",
+      "tools/**",
       "cms/src/**/*.test.js",
       "api/src/**/*.test.js"
     ],
