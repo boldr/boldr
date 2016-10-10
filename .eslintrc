@@ -13,6 +13,11 @@
   "parserOptions": {
     "sourceType": "module"
   },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
   "rules": {
     "no-unused-vars": 0,
     "babel/new-cap": 0,

@@ -23,15 +23,12 @@ type Props = {
   fetch: ({ dispatch }) => dispatch(loadPrimary())
 })
 class PrimaryHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
-  props: Props;
   componentDidMount() {
     this.props.actions.loadPrimary();
   }
+
+  props: Props;
   handleItemClick = (e, { name, href }) => {
     this.setState({
       activeItem: name

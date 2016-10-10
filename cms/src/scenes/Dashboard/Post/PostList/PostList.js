@@ -8,8 +8,8 @@ import { changePostStatus, fetchPostsIfNeeded } from 'state/dux/post';
 import PostListItem from './components/PostListItem';
 
 export type Props = {
-  children?: React$Element<any>,
-  posts?: Object,
+  children?: React$Element<*>,
+  posts: Object,
   dispatch?: Function,
   current?: Object
 };
@@ -19,7 +19,7 @@ export type Props = {
 class PostList extends Component {
   constructor(props: Props) {
     super(props);
-    this.handleArticleClick = this.handleArticleClick.bind(this);
+    (this:any).handleArticleClick = this.handleArticleClick.bind(this);
   }
 
   props: Props;

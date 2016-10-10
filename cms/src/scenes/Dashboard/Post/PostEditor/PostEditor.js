@@ -6,24 +6,22 @@ import { loadPost, clearCurrentPost, updatePost } from 'scenes/Blog/SinglePost/a
 import EditorForm from '../EditorForm';
 
 export type Props = {
-  dispatch?: Function,
-  posts?: Object,
-  params?: Object,
-  currentPost?: Object,
+  dispatch: Function,
+  posts: Object,
+  params: Object,
+  currentPost: Object,
   clearCurrentPost?: Function,
-  loadPost?: Function,
+  loadPost: Function
 };
 
 class PostEditor extends Component {
   constructor(props: Props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.state = {
-      editing: true
-    };
+    (this:any).handleSubmit = this.handleSubmit.bind(this);
   }
-
+  state:Object = {
+    editing: true
+  };
   componentDidMount() {
     this.props.loadPost(this.props.params.slug);
   }

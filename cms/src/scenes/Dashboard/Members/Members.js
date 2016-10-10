@@ -11,9 +11,9 @@ import EditMemberForm from 'components/EditMemberForm';
 import { loadSiteMembers, memberSelected, updateMember } from './actions';
 
 export type Props = {
-  members?: Object,
-  memberSelected?: Function,
-  updateMember?: Function,
+  members: Object,
+  memberSelected: Function,
+  updateMember: Function,
 };
 
 @provideHooks({
@@ -22,12 +22,10 @@ export type Props = {
 class Members extends Component {
   constructor(props: Props) {
     super(props);
-    this.toggleUser = this.toggleUser.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.state = { isOpen: false };
+    (this:any).toggleUser = this.toggleUser.bind(this);
+    (this:any).handleSubmit = this.handleSubmit.bind(this);
   }
-
+  state:Object = { isOpen: false };
   props: Props;
 
   openDialog = () => {

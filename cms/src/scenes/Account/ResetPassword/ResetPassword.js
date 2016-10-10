@@ -10,8 +10,8 @@ import inlineStyles from 'theme/inlineStyles';
 import { resetPassword } from 'state/dux/auth';
 
 export type Props = {
-  dispatch?: Function,
-  params?: Object
+  dispatch: () => void,
+  params: Object
 };
 
 export type State = {
@@ -24,9 +24,9 @@ class ResetPassword extends Component {
     super(props);
     this.state = { password: '', confirm: '' };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleConfirmChange = this.handleConfirmChange.bind(this);
-    this.handleReset = this.handleReset.bind(this);
+    (this:any).handleChange = this.handleChange.bind(this);
+    (this:any).handleConfirmChange = this.handleConfirmChange.bind(this);
+    (this:any).handleReset = this.handleReset.bind(this);
   }
   state: State;
   props: Props;
@@ -37,7 +37,7 @@ class ResetPassword extends Component {
   handleConfirmChange(event) {
     this.setState({ confirm: event });
   }
-  handleReset(event): void {
+  handleReset(event, props): void {
     event.preventDefault();
     this.props.dispatch(resetPassword(this.state.password, this.props.params.token));
   }

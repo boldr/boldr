@@ -11,8 +11,8 @@ import { loadPrimary } from 'state/dux/navigation';
 import { fetchPagesIfNeeded } from 'state/dux/page';
 
 export type Props = {
-  children?: number | string | React.Element<*> | Array<any>,
-  fetchSettingsIfNeeded?: Function
+  children: React$Element<*>,
+  fetchSettingsIfNeeded: Function
 };
 
 @provideHooks({

@@ -7,9 +7,9 @@ import { getAllPosts, fetchPosts } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
 
 export type Props = {
-  posts?: Object,
+  posts: Object,
   isLoading?: boolean,
-  fetchPosts?: Function
+  fetchPosts: Function
 };
 
 @provideHooks({

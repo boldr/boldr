@@ -130,7 +130,7 @@
     "test": "npm-run-all -s test:client test:api",
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
-    "typecheck": "flow",
+    "typecheck": "flow; test $? -eq 0 -o $? -eq 2",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

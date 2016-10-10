@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'react-router/lib/Link';
 import { Icon, Label } from 'semantic-ui-react';
 
-const Tag = (props: { name: String }) => {
+const Tag = (props: { name: string }) => {
   return (
   <Link to={ `/blog/tags/${props.name}` }>
     <Label image>

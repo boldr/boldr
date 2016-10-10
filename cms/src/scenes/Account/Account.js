@@ -1,13 +1,13 @@
 /* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Header } from 'components/index';
+import { PrimaryHeader } from 'components/index';
 
-export type Props = {children?: React.Element};
-const Account = (props) => {
+export type Props = { children: React$Element<*> };
+const Account = (props: Props) => {
   return (
       <div>
-        <Header theme="dark" />
+        <PrimaryHeader />
         { props.children }
       </div>
       );
