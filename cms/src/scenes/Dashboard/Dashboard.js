@@ -7,7 +7,7 @@ import Authenicated from 'components/hoc.Authenticated';
 import NavigationDrawer from 'components/md/NavigationDrawers';
 import FontIcon from 'components/md/FontIcons';
 import {
-  articleListClicked, articleEditorClicked, dashboardClicked,
+  postListClicked, postEditorClicked, dashboardClicked,
   mediaClicked, membersClicked, settingsClicked, homeClicked,
   navigationClicked, contentClicked, pagesClicked
 } from './actions';
@@ -23,8 +23,8 @@ const DrawerType = {
 export type Props = {
   children?: React.Element,
   toggleOpen?: Function,
-  articleListClicked?: Function,
-  articleEditorClicked?: Function,
+  postListClicked?: Function,
+  postEditorClicked?: Function,
   dashboardClicked?: Function,
   mediaClicked?: Function,
   membersClicked?: Function,
@@ -41,14 +41,14 @@ class Dashboard extends Component {
   render() {
     const navItems = [
       {
-        primaryText: 'Article List',
+        primaryText: 'Post List',
         leftIcon: <FontIcon>toc</FontIcon>,
-        onClick: this.props.articleListClicked
+        onClick: this.props.postListClicked
       },
       {
-        primaryText: 'Article Editor',
+        primaryText: 'Post Editor',
         leftIcon: <FontIcon>edit</FontIcon>,
-        onClick: this.props.articleEditorClicked
+        onClick: this.props.postEditorClicked
       }, {
         primaryText: 'Dashboard',
         leftIcon: <FontIcon>dashboard</FontIcon>,
@@ -121,7 +121,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    articleListClicked, articleEditorClicked, dashboardClicked,
+    postListClicked, postEditorClicked, dashboardClicked,
     mediaClicked, membersClicked, settingsClicked, homeClicked, navigationClicked,
     contentClicked, pagesClicked }, dispatch);
 };

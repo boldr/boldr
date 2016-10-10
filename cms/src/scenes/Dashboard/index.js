@@ -28,85 +28,86 @@ export default (store, connect) => {
         importModules.catch(errorLoading);
       }
     },
-    childRoutes: [{
-      path: 'articles',
-      getComponent(nextState, cb) {
-        System.import('./ArticleList')
+    childRoutes: [
+      {
+        path: 'posts',
+        getComponent(nextState, cb) {
+          System.import('./Post/PostList')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+        }
+      },
+      {
+        path: 'posts/editor/:slug',
+        getComponent(nextState, cb) {
+          System.import('./Post/PostEditor')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+        }
+      },
+      {
+        path: 'posts/new',
+        getComponent(nextState, cb) {
+          System.import('./Post/NewPost/NewPostContainer')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+        }
+      },
+      {
+        path: 'media',
+        getComponent(nextState, cb) {
+          System.import('./Media')
         .then(loadModule(cb))
         .catch(errorLoading);
-      }
-    },
-    {
-      path: 'articles/editor/:slug',
-      getComponent(nextState, cb) {
-        System.import('./ArticleEditor')
+        }
+      },
+      {
+        path: 'content',
+        getComponent(nextState, cb) {
+          System.import('./Collections')
         .then(loadModule(cb))
         .catch(errorLoading);
-      }
-    },
-    {
-      path: 'articles/new',
-      getComponent(nextState, cb) {
-        System.import('./NewArticle/NewArticleContainer')
+        }
+      },
+      {
+        path: 'navigation',
+        getComponent(nextState, cb) {
+          System.import('./Navigation')
         .then(loadModule(cb))
         .catch(errorLoading);
-      }
-    },
-    {
-      path: 'media',
-      getComponent(nextState, cb) {
-        System.import('./Media')
+        }
+      },
+      {
+        path: 'pages',
+        getComponent(nextState, cb) {
+          System.import('./Pages')
         .then(loadModule(cb))
         .catch(errorLoading);
-      }
-    },
-    {
-      path: 'content',
-      getComponent(nextState, cb) {
-        System.import('./Collections')
-        .then(loadModule(cb))
-        .catch(errorLoading);
-      }
-    },
-    {
-      path: 'navigation',
-      getComponent(nextState, cb) {
-        System.import('./Navigation')
-        .then(loadModule(cb))
-        .catch(errorLoading);
-      }
-    },
-    {
-      path: 'pages',
-      getComponent(nextState, cb) {
-        System.import('./Pages')
-        .then(loadModule(cb))
-        .catch(errorLoading);
-      }
-    },
-    {
-      path: 'settings',
-      getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, require('./Settings').default);
-        });
-      }
-    },
-    {
-      path: 'members',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('./Members/reducer'),
-          System.import('./Members')
-        ]);
-        const renderRoute = loadModule(cb);
-        importModules.then(([reducer, component]) => {
-          injectReducer('members', reducer.default);
-          renderRoute(component);
-        });
+        }
+      },
+      {
+        path: 'settings',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Settings').default);
+          });
+        }
+      },
+      {
+        path: 'members',
+        getComponent(nextState, cb) {
+          const importModules = Promise.all([
+            System.import('./Members/reducer'),
+            System.import('./Members')
+          ]);
+          const renderRoute = loadModule(cb);
+          importModules.then(([reducer, component]) => {
+            injectReducer('members', reducer.default);
+            renderRoute(component);
+          });
 
-        importModules.catch(errorLoading);
-      }
-    }]
+          importModules.catch(errorLoading);
+        }
+      }]
   };
 };

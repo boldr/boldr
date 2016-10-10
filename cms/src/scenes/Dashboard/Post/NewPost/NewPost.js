@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { createPost } from 'state/dux/post';
-import EditorForm from 'components/EditorForm';
+import EditorForm from '../EditorForm';
 
 export type Props = {
   dispatch?: Function,
@@ -12,7 +12,7 @@ export type Props = {
   onFormSubmit?: Function,
 };
 
-class NewArticle extends Component {
+class NewPost extends Component {
   constructor(props: Props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,4 +48,4 @@ const mapStateToProps = (state) => {
     posts: state.posts
   };
 };
-export default connect(mapStateToProps, { createPost })(NewArticle);
+export default connect(mapStateToProps, { createPost })(NewPost);

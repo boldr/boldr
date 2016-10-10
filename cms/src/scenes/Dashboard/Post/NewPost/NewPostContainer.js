@@ -2,25 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { createPost } from 'state/dux/post';
-import NewArticle from './NewArticle';
+import NewPost from './NewPost';
 
 export type Props = {dispatch?: Function};
 
-class NewArticleContainer extends Component {
-  props: Props;
-
+class NewPostContainer extends Component {
   onFormSubmit = (data) => {
     this.props.dispatch(createPost(data));
-    this.context.router.push('/');
+    this.context.router.push('/dashboard');
   }
-
+  props: Props;
   render() {
-    return <NewArticle onFormSubmit={ this.onFormSubmit } />;
+    return <NewPost onFormSubmit={ this.onFormSubmit } />;
   }
 }
 
-NewArticleContainer.contextTypes = {
+NewPostContainer.contextTypes = {
   router: PropTypes.object
 };
 
-export default connect()(NewArticleContainer);
+export default connect()(NewPostContainer);

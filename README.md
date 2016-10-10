@@ -1,6 +1,6 @@
 ![boldr](https://boldr.io/logo.png)
 ====
-[![Build Status][travis-img]][travis-link]
+[![Build Status][circle-img]][circle-link]
 [![Code Climate][cc-img]][cc-link]
 [![Gitter][gitter-img]][gitter-link]
 
@@ -127,8 +127,8 @@ View a **very early** demo at https://staging.boldr.io
 > Email - admin@boldr.io  
 Password - password
 
-[travis-img]: https://travis-ci.org/boldr/boldr.svg?branch=master
-[travis-link]: https://travis-ci.org/boldr/boldr
+[circle-img]: https://circleci.com/gh/boldr/boldr.svg?style=svg
+[circle-link]: https://circleci.com/gh/boldr/boldr
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-link]: https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [cc-img]: https://codeclimate.com/github/boldr/boldr/badges/gpa.svg

@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { loadPost, clearCurrentPost, updatePost } from '../../Blog/SinglePost/actions';
-import EditorForm from 'components/EditorForm';
+import { loadPost, clearCurrentPost, updatePost } from 'scenes/Blog/SinglePost/actions';
+import EditorForm from '../EditorForm';
 
 export type Props = {
   dispatch?: Function,
@@ -14,7 +14,7 @@ export type Props = {
   loadPost?: Function,
 };
 
-class ArticleEditor extends Component {
+class PostEditor extends Component {
   constructor(props: Props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,4 +63,4 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.currentPost.isLoading
   };
 };
-export default connect(mapStateToProps, { loadPost, clearCurrentPost, updatePost })(ArticleEditor);
+export default connect(mapStateToProps, { loadPost, clearCurrentPost, updatePost })(PostEditor);

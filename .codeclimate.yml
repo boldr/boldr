@@ -3,7 +3,8 @@ engines:
     enabled: true
 ratings:
    paths:
-   - src/**
+   - api/src/**
+   - cms/src/**
    - tools/**
    - "**.js"
 exclude_paths:
@@ -11,3 +12,4 @@ exclude_paths:
 - volumes/**
 - build/**
 - docs/**
+- **/dist/**

@@ -27,8 +27,9 @@ export default (store) => {
       {
         path: 'about',
         getComponent(nextState, cb) {
-         require.ensure(['../pages/About'], (require) => {
-            let AboutPage = require('../pages/About').default;
+          require.ensure(['../pages/About'], (require) => {
+            const AboutPage = require('../pages/About').default;
+
             cb(null, AboutPage);
           });
         }

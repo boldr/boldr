@@ -1,14 +1,14 @@
 import { push } from 'react-router-redux';
 
-export function articleListClicked() {
+export function postListClicked() {
   return (dispatch) => {
-    dispatch(push('/dashboard/articles'));
+    dispatch(push('/dashboard/posts'));
   };
 }
 
-export function articleEditorClicked() {
+export function postEditorClicked() {
   return (dispatch) => {
-    dispatch(push('/dashboard/articles/new'));
+    dispatch(push('/dashboard/posts/new'));
   };
 }
 
