@@ -2,7 +2,7 @@ import findQuery from 'objection-find';
 import slugify from 'slugify';
 import uuid from 'node-uuid';
 import { responseHandler, throwNotFound } from '../../utils';
-import { InternalError, PostNotFoundError } from '../../utils/errors';
+import { InternalError, PostNotFoundError, DuplicateSlugError } from '../../utils/errors';
 import Tag from '../tag/tag.model';
 import Activity from '../activity/activity.model';
 import Post from './post.model';
@@ -16,17 +16,35 @@ function index(req, res) {
     .eager(req.query.include)
     .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
     .skipUndefined()
-    // .orderBy(req.query.sort.by, req.query.sort.order)
+    .orderBy(req.query.sort.by, req.query.sort.order)
     // .page(req.query.page.number, req.query.page.size)
     .then(users => responseHandler(null, res, 200, users))
     .catch(err => responseHandler(err, res));
 }
 
-async function create(req, res) {
+async function create(req, res, next) {
+  req.assert('title', 'A title must be provided').notEmpty();
+  req.assert('content', 'Content can not be empty').notEmpty();
+
+  const errors = req.validationErrors();
+  if (errors) {
+    return res.status(400).send(errors);
+  }
+
+  const postSlug = slugify(req.body.title);
+
+  // look for a matching slug in the database
+  const checkExisting = await Post.query().where('slug', postSlug).first();
+
+  if (checkExisting) {
+    // return with error
+    return next(new DuplicateSlugError());
+  }
+
   const newPost = await Post.query().insert({
     id: uuid.v4(),
     title: req.body.title,
-    slug: slugify(req.body.title),
+    slug: postSlug,
     excerpt: req.body.excerpt,
     content: req.body.content,
     feature_image: req.body.feature_image,
@@ -82,7 +100,7 @@ async function getSlug(req, res) {
   return responseHandler(null, res, 200, post);
 }
 
-async function getId(req, res) {
+async function getId(req, res, next) {
   try {
     const post = await Post
       .query()
@@ -92,11 +110,11 @@ async function getId(req, res) {
       .first();
     return responseHandler(null, res, 200, post);
   } catch (error) {
-    throw new InternalError(error);
+    return next(new InternalError(error));
   }
 }
 
-async function destroy(req, res) {
+async function destroy(req, res, next) {
   try {
     await Post
       .query()
@@ -105,7 +123,7 @@ async function destroy(req, res) {
 
     res.status(204).send({});
   } catch (error) {
-    throw new InternalError(error);
+    return next(new InternalError(error));
   }
 }
 
@@ -115,13 +133,13 @@ function update(req, res) {
     .then(post => res.status(202).json(post));
 }
 
-async function addTag(req, res) {
+async function addTag(req, res, next) {
   const post = await Post
     .query()
     .findById(req.params.id);
 
   if (!post) {
-    throw new PostNotFoundError();
+    return next(new PostNotFoundError());
   }
 
   const tag = await post

@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import expressWinston from 'express-winston';
 import morgan from 'morgan';
+import expressValidator from 'express-validator';
 import session from 'express-session';
 import redisClient from './db/redis';
 import conf from './config/config';
@@ -50,6 +51,7 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.options('*', (req, res) => res.sendStatus(200));
 

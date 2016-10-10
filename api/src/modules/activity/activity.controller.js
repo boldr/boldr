@@ -6,7 +6,7 @@ import Activity from './activity.model';
 
 const debug = require('debug')('boldr:activity-controller');
 
-async function index(req, res) {
+async function getAll(req, res) {
   try {
     const activities = await Activity.query().orderBy('created_at', 'desc').eager('owner');
     return res.status(200).json(activities);
@@ -15,4 +15,4 @@ async function index(req, res) {
   }
 }
 
-export { index };
+export { getAll };

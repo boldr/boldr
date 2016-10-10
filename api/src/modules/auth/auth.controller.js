@@ -6,6 +6,7 @@ import User from '../user/user.model';
 import UserRole from '../user/userRole.model';
 import Role from '../role/role.model';
 import { responseHandler, encryptPassword, generateVerifyCode } from '../../utils';
+import { InternalError, UserNotFoundError, EmailTakenError, InvalidCredentialsError, AccountNotVerifiedError } from '../../utils/errors';
 import signToken from './signToken';
 
 const debug = require('debug')('boldr:auth:controller');
@@ -16,14 +17,26 @@ const debug = require('debug')('boldr:auth:controller');
  * @param res
  * @returns {*}
  */
-async function register(req, res) {
+async function register(req, res, next) {
   try {
+    // Param validation
+    req.assert('email', 'Email is not valid').isEmail();
+    req.assert('email', 'Email cannot be blank').notEmpty();
+    req.assert('password', 'Password cannot be blank').notEmpty();
+    req.assert('display_name', 'Display name must not be empty').notEmpty();
+    req.assert('first_name', 'First name must not be empty').notEmpty();
+    req.sanitize('email').normalizeEmail({ remove_dots: false });
+    const errors = req.validationErrors();
+    if (errors) {
+      return res.status(400).send(errors);
+    }
+
     // look for a matching email address
-    const checkUser = await User.query().where('email', req.body.email);
+    const checkUser = await User.query().where('email', req.body.email).first();
     // if an email matching the req is found
     if (checkUser.length) {
       // return with error
-      return responseHandler(new Error('A user with that email already exists'), res, 409);
+      return next(new EmailTakenError());
     }
 
     const hash = await encryptPassword(req.body.password);
@@ -48,8 +61,8 @@ async function register(req, res) {
     // remove the password from the response.
     user.stripPassword();
     return res.status(201).json(user);
-  } catch (e) {
-    return responseHandler(e, res, 500);
+  } catch (error) {
+    return next(new EmailTakenError(error));
   }
 }
 
@@ -60,14 +73,25 @@ async function register(req, res) {
  * @param next
  */
 async function login(req, res, next) {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', 'Email cannot be blank').notEmpty();
+  req.assert('password', 'Password cannot be blank').notEmpty();
+  req.sanitize('email').normalizeEmail({ remove_dots: false });
+  const errors = req.validationErrors();
+  if (errors) {
+    return res.status(400).send(errors);
+  }
   const user = await User.query().where({ email: req.body.email }).eager('role').first();
   passport.authenticate('local', (err, user, info) => {
     const error = err || info;
     if (error) {
-      responseHandler(new Error('Wrong username or password'), res, 422);
+      return next(new InvalidCredentialsError());
     }
     if (!user) {
-      responseHandler(new Error('Wrong username or password'), res, 422);
+      return next(new InvalidCredentialsError());
+    }
+    if (!user.verified) {
+      return next(new AccountNotVerifiedError());
     }
     return req.logIn(user, (loginErr) => {
       if (loginErr) return res.status(401).json({ message: loginErr });
@@ -86,12 +110,12 @@ async function login(req, res, next) {
 }
 
 
-async function verify(req, res) {
+async function verify(req, res, next) {
   try {
     const verifToken = req.params.verifToken;
 
     if (!verifToken) {
-      return responseHandler(new Error('Invalid registration link', res, 400));
+      return res.status(400).json('Invalid registration link');
     }
 
     const user = await User.query().where({ account_token: req.params.verifToken });
@@ -103,14 +127,18 @@ async function verify(req, res) {
   }
 }
 
-async function checkUser(req, res) {
-  const userId = req.user.id;
-  const validUser = await User.query().where({ id: userId }).eager('role').first();
-  if (!validUser) {
-    return responseHandler(new Error('Invalid user', res, 404));
+async function checkAuthentication(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const validUser = await User.query().where({ id: userId }).eager('role').first();
+    if (!validUser) {
+      return next(new UserNotFoundError());
+    }
+    validUser.stripPassword();
+    return responseHandler(null, res, 200, { user: validUser });
+  } catch (error) {
+    return next(new InternalError(error));
   }
-  validUser.stripPassword();
-  return responseHandler(null, res, 200, { user: validUser });
 }
 
 /**
@@ -120,22 +148,27 @@ async function checkUser(req, res) {
  * @param res
  * @returns {*}
  */
-async function forgottenPassword(req, res) {
+async function forgottenPassword(req, res, next) {
   try {
     const user = await User.query().where({ email: req.body.email }).first();
     if (!user) {
-      return responseHandler(new Error('No such user exists'), res, 404);
+      return next(new UserNotFoundError());
     }
     const mailSubject = '[Boldr] Password Reset';
     const token = generateVerifyCode();
-    await User.query().patchAndFetchById(user.id, { reset_password_token: token, reset_password_expiration: new Date(Date.now() + 3600000) });
+    await User
+      .query()
+      .patchAndFetchById(user.id, {
+        reset_password_token: token,
+        reset_password_expiration: new Date(Date.now() + 3600000)
+      });
 
     const mailBody = forgotPasswordEmail(user);
 
     await handleMail(user, mailBody, mailSubject);
     return responseHandler(null, res, 200, { message: 'Sending email with reset link' });
   } catch (e) {
-    return responseHandler(e, res, 500);
+    return next(new InternalError(e));
   }
 }
 
@@ -145,11 +178,11 @@ async function forgottenPassword(req, res) {
  * @param res
  * @returns {*}
  */
-async function resetPassword(req, res) {
+async function resetPassword(req, res, next) {
   try {
     const user = await User.query().where({ reset_password_token: req.body.token }).first();
     if (!user) {
-      return responseHandler(new Error('Invalid user', res, 404));
+      return next(new UserNotFoundError());
     }
     const mailSubject = '[Boldr] Password Changed';
     const hash = await User.encryptPassword(req.body.password);
@@ -162,8 +195,8 @@ async function resetPassword(req, res) {
     handleMail(user, mailBody, mailSubject);
     return res.status(200).json('Sent');
   } catch (error) {
-    return responseHandler(error, res, 500);
+    return next(new InternalError(error));
   }
 }
 
-export { register, login, verify, checkUser, forgottenPassword, resetPassword };
+export { register, login, verify, checkAuthentication, forgottenPassword, resetPassword };

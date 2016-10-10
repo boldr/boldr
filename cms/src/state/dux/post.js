@@ -1,10 +1,10 @@
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
-import { camelizeKeys } from 'humps';
+// import { camelizeKeys } from 'humps';
 import { combineReducers } from 'redux';
-import { normalize, arrayOf } from 'normalizr';
+// import { normalize, arrayOf } from 'normalizr';
 import { post as postSchema } from 'core/api/schemas';
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
 import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
 import * as api from 'core/api/post.service';
 import * as notif from 'core/notificationMessages';

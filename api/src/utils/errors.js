@@ -45,6 +45,19 @@ export class InvalidPasswordError extends BaseError {
   }
 }
 
+export class InvalidCredentialsError extends BaseError {
+  constructor() {
+    super('Email or password is invalid. Please try again.', 'InvalidCredentialsError', 401);
+  }
+}
+
+export class AccountNotVerifiedError extends BaseError {
+  constructor() {
+    super('This account has not been confirmed. Please check your email for a verification link.',
+    'AccountNotVerifiedError', 400);
+  }
+}
+
 export class EmailConfirmedError extends BaseError {
   constructor() {
     super('Email already confirmed!', 'EmailConfirmedError', 400);
@@ -53,7 +66,7 @@ export class EmailConfirmedError extends BaseError {
 
 export class EmailTakenError extends BaseError {
   constructor() {
-    super('Email already taken by another user!', 'EmailTakenError', 400);
+    super('Email is already in use.', 'EmailTakenError', 409);
   }
 }
 
@@ -76,6 +89,6 @@ export class TagNotFoundError extends BaseError {
 }
 export class DuplicateSlugError extends BaseError {
   constructor() {
-    super('Slugs must be unique!', 'DuplicateSlugError', 409);
+    super('A post matching this title and slug already exists.', 'DuplicateSlugError', 409);
   }
 }

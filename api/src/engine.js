@@ -14,6 +14,7 @@ app.set('port', port);
 const server = http.createServer(app);
 server.on('listening', onListening);
 server.on('error', onError);
+process.on('SIGTERM', exit);
 
 function startServer() {
   server.listen(port);
@@ -59,6 +60,12 @@ function onListening() {
       : `port ${addr.port}`
   );
   debug(`Listening on ${bind}`);
+}
+
+function exit(reason) {
+  logger.log({ type: 'info', message: 'closing server', reason });
+  if (server) server.close(process.exit.bind(process));
+  else process.exit();
 }
 
 /**
