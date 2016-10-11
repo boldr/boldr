@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch';
 import { combineReducers } from 'redux';
 // import { normalize, arrayOf } from 'normalizr';
 import { post as postSchema } from 'core/api/schemas';
-// import { createSelector } from 'reselect';
+ import { createSelector } from 'reselect';
 import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
 import * as api from 'core/api/post.service';
 import * as notif from 'core/notificationMessages';
@@ -169,7 +169,15 @@ export const postsToState = (list) => (
     [a.id]: a
   }), {})
 );
+const postsSelector = ({ posts: { posts } }) => posts
 
+const sortByCreatedAt = list => list ? list
+.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) : []
+
+export const postOrderByDate = createSelector(
+  postsSelector,
+  sortByCreatedAt
+);
 //
 // Reducer
 // -----------------

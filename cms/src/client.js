@@ -56,7 +56,7 @@ const renderBoldr = () => {
     return history.listen(location => {
       match({ routes, location }, (error, redirectLocation, renderProps) => {
         if (error) {
-          console.log('==> React Router match failed.'); // eslint-disable-line no-console
+          console.log('Router matching failed.'); // eslint-disable-line no-console
         }
         const { components } = renderProps;
         const locals = {
@@ -83,7 +83,7 @@ if (module.hot) {
     } catch (error) {
       const RedBox = require('redbox-react').default;
 
-      render(<RedBox error={ error } />, MOUNT_POINT);
+      ReactDOM.render(<RedBox error={ error } />, MOUNT_POINT);
     }
   };
 

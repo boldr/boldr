@@ -6,7 +6,7 @@ COPY package.json $HOME/api/
 RUN chown -R boldr:boldr $HOME/*
 
 USER boldr
-COPY compiled/ _migrations _seeds /home/boldr/api
+COPY compiled/ _migrations _seeds /home/boldr/api/
 WORKDIR /home/boldr/api
 RUN npm install --production
 EXPOSE 2121/tcp

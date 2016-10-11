@@ -27,7 +27,9 @@ class PrimaryHeader extends Component {
   componentDidMount() {
     this.props.actions.loadPrimary();
   }
-
+  state = {
+    activeITem: ''
+  }
   props: Props;
   handleItemClick = (e, { name, href }) => {
     this.setState({
