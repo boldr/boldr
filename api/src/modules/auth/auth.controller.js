@@ -1,7 +1,7 @@
 import passport from 'passport';
 import uuid from 'node-uuid';
 import handleMail from '../../mailer';
-import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/mailContent';
+import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/templates';
 import User from '../user/user.model';
 import { responseHandler, generateVerifyCode } from '../../utils';
 import * as errs from '../../utils/errors';

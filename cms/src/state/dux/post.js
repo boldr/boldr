@@ -1,4 +1,4 @@
-import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core/index';
+import { API_PREFIX, API_POSTS, TOKEN_KEY, processResponse } from 'core/index';
 import * as api from 'core/api/post.service';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';

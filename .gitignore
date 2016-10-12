@@ -23,6 +23,8 @@ boldr.sublime-workspace
 .idea
 .vscode
 flow-typed
+boldr-api.paw
+
 
 #### Dist Directories
 cms/dist/

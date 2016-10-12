@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Button } from 'semantic-ui-react';
 import { Grid, Col, Row, BoldrEditor, S3Uploader } from 'components';
-import { API_BASE, S3_SIGNING_URL } from 'core/api/helpers';
+import { API_PREFIX, S3_SIGNING_URL } from 'core/api/helpers';
 import inlineStyles from 'theme/inlineStyles';
 import Radio from 'components/md/SelectionControls/Radio';
 import Paper from 'components/md/Papers';
@@ -47,7 +47,7 @@ class EditorForm extends Component {
                  name="feature_image"
                  uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
                  contentDisposition="auto"
-                 server={ `${API_BASE}` }
+                 server={ `${API_PREFIX}` }
                  /> */}
                 <Field name="feature_image" type="text"
                        helpText="URL for your image"

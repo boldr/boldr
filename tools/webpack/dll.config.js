@@ -67,10 +67,11 @@ module.exports = {
       'redux-form',
       'react-addons-css-transition-group',
       'draft-js',
+      'draft-js-export-html',
+      'draft-js-import-html',
       'classnames',
       'semantic-ui-react',
-      'isomorphic-fetch',
-      'reselect'
+      'isomorphic-fetch'
     ]
   },
 

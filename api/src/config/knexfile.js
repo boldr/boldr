@@ -43,11 +43,7 @@ module.exports = {
   },
   production: {
     client: 'postgresql',
-    connection: {
-      database: process.env.POSTGRES_DB || 'boldr',
-      user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || 'password'
-    },
+    connection: process.env.POSTGRES_CONN_URI,
     searchPath: 'knex,public',
     migrations: {
       directory: path.resolve(__dirname, '../db/_migrations'),

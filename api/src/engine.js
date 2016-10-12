@@ -7,7 +7,7 @@ import app from './app';
 const debug = require('debug')('boldr:engine');
 
 const env = process.env.NODE_ENV || 'development';
-const port = normalizePort(conf.get('api.port'));
+const port = normalizePort(conf.get('port'));
 
 app.set('port', port);
 
@@ -17,12 +17,16 @@ server.on('error', onError);
 process.on('SIGTERM', exit);
 
 function startServer() {
+  logger.info(`${conf.toString()} \n
+  ------------------------------------------------------------ \n
+                    🔧 Loaded BoldrAPI Configuration.
+  ------------------------------------------------------------- \n
+  If any values are incorrect, edit the files in the config directory.
+  You are able to override any settings using the .env file. \n
+  `);
   server.listen(port);
   logger.info(`🌎  ==> API is running on ${port} in ${env} mode.`);
 }
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 setImmediate(startServer);
 

@@ -1,5 +1,4 @@
 import request from 'superagent';
-import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
 import { API_POSTS, TOKEN_KEY, processResponse } from 'core';
 

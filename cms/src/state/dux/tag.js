@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { combineReducers } from 'redux';
-import { API_BASE, API_POSTS, processResponse } from 'core';
+import { API_PREFIX, API_POSTS, processResponse } from 'core';
 import * as api from 'core/api/tag.service';
 import * as types from '../actionTypes';
 /**

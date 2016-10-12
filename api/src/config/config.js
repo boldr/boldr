@@ -1,10 +1,6 @@
 const path = require('path');
 const convict = require('convict');
 const debug = require('debug')('boldr:configuration');
-const fs = require('fs-extra');
-// const util = require('util');
-
-const rcPath = path.join(`${path.resolve(process.cwd())}/.boldrrc.json`);
 
 const conf = convict({
   env: {
@@ -23,57 +19,30 @@ const conf = convict({
   dateFormat: {
     doc: 'The format by which dates will be displayed.',
     format: String,
-    default: 'YYYY-MM-DD HH'
+    default: 'yyyy-MM-dd'
   },
   timezone: {
     doc: 'The default timezone.',
     format: String,
     default: '-07:00'
   },
-  printStack: {
-    doc: 'Indicates if the server should send the stack with the error.',
-    format: Boolean,
-    default: false
+  prefix: {
+    doc: 'The url prefix for the api',
+    format: String,
+    default: '/api/v1',
+    env: 'API_PREFIX'
   },
-  hmr: {
-    doc: 'Hot Module Replacement / Webpack Dev Server port',
+  host: {
+    doc: 'The host address bound to the API server.',
+    format: String,
+    default: 'localhost',
+    env: 'API_HOST'
+  },
+  port: {
+    doc: 'The port to bind for the API server.',
     format: 'port',
-    default: 3001,
-    env: 'HMR_PORT'
-  },
-  ssr: {
-    host: {
-      doc: 'The host address bound to the server-side rendering server.',
-      format: String,
-      default: 'localhost',
-      env: 'SSR_HOST'
-    },
-    port: {
-      doc: 'The port to bind for the SSR server.',
-      format: 'port',
-      default: 3000,
-      env: 'SSR_PORT'
-    }
-  },
-  api: {
-    host: {
-      doc: 'The host address bound to the API server.',
-      format: String,
-      default: 'localhost',
-      env: 'API_HOST'
-    },
-    port: {
-      doc: 'The port to bind for the API server.',
-      format: 'port',
-      default: 2121,
-      env: 'API_PORT'
-    },
-    base: {
-      doc: 'The url prefix for the api',
-      format: String,
-      default: '/api/v1',
-      env: 'API_BASE'
-    }
+    default: 2121,
+    env: 'API_PORT'
   },
   mail: {
     key: {
@@ -93,12 +62,6 @@ const conf = convict({
       format: String,
       default: 'postmaster@boldr.io',
       env: 'MG_FROM'
-    },
-    baseUrl: {
-      doc: 'The url base used for reset password requests.',
-      format: String,
-      default: 'http://localhost:3000/api/v1',
-      env: 'MAIL_BASE'
     }
   },
   aws: {
@@ -145,7 +108,7 @@ const conf = convict({
     uri: {
       doc: 'The redis connection uri',
       format: String,
-      default: 'redis://127.0.0.1:6379/4',
+      default: 'redis://127.0.0.1:6379/1',
       env: 'REDIS_CONN_URI'
     },
     host: {
@@ -168,6 +131,12 @@ const conf = convict({
     }
   },
   db: {
+    uri: {
+      doc: 'The postgres connection uri',
+      format: String,
+      default: 'postgres://boldr:password@127.0.0.1:5432/boldr',
+      env: 'POSTGRES_CONN_URI'
+    },
     name: {
       doc: 'Name of the database.',
       format: String,
@@ -202,28 +171,6 @@ const conf = convict({
       format: String,
       default: 'password',
       env: 'POSTGRES_PASSWORD'
-    },
-    pool: {
-      enabled: {
-        doc: 'Indicates if sequelize should use a connection pool or not.',
-        default: true,
-        format: Boolean
-      },
-      maxConnections: {
-        doc: 'If pool is enabled, max number of connections should be this.',
-        default: 8,
-        format: Number
-      },
-      minConnections: {
-        doc: 'If pool is enabled, min number of connections should be this.',
-        default: 0,
-        format: Number
-      },
-      maxIdleTime: {
-        doc: 'If pool is enabled, max idle time of a connection in milliseconds.',
-        default: 10000,
-        format: Number
-      }
     }
   },
   session: {
@@ -257,27 +204,9 @@ const conf = convict({
     }
   }
 });
-//
-// function fileExists(rcPath) {
-//   try {
-//     return fs.statSync(rcPath).isFile();
-//   } catch (err) {
-//     return false;
-//   }
-// }
-// const config = conf.getProperties();
-// if (!fileExists(rcPath)) {
-//   fs.writeFile(rcPath, JSON.stringify(config), (error) => {
-//     if (error) {
-//       console.error(`write error:  ${error.message}`);
-//     } else {
-//       console.log(`Successful Write to ${filePath}`);
-//     }
-//   });
-// }
 
 conf.validate({
   strict: true
 });
-debug('Configuration file loaded successfully.');
+
 export default conf;

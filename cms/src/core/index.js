@@ -1,5 +1,5 @@
 import {
-  API_BASE,
+  API_PREFIX,
   S3_SIGNING_URL,
   API_AUTH,
   API_POSTS,
@@ -20,7 +20,7 @@ import ApiClient from './api/ApiClient';
 
 
 export {
-  API_BASE,
+  API_PREFIX,
   S3_SIGNING_URL,
   API_AUTH,
   API_POSTS,

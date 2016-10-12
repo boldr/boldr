@@ -1,20 +1,20 @@
 // This is the prefix for all of our API requests.
 // You can leave as-is and the proxy will take care of everything
 // If you change this value, the value in the server proxy will need to be changed
-export const API_BASE = process.env.API_BASE || '/api/v1';
+export const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 
 export const S3_SIGNING_URL = '/s3/sign';
 // Define all endpoints for easy imports.
-export const API_AUTH = `${API_BASE}/auth`;
-export const API_POSTS = `${API_BASE}/posts`;
-export const API_ACTIVITY = `${API_BASE}/activities`;
-export const API_USERS = `${API_BASE}/users`;
-export const API_PAGE = `${API_BASE}/pages`;
-export const API_LINKS = `${API_BASE}/links`;
-export const API_MEDIA = `${API_BASE}/media`;
-export const API_TAG = `${API_BASE}/tags`;
-export const API_SETTINGS = `${API_BASE}/settings`;
-export const API_NAVIGATION = `${API_BASE}/navigations`;
+export const API_AUTH = `${API_PREFIX}/auth`;
+export const API_POSTS = `${API_PREFIX}/posts`;
+export const API_ACTIVITY = `${API_PREFIX}/activities`;
+export const API_USERS = `${API_PREFIX}/users`;
+export const API_PAGE = `${API_PREFIX}/pages`;
+export const API_LINKS = `${API_PREFIX}/links`;
+export const API_MEDIA = `${API_PREFIX}/media`;
+export const API_TAG = `${API_PREFIX}/tags`;
+export const API_SETTINGS = `${API_PREFIX}/settings`;
+export const API_NAVIGATION = `${API_PREFIX}/navigations`;
 // Here you can change the name of the token that is put into localStorage.
 export const TOKEN_KEY = 'token';
 

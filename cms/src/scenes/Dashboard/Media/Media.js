@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { S3Uploader, Grid, Row, Col } from 'components/index';
-import { API_BASE, S3_SIGNING_URL } from 'core/api/helpers';
+import { API_PREFIX, S3_SIGNING_URL } from 'core/api/helpers';
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/media';
 import FileView from 'components/FileView';
 
@@ -57,7 +57,7 @@ class Media extends Component {
 
               uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
               contentDisposition="auto"
-              server={ `${API_BASE}` }
+              server={ `${API_PREFIX}` }
             />
             <FileView files={ this.props.media.files } removeMedia={ this.handleRemoveMedia } />
          </Col>

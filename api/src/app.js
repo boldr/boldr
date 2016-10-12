@@ -11,16 +11,11 @@ import expressValidator from 'express-validator';
 import session from 'express-session';
 import redisClient from './db/redis';
 import conf from './config/config';
-import knex from './db/connection';
-
-const RedisStore = require('connect-redis')(session);
-
+import knex from './db/postgres';
 import winstonInstance from './logger';
-
-// Boldr API Deps
-
 import routes from './modules/routes';
 
+const RedisStore = require('connect-redis')(session);
 const debug = require('debug')('boldr:ssr-server');
 
 const app = Express();
@@ -29,7 +24,6 @@ const env = conf.get('env') || 'development';
 app.disable('x-powered-by');
 app.set('trust proxy', 'loopback');
 app.use(compression());
-
 
 if (env !== 'production') {
   app.use(morgan('dev'));
@@ -57,14 +51,13 @@ app.options('*', (req, res) => res.sendStatus(200));
 
 const sessionMiddleware = session({
   store: new RedisStore({ client: redisClient }),
-  secret: 'asdf',
+  secret: conf.get('session.secret'),
   name: 'boldr:sid',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV !== 'development'
-    && process.env.NODE_ENV !== 'test'
-    && process.env.NODE_ENV !== 'travis',
+    secure: env !== 'development'
+    && env !== 'test',
     maxAge: 2419200000
   },
   unset: 'destroy'
@@ -81,7 +74,7 @@ app.use((req, res, next) => {
   })(req, res, next);
 });
 
-app.use('/api/v1', routes);
+app.use(conf.get('prefix'), routes);
 
 // Error handling. The `ValidionError` instances thrown by objection.js have a `statusCode`
 // property that is sent as the status code of the response.
@@ -93,6 +86,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.use(errorHandler());
+if (env !== 'production') {
+  app.use(errorHandler());
+}
 
 export default app;

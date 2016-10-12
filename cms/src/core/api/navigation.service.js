@@ -1,7 +1,6 @@
 import request from 'superagent';
-import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_NAVIGATION, API_LINKS, TOKEN_KEY } from 'core';
+import { API_PREFIX, API_NAVIGATION, API_LINKS, TOKEN_KEY } from 'core';
 
 export function doUpdateNavigationLinks(data) {
   console.log(data, 'API SERVICE ------');
