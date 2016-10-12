@@ -52,6 +52,8 @@ module.exports = function webpackConfig() {
         'redial',
         'superagent',
         'redux-form',
+        'react-addons-transition-group',
+        'serialize-javascript',
         'react-addons-css-transition-group',
         'draft-js',
         'draft-js-export-html',

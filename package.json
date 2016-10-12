@@ -114,9 +114,7 @@
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
     "build:dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/dll.config.js",
-    "clean": "rimraf cms/static/assets && rimraf cms/dist",
-    "clean:hp": "rimraf .happypack",
-    "copy-files": "./tools/scripts/copyFiles.sh",
+    "clean": "rimraf cms/static/assets.js && rimraf cms/static/assets/ && rimraf api/boldr-api/ && rimraf .happypack && rimraf cms/dist",
     "dev": "npm-run-all --parallel dev:api dev:client dev:server",
     "dev:client": "better-npm-run dev:client",
     "dev:server": "better-npm-run dev:server",
@@ -130,9 +128,7 @@
     "test": "npm-run-all -s test:client test:api",
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
-    "typecheck": "flow; test $? -eq 0 -o $? -eq 2",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "typecheck": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "nyc": {
     "check-coverage": true,

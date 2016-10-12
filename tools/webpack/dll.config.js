@@ -14,8 +14,6 @@ module.exports = {
 
   entry: {
     vendor: [
-      'babel-polyfill',
-
       // <babel-runtime>
       'babel-runtime/core-js/array/from',
       'babel-runtime/core-js/get-iterator',
@@ -71,7 +69,9 @@ module.exports = {
       'draft-js-import-html',
       'classnames',
       'semantic-ui-react',
-      'isomorphic-fetch'
+      'isomorphic-fetch',
+      'react-addons-transition-group',
+      'serialize-javascript'
     ]
   },
 

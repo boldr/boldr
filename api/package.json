@@ -4,17 +4,8 @@
   "description": "",
   "main": "index.js",
   "private": true,
-  "betterScripts": {
-    "start": {
-      "command": "node boldrApi/index.js",
-      "env": {
-        "NODE_ENV": "production",
-        "API_PORT": 2121
-      }
-    }
-  },
   "scripts": {
-    "start": "better-npm-run start",
+    "start": "NODE_ENV=production node -r dotenv/config boldr-api/index.js",
     "migrate": "./node_modules/.bin/knex --knexfile boldr-api/config/knexfile.js migrate:latest",
     "seed": "./node_modules/.bin/knex --knexfile boldr-api/config/knexfile.js seed:run",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,7 +16,6 @@
     "aws-sdk": "^2.6.6",
     "babel-register": "^6.16.3",
     "bcryptjs": "^2.3.0",
-    "better-npm-run": "0.0.11",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "composable-middleware": "^0.3.0",
@@ -43,7 +33,6 @@
     "express-validator": "^2.20.10",
     "express-winston": "^2.0.0",
     "helmet": "^2.3.0",
-    "http-proxy": "^1.15.1",
     "ioredis": "^2.4.0",
     "jsonwebtoken": "^7.1.9",
     "knex": "^0.12.3",
