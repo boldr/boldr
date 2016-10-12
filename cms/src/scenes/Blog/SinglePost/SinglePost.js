@@ -8,7 +8,7 @@ import { Grid, Col, Row } from 'components/index';
 import Paper from 'components/md/Papers';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
-
+import { getSinglePost } from 'state/dux/post';
 import PostContent from 'components/PostContent';
 import { loadPost } from './actions';
 
@@ -17,9 +17,6 @@ export type Props = {
   currentPost?: Object,
 };
 
-const redial = {
-  fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
-};
 
 const SinglePost = ({ isLoading, currentPost }) => {
   return (
@@ -44,11 +41,12 @@ const SinglePost = ({ isLoading, currentPost }) => {
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    currentPost: state.currentPost,
+    posts: state.posts,
+    currentPost: state.posts.bySlug[ownProps.params.slug],
     isLoading: state.currentPost.isLoading
   };
 };
 
-export default provideHooks(redial)(connect(mapStateToProps)(SinglePost));
+export default connect(mapStateToProps)(SinglePost);

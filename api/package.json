@@ -6,7 +6,7 @@
   "private": true,
   "betterScripts": {
     "start": {
-      "command": "node index.js",
+      "command": "node boldrApi/index.js",
       "env": {
         "NODE_ENV": "production",
         "API_PORT": 2121
@@ -15,8 +15,8 @@
   },
   "scripts": {
     "start": "better-npm-run start",
-    "migrate": "./node_modules/.bin/knex migrate:latest",
-    "seed": "./node_modules/.bin/knex seed:run",
+    "migrate": "./node_modules/.bin/knex --knexfile boldr-api/config/knexfile.js migrate:latest",
+    "seed": "./node_modules/.bin/knex --knexfile boldr-api/config/knexfile.js seed:run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

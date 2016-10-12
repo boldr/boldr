@@ -47,7 +47,7 @@ services:
       context: ./api
     depends_on:
       - db
-      -redis
+      - redis
     links:
       - db
       - redis
@@ -58,17 +58,17 @@ services:
       - POSTGRES_CONN_URI=postgres://boldr:password@db:5432/boldr
     networks:
       - boldr
-  cms:
-    build:
-      context: ./cms
-    depends_on:
-      - api
-    links:
-      - api
-    ports:
-      - "3000:3000"
-    networks:
-      - boldr
+  # cms:
+  #   build:
+  #     context: ./cms
+  #   depends_on:
+  #     - api
+  #   links:
+  #     - api
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - boldr
 
 networks:
   boldr:

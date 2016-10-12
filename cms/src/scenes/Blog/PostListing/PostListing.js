@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Loader } from 'components/index';
-import { getAllPosts, fetchPosts } from 'state/dux/post';
+import { getPosts, fetchPosts } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
 
 export type Props = {
@@ -24,14 +24,14 @@ class PostListing extends Component {
     return (
         this.props.isLoading ?
            <Loader /> :
-          <PostListingGroup posts={ this.props.posts.entities } />
+          <PostListingGroup posts={ this.props.posts } />
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
+    posts: getPosts(state),
     isLoading: state.posts.isLoading
   };
 };

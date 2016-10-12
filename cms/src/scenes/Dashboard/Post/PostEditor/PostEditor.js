@@ -22,9 +22,9 @@ class PostEditor extends Component {
   state:Object = {
     editing: true
   };
-  componentDidMount() {
-    this.props.loadPost(this.props.params.slug);
-  }
+//  componentDidMount() {
+//    this.props.loadPost(this.props.params.slug);
+//  }
   props: Props;
   handleSubmit(values) {
     const postData = {
@@ -39,7 +39,7 @@ class PostEditor extends Component {
   }
 
   render() {
-    if (this.props.currentPost.isLoading && !this.props.currentPost.content.length) {
+    if (!this.props.currentPost.content.length) {
       return <p>Loading...</p>;
     }
     return (
@@ -57,7 +57,7 @@ class PostEditor extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
-    currentPost: state.currentPost,
+    currentPost: state.posts.bySlug[ownProps.params.slug],
     isLoading: state.currentPost.isLoading
   };
 };

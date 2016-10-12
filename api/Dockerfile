@@ -2,12 +2,12 @@ FROM strues/node:6.7
 ENV HOME=/home/boldr
 RUN adduser -h /home/boldr -D boldr
 
-COPY package.json $HOME/api/
+COPY package.json /home/boldr
 RUN chown -R boldr:boldr $HOME/*
 
 USER boldr
-COPY compiled/ _migrations _seeds /home/boldr/api/
-WORKDIR /home/boldr/api
+COPY boldr-api /home/boldr
+WORKDIR /home/boldr
 RUN npm install --production
 EXPOSE 2121/tcp
 CMD ["npm", "run" "start"]

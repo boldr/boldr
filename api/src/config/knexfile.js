@@ -1,5 +1,4 @@
 const path = require('path');
-const paths = require('./tools/paths');
 
 module.exports = {
   development: {
@@ -10,11 +9,11 @@ module.exports = {
       password: process.env.POSTGRES_PASSWORD || 'password'
     },
     migrations: {
-      directory: path.resolve(paths.API_DIR, '_migrations'),
+      directory: path.resolve(__dirname, '../db/_migrations'),
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(paths.API_DIR, '_seeds'),
+      directory: path.resolve(__dirname, '../db/_seeds'),
     },
     debug: false,
     pool: {
@@ -30,11 +29,11 @@ module.exports = {
       password: process.env.POSTGRES_PASSWORD || ''
     },
     migrations: {
-      directory: path.resolve(paths.API_DIR, '_migrations'),
+      directory: path.resolve(__dirname, '../db/_migrations'),
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(paths.API_DIR, '_seeds'),
+      directory: path.resolve(__dirname, '../db/_seeds'),
     },
     debug: false,
     pool: {

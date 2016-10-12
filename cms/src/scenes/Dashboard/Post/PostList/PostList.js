@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Row } from 'components/index';
 import { Image, Item, Header, Segment, Dropdown, Icon, Menu } from 'semantic-ui-react';
-import { changePostStatus, fetchPostsIfNeeded } from 'state/dux/post';
+import { changePostStatus, fetchPostsIfNeeded, getPosts } from 'state/dux/post';
 import PostListItem from './components/PostListItem';
 
 export type Props = {
@@ -61,11 +61,11 @@ class PostList extends Component {
        <Segment>
        <Item.Group>
         {
-          this.props.posts.entities.map((post, index) => (
+          this.props.posts.map((post, index) => (
            <PostListItem
              article={ post }
              created_at={ post.created_at }
-             key={ post.id }
+             key={ post.slug }
              sortRank={ index }
              content={ post.content }
              title={ post.title }
@@ -83,7 +83,7 @@ class PostList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
+    posts: getPosts(state),
     isLoading: state.posts.isLoading
   };
 };

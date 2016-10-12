@@ -1,12 +1,10 @@
-import async from 'async';
 import passport from 'passport';
-import { handleMail } from '../../mailer';
+import uuid from 'node-uuid';
+import handleMail from '../../mailer';
 import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/mailContent';
 import User from '../user/user.model';
-import UserRole from '../user/userRole.model';
-import Role from '../role/role.model';
-import { responseHandler, encryptPassword, generateVerifyCode } from '../../utils';
-import { InternalError, UserNotFoundError, EmailTakenError, InvalidCredentialsError, AccountNotVerifiedError } from '../../utils/errors';
+import { responseHandler, generateVerifyCode } from '../../utils';
+import * as errs from '../../utils/errors';
 import signToken from './signToken';
 
 const debug = require('debug')('boldr:auth:controller');
@@ -34,16 +32,16 @@ async function register(req, res, next) {
     // look for a matching email address
     const checkUser = await User.query().where('email', req.body.email).first();
     // if an email matching the req is found
-    if (checkUser.length) {
+    if (checkUser) {
       // return with error
-      return next(new EmailTakenError());
+      return next(new errs.EmailTakenError());
     }
-
-    const hash = await encryptPassword(req.body.password);
     const verificationToken = await generateVerifyCode();
     const userInfo = {
+      id: uuid.v4(),
+      // no need to hash here, its taken care of on the model instance
       email: req.body.email,
-      password: hash,
+      password: req.body.password,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       display_name: req.body.display_name,
@@ -62,7 +60,7 @@ async function register(req, res, next) {
     user.stripPassword();
     return res.status(201).json(user);
   } catch (error) {
-    return next(new EmailTakenError(error));
+    return next(new errs.EmailTakenError(error));
   }
 }
 
@@ -81,17 +79,17 @@ async function login(req, res, next) {
   if (errors) {
     return res.status(400).send(errors);
   }
-  const user = await User.query().where({ email: req.body.email }).eager('role').first();
+  await User.query().where({ email: req.body.email }).eager('role').first();
   passport.authenticate('local', (err, user, info) => {
     const error = err || info;
     if (error) {
-      return next(new InvalidCredentialsError());
+      return next(new errs.InvalidCredentialsError());
     }
     if (!user) {
-      return next(new InvalidCredentialsError());
+      return next(new errs.InvalidCredentialsError());
     }
     if (!user.verified) {
-      return next(new AccountNotVerifiedError());
+      return next(new errs.AccountNotVerifiedError());
     }
     return req.logIn(user, (loginErr) => {
       if (loginErr) return res.status(401).json({ message: loginErr });
@@ -105,7 +103,6 @@ async function login(req, res, next) {
       debug(req.session);
       return res.json({ token, user });
     });
-    // return res.json({ token, user });
   })(req, res, next);
 }
 
@@ -118,7 +115,7 @@ async function verify(req, res, next) {
       return res.status(400).json('Invalid registration link');
     }
 
-    const user = await User.query().where({ account_token: req.params.verifToken });
+    const user = await User.query().where({ account_token: req.params.verifToken }).first();
     await User.query().patchAndFetchById(user.id, { verified: true });
 
     return responseHandler(null, res, 201, user);
@@ -132,12 +129,12 @@ async function checkAuthentication(req, res, next) {
     const userId = req.user.id;
     const validUser = await User.query().where({ id: userId }).eager('role').first();
     if (!validUser) {
-      return next(new UserNotFoundError());
+      return next(new errs.UserNotFoundError());
     }
     validUser.stripPassword();
     return responseHandler(null, res, 200, { user: validUser });
   } catch (error) {
-    return next(new InternalError(error));
+    return next(new errs.InternalError(error));
   }
 }
 
@@ -152,7 +149,7 @@ async function forgottenPassword(req, res, next) {
   try {
     const user = await User.query().where({ email: req.body.email }).first();
     if (!user) {
-      return next(new UserNotFoundError());
+      return next(new errs.UserNotFoundError());
     }
     const mailSubject = '[Boldr] Password Reset';
     const token = generateVerifyCode();
@@ -168,7 +165,7 @@ async function forgottenPassword(req, res, next) {
     await handleMail(user, mailBody, mailSubject);
     return responseHandler(null, res, 200, { message: 'Sending email with reset link' });
   } catch (e) {
-    return next(new InternalError(e));
+    return next(new errs.InternalError(e));
   }
 }
 
@@ -182,12 +179,12 @@ async function resetPassword(req, res, next) {
   try {
     const user = await User.query().where({ reset_password_token: req.body.token }).first();
     if (!user) {
-      return next(new UserNotFoundError());
+      return next(new errs.UserNotFoundError());
     }
     const mailSubject = '[Boldr] Password Changed';
-    const hash = await User.encryptPassword(req.body.password);
+
     await User.query().patchAndFetchById(user.id, {
-      password: hash,
+      password: req.body.password,
       reset_password_expiration: null,
       reset_password_token: null
     });
@@ -195,7 +192,7 @@ async function resetPassword(req, res, next) {
     handleMail(user, mailBody, mailSubject);
     return res.status(200).json('Sent');
   } catch (error) {
-    return next(new InternalError(error));
+    return next(new errs.InternalError(error));
   }
 }
 

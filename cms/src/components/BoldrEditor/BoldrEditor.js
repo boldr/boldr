@@ -1,15 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  AtomicBlockUtils,
-  convertFromRaw,
-  convertToRaw,
-  CompositeDecorator,
-  Editor,
-  EditorState,
-  Entity,
-  RichUtils,
+  AtomicBlockUtils, convertFromRaw, convertToRaw, CompositeDecorator, Editor,
+  EditorState, Entity, RichUtils
 } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
+import { stateFromHTML } from 'draft-js-import-html';
 import {
   CustomBlockControls, InlineStyleControls, BlockStyleControls, BLOCK_CONTROLS, INLINE_CONTROLS
 } from './controls';
@@ -50,8 +45,9 @@ class BoldrEditor extends Component {
     ]);
 
     let editorState = EditorState.createEmpty(decorator);
-    if (props.content) {
-      editorState = EditorState.createWithContent(convertFromRaw(props.content), decorator);
+
+    if (props.value) {
+      editorState = EditorState.createWithContent(stateFromHTML(props.value), decorator);
     }
     this.state = {
       editorState,
@@ -86,11 +82,7 @@ class BoldrEditor extends Component {
   componentWillReceiveProps(newProps) {
     const contentState = this.state.editorState.getCurrentContent();
 
-    if (
-      newProps.content &&
-      ! this.props.content &&
-      ! contentState.hasText()
-    ) {
+    if (newProps.content && !this.props.content && !contentState.hasText()) {
       const editorState = EditorState.createWithContent(convertFromRaw(newProps.content));
       this.setState({ editorState });
     }
@@ -111,16 +103,9 @@ class BoldrEditor extends Component {
 
   _onChange(editorState) {
     this.setState({ editorState }, () => {
-      if (this.props.onChange) {
-        const contentState = editorState.getCurrentContent();
-        const html = stateToHTML(editorState.getCurrentContent());
-        if (contentState.hasText()) {
-          this.props.onChange(html);
-          // this.props.onChange(convertToRaw(contentState));
-        } else {
-          this.props.onChange(null);
-        }
-      }
+      // const contentState = editorState.getCurrentContent();
+      const html = stateToHTML(editorState.getCurrentContent());
+      this.props.onChange(html);
     });
   }
 
@@ -397,6 +382,7 @@ class BoldrEditor extends Component {
         { !this.props.readOnly ? blockInput : null }
         <div className={ className } onClick={ this.focus }>
           <Editor ref="editor"
+            { ...this.props }
             editorState={ editorState }
             blockRendererFn={ this.renderBlock }
             placeholder={ this.props.placeholder }

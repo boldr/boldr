@@ -14,7 +14,7 @@
 [libs]
 
 flow-typed/npm
-tools/flow/definitions
+tools/flow
 
 [options]
 module.system=haste
