@@ -115,16 +115,15 @@ async function getId(req, res, next) {
 }
 
 async function destroy(req, res, next) {
-  try {
+
     await Post
       .query()
       .delete()
-      .where('id', req.params.id);
+      .where('id', req.params.id)
+      .first();
 
-    res.status(204).send({});
-  } catch (error) {
-    return next(new InternalError(error));
-  }
+    return res.status(204).send({});
+
 }
 
 function update(req, res) {

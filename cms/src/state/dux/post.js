@@ -129,6 +129,37 @@ const errorCreatingPost = (err) => {
   };
 };
 
+/**
+  * DELETE POST ACTIONS
+  * -------------------------
+  * @exports deletePost
+  *****************************************************************/
+
+export function deletePost(id) {
+  return (dispatch) => {
+    dispatch({
+      type: types.DELETE_POST_REQUEST
+    });
+    return api.doDeletePost(id)
+      .then(response => {
+        if (response.status !== 204) {
+          dispatch(deletePostFail(response));
+        }
+        dispatch({
+          type: types.DELETE_POST_SUCCESS,
+          id
+        });
+      })
+      .catch(err => {
+        dispatch(deletePostFail(err));
+      });
+  };
+}
+
+const deletePostFail = (err) => ({
+  type: types.DELETE_POST_FAILURE,
+  error: err
+});
 
 /**
  * Takes the user selected article and fetches the data from
@@ -184,6 +215,7 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
     case types.FETCH_POSTS_REQUEST:
     case types.LOAD_POST_REQUEST:
     case types.CREATE_POST_REQUEST:
+    case types.DELETE_POST_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -209,9 +241,15 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
         ...state,
         isLoading: false
       };
+    case types.DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        entities: [...state.entities].filter((entity) => entity.id !== action.id)
+      };
     case types.FETCH_POSTS_FAILURE:
     case types.LOAD_POST_FAILURE:
     case types.CREATE_POST_FAIL:
+    case types.DELETE_POST_FAILURE:
       return {
         ...state,
         isLoading: false,

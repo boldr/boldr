@@ -20,13 +20,13 @@ export type Props = {
   handleItemClick?: Function,
 };
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, { updateNavLinks, addNavLinks })
 class Navigation extends Component {
   constructor() {
     super();
-    (this:any).handleItemClick = this.handleItemClick.bind(this);
+    (this: any).handleItemClick = this.handleItemClick.bind(this);
   }
-  state:Object = {
+  state: Object = {
     isOpen: false,
     link: {
       name: null,
@@ -37,8 +37,7 @@ class Navigation extends Component {
     }
   };
   onUpdateFormSubmit = (data) => {
-    const id = this.state.link.id;
-    this.props.dispatch(updateNavLinks(data, id));
+    this.props.updateNavLinks(data);
   }
 
   onFormSubmit = (data) => {
@@ -53,7 +52,7 @@ class Navigation extends Component {
     this.setState({ isOpen: false });
   };
 
-  handleItemClick(item:Object) {
+  handleItemClick(item: Object) {
     this.setState({
       link: {
         name: item.name,

@@ -5,7 +5,10 @@ import Video from '../../icons/Video';
 const youtubeParser = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig; // eslint-disable-line
 const vimeoParser = /^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/ig;
 
+export type Props = {block?: Object};
+
 class EditorVideoBlock extends Component {
+  props: Props;
   shouldComponentUpdate(nextProps) {
     return (nextProps.block !== this.props.block);
   }
@@ -15,10 +18,6 @@ class EditorVideoBlock extends Component {
     return <iframe src={ src } allowFullScreen />;
   }
 }
-
-EditorVideoBlock.propTypes = {
-  block: React.PropTypes.object,
-};
 
 export default {
   getBlockRenderer() {

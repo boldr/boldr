@@ -217,5 +217,23 @@ exports.seed = function(knex, Promise) {
         navigation_id: 1,
         link_id: 2
       })
+    ]))
+    .then(() => Promise.all([
+      knex('page').insert({
+        id: 'c23891fb-88c2-4e91-b95d-c652f15eab0c',
+        name: 'Home',
+        url: 'home',
+        layout: {
+          showHero: true,
+          showPosts: true
+        },
+        markup: '<html></html>',
+        status: 'published',
+        restricted: false,
+        seo: {
+          title: 'Home',
+          description: 'The home page'
+        }
+      })
     ]));
 };

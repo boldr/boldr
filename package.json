@@ -264,7 +264,7 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.7.0",
     "eslint-config-boldr": "^1.1.1",
-    "eslint-plugin-flowtype": "^2.19.0",
+    "eslint-plugin-flowtype": "^2.20.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "faker": "^3.1.0",
     "file-loader": "^0.9.0",

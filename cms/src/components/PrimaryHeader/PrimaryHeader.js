@@ -27,10 +27,13 @@ class PrimaryHeader extends Component {
   componentDidMount() {
     this.props.actions.loadPrimary();
   }
+
   state = {
-    activeITem: ''
+    activeItem: ''
   }
+
   props: Props;
+
   handleItemClick = (e, { name, href }) => {
     this.setState({
       activeItem: name
@@ -136,7 +139,7 @@ class PrimaryHeader extends Component {
   }
 }
 
-const mapStateToProps = (state:Object) => {
+const mapStateToProps = (state: Object) => {
   return {
     boldr: state.boldr,
     auth: state.auth,

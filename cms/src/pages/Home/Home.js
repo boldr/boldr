@@ -11,7 +11,8 @@ import { fetchPages } from '../../state/dux/page';
 type Props = {
   loaded: Boolean,
   pages: Object,
-  entities: Object
+  entities: Object,
+  dispatch: Function
 }
 
 @provideHooks({

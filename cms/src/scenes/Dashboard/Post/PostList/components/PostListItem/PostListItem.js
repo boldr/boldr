@@ -7,6 +7,7 @@ import { Image, Item, Icon, Segment, Divider } from 'semantic-ui-react';
 type Props = {
   article: Object,
   handleArticlePublishClick: Function,
+  handleClickDelete: Function,
   handleArticleDraftClick: Function,
   created_at: string,
   slug: string
@@ -22,6 +23,11 @@ const PostListItem = (props: Props) => {
     const postId = props.article.id;
     const postStatus = 'published';
     props.handleArticleDraftClick(postId, postStatus);
+  }
+  function handleClickDelete() {
+    const postId: String = props.article.id;
+    // $FlowIssue
+    props.handleDeleteClick(postId);
   }
   const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
   const publishedIcon = <Icon onClick={ handlePublishClick } name="unhide" size="large" />;
@@ -53,7 +59,7 @@ const PostListItem = (props: Props) => {
           <Link to={ `/dashboard/posts/editor/${props.slug}` }>
             <Icon name="edit" size="large" />
           </Link>
-          <Icon name="recycle" size="large" />
+          <Icon name="recycle" size="large" onClick={ handleClickDelete }/>
         </Item.Extra>
       </Item.Content>
     </Item>

@@ -70,8 +70,8 @@ exports.up = function(knex, Promise) {
       table.uuid('post_id').unsigned().notNullable();
       table.integer('tag_id').unsigned().notNullable();
       table.unique(['post_id', 'tag_id']);
-      table.foreign('post_id').references('id').inTable('post').onDelete('restrict').onUpdate('cascade');
-      table.foreign('tag_id').references('id').inTable('tag').onDelete('restrict').onUpdate('cascade');
+      table.foreign('post_id').references('id').inTable('post').onDelete('cascade').onUpdate('cascade');
+      table.foreign('tag_id').references('id').inTable('tag').onDelete('cascade').onUpdate('cascade');
     }),
     knex.schema.createTableIfNotExists('media', function(table) {
       table.uuid('id').primary();

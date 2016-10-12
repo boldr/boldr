@@ -9,7 +9,7 @@ const beginUpdateNav = () => {
 };
 
 const doneUpdateNav = (response) => {
-  return { type: types.UPDATE_NAVIGATION_SUCCESS };
+  return { type: types.UPDATE_NAVIGATION_SUCCESS, payload: action.response };
 };
 
 const failUpdateNav = (err) => {
@@ -20,6 +20,7 @@ const failUpdateNav = (err) => {
 };
 
 export function updateNavLinks(data) {
+  console.log('action-----------', data);
   return dispatch => {
     dispatch(beginUpdateNav());
     return api.doUpdateNavigationLinks(data)
@@ -83,6 +84,10 @@ export default function navigationReducer(state = initialState, action = {}) {
         loading: false,
         loaded: true,
         primary: action.result
+      };
+    case types.UPDATE_NAVIGATION_SUCCESS:
+      return {
+        ...state
       };
     case types.LOAD_NAVIGATION_FAILURE:
     case types.UPDATE_NAVIGATION_FAILURE:

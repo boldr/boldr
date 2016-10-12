@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 
-class StyleButton extends Component {
-  static propTypes = {
-    onToggle: PropTypes.func,
-    style: PropTypes.string,
-    active: PropTypes.bool,
-    icon: PropTypes.node,
-    label: PropTypes.string
-  };
+export type Props = {
+  onToggle?: Function,
+  style?: string,
+  active?: boolean,
+  icon?: number | string | React.Element | Array<any>,
+  label?: string,
+};
 
+class StyleButton extends Component {
   constructor() {
     super();
     this.onToggle = (e) => {
@@ -16,6 +16,8 @@ class StyleButton extends Component {
       this.props.onToggle(this.props.style);
     };
   }
+
+  props: Props;
 
   render() {
     let className = 'DraftJSEditor-styleButton';

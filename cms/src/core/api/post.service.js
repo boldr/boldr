@@ -26,3 +26,9 @@ export function doSelectPost(postId) {
   return request
     .get(`${API_POSTS}/id/${postId}`);
 }
+
+export function doDeletePost(postId) {
+  return request
+    .delete(`${API_POSTS}/pid/${postId}`)
+    .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`);
+}
