@@ -31,12 +31,12 @@ class EditorForm extends Component {
         <Col xs>
           <Form onSubmit={ handleSubmit }>
             <Paper zDepth={ 3 } style={ { padding: '1em' } }>
-              <Field name="title" type="text" component={ renderTextField } label="Post Title"/>
+              <Field name="title" type="text" component={ renderTextField } label="Post Title" />
               <Form.Group widths="equal">
                 <Field name="tags" type="text"
-                       helpText="Separate using commas"
-                       component={ renderTextField }
-                       label="Tags"
+                  helpText="Separate using commas"
+                  component={ renderTextField }
+                  label="Tags"
                 />
                 {/* <S3Uploader
                  signingUrl={ `${S3_SIGNING_URL}` }
@@ -50,18 +50,18 @@ class EditorForm extends Component {
                  server={ `${API_PREFIX}` }
                  /> */}
                 <Field name="feature_image" type="text"
-                       helpText="URL for your image"
-                       component={ renderTextField }
-                       label="Feature Image"
+                  helpText="URL for your image"
+                  component={ renderTextField }
+                  label="Feature Image"
                 />
               </Form.Group>
               <Field name="excerpt"
-                     type="text"
-                     component={ renderTextField }
-                     label="Excerpt"
+                type="text"
+                component={ renderTextField }
+                label="Excerpt"
               />
               <div style={ { marginTop: '50px' } }>
-                <Field name="content" component={ renderEditor }/>
+                <Field name="content" component={ renderEditor } />
               </div>
               <Row>
                 <Col xs={ 12 } md={ 6 }>
@@ -92,7 +92,7 @@ class EditorForm extends Component {
         </Col>
       </Row>
     );
-  };
+  }
 }
 export default reduxForm({
   form: 'EditorForm'

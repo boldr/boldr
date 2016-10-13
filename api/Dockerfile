@@ -1,6 +1,7 @@
-FROM strues/node:6.7
+FROM mhart/alpine-node:6.8
 ENV HOME=/home/boldr
-RUN adduser -h /home/boldr -D boldr
+RUN adduser -h /home/boldr -D boldr \
+  && apk add --no-cache make gcc g++ python
 
 COPY package.json /home/boldr
 RUN chown -R boldr:boldr $HOME/*

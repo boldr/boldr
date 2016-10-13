@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-
+import { Button, Card, Image } from 'semantic-ui-react';
 import { IconButton } from 'components/md/Buttons';
 import FontIcon from 'components/md/FontIcons';
 import { TableRow, TableColumn } from 'components/md/DataTables';
@@ -16,25 +16,25 @@ const MemberTableRow = (props) => {
     props.handleToggle(props.user.id);
   }
   return (
-      <TableRow>
-        <TableColumn>
-          {props.user.id}
-        </TableColumn>
-        <TableColumn>
-          {props.user.display_name}
-        </TableColumn>
-      <TableColumn>
-          {props.user.email}
-        </TableColumn>
-        <TableColumn>
-          {props.user.role[0].name}
-        </TableColumn>
-        <TableColumn>
-          <IconButton >
-            <FontIcon onClick={ handleToggle }>editor</FontIcon>
-          </IconButton>
-        </TableColumn>
-      </TableRow>
+    <Card>
+     <Card.Content>
+       <Image floated='right' size='mini' src={ props.user.avatar_url } />
+       <Card.Header>
+           {props.user.display_name}
+       </Card.Header>
+       <Card.Meta>
+         {props.user.id}
+       </Card.Meta>
+       <Card.Description>
+        {props.user.email}   {props.user.role[0].name}
+       </Card.Description>
+     </Card.Content>
+     <Card.Content extra>
+       <div className='ui two buttons'>
+         <Button basic color='green'  onClick={ handleToggle }>Edit</Button>
+       </div>
+     </Card.Content>
+   </Card>
     );
 };
 

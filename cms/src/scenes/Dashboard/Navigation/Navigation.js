@@ -25,6 +25,7 @@ class Navigation extends Component {
   constructor() {
     super();
     (this: any).handleItemClick = this.handleItemClick.bind(this);
+    (this: any).closeDialog = this.closeDialog.bind(this);
   }
   state: Object = {
     isOpen: false,
@@ -41,7 +42,7 @@ class Navigation extends Component {
   }
 
   onFormSubmit = (data) => {
-    this.props.dispatch(addNavLinks(data));
+    this.props.addNavLinks(data);
   }
   props: Props;
   openDialog = () => {

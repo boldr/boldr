@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 import { Router, browserHistory, match } from 'react-router/es6';
 import { syncHistoryWithStore } from 'react-router-redux';
+import Redbox from 'redbox-react';
 import { trigger } from 'redial';
 import WebFontLoader from 'webfontloader';
 
@@ -45,7 +46,7 @@ const renderBoldr = () => {
 
   match({ routes, location }, () => {
     ReactDOM.render(
-      <AppContainer>
+      <AppContainer errorReporter={ Redbox }>
         <Provider store={ store } key="provider">
             <Router routes={ routes } history={ history } key={ Math.random() } helpers={ { client } } />
         </Provider>

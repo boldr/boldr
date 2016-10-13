@@ -1,11 +1,30 @@
 {
   "name": "boldr",
-  "version": "0.5.2",
+  "version": "0.5.5",
   "description": "Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little Boldr?",
-  "main": "index.js",
+  "main": "bin/ssr.js",
   "directories": {
     "docs": "docs",
-    "tools": "tools"
+    "tools": "tools",
+    "cms": "cms/src",
+    "api": "api/src",
+    "bin": "bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boldr/boldr.git"
+  },
+  "keywords": ["react", "universal", "javascript", "express", "webpack", "postgres", "node", "cms", "redux"],
+  "author": "Steven Truesdell <steven@strues.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boldr/boldr/issues"
+  },
+  "homepage": "https://github.com/boldr/boldr#readme",
+  "engines": {
+    "node": ">=6.0.0",
+    "npm": ">=3.0.0",
+    "yarn": "^0.14.0"
   },
   "betterScripts": {
     "build:client": {
@@ -43,8 +62,7 @@
         "NODE_ENV": "development",
         "BABEL_ENV": "development",
         "SSR_PORT": 3000,
-        "HMR_PORT": 3001,
-        "WEBPACK_DLLS": 1
+        "HMR_PORT": 3001
       }
     },
     "dev:api": {
@@ -72,44 +90,9 @@
       }
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/boldr/boldr.git"
-  },
-  "keywords": [
-    "react",
-    "universal",
-    "javascript",
-    "express",
-    "webpack"
-  ],
-  "author": "Steven Truesdell <steven@strues.io>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/boldr/boldr/issues"
-  },
-  "homepage": "https://github.com/boldr/boldr#readme",
-  "engines": {
-    "node": "6.5.0",
-    "npm": "3.7.3"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
-      "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
-    },
-    "collectCoverage": true,
-    "testPathDirs": [
-      "<rootDir>/cms"
-    ],
-    "coverageReporters": [
-      "lcov",
-      "text-summary"
-    ]
-  },
   "scripts": {
     "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
-    "build": "npm-run-all -s clean build:server build:client",
+    "build": "npm-run-all -s clean build:server build:client build:api",
     "build:api": "NODE_ENV=production npm run babel -- ./api/src -d ./api/boldr-api",
     "build:client": "better-npm-run build:client",
     "build:server": "better-npm-run build:server",
@@ -129,38 +112,6 @@
     "test:client": "better-npm-run test:client",
     "test:api": "better-npm-run test:api",
     "typecheck": "flow; test $? -eq 0 -o $? -eq 2"
-  },
-  "nyc": {
-    "check-coverage": true,
-    "lines": 10,
-    "statements": 10,
-    "functions": 10,
-    "include": [
-      "cms/src/**/*.js",
-      "api/src/**/*.js"
-    ],
-    "exclude": [
-      "node_modules/**",
-      "cms/dist/**",
-      "api/compiled/**",
-      "docs/**",
-      "bin/**",
-      "tools/**",
-      "cms/src/**/*.test.js",
-      "api/src/**/*.test.js"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ],
-    "require": [
-      "babel-register"
-    ],
-    "extension": [
-      ".js"
-    ],
-    "sourceMap": false,
-    "instrument": false
   },
   "dependencies": {
     "aws-sdk": "^2.6.6",
@@ -204,7 +155,7 @@
     "nodemailer": "^2.6.4",
     "nodemailer-mailgun-transport": "^1.2.2",
     "npm-run-all": "^3.1.0",
-    "objection": "^0.6.0",
+    "objection": "0.6.0",
     "objection-find": "^0.1.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -287,5 +238,51 @@
     "webpack-dev-middleware": "1.8.4",
     "webpack-hot-middleware": "2.13.0",
     "webpack-node-externals": "^1.4.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
+      "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
+    },
+    "collectCoverage": true,
+    "testPathDirs": [
+      "<rootDir>/cms"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
+    ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 10,
+    "statements": 10,
+    "functions": 10,
+    "include": [
+      "cms/src/**/*.js",
+      "api/src/**/*.js"
+    ],
+    "exclude": [
+      "node_modules/**",
+      "cms/dist/**",
+      "api/compiled/**",
+      "docs/**",
+      "bin/**",
+      "tools/**",
+      "cms/src/**/*.test.js",
+      "api/src/**/*.test.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "sourceMap": false,
+    "instrument": false
   }
 }

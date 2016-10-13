@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-
+import { Card, Button, Image } from 'semantic-ui-react';
 import {
   DataTable, TableHeader, TableBody, TableRow, TableColumn,
 } from 'components/md/DataTables';
@@ -10,17 +10,7 @@ const MembersList = (props) => {
     props.toggleUser(userId);
   }
   return (
-    <DataTable>
-    <TableHeader>
-       <TableRow>
-          <TableColumn>ID</TableColumn>
-          <TableColumn>Name</TableColumn>
-          <TableColumn>Email</TableColumn>
-          <TableColumn>Role</TableColumn>
-          <TableColumn>Actions</TableColumn>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+      <Card.Group>
         {
           props.users.map((user) =>
           <MemberTableRow
@@ -30,9 +20,8 @@ const MembersList = (props) => {
           />
           )
         }
+      </Card.Group>
 
-      </TableBody>
-    </DataTable>
   );
 };
 

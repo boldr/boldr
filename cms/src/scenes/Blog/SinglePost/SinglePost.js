@@ -1,10 +1,10 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router/es6';
-
+import Link from 'react-router/lib/Link';
+import classNames from 'classnames';
 import { provideHooks } from 'redial';
-import { Grid, Col, Row } from 'components/index';
+import { Grid, Col, Row, Heading } from 'components/index';
 import Paper from 'components/md/Papers';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
@@ -19,12 +19,22 @@ export type Props = {
 
 
 const SinglePost = ({ isLoading, currentPost }) => {
+  const IS = {
+    bg: {
+      backgroundImage: `url(${currentPost.feature_image})`,
+      width: '100%',
+      paddingTop: '175px'
+    },
+    offSet: {
+      marginBottom: '-150px'
+    }
+  };
   return (
-    <div className="postbg">
+    <div style={ IS.bg }>
       <Grid fluid>
         <Row>
           <Col xs={ 12 } md={ 8 } lg={ 9 }>
-              <Paper zDepth={ 2 }>
+              <Paper zDepth={ 2 } style={ IS.offSet }>
               {
                 isLoading ?
                   <Loader /> :

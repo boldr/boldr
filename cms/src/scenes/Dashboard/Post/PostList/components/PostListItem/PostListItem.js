@@ -36,8 +36,7 @@ const PostListItem = (props: Props) => {
     <div>
     <Segment>
       <Item>
-       <Item.Image size="tiny" src={ props.article.feature_image }
-         style={ { width: '100px', height: '100px', float: 'left', marginRight: '15px' } }
+       <img src={ props.article.feature_image } style={ { width: '100px', height: '100px', float: 'left', marginRight: '15px' } }
        />
        <Item.Content>
         <Item.Header>

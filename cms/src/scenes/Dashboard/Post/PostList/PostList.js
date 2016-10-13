@@ -27,7 +27,7 @@ class PostList extends Component {
   props: Props;
   // postId is a uuid, not an integer
   handleArticleClick(postId: string): void {
-    console.log('clicked ', postId);
+
   }
   handleDeleteClick(postId: string): void {
     this.props.deletePost(postId);

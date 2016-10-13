@@ -1,108 +1,103 @@
-![boldr](https://boldr.io/logo.png)
-====
-[![Build Status][circle-img]][circle-link]
-[![Code Climate][cc-img]][cc-link]
-[![Gitter][gitter-img]][gitter-link]
+![boldr logo](https://boldr.io/logo.png)
 
-> Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
+[![Build Status][circle-img]][circle-link] [![Code Climate][cc-img]][cc-link] [![Gitter][gitter-img]][gitter-link]
 
+# Boldr
 
-<p align='center'>
-  <h1 align='center'>Blog Posts</h1>
-  <p align='center'><img width='720' src='https://boldr.io/images/blog.png' /></p>
-</p>
+Boldr is an up and coming, modern CMS. It is built on **buzz words** along with React, Postgres, and Node. Boldr is a universal / isomorphic app, hence, built on buzz words.
 
+_If you made it this far, I know what you're probably thinking..._ The world doesn't need another _never-to-be finished_ CMS project, nor does it need the "next WordPress". Boldr is none of that. Over the course of the past five or so months, my spare time has been invested into this passion project.
 
-Table of Contents
------------------
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-  * [Boldr](#boldr)
-    * [Stack](#stack)
-  * [Getting Started](#getting-started--installation)
-    * [Environment Variables](#environment-variables)
-  * [Usage](#usage)
-    * [Development](#development)
-    * [Production](#production)
-  * [Contributing](#contributing)
-  * [Documentation](#documentation)
-  * [Demo](#demo)
-  * [Changelog](#changelog)
-  * [NGINX Config](docs/nginx.md)
-  * [API Documentation](https://docs.boldr.io)
-  * [Installation](docs/installation.md)
-  * [Troubleshooting](docs/troubleshooting.md)
+ ## **Table of Contents**
 
-Boldr
-=====
+- [Boldr](#boldr)
 
-Boldr aims to provide strong CMS foundation for you to use as a base in your next web project. Built on cutting edge web technologies, along with a few time tested favorites, we believe Boldr could become something special. It's no secret, the world doesn't need another *never-to-be finished* CMS project, nor does it need the "next WordPress". Boldr tries to be none of that.  
+  - [Core Technologies](#core-technologies)
 
+- [Getting Started / Installation](#getting-started-installation)
 
-Stack
--------------
-* Node 6  
-* Express  
-* React  
-* Postgres 9.5  
-* Redis  
-* Docker  
+- [Editor](#editor)
 
-Getting Started / Installation
-======
-**A word of caution:** At the moment, Boldr is in active development.
+- [Usage](#usage)
+
+  - [Development](#development)
+  - [Production](#production)
+
+- [Contributing](#contributing)
+
+- [Documentation](#documentation)
+
+- [Demo](#demo)
+
+<!-- /TOC -->
+
+ > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
+
+## Core Technologies
+
+- [Node](https://github.com/nodejs/node)
+- [Express](https://github.com/expressjs/express)
+- [React](https://github.com/facebook/react)
+- [Postgres](https://github.com/postgres/postgres) ([Knex](http://knexjs.org/) & [Objection](https://github.com/Vincit/objection.js/))
+- [Redis](http://redis.io/)
+- [Docker](https://github.com/docker/docker)
+- [Webpack v2](https://github.com/webpack/webpack)
+
+## Getting Started / Installation
+
+**A word of caution:** At the moment, Boldr is in active development. Meaning there can and most likely will, be the occasional breaking changes, and architectural adjustments.
+
+That being said, I'm fairly confident the majority of large breaking changes is behind us.
 
 1. `git clone https://github.com/boldr/boldr.git`
-2. `cd boldr && npm install`
-3. `touch .env` then open it up in your preferred editor.
-4. Add the following:  
-```
-SESSION_KEY=secret
-AWS_ACCESS_KEY_ID=secret
-AWS_SECRET_ACCESS_KEY=secret
-MG_API=key-secret
-MG_DOMAIN=yourdomain.com
-POSTGRES_CONN_URI=postgres://postgres:password@localhost:5432/boldr_development
-```
+2. `cd boldr && yarn install / npm install`
+3. `cp env.example .env` and open it up in your preferred editor.
+4. The .env file contains nearly every configuration option available for you. The actual configuration is located in `api/src/config/config`. I recommend using the `config.js` file and only using the .env for secrets because **.env overrides the default config values.**
 5. `docker-compose up -d` unless you're running Postgres and Redis already.
-6. `npm run migrate` followed by `npm run seed` this will create the database tables as well as seed some initial content.
-  - To change the database configuration modify or remove the `POSTGRES_CONN_URI` from your .env
-  - Alternatively, you may change the configuration file location in `src/api/config/config.js`.  
-7.
-  - For production: `npm run build` and then `npm run start:prod` to run it.
-  - For development: `npm run dev`  
+6. `npm run migrate` followed by `npm run seed` in order to populate the database tables.
 
-<p align='center'>
-  <h1 align='center'>Editor</h1>
-  <p align='center'><img width='720' src='https://boldr.io/images/editor.png' /></p>
-</p>
+## Usage
 
-Usage
-=========
+Quick notes:
 
-Development
----------------
-**Start the CMS** -- Run `npm run dev`  
+- Ports
 
-After Boldr has started visit [http://localhost:3000](http://localhost:3000). You'll want to login using these credentials:  
-> Email - admin@boldr.io  
-Password - password
+  - **Frontend**: 3000
+  - **Webpack**: 3001 - _dev only_
+  - **Webpack-Isomorphic-Tools**: 8888 - _dev only_
+  - **API**: 2121
 
-After logging in, visit the Dashboard and click on **Settings**. You will be redirected to the setup screen where you can input values about your website.  
+- Hot reloading doesnt work everywhere due to async/dynamic routes.
 
+### Development
 
-Production
------------
-> No way. Not yet. However if you feel like building the application as if it were production execute the following
+**Starting it up** -- Run `npm run dev`
+
+After Boldr has started visit <http://localhost:3000>. The admin account is already created and you may login using these credentials:
+
+> Email - admin@boldr.io<br>
+> Password - password
+
+### Production
+
+> I wouldnt recommend it. Not yet. However if you feel like building the application as if it were production execute the following.
 
 ```bash
 $ npm run build
 ```
 
-Contributing
-===============
-Looking for an open source project to contribute to? I could use a hand developing Boldr. All types of contributions are welcome here. Take a look at some of the [current issues](https://github.com/boldr/boldr/issues) and see if you find something you'd like to help out with. Feel free to submit pull requests to the develop branch.
+The build process outputs the frontend and server-side rendering app in `cms/dist`. It then runs the API code through babel and outputs to `api/boldr-api`.
+
+You will need to place a copy of your .env file into the root of where BoldrAPI will be running.
+
+## Contributing
+
+Looking for an open source project to contribute to? All types of contributions are welcome here. In fact, I'd love some assistance. Take a look at some of the [current issues](https://github.com/boldr/boldr/issues) and see if you find something you'd like to help out with. Feel free to submit pull requests to the develop branch.
 
 **Contribution Area Ideas**
+
 - Documentation
 - Designs
 - React
@@ -110,26 +105,24 @@ Looking for an open source project to contribute to? I could use a hand developi
 - Build / Installation
 - Play a major role in a community driven project, have some fun, and work on improving your skills.
 
-Documentation
-=================
-- **API Documentation:** [docs/api](docs/api)  
-- **Docker:** [docs/docker/main.md](docs/docker.md)
-- **Nginx:** [docs/nginx.md](docs/nginx.md)
-- **Roadmap:** [ROADMAP.md](ROADMAP.md)
-- **Installation / Setup:** [docs/installation.md](docs/installation.md)
-- **Troubleshooting:** [docs/troubleshooting.md](docs/troubleshooting.md)  
+## Documentation
 
-Demo
-=============
+- [`Roadmap`](ROADMAP.md)
+- [`API`](https://docs.boldr.io)
+- [`Docker`](docs/docker.md)
+- [`Nginx`](docs/nginx.md)
+- [`Troubleshooting`](docs/troubleshooting.md)
 
-View a **very early** demo at https://staging.boldr.io   
+## Demo
 
-> Email - admin@boldr.io  
-Password - password
+View a **very early** demo at <https://staging.boldr.io>
 
+> Email - admin@boldr.io<br>
+> Password - password
+
+[cc-img]: https://codeclimate.com/github/boldr/boldr/badges/gpa.svg
+[cc-link]: https://codeclimate.com/github/boldr/boldr
 [circle-img]: https://circleci.com/gh/boldr/boldr.svg?style=svg
 [circle-link]: https://circleci.com/gh/boldr/boldr
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-link]: https://gitter.im/boldr/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[cc-img]: https://codeclimate.com/github/boldr/boldr/badges/gpa.svg
-[cc-link]:https://codeclimate.com/github/boldr/boldr

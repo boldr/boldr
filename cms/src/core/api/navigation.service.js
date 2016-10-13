@@ -10,7 +10,13 @@ export function doUpdateNavigationLinks(data) {
 }
 
 export function doAddNavigationLinks(data) {
+  const payload = {
+    name: data.name,
+    href: data.href,
+    icon: data.icon,
+    position: data.position
+  };
   return request.post(`${API_LINKS}`)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
-    .send(data);
+    .send(payload);
 }

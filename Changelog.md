@@ -51,9 +51,6 @@
 **Merged pull requests:**
 
 - 0.4.6 [\#99](https://github.com/boldr/boldr/pull/99) ([strues](https://github.com/strues))
-- refactor for simplification. api + ssr combined to the same. allows f… [\#98](https://github.com/boldr/boldr/pull/98) ([strues](https://github.com/strues))
-- Fix some issues in URL's of README.md [\#96](https://github.com/boldr/boldr/pull/96) ([oriolpuig](https://github.com/oriolpuig))
-- docs\(global\): installation, roadmap and license documentation [\#95](https://github.com/boldr/boldr/pull/95) ([strues](https://github.com/strues))
 
 ## [v0.4.5-alpha](https://github.com/boldr/boldr/tree/v0.4.5-alpha) (2016-08-21)
 [Full Changelog](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.5-alpha)
@@ -65,21 +62,6 @@
 **Closed issues:**
 
 - File uploading and storage [\#27](https://github.com/boldr/boldr/issues/27)
-
-**Merged pull requests:**
-
-- 0.4.5 [\#94](https://github.com/boldr/boldr/pull/94) ([strues](https://github.com/strues))
-- Update react to version 15.3.1 🚀 [\#93](https://github.com/boldr/boldr/pull/93) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update react-dom to version 15.3.1 🚀 [\#92](https://github.com/boldr/boldr/pull/92) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update better-npm-run to version 0.0.11 🚀 [\#90](https://github.com/boldr/boldr/pull/90) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Adds .github docs, initial custom menu / nav creation [\#89](https://github.com/boldr/boldr/pull/89) ([strues](https://github.com/strues))
-- Monorepo [\#88](https://github.com/boldr/boldr/pull/88) ([strues](https://github.com/strues))
-- cssnano@3.7.4 untested ⚠️ [\#85](https://github.com/boldr/boldr/pull/85) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- eslint@3.3.1 untested ⚠️ [\#84](https://github.com/boldr/boldr/pull/84) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update postcss-loader to version 0.10.0 🚀 [\#81](https://github.com/boldr/boldr/pull/81) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- superagent@2.2.0 untested ⚠️ [\#80](https://github.com/boldr/boldr/pull/80) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- eslint@3.3.0 untested ⚠️ [\#79](https://github.com/boldr/boldr/pull/79) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- lodash@4.15.0 untested ⚠️ [\#78](https://github.com/boldr/boldr/pull/78) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 
 ## [v0.4.0-alpha.0](https://github.com/boldr/boldr/tree/v0.4.0-alpha.0) (2016-08-12)
 **Fixed bugs:**
@@ -108,60 +90,6 @@
 - Look and feel [\#30](https://github.com/boldr/boldr/issues/30)
 - Image upload handling [\#14](https://github.com/boldr/boldr/issues/14)
 - Implement tagging [\#10](https://github.com/boldr/boldr/issues/10)
-
-**Merged pull requests:**
-
-- Develop [\#77](https://github.com/boldr/boldr/pull/77) ([strues](https://github.com/strues))
-- Update supertest-as-promised to version 4.0.0 🚀 [\#76](https://github.com/boldr/boldr/pull/76) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update redux-auth-wrapper to version 0.7.0 🚀 [\#75](https://github.com/boldr/boldr/pull/75) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- jsdom@9.4.2 untested ⚠️ [\#74](https://github.com/boldr/boldr/pull/74) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- material-ui@0.15.4 untested ⚠️ [\#73](https://github.com/boldr/boldr/pull/73) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Refactor/article [\#72](https://github.com/boldr/boldr/pull/72) ([strues](https://github.com/strues))
-- all reducers should have an error state [\#71](https://github.com/boldr/boldr/pull/71) ([strues](https://github.com/strues))
-- 0.3.11 [\#69](https://github.com/boldr/boldr/pull/69) ([strues](https://github.com/strues))
-- Prep for 0.4.0 [\#68](https://github.com/boldr/boldr/pull/68) ([strues](https://github.com/strues))
-- Update supertest to version 2.0.0 🚀 [\#67](https://github.com/boldr/boldr/pull/67) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update eslint-loader to version 1.5.0 🚀 [\#66](https://github.com/boldr/boldr/pull/66) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update webpack-hot-middleware to version 2.12.2 🚀 [\#65](https://github.com/boldr/boldr/pull/65) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- Update all dependencies 🌴 [\#63](https://github.com/boldr/boldr/pull/63) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- 0.3.7 [\#62](https://github.com/boldr/boldr/pull/62) ([strues](https://github.com/strues))
-- Refactor -- Bump up to .0.4.0 [\#60](https://github.com/boldr/boldr/pull/60) ([strues](https://github.com/strues))
-- 0.3.5 [\#58](https://github.com/boldr/boldr/pull/58) ([strues](https://github.com/strues))
-- 0.3.0 [\#54](https://github.com/boldr/boldr/pull/54) ([strues](https://github.com/strues))
-- Catching up [\#51](https://github.com/boldr/boldr/pull/51) ([strues](https://github.com/strues))
-- Add a Gitter chat badge to README.md [\#45](https://github.com/boldr/boldr/pull/45) ([gitter-badger](https://github.com/gitter-badger))
-- refactor webpack build process. separate server from api server. [\#44](https://github.com/boldr/boldr/pull/44) ([strues](https://github.com/strues))
-- Alpha 3 \(\#39\) [\#40](https://github.com/boldr/boldr/pull/40) ([strues](https://github.com/strues))
-- Alpha 3 [\#39](https://github.com/boldr/boldr/pull/39) ([strues](https://github.com/strues))
-- Develop [\#37](https://github.com/boldr/boldr/pull/37) ([strues](https://github.com/strues))
-- User profiles, Model updates  [\#36](https://github.com/boldr/boldr/pull/36) ([strues](https://github.com/strues))
-- restructuring of app organization [\#33](https://github.com/boldr/boldr/pull/33) ([strues](https://github.com/strues))
-- v0.1.0-alpha.2.1 [\#31](https://github.com/boldr/boldr/pull/31) ([strues](https://github.com/strues))
-- Image uploading [\#29](https://github.com/boldr/boldr/pull/29) ([strues](https://github.com/strues))
-- this is alpha 2. [\#26](https://github.com/boldr/boldr/pull/26) ([strues](https://github.com/strues))
-- Develop [\#25](https://github.com/boldr/boldr/pull/25) ([strues](https://github.com/strues))
-- some work theming material-ui [\#24](https://github.com/boldr/boldr/pull/24) ([strues](https://github.com/strues))
-- all issues resolved from transition and migrations. [\#23](https://github.com/boldr/boldr/pull/23) ([strues](https://github.com/strues))
-- Develop [\#22](https://github.com/boldr/boldr/pull/22) ([strues](https://github.com/strues))
-- major clean up of the editor [\#21](https://github.com/boldr/boldr/pull/21) ([strues](https://github.com/strues))
-- Working article display [\#20](https://github.com/boldr/boldr/pull/20) ([strues](https://github.com/strues))
-- Develop [\#19](https://github.com/boldr/boldr/pull/19) ([strues](https://github.com/strues))
-- Adds draft-js [\#18](https://github.com/boldr/boldr/pull/18) ([strues](https://github.com/strues))
-- React + RethinkDB in sync. [\#17](https://github.com/boldr/boldr/pull/17) ([strues](https://github.com/strues))
-- Develop [\#16](https://github.com/boldr/boldr/pull/16) ([strues](https://github.com/strues))
-- Develop [\#15](https://github.com/boldr/boldr/pull/15) ([strues](https://github.com/strues))
-- Develop [\#13](https://github.com/boldr/boldr/pull/13) ([strues](https://github.com/strues))
-- Develop [\#12](https://github.com/boldr/boldr/pull/12) ([strues](https://github.com/strues))
-- Develop [\#11](https://github.com/boldr/boldr/pull/11) ([strues](https://github.com/strues))
-- Develop [\#9](https://github.com/boldr/boldr/pull/9) ([strues](https://github.com/strues))
-- Develop [\#8](https://github.com/boldr/boldr/pull/8) ([strues](https://github.com/strues))
-- Develop [\#7](https://github.com/boldr/boldr/pull/7) ([strues](https://github.com/strues))
-- Develop [\#6](https://github.com/boldr/boldr/pull/6) ([strues](https://github.com/strues))
-- Develop [\#5](https://github.com/boldr/boldr/pull/5) ([strues](https://github.com/strues))
-- Develop [\#4](https://github.com/boldr/boldr/pull/4) ([strues](https://github.com/strues))
-- Develop [\#3](https://github.com/boldr/boldr/pull/3) ([strues](https://github.com/strues))
-- Develop [\#2](https://github.com/boldr/boldr/pull/2) ([strues](https://github.com/strues))
-- Develop [\#1](https://github.com/boldr/boldr/pull/1) ([strues](https://github.com/strues))
 
 
 

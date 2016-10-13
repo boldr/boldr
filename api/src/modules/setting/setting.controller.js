@@ -23,6 +23,7 @@ async function getId(req, res) {
 }
 
 function update(req, res) {
+  debug(req.body)
   return Setting.query()
     .patchAndFetchById(1, req.body)
     .then(setting => res.status(201).json(setting));

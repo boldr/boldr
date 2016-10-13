@@ -1,6 +1,7 @@
 import React from 'react';
-import Avatar from 'components/md/Avatars';
+import { Divider, Card, Comment } from 'semantic-ui-react';
 import { Heading } from 'components';
+import Avatar from 'components/md/Avatars';
 
 const styles = {
   wrapper: {
@@ -11,9 +12,13 @@ const styles = {
 };
 const Author = (props) => {
   return (
-    <div style={ styles.wrapper }>
+    <div className="post__sidebar-author">
+    <div className="post__sidebar-card">
+    <Card.Content>
       <Avatar src={ props.avatar_url } />
-      <Heading size={ 3 }> { props.display_name }</Heading>
+      <Card.Header> { props.display_name }</Card.Header>
+      </Card.Content>
+      </div>
     </div>
   );
 };

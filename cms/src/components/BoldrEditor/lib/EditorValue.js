@@ -2,8 +2,6 @@
 import { ContentState, EditorState } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';
-import { stateToMarkdown } from 'draft-js-export-markdown';
-import { stateFromMarkdown } from 'draft-js-import-markdown';
 
 import type { DraftDecoratorType as Decorator } from 'draft-js/lib/DraftDecoratorType';
 
@@ -67,9 +65,9 @@ function toString(editorState: EditorState, format: string): string {
     case 'html': {
       return stateToHTML(contentState);
     }
-    case 'markdown': {
-      return stateToMarkdown(contentState);
-    }
+    // case 'markdown': {
+    //   return stateToMarkdown(contentState);
+    // }
     default: {
       throw new Error('Format not supported: ' + format);
     }
@@ -81,9 +79,9 @@ function fromString(markup: string, format: string): ContentState {
     case 'html': {
       return stateFromHTML(markup);
     }
-    case 'markdown': {
-      return stateFromMarkdown(markup);
-    }
+    // case 'markdown': {
+    //   return stateFromMarkdown(markup);
+    // }
     default: {
       throw new Error('Format not supported: ' + format);
     }

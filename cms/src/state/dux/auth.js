@@ -141,8 +141,8 @@ function checkAuthSuccess(response, token) {
       id: response.body.user.id,
       last_name: response.body.user.last_name,
       avatar_url: response.body.user.avatar_url,
-      roleId: response.body.use.role[0].id,
-      role: response.body.use.role[0].name
+      roleId: response.body.user.role[0].id,
+      role: response.body.user.role[0].name
     }
   };
 }

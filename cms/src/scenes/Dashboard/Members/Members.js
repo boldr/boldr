@@ -22,10 +22,10 @@ export type Props = {
 class Members extends Component {
   constructor(props: Props) {
     super(props);
-    (this:any).toggleUser = this.toggleUser.bind(this);
-    (this:any).handleSubmit = this.handleSubmit.bind(this);
+    (this: any).toggleUser = this.toggleUser.bind(this);
+    (this: any).handleSubmit = this.handleSubmit.bind(this);
   }
-  state:Object = { isOpen: false };
+  state: Object = { isOpen: false };
   props: Props;
 
   openDialog = () => {

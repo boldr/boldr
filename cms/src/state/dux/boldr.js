@@ -42,12 +42,12 @@ function doneLoadSettings(response) {
   return {
     type: types.LOAD_SETTINGS_SUCCESS,
     siteName: response.body.site_name,
-    description: response.body.site_description,
+    // description: response.body.site_description,
     siteLogo: response.body.site_logo,
     slogan: response.body.site_slogan,
     siteUrl: response.body.site_url,
     favicon: response.body.site_favicon,
-    analyticsId: response.body.google_analytics,
+    googleAnalytics: response.body.google_analytics,
     configuration: response.body.configuration
   };
 }
