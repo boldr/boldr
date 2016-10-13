@@ -8,8 +8,7 @@ Boldr is an up and coming, modern CMS. It is built on **buzz words** along with 
 
 _If you made it this far, I know what you're probably thinking..._ The world doesn't need another _never-to-be finished_ CMS project, nor does it need the "next WordPress". Boldr is none of that. Over the course of the past five or so months, my spare time has been invested into this passion project.
 
- ## Table of Contents
-
+**Table of Contents**
 - [Boldr](#boldr)
 
   - [Core Technologies](#core-technologies)
