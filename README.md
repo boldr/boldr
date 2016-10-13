@@ -10,7 +10,7 @@ _If you made it this far, I know what you're probably thinking..._ The world doe
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
- ##Table of Contents
+ ## Table of Contents
 
 - [Boldr](#boldr)
 
