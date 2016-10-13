@@ -39,8 +39,6 @@
 - Update react to version 15.3.2 🚀 [\#121](https://github.com/boldr/boldr/pull/121) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - Refactor/improvements [\#113](https://github.com/boldr/boldr/pull/113) ([strues](https://github.com/strues))
 - Version 0.5.0 [\#112](https://github.com/boldr/boldr/pull/112) ([strues](https://github.com/strues))
-- Update css-loader to version 0.25.0 🚀 [\#107](https://github.com/boldr/boldr/pull/107) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-- 0.4.7 [\#106](https://github.com/boldr/boldr/pull/106) ([strues](https://github.com/strues))
 - Update ignore-styles to version 5.0.1 🚀 [\#104](https://github.com/boldr/boldr/pull/104) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - Update postcss-loader to version 0.11.0 🚀 [\#102](https://github.com/boldr/boldr/pull/102) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - Update css-loader to version 0.24.0 🚀 [\#101](https://github.com/boldr/boldr/pull/101) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
