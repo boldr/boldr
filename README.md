@@ -111,11 +111,10 @@ Looking for an open source project to contribute to? All types of contributions 
 - [`Troubleshooting`](docs/troubleshooting.md)
 
 ## Screenshots
-| <a href="https://boldr.io/images/home.png"><img src="https://boldr.io/images/home.png" width="460"></a>   |  <a href="https://boldr.io/images/postlist.png"><img src="https://boldr.io/images/postlist.png" width="460"></a> |
+| <a href="https://boldr.io/images/home.png"><img src="https://boldr.io/images/home.png" width="460"></a>| <a href="https://boldr.io/images/postlist.png"><img src="https://boldr.io/images/postlist.png" width="460"></a> |
 |---|---|
-| 
-<a href="https://boldr.io/images/dashboard.png"><img src="https://boldr.io/images/dashboard.png" width="460"></a>  | 
-<a href="https://boldr.io/images/singlepost.png"><img src="https://boldr.io/images/singlepost.png" width="460"></a>  |
+|<a href="https://boldr.io/images/dashboard.png"><img src="https://boldr.io/images/dashboard.png" width="460"></a> | 
+<a href="https://boldr.io/images/singlepost.png"><img src="https://boldr.io/images/singlepost.png" width="460"></a>|
 
   
 
