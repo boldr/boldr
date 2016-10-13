@@ -110,6 +110,15 @@ Looking for an open source project to contribute to? All types of contributions 
 - [`Nginx`](docs/nginx.md)
 - [`Troubleshooting`](docs/troubleshooting.md)
 
+## Screens
+![home](https://boldr.io/images/home.png) 
+  
+![postlist](https://boldr.io/images/postlist.png) 
+  
+![dashboard](https://boldr.io/images/dashboard.png) . 
+  
+![singlepost](https://boldr.io/images/singlepost.png) 
+  
 ## Demo
 
 View a **very early** demo at <https://staging.boldr.io>
