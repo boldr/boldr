@@ -1,11 +1,4 @@
-import request from 'superagent';
-import fetch from 'isomorphic-fetch';
-import { camelizeKeys } from 'humps';
-import { combineReducers } from 'redux';
-import { normalize, arrayOf } from 'normalizr';
-import { post as postSchema } from 'core/api/schemas';
-import { createSelector } from 'reselect';
-import { API_BASE, API_POSTS, TOKEN_KEY, processResponse } from 'core';
+import { API_PREFIX, API_POSTS, TOKEN_KEY, processResponse } from 'core/index';
 import * as api from 'core/api/post.service';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
@@ -136,6 +129,37 @@ const errorCreatingPost = (err) => {
   };
 };
 
+/**
+  * DELETE POST ACTIONS
+  * -------------------------
+  * @exports deletePost
+  *****************************************************************/
+
+export function deletePost(id) {
+  return (dispatch) => {
+    dispatch({
+      type: types.DELETE_POST_REQUEST
+    });
+    return api.doDeletePost(id)
+      .then(response => {
+        if (response.status !== 204) {
+          dispatch(deletePostFail(response));
+        }
+        dispatch({
+          type: types.DELETE_POST_SUCCESS,
+          id
+        });
+      })
+      .catch(err => {
+        dispatch(deletePostFail(err));
+      });
+  };
+}
+
+const deletePostFail = (err) => ({
+  type: types.DELETE_POST_FAILURE,
+  error: err
+});
 
 /**
  * Takes the user selected article and fetches the data from
@@ -166,10 +190,12 @@ export function selectPost(postId) {
 export const postsToState = (list) => (
   list.reduce((list, a) => ({
     ...list,
-    [a.id]: a
+    [a.slug]: a
   }), {})
 );
 
+export const getPosts = state => state.posts.list;
+export const getSinglePost = (state, props) => state.posts.bySlug[postSlug];
 //
 // Reducer
 // -----------------
@@ -183,56 +209,13 @@ const INITIAL_STATE = {
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
-// export const getAllPosts = (state) => state.posts.slugs.map(slug => state.posts.bySlug[slug]);
-// const bySlug = (state = {}, action) => {
-//   let nextState;
-//   switch (action.type) {
-//     case types.FETCH_POSTS_SUCCESS:
-//
-//       for (const prop in action.payload.entities.posts) {
-//         if (action.payload.entities.posts.hasOwnProperty(prop)) {
-//           Object.assign(action.payload.entities.posts[prop]);
-//         }
-//       }
-//
-//       return {
-//         ...state,
-//         ...action.payload.entities.posts
-//       };
-//
-//     case types.EDIT_POST:
-//       nextState = { ...state };
-//       nextState[action._id] = { ...state[action._id], text: action.text };
-//
-//       return nextState;
-//
-//     default:
-//       return state;
-//   }
-// };
-//
-// const slugs = (state = [], action) => {
-//   switch (action.type) {
-//     case types.FETCH_POSTS_SUCCESS:
-//       return [...state, ...action.payload.result];
-//
-//     case types.FETCH_POST_SUCCESS:
-//       return [...state, action.payload.result];
-//
-//     default:
-//       return state;
-//   }
-// };
-//
-// export default combineReducers({
-//   bySlug,
-//   slugs
-// });
+
 export default function postsReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case types.FETCH_POSTS_REQUEST:
     case types.LOAD_POST_REQUEST:
     case types.CREATE_POST_REQUEST:
+    case types.DELETE_POST_REQUEST:
       return {
         ...state,
         isLoading: true
@@ -241,22 +224,32 @@ export default function postsReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
-        entities: action.payload
+        list: action.payload,
+        bySlug: action.payload.reduce((list, a) => ({
+          ...list,
+          [a.slug]: a
+        }), {})
       };
     case types.LOAD_POST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        selectedPost: action.payload
+        current: action.payload
       };
     case types.CREATE_POST_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
+    case types.DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        entities: [...state.entities].filter((entity) => entity.id !== action.id)
+      };
     case types.FETCH_POSTS_FAILURE:
     case types.LOAD_POST_FAILURE:
     case types.CREATE_POST_FAIL:
+    case types.DELETE_POST_FAILURE:
       return {
         ...state,
         isLoading: false,

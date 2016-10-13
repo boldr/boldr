@@ -1,3 +1,10 @@
+export type Props = {
+  editorState?: Object,
+  onToggle?: Function,
+  controls?: boolean | Array<INLINE_CONTROLS>,
+  display?: 'block' | 'inline',
+};
+
 import React, { PropTypes } from 'react';
 import StyleButton from '../StyleButton/StyleButton';
 import { INLINE_STYLES, INLINE_CONTROLS } from '../helpers';
@@ -25,16 +32,6 @@ const InlineStyleControls = ({ controls, display, editorState, onToggle }) => {
       }
     </div>
   );
-};
-
-InlineStyleControls.propTypes = {
-  editorState: PropTypes.object.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  controls: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.arrayOf(INLINE_CONTROLS),
-  ]),
-  display: React.PropTypes.oneOf(['block', 'inline'])
 };
 
 export default InlineStyleControls;

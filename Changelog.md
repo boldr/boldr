@@ -1,147 +1,94 @@
-<a name="0.4.7"></a>
-## [0.4.7](https://github.com/boldr/boldr/compare/v0.4.5-alpha...v0.4.7) (2016-09-01)
+# Change Log
+
+## [Unreleased](https://github.com/boldr/boldr/tree/HEAD)
+
+[Full Changelog](https://github.com/boldr/boldr/compare/v0.5.1...HEAD)
+
+**Closed issues:**
+
+- Test ticket from Code Climate [\#151](https://github.com/boldr/boldr/issues/151)
+- Configurable menu [\#28](https://github.com/boldr/boldr/issues/28)
+
+**Merged pull requests:**
+
+- Update webpack-hot-middleware to version 2.13.0 🚀 [\#152](https://github.com/boldr/boldr/pull/152) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- knex@0.12.3 breaks build ⚠️ [\#148](https://github.com/boldr/boldr/pull/148) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- date-fns@1.4.0 breaks build ⚠️ [\#147](https://github.com/boldr/boldr/pull/147) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- objection@0.6.0 breaks build ⚠️ [\#146](https://github.com/boldr/boldr/pull/146) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- moving some useless, to non-admin, reducers to be loaded async. fix: … [\#145](https://github.com/boldr/boldr/pull/145) ([strues](https://github.com/strues))
+- Update webpack-dev-middleware to version 1.8.4 🚀 [\#144](https://github.com/boldr/boldr/pull/144) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Update draft-js-export-html to version 0.5.0 🚀 [\#143](https://github.com/boldr/boldr/pull/143) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Database and Error handling [\#142](https://github.com/boldr/boldr/pull/142) ([strues](https://github.com/strues))
+- Revert "Database and Error handling" [\#141](https://github.com/boldr/boldr/pull/141) ([strues](https://github.com/strues))
+- Database and Error handling [\#140](https://github.com/boldr/boldr/pull/140) ([strues](https://github.com/strues))
+- fix: regression with password hashing. [\#133](https://github.com/boldr/boldr/pull/133) ([strues](https://github.com/strues))
+- Navigation Editor [\#132](https://github.com/boldr/boldr/pull/132) ([strues](https://github.com/strues))
+- Update webpack-dev-middleware to version 1.8.3 🚀 [\#131](https://github.com/boldr/boldr/pull/131) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
+## [v0.5.1](https://github.com/boldr/boldr/tree/v0.5.1) (2016-09-25)
+[Full Changelog](https://github.com/boldr/boldr/compare/v0.4.6-alpha...v0.5.1)
+
+**Fixed bugs:**
+
+- Redux form and rich text editor regression [\#117](https://github.com/boldr/boldr/issues/117)
+
+**Merged pull requests:**
+
+- 0.5.1 [\#130](https://github.com/boldr/boldr/pull/130) ([strues](https://github.com/strues))
+- Compilation [\#123](https://github.com/boldr/boldr/pull/123) ([strues](https://github.com/strues))
+- Update react to version 15.3.2 🚀 [\#121](https://github.com/boldr/boldr/pull/121) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Refactor/improvements [\#113](https://github.com/boldr/boldr/pull/113) ([strues](https://github.com/strues))
+- Version 0.5.0 [\#112](https://github.com/boldr/boldr/pull/112) ([strues](https://github.com/strues))
+- Update ignore-styles to version 5.0.1 🚀 [\#104](https://github.com/boldr/boldr/pull/104) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Update postcss-loader to version 0.11.0 🚀 [\#102](https://github.com/boldr/boldr/pull/102) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Update css-loader to version 0.24.0 🚀 [\#101](https://github.com/boldr/boldr/pull/101) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
+## [v0.4.6-alpha](https://github.com/boldr/boldr/tree/v0.4.6-alpha) (2016-08-22)
+[Full Changelog](https://github.com/boldr/boldr/compare/v0.4.5-alpha...v0.4.6-alpha)
+
+**Merged pull requests:**
+
+- 0.4.6 [\#99](https://github.com/boldr/boldr/pull/99) ([strues](https://github.com/strues))
+
+## [v0.4.5-alpha](https://github.com/boldr/boldr/tree/v0.4.5-alpha) (2016-08-21)
+[Full Changelog](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.5-alpha)
+
+**Fixed bugs:**
+
+- Login on staging doesnt work. [\#91](https://github.com/boldr/boldr/issues/91)
+
+**Closed issues:**
+
+- File uploading and storage [\#27](https://github.com/boldr/boldr/issues/27)
+
+## [v0.4.0-alpha.0](https://github.com/boldr/boldr/tree/v0.4.0-alpha.0) (2016-08-12)
+**Fixed bugs:**
+
+- Article creation works, but sends an error message [\#34](https://github.com/boldr/boldr/issues/34)
+
+**Closed issues:**
+
+- Email Address Verification [\#64](https://github.com/boldr/boldr/issues/64)
+- Latest Refactor Branch - property 'isAuthenticated' undefined [\#61](https://github.com/boldr/boldr/issues/61)
+- Cannot Login and Register after entering the details [\#59](https://github.com/boldr/boldr/issues/59)
+- Change Email address feature [\#57](https://github.com/boldr/boldr/issues/57)
+- Using the Site Settings feature as best as possible [\#56](https://github.com/boldr/boldr/issues/56)
+- Data Grid features [\#55](https://github.com/boldr/boldr/issues/55)
+- Dashboard menu items should be displayed according to the role [\#53](https://github.com/boldr/boldr/issues/53)
+- Articles Option Layout Feature [\#52](https://github.com/boldr/boldr/issues/52)
+- Cannot Login and Register [\#50](https://github.com/boldr/boldr/issues/50)
+- Where to specify the Mailgun settings? [\#49](https://github.com/boldr/boldr/issues/49)
+- Forgot Password Feature [\#48](https://github.com/boldr/boldr/issues/48)
+- Notifications and feedback [\#46](https://github.com/boldr/boldr/issues/46)
+- How shall we create the Admin user? [\#43](https://github.com/boldr/boldr/issues/43)
+- Runtime Error: TypeError: Cannot read property 'role' of undefined [\#42](https://github.com/boldr/boldr/issues/42)
+- Error: Can't resolve './articlesTags' [\#41](https://github.com/boldr/boldr/issues/41)
+- How to create the tables and populate the db? [\#38](https://github.com/boldr/boldr/issues/38)
+- Tagging [\#32](https://github.com/boldr/boldr/issues/32)
+- Look and feel [\#30](https://github.com/boldr/boldr/issues/30)
+- Image upload handling [\#14](https://github.com/boldr/boldr/issues/14)
+- Implement tagging [\#10](https://github.com/boldr/boldr/issues/10)
 
 
-### Features
 
-* **blog:** search posts by tag ([f8be0f6](https://github.com/boldr/boldr/commit/f8be0f6))
-* **dashboard:** update user from users list ([2fa05ad](https://github.com/boldr/boldr/commit/2fa05ad))
-
-
-### Performance Improvements
-
-* **global:** remove material-ui for react-md and custom ([157bdcd](https://github.com/boldr/boldr/commit/157bdcd))
-
-
-
-<a name="0.4.5"></a>
-## [0.4.5](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.5) (2016-08-21)
-
-
-### Bug Fixes
-
-* **build:** resolve loading object[object] instead of the correct image. ([6f0206f](https://github.com/boldr/boldr/commit/6f0206f))
-
-
-### Features
-
-* **blog:** begin creating search for posts by tag ([12abdcc](https://github.com/boldr/boldr/commit/12abdcc))
-* nginx added ([08fa6ad](https://github.com/boldr/boldr/commit/08fa6ad))
-* **global:** add menu creation api ([2b4ee37](https://github.com/boldr/boldr/commit/2b4ee37))
-* **global:** settings are implemented and customizable ([039e6a4](https://github.com/boldr/boldr/commit/039e6a4))
-
-
-### Performance Improvements
-
-* begin removal of :: and other function binding inside render ([20aeec5](https://github.com/boldr/boldr/commit/20aeec5))
-
-
-
-<a name="0.4.3"></a>
-## [0.4.3](https://github.com/boldr/boldr/compare/v0.4.0-alpha.0...v0.4.3) (2016-08-17)
-
-
-### Features
-
-* **blog:** begin creating search for posts by tag ([12abdcc](https://github.com/boldr/boldr/commit/12abdcc))
-* **global:** settings are implemented and customizable ([039e6a4](https://github.com/boldr/boldr/commit/039e6a4))
-
-
-### Performance Improvements
-
-* begin removal of :: and other function binding inside render ([20aeec5](https://github.com/boldr/boldr/commit/20aeec5))
-
-
-### 0.4.0
-> 8/11/2016  
-
-I've been going on and on about 0.4.0 coming soon, or in a few days. I couldnt bring myself to rush and push out something that is half-assed. I'm pleased to say that, 0.4 is quite an improvement over the previous releases.  
-
-- **MAJOR:** The API and CMS are now located in different repositories under the [Boldr organization](https://github.com/boldr).
-- **Feature:** The front-facing website header was rewritten and the dashboard has a much cleaner look.
-- **Feature:** The article editor got some much needed TLC, and now provides more rich text editing capabilities. In addition it now outputs
-as well as stores raw html in the database.
-- **Feature:** Seed files for the initial database population were added.
-
-### 0.3.11
-> 8/02/2016
-
-This will be the final release of 0.3. Lots of progress has been made, but there are still a couple of things I'd like to resolve before tagging 0.4.
-
-- **Feature:** Notifications are now a thing. Still being styled and added everywhere, but they exist and they work.
-- **Bug Fix:** Tagging works flawlessly  [\#10](https://github.com/strues/boldr/issues/10)
-- **Feature:** Single blog post page [implemented](https://github.com/strues/boldr/commit/91d99e80467dd1fdeefa956db944e841f53558fe)
-- **Feature:** Blog posts received some much needed love and have taken on their rightful card component.
-- **Feature:** Article editor in dashboard allows for updating past posts.
-- **Bug Fix:** Pretty much every implemented API endpoint is working / has been tested. Currently in the process of documentation and writing integration tests.
-- **Feature:** Cookies got the boot for JSON Web Tokens.
-- **Merged pull requests:**
-  - Prep for 0.4.0 [\#68](https://github.com/strues/boldr/pull/68) ([strues](https://github.com/strues))
-  - Update supertest to version 2.0.0 🚀 [\#67](https://github.com/strues/boldr/pull/67) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-  - Update eslint-loader to version 1.5.0 🚀 [\#66](https://github.com/strues/boldr/pull/66) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-  - Update webpack-hot-middleware to version 2.12.2 🚀 [\#65](https://github.com/strues/boldr/pull/65) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
-  - Update all dependencies 🌴 [\#63](https://github.com/strues/boldr/pull/63) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))  
-
-### 0.3.8
-> 7/25/2016
-
-- **DX** Webpack 2 and all its glorious code splitting is set up.
-- **DX** Code is organized in a way that is much more logical and should be easier for everyone to find things.
-- **Bug Fix**  Article bodies implement the correct read only editor, providing rich blocks of styled content.
-- **Breaking** Social login and verification emails have been temporarily removed from the active features. The code is   still there, but at this time there are bigger things for me to worry about.
-
-### 0.3.5
-> 7/17/2016
-
-- **Bug Fix:** Menu in the dashboard provides popover menu for sections with more than one route. At the moment this mainly affects the articles area. You can now choose to go directly to the editor.
-- **Bug Fix:** Entering the dashboard settings area redirects to the setup screen if there are not any settings for the site. This may or may not stick around because building customizable components that take their data from the settings would make more sense to preload the data from defaults in the database.  
-- **Bug Fix:** Creating an article with tags is now working.
-- **Minor Bug:** At the moment tag names are saving as their current index in the array. This will be resolved shortly.
-- **Bug Fix:**  Blog page now renders content from article posts. More to come with this later.
-- **Feature:** There is some route restrictions put in place to restrict certain areas like the dashboard from unauthenticated / non-admin users. Hopefully expanding upon this permission system at a later date.
-- **Feature:** Reset and Forgot password functionality has been built out and is working.
-
-
-### 0.3.0
-> 7/14/2016
-
-- **Feature:** Created a DAO to allow for easier bootstrapping of models and their controller counterparts.
-- **Maintenance:** The server and client-side are now more tightly coupled together.
-- **Yeah:** More in the morning because its late...
-
-### 0.2.0
-> 7/03/2016  
-
-[-] **Setup and Settings**  Added a setup within the dashboard for settings and site customization. This is the first step in the process of loading / preloading various customizations before sending them down to the browser. At the moment the setup *wizard* contains the basic info like Website name, URL, etc... Additionally, a database creation script was made and an admin user is created if the database is empty the first time Boldr runs.
-
-[-] **We're using Express**
-
-[-] **Redis** Redis is used for sessions as well as caching *caching is in the early stages*.
-    - This will be perhaps an opt in / out deal. Using PG as the fallback
-
-[-] **Article Editor** Is now pretty damn broken. Nearly has the issue resolved. However, tags are now storing as unique.
-
-[-] **Media Manager** Connecting to AWS S3. Uploading functionality as well as file management is coming along.
-
-### 0.1.0
-> 6/5/2016  
-
-0.1.0 is an appropriate title for the current state of Boldr. Lots has changed since the earlier versions, which to me,
-feels like a worthy bump from Alpha 1 to Alpha 2. Dont be fooled into thinking this is **anywhere close** to being ready. There
-is still mountains of work to do before this is considered beta.  
-
-#### Notable changes and additions:
-
-1. **RethinkDB was dropped for Postgres**  
-  The choice was clear when work started on relations between data. RethinkDB is great and I use
-it for various other projects, but relational databases do what they do so well.
-
-2. **Redis**  
-Redis via ioredis was added for session support and advanced caching.
-
-3. **Articles**  
-The ability to create articles with both tags and user relationships works
-
-4. **Other areas**  
-Work has started on the frontend for managing important aspects of websites powered by Boldr. This
-includes such things as the page builder, site configuration, and the overall look and feel.
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

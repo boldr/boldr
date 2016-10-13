@@ -1,5 +1,4 @@
 import { SubmissionError } from 'redux-form';
-import decode from 'jwt-decode';
 import { push } from 'react-router-redux';
 import * as api from 'core/api/auth.service';
 import { TOKEN_KEY } from 'core/api/helpers';
@@ -70,7 +69,6 @@ const beginLogin = () => {
 
 // Login Success
 function loginSuccess(response) {
-  const decodeToken = decode(response.body.token);
   return {
     type: types.LOGIN_SUCCESS,
     token: response.body.token,
@@ -81,8 +79,8 @@ function loginSuccess(response) {
       id: response.body.user.id,
       last_name: response.body.user.last_name,
       avatar_url: response.body.user.avatar_url,
-      roleId: decodeToken.roleId,
-      role: decodeToken.role
+      roleId: response.body.user.role[0].id,
+      role: response.body.user.role[0].name
     }
   };
 }
@@ -133,7 +131,6 @@ function checkAuthRequest() {
 }
 
 function checkAuthSuccess(response, token) {
-  const decodeToken = decode(token);
   return {
     type: types.CHECK_AUTH_SUCCESS,
     token: token, // eslint-disable-line
@@ -144,8 +141,8 @@ function checkAuthSuccess(response, token) {
       id: response.body.user.id,
       last_name: response.body.user.last_name,
       avatar_url: response.body.user.avatar_url,
-      roleId: decodeToken.roleId,
-      role: decodeToken.role
+      roleId: response.body.user.role[0].id,
+      role: response.body.user.role[0].name
     }
   };
 }

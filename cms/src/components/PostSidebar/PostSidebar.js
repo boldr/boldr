@@ -1,5 +1,5 @@
 import React from 'react';
-import Divider from 'components/md/Dividers';
+import { Divider, Card, Header, Segment } from 'semantic-ui-react';
 
 import Author from '../Author';
 import TagBlock from '../TagBlock';
@@ -8,9 +8,16 @@ import TagBlock from '../TagBlock';
 const PostSidebar = props => {
   return (
     <div className="sidebar">
+      <Segment raised>
+      <Header as="h2">About the author</Header>
       <Author { ...props.author } />
-      <Divider style={ { marginTop: '1em', marginBottom: '1em' } } />
+      </Segment>
+      <Segment raised>
+      <Header as="h2">Tags</Header>
+
       <TagBlock tags={ props.tags } />
+
+      </Segment>
     </div>
   );
 };

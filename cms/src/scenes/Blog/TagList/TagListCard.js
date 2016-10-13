@@ -10,15 +10,15 @@ import { Card, CardMedia, CardTitle, CardActions, CardText } from 'components/md
 import Avatar from 'components/md/Avatars';
 
 type Props = {
-  title?: string,
-  created_at?: string,
+  title: string,
+  created_at: string,
   display_name?: string,
   feature_image?: string,
   excerpt?: string,
   tags?: Array<any>,
-  content?: string,
+  content: Object,
   user?: Object,
-  slug?: string,
+  slug: string,
 };
 
 const TagListCard = (props: Props) => {

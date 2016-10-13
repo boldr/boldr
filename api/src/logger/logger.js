@@ -1,12 +1,21 @@
 /**
- * src/lib/logger/logger.js
+ * src/logger/logger.js
  * Starts a winston logging session
  *
  * @exports {EventHandler} - Winston event handler
  */
-
+import path from 'path';
+import fs from 'fs';
 import winston from 'winston';
 import conf from '../config/config';
+
+const logDir = path.resolve(`${process.cwd()}/logs`);
+const tsFormat = () => (new Date()).toLocaleTimeString();
+
+// Create the log directory if it doesnt already exist.
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir);
+}
 
 const transports = [];
 if (conf.get('logger.console')) {
@@ -23,19 +32,11 @@ if (conf.get('logger.console')) {
 }
 if (conf.get('logger.files')) {
   transports.push(
-    new winston.transports.File({
-      handleExceptions: false,
-      name: 'info-file',
-      filename: 'info.log',
-      level: 'info'
-    })
-  );
-
-  transports.push(
-    new winston.transports.File({
-      handleExceptions: false,
-      name: 'error-file',
-      filename: 'error.log',
+    new (require('winston-daily-rotate-file'))({
+      filename: `${logDir}/apiError.log`,
+      timestamp: tsFormat,
+      datePattern: conf.get('dateFormat'),
+      prepend: true,
       level: 'error'
     })
   );

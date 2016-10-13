@@ -1,140 +1,128 @@
-import React, { Component, PropTypes } from 'react';
+/* eslint-disable no-duplicate-imports */
+/* @flow weak */
+import React, { Component } from 'react';
 import {
-  AtomicBlockUtils,
-  convertFromRaw,
-  convertToRaw,
-  CompositeDecorator,
-  Editor,
-  EditorState,
-  Entity,
-  RichUtils,
+  AtomicBlockUtils, convertFromRaw, convertToRaw, CompositeDecorator, Editor,
+  EditorState, Entity, RichUtils
 } from 'draft-js';
+import type { ContentBlock } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
+import { stateFromHTML } from 'draft-js-import-html';
 import {
   CustomBlockControls, InlineStyleControls, BlockStyleControls, BLOCK_CONTROLS, INLINE_CONTROLS
 } from './controls';
 import linkDecorator from './decorators/link';
-import './TextEditor.scss';
+import EditorValue from './lib/EditorValue';
+
+// types
+type ChangeHandler = (value: EditorValue) => any;
+export type Props = {
+  onChange: ChangeHandler,
+  onBlur: ?Function,
+  onFocus: ?Function,
+  closeLinkPrompt: ?Function,
+  content: Object,
+  controlDisplay?: 'block' | 'inline',
+  blockControls?: boolean | Array<string>,
+  inlineControls?: boolean | Array<string>,
+  customBlockControls?: boolean | Array<string>,
+  readOnly?: boolean,
+  linkTarget?: '_blank' | '_parent' | '_self' | '_top',
+  placeholder?: string,
+  customBlocks?: Object,
+  spellCheck?: boolean,
+  stripPastedStyles?: boolean,
+  value: EditorValue
+};
+
+type State = {
+  editorState: EditorState,
+  showUrlInput: boolean,
+  urlValue: string,
+  showCustomBlockInput: boolean,
+  customBlockData: Object,
+  customBlockType: any
+};
 
 class BoldrEditor extends Component {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
-    content: PropTypes.object,
-    controlDisplay: React.PropTypes.oneOf(['block', 'inline']),
-    blockControls: React.PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.arrayOf(React.PropTypes.string),
-    ]),
-    inlineControls: React.PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.arrayOf(React.PropTypes.string),
-    ]),
-    customBlockControls: React.PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.arrayOf(React.PropTypes.string),
-    ]),
-    readOnly: PropTypes.bool,
-    linkTarget: PropTypes.oneOf(['_blank', '_parent', '_self', '_top']),
-    placeholder: PropTypes.string,
-    customBlocks: PropTypes.object,
-    spellCheck: PropTypes.bool,
-    stripPastedStyles: PropTypes.bool
-  };
-  constructor(props) {
+  props: Props;
+  state: State;
+  constructor(props: Props) {
     super(props);
 
     const decorator = new CompositeDecorator([
-      linkDecorator,
+      linkDecorator
     ]);
 
     let editorState = EditorState.createEmpty(decorator);
-    if (props.content) {
-      editorState = EditorState.createWithContent(convertFromRaw(props.content), decorator);
+
+    if (props.value) {
+      editorState = EditorState.createWithContent(stateFromHTML(props.value), decorator);
     }
+
     this.state = {
       editorState,
       showUrlInput: false,
       urlValue: '',
       showCustomBlockInput: false,
       customBlockType: null,
-      customBlockData: {},
+      customBlockData: {}
     };
 
-    this.focus = () => this.refs.editor.focus();
+    (this: any).onChange = this.onChange.bind(this);
+    (this: any).handleKeyCommand = command => this._handleKeyCommand(command);
+    (this: any).toggleBlockType = type => this._toggleBlockType(type);
+    (this: any).toggleInlineStyle = style => this._toggleInlineStyle(style);
+    (this: any).toggleCustomBlockInput = nextState => this._toggleCustomBlockInput(nextState);
 
-    this.onChange = this._onChange.bind(this);
-    this.handleKeyCommand = command => this._handleKeyCommand(command);
-    this.toggleBlockType = type => this._toggleBlockType(type);
-    this.toggleInlineStyle = style => this._toggleInlineStyle(style);
-    this.toggleCustomBlockInput = nextState => this._toggleCustomBlockInput(nextState);
+    (this: any).closeLinkPrompt = this.closeLinkPrompt.bind(this);
+    (this: any).confirmLink = this._confirmLink.bind(this);
+    (this: any).onLinkInputKeyDown = this._onLinkInputKeyDown.bind(this);
 
-    this.closeLinkPrompt = this._closeLinkPrompt.bind(this);
-    this.confirmLink = this._confirmLink.bind(this);
-    this.onLinkInputKeyDown = this._onLinkInputKeyDown.bind(this);
-    this.onUrlChange = e => this.setState({ urlValue: e.target.value });
-    this.promptForLink = this._promptForLink.bind(this);
-    this.removeLink = this._removeLink.bind(this);
+    (this: any).onUrlChange = e => this.setState({ urlValue: e.target.value });
+    (this: any).promptForLink = this.promptForLink.bind(this);
+    (this: any).removeLink = this._removeLink.bind(this);
 
-    this.confirmBlock = this._confirmBlock.bind(this);
-    this.onBlockInputKeyDown = this._onBlockInputKeyDown.bind(this);
-    this.onBlockDataChange = this._onBlockDataChange.bind(this);
-    this.renderBlock = this._renderBlock.bind(this);
+    (this: any).confirmBlock = this._confirmBlock.bind(this);
+    (this: any).onBlockInputKeyDown = this._onBlockInputKeyDown.bind(this);
+    (this: any).onBlockDataChange = this._onBlockDataChange.bind(this);
+    (this: any).renderBlock = this.renderBlock.bind(this);
   }
 
-  componentWillReceiveProps(newProps) {
+
+  componentWillReceiveProps(newProps: Object) {
     const contentState = this.state.editorState.getCurrentContent();
 
-    if (
-      newProps.content &&
-      ! this.props.content &&
-      ! contentState.hasText()
-    ) {
+    if (newProps.content && !this.props.content && !contentState.hasText()) {
       const editorState = EditorState.createWithContent(convertFromRaw(newProps.content));
       this.setState({ editorState });
     }
   }
-  // onChange = (editorState) => {
-  //   this.setState({
-  //     editorState
-  //   });
-  //
-  //   const html = stateToHTML(editorState.getCurrentContent());
-  //   this.props.onChange(html);
-  // }
 
-  onFocus = (e) => {
+  onFocus = (e: Object) => {
     this.refs.editor.focus();
     this.props.onFocus(e);
   }
 
-  _onChange(editorState) {
+  onChange(editorState) {
     this.setState({ editorState }, () => {
-      if (this.props.onChange) {
-        const contentState = editorState.getCurrentContent();
-        const html = stateToHTML(editorState.getCurrentContent());
-        if (contentState.hasText()) {
-          this.props.onChange(html);
-          // this.props.onChange(convertToRaw(contentState));
-        } else {
-          this.props.onChange(null);
-        }
-      }
+      // const contentState = editorState.getCurrentContent();
+      const html = stateToHTML(editorState.getCurrentContent());
+      this.props.onChange(html);
     });
   }
 
-  _handleKeyCommand(command) {
+  _handleKeyCommand(command: string): boolean {
     const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
-      this.onChange(newState);
+      (this: any).onChange(newState);
       return true;
     }
     return false;
   }
   _toggleBlockType(blockType) {
-    this.onChange(
+    (this: any).onChange(
       RichUtils.toggleBlockType(
         this.state.editorState,
         blockType
@@ -144,9 +132,10 @@ class BoldrEditor extends Component {
 
   _toggleInlineStyle(inlineStyle) {
     if (inlineStyle === 'LINK') {
-      if (! this.state.showUrlInput) {
+      if (! (this: any).state.showUrlInput) {
         this.promptForLink();
       } else {
+        // $FlowIssue
         this.removeLink();
       }
     } else {
@@ -159,7 +148,7 @@ class BoldrEditor extends Component {
     }
   }
 
-  _confirmBlock(e, data) {
+  _confirmBlock(e: Object, data: Object) {
     this.setState({
       customBlockData: {},
       customBlockType: null,
@@ -169,14 +158,14 @@ class BoldrEditor extends Component {
           data || this.state.customBlockData
         ),
       showCustomBlockInput: false,
-    }, () => {
+    }, () => { // $FlowIssue
       setTimeout(() => this.focus(), 0);
     });
   }
 
-  _onBlockInputKeyDown(e) {
+  _onBlockInputKeyDown(e: Object) {
     if (e.which === 13) {
-      this._confirmBlock();
+      (this: any)._confirmBlock();
     }
   }
 
@@ -207,10 +196,10 @@ class BoldrEditor extends Component {
     }
   }
 
-  _renderBlock(block) {
+  renderBlock(block) {
     if (block.getType() === 'atomic') {
       const entityType = Entity.get(block.getEntityAt(0)).getType();
-
+      // $FlowIssue
       return this.props.customBlocks[entityType] ? this.props.customBlocks[entityType].getBlockRenderer() : null;
     }
 
@@ -225,13 +214,10 @@ class BoldrEditor extends Component {
    * @name _closeLinkPrompt
    * closes the link alert
    */
-  _closeLinkPrompt() {
-    this.setState({
-      showUrlInput: false,
-      urlValue: '',
-    }, () => {
+  closeLinkPrompt() {
+    this.setState({ showUrlInput: false, urlValue: '', }, () => {
       setTimeout(() => {
-        this.focus();
+        (this: any).focus();
       }, 0);
     });
   }
@@ -253,7 +239,9 @@ class BoldrEditor extends Component {
 
     this.closeLinkPrompt();
   }
-
+  _focus() {
+    this.refs.editor.focus();
+  }
   /**
    * @private
    * @name _onLinkInputKeyDown
@@ -269,13 +257,13 @@ class BoldrEditor extends Component {
    * @private
    * @name _promptForLink
    */
-  _promptForLink() {
+  promptForLink() {
     const { editorState } = this.state;
     const selection = editorState.getSelection();
 
     if (! selection.isCollapsed()) {
       if (RichUtils.currentBlockContainsLink(editorState)) {
-        this.removeLink();
+        (this: any).removeLink();
       } else {
         this.setState({
           showUrlInput: true,
@@ -295,7 +283,7 @@ class BoldrEditor extends Component {
     const { editorState } = this.state;
     const selection = editorState.getSelection();
 
-    this.onChange(RichUtils.toggleLink(editorState, selection, null));
+    (this: any).onChange(RichUtils.toggleLink(editorState, selection, null));
   }
 
   /**
@@ -311,7 +299,7 @@ class BoldrEditor extends Component {
           controls={ this.props.blockControls }
           display={ this.props.controlDisplay }
           key="block-controls"
-          onToggle={ this.toggleBlockType }
+          onToggle={ (this: any).toggleBlockType }
         />
       );
     }
@@ -319,7 +307,7 @@ class BoldrEditor extends Component {
       controls.push(
         <InlineStyleControls
           editorState={ this.state.editorState }
-          onToggle={ this.toggleInlineStyle }
+          onToggle={ (this: any).toggleInlineStyle }
           controls={ this.props.inlineControls }
           display={ this.props.controlDisplay }
           key="inline-controls"
@@ -335,7 +323,7 @@ class BoldrEditor extends Component {
           customBlockType={ this.state.customBlockType }
           display={ this.props.controlDisplay }
           key="custom-block-controls"
-          onClick={ this.toggleCustomBlockInput }
+          onClick={ (this: any).toggleCustomBlockInput }
         />
       );
     }
@@ -363,15 +351,15 @@ class BoldrEditor extends Component {
         <div className="DraftJSEditor-urlInput">
           <input
             className="DraftJSEditor-urlInputText"
-            onChange={ this.onUrlChange }
+            onChange={ (this: any).onUrlChange }
             ref="url"
             type="text"
             value={ this.state.urlValue }
-            onKeyDown={ this.onLinkInputKeyDown }
+            onKeyDown={ (this: any).onLinkInputKeyDown }
           />
           <button
             className="DraftJSEditor-urlInputButton"
-            onMouseDown={ this.confirmLink }
+            onMouseDown={ (this: any).confirmLink }
           >
             Confirm
           </button>
@@ -379,14 +367,14 @@ class BoldrEditor extends Component {
       );
     }
     let blockInput;
-    if (this.state.showCustomBlockInput) {
+    if (this.state.showCustomBlockInput) { // $FlowIssue
       blockInput = this.props.customBlocks[this.state.customBlockType].renderInputForm.apply(
         this,
         [
           this.state.customBlockData,
-          this.onBlockDataChange,
-          this.onBlockInputKeyDown,
-          this.confirmBlock,
+          (this: any).onBlockDataChange,
+          (this: any).onBlockInputKeyDown,
+          (this: any).confirmBlock,
         ]
       );
     }
@@ -395,15 +383,16 @@ class BoldrEditor extends Component {
         { !this.props.readOnly ? this.renderControls() : null }
         { !this.props.readOnly ? urlInput : null }
         { !this.props.readOnly ? blockInput : null }
-        <div className={ className } onClick={ this.focus }>
+        <div className={ className } onClick={ (this: any).focus }>
           <Editor ref="editor"
+            { ...this.props }
             editorState={ editorState }
             blockRendererFn={ this.renderBlock }
             placeholder={ this.props.placeholder }
-            onChange={ this.onChange }
+            onChange={ (this: any).onChange }
             onFocus={ this.onFocus }
             onBlur={ this.props.onBlur }
-            handleKeyCommand={ this.handleKeyCommand }
+            handleKeyCommand={ (this: any).handleKeyCommand }
             spellCheck={ this.props.spellCheck }
             stripPastedStyles={ this.props.stripPastedStyles }
             readOnly={ this.props.readOnly }
@@ -413,7 +402,7 @@ class BoldrEditor extends Component {
     );
   }
 }
-
+// $FlowIssue
 BoldrEditor.defaultProps = {
   blockControls: BLOCK_CONTROLS,
   controlDisplay: 'block',
@@ -426,5 +415,4 @@ BoldrEditor.defaultProps = {
   spellCheck: true,
   stripPastedStyles: false,
 };
-
 export default BoldrEditor;

@@ -23,15 +23,17 @@ type Props = {
   fetch: ({ dispatch }) => dispatch(loadPrimary())
 })
 class PrimaryHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
-  props: Props;
   componentDidMount() {
     this.props.actions.loadPrimary();
   }
+
+  state = {
+    activeItem: ''
+  }
+
+  props: Props;
+
   handleItemClick = (e, { name, href }) => {
     this.setState({
       activeItem: name
@@ -137,7 +139,7 @@ class PrimaryHeader extends Component {
   }
 }
 
-const mapStateToProps = (state:Object) => {
+const mapStateToProps = (state: Object) => {
   return {
     boldr: state.boldr,
     auth: state.auth,

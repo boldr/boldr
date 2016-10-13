@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import Promise from 'bluebird';
 import CryptoJS from 'crypto-js';
 import bcrypt from 'bcryptjs';

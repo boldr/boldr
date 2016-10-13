@@ -1,7 +1,6 @@
 import request from 'superagent';
-import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_PAGE, TOKEN_KEY, processResponse } from 'core';
+import { API_PREFIX, API_PAGE, TOKEN_KEY, processResponse } from 'core';
 
 export function doFetchPages() {
   return request

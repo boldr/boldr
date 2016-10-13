@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import Divider from 'components/md/Dividers';
-import { Heading } from 'components';
+import { Divider, Header } from 'semantic-ui-react';
+// import { Heading } from 'components/';
 import PostImage from 'components/PostImage';
 
 const PostContent = props => {
@@ -12,8 +12,9 @@ const PostContent = props => {
         null
       }
       <div style={ { padding: '2em 1.5em' } }>
-        <Heading size={ 1 } override="3.5em" textDeco="capitalize">{ props.title } </Heading>
-        <Divider style={ { marginTop: '35px', marginBottom: '20px' } } />
+       <Header size="large">{ props.title } </Header>
+
+        <Divider />
         <div className="content" style={ { lineHeight: '1.8em' } } dangerouslySetInnerHTML={ createMarkup() } />
       </div>
     </article>

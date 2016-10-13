@@ -1,3 +1,8 @@
+export type Props = {
+  entityKey?: any,
+  children?: any,
+};
+
 import React from 'react';
 import { Entity } from 'draft-js';
 
@@ -21,11 +26,6 @@ const Link = (props) => {
       {props.children}
     </a>
   );
-};
-
-Link.propTypes = {
-  entityKey: React.PropTypes.any,
-  children: React.PropTypes.any,
 };
 
 export default {

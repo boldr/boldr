@@ -8,7 +8,7 @@ const controller = new BaseController(Link);
 const router = express.Router();
 
 router.get('/', ctrl.index);
-router.post('/', controller.create.bind(controller));
+router.post('/', ctrl.create);
 router.get('/:id', ctrl.getId);
 router.put('/:id', ctrl.update);
 router.patch('/:id', ctrl.update);

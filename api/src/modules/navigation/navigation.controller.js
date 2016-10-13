@@ -4,21 +4,21 @@ import Navigation from './navigation.model';
 
 const debug = require('debug')('boldr:navigation-controller');
 
-async function index(req, res) {
+async function index(req, res, next) {
   try {
     const navigations = await Navigation.query().eager('[links]');
 
     if (!navigations) {
-      throw new GeneralNotFoundError();
+      return next(new GeneralNotFoundError());
     }
 
     return res.status(200).json(navigations);
   } catch (error) {
-    throw new InternalError(error);
+    return next(new InternalError(error));
   }
 }
 
-async function getId(req, res) {
+async function getId(req, res, next) {
   try {
     const navigation = await Navigation
       .query()
@@ -27,18 +27,18 @@ async function getId(req, res) {
 
     return responseHandler(null, res, 200, navigation);
   } catch (error) {
-    throw new InternalError(error);
+    return next(new InternalError(error));
   }
 }
 
-async function update(req, res) {
+async function update(req, res, next) {
   try {
     const updatedNav = await Navigation.query()
       .patchAndFetchById(1, req.body);
 
     return res.status(201).json(navigation);
   } catch (error) {
-    throw new InternalError(error);
+    return next(new InternalError(error));
   }
 }
 

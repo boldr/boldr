@@ -13,9 +13,9 @@ function responseHandler(err, res, status, data) {
   if (err) {
     const errStatus = getErrorStatus(err);
     return res.status(err.statusCode || errStatus || 500)
-      .send(_.pickBy({ err: `${err.message}`, hint: `${err.hint || ''}` }));
+      .json(_.pickBy({ err: `${err.message}`, hint: `${err.hint || ''}` }));
   }
-  return res.status(status || 200).send(data);
+  return res.status(status || 200).json(data);
 }
 
 function throwNotFound(res) {

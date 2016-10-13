@@ -1,7 +1,6 @@
 import request from 'superagent';
-import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_USERS, TOKEN_KEY, processResponse } from 'core';
+import { API_PREFIX, API_USERS, TOKEN_KEY, processResponse } from 'core';
 
 export function doFetchMembers() {
   return request

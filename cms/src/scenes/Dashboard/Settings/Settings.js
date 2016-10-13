@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import Paper from 'components/md/Papers';
-import { Tabs, Tab } from 'components/md/Tabs';
 
-import { Loader } from 'components';
+import { Loader } from 'components/index';
 import { fetchSettingsIfNeeded, updateBoldrSettings } from 'state/dux/boldr';
 import GeneralTab from 'components/GeneralTab';
 
@@ -34,32 +33,11 @@ class Settings extends Component {
       return <Loader />;
     }
     return (
-      <div style={ { paddingTop: '50px' } }>
-      <Paper>
-        <Tabs primary scrollable>
-            <Tab label="General">
-              <div>
-              <GeneralTab onSubmit={ this.handleSubmit } settings={ this.props.boldr } />
 
-              </div>
-            </Tab>
-            <Tab label="Soon">
-              <div>
-                <p>
-                  This is empty
-                </p>
-              </div>
-            </Tab>
-            <Tab label="Soon">
-              <div>
-                <p>
-                  This is empty
-                </p>
-              </div>
-            </Tab>
-          </Tabs>
+      <Paper>
+      <GeneralTab onSubmit={ this.handleSubmit } settings={ this.props.boldr } initialValues={ this.props.boldr } />
+
           </Paper>
-      </div>
     );
   }
 }

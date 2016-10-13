@@ -1,5 +1,5 @@
 import BlogContainer from './BlogContainer';
-
+import { fetchPosts } from 'state/dux/post';
 if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 
 const errorLoading = (err) => {

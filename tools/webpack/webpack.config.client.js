@@ -52,10 +52,13 @@ module.exports = function webpackConfig() {
         'redial',
         'superagent',
         'redux-form',
+        'react-addons-transition-group',
+        'serialize-javascript',
         'react-addons-css-transition-group',
         'draft-js',
+        'draft-js-export-html',
+        'draft-js-import-html',
         'classnames',
-        'reselect',
         'semantic-ui-react',
         'date-fns',
         'lodash',
@@ -109,16 +112,6 @@ module.exports = function webpackConfig() {
               fallbackLoader: 'style',
               loader: 'css?modules&sourceMap&importLoaders=1!postcss'
             }),
-        },
-        {
-          test: /\.module.scss$/,
-          exclude: /node_modules/,
-          loader: isDev ?
-            'style!css?localIdentName=[name]__[local].[hash:base64:5]&modules&sourceMap&-minimize&importLoaders=2!postcss!sass?outputStyle=expanded&sourceMap' :
-            ExtractTextPlugin.extract({
-              fallbackLoader: 'style',
-              loader: 'css?modules&sourceMap&importLoaders=2!postcss!sass?outputStyle=expanded&sourceMap&sourceMapContents'
-            })
         }
       ])
     },
@@ -155,10 +148,14 @@ module.exports = function webpackConfig() {
       // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
       webpackIsomorphicToolsPlugin,
       // Define common options used by all webpack plugins, such as minifying and debug modes.
-      new webpack.LoaderOptionsPlugin({
-        minimize: isProd,
-        debug: !isProd
-      }),
+      ifDev(new webpack.LoaderOptionsPlugin({
+        minimize: false,
+        debug: true
+      })),
+      ifProd(new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
+      })),
       //
       // Development plugins
       // * ------------------------------------- *

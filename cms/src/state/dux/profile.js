@@ -46,7 +46,7 @@ export function getPublicProfile(userId) {
     dispatch({
       type: types.PUBLIC_PROFILE_REQUEST
     });
-    return request.get(`${API_BASE}/users/${userId}`)
+    return request.get(`${API_PREFIX}/users/${userId}`)
       .then(response => {
         if (response.status === 200) {
           dispatch({

@@ -9,12 +9,11 @@
 .*/node_modules/fbjs/.*
 .*/node_modules/react-side-effect/.*
 .*/node_modules/editions/.*
-.*/node_modules/draft-js/.*
 
 [libs]
 
 flow-typed/npm
-tools/flow/definitions
+tools/flow
 
 [options]
 module.system=haste
@@ -25,16 +24,10 @@ esproposal.decorators=ignore
 esproposal.export_star_as=ignore
 munge_underscores=false
 module.name_mapper='^\(.*\)\.\(css\|eot\|gif\|ico\|jpg\|jpeg\|less\|otf\|mp3\|mp4\|ogg\|png\|sass\|scss\|sss\|svg\|swf\|ttf\|webp\|woff\|woff2\|dll\)$' -> '<PROJECT_ROOT>/tools/flow/definitions/WebpackAsset.js.flow'
-module.name_mapper='^\(state\|components\|scenes\|core\)\/\(.*\)$' -> '<PROJECT_ROOT>/cms/src/\1/\2'
-suppress_type=$FlowIssue
-suppress_type=$FlowFixMe
-suppress_type=$FixMe
-suppress_type=$FlowExpectedError
+module.name_mapper='^\(state\|components\|scenes\|core\|theme\)\/\(.*\)$' -> '<PROJECT_ROOT>/cms/src/\1/\2'
 
-suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(3[0-1]\\|[1-2][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)
-suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(3[0-1]\\|[1-2][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)?:? #[0-9]+
-suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
-suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedErrors
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
 
 [version]
 0.33.0

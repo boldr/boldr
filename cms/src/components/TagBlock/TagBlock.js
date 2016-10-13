@@ -1,4 +1,5 @@
 import React from 'react';
+import { Divider, Card, Comment, Header } from 'semantic-ui-react';
 import Tag from '../Tag';
 
 const styles = {
@@ -14,9 +15,11 @@ const TagBlock = (props) => {
   }
   return (
     <div style={ styles.wrapper } className="tagblock">
+
     {
       props.tags.map(tag => <Tag key={ tag.id } name={ tag.name } id={ tag.id } />)
     }
+
     </div>
   );
 };

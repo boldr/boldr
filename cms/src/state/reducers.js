@@ -13,13 +13,6 @@ import postsReducer from './dux/post';
 import profileReducer from './dux/profile';
 import pageReducer, { pageSelector } from './dux/page';
 
-function entities(state = {}, action) {
-  if (action.payload && action.payload.entities) {
-    return merge({}, state, action.payload.entities);
-  }
-  return state;
-}
-
 export default function createReducer(asyncReducers) {
   return combineReducers({
     routing: routerReducer,
@@ -31,7 +24,6 @@ export default function createReducer(asyncReducers) {
     posts: postsReducer,
     navigation: navigationReducer,
     currentPost,
-    entities,
     media: mediaReducer,
     tags: tagReducer,
     profile: profileReducer,

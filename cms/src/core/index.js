@@ -1,5 +1,5 @@
 import {
-  API_BASE,
+  API_PREFIX,
   S3_SIGNING_URL,
   API_AUTH,
   API_POSTS,
@@ -7,6 +7,7 @@ import {
   API_MEDIA,
   API_NAVIGATION,
   API_TAG,
+  API_LINKS,
   API_PAGE,
   API_CATEGORY,
   API_ACTIVITY,
@@ -19,13 +20,14 @@ import ApiClient from './api/ApiClient';
 
 
 export {
-  API_BASE,
+  API_PREFIX,
   S3_SIGNING_URL,
   API_AUTH,
   API_POSTS,
   API_USERS,
   API_MEDIA,
   API_NAVIGATION,
+  API_LINKS,
   API_TAG,
   API_ACTIVITY,
   API_CATEGORY,

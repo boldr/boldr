@@ -5,7 +5,7 @@ import Paper from 'components/md/Papers';
 import Dialog from 'components/md/Dialogs';
 import { FloatingButton } from 'components/md/Buttons';
 import { List, ListItem } from 'components/md/Lists';
-import { Row, Col } from 'components';
+import { Row, Col } from 'components/index';
 import { updateNavLinks, addNavLinks } from 'state/dux/navigation';
 import NavigationEditor from './components/NavigationEditor';
 import NavigationForm from './components/NavigationForm';
@@ -15,37 +15,34 @@ function mapStateToProps(state) {
 }
 
 export type Props = {
-  navigation?: Object,
+  navigation: Object,
   dispatch?: Function,
   handleItemClick?: Function,
 };
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, { updateNavLinks, addNavLinks })
 class Navigation extends Component {
   constructor() {
     super();
-
-    this.state = {
-      isOpen: false,
-      link: {
-        name: null,
-        position: null,
-        href: null,
-        id: null,
-        icon: null
-      }
-    };
-
-    this.handleItemClick = this.handleItemClick.bind(this);
+    (this: any).handleItemClick = this.handleItemClick.bind(this);
+    (this: any).closeDialog = this.closeDialog.bind(this);
   }
-
+  state: Object = {
+    isOpen: false,
+    link: {
+      name: null,
+      position: null,
+      href: null,
+      id: null,
+      icon: null
+    }
+  };
   onUpdateFormSubmit = (data) => {
-    const id = this.state.link.id;
-    this.props.dispatch(updateNavLinks(data, id));
+    this.props.updateNavLinks(data);
   }
 
   onFormSubmit = (data) => {
-    this.props.dispatch(addNavLinks(data));
+    this.props.addNavLinks(data);
   }
   props: Props;
   openDialog = () => {
@@ -56,7 +53,7 @@ class Navigation extends Component {
     this.setState({ isOpen: false });
   };
 
-  handleItemClick(item) {
+  handleItemClick(item: Object) {
     this.setState({
       link: {
         name: item.name,

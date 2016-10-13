@@ -1,14 +1,14 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router/es6';
-
+import Link from 'react-router/lib/Link';
+import classNames from 'classnames';
 import { provideHooks } from 'redial';
-import { Grid, Col, Row } from 'components/index';
+import { Grid, Col, Row, Heading } from 'components/index';
 import Paper from 'components/md/Papers';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
-
+import { getSinglePost } from 'state/dux/post';
 import PostContent from 'components/PostContent';
 import { loadPost } from './actions';
 
@@ -17,17 +17,24 @@ export type Props = {
   currentPost?: Object,
 };
 
-const redial = {
-  fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
-};
 
 const SinglePost = ({ isLoading, currentPost }) => {
+  const IS = {
+    bg: {
+      backgroundImage: `url(${currentPost.feature_image})`,
+      width: '100%',
+      paddingTop: '175px'
+    },
+    offSet: {
+      marginBottom: '-150px'
+    }
+  };
   return (
-    <div className="postbg">
+    <div style={ IS.bg }>
       <Grid fluid>
         <Row>
           <Col xs={ 12 } md={ 8 } lg={ 9 }>
-              <Paper zDepth={ 2 }>
+              <Paper zDepth={ 2 } style={ IS.offSet }>
               {
                 isLoading ?
                   <Loader /> :
@@ -44,11 +51,12 @@ const SinglePost = ({ isLoading, currentPost }) => {
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    currentPost: state.currentPost,
+    posts: state.posts,
+    currentPost: state.posts.bySlug[ownProps.params.slug],
     isLoading: state.currentPost.isLoading
   };
 };
 
-export default provideHooks(redial)(connect(mapStateToProps)(SinglePost));
+export default connect(mapStateToProps)(SinglePost);

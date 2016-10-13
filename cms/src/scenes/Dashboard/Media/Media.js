@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
-import { S3Uploader, Grid, Row, Col } from 'components';
-import { API_BASE, S3_SIGNING_URL } from 'core/api/helpers';
+import { S3Uploader, Grid, Row, Col } from 'components/index';
+import { API_PREFIX, S3_SIGNING_URL } from 'core/api/helpers';
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/media';
 import FileView from 'components/FileView';
 
@@ -13,7 +13,7 @@ type Props = {
   media: Object,
   deleteMedia: () => void,
   uploadFiles: () => void
-}
+};
 
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchMedia())
@@ -21,12 +21,8 @@ type Props = {
 class Media extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: 3,
-      open: false
-    };
-    this.handleRemoveMedia = this.handleRemoveMedia.bind(this);
-    this.handleFinish = this.handleFinish.bind(this);
+    (this:any).handleRemoveMedia = this.handleRemoveMedia.bind(this);
+    (this:any).handleFinish = this.handleFinish.bind(this);
   }
   props: Props;
 
@@ -61,7 +57,7 @@ class Media extends Component {
 
               uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
               contentDisposition="auto"
-              server={ `${API_BASE}` }
+              server={ `${API_PREFIX}` }
             />
             <FileView files={ this.props.media.files } removeMedia={ this.handleRemoveMedia } />
          </Col>

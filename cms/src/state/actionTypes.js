@@ -34,16 +34,19 @@ export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
-export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST';
-export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
-export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
+export const UPDATE_POST_REQUEST = '@boldr/dashboardUPDATE_POST_REQUEST';
+export const UPDATE_POST_SUCCESS = '@boldr/dashboardUPDATE_POST_SUCCESS';
+export const UPDATE_POST_FAILURE = '@boldr/dashboardUPDATE_POST_FAILURE';
 export const SELECT_POST = 'SELECT_POST';
 export const SELECT_POST_SUCCESS = 'SELECT_POST_SUCCESS';
 export const SELECT_POST_FAIL = 'SELECT_POST_FAIL';
-export const CREATE_POST_REQUEST = 'CREATE_POST_REQUEST';
-export const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
-export const CREATE_POST_FAIL = 'CREATE_POST_FAIL';
+export const CREATE_POST_REQUEST = '@boldr/dashboardCREATE_POST_REQUEST';
+export const CREATE_POST_SUCCESS = '@boldr/dashboardCREATE_POST_SUCCESS';
+export const CREATE_POST_FAIL = '@boldr/dashboardCREATE_POST_FAIL';
 export const CLEAR_CURRENT_POST = 'CLEAR_CURRENT_POST';
+export const DELETE_POST_FAILURE = '@boldr/dashboard/DELETE_POST_FAILURE';
+export const DELETE_POST_REQUEST = '@boldr/dashboardDELETE_POST_REQUEST';
+export const DELETE_POST_SUCCESS = '@boldr/dashboardDELETE_POST_SUCCESS';
 
 // Auth
 // -----------------

@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import supertest from 'supertest';
 import server from '../../engine';
-import knex from '../../db/connection';
+import knex from '../../db/postgres';
 
 function request() {
   return supertest(server.listen());
@@ -39,10 +39,7 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send({ email: 'admin@boldr.io', password: '' })
         .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).to.equal(500);
-          done();
-        });
+        .expect(400, done);
     });
     it('It should be able to login', (done) => {
       request()
@@ -76,7 +73,7 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send({ email: 'abc@test.com', first_name: 'test', last_name: 'user' })
         .expect('Content-Type', /json/)
-        .expect(500, done);
+        .expect(400, done);
     });
     it('Should fail using an existing email', (done) => {
       request()

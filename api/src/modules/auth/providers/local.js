@@ -7,10 +7,11 @@ export default function configurePassport(User) {
     passwordField: 'password'
   }, async (email, password, done) => {
     const user = await User.query().where({ email }).eager('role').first();
+
     if (!user) {
       return done(null, false, { message: 'This email is not registered.' });
     }
-    console.log(password);
+
     const validAuth = await user.authenticate(password);
     if (!validAuth) {
       return done(null, false, { message: 'This password is not correct.' });

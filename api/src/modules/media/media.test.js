@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import supertest from 'supertest';
 import server from '../../engine';
-import knex from '../../db/connection';
+import knex from '../../db/postgres';
 
 function request() {
   return supertest(server.listen());

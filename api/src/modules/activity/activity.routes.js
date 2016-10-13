@@ -8,7 +8,7 @@ const controller = new BaseController(Activity);
 
 const router = new express.Router();
 
-router.get('/', ctrl.index);
+router.get('/', ctrl.getAll);
 router.get('/:id', controller.show.bind(controller));
 router.post('/', controller.create.bind(controller));
 

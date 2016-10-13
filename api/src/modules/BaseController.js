@@ -2,7 +2,6 @@ import findQuery from 'objection-find';
 import { searchFilter, responseHandler, throwNotFound } from '../utils';
 
 class BaseController {
-
   constructor(model, id = 'id', eager) {
     this.model = model;
     this.eager = eager;
@@ -35,13 +34,13 @@ class BaseController {
       .catch(err => responseHandler(err, res));
   }
 
-  show(req, res) {
+  show(req, res, next) {
     return this.model.query()
       .findById(req.params[this.id])
       .allowEager(this.eager)
       .eager(req.query.eager)
       .then(item => {
-        if (!item) return throwNotFound(res);
+        if (!item) return next(new throwNotFound(res));
         return responseHandler(null, res, 200, item);
       })
     .catch(err => responseHandler(err, res));

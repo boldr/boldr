@@ -20,7 +20,21 @@ function show(req, res) {
     .catch(err => responseHandler(err, res));
 }
 
-function update(req, res) {
+function update(req, res, next) {
+  if ('password' in req.body) {
+    req.assert('password', 'Password must be at least 4 characters long').len(4);
+  } else {
+    req.assert('email', 'Email is not valid').isEmail();
+    req.assert('email', 'Email cannot be blank').notEmpty();
+    req.sanitize('email').normalizeEmail({ remove_dots: false });
+  }
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    return res.status(400).json(errors);
+  }
+
   return User.query()
     .patchAndFetchById(req.params.id, req.body)
     .then(user => res.send(user));

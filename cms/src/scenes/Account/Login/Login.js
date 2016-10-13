@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import { Card, Header, Icon } from 'semantic-ui-react';
 
-import { Heading, Grid, Col, Row } from 'components';
+import { Heading, Grid, Col, Row } from 'components/index';
 import { CardMedia, CardTitle, CardActions } from 'components/md/Cards';
 import { login } from 'state/dux/auth';
 import LoginForm from './LoginForm';
@@ -36,7 +36,7 @@ type Props = {
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    (this:any).handleOnSubmit = this.handleOnSubmit.bind(this);
   }
   props: Props;
 

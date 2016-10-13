@@ -1,5 +1,4 @@
 import request from 'superagent';
-import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
 import { API_POSTS, TOKEN_KEY, processResponse } from 'core';
 
@@ -25,4 +24,10 @@ export function doCreatePost(data) {
 export function doSelectPost(postId) {
   return request
     .get(`${API_POSTS}/id/${postId}`);
+}
+
+export function doDeletePost(postId) {
+  return request
+    .delete(`${API_POSTS}/pid/${postId}`)
+    .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`);
 }

@@ -1,3 +1,11 @@
+export type Props = {
+  controls?: boolean | Array<string>,
+  display?: 'block' | 'inline',
+  onClick?: Function,
+  customBlocks?: Object,
+  customBlockType?: string,
+};
+
 import React, { PropTypes } from 'react';
 
 import StyleButton from '../StyleButton/StyleButton';
@@ -34,16 +42,5 @@ function CustomBlockControls({ controls, display, onClick, customBlocks, customB
     </div>
   );
 }
-
-CustomBlockControls.propTypes = {
-  controls: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.arrayOf(React.PropTypes.string),
-  ]),
-  display: React.PropTypes.oneOf(['block', 'inline']),
-  onClick: PropTypes.func,
-  customBlocks: PropTypes.object,
-  customBlockType: PropTypes.string
-};
 
 export default CustomBlockControls;

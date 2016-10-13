@@ -1,8 +1,9 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { provideHooks } from 'redial';
-import { SiteLogo, Grid, Col, Row } from 'components';
+import { SiteLogo, Grid, Col, Row } from 'components/index';
 import Authenicated from 'components/hoc.Authenticated';
 import NavigationDrawer from 'components/md/NavigationDrawers';
 import FontIcon from 'components/md/FontIcons';
@@ -21,7 +22,7 @@ const DrawerType = {
 };
 
 export type Props = {
-  children?: React.Element,
+  children: React$Element<*>,
   toggleOpen?: Function,
   postListClicked?: Function,
   postEditorClicked?: Function,

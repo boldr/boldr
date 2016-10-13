@@ -6,27 +6,25 @@ import { loadPost, clearCurrentPost, updatePost } from 'scenes/Blog/SinglePost/a
 import EditorForm from '../EditorForm';
 
 export type Props = {
-  dispatch?: Function,
-  posts?: Object,
-  params?: Object,
-  currentPost?: Object,
+  dispatch: Function,
+  posts: Object,
+  params: Object,
+  currentPost: Object,
   clearCurrentPost?: Function,
-  loadPost?: Function,
+  loadPost: Function
 };
 
 class PostEditor extends Component {
   constructor(props: Props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.state = {
-      editing: true
-    };
+    (this:any).handleSubmit = this.handleSubmit.bind(this);
   }
-
-  componentDidMount() {
-    this.props.loadPost(this.props.params.slug);
-  }
+  state:Object = {
+    editing: true
+  };
+//  componentDidMount() {
+//    this.props.loadPost(this.props.params.slug);
+//  }
   props: Props;
   handleSubmit(values) {
     const postData = {
@@ -41,7 +39,7 @@ class PostEditor extends Component {
   }
 
   render() {
-    if (this.props.currentPost.isLoading && !this.props.currentPost.content.length) {
+    if (!this.props.currentPost.content.length) {
       return <p>Loading...</p>;
     }
     return (
@@ -59,7 +57,7 @@ class PostEditor extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
-    currentPost: state.currentPost,
+    currentPost: state.posts.bySlug[ownProps.params.slug],
     isLoading: state.currentPost.isLoading
   };
 };

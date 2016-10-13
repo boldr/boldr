@@ -1,16 +1,22 @@
 import request from 'superagent';
-import decode from 'jwt-decode';
 import fetch from 'isomorphic-fetch';
-import { API_BASE, API_NAVIGATION, API_LINKS, TOKEN_KEY } from 'core';
+import { API_PREFIX, API_NAVIGATION, API_LINKS, TOKEN_KEY } from 'core';
 
 export function doUpdateNavigationLinks(data) {
+  console.log(data, 'API SERVICE ------');
   return request.put(`${API_LINKS}/${data.id}`)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
     .send(data);
 }
 
 export function doAddNavigationLinks(data) {
+  const payload = {
+    name: data.name,
+    href: data.href,
+    icon: data.icon,
+    position: data.position
+  };
   return request.post(`${API_LINKS}`)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
-    .send(data);
+    .send(payload);
 }

@@ -6,16 +6,17 @@ import { provideHooks } from 'redial';
 import { Header, Icon } from 'semantic-ui-react';
 import PostListing from 'scenes/Blog/PostListing';
 import { Grid, Row, Col, Hero, Heading, PrimaryHeader, Footer } from '../../components';
-import { fetchPages } from '../../state/dux/page';
+import { fetchPagesIfNeeded } from '../../state/dux/page';
 
 type Props = {
   loaded: Boolean,
   pages: Object,
-  entities: Object
+  entities: Object,
+  dispatch: Function
 }
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchPages())
+  fetch: ({ dispatch }) => dispatch(fetchPagesIfNeeded())
 })
 class Home extends Component {
   props: Props;
@@ -64,4 +65,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchPages })(Home);
+export default connect(mapStateToProps, { fetchPagesIfNeeded })(Home);

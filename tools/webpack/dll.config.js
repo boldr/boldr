@@ -14,8 +14,6 @@ module.exports = {
 
   entry: {
     vendor: [
-      'babel-polyfill',
-
       // <babel-runtime>
       'babel-runtime/core-js/array/from',
       'babel-runtime/core-js/get-iterator',
@@ -67,10 +65,13 @@ module.exports = {
       'redux-form',
       'react-addons-css-transition-group',
       'draft-js',
+      'draft-js-export-html',
+      'draft-js-import-html',
       'classnames',
       'semantic-ui-react',
       'isomorphic-fetch',
-      'reselect'
+      'react-addons-transition-group',
+      'serialize-javascript'
     ]
   },
 

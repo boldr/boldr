@@ -24,7 +24,7 @@ export default class Html extends Component {
           { head.meta.toComponent() }
           { head.link.toComponent() }
           { head.script.toComponent() }
-
+          <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {

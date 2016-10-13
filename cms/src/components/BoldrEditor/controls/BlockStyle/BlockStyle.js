@@ -1,3 +1,10 @@
+export type Props = {
+  editorState?: Object,
+  onToggle?: Function,
+  controls?: boolean | Array<BLOCK_CONTROLS>,
+  display?: 'block' | 'inline',
+};
+
 import React, { PropTypes } from 'react';
 import StyleButton from '../StyleButton/StyleButton';
 import { BLOCK_CONTROLS, BLOCK_TYPES } from '../helpers';
@@ -30,16 +37,6 @@ const BlockStyleControls = ({ controls, display, editorState, onToggle }) => {
     }
     </div>
   );
-};
-
-BlockStyleControls.propTypes = {
-  editorState: PropTypes.object.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  controls: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.arrayOf(BLOCK_CONTROLS),
-  ]),
-  display: React.PropTypes.oneOf(['block', 'inline'])
 };
 
 export default BlockStyleControls;
