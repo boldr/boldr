@@ -15,15 +15,13 @@ services:
 
   postgres:
     container_name: boldr_pg
-    image: sameersbn/postgresql:9.5-2
+    image: strues/postgres:9.6
     restart: always
     environment:
       - PGDATA=/var/lib/postgresql/data
-      - PG_PASSWORD=password
-      - DB_USER=boldr
-      - DB_PASS=password
-      - DB_NAME=boldr_development,boldr_test,boldr
-      - PG_TRUST_LOCALNET=true
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=boldr
     ports:
       - "5432:5432"
     volumes:

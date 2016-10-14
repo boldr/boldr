@@ -1,64 +1,26 @@
 {
-  "extends": ["boldr", "boldr/react"],
+  "extends": ["boldr/react"],
   "env": {
     "browser": true,
     "es6": true,
     "node": true,
     "mocha": true
   },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "impliedStrict": true,
+    "sourceType": "module",
+    "jsx": true
+  },
   "ecmaFeatures": {
     "defaultParams": true
   },
-  "parser": "babel-eslint",
   "plugins": ["flowtype"],
-  "parserOptions": {
-    "sourceType": "module"
-  },
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
     }
-  },
-  "rules": {
-    "no-unused-vars": 0,
-    "babel/new-cap": 0,
-    "babel/arrow-parens": 0,
-    "import/no-unresolved": 0,
-    "import/namespace": 0,
-    "import/no-deprecated": 0,
-    "import/no-named-as-default": 0,
-    "import/no-named-as-default-member": 0,
-    "import/default": 0,
-    "react/prefer-stateless-function": 0,
-    "comma-dangle": 0,
-    "no-undef": 0,
-    "react/sort-comp": 0,
-    "react/jsx-sort-props": 0,
-    "prefer-rest-params": 0,
-    "react/prop-types": 0,
-    "flowtype/require-valid-file-annotation": 1,
-    "flowtype/require-return-type": [
-      0,
-      "never",
-      {
-        "annotateUndefined": "never"
-      }
-    ],
-    "flowtype/space-after-type-colon": [
-      2,
-      "always"
-    ],
-    "flowtype/space-before-generic-bracket": [
-      2,
-      "never"
-    ],
-    "flowtype/space-before-type-colon": [
-      2,
-      "never"
-    ],
-    "flowtype/type-id-match": 0,
-    "no-constant-condition": 0,
-    "flowtype/no-weak-types": 0
   },
   "globals": {
     "__DEVELOPMENT__": true,
@@ -66,6 +28,9 @@
     "__SERVER__": true,
     "__DISABLE_SSR__": true,
     "__DEVTOOLS__": true,
-    "webpackIsomorphicTools": true
-  }
+    "webpackIsomorphicTools": true,
+    "React": true
+  },
+  "rules": {},
+
 }

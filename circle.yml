@@ -21,10 +21,12 @@ machine:
     REDIS_PORT: 6379
 
 dependencies:
+  cache_directories:
+    - node_modules
+    - ~/.yarn-cache
+  override:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
   pre:
-    - npm install
+    - yarn install
     - NODE_ENV=test npm run migrate
     - NODE_ENV=test npm run seed
-
-  cache_directories:
-    - "~/node_modules"   # relative to the build directory

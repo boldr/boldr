@@ -1,63 +1,110 @@
 /* eslint-disable */
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTableIfNotExists('user', function(table) {
+    // account hasOne profile
+    // account hasOne token
+    knex.schema.createTableIfNotExists('account', function(table) {
+      // pk
       table.uuid('id').primary();
-      table.string('first_name', 50).notNullable();
-      table.string('last_name', 100);
-      table.string('display_name', 50).notNullable();
-      table.string('avatar_url');
       table.string('email', 100).unique().notNullable();
       table.string('password').notNullable();
-      table.string('location', 100);
-      table.string('bio');
-      table.string('website', 100);
-      table.string('account_token');
-      table.string('reset_password_token');
-      table.dateTime('reset_password_expiration');
+      table.string('facebook_id', 150);
+      table.string('google_id', 150);
+      table.string('twitter_id', 150);
+      table.string('linkedin_id', 150);
+      table.integer('github_id', 150);
       table.boolean('verified').defaultTo(false);
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
 
       table.index('email')
     }),
+    // belongsTo account
+    knex.schema.createTableIfNotExists('token', function(table) {
+      // pk | uuid
+      table.uuid('id').primary();
+      // fk | uuid
+      table.string('account_verification_token');
+      table.string('reset_password_token');
+      table.dateTime('reset_password_expiration');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
+
+      // indexes
+      table.index('reset_password_token');
+      table.index('account_verification_token');
+    }),
+    // belongsTo account
+    knex.schema.createTableIfNotExists('profile', function(table) {
+      // pk | uuid
+      table.uuid('id').primary();
+      // fk | uuid
+      table.uuid('account_id').unsigned().references('id').inTable('account');
+      table.string('first_name', 50).notNullable();
+      table.string('last_name', 50);
+      table.string('display_name', 100).notNullable();
+      table.string('avatar_url', 200).default('https://boldr.io/images/unknown-avatar.png');
+      table.string('profile_image', 200);
+      table.string('location', 100);
+      table.text('bio');
+      table.date('birthday', 100);
+      table.string('website', 100);
+      table.string('facebook_profile', 100);
+      table.string('linkedin_profile', 150);
+      table.string('github_profile', 100);
+      table.string('google_profile', 150);
+      table.string('twitter_profile', 100);
+    }),
 
     knex.schema.createTableIfNotExists('role', function(table) {
+      // pk | uuid
       table.increments('id').primary();
+      table.uuid('uuid').notNullable();
       table.string('name').notNullable();
+      table.string('image');
       table.text('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
       table.index('name');
+      table.index('uuid');
     }),
-
-    knex.schema.createTableIfNotExists('user_role', function(table) {
+    // M2M
+    knex.schema.createTableIfNotExists('account_role', function(table) {
+      // pk
       table.increments('id').primary();
-      table.uuid('user_id').unsigned().notNullable();
+      // fk | uuid
+      table.uuid('account_id').unsigned().notNullable();
+      // fk | int
       table.integer('role_id').unsigned().notNullable();
-      table.unique(['user_id', 'role_id']);
-      table.foreign('role_id').references('id').inTable('role').onDelete('restrict').onUpdate('cascade');
-      table.foreign('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
+      table.unique(['account_id', 'role_id']);
+      table.foreign('role_id').references('id').inTable('role').onDelete('cascade').onUpdate('cascade');
+      table.foreign('account_id').references('id').inTable('account').onDelete('cascade').onUpdate('cascade');
     }),
 
     knex.schema.createTableIfNotExists('tag', function(table) {
+      // pk | int
       table.increments('id').primary();
-      table.uuid('uuid');
+      table.uuid('uuid').notNullable();
       table.string('name').notNullable().unique();
       table.string('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
       table.index('name');
+      table.index('uuid');
     }),
     knex.schema.createTableIfNotExists('post', function(table) {
+      // pk | uuid
       table.uuid('id').primary();
       table.string('title', 140).unique().notNullable();
       table.string('slug').unique().notNullable();
       table.string('feature_image');
+      table.string('background_image');
+      table.json('attachments');
       table.text('content').notNullable();
       table.text('excerpt');
       table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
-      table.uuid('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
+      // fk | uuid
+      table.uuid('account_id').references('id').inTable('account').onDelete('restrict').onUpdate('cascade');
       table.json('meta');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
@@ -73,27 +120,25 @@ exports.up = function(knex, Promise) {
       table.foreign('post_id').references('id').inTable('post').onDelete('cascade').onUpdate('cascade');
       table.foreign('tag_id').references('id').inTable('tag').onDelete('cascade').onUpdate('cascade');
     }),
-    knex.schema.createTableIfNotExists('media', function(table) {
+    knex.schema.createTableIfNotExists('attachment', function(table) {
       table.uuid('id').primary();
-      table.string('filename').unique().notNullable();
+      table.string('file_name').unique().notNullable();
+      table.string('original_name');
+      table.string('file_description');
       table.string('file_type');
-      table.string('s3url');
-      table.uuid('user_id').unsigned().notNullable();
+      table.string('url').notNullable();
+      table.string('s3_key');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
-      table.foreign('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
     }),
+
     knex.schema.createTableIfNotExists('setting', function(table) {
       table.increments('id');
-      table.string('site_name').notNullable();
-      table.string('site_url').notNullable();
-      table.string('site_logo');
-      table.string('site_favicon');
-      table.string('site_slogan');
-      table.string('site_description');
-      table.string('google_analytics');
-      table.boolean('allow_registration').default(true);
-      table.json('configuration');
+      table.uuid('uuid');
+      table.string('key', 100).notNullable();
+      table.string('value', 255).notNullable();
+      table.string('description', 255).notNullable();
+
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
@@ -101,9 +146,9 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.uuid('uuid');
       table.string('name').notNullable();
-      table.boolean('primary').default(false);
       table.boolean('restricted').default(false);
       table.enu('location', ['header', 'sidebar', 'footer', 'admin']).defaultTo('header');
+      table.json('dropdown');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
@@ -129,7 +174,16 @@ exports.up = function(knex, Promise) {
       table.string('description');
       table.boolean('restricted').default(false);
       table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
-      table.json('entities');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTableIfNotExists('category', function(table) {
+      table.uuid('id').primary();
+      table.string('name').unique().notNullable();
+      table.enu('type', ['article', 'project', 'page', 'media', 'file']);
+      table.string('description');
+      table.string('icon');
+      table.string('slug');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
@@ -137,61 +191,61 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.uuid('uuid');
       table.string('name');
+      table.enu('type', ['string', 'int', 'boolean', 'array']);
+      table.enu('kind', ['text', 'image', 'video']);
       table.string('description');
-      table.boolean('restricted').default(false);
+      table.string('icon');
       table.string('slug');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
     knex.schema.createTableIfNotExists('collection', function(table) {
-      table.increments('id');
-      table.uuid('uuid');
-      table.string('name');
+      table.uuid('id').primary();
+      table.string('name', 100).notNullable().unique();
       table.string('description');
       table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
-      table.string('location');
-      table.text('content');
-      table.integer('type_id').notNullable().references('id').inTable('content_type');
+      table.json('content');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
     knex.schema.createTableIfNotExists('page', function(table) {
       table.uuid('id').primary();
-      table.string('name');
-      table.string('url');
+      table.string('name').unique().notNullable();
+      table.string('url').unique().notNullable();
       table.json('layout');
-      table.text('markup');
+      table.json('data');
       table.enu('status', ['published', 'draft', 'archived']).defaultTo('draft');
       table.boolean('restricted').default(false);
-      table.json('seo');
+      table.json('meta');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
-    }),
-    knex.schema.createTableIfNotExists('page_helper', function(table) {
-      table.increments('id');
-      table.uuid('uuid');
-      table.uuid('page_id').notNullable().references('id').inTable('page');
-      table.string('name');
-      table.string('scope');
-      table.enu('type', ['string', 'int', 'boolean', 'array']);
-      table.text('value');
     }),
     knex.schema.createTableIfNotExists('activity', function(table) {
       table.uuid('id').primary();
       table.string('name', 100);
-      table.uuid('user_id').references('id').inTable('user').onDelete('restrict').onUpdate('cascade');
+      table.uuid('account_id').references('id').inTable('account').onDelete('restrict').onUpdate('cascade');
       table.string('action').notNullable();
-      table.integer('type').notNullable();
-      table.json('data').notNullable();
-      table.uuid('entry_id').notNullable();
+      table.enu('type', ['create', 'update', 'delete', 'register']).notNullable();
+      table.json('data');
+      table.uuid('entry_uuid').notNullable();
       table.string('entry_table').notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
-    knex.schema.createTableIfNotExists('post_media', function(table) {
+    knex.schema.createTableIfNotExists('attachment_category', function(table) {
+      table.uuid('category_id').notNullable().references('id').inTable('category').onDelete('cascade').onUpdate('cascade');
+      table.uuid('attachment_id').notNullable().references('id').inTable('attachment').onDelete('cascade').onUpdate('cascade');
+      table.primary(['category_id', 'attachment_id']);
+    }),
+    knex.schema.createTableIfNotExists('post_attachment', function(table) {
       table.uuid('post_id').notNullable().references('id').inTable('post').onDelete('restrict').onUpdate('cascade');
-      table.uuid('media_id').notNullable().references('id').inTable('media').onDelete('restrict').onUpdate('cascade');
-      table.primary(['post_id', 'media_id']);
+      table.uuid('attachment_id').notNullable().references('id').inTable('attachment').onDelete('restrict').onUpdate('cascade');
+      table.primary(['post_id', 'attachment_id']);
+    }),
+    knex.schema.createTableIfNotExists('gallery_attachment', function(table) {
+      table.uuid('gallery_id').notNullable().references('id').inTable('gallery').onDelete('restrict').onUpdate('cascade');
+      table.uuid('attachment_id').notNullable().references('id').inTable('attachment').onDelete('restrict').onUpdate('cascade');
+      table.primary(['gallery_id', 'attachment_id']);
     })
   ])
 };
@@ -199,23 +253,28 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all([
     //fk tables
-    knex.schema.dropTableIfExists('user'),
+    knex.schema.dropTableIfExists('account'),
+    knex.schema.dropTableIfExists('profile'),
+    knex.schema.dropTableIfExists('token'),
     knex.schema.dropTableIfExists('role'),
     knex.schema.dropTableIfExists('tag'),
-    knex.schema.dropTableIfExists('user_role'),
+    knex.schema.dropTableIfExists('account_role'),
     knex.schema.dropTableIfExists('post'),
     knex.schema.dropTableIfExists('post_tag'),
-    knex.schema.dropTableIfExists('media'),
+    knex.schema.dropTableIfExists('attachment'),
     knex.schema.dropTableIfExists('setting'),
     knex.schema.dropTableIfExists('navigation'),
-    knex.schema.dropTableIfExists('links'),
+    knex.schema.dropTableIfExists('link'),
     knex.schema.dropTableIfExists('navigation_link'),
     knex.schema.dropTableIfExists('gallery'),
     knex.schema.dropTableIfExists('content_type'),
     knex.schema.dropTableIfExists('collection'),
+    knex.schema.dropTableIfExists('category'),
     knex.schema.dropTableIfExists('page'),
-    knex.schema.dropTableIfExists('page_helper'),
     knex.schema.dropTableIfExists('activity'),
-    knex.schema.dropTableIfExists('post_media')
+    knex.schema.dropTableIfExists('attachment_category'),
+    knex.schema.dropTableIfExists('post_attachment'),
+    knex.schema.dropTableIfExists('gallery_attachment'),
+    knex.schema.dropTableIfExists('attachment_tag')
   ]);
 };

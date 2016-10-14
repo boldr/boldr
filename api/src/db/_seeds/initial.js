@@ -4,104 +4,138 @@ function truncate(knex, Promise, tables) {
 }
 
 const tables = [
-  '"user"',
+  'account',
+  'profile',
   'post',
   'role',
-  'user_role',
+  'account_role',
   'tag',
   'post_tag',
-  'media',
-  'setting',
-  'gallery',
-  'collection',
   'navigation',
-  'content_type',
+  'link',
   'page',
-  'page_helper'
+  'navigation_link',
+  'setting'
 ];
 
 exports.seed = function(knex, Promise) {
   return truncate(knex, Promise, tables)
     .then(() => Promise.all([
       knex('role').insert({
-        name: 'Pending',
-        description: 'The role given to a user before validating their account.'
-      }),
-      knex('role').insert({
         name: 'Member',
+        uuid: '5ae2ffd9-e06b-43c6-9a00-a86c43ae823d',
         description: 'A verified user without special privileges'
       }),
       knex('role').insert({
         name: 'Staff',
+        uuid: 'ae27b432-5f4d-427c-98a9-73933af1eaa2',
         description: 'Allows access to the CMS dashboard.'
       }),
       knex('role').insert({
         name: 'Admin',
+        uuid: '31e00440-a32f-45b0-a372-30b79e058c7a',
         description: 'Complete control over the CMS'
       })
     ]))
     .then(() => Promise.all([
-      knex('user').insert({
+      knex('account').insert({
         id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
+        email: 'admin@boldr.io',
+        password: '$2a$10$F3/Xx3hWEpTdaP4fE/dIhOb.FtxRiYMuc80nQFPkSrsBH4L6B5.Ka',
+        verified: true
+      }),
+      knex('account').insert({
+        id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
+        email: 'user@boldr.io',
+        password: '$2a$10$F3/Xx3hWEpTdaP4fE/dIhOb.FtxRiYMuc80nQFPkSrsBH4L6B5.Ka',
+        verified: true
+      }),
+      knex('account').insert({
+        id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
+        email: 'demo@boldr.io',
+        password: '$2a$10$F3/Xx3hWEpTdaP4fE/dIhOb.FtxRiYMuc80nQFPkSrsBH4L6B5.Ka',
+        verified: true
+      })
+    ]))
+    .then(() => Promise.all([
+      knex('profile').insert({
+        id: '641964d5-2c9d-43e5-aaa6-9824e17b7ffe',
+        account_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
         first_name: 'Joe',
         last_name: 'Gray',
         display_name: 'Joey',
         avatar_url: 'https://boldr.io/images/unknown-avatar.png',
-        email: 'admin@boldr.io',
-        password: '$2a$10$F3/Xx3hWEpTdaP4fE/dIhOb.FtxRiYMuc80nQFPkSrsBH4L6B5.Ka',
         location: 'Colorado',
         bio: 'I am me.',
         website: 'https://boldr.io',
-        verified: true
+        profile_image: 'https://boldr.io/images/unknown-avatar.png',
+        birthday: '01/01/1988',
+        facebook_profile: 'https://www.facebook.com',
+        linkedin_profile: 'https://www.linkedin.com',
+        github_profile: 'https://www.github.com',
+        google_profile: 'https://www.google.com',
+        twitter_profile: 'https://www.twitter.com'
       }),
-      knex('user').insert({
-        id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
-        first_name: 'Sam',
-        last_name: 'Hunt',
-        display_name: 'Samus',
-        avatar_url: 'https://boldr.io/images/unknown-avatar.png',
-        email: 'user@boldr.io',
-        password: '$2a$10$F3/Xx3hWEpTdaP4fE/dIhOb.FtxRiYMuc80nQFPkSrsBH4L6B5.Ka',
-        location: 'California',
-        bio: 'Someone doing things.',
-        website: 'https://boldr.io',
-        verified: true
-      }),
-      knex('user').insert({
-        id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
+      knex('profile').insert({
+        id: '8bdcf6ec-3957-430f-beef-831f240e7e57',
+        account_id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
         first_name: 'Jessica',
         last_name: 'Smith',
         display_name: 'Jess',
         avatar_url: 'https://boldr.io/images/unknown-avatar.png',
-        email: 'demo@boldr.io',
-        password: '$2a$10$F3/Xx3hWEpTdaP4fE/dIhOb.FtxRiYMuc80nQFPkSrsBH4L6B5.Ka',
         location: 'Washington',
         bio: 'Just a person',
         website: 'https://boldr.io',
-        verified: true
+        profile_image: 'https://boldr.io/images/unknown-avatar.png',
+        birthday: '01/01/1988',
+        facebook_profile: 'https://www.facebook.com',
+        linkedin_profile: 'https://www.linkedin.com',
+        github_profile: 'https://www.github.com',
+        google_profile: 'https://www.google.com',
+        twitter_profile: 'https://www.twitter.com'
+      }),
+      knex('profile').insert({
+        id: '790fd671-e228-4546-aab7-8d45bc8c4df8',
+        account_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
+        first_name: 'Sam',
+        last_name: 'Hunt',
+        display_name: 'Samus',
+        avatar_url: 'https://boldr.io/images/unknown-avatar.png',
+        location: 'California',
+        bio: 'Someone doing things.',
+        website: 'https://boldr.io',
+        profile_image: 'https://boldr.io/images/unknown-avatar.png',
+        birthday: '01/01/1988',
+        facebook_profile: 'https://www.facebook.com',
+        linkedin_profile: 'https://www.linkedin.com',
+        github_profile: 'https://www.github.com',
+        google_profile: 'https://www.google.com',
+        twitter_profile: 'https://www.twitter.com'
       })
     ]))
     .then(() => Promise.all([
-      knex('user_role').insert({
-        user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
-        role_id: 4
-      }),
-      knex('user_role').insert({
-        user_id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
-        role_id: 2
-      }),
-      knex('user_role').insert({
-        user_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
+      knex('account_role').insert({
+        account_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
         role_id: 3
+      }),
+      knex('account_role').insert({
+        account_id: 'f4d869a6-1a75-469b-a9cc-965c552929e4',
+        role_id: 1
+      }),
+      knex('account_role').insert({
+        account_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
+        role_id: 2
       })
     ]))
     .then(() => Promise.all([
       knex('tag').insert({
-        name: 'JavaScript',
+        name: 'javascript',
+        uuid: 'e00b70ec-2032-4e3f-8374-4ad544b318df',
         description: 'Something something JS'
       }),
       knex('tag').insert({
-        name: 'Stuff',
+        name: 'apple',
+        uuid: '4fa3b033-11c5-4500-af00-f094ef63d546',
         description: 'Stuff about stuff.'
       })
     ]))
@@ -114,6 +148,8 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         feature_image: 'https://boldr.io/image1.jpg',
+        background_image: 'https://boldr.io/images/dashboard.png',
+        meta: {},
         content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.' +
@@ -121,7 +157,7 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when',
         status: 'published',
-        user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0'
+        account_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0'
       }),
       knex('post').insert({
         id: 'cb61bbae-c91e-4014-b665-3485734b88fb',
@@ -131,6 +167,8 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         feature_image: 'https://boldr.io/image3.jpg',
+        background_image: 'https://boldr.io/images/postlisting.png',
+        meta: {},
         content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.' +
@@ -138,7 +176,7 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when',
         status: 'published',
-        user_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f'
+        account_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f'
       }),
       knex('post').insert({
         id: 'ab33a0ca-b349-4cf8-947f-94f415149492',
@@ -148,6 +186,8 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         feature_image: 'https://boldr.io/image2.jpg',
+        background_image: 'https://boldr.io/images/singlepost.png',
+        meta: {},
         content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'an unknown printer took a galley of type and scrambled it to make a type specimen book.' +
@@ -155,7 +195,7 @@ exports.seed = function(knex, Promise) {
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when' +
         'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when',
         status: 'published',
-        user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0'
+        account_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0'
       })
     ]))
     .then(() => Promise.all([
@@ -173,36 +213,25 @@ exports.seed = function(knex, Promise) {
       })
     ]))
     .then(() => Promise.all([
-      knex('setting').insert({
-        id: 1,
-        site_name: 'Boldr',
-        site_url: 'https://boldr.io',
-        site_logo: 'https://boldr.io/logo.png',
-        site_favicon: 'https://boldr.io/favicon.ico',
-        site_slogan: 'Why shouldnt your CMS be a little Boldr?',
-        site_description: 'Universal JavaScript CMS powered by React, Redux, Express, and Postgres',
-        google_analytics: 'UA-23423',
-        allow_registration: true,
-        configuration: '{"mail":{"address":"mail@boldr.io"}}'
-      })
-    ]))
-    .then(() => Promise.all([
       knex('navigation').insert({
         name: 'Main',
-        primary: true,
+        uuid: '908db7f1-05b8-451f-b756-2fbe28c15976',
         restricted: false,
-        location: 'header'
+        location: 'header',
+        dropdown: {}
       })
     ]))
     .then(() => Promise.all([
       knex('link').insert({
         name: 'About',
+        uuid: '39daff4d-fbc4-438b-9d85-cdb7bb9770b8',
         position: 1,
         href: '/about',
         icon: 'info'
       }),
       knex('link').insert({
         name: 'Blog',
+        uuid: '45f9dcb6-5843-412f-8079-43e55c651e38',
         position: 2,
         href: '/blog',
         icon: 'info'
@@ -227,13 +256,51 @@ exports.seed = function(knex, Promise) {
           showHero: true,
           showPosts: true
         },
-        markup: '<html></html>',
+        data: {},
         status: 'published',
         restricted: false,
-        seo: {
+        meta: {
           title: 'Home',
           description: 'The home page'
         }
+      })
+    ]))
+    .then(() => Promise.all([
+      knex('setting').insert({
+        uuid: '765e111e-bb32-4b2c-bab5-59dde91b4c43',
+        key: 'site_name',
+        value: 'Boldr',
+        description: 'The website name.'
+      }),
+      knex('setting').insert({
+        uuid: '765e111e-bb32-4b2c-bab5-523de91b4c43',
+        key: 'site_url',
+        value: 'http://localhost:3000',
+        description: 'The address used to access your website.'
+      }),
+      knex('setting').insert({
+        uuid: '743e111e-bb32-4b2c-bab5-59dde91b4c43',
+        key: 'site_logo',
+        value: 'https://boldr.io/logo.png',
+        description: 'The logo is displayed in the header area.'
+      }),
+      knex('setting').insert({
+        uuid: '765e222e-bb32-4b2c-bab5-59dde91b4c43',
+        key: 'site_description',
+        value: 'A modern CMS',
+        description: 'Meta header for search results.'
+      }),
+      knex('setting').insert({
+        uuid: '125e111e-bb32-4b2c-bab5-59dde91b4c43',
+        key: 'favicon',
+        value: 'https://boldr.io/favicon.ico',
+        description: 'Favicon to use for your website.'
+      }),
+      knex('setting').insert({
+        uuid: '76fe111e-bb32-4b2c-bab5-59dde91b4c43',
+        key: 'google_analytics',
+        value: 'UA-323432',
+        description: 'Google Analytics tracking code'
       })
     ]));
 };

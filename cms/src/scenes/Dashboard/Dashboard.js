@@ -22,7 +22,7 @@ const DrawerType = {
 };
 
 export type Props = {
-  children: React$Element<*>,
+  children: ReactElement<*>,
   toggleOpen?: Function,
   postListClicked?: Function,
   postEditorClicked?: Function,

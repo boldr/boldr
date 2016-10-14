@@ -14,7 +14,17 @@
     "type": "git",
     "url": "git+https://github.com/boldr/boldr.git"
   },
-  "keywords": ["react", "universal", "javascript", "express", "webpack", "postgres", "node", "cms", "redux"],
+  "keywords": [
+    "react",
+    "universal",
+    "javascript",
+    "express",
+    "webpack",
+    "postgres",
+    "node",
+    "cms",
+    "redux"
+  ],
   "author": "Steven Truesdell <steven@strues.io>",
   "license": "MIT",
   "bugs": {
@@ -143,7 +153,7 @@
     "ioredis": "^2.4.0",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.1.9",
-    "knex": "^0.12.3",
+    "knex": "0.12.1",
     "lodash": "^4.16.2",
     "method-override": "^2.3.6",
     "moment": "^2.15.1",
@@ -204,7 +214,7 @@
     "cssnano": "^3.7.5",
     "enzyme": "^2.4.1",
     "eslint": "^3.7.0",
-    "eslint-config-boldr": "^1.1.1",
+    "eslint-config-boldr": "1.2.1",
     "eslint-plugin-flowtype": "^2.20.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "faker": "^3.1.0",

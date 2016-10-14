@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
-import { S3Uploader, Grid, Row, Col } from 'components/index';
+import { S3Uploader, Row, Col } from 'components/index';
 import { API_PREFIX, S3_SIGNING_URL } from 'core/api/helpers';
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/media';
 import FileView from 'components/FileView';
@@ -21,8 +21,8 @@ type Props = {
 class Media extends Component {
   constructor(props) {
     super(props);
-    (this:any).handleRemoveMedia = this.handleRemoveMedia.bind(this);
-    (this:any).handleFinish = this.handleFinish.bind(this);
+    (this: any).handleRemoveMedia = this.handleRemoveMedia.bind(this);
+    (this: any).handleFinish = this.handleFinish.bind(this);
   }
   props: Props;
 
