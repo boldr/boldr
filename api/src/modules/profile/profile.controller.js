@@ -1,16 +1,16 @@
 import findQuery from 'objection-find';
 import { responseHandler, throwNotFound } from '../../utils';
-import User from './user.model';
+import Profile from './profile.model';
 
-const debug = require('debug')('boldr:user-controller');
+const debug = require('debug')('boldr:profile-controller');
 
 async function index(req, res) {
-  const users = await User.query().eager('role').omit(['password', 'account_token']);
+  const users = await Profile.query().eager('role').omit(['password', 'account_token']);
   return responseHandler(null, res, 200, users);
 }
 
 function show(req, res) {
-  return User.query()
+  return Profile.query()
     .findById(req.params.id)
     .then(user => {
       if (!user) return throwNotFound(res);
@@ -35,13 +35,13 @@ function update(req, res, next) {
     return res.status(400).json(errors);
   }
 
-  return User.query()
+  return Profile.query()
     .patchAndFetchById(req.params.id, req.body)
     .then(user => res.send(user));
 }
 
 function destroy(req, res) {
-  return User.query()
+  return Profile.query()
     .delete()
     .where('id', req.params.id)
     .then(() => responseHandler(null, res, 204))
@@ -56,7 +56,7 @@ function unlink(req, res) {
     return res.status(404).send('Unknown provider');
   }
 
-  return User.query()
+  return Profile.query()
     .findById(req.user)
     .update({ [provider]: null })
     .then((user) => {

@@ -1,7 +1,6 @@
 import Redis from 'ioredis';
 import bluebird from 'bluebird';
 import logger from '../logger';
-import conf from '../config/config';
 
 bluebird.promisifyAll(Redis);
 

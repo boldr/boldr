@@ -7,14 +7,14 @@ function request() {
   return supertest(server.listen());
 }
 
-describe('API -- Media', () => {
+describe('API -- Attachment', () => {
   afterEach(() => {
     server.close();
   });
-  describe('GET /api/v1/media', () => {
+  describe('GET /api/v1/attachments', () => {
     it('It should return media from the db', (done) => {
       request()
-        .get('/api/v1/media')
+        .get('/api/v1/attachments')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .end((err, res) => {

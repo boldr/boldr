@@ -14,8 +14,8 @@ const auth = {
 
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
-export default function handleMail(user, mailBody, mailSubject) {
-  const to = user.email;
+export default function handleMail(account, mailBody, mailSubject) {
+  const to = account.email;
   if (!to || !mailSubject) {
     throw new Error('Incorrect mailing parameters');
   }

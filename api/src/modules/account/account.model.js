@@ -1,16 +1,15 @@
-import { join } from 'path';
-import { Model } from 'objection';
+/* eslint-disable id-match */
 import bcrypt from 'bcryptjs';
-
-import BaseModel from '../BaseModel';
+import { Model } from 'objection';
 import Role from '../role/role.model';
-import Media from '../media/media.model';
+import Attachment from '../attachment/attachment.model';
+import Profile from '../profile/profile.model';
+import Token from '../token/token.model';
+import BaseModel from '../BaseModel';
+import AccountRole from './accountRole.model';
 
-class User extends BaseModel {
-  static get tableName() {
-    return 'user';
-  }
-
+class Account extends BaseModel {
+  static get tableName() { return 'account'; }
   /**
    * An array of attribute names that will be excluded from being returned.
    *
@@ -25,34 +24,43 @@ class User extends BaseModel {
         relation: Model.ManyToManyRelation,
         modelClass: Role,
         join: {
-          from: 'user.id',
+          from: 'account.id',
           through: {
-            from: 'user_role.user_id',
-            to: 'user_role.role_id'
+            from: 'account_role.account_id',
+            to: 'account_role.role_id'
           },
           to: 'role.id'
         }
       },
+      profile: {
+        relation: Model.HasOneRelation,
+        modelClass: Profile,
+        join: {
+          from: 'account.id',
+          to: 'profile.account_id'
+        }
+      },
       uploads: {
         relation: Model.HasManyRelation,
-        modelClass: Media,
+        modelClass: Attachment,
         join: {
-          from: 'user.id',
-          to: 'media.user_id'
+          from: 'account.id',
+          to: 'attachment.account_id'
+        }
+      },
+      token: {
+        relation: Model.HasOneRelation,
+        modelClass: Token,
+        join: {
+          from: 'account.id',
+          to: 'token.account_id'
         }
       }
     };
   }
 
-  fullName() {
-    return `${this.first_name} ${this.last_name}`;
-  }
-
   stripPassword() {
     delete this['password']; // eslint-disable-line
-    delete this['account_token']; // eslint-disable-line
-    delete this['reset_password_token'];
-    delete this['reset_password_expiration'];
     return this;
   }
   /**
@@ -88,6 +96,6 @@ class User extends BaseModel {
       this.password = bcrypt.hashSync(this.password, 10);
     }
   }
-}
+  }
 
-export default User;
+export default Account;

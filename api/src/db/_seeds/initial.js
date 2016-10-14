@@ -23,17 +23,14 @@ exports.seed = function(knex, Promise) {
     .then(() => Promise.all([
       knex('role').insert({
         name: 'Member',
-        uuid: '5ae2ffd9-e06b-43c6-9a00-a86c43ae823d',
         description: 'A verified user without special privileges'
       }),
       knex('role').insert({
         name: 'Staff',
-        uuid: 'ae27b432-5f4d-427c-98a9-73933af1eaa2',
         description: 'Allows access to the CMS dashboard.'
       }),
       knex('role').insert({
         name: 'Admin',
-        uuid: '31e00440-a32f-45b0-a372-30b79e058c7a',
         description: 'Complete control over the CMS'
       })
     ]))

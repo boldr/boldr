@@ -1,3 +1,4 @@
+/* eslint-disable id-match */
 import { Model } from 'objection';
 import { format as dateFormat } from 'date-fns';
 

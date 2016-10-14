@@ -10,14 +10,14 @@ const jwtOptions = {
   secretOrKey: conf.get('session.secret')
 };
 
-export default function configureJwt(User) {
+export default function configureJwt(Account) {
   passport.use(new JwtStrategy(jwtOptions, async (payload, done) => {
-    const user = await User.query().findById(payload.sub).first();
-    if (!user) {
+    const account = await Account.query().findById(payload.sub).first();
+    if (!account) {
       return done(null, false, { message: 'This email is not registered.' });
     } else {
-      user.stripPassword();
-      return done(null, user);
+      account.stripPassword();
+      return done(null, account);
     }
   }));
 }

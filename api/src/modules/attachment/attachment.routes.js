@@ -1,6 +1,6 @@
 import express from 'express';
 import ensureAuthenticated from '../auth/ensureAuthenticated';
-import * as ctrl from './media.controller';
+import * as ctrl from './attachment.controller';
 
 const router = express.Router();
 

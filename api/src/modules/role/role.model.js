@@ -1,6 +1,5 @@
-import { join } from 'path';
 import { Model } from 'objection';
-import User from '../user/user.model';
+import Account from '../account/account.model';
 import BaseModel from '../BaseModel';
 
 class Role extends BaseModel {
@@ -12,14 +11,14 @@ class Role extends BaseModel {
     return {
       role: {
         relation: Model.ManyToManyRelation,
-        modelClass: User,
+        modelClass: Account,
         join: {
           from: 'role.id',
           through: {
-            from: 'user_role.role_id',
-            to: 'user_role.user_id'
+            from: 'account_role.role_id',
+            to: 'account_role.account_id'
           },
-          to: 'user.id'
+          to: 'account.id'
         }
       }
     };

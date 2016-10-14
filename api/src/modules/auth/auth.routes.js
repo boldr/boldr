@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import User from '../user/user.model';
+import Account from '../account/account.model';
 import configureLocalPassport from './providers/local';
 import configureJwt from './providers/jwt';
 import configureFacebook from './providers/facebook';
@@ -10,8 +10,8 @@ import ensureAuthenticated from './ensureAuthenticated';
 const debug = require('debug')('boldr:auth:routes');
 
 
-passport.serializeUser((user, done) => {
-  const sessionUser = { id: user.id, email: user.email, display_name: user.display_name };
+passport.serializeUser((account, done) => {
+  const sessionUser = { id: account.id, email: account.email };
   debug(sessionUser, 'sessionUser - auth routes');
   return done(null, sessionUser);
 });
@@ -21,9 +21,9 @@ passport.deserializeUser((sessionUser, done) => {
   done(null, sessionUser);
 });
 
-configureLocalPassport(User);
-configureJwt(User);
-configureFacebook(User);
+configureLocalPassport(Account);
+configureJwt(Account);
+configureFacebook(Account);
 
 const router = express.Router();
 

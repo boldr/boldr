@@ -8,10 +8,10 @@ import multerS3 from 'multer-s3';
 import conf from '../../config/config';
 import { responseHandler, throwNotFound } from '../../utils';
 import Activity from '../activity/activity.model';
-import Media from './media.model';
-import { multerOptions, multerAvatar, multerArticle } from './media.service';
+import Attachment from './attachment.model';
+import { multerOptions, multerAvatar, multerArticle } from './attachment.service';
 
-const debug = Debug('boldr:media:controller');
+const debug = Debug('boldr:attachment:controller');
 
 // create a new S3 object
 const s3 = new AWS.S3({

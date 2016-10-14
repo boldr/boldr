@@ -1,8 +1,10 @@
 import passport from 'passport';
 import uuid from 'node-uuid';
+import * as objection from 'objection';
 import handleMail from '../../mailer';
 import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/templates';
-import User from '../user/user.model';
+import Account from '../account/account.model';
+
 import { responseHandler, generateVerifyCode } from '../../utils';
 import * as errs from '../../utils/errors';
 import signToken from './signToken';
@@ -16,52 +18,63 @@ const debug = require('debug')('boldr:auth:controller');
  * @returns {*}
  */
 async function register(req, res, next) {
-  try {
     // Param validation
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('email', 'Email cannot be blank').notEmpty();
-    req.assert('password', 'Password cannot be blank').notEmpty();
-    req.assert('display_name', 'Display name must not be empty').notEmpty();
-    req.assert('first_name', 'First name must not be empty').notEmpty();
-    req.sanitize('email').normalizeEmail({ remove_dots: false });
-    const errors = req.validationErrors();
-    if (errors) {
-      return res.status(400).send(errors);
-    }
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', 'Email cannot be blank').notEmpty();
+  req.assert('password', 'Password cannot be blank').notEmpty();
+  req.sanitize('email').normalizeEmail({ remove_dots: false });
 
-    // look for a matching email address
-    const checkUser = await User.query().where('email', req.body.email).first();
-    // if an email matching the req is found
-    if (checkUser) {
-      // return with error
-      return next(new errs.EmailTakenError());
-    }
-    const verificationToken = await generateVerifyCode();
-    const userInfo = {
-      id: uuid.v4(),
-      // no need to hash here, its taken care of on the model instance
-      email: req.body.email,
-      password: req.body.password,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      display_name: req.body.display_name,
-      location: req.body.location,
-      bio: req.body.bio,
-      avatar_url: req.body.avatar_url,
-      account_token: verificationToken
-    };
-
-    const user = await User.query().insert(userInfo);
-    await user.$relatedQuery('role').insert({ name: 'Member' });
-    const mailBody = await welcomeEmail(user);
-    const mailSubject = 'Boldr Account Verification';
-    handleMail(user, mailBody, mailSubject);
-    // remove the password from the response.
-    user.stripPassword();
-    return res.status(201).json(user);
-  } catch (error) {
-    return next(new errs.EmailTakenError(error));
+  const errors = req.validationErrors();
+  if (errors) {
+    return res.status(400).json({ message: 'There was a problem validating your request.', error: errors });
   }
+
+    // the data for the account being created.
+  const accountInfo = {
+    id: uuid.v4(),
+      // no need to hash here, its taken care of on the model instance
+    email: req.body.email,
+    password: req.body.password
+  };
+
+  const newAccount = await objection.transaction(Account, async (Account) => {
+    const account = await Account
+        .query()
+        .insert(accountInfo);
+    await account.$relatedQuery('role').relate({ id: 1 });
+
+    if (!account) {
+      throwNotFound();
+    }
+    // here we create the profile
+    // only inserting the uuid because creating the account doesnt require any of the data
+    // you would find in the profile.
+    const profile = await account.$relatedQuery('profile').insert({ id: uuid.v4() });
+    if (!profile) {
+      throwNotFound();
+    }
+    // generate account verification token to send in the email.
+    const verificationToken = await generateVerifyCode();
+    // get the mail template
+    const mailBody = await welcomeEmail(verificationToken);
+    // subject
+    const mailSubject = 'Boldr Account Verification';
+    // send the welcome email
+    handleMail(account, mailBody, mailSubject);
+    // create a relationship between the account and the token
+    const verificationEmail = await account.$relatedQuery('token')
+      .insert({
+        id: uuid.v4(),
+        account_verification_token: verificationToken,
+        account_id: account.id
+      });
+
+    if (!verificationEmail) {
+      throwNotFound();
+    }
+  });
+  // Massive transaction is finished, send the data to the user.
+  return res.status(201).json(newAccount);
 }
 
 /**
@@ -79,29 +92,30 @@ async function login(req, res, next) {
   if (errors) {
     return res.status(400).send(errors);
   }
-  await User.query().where({ email: req.body.email }).eager('role').first();
-  passport.authenticate('local', (err, user, info) => {
+
+  await Account.query().where({ email: req.body.email }).eager('[profile, role]').first();
+  passport.authenticate('local', (err, account, info) => {
     const error = err || info;
     if (error) {
       return next(new errs.InvalidCredentialsError());
     }
-    if (!user) {
+    if (!account) {
       return next(new errs.InvalidCredentialsError());
     }
-    if (!user.verified) {
+    if (!account.verified) {
       return next(new errs.AccountNotVerifiedError());
     }
-    return req.logIn(user, (loginErr) => {
+    return req.logIn(account, (loginErr) => {
       if (loginErr) return res.status(401).json({ message: loginErr });
       // remove the password from the response.
-      user.stripPassword();
+      account.stripPassword();
       // sign the token
-      const token = signToken(user);
-      req.user = user;
-      res.set('authorization', signToken(user));
+      const token = signToken(account);
+      req.user = account;
+      res.set('authorization', signToken(account));
       // req.role = user.role[0].id;
       debug(req.session);
-      return res.json({ token, user });
+      return res.json({ token, account });
     });
   })(req, res, next);
 }
@@ -115,10 +129,10 @@ async function verify(req, res, next) {
       return res.status(400).json('Invalid registration link');
     }
 
-    const user = await User.query().where({ account_token: req.params.verifToken }).first();
-    await User.query().patchAndFetchById(user.id, { verified: true });
+    const account = await Account.query().where({ account_token: req.params.verifToken }).first();
+    await Account.query().patchAndFetchById(account.id, { verified: true });
 
-    return responseHandler(null, res, 201, user);
+    return responseHandler(null, res, 201, account);
   } catch (e) {
     return responseHandler(e, res, 500);
   }
@@ -126,13 +140,12 @@ async function verify(req, res, next) {
 
 async function checkAuthentication(req, res, next) {
   try {
-    const userId = req.user.id;
-    const validUser = await User.query().where({ id: userId }).eager('role').first();
-    if (!validUser) {
-      return next(new errs.UserNotFoundError());
+    const validAccount = await Account.query().findById(req.user.id).eager('[profile, role]');
+    if (!validAccount) {
+      return next(new errs.AccountNotFoundError());
     }
-    validUser.stripPassword();
-    return responseHandler(null, res, 200, { user: validUser });
+    validAccount.stripPassword();
+    return responseHandler(null, res, 200, validAccount);
   } catch (error) {
     return next(new errs.InternalError(error));
   }
@@ -147,13 +160,13 @@ async function checkAuthentication(req, res, next) {
  */
 async function forgottenPassword(req, res, next) {
   try {
-    const user = await User.query().where({ email: req.body.email }).first();
+    const user = await Account.query().where({ email: req.body.email }).first();
     if (!user) {
-      return next(new errs.UserNotFoundError());
+      return next(new errs.AccountNotFoundError());
     }
     const mailSubject = '[Boldr] Password Reset';
     const token = generateVerifyCode();
-    await User
+    await Account
       .query()
       .patchAndFetchById(user.id, {
         reset_password_token: token,
@@ -177,13 +190,13 @@ async function forgottenPassword(req, res, next) {
  */
 async function resetPassword(req, res, next) {
   try {
-    const user = await User.query().where({ reset_password_token: req.body.token }).first();
+    const user = await Account.query().where({ reset_password_token: req.body.token }).first();
     if (!user) {
-      return next(new errs.UserNotFoundError());
+      return next(new errs.AccountNotFoundError());
     }
     const mailSubject = '[Boldr] Password Changed';
 
-    await User.query().patchAndFetchById(user.id, {
+    await Account.query().patchAndFetchById(user.id, {
       password: req.body.password,
       reset_password_expiration: null,
       reset_password_token: null
@@ -195,5 +208,9 @@ async function resetPassword(req, res, next) {
     return next(new errs.InternalError(error));
   }
 }
-
+function throwNotFound() {
+  const error = new Error();
+  error.statusCode = 404;
+  throw error;
+}
 export { register, login, verify, checkAuthentication, forgottenPassword, resetPassword };

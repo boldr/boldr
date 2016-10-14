@@ -5,7 +5,7 @@ import uuid from 'node-uuid';
 import multerS3 from 'multer-s3';
 import conf from '../../config/config';
 
-const debug = require('debug')('boldr:media-service');
+const debug = require('debug')('boldr:attachment-service');
 
 const s3 = new AWS.S3({
   accessKeyId: conf.get('aws.keyId'),

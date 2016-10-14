@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
     // account hasOne profile
     // account hasOne token
     knex.schema.createTableIfNotExists('account', function(table) {
-      // pk
       table.uuid('id').primary();
       table.string('email', 100).unique().notNullable();
       table.string('password').notNullable();
@@ -23,10 +22,11 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('token', function(table) {
       // pk | uuid
       table.uuid('id').primary();
-      // fk | uuid
       table.string('account_verification_token');
       table.string('reset_password_token');
       table.dateTime('reset_password_expiration');
+      table.uuid('account_id').references('id').inTable('account').onDelete('restrict').onUpdate('cascade');
+
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
 
@@ -39,10 +39,10 @@ exports.up = function(knex, Promise) {
       // pk | uuid
       table.uuid('id').primary();
       // fk | uuid
-      table.uuid('account_id').unsigned().references('id').inTable('account');
-      table.string('first_name', 50).notNullable();
+      table.uuid('account_id').references('id').inTable('account').onDelete('restrict').onUpdate('cascade');
+      table.string('first_name', 50);
       table.string('last_name', 50);
-      table.string('display_name', 100).notNullable();
+      table.string('display_name', 100);
       table.string('avatar_url', 200).default('https://boldr.io/images/unknown-avatar.png');
       table.string('profile_image', 200);
       table.string('location', 100);
@@ -54,19 +54,19 @@ exports.up = function(knex, Promise) {
       table.string('github_profile', 100);
       table.string('google_profile', 150);
       table.string('twitter_profile', 100);
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
 
     knex.schema.createTableIfNotExists('role', function(table) {
       // pk | uuid
       table.increments('id').primary();
-      table.uuid('uuid').notNullable();
-      table.string('name').notNullable();
+      table.string('name').notNullable().unique();
       table.string('image');
       table.text('description');
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
       table.index('name');
-      table.index('uuid');
     }),
     // M2M
     knex.schema.createTableIfNotExists('account_role', function(table) {

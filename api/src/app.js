@@ -1,5 +1,6 @@
 import Express from 'express';
 import errorHandler from 'errorhandler';
+import { Model } from 'objection';
 import compression from 'compression';
 import cors from 'cors';
 import passport from 'passport';
@@ -15,6 +16,7 @@ import knex from './db/postgres';
 import winstonInstance from './logger';
 import routes from './modules/routes';
 
+Model.knex(knex);
 const RedisStore = require('connect-redis')(session);
 const debug = require('debug')('boldr:ssr-server');
 
@@ -73,7 +75,7 @@ app.use((req, res, next) => {
     return next();
   })(req, res, next);
 });
-
+debug('init routes');
 app.use(conf.get('prefix'), routes);
 
 // Error handling. The `ValidionError` instances thrown by objection.js have a `statusCode`

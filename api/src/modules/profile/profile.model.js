@@ -1,22 +1,23 @@
-import { join } from 'path';
 import { Model } from 'objection';
-import BaseModel from '../BaseModel';
 import Account from '../account/account.model';
+import BaseModel from '../BaseModel';
 
-class Activity extends BaseModel {
-  static get tableName() { return 'activity'; }
+class Profile extends BaseModel {
+  static get tableName() { return 'profile'; }
+
   static get relationMappings() {
     return {
-      owner: {
+      account: {
         relation: Model.BelongsToOneRelation,
         modelClass: Account,
         join: {
-          from: 'activity.account_id',
+          from: 'profile.account_id',
           to: 'account.id'
         }
       }
     };
   }
+
 }
 
-export default Activity;
+export default Profile;

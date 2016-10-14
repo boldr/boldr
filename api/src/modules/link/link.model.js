@@ -1,4 +1,3 @@
-import path from 'path';
 import { Model } from 'objection';
 import Navigation from '../navigation/navigation.model';
 import BaseModel from '../BaseModel';
@@ -14,10 +13,10 @@ class Link extends BaseModel {
           from: 'link.id',
           through: {
             from: 'navigation_link.link_id',
-            to: 'navigation_link.navigation_id',
+            to: 'navigation_link.navigation_id'
           },
-          to: 'navigation.id',
-        },
+          to: 'navigation.id'
+        }
       }
     };
   }

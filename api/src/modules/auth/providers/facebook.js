@@ -6,7 +6,7 @@ import conf from '../../../config/config';
 const EXISTS = `There is already a Facebook account that belongs to you. Sign in with
 that account or delete it, then link it with your current account.`;
 
-export default function configureFacebook(User) {
+export default function configureFacebook(Account) {
   passport.use(new FacebookStrategy({
     clientID: conf.get('social.facebook.id'),
     clientSecret: conf.get('social.facebook.secret'),
@@ -15,12 +15,11 @@ export default function configureFacebook(User) {
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
     if (req.user) {
-      User.query().where({ facebook_id: profile.id }, (err, existingUser) => {
-        if (existingUser) {
-          responseHandler(new Error(EXISTS), res, 409);
+      Account.query().where({ facebook_id: profile.id }, (err, existingAccount) => {
+        if (existingAccount) {
           done(err);
         } else {
-          User.query().findById(req.user.id, (err, user) => {
+          Account.query().findById(req.user.id, (err, user) => {
             user.facebook_id = profile.id;
             user.account_token = accessToken;
             user.first_name = profile.name.givenName;
@@ -34,15 +33,15 @@ export default function configureFacebook(User) {
         }
       });
     } else {
-      User.query().where({ facebook_id: profile.id }, (err, existingUser) => {
-        if (existingUser) {
-          return done(null, existingUser);
+      Account.query().where({ facebook_id: profile.id }, (err, existingAccount) => {
+        if (existingAccount) {
+          return done(null, existingAccount);
         }
-        User.query().where({ email: profile._json.email }, (err, existingEmailUser) => {
-          if (existingEmailUser) {
+        Account.query().where({ email: profile._json.email }, (err, existingEmailAccount) => {
+          if (existingEmailAccount) {
             done(err);
           } else {
-            const user = new User();
+            const user = new Account();
             user.email = profile._json.email;
             user.facebook_id = profile.id;
             user.account_token = accessToken;

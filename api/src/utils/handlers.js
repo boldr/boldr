@@ -8,6 +8,13 @@ function getErrorStatus(err) {
   return errStatus;
 }
 
+const handleSuccess = (res, status) => (entity) => {
+  if (entity) {
+    res.status(status || 200).json(entity);
+  }
+  return null;
+};
+
 function responseHandler(err, res, status, data) {
   // TODO: send response based on the error message
   if (err) {
@@ -24,4 +31,4 @@ function throwNotFound(res) {
   return responseHandler(error, res);
 }
 
-export { getErrorStatus, responseHandler, throwNotFound };
+export { getErrorStatus, handleSuccess, responseHandler, throwNotFound };

@@ -1,17 +1,16 @@
-import { join } from 'path';
 import { Model } from 'objection';
-import BaseModel from '../BaseModel';
 import Account from '../account/account.model';
+import BaseModel from '../BaseModel';
 
-class Activity extends BaseModel {
-  static get tableName() { return 'activity'; }
+class Attachment extends BaseModel {
+  static get tableName() { return 'attachment'; }
   static get relationMappings() {
     return {
       owner: {
         relation: Model.BelongsToOneRelation,
         modelClass: Account,
         join: {
-          from: 'activity.account_id',
+          from: 'attachment.account_id',
           to: 'account.id'
         }
       }
@@ -19,4 +18,4 @@ class Activity extends BaseModel {
   }
 }
 
-export default Activity;
+export default Attachment;
