@@ -4,7 +4,6 @@ import handleMail from '../../mailer';
 import { passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/templates';
 import Account from '../account/account.model';
 import { responseHandler, generateVerifyCode } from '../../utils';
-import * as errs from '../../utils/errors';
 import Token from './token.model';
 
 /**
@@ -17,7 +16,7 @@ import Token from './token.model';
 export async function forgottenPassword(req, res, next) {
   const user = await Account.query().where({ email: req.body.email }).first();
   if (!user) {
-    return next(new errs.AccountNotFoundError());
+    return res.status(404).json({ error: 'Unable to locate an account with the provided email.' });
   }
   const mailSubject = '[Boldr] Password Reset';
   const verificationToken = generateVerifyCode();
@@ -45,7 +44,7 @@ export async function forgottenPassword(req, res, next) {
 export async function resetPassword(req, res, next) {
   const findToken = await Token.query().where({ reset_password_token: req.body.token }).first();
   if (!findToken) {
-    return next(new errs.AccountNotFoundError());
+    return res.status(404).json({ error: 'Unable to locate an account with the provided token.' });
   }
   const mailSubject = '[Boldr] Password Changed';
 

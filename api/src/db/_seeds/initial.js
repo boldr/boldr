@@ -264,37 +264,31 @@ exports.seed = function(knex, Promise) {
     ]))
     .then(() => Promise.all([
       knex('setting').insert({
-        uuid: '765e111e-bb32-4b2c-bab5-59dde91b4c43',
         key: 'site_name',
         value: 'Boldr',
         description: 'The website name.'
       }),
       knex('setting').insert({
-        uuid: '765e111e-bb32-4b2c-bab5-523de91b4c43',
         key: 'site_url',
         value: 'http://localhost:3000',
         description: 'The address used to access your website.'
       }),
       knex('setting').insert({
-        uuid: '743e111e-bb32-4b2c-bab5-59dde91b4c43',
         key: 'site_logo',
         value: 'https://boldr.io/logo.png',
         description: 'The logo is displayed in the header area.'
       }),
       knex('setting').insert({
-        uuid: '765e222e-bb32-4b2c-bab5-59dde91b4c43',
         key: 'site_description',
         value: 'A modern CMS',
         description: 'Meta header for search results.'
       }),
       knex('setting').insert({
-        uuid: '125e111e-bb32-4b2c-bab5-59dde91b4c43',
         key: 'favicon',
         value: 'https://boldr.io/favicon.ico',
         description: 'Favicon to use for your website.'
       }),
       knex('setting').insert({
-        uuid: '76fe111e-bb32-4b2c-bab5-59dde91b4c43',
         key: 'google_analytics',
         value: 'UA-323432',
         description: 'Google Analytics tracking code'

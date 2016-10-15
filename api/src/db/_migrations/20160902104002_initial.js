@@ -133,14 +133,10 @@ exports.up = function(knex, Promise) {
     }),
 
     knex.schema.createTableIfNotExists('setting', function(table) {
-      table.increments('id');
-      table.uuid('uuid');
+      table.increments('id').primary();
       table.string('key', 100).notNullable();
       table.string('value', 255).notNullable();
       table.string('description', 255).notNullable();
-
-      table.timestamp('created_at').defaultTo(knex.fn.now());
-      table.timestamp('updated_at').defaultTo(knex.fn.now());
     }),
     knex.schema.createTableIfNotExists('navigation', function(table) {
       table.increments('id');

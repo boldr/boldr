@@ -29,15 +29,14 @@ const port = process.env.SSR_PORT || 3000;
 const API_PORT = 2121;
 const API_HOST = 'localhost';
 
-debug('Booting Boldr API Server');
+debug('Booting Boldr CMS SSR');
 
 const targetUrl = `http://${API_HOST}:${API_PORT}`;
 const app = Express();
 const server = http.Server(app);
 
 const proxy = httpProxy.createProxyServer({
-  target: targetUrl,
-  ws: true
+  target: targetUrl
 });
 
 app.use(compression());
@@ -45,13 +44,13 @@ app.use('/api/v1', (req, res) => {
   proxy.web(req, res, { target: `${targetUrl}/api/v1` });
 });
 
-server.on('upgrade', (req, socket, head) => {
-  proxy.ws(req, socket, head);
-});
+// server.on('upgrade', (req, socket, head) => {
+//   proxy.ws(req, socket, head);
+// });
 
 proxy.on('error', (error, req, res) => {
   if (error.code !== 'ECONNRESET') {
-    console.error('proxy error', error);
+    debug('proxy error', error);
   }
 
   if (!res.headersSent) {

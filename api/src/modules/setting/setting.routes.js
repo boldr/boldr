@@ -5,8 +5,9 @@ import * as ctrl from './setting.controller';
 const router = express.Router();
 
 router.get('/', ctrl.listSettings);
-router.get('/:id', ctrl.getId);
-router.put('/:id', ctrl.update);
-router.patch('/:id', ctrl.update);
+router.post('/', ctrl.addSetting);
+router.get('/:id', ctrl.getSetting);
+router.put('/:id', ctrl.updateSetting);
+router.patch('/:id', ctrl.updateSetting);
 
 export default router;
