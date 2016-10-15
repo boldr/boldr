@@ -35,17 +35,5 @@ describe('API -- Account', () => {
         })
         .end(done);
     });
-    it('It should create an account', (done) => {
-      request()
-        .post('/api/v1/accounts')
-        .set('Accept', 'application/json')
-        .send({ email: 'testaccount@boldr.io', password: 'password' })
-        .expect('Content-Type', /json/)
-        .expect(res => {
-          expect(res.status).to.equal(201);
-          expect(res.body).to.be.an('object');
-        })
-        .end(done);
-    });
   });
 });

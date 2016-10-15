@@ -1,67 +1,34 @@
-import findQuery from 'objection-find';
 import { responseHandler, throwNotFound } from '../../utils';
 import Profile from './profile.model';
 
 const debug = require('debug')('boldr:profile-controller');
 
-async function index(req, res) {
-  const users = await Profile.query().eager('role').omit(['password', 'account_token']);
-  return responseHandler(null, res, 200, users);
+export async function listProfiles(req, res) {
+  const profiles = await Profile.query();
+  return responseHandler(null, res, 200, profiles);
 }
 
-function show(req, res) {
+export function getProfile(req, res) {
   return Profile.query()
     .findById(req.params.id)
-    .then(user => {
-      if (!user) return throwNotFound(res);
-      user.stripPassword();
-      return responseHandler(null, res, 200, user);
+    .then(profile => {
+      if (!profile) return throwNotFound(res);
+
+      return responseHandler(null, res, 200, profile);
     })
     .catch(err => responseHandler(err, res));
 }
 
-function update(req, res, next) {
-  if ('password' in req.body) {
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-  } else {
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('email', 'Email cannot be blank').notEmpty();
-    req.sanitize('email').normalizeEmail({ remove_dots: false });
-  }
-
-  const errors = req.validationErrors();
-
-  if (errors) {
-    return res.status(400).json(errors);
-  }
-
+export function updateProfile(req, res, next) {
   return Profile.query()
     .patchAndFetchById(req.params.id, req.body)
-    .then(user => res.send(user));
+    .then(profile => res.send(profile));
 }
 
-function destroy(req, res) {
+export function destroyProfile(req, res) {
   return Profile.query()
     .delete()
     .where('id', req.params.id)
     .then(() => responseHandler(null, res, 204))
     .catch(err => responseHandler(err, res));
 }
-
-function unlink(req, res) {
-  const provider = req.query.provider;
-
-  const providers = ['facebook'];
-  if (providers.indexOf(provider) === -1) {
-    return res.status(404).send('Unknown provider');
-  }
-
-  return Profile.query()
-    .findById(req.user)
-    .update({ [provider]: null })
-    .then((user) => {
-      res.status(200).send(user);
-    });
-}
-
-export { index, show, update, destroy, unlink };

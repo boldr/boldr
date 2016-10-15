@@ -1,6 +1,4 @@
-const path = require('path');
 const convict = require('convict');
-const debug = require('debug')('boldr:configuration');
 
 const conf = convict({
   env: {

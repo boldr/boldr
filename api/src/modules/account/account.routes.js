@@ -11,7 +11,6 @@ const router = new express.Router();
  * @apiName listAccounts
  * @apiGroup Account
  * @apiPermission public
- * @apiParam {String} access_token User access_token.
  * @apiUse listParams
  * @apiSuccess {Object[]} accounts List of accounts.
  * @apiError {Object} 400 Some parameters may contain invalid values.
@@ -34,7 +33,7 @@ router.get('/:id', ctrl.getAccount);
  * @apiName createAccount
  * @apiGroup Account
  * @apiPermission admin
- * @apiParam {String} token
+ * @apiHeader {String} Authorization {token}
  * @apiParam {String} email Account's email address.
  * @apiParam {String} password Account's password.
  * @apiSuccess (Sucess 201) {Object} account Account's data.
@@ -49,7 +48,7 @@ router.post('/', controller.create.bind(controller));
  * @apiName updateAccount
  * @apiGroup Account
  * @apiPermission member | admin
- * @apiParam {String} token
+ * @apiHeader {String} Authorization {token}
  * @apiParam {String} [email] Account's email.
  * @apiParam {String} [password] Account's password.
  * @apiSuccess {Object} account Account's data.
@@ -64,7 +63,7 @@ router.put('/:id', ctrl.updateAccount);
  * @apiName updateAccount
  * @apiGroup Account
  * @apiPermission member | admin
- * @apiParam {String} token
+ * @apiHeader {String} Authorization {token}
  * @apiParam {String} [email] Account's email.
  * @apiParam {String} [password] Account's password.
  * @apiSuccess {Object} account Account's data.
@@ -79,7 +78,7 @@ router.patch('/:id', ctrl.updateAccount);
  * @apiName destroyAccount
  * @apiGroup Account
  * @apiPermission admin
- * @apiParam {String} token
+ * @apiHeader {String} Authorization {token}
  * @apiSuccess (Success 204) 204 No Content.
  * @apiError 401 Admin access only.
  * @apiError 404 Account not found.

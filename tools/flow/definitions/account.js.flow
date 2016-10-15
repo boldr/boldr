@@ -1,0 +1,15 @@
+/* @flow */
+
+export type Account = {
+  id: String,
+  email: String,
+  password: String,
+  facebook_id: String,
+  google_id: String,
+  twitter_id: String,
+  linkedin_id: String,
+  github_id: Number,
+  verified: Boolean,
+  created_at: Number,
+  updated_at: Number
+}

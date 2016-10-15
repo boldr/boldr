@@ -53,7 +53,7 @@ async function create(req, res, next) {
     await Activity.query().insert({
       id: uuid.v4(),
       name: payload.name,
-      user_id: req.user.id,
+      account_id: req.user.id,
       action: 'New link',
       type: 1,
       data: { payload },

@@ -1,11 +1,12 @@
-
+/* @flow */
+import type { $Response, $Request, NextFunction } from 'express';
 import { responseHandler } from '../../utils';
 import { GeneralNotFoundError } from '../../utils/errors';
 import Account from './account.model';
 
 const debug = require('debug')('boldr:account-controller');
 
-export async function listAccounts(req, res) {
+export async function listAccounts(req: $Request, res: $Response) {
   const accounts = await Account.query().eager('[profile, role]').omit(['password']);
   debug(accounts);
   if (!accounts) {
@@ -14,7 +15,7 @@ export async function listAccounts(req, res) {
   return res.status(200).json(accounts);
 }
 
-export async function getAccount(req, res, next) {
+export async function getAccount(req: $Request, res: $Response, next: NextFunction) {
   const account = await Account.query()
   .findById(req.params.id)
   .eager('[profile, role]')
@@ -24,11 +25,12 @@ export async function getAccount(req, res, next) {
   return responseHandler(null, res, 200, account);
 }
 
-export function updateAccount(req, res, next) {
+export function updateAccount(req: $Request, res: $Response, next: NextFunction) {
   if ('password' in req.body) {
+    // $FlowIssue
     req.assert('password', 'Password must be at least 4 characters long').len(4);
   }
-
+  // $FlowIssue
   const errors = req.validationErrors();
 
   if (errors) {
@@ -40,7 +42,7 @@ export function updateAccount(req, res, next) {
     .then(account => res.status(202).json(account));
 }
 
-export async function destroyAccount(req, res, next) {
+export async function destroyAccount(req: $Request, res: $Response, next: NextFunction) {
   await Account
     .query()
     .findById(req.params.id)
@@ -52,7 +54,7 @@ export async function destroyAccount(req, res, next) {
   return res.status(204).json({ message: 'Account deleted.' });
 }
 
-export function unlinkAccount(req, res) {
+export function unlinkAccount(req: $Request, res: $Response) {
   const provider = req.query.provider;
 
   const providers = ['facebook'];
@@ -61,6 +63,7 @@ export function unlinkAccount(req, res) {
   }
 
   return Account.query()
+    // $FlowIssue
     .findById(req.user)
     .update({ [provider]: null })
     .then((account) => {

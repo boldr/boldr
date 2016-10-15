@@ -1,12 +1,10 @@
-import findQuery from 'objection-find';
-import slugify from 'slugify';
-import { responseHandler, throwNotFound } from '../../utils';
+import { responseHandler } from '../../utils';
 import Setting from './setting.model';
 
 const debug = require('debug')('boldr:settings-controller');
 
-async function index(req, res) {
-  const settings = await Setting.query().findById(1);
+export async function listSettings(req, res) {
+  const settings = await Setting.query();
 
   if (!settings) {
     responseHandler(null, res, 500);
@@ -23,10 +21,10 @@ async function getId(req, res) {
 }
 
 function update(req, res) {
-  debug(req.body)
+  debug(req.body);
   return Setting.query()
     .patchAndFetchById(1, req.body)
     .then(setting => res.status(201).json(setting));
 }
 
-export { index, update, getId };
+export { update, getId };

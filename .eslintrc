@@ -31,6 +31,7 @@
     "webpackIsomorphicTools": true,
     "React": true
   },
-  "rules": {},
-
+  "rules": {
+    "id-match": 0
+    }
 }

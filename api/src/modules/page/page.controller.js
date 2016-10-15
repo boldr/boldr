@@ -1,6 +1,6 @@
 import Page from './page.model';
 
-export async function index(req, res) {
+export async function listPages(req, res) {
   const pages = await Page.query();
   return res.status(200).json(pages);
 }

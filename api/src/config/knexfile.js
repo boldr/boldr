@@ -13,7 +13,7 @@ module.exports = {
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(__dirname, '../db/_seeds'),
+      directory: path.resolve(__dirname, '../db/_seeds')
     },
     debug: false,
     pool: {
@@ -26,14 +26,14 @@ module.exports = {
     connection: {
       database: process.env.POSTGRES_DB || 'boldr_test',
       user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || ''
+      password: process.env.POSTGRES_PASSWORD || 'password'
     },
     migrations: {
       directory: path.resolve(__dirname, '../db/_migrations'),
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(__dirname, '../db/_seeds'),
+      directory: path.resolve(__dirname, '../db/_seeds')
     },
     debug: false,
     pool: {
@@ -50,7 +50,7 @@ module.exports = {
       tableName: 'knex_migrations'
     },
     seeds: {
-      directory: path.resolve(__dirname, '../db/_seeds'),
+      directory: path.resolve(__dirname, '../db/_seeds')
     },
     pool: {
       min: 2,

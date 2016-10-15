@@ -8,8 +8,8 @@ const controller = new BaseController(Profile);
 
 const router = new express.Router();
 
-router.get('/', ctrl.index);
-router.get('/:id', ctrl.show);
+router.get('/', ctrl.listProfiles);
+router.get('/:id', ctrl.getProfile);
 router.post('/', controller.create.bind(controller));
 router.put('/:id', controller.update.bind(controller));
 router.patch('/:id', controller.update.bind(controller));

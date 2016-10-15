@@ -1,4 +1,4 @@
-/* eslint-disable id-match */
+/* eslint-disable id-match */ /* eslint-disable no-unused-vars */
 import bcrypt from 'bcryptjs';
 import { Model } from 'objection';
 import Role from '../role/role.model';
@@ -48,7 +48,7 @@ class Account extends BaseModel {
           to: 'attachment.account_id'
         }
       },
-      token: {
+      tokens: {
         relation: Model.HasOneRelation,
         modelClass: Token,
         join: {

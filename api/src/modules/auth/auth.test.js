@@ -1,7 +1,6 @@
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 import supertest from 'supertest';
 import server from '../../engine';
-import knex from '../../db/postgres';
 
 function request() {
   return supertest(server.listen());
@@ -28,10 +27,11 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send(badLoginData)
         .expect('Content-Type', /json/)
-        .end((err, res) => {
+        .expect(res => {
           expect(res.status).to.equal(500);
-          done();
-        });
+          expect(res.body).to.equal('Email or password is invalid. Please try again.');
+        })
+        .end(done);
     });
     it('It should fail to login without a password', (done) => {
       request()
@@ -49,7 +49,10 @@ describe('API -- Auth', () => {
         .expect('Content-Type', /json/)
         .expect(res => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.include.keys('user');
+          expect(res.body).to.include.keys('token');
+          expect(res.body).to.include.keys('account');
+          expect(res.body.account).to.include.keys('profile');
+          expect(res.body.account).to.include.keys('role');
         })
         .end(done);
     });
@@ -71,7 +74,7 @@ describe('API -- Auth', () => {
       request()
         .post('/api/v1/auth/signup')
         .set('Accept', 'application/json')
-        .send({ email: 'abc@test.com', first_name: 'test', last_name: 'user' })
+        .send({ email: 'abc@test.com' })
         .expect('Content-Type', /json/)
         .expect(400, done);
     });
@@ -81,31 +84,14 @@ describe('API -- Auth', () => {
         .set('Accept', 'application/json')
         .send({
           email: 'admin@boldr.io',
-          password: 'test',
-          display_name: 'admin',
-          first_name: 'test',
-          last_name: 'user'
+          password: 'test'
         })
         .expect('Content-Type', /json/)
-        .expect(500, done);
+        .expect(res => {
+          expect(res.body).to.equal('An account is already registered with that email address');
+          expect(res.status).to.equal(409);
+        })
+        .end(done);
     });
-    // it('Should create a user', (done) => {
-    //   request()
-    //     .post('/api/v1/auth/signup')
-    //     .set('Accept', 'application/json')
-    //     .send({
-    //       email: 'test@boldr.io',
-    //       password: 'test',
-    //       display_name: 'admin',
-    //       first_name: 'test',
-    //       last_name: 'user'
-    //     })
-    //     .expect('Content-Type', /json/)
-    //     .end((err, res) => {
-    //       expect(res.status).to.equal(201);
-    //       expect(res.body).to.include.keys('email');
-    //       done();
-    //     });
-    // });
   });
 });

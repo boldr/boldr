@@ -2,7 +2,7 @@ import passport from 'passport';
 import uuid from 'node-uuid';
 import * as objection from 'objection';
 import handleMail from '../../mailer';
-import { welcomeEmail, passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/templates';
+import { welcomeEmail } from '../../mailer/templates';
 import Account from '../account/account.model';
 
 import { responseHandler, generateVerifyCode } from '../../utils';
@@ -36,7 +36,11 @@ async function register(req, res, next) {
     email: req.body.email,
     password: req.body.password
   };
-
+  const checkExisting = await Account.query().where('email', req.body.email);
+  debug(checkExisting);
+  if (checkExisting.length) {
+    return res.status(409).json('An account is already registered with that email address');
+  }
   const newAccount = await objection.transaction(Account, async (Account) => {
     const account = await Account
         .query()
@@ -151,66 +155,10 @@ async function checkAuthentication(req, res, next) {
   }
 }
 
-/**
- * forgottenPassword takes an email address, generates a reset token, updates the user in the database, then sends
- * an email with the token to reset the account password.
- * @param req
- * @param res
- * @returns {*}
- */
-async function forgottenPassword(req, res, next) {
-  try {
-    const user = await Account.query().where({ email: req.body.email }).first();
-    if (!user) {
-      return next(new errs.AccountNotFoundError());
-    }
-    const mailSubject = '[Boldr] Password Reset';
-    const token = generateVerifyCode();
-    await Account
-      .query()
-      .patchAndFetchById(user.id, {
-        reset_password_token: token,
-        reset_password_expiration: new Date(Date.now() + 3600000)
-      });
-
-    const mailBody = forgotPasswordEmail(user);
-
-    await handleMail(user, mailBody, mailSubject);
-    return responseHandler(null, res, 200, { message: 'Sending email with reset link' });
-  } catch (e) {
-    return next(new errs.InternalError(e));
-  }
-}
-
-/**
- * resetPassword takes the user's reset_password_token, and a new password, hashes it and updates the password
- * @param req
- * @param res
- * @returns {*}
- */
-async function resetPassword(req, res, next) {
-  try {
-    const user = await Account.query().where({ reset_password_token: req.body.token }).first();
-    if (!user) {
-      return next(new errs.AccountNotFoundError());
-    }
-    const mailSubject = '[Boldr] Password Changed';
-
-    await Account.query().patchAndFetchById(user.id, {
-      password: req.body.password,
-      reset_password_expiration: null,
-      reset_password_token: null
-    });
-    const mailBody = await passwordModifiedEmail(user);
-    handleMail(user, mailBody, mailSubject);
-    return res.status(200).json('Sent');
-  } catch (error) {
-    return next(new errs.InternalError(error));
-  }
-}
 function throwNotFound() {
   const error = new Error();
   error.statusCode = 404;
   throw error;
 }
-export { register, login, verify, checkAuthentication, forgottenPassword, resetPassword };
+
+export { register, login, verify, checkAuthentication };

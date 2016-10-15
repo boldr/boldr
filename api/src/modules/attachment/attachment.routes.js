@@ -4,9 +4,9 @@ import * as ctrl from './attachment.controller';
 
 const router = express.Router();
 
-router.get('/', ctrl.getAllMedia);
+router.get('/', ctrl.listAttachments);
 
-router.get('/:id', ctrl.showMedia);
+router.get('/:id', ctrl.getAttachment);
 
 router.post('/', ensureAuthenticated, ctrl.uploadFiles.single('photo'), ctrl.singleUpload);
 router.post('/dashboard', ensureAuthenticated, ctrl.fromDashboard);

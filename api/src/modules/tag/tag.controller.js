@@ -1,9 +1,5 @@
-import findQuery from 'objection-find';
-import slugify from 'slugify';
-import { responseHandler, throwNotFound } from '../../utils';
+import { responseHandler } from '../../utils';
 
-import Post from '../post/post.model';
-import PostTag from '../post/postTag.model';
 import Tag from './tag.model';
 
 const debug = require('debug')('boldr:post-controller');

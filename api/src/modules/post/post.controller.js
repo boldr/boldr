@@ -14,11 +14,11 @@ function index(req, res) {
   return findQuery(Post)
     .build(req.query.filter)
     .eager(req.query.include)
-    .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
+    .omit('password')
     .skipUndefined()
     .orderBy(req.query.sort.by, req.query.sort.order)
     // .page(req.query.page.number, req.query.page.size)
-    .then(users => responseHandler(null, res, 200, users))
+    .then(posts => responseHandler(null, res, 200, posts))
     .catch(err => responseHandler(err, res));
 }
 
@@ -49,7 +49,7 @@ async function create(req, res, next) {
     content: req.body.content,
     feature_image: req.body.feature_image,
     meta: req.body.meta,
-    user_id: req.user.id
+    account_id: req.user.id
   });
 
   await newPost.$relatedQuery('author').relate({ id: req.user.id });
@@ -76,7 +76,7 @@ async function create(req, res, next) {
   await Activity.query().insert({
     id: uuid.v4(),
     name: newPost.title,
-    user_id: req.user.id,
+    account_id: req.user.id,
     action: 'New post',
     type: 1,
     data: { newPost },
@@ -91,7 +91,7 @@ async function getSlug(req, res) {
     .query()
     .where({ slug: req.params.slug })
     .eager('[tags, author]')
-    .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
+    .omit('password')
     .first();
 
   if (!post) {
@@ -106,7 +106,7 @@ async function getId(req, res, next) {
       .query()
       .findById(req.params.id)
       .eager('[tags, author]')
-      .omit(['password', 'reset_password_token', 'account_token', 'reset_password_expiration'])
+      .omit('password')
       .first();
     return responseHandler(null, res, 200, post);
   } catch (error) {
@@ -115,15 +115,13 @@ async function getId(req, res, next) {
 }
 
 async function destroy(req, res, next) {
-
-    await Post
+  await Post
       .query()
       .delete()
       .where('id', req.params.id)
       .first();
 
-    return res.status(204).send({});
-
+  return res.status(204).send({});
 }
 
 function update(req, res) {

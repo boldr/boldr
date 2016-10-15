@@ -8,7 +8,7 @@ const controller = new BaseController(Page);
 
 const router = new express.Router();
 
-router.get('/', ctrl.index);
+router.get('/', ctrl.listPages);
 router.get('/:url', ctrl.getPageByUrl);
 router.post('/', controller.create.bind(controller));
 router.put('/:id', controller.update.bind(controller));

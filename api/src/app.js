@@ -1,4 +1,6 @@
+/* @flow */
 import Express from 'express';
+import type { $Request, $Response, Middleware, NextFunction } from 'express'; // eslint-disable-line
 import errorHandler from 'errorhandler';
 import { Model } from 'objection';
 import compression from 'compression';
@@ -49,7 +51,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(methodOverride('X-HTTP-Method-Override'));
-app.options('*', (req, res) => res.sendStatus(200));
 
 const sessionMiddleware = session({
   store: new RedisStore({ client: redisClient }),
@@ -69,7 +70,7 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
+app.use((req: $Request, res: $Response, next: NextFunction) => {
   passport.authenticate('jwt', (err, user, info) => {
     res.locals.user = !!user ? user : null;
     return next();
@@ -80,8 +81,9 @@ app.use(conf.get('prefix'), routes);
 
 // Error handling. The `ValidionError` instances thrown by objection.js have a `statusCode`
 // property that is sent as the status code of the response.
-app.use((err, req, res, next) => {
+app.use((err: ?Error, req: $Request, res: $Response, next: NextFunction) => {
   if (err) {
+    // $FlowIssue
     res.status(err.statusCode || err.status || 500).json(err.data || err.message || {});
   } else {
     return next();
