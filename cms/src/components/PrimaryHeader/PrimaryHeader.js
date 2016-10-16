@@ -1,19 +1,21 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Menu, Dropdown, Button, Container } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import { provideHooks } from 'redial';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { goHome } from 'state/dux/boldr';
+
 import { logout } from 'state/dux/auth';
+import { goHome } from 'state/dux/boldr';
 import { loadPrimary } from 'state/dux/navigation';
 
 type Props = {
   navigate: () => void,
   actions: Object,
   navigation: Object,
+  settings: Object,
   boldr: Object,
   auth: Object,
   handleDashClick: () => void
@@ -24,14 +26,12 @@ type Props = {
 })
 class PrimaryHeader extends Component {
 
-  componentDidMount() {
-    this.props.actions.loadPrimary();
-  }
-
   state = {
     activeItem: ''
   }
-
+  componentDidMount() {
+    this.props.actions.loadPrimary();
+  }
   props: Props;
 
   handleItemClick = (e, { name, href }) => {
@@ -105,7 +105,6 @@ class PrimaryHeader extends Component {
   }
 
   render() {
-    // $FlowFixMe
     const { activeItem } = this.state;
     if (!this.props.navigation.primary) {
       return (
@@ -129,7 +128,9 @@ class PrimaryHeader extends Component {
       <Menu size="large">
       <Container>
         <Menu.Item>
-          <img src={ this.props.boldr.siteLogo } alt="logo" onClick={ this.handleLogoClick } />
+          <img src={ this.props.settings.byKey.site_logo.value }
+            alt="logo" onClick={ this.handleLogoClick } role="button" tabIndex="0"
+          />
         </Menu.Item>
         { renderedMenuItems }
         { this.props.auth.isAuthenticated ? this.renderAuthenticated() : this.renderUnauthenticated() }
@@ -142,6 +143,7 @@ class PrimaryHeader extends Component {
 const mapStateToProps = (state: Object) => {
   return {
     boldr: state.boldr,
+    settings: state.settings,
     auth: state.auth,
     navigation: state.navigation,
     loading: state.navigation.loaded

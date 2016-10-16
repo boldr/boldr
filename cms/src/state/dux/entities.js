@@ -5,7 +5,8 @@ const initialState = {
   tags: {},
   attachments: {},
   accounts: {},
-  profiles: {}
+  profiles: {},
+  settings: {}
 };
 
 export default function entities(state = initialState, action) {

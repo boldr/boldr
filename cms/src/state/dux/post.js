@@ -1,4 +1,4 @@
-import * as api from 'core/api/post.service';
+import * as api from 'core/services/api';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';

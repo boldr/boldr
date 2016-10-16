@@ -13,6 +13,7 @@ import postsReducer from './dux/post';
 import profileReducer from './dux/profile';
 import pageReducer from './dux/page';
 import entities from './dux/entities';
+import settings from './dux/setting';
 
 export default function createReducer(asyncReducers) {
   return combineReducers({
@@ -28,6 +29,7 @@ export default function createReducer(asyncReducers) {
     tags: tagReducer,
     profile: profileReducer,
     posts: postsReducer,
+    settings,
     entities,
     ...asyncReducers
   });

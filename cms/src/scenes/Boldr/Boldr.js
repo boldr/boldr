@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { Notifications } from 'components/index';
-import { fetchSettingsIfNeeded } from 'state/dux/boldr';
+import { fetchSettingsIfNeeded, getSettings } from 'state/dux/setting';
 import { fetchPagesIfNeeded } from 'state/dux/page';
 
 export type Props = {
@@ -41,6 +41,7 @@ class Boldr extends Component {
 function mapStateToProps(state) {
   return {
     boldr: state.boldr,
+    settings: getSettings(state),
     auth: state.auth,
     notifications: state.notifications,
     navigation: state.navigation

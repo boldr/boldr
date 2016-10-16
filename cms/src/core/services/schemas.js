@@ -6,6 +6,7 @@ const tag = new Schema('tags');
 const attachment = new Schema('attachments');
 const profile = new Schema('profiles');
 const page = new Schema('pages');
+const setting = new Schema('settings', { idAttribute: 'key' });
 
 // account.define({
 //   profile
@@ -16,4 +17,4 @@ post.define({
   author: account
 });
 
-export { post, tag, account, profile, attachment, page };
+export { post, tag, account, profile, attachment, page, setting };

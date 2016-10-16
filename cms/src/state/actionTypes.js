@@ -13,6 +13,10 @@ export const UPDATE_SETTINGS_FAILURE = 'UPDATE_SETTINGS_FAILURE';
 export const MERGE_ENTITIES = 'MERGE_ENTITIES';
 export const SYNC_ENTITIES = 'SYNC_ENTITIES';
 
+export const EDIT_SETTING = '@boldr/EDIT_SETTING';
+export const EDIT_SETTING_SUCCESS = '@boldr/EDIT_SETTING_SUCCESS';
+export const EDIT_SETTING_FAILURE = '@boldr/EDIT_SETTING_FAILURE';
+
 // Notifications
 // -----------------
 export const NOTIFICATION_SEND = 'NOTIFICATION_SEND';
