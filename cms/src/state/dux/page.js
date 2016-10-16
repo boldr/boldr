@@ -37,10 +37,12 @@ export function fetchPagesIfNeeded() {
  */
 function shouldFetchPages(state) {
   const pages = state.pages;
-  if (!pages) {
+  if (!pages.length) {
+    console.log('SHOULD FETCH PAGES');
     return true;
   }
-  if (pages.isLoading) {
+  if (pages.length) {
+    console.log(pages, 'SHOULD NOT FETCH PAGES');
     return false;
   }
   return pages;

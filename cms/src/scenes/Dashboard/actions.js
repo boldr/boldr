@@ -18,9 +18,9 @@ export function dashboardClicked() {
   };
 }
 
-export function mediaClicked() {
+export function fileManagerClicked() {
   return (dispatch) => {
-    dispatch(push('/dashboard/media'));
+    dispatch(push('/dashboard/filemanager'));
   };
 }
 

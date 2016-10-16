@@ -1,2 +1,3 @@
-import Pages from './Pages';
-export default Pages;
+import PagesContainer from './PagesContainer';
+
+export default PagesContainer;

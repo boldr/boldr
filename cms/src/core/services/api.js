@@ -9,6 +9,7 @@ import {
   API_LINKS,
   API_ATTACHMENTS,
   API_ACTIVITY,
+  API_ACCOUNTS,
   TOKEN_KEY
 } from '../config';
 
@@ -161,4 +162,22 @@ export function doRemoveMedia(id) {
 export function doFetchTags(tagName) {
   return fetch(`${API_TAGS}/posts/${tagName}`)
     .then(response => processResponse(response));
+}
+
+export function doFetchMembers() {
+  return request
+    .get(`${API_ACCOUNTS}`);
+}
+
+export function doUpdateMember(userData) {
+  const payload = {
+    display_name: userData.display_name,
+    first_name: userData.first_name,
+    last_name: userData.last_name,
+    roleId: userData.roleId
+  };
+  return request
+    .put(`${API_ACCOUNTS}/${userData.id}`)
+    .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
+    .send(payload);
 }

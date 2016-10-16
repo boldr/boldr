@@ -126,6 +126,7 @@ exports.up = function(knex, Promise) {
       table.string('original_name');
       table.string('file_description');
       table.string('file_type');
+      table.uuid('account_id').references('id').inTable('account').onDelete('restrict').onUpdate('cascade');
       table.string('url').notNullable();
       table.string('s3_key');
       table.timestamp('created_at').defaultTo(knex.fn.now());

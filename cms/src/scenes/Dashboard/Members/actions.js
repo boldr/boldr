@@ -1,7 +1,5 @@
-import request from 'superagent';
-import { API_USERS } from 'core';
 import { notificationSend } from 'state/dux/notifications';
-import * as api from 'core/api/member.service';
+import * as api from 'core/services/api';
 import * as notif from 'core/notificationMessages';
 import * as types from './constants';
 
@@ -30,7 +28,7 @@ export function loadSiteMembers() {
     return api.doFetchMembers()
       .then(response => {
         if (response.status !== 200) {
-          dispatch(failedToLoadMembers(err));
+          dispatch(failedToLoadMembers());
         }
         dispatch(loadMembersSuccess(response));
       })

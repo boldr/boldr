@@ -62,9 +62,9 @@ export default (store, connect) => {
         }
       },
       {
-        path: 'media',
+        path: 'filemanager',
         getComponent(nextState, cb) {
-          System.import('./Media')
+          System.import('./FileManager')
         .then(loadModule(cb))
         .catch(errorLoading);
         }

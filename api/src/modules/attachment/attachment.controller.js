@@ -74,32 +74,28 @@ export const listAttachments = async (req, res, next) => {
 };
 
 export async function fromDashboard(req, res, next) {
-  try {
-    const fileFields = {
-      id: uuid.v4(),
-      url: req.body.url,
-      account_id: req.user.id,
-      file_name: req.body.file_name,
-      original_name: req.body.original_name,
-      file_description: req.body.file_description,
-      file_type: req.body.file_type,
-      s3_key: req.body.s3_key
-    };
-    const newAttachment = await Attachment.query().insertAndFetch(fileFields);
-    await Activity.query().insert({
-      id: uuid.v4(),
-      name: newAttachment.file_name,
-      account_id: req.user.id,
-      action: 'New upload',
-      type: 'create',
-      data: { newAttachment },
-      entry_uuid: newAttachment.id,
-      entry_table: 'attachment'
-    });
-    return res.status(201).json(newAttachment);
-  } catch (error) {
-    return res.status(500).json(error);
-  }
+  const fileFields = {
+    id: uuid.v4(),
+    url: req.body.url,
+    account_id: req.user.id,
+    file_name: req.body.file_name,
+    original_name: req.body.original_name,
+    file_description: req.body.file_description,
+    file_type: req.body.file_type,
+    s3_key: req.body.s3_key
+  };
+  const newAttachment = await Attachment.query().insertAndFetch(fileFields);
+  await Activity.query().insert({
+    id: uuid.v4(),
+    name: newAttachment.file_name,
+    account_id: req.user.id,
+    action: 'New upload',
+    type: 'create',
+    data: { newAttachment },
+    entry_uuid: newAttachment.id,
+    entry_table: 'attachment'
+  });
+  return res.status(201).json(newAttachment);
 }
 /**
  * @api {get} /medias/:id  Get a specific file by its id

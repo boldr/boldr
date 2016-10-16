@@ -1,15 +1,14 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { provideHooks } from 'redial';
-import { SiteLogo, Grid, Col, Row } from 'components/index';
+import { Grid, Col, Row } from 'components/index';
 import Authenicated from 'components/hoc.Authenticated';
 import NavigationDrawer from 'components/md/NavigationDrawers';
 import FontIcon from 'components/md/FontIcons';
 import {
   postListClicked, postEditorClicked, dashboardClicked,
-  mediaClicked, membersClicked, settingsClicked, homeClicked,
+  fileManagerClicked, membersClicked, settingsClicked, homeClicked,
   navigationClicked, contentClicked, pagesClicked
 } from './actions';
 
@@ -22,12 +21,12 @@ const DrawerType = {
 };
 
 export type Props = {
-  children: ReactElement<*>,
+  children: React$Element<*>,
   toggleOpen?: Function,
   postListClicked?: Function,
   postEditorClicked?: Function,
   dashboardClicked?: Function,
-  mediaClicked?: Function,
+  fileManagerClicked?: Function,
   membersClicked?: Function,
   settingsClicked?: Function,
   homeClicked?: Function,
@@ -37,7 +36,7 @@ export type Props = {
 };
 
 @Authenicated
-class Dashboard extends Component {
+class Dashboard extends PureComponent {
   props: Props;
   render() {
     const navItems = [
@@ -56,9 +55,9 @@ class Dashboard extends Component {
         onClick: this.props.dashboardClicked
       },
       {
-        primaryText: 'Media',
+        primaryText: 'File Manager',
         leftIcon: <FontIcon>perm_media</FontIcon>,
-        onClick: this.props.mediaClicked
+        onClick: this.props.fileManagerClicked
       },
       {
         primaryText: 'Members',
@@ -123,7 +122,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     postListClicked, postEditorClicked, dashboardClicked,
-    mediaClicked, membersClicked, settingsClicked, homeClicked, navigationClicked,
+    fileManagerClicked, membersClicked, settingsClicked, homeClicked, navigationClicked,
     contentClicked, pagesClicked }, dispatch);
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

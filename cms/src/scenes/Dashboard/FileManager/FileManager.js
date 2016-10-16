@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { S3Uploader, Row, Col } from 'components/index';
-import { API_PREFIX, S3_SIGNING_URL } from 'core/api/helpers';
+import { API_PREFIX, S3_SIGNING_URL } from 'core/config';
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/attachment';
 import FileView from 'components/FileView';
 
 type Props = {
   handleFinish: () => void,
-  media: Object,
+  attachments: Object,
   deleteMedia: () => void,
   uploadFiles: () => void
 };
@@ -18,7 +18,7 @@ type Props = {
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchMedia())
 })
-class Media extends Component {
+class FileManager extends Component {
   constructor(props) {
     super(props);
     (this: any).handleRemoveMedia = this.handleRemoveMedia.bind(this);
@@ -31,10 +31,13 @@ class Media extends Component {
   handleFinish(signResult) {
     const signUrl = signResult.signedUrl;
     const splitUrl = signUrl.split('?');
-    const url = splitUrl[0];
+    const fileUrl = splitUrl[0];
     const payload = {
-      filename: signResult.filename,
-      s3url: url
+      file_name: signResult.file_name,
+      original_name: signResult.original_name,
+      file_type: signResult.file_type,
+      s3_key: signResult.s3_key,
+      url: fileUrl
     };
     this.props.uploadFiles(payload);
   }
@@ -59,7 +62,7 @@ class Media extends Component {
               contentDisposition="auto"
               server={ `${API_PREFIX}` }
             />
-            <FileView files={ this.props.media.files } removeMedia={ this.handleRemoveMedia } />
+            <FileView files={ this.props.attachments.files } removeMedia={ this.handleRemoveMedia } />
          </Col>
        </Row>
       </div>
@@ -69,9 +72,8 @@ class Media extends Component {
 
 const mapStateToProps = state => {
   return {
-    media: state.media,
-    isLoading: state.media.isLoading
+    attachments: state.attachments
   };
 };
 
-export default connect(mapStateToProps, { uploadFiles, deleteMedia })(Media);
+export default connect(mapStateToProps, { uploadFiles, deleteMedia })(FileManager);

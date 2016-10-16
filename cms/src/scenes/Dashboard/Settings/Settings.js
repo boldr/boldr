@@ -1,31 +1,15 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { provideHooks } from 'redial';
+import React from 'react';
 import { Button, Checkbox, Icon, Table, Segment } from 'semantic-ui-react';
-import { Loader } from 'components/index';
-import { fetchSettingsIfNeeded, updateBoldrSettings, getSettings } from 'state/dux/setting';
 
-export type Props = {
+type Props = {
   boldr?: Object,
   allSettings: Array<Object>,
   updateBoldrSettings?: Function,
 };
 
-class Settings extends Component {
-  constructor(props: Props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
-  props: Props;
-
-  handleSubmit(values) {
-    const id = this.props.boldr.id;
-    this.props.updateBoldrSettings(values, id);
-  }
-  render() {
-    return (
-
+const Settings = (props: Props) => {
+  return (
       <Segment>
         <Table compact celled definition>
      <Table.Header>
@@ -39,7 +23,7 @@ class Settings extends Component {
      </Table.Header>
 
      <Table.Body>
-       { this.props.allSettings.map(setting =>
+       { props.allSettings.map(setting =>
          <Table.Row key={ setting.id }>
            <Table.Cell collapsing>
              <Checkbox slider />
@@ -67,14 +51,6 @@ class Settings extends Component {
    </Table>
       </Segment>
     );
-  }
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    settings: state.settings,
-    allSettings: getSettings(state),
-    isLoading: state.boldr.isLoading
-  };
 };
-export default connect(mapStateToProps, { updateBoldrSettings })(Settings);
+
+export default Settings;

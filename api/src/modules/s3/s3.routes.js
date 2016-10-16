@@ -41,14 +41,14 @@ export default function S3Router(options) {
     * Redirects image requests with a temporary signed URL, giving access
     * to GET an upload.
     */
-  function tempRedirect(req, res) {
+  function tempRedirect(req, res, next) {
     s3.getSignedUrl('getObject', {
       Bucket: S3_BUCKET,
       Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
     }, (err, url) => {
       if (err) {
         debug(err);
-        throw Error(err);
+        return next(err);
       }
       res.redirect(url);
     });
@@ -74,9 +74,11 @@ export default function S3Router(options) {
     */
   router.get('/sign', (req, res) => {
     const filename = `${uuid.v4()}_${req.query.objectName}`;
+    debug(filename);
     const mimeType = req.query.contentType;
+    debug(mimeType);
     const fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
-       // Set any custom headers
+    debug(fileKey);
     if (options.headers) {
       res.set(options.headers);
     }
@@ -92,7 +94,12 @@ export default function S3Router(options) {
         debug(err);
         return res.send(500, 'Cannot create S3 signed URL');
       }
+      debug(data);
       res.json({
+        file_name: filename,
+        original_name: req.query.objectName,
+        file_type: mimeType,
+        s3_key: fileKey,
         signedUrl: data,
         publicUrl: `/s3/uploads/${filename}`,
         filename
