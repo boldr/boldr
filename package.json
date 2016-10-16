@@ -62,7 +62,7 @@
         "BABEL_ENV": "development",
         "SSR_PORT": 3000,
         "HMR_PORT": 3001,
-        "WEBPACK_DLLS": 1
+        "WEBPACK_DLLS": 0
       }
     },
     "dev:server": {
@@ -150,6 +150,7 @@
     "express-winston": "^2.0.0",
     "helmet": "^2.3.0",
     "http-proxy": "^1.15.1",
+    "humps": "^1.1.0",
     "ioredis": "^2.4.0",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.1.9",
@@ -159,10 +160,10 @@
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "multer-s3": "^2.3.2",
-    "node-noop": "^1.0.0",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.6.4",
     "nodemailer-mailgun-transport": "^1.2.2",
+    "normalizr": "^2.2.1",
     "npm-run-all": "^3.1.0",
     "objection": "0.6.0",
     "objection-find": "^0.1.1",
@@ -226,6 +227,7 @@
     "mocha": "^3.1.0",
     "mocha-lcov-reporter": "^1.2.0",
     "nock": "^8.1.0",
+    "node-noop": "^1.0.0",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.2",
     "nyc": "^8.3.1",

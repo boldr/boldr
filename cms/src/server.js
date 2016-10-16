@@ -5,7 +5,6 @@ import path from 'path';
 import Express from 'express';
 import httpProxy from 'http-proxy';
 import compression from 'compression';
-import PrettyError from 'pretty-error';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -23,7 +22,6 @@ import ApiClient from './core/api/ApiClient';
 
 const debug = require('debug')('boldr:server');
 
-const pretty = new PrettyError();
 const port = process.env.SSR_PORT || 3000;
 // FIXME: Refactor to use something else?
 const API_PORT = 2121;
@@ -32,7 +30,7 @@ const API_HOST = 'localhost';
 debug('Booting Boldr CMS SSR');
 
 const targetUrl = `http://${API_HOST}:${API_PORT}`;
-const app = Express();
+const app = new Express();
 const server = http.Server(app);
 
 const proxy = httpProxy.createProxyServer({
@@ -93,7 +91,7 @@ app.use(async (req, res) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
-      console.error('ROUTER ERROR:', pretty.render(error));
+      debug(`ROUTER ERROR: ${error}`);
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
@@ -124,7 +122,7 @@ app.use(async (req, res) => {
         res.send(`<!doctype html>
         ${ReactDOM.renderToString(renderHtml)}`);
       }).catch((mountError) => {
-        console.error('MOUNT ERROR:', pretty.render(mountError.stack));
+        debug(`MOUNT ERROR: ${mountError.stack}`);
         return res.status(500);
       });
     } else {
@@ -138,7 +136,7 @@ server.on('error', (error) => {
     throw error;
   }
   if (error.code) {
-    console.warn(`Cannot listen for connections (${error.code}): ${error.message}`);
+    debug(`Cannot listen for connections (${error.code}): ${error.message}`);
     throw error;
   }
   throw error;

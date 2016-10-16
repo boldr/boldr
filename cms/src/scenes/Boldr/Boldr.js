@@ -1,13 +1,12 @@
 /* @flow */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
 import { Notifications } from 'components/index';
 import { fetchSettingsIfNeeded } from 'state/dux/boldr';
-import { loadPrimary } from 'state/dux/navigation';
 import { fetchPagesIfNeeded } from 'state/dux/page';
 
 export type Props = {
@@ -27,6 +26,7 @@ class Boldr extends Component {
   render() {
     return (
       <div>
+      {/* TODO: switch title="boldr" to this.props.setting.title */}
         <Helmet
           title="Boldr"
           titleTemplate={ '%s | powered by Boldr' }

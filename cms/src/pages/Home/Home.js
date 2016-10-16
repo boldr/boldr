@@ -1,11 +1,11 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Header, Icon } from 'semantic-ui-react';
 import PostListing from 'scenes/Blog/PostListing';
-import { Grid, Row, Col, Hero, Heading, PrimaryHeader, Footer } from '../../components';
+import { Grid, Row, Hero, PrimaryHeader, Footer } from '../../components';
 import { fetchPagesIfNeeded } from '../../state/dux/page';
 
 type Props = {

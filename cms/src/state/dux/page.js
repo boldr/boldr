@@ -1,6 +1,5 @@
-import request from 'superagent';
 import { notificationSend } from 'state/dux/notifications';
-import * as api from 'core/api/page.service';
+import * as api from 'core/services/api';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 
@@ -107,7 +106,7 @@ export function fetchPageByUrl(url) {
 const initialState = {
   loaded: false
 };
-export const pageSelector = id => state => state.pages[url];
+
 export default function pageReducer(state = initialState, action = {}) {
   switch (action.type) {
     case types.LOAD_PAGES_REQUEST:
@@ -117,7 +116,6 @@ export default function pageReducer(state = initialState, action = {}) {
         loading: true
       };
     case types.LOAD_PAGES_SUCCESS:
-      const page = action.payload;
       return {
         isLoading: false,
         loaded: true,

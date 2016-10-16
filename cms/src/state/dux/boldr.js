@@ -1,8 +1,5 @@
-import request from 'superagent';
-import { combineReducers } from 'redux';
 import { push } from 'react-router-redux';
-import * as api from 'core/api/boldr.service';
-import { API_SETTINGS, TOKEN_KEY } from 'core';
+import * as api from 'core/services/api';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 // ------------------------------------
@@ -33,9 +30,30 @@ export function goTo(pathname, options = {}) {
   });
 }
 
-// ------------------------------------
-// Load Settings
-// ------------------------------------
+/**
+  * GET SETTINGS ACTIONS
+  * -------------------------
+  * @exports fetchSettingsIfNeeded
+  *****************************************************************/
+
+  /**
+   * @function fetchSettingsIfNeeded
+   * @description Function that determines whether or not menus need to be
+   * fetched from the api. Dispatches either the loadMenus Function
+   * or returns the resolved promise if the menus are up to date.
+   * @return {Promise} Menus Promise that resolves when menus are fetched
+   * or they arent required to be refreshed.
+   */
+export function fetchSettingsIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchSettings(getState())) {
+      return dispatch(loadBoldrSettings());
+    }
+
+    return Promise.resolve();
+  };
+}
+
 const loadSettings = () => ({ type: types.LOAD_SETTINGS });
 
 function doneLoadSettings(response) {
@@ -73,8 +91,8 @@ function loadBoldrSettings() {
 }
 
 /**
- * Called by fetchMenusIfNeeded to retrieve the state containing menus
- * @param  {Object} state   The blog state which contains menus
+ * Called by fetchSettingsIfNeeded
+ * @param  {Object} state   The boldr state which contains the settings
  */
 function shouldFetchSettings(state) {
   const settings = state.boldr;
@@ -88,39 +106,10 @@ function shouldFetchSettings(state) {
 }
 
 /**
- * @function fetchSettingsIfNeeded
- * @description Function that determines whether or not menus need to be
- * fetched from the api. Dispatches either the loadMenus Function
- * or returns the resolved promise if the menus are up to date.
- * @return {Promise} Menus Promise that resolves when menus are fetched
- * or they arent required to be refreshed.
- */
-export function fetchSettingsIfNeeded() {
-  return (dispatch, getState) => {
-    if (shouldFetchSettings(getState())) {
-      return dispatch(loadBoldrSettings());
-    }
-
-    return Promise.resolve();
-  };
-}
-
-// ------------------------------------
-// Update Settings
-// ------------------------------------
-const beginUpdateSettings = () => ({
-  type: types.UPDATE_SETTINGS_REQUEST
-});
-
-const doneUpdateSettings = (response) => ({
-  type: types.UPDATE_SETTINGS_SUCCESS,
-  payload: response.body
-});
-
-const failUpdateSettings = (err) => ({
-  type: types.UPDATE_SETTINGS_FAILURE,
-  error: err
-});
+  * UPDATE SETTINGS ACTIONS
+  * -------------------------
+  * @exports updateBoldrSettings
+  *****************************************************************/
 
 export function updateBoldrSettings(data, id) {
   return dispatch => {
@@ -146,10 +135,25 @@ export function updateBoldrSettings(data, id) {
       });
   };
 }
+const beginUpdateSettings = () => ({
+  type: types.UPDATE_SETTINGS_REQUEST
+});
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
+const doneUpdateSettings = (response) => ({
+  type: types.UPDATE_SETTINGS_SUCCESS,
+  payload: response.body
+});
+
+const failUpdateSettings = (err) => ({
+  type: types.UPDATE_SETTINGS_FAILURE,
+  error: err
+});
+
+/**
+  * REDUCER
+  * -------------------------
+  * @exports boldrReducer
+  *****************************************************************/
 const INITIAL_STATE = {
   isLoading: false
 };

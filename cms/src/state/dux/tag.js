@@ -1,7 +1,4 @@
-import fetch from 'isomorphic-fetch';
-import { combineReducers } from 'redux';
-import { API_PREFIX, API_POSTS, processResponse } from 'core';
-import * as api from 'core/api/tag.service';
+import * as api from 'core/services/api';
 import * as types from '../actionTypes';
 /**
  * Select Post
@@ -86,9 +83,7 @@ const INITIAL_STATE = {
 //  };
 //
 // export default combineReducers({
-// 	byId,
-// 	ids
-// });
+
 export default function tagsReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case types.LOAD_TAG_REQUEST:

@@ -1,6 +1,7 @@
 import { Model } from 'objection';
 import Tag from '../tag/tag.model';
 import Account from '../account/account.model';
+import Attachment from '../attachment/attachment.model';
 import BaseModel from '../BaseModel';
 
 class Post extends BaseModel {
@@ -28,6 +29,18 @@ class Post extends BaseModel {
             to: 'post_tag.tag_id'
           },
           to: 'tag.id'
+        }
+      },
+      attachments: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Attachment,
+        join: {
+          from: 'post.id',
+          through: {
+            from: 'post_attachment.post_id',
+            to: 'post_attachment.attachment_id'
+          },
+          to: 'attachment.id'
         }
       }
     };

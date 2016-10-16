@@ -10,7 +10,7 @@ import PostTag from './postTag.model';
 
 const debug = require('debug')('boldr:post-controller');
 
-function index(req, res) {
+export function listPosts(req, res) {
   return findQuery(Post)
     .build(req.query.filter)
     .eager(req.query.include)
@@ -22,7 +22,7 @@ function index(req, res) {
     .catch(err => responseHandler(err, res));
 }
 
-async function create(req, res, next) {
+export async function createPost(req, res, next) {
   req.assert('title', 'A title must be provided').notEmpty();
   req.assert('content', 'Content can not be empty').notEmpty();
 
@@ -146,4 +146,4 @@ async function addTag(req, res, next) {
   return res.status(202).json(tag);
 }
 
-export { index, create, getSlug, destroy, update, getId, addTag };
+export { getSlug, destroy, update, getId, addTag };

@@ -1,6 +1,5 @@
-import request from 'superagent';
 import { notificationSend } from 'state/dux/notifications';
-import * as api from 'core/api/navigation.service';
+import * as api from 'core/services/api';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 
@@ -9,7 +8,7 @@ const beginUpdateNav = () => {
 };
 
 const doneUpdateNav = (response) => {
-  return { type: types.UPDATE_NAVIGATION_SUCCESS, payload: action.response };
+  return { type: types.UPDATE_NAVIGATION_SUCCESS, payload: response };
 };
 
 const failUpdateNav = (err) => {
@@ -20,7 +19,6 @@ const failUpdateNav = (err) => {
 };
 
 export function updateNavLinks(data) {
-  console.log('action-----------', data);
   return dispatch => {
     dispatch(beginUpdateNav());
     return api.doUpdateNavigationLinks(data)

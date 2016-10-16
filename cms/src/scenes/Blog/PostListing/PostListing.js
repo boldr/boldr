@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Loader } from 'components/index';
@@ -8,7 +8,7 @@ import PostListingGroup from './PostListingGroup';
 
 export type Props = {
   posts: Object,
-  isLoading?: boolean,
+  isLoading: ?Boolean,
   fetchPosts: Function
 };
 

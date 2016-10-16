@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'components/md/Cards';
+import { Card, CardTitle, CardText } from 'components/md/Cards';
 
 const Widget = (props) => {
   return (
-    <div>
+    <div className="widget__wrap">
       <Card>
       <CardTitle title={ props.name } subtitle={ props.subtitle } />
         <CardText>

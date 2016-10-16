@@ -4,14 +4,15 @@ import { reducer as formReducer } from 'redux-form';
 import { merge } from 'lodash';
 import currentPost from 'scenes/Blog/SinglePost/reducer';
 import tagReducer from './dux/tag';
-import mediaReducer from './dux/media';
+import attachmentReducer from './dux/attachment';
 import boldrReducer from './dux/boldr';
 import notificationReducer from './dux/notifications';
 import authReducer from './dux/auth';
 import navigationReducer from './dux/navigation';
 import postsReducer from './dux/post';
 import profileReducer from './dux/profile';
-import pageReducer, { pageSelector } from './dux/page';
+import pageReducer from './dux/page';
+import entities from './dux/entities';
 
 export default function createReducer(asyncReducers) {
   return combineReducers({
@@ -21,12 +22,13 @@ export default function createReducer(asyncReducers) {
     auth: authReducer,
     pages: pageReducer,
     boldr: boldrReducer,
-    posts: postsReducer,
     navigation: navigationReducer,
     currentPost,
-    media: mediaReducer,
+    attachments: attachmentReducer,
     tags: tagReducer,
     profile: profileReducer,
+    posts: postsReducer,
+    entities,
     ...asyncReducers
   });
 }

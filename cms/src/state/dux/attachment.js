@@ -1,9 +1,5 @@
-
-import request from 'superagent';
-import fetch from 'isomorphic-fetch';
 import { notificationSend } from 'state/dux/notifications';
-import { API_PREFIX, API_MEDIA, TOKEN_KEY } from 'core';
-import * as api from 'core/api/media.service';
+import * as api from 'core/services/api';
 import * as types from '../actionTypes';
 
 const fetchMediaStart = () => {
@@ -105,7 +101,7 @@ const INITIAL_STATE = {
  * @param  {Object} state       The initial state
  * @param  {Object} action      The action object
  */
-export default function mediaReducer(state = INITIAL_STATE, action = {}) {
+export default function attachmentReducer(state = INITIAL_STATE, action = {}) {
   if (!state.hydrated) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }

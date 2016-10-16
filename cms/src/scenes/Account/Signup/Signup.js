@@ -1,11 +1,11 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import { Card, Header, Icon } from 'semantic-ui-react';
 // $FlowFixMe
-import { Heading, Grid, Col, Row } from 'components';
+import { Grid, Col, Row } from 'components';
 import inlineStyles from 'theme/inlineStyles';
 import { signup } from 'state/dux/auth';
 import SignupForm from './SignupForm';
@@ -17,7 +17,7 @@ type Props = {
   auth: Object
 };
 
-class Signup<Void> extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
     // $FlowFixMe
@@ -38,8 +38,6 @@ class Signup<Void> extends Component {
   }
 
   render() {
-    const { isLoading } = this.props.auth;
-
     const renderHeader = (
         <Card.Header>
         <Header as="h1" textAlign="center">

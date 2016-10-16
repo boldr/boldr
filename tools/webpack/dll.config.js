@@ -71,7 +71,8 @@ module.exports = {
       'semantic-ui-react',
       'isomorphic-fetch',
       'react-addons-transition-group',
-      'serialize-javascript'
+      'serialize-javascript',
+      'normalizr'
     ]
   },
 

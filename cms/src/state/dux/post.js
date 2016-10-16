@@ -1,4 +1,3 @@
-import { API_PREFIX, API_POSTS, TOKEN_KEY, processResponse } from 'core/index';
 import * as api from 'core/api/post.service';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
@@ -161,27 +160,6 @@ const deletePostFail = (err) => ({
   error: err
 });
 
-/**
- * Takes the user selected article and fetches the data from
- * the api.
- * @param  {String} articleId Technically its the uuid, but for all
- * intents and purposes its a String
- * @return {Object}           The post object.
- */
-export function selectPost(postId) {
-  return (dispatch) => {
-    dispatch(postSelected(postId));
-    return api.doSelectPost(postId)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(receiveSelectedPost(response));
-        }
-      })
-      .catch(err => {
-        dispatch(receiveSelectedPostFailed(err));
-      });
-  };
-}
 
 //
 // Selectors
@@ -195,7 +173,6 @@ export const postsToState = (list) => (
 );
 
 export const getPosts = state => state.posts.list;
-export const getSinglePost = (state, props) => state.posts.bySlug[postSlug];
 //
 // Reducer
 // -----------------

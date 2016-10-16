@@ -1,12 +1,12 @@
 /* @flow */
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import { Grid, Row, Col } from 'components/index';
 import PostCard from 'components/PostCard';
 
 export type Props = {posts?: Array<any>};
 
-const PostListingGroup = (props:Object) => {
+const PostListingGroup = (props: Object) => {
   if (!props.posts) {
     return (
       <div>Loading</div>

@@ -1,28 +1,33 @@
-import { SubmissionError } from 'redux-form';
 import { push } from 'react-router-redux';
 import * as api from 'core/api/auth.service';
-import { TOKEN_KEY } from 'core/api/helpers';
+import { TOKEN_KEY } from 'core/services/api';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
 /**
- * Error catcher to prevent redux-form from swallowing
- * @param {object} error
- * @returns {Promise.<*>}
- */
-const catchValidation = error => {
-  if (error.message) {
-    if (error.message === 'Validation failed' && error.data) {
-      throw new SubmissionError(error.data);
-    }
-    throw new SubmissionError({ _error: error.message });
-  }
-  return Promise.reject(error);
-};
+  * SIGNUP ACTIONS
+  * -------------------------
+  * @exports signup
+  *****************************************************************/
 
-// Signup
-// -----------------
+export function signup(data) {
+  return (dispatch) => {
+    dispatch(beginSignUp());
+
+    return api.doSignup(data)
+      .then(response => {
+        if (!response.status === 201) {
+          dispatch(signUpError('Oops! Something went wrong'));
+          dispatch(notificationSend(notif.MSG_SIGNUP_ERROR));
+        }
+        dispatch(signUpSuccess(response));
+        dispatch(push('/'));
+        dispatch(notificationSend(notif.MSG_SIGNUP_SUCCESS));
+      });
+  };
+}
+
 const beginSignUp = () => {
   return { type: types.CREATE_ACCOUNT_REQUEST };
 };
@@ -43,64 +48,20 @@ const signUpError = (err) => {
   };
 };
 
-// Signup Action
-export function signup(data) {
-  return (dispatch) => {
-    dispatch(beginSignUp());
+/**
+  * LOGIN ACTIONS
+  * -------------------------
+  * @exports login
+  *****************************************************************/
 
-    return api.doSignup(data)
-      .then(response => {
-        if (!response.status === 201) {
-          dispatch(signUpError('Oops! Something went wrong'));
-          dispatch(notificationSend(notif.MSG_SIGNUP_ERROR));
-        }
-        dispatch(signUpSuccess(response));
-        dispatch(push('/'));
-        dispatch(notificationSend(notif.MSG_SIGNUP_SUCCESS));
-      });
-  };
-}
-
-// Login
-// -----------------
-const beginLogin = () => {
-  return { type: types.LOGIN_REQUEST };
-};
-
-// Login Success
-function loginSuccess(response) {
-  return {
-    type: types.LOGIN_SUCCESS,
-    token: response.body.token,
-    user: {
-      display_name: response.body.user.display_name,
-      email: response.body.user.email,
-      first_name: response.body.user.first_name,
-      id: response.body.user.id,
-      last_name: response.body.user.last_name,
-      avatar_url: response.body.user.avatar_url,
-      roleId: response.body.user.role[0].id,
-      role: response.body.user.role[0].name
-    }
-  };
-}
-// Login Error
-function loginError(err) {
-  return {
-    type: types.LOGIN_FAILURE,
-    error: err
-  };
-}
-
-// Login Action
 export function login(loginData, redir) {
   return (dispatch) => {
     dispatch(beginLogin());
     return api.doLogin(loginData)
       .then(response => {
-        if (!response.status === 200) {
-          dispatch(loginError(err));
-          dispatch(notificationSend(notif.MSG_LOGIN_ERROR(err)));
+        if (response.status !== 200) {
+          dispatch(loginError());
+          dispatch(notificationSend(notif.MSG_LOGIN_ERROR('Unable to login')));
         }
         localStorage.setItem(TOKEN_KEY, response.body.token);
         dispatch(loginSuccess(response));
@@ -109,9 +70,30 @@ export function login(loginData, redir) {
       });
   };
 }
+const beginLogin = () => {
+  return { type: types.LOGIN_REQUEST };
+};
 
-// Logout
-// -----------------
+function loginSuccess(response) {
+  return {
+    type: types.LOGIN_SUCCESS,
+    token: response.body.token,
+    account: response.body.account
+  };
+}
+
+function loginError(err) {
+  return {
+    type: types.LOGIN_FAILURE,
+    error: err
+  };
+}
+
+/**
+  * LOGOUT ACTIONS
+  * -------------------------
+  * @exports logout
+  *****************************************************************/
 function logoutSuccess() {
   return { type: types.LOGOUT_USER };
 }
@@ -124,8 +106,26 @@ export function logout() {
   };
 }
 
-// Auth Check
-// -----------------
+/**
+  * AUTH CHECK ACTIONS
+  * -------------------------
+  * @exports checkAuth
+  *****************************************************************/
+
+export function checkAuth(token) {
+  return (dispatch) => {
+    dispatch(checkAuthRequest());
+    return api.doAuthCheck(token)
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(checkAuthFailure('Token is invalid'));
+          dispatch(notificationSend(notif.MSG_AUTH_ERROR));
+        }
+        dispatch(checkAuthSuccess(response, token));
+      });
+  };
+}
+
 function checkAuthRequest() {
   return { type: types.CHECK_AUTH_REQUEST };
 }
@@ -134,16 +134,7 @@ function checkAuthSuccess(response, token) {
   return {
     type: types.CHECK_AUTH_SUCCESS,
     token: token, // eslint-disable-line
-    user: {
-      display_name: response.body.user.display_name,
-      email: response.body.user.email,
-      first_name: response.body.user.first_name,
-      id: response.body.user.id,
-      last_name: response.body.user.last_name,
-      avatar_url: response.body.user.avatar_url,
-      roleId: response.body.user.role[0].id,
-      role: response.body.user.role[0].name
-    }
+    account: response.body.account
   };
 }
 
@@ -151,20 +142,6 @@ function checkAuthFailure(error) {
   return {
     type: types.CHECK_AUTH_FAILURE,
     payload: error
-  };
-}
-
-export function checkAuth(token) {
-  return (dispatch) => {
-    dispatch(checkAuthRequest());
-    return api.doAuthCheck(token)
-      .then(response => {
-        if (!response.status === 200) {
-          dispatch(checkAuthFailure('Token is invalid'));
-          dispatch(notificationSend(notif.MSG_AUTH_ERROR));
-        }
-        dispatch(checkAuthSuccess(response, token));
-      });
   };
 }
 
@@ -208,12 +185,12 @@ export function resetPassword(password, token) {
       .then((response) => {
         if (response.ok) {
           return response.json().then((json) => {
-            browserHistory.push('/login');
+            push('/login');
             dispatch({
               type: types.RESET_PASSWORD_SUCCESS
             });
             dispatch(push('/'));
-            dispatch(notificationSend(notifs.MSG_RESET_PW_SUCCESS));
+            dispatch(notificationSend(notif.MSG_RESET_PW_SUCCESS));
           });
         } else {
           return response.json().then((json) => {
@@ -236,16 +213,7 @@ const INITIAL_STATE = {
   isLoading: false,
   token: null,
   hydrated: false,
-  user: {
-    display_name: null,
-    email: null,
-    first_name: null,
-    id: null,
-    last_name: null,
-    avatar_url: null,
-    roleId: null,
-    role: null
-  }
+  account: {}
 };
 
 /**
@@ -285,16 +253,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         isAuthenticated: true,
         token: action.token,
-        user: {
-          display_name: action.user.display_name,
-          email: action.user.email,
-          first_name: action.user.first_name,
-          id: action.user.id,
-          last_name: action.user.last_name,
-          avatar_url: action.user.avatar_url,
-          roleId: action.user.roleId,
-          role: action.user.role
-        }
+        account: action.account
       };
     case types.LOGOUT_USER:
       return {
@@ -302,7 +261,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         isAuthenticated: false,
         token: '',
-        user: {}
+        account: ''
       };
     case types.CREATE_ACCOUNT_SUCCESS:
       return {
