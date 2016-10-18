@@ -29,13 +29,12 @@ class SettingsContainer extends Component {
 
   props: Props;
 
-  handleSubmit(values) {
-    const id = this.props.boldr.id;
+  handleSubmit(values, id) {
     this.props.updateBoldrSettings(values, id);
   }
   render() {
     return (
-      <Settings { ...this.props } />
+      <Settings { ...this.props } handleSubmit={ this.handleSubmit } />
     );
   }
 }

@@ -11,7 +11,6 @@ const router = new express.Router();
  * @apiName listAccounts
  * @apiGroup Account
  * @apiPermission public
- * @apiUse listParams
  * @apiSuccess {Object[]} accounts List of accounts.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Admin access only.

@@ -13,7 +13,6 @@ const router = new express.Router();
  * @apiName listActivities
  * @apiGroup Activity
  * @apiPermission public
- * @apiUse listParams
  * @apiSuccess {Object[]} accounts List of accounts.
  */
 router.get('/', ctrl.listActivities);

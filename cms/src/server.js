@@ -23,23 +23,23 @@ import ApiClient from './core/api/ApiClient';
 const debug = require('debug')('boldr:server');
 
 const port = process.env.SSR_PORT || 3000;
-// FIXME: Refactor to use something else?
-const API_PORT = 2121;
-const API_HOST = 'localhost';
+
+const API_PORT = process.env.API_PORT || 2121;
+const API_HOST = process.env.API_HOST || 'localhost';
 
 debug('Booting Boldr CMS SSR');
 
-const targetUrl = `http://${API_HOST}:${API_PORT}`;
+const proxyTo = `http://${API_HOST}:${API_PORT}`;
 const app = new Express();
 const server = http.Server(app);
 
 const proxy = httpProxy.createProxyServer({
-  target: targetUrl
+  target: proxyTo
 });
 
 app.use(compression());
 app.use('/api/v1', (req, res) => {
-  proxy.web(req, res, { target: `${targetUrl}/api/v1` });
+  proxy.web(req, res, { target: `${proxyTo}/api/v1` });
 });
 
 // server.on('upgrade', (req, socket, head) => {

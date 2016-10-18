@@ -52,17 +52,6 @@ export function singleUpload(req, res, next) {
   });
 }
 
-/**
- * @api {get} /medias       Get all media files
- * @apiVersion 1.0.0
- * @apiName getAllAttachment
- * @apiGroup Attachment
- *
- * @apiExample Example usage:
- * curl -i http://localhost:3000/api/v1/medias
- *
- * @apiSuccess {String}  id   The File ID
- */
 export const listAttachments = async (req, res, next) => {
   try {
     const medias = await Attachment.query();
@@ -97,19 +86,7 @@ export async function fromDashboard(req, res, next) {
   });
   return res.status(201).json(newAttachment);
 }
-/**
- * @api {get} /medias/:id  Get a specific file by its id
- * @apiVersion 1.0.0
- * @apiName showAttachment
- * @apiGroup Attachment
- *
- * @apiExample Example usage:
- * curl -i http://localhost:3000/api/v1/medias/1
- *
- * @apiParam {String}    id   The medias's id.
- *
- * @apiSuccess {String}  id   The Attachment ID
- */
+
 export const getAttachment = async (req, res, next) => {
   try {
     const media = await Attachment.query().findById(req.params.id);

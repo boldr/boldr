@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
-import { merge } from 'lodash';
 import currentPost from 'scenes/Blog/SinglePost/reducer';
 import tagReducer from './dux/tag';
 import attachmentReducer from './dux/attachment';

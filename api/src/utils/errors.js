@@ -4,10 +4,28 @@ export class BaseError extends Error {
     this.message = message;
     this.name = name;
     this.httpStatus = httpStatus;
+    this.isOperational = true; // This is required since bluebird 4 doesn't append it anymore.
+    Error.captureStackTrace(this, this.constructor.name);
   }
 
   getHttpStatus() {
     return this.httpStatus;
+  }
+}
+
+/**
+ * Class representing an API error.
+ * @extends ExtendableError
+ */
+export class APIError extends BaseError {
+  /**
+   * Creates an API error.
+   * @param {string} message - Error message.
+   * @param {number} status - HTTP status code of error.
+   * @param {boolean} isPublic - Whether the message should be visible to user or not.
+   */
+  constructor(message, name, status = 500) {
+    super(message, name, status);
   }
 }
 

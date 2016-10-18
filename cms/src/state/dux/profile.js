@@ -1,7 +1,8 @@
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
+import * as api from 'core/services/api';
 import { notificationSend } from 'state/dux/notifications';
-import { TOKEN_KEY, API_AUTH } from 'core/config';
+import { API_PROFILES, API_AUTH } from 'core/config/endpoints';
 import * as types from '../actionTypes';
 
 

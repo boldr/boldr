@@ -1,3 +1,5 @@
+/* eslint-disable react/prefer-stateless-function */
+/* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';

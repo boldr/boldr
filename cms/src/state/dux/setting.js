@@ -98,7 +98,7 @@ export function updateBoldrSettings(data, id) {
         dispatch(doneUpdateSettings(response));
         dispatch(loadSettings());
         dispatch(notificationSend({
-          message: 'Your site is set up!',
+          message: 'Updated your settings.',
           kind: 'info',
           dismissAfter: 3000
         }));
