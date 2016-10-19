@@ -33,6 +33,11 @@ export function doFetchPosts() {
   return request.get(`${API_POSTS}?include=[author,tags]`);
 }
 
+export function doGetPosts() {
+  return fetch(`${API_POSTS}?include=[author,tags]`)
+  .then(processResponse(response));
+}
+
 export function doCreatePost(data) {
   return request
     .post(`${API_POSTS}`)

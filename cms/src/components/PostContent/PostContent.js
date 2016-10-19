@@ -1,9 +1,14 @@
-import React, { PropTypes } from 'react';
+/* flow */
+import React from 'react';
 import { Divider, Header } from 'semantic-ui-react';
-// import { Heading } from 'components/';
 import PostImage from 'components/PostImage';
 
-const PostContent = props => {
+type Props = {
+  title: String,
+  content: String,
+  feature_image: ?String
+}
+const PostContent = (props: Props) => {
   function createMarkup() { return { __html: props.content }; }
   return (
     <article style={ { overflow: 'hidden' } }>
@@ -19,12 +24,6 @@ const PostContent = props => {
       </div>
     </article>
   );
-};
-
-PostContent.propTypes = {
-  title: PropTypes.string.isRequired,
-  content: PropTypes.any,
-  feature_image: PropTypes.string
 };
 
 export default PostContent;

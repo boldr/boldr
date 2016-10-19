@@ -1,11 +1,13 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
 import { Button, Card, Image } from 'semantic-ui-react';
-import { Row } from 'components';
+import { Row } from 'components/index';
+import type { Post } from 'state/dux/post';
 import TagBlock from '../TagBlock';
 
-const PostCard = props => {
+const PostCard = (props: Post) => {
   const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
   return (
     <div>
@@ -33,18 +35,6 @@ const PostCard = props => {
       </Card>
       </div>
     );
-};
-
-PostCard.propTypes = {
-  title: PropTypes.string,
-  created_at: PropTypes.string,
-  display_name: PropTypes.string,
-  feature_image: PropTypes.string,
-  excerpt: PropTypes.string,
-  tags: PropTypes.array,
-  content: PropTypes.string,
-  author: PropTypes.object,
-  slug: PropTypes.string
 };
 
 export default PostCard;

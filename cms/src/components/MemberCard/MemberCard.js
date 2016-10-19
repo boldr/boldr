@@ -11,7 +11,7 @@ const propTypes = {
   handleToggle: PropTypes.func
 };
 
-const MemberTableRow = (props) => {
+const MemberCard = (props) => {
   function handleToggle() {
     props.handleToggle(props.user.id);
   }
@@ -38,6 +38,6 @@ const MemberTableRow = (props) => {
     );
 };
 
-MemberTableRow.propTypes = propTypes;
+MemberCard.propTypes = propTypes;
 
-export default MemberTableRow;
+export default MemberCard;

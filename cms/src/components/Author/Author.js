@@ -1,16 +1,11 @@
+/* @flow */
 import React from 'react';
 import { Divider, Card, Comment } from 'semantic-ui-react';
-import { Heading } from 'components';
+import { Heading } from 'components/index';
 import Avatar from 'components/md/Avatars';
 
-const styles = {
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center'
-  }
-};
-const Author = (props) => {
+
+const Author = (props: { display_name: String, avatar_url: String }) => {
   return (
     <div className="post__sidebar-author">
     <div className="post__sidebar-card">
@@ -21,11 +16,6 @@ const Author = (props) => {
       </div>
     </div>
   );
-};
-
-Author.propTypes = {
-  display_name: React.PropTypes.string.isRequired,
-  avatar_url: React.PropTypes.string
 };
 
 export default Author;

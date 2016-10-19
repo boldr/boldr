@@ -33,6 +33,7 @@
     "__DLLS__": 1
   },
   "rules": {
-    "id-match": 0
+    "id-match": 0,
+    "no-duplicate-imports": 0
     }
 }

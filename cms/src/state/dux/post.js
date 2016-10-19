@@ -1,8 +1,22 @@
+/* @flow */
 import * as api from 'core/services/api';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
+export type Post = {
+  id: String,
+  feature_image: String,
+  title: String,
+  slug: String,
+  content: String,
+  background_image?: String,
+  excerpt: String,
+  created_at: String,
+  updated_at: String,
+  author: Object,
+  seo: ?Object
+}
 /**
   * FETCH POST ACTIONS
   * -------------------------

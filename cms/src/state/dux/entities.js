@@ -16,11 +16,3 @@ export default function entities(state = initialState, action) {
 
   return state;
 }
-
-/*
-case actionTypes.SYNC_ENTITIES:
-  return syncEntities(state, action.entity, action.key);
-function syncEntities(state, entity, key) {
-return { ...state, [key]: { ...state[key], [entity.id]: entity } };
-}
- */

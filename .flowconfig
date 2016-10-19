@@ -6,12 +6,12 @@
 <PROJECT_ROOT>/.*/docs/.*
 <PROJECT_ROOT>/.*/happypack/.*
 .*/node_modules/bcryptjs/.*
-.*/node_modules/fbjs/.*
+
 .*/node_modules/react-side-effect/.*
 .*/node_modules/editions/.*
 
 [libs]
-
+./node_modules/fbjs/flow/lib
 flow-typed/npm
 tools/flow
 
@@ -30,6 +30,5 @@ module.name_mapper='^\(state\|components\|scenes\|core\|theme\)\/\(.*\)$' -> '<P
 
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
-
 [version]
 0.33.0

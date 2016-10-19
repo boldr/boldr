@@ -1,19 +1,18 @@
-import React, { PropTypes } from 'react';
-import { Card, Button, Image } from 'semantic-ui-react';
-import {
-  DataTable, TableHeader, TableBody, TableRow, TableColumn,
-} from 'components/md/DataTables';
-import MemberTableRow from '../MemberTableRow';
+/* @flow */
+import React from 'react';
+import { Card } from 'semantic-ui-react';
 
-const MembersList = (props) => {
-  function handleToggle(userId) {
+import MemberCard from '../MemberCard';
+
+const MembersList = (props: { users: Array<Object>, toggleUser: Function }) => {
+  function handleToggle(userId: String) {
     props.toggleUser(userId);
   }
   return (
       <Card.Group>
         {
           props.users.map((user) =>
-          <MemberTableRow
+          <MemberCard
             user={ user }
             key={ user.id }
             handleToggle={ handleToggle }
@@ -26,8 +25,3 @@ const MembersList = (props) => {
 };
 
 export default MembersList;
-
-MembersList.propTypes = {
-  users: React.PropTypes.array,
-  toggleUser: React.PropTypes.func
-};

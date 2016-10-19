@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Loader } from 'components/index';
 import { getPosts, fetchPosts } from 'state/dux/post';
+import type { Post } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
 
 export type Props = {
-  posts: Object,
+  posts: Array<Post>,
   isLoading: ?Boolean,
   fetchPosts: Function
 };

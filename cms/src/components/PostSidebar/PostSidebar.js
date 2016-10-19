@@ -1,11 +1,12 @@
+/* @flow */
 import React from 'react';
-import { Divider, Card, Header, Segment } from 'semantic-ui-react';
+import { Segment, Header } from 'semantic-ui-react';
 
 import Author from '../Author';
 import TagBlock from '../TagBlock';
 
 
-const PostSidebar = props => {
+const PostSidebar = (props: { tags: Array<Object>, author: Object }) => {
   return (
     <div className="sidebar">
       <Segment raised>
@@ -20,11 +21,6 @@ const PostSidebar = props => {
       </Segment>
     </div>
   );
-};
-
-PostSidebar.propTypes = {
-  tags: React.PropTypes.array,
-  author: React.PropTypes.object
 };
 
 export default PostSidebar;

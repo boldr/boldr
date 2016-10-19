@@ -1,10 +1,10 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PrimaryHeader from 'components/PrimaryHeader';
 import { fetchPosts } from 'state/dux/post';
 
-const BlogContainer = (props: { children: any }) => {
+const BlogContainer = (props: { children: ReactChildren }) => {
   return (
     <div>
         <PrimaryHeader />
