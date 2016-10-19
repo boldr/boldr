@@ -29,7 +29,8 @@
     "__DISABLE_SSR__": true,
     "__DEVTOOLS__": true,
     "webpackIsomorphicTools": true,
-    "React": true
+    "React": true,
+    "__DLLS__": 1
   },
   "rules": {
     "id-match": 0

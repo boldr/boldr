@@ -15,14 +15,13 @@ lib-cov
 .happypack/**
 cms/static/assets/**
 cms/static/assets.js
-tools/webpack/dlls/vendor.json
+tools/webpack/dlls/**
 
 #### Editor Stuff
 boldr.sublime-project
 boldr.sublime-workspace
 .idea
 .vscode
-flow-typed
 boldr-api.paw
 
 
@@ -38,3 +37,6 @@ pids
 stories/
 
 node_modules
+cms/static/assets/
+logs/
+cms/static/assets.js

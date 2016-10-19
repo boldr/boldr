@@ -1,1 +1,0 @@
-module.exports = {"main":{"js":"http://localhost:3001/assets/main.js"}};

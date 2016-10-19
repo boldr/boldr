@@ -72,7 +72,9 @@ module.exports = {
       'isomorphic-fetch',
       'react-addons-transition-group',
       'serialize-javascript',
-      'normalizr'
+      'normalizr',
+      'humps',
+      'reselect'
     ]
   },
 
@@ -84,9 +86,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
-
+  
     new webpack.DllPlugin({
-      path: path.join(paths.ABS_ROOT, 'tools/webpack/dlls/[name].json'),
+      path: path.join(projectRootPath, 'tools/webpack/dlls/[name].json'),
       name: 'DLL_[name]_[hash]'
     })
   ]

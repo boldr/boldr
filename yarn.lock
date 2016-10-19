@@ -5553,9 +5553,9 @@ object.values@^1.0.3:
     function-bind "^1.0.2"
     has "^1.0.1"
 
-objection-find@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/objection-find/-/objection-find-0.1.1.tgz#ddf68ae9862ad6732122e564575605edc342ef41"
+objection-find@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/objection-find/-/objection-find-0.2.0.tgz#6e335cdbc27fe48b23f198eea9c22666420a990c"
   dependencies:
     bluebird "^2.9.24"
     lodash "^3.9.0"
@@ -6891,9 +6891,9 @@ scmp@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scmp/-/scmp-1.0.0.tgz#a0b272c3fc7292f77115646f00618b0262514e04"
 
-semantic-ui-react@0.56.5:
-  version "0.56.5"
-  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.56.5.tgz#6ff151740b1c145462064dd4cad1b1b1423afb38"
+semantic-ui-react@0.56.8:
+  version "0.56.8"
+  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.56.8.tgz#7863abd79bcda343b2cfe248cd0cd6c25ed2af51"
   dependencies:
     classnames "^2.1.5"
     debug "^2.2.0"

@@ -117,9 +117,8 @@ app.use(async (req, res) => {
 
         const renderHtml = <Html assets={ webpackIsomorphicTools.assets() } component={ component } store={ store } />;
 
-        res.status(200);
         global.navigator = { userAgent: req.headers['user-agent'] };
-        res.send(`<!doctype html>
+        res.status(200).send(`<!doctype html>
         ${ReactDOM.renderToString(renderHtml)}`);
       }).catch((mountError) => {
         debug(`MOUNT ERROR: ${mountError.stack}`);

@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM, { unmountComponentAtNode } from 'react-dom';
 import { Provider } from 'react-redux';
-import { AppContainer } from 'react-hot-loader';
 import { Router, browserHistory, match } from 'react-router/es6';
 import { syncHistoryWithStore } from 'react-router-redux';
-import Redbox from 'redbox-react';
 import { trigger } from 'redial';
 import WebFontLoader from 'webfontloader';
 
 // Non-vendor
 import { TOKEN_KEY } from './core';
+import ReactHotLoader from './components/ReactHotLoader';
 import ApiClient from './core/api/ApiClient';
 import createStore from './state/createStore';
 import { checkAuth } from './state/dux/auth';
@@ -46,11 +45,11 @@ const renderBoldr = () => {
 
   match({ routes, location }, () => {
     ReactDOM.render(
-      <AppContainer errorReporter={ Redbox }>
+      <ReactHotLoader>
         <Provider store={ store } key="provider">
             <Router routes={ routes } history={ history } key={ Math.random() } helpers={ { client } } />
         </Provider>
-      </AppContainer>,
+      </ReactHotLoader>,
       MOUNT_POINT
     );
 

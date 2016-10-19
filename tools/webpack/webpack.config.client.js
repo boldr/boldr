@@ -93,27 +93,30 @@ module.exports = function webpackConfig() {
         { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
         { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
         { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
-        {
-          test: /\.scss$/,
-          exclude: /node_modules/,
-          loader: isDev ?
-            'style!css?localIdentName=[name]__[local].[hash:base64:5]&sourceMap&-minimize&importLoaders=2!postcss!sass?outputStyle=expanded&sourceMap' :
-            ExtractTextPlugin.extract({
-              fallbackLoader: 'style',
-              loader: 'css?sourceMap&importLoaders=2!postcss!sass?outputStyle=expanded&sourceMap&sourceMapContents'
-            })
-        },
-        {
-          test: /\.css$/,
-          exclude: /node_modules/,
-          loader: isDev ?
-            'style!css?localIdentName=[name]__[local].[hash:base64:5]&modules&sourceMap&-minimize&importLoaders=1!postcss' :
-            ExtractTextPlugin.extract({
-              fallbackLoader: 'style',
-              loader: 'css?modules&sourceMap&importLoaders=1!postcss'
-            }),
-        }
-      ])
+        ifProd({
+          test: webpackIsomorphicToolsPlugin.regular_expression('stylesCss'),
+          loader: ExtractTextPlugin.extract({
+            fallbackLoader: 'style',
+            loader: 'css?modules&sourceMap&importLoaders=1!postcss'
+          })
+        }),
+        ifProd({
+          test: webpackIsomorphicToolsPlugin.regular_expression('stylesSass'),
+          loader: ExtractTextPlugin.extract({
+            fallbackLoader: 'style',
+            loader: 'css?sourceMap&importLoaders=2!postcss!sass?outputStyle=expanded&sourceMap&sourceMapContents'
+          })
+        }),
+        ifDev({
+          test: webpackIsomorphicToolsPlugin.regular_expression('stylesCss'),
+          loader: 'style!css?localIdentName=[name]__[local].[hash:base64:5]&modules&sourceMap&-minimize&importLoaders=1!postcss'
+        }),
+        ifDev({
+          test: webpackIsomorphicToolsPlugin.regular_expression('stylesSass'),
+          loader: 'style!css?localIdentName=[name]__[local].[hash:base64:5]&sourceMap&-minimize&importLoaders=2!postcss!sass?outputStyle=expanded&sourceMap'
+        })
+      ]),
+      noParse: /\.min\.js/
     },
     plugins: removeEmpty([
       //
