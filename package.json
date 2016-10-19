@@ -156,7 +156,7 @@
     "nodemailer-mailgun-transport": "^1.2.2",
     "npm-run-all": "^3.1.0",
     "objection": "0.6.0",
-    "objection-find": "^0.1.1",
+    "objection-find": "^0.2.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-jwt": "^2.1.0",
