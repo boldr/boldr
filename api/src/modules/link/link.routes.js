@@ -1,5 +1,5 @@
 import express from 'express';
-import BaseController from '../BaseController';
+import { BaseController } from '../../core';
 import ensureAuthenticated from '../auth/ensureAuthenticated';
 import Link from './link.model';
 import * as ctrl from './link.controller';

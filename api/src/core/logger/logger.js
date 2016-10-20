@@ -1,5 +1,5 @@
 /**
- * src/logger/logger.js
+ * src/core/logger/logger.js
  * Starts a winston logging session
  *
  * @exports {EventHandler} - Winston event handler
@@ -7,7 +7,7 @@
 import path from 'path';
 import fs from 'fs';
 import winston from 'winston';
-import conf from '../config/config';
+import conf from '../../config/config';
 
 const logDir = path.resolve(`${process.cwd()}/logs`);
 const tsFormat = () => (new Date()).toLocaleTimeString();
@@ -52,5 +52,5 @@ logger.stream = {
 process.on('unhandledRejection', (reason, promise) => {
   logger.warn(`Unhandled rejection at ${promise}\n`, reason);
 });
-
+export { logger };
 export default logger;

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { Model } from 'objection';
-import BaseModel from '../BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 import Post from '../post/post.model';
 
 class Tag extends BaseModel {

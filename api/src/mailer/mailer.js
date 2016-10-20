@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
-
 import conf from '../config/config';
 
 const debug = require('debug')('boldr:auth:controller');

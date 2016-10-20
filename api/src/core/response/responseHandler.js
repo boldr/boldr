@@ -8,27 +8,14 @@ function getErrorStatus(err) {
   return errStatus;
 }
 
-const handleSuccess = (res, status) => (entity) => {
-  if (entity) {
-    res.status(status || 200).json(entity);
-  }
-  return null;
-};
-
 function responseHandler(err, res, status, data) {
   // TODO: send response based on the error message
   if (err) {
     const errStatus = getErrorStatus(err);
     return res.status(err.statusCode || errStatus || 500)
-      .json(_.pickBy({ err: `${err.message}`, hint: `${err.hint || ''}` }));
+    .json(_.pickBy({ err: `${err.message}`, hint: `${err.hint || ''}` }));
   }
   return res.status(status || 200).json(data);
 }
 
-function throwNotFound(res) {
-  const error = new Error('Not found');
-  error.statusCode = 404;
-  return responseHandler(error, res);
-}
-
-export { getErrorStatus, handleSuccess, responseHandler, throwNotFound };
+export default responseHandler;

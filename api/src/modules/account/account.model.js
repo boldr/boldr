@@ -5,7 +5,7 @@ import Role from '../role/role.model';
 import Attachment from '../attachment/attachment.model';
 import Profile from '../profile/profile.model';
 import Token from '../token/token.model';
-import BaseModel from '../BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 import AccountRole from './accountRole.model';
 
 class Account extends BaseModel {

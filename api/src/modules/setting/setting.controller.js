@@ -1,4 +1,4 @@
-import { responseHandler, InternalError } from '../../utils';
+import { responseHandler, InternalServer } from '../../core';
 import Setting from './setting.model';
 
 const debug = require('debug')('boldr:settings-controller');
@@ -7,7 +7,7 @@ export async function listSettings(req, res, next) {
   const settings = await Setting.query();
 
   if (!settings) {
-    next(new InternalError());
+    next(new InternalServer());
   }
 
   return res.status(200).json(settings);

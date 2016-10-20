@@ -6,6 +6,7 @@ import configureJwt from './providers/jwt';
 import configureFacebook from './providers/facebook';
 import * as ctrl from './auth.controller';
 import ensureAuthenticated from './ensureAuthenticated';
+import isAuthenticated from '../../core/authentication/isAuthenticated';
 
 const debug = require('debug')('boldr:auth:routes');
 
@@ -72,5 +73,10 @@ router.get('/check', ensureAuthenticated, ctrl.checkAuthentication);
  * @apiError 404 Missing or cannot find the verification token
  */
 router.get('/verification/:verifToken', ctrl.verify);
+
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
+router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+  res.redirect(req.session.returnTo || '/');
+});
 
 export default router;

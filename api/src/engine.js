@@ -1,7 +1,9 @@
+import os from 'os';
 import http from 'http';
 import https from 'https';
+import Bootstrap from './core/bootstrap';
 import conf from './config/config';
-import logger from './logger';
+import logger from './core/logger';
 import app from './app';
 
 const debug = require('debug')('boldr:engine');
@@ -12,23 +14,38 @@ const port = normalizePort(conf.get('port'));
 app.set('port', port);
 
 const server = http.createServer(app);
-server.on('listening', onListening);
-server.on('error', onError);
-process.on('SIGTERM', exit);
 
 function startServer() {
-  logger.info(`${conf.toString()} \n
-  ------------------------------------------------------------ \n
-                    🔧 Loaded BoldrAPI Configuration.
-  ------------------------------------------------------------- \n
-  If any values are incorrect, edit the files in the config directory.
-  You are able to override any settings using the .env file. \n
-  `);
+  Bootstrap.init();
   server.listen(port);
-  logger.info(`🌎  ==> API is running on ${port} in ${env} mode.`);
+  logger.info(`🌎  ==> API is running @: ${os.hostname()} on ${port}`);
+  logger.info(`Environment: ${env}`);
+  
+  process.on('SIGTERM', () => close(server));
+  process.on('SIGINT', () => close(server));
+  server.on('listening', onListening);
+  server.on('error', onError);
 }
 
 setImmediate(startServer);
+
+export default server;
+
+function close(server) {
+  return new Promise((resolve) => {
+    server.close(() => {
+      const msg = 'BoldrAPI shutting down...';
+
+      logger.info(msg);
+      resolve(msg);
+      if (server) {
+        server.close(process.exit.bind(process));
+      } else {
+        process.exit();
+      }
+    });
+  });
+}
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -66,12 +83,6 @@ function onListening() {
   debug(`Listening on ${bind}`);
 }
 
-function exit(reason) {
-  logger.log({ type: 'info', message: 'closing server', reason });
-  if (server) server.close(process.exit.bind(process));
-  else process.exit();
-}
-
 /**
  * Normalize a port into a number, string, or false.
  * @param {Number|String} val
@@ -91,5 +102,3 @@ function normalizePort(val) {
 
   return false;
 }
-
-export default server;

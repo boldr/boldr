@@ -2,7 +2,7 @@ import { Model } from 'objection';
 import Tag from '../tag/tag.model';
 import Account from '../account/account.model';
 import Attachment from '../attachment/attachment.model';
-import BaseModel from '../BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 
 class Post extends BaseModel {
   static get tableName() {

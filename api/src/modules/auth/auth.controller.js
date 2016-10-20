@@ -4,10 +4,16 @@ import * as objection from 'objection';
 import handleMail from '../../mailer';
 import { welcomeEmail } from '../../mailer/templates';
 import Account from '../account/account.model';
-
-import { responseHandler, generateVerifyCode } from '../../utils';
-import * as errs from '../../utils/errors';
-import signToken from './signToken';
+import {
+  responseHandler,
+  generateHash,
+  InternalServer,
+  NotFound,
+  BadRequest,
+  Conflict,
+  AccountNotVerifiedError,
+  signToken
+} from '../../core';
 
 const debug = require('debug')('boldr:auth:controller');
 
@@ -26,7 +32,7 @@ async function register(req, res, next) {
 
   const errors = req.validationErrors();
   if (errors) {
-    return res.status(400).json({ message: 'There was a problem validating your request.', error: errors });
+    return next(new BadRequest());
   }
 
     // the data for the account being created.
@@ -39,7 +45,7 @@ async function register(req, res, next) {
   const checkExisting = await Account.query().where('email', req.body.email);
   debug(checkExisting);
   if (checkExisting.length) {
-    return res.status(409).json('An account is already registered with that email address');
+    return next(new Conflict());
   }
   const newAccount = await objection.transaction(Account, async (Account) => {
     const account = await Account
@@ -58,7 +64,7 @@ async function register(req, res, next) {
       throwNotFound();
     }
     // generate account verification token to send in the email.
-    const verificationToken = await generateVerifyCode();
+    const verificationToken = await generateHash();
     // get the mail template
     const mailBody = await welcomeEmail(verificationToken);
     // subject
@@ -101,13 +107,13 @@ async function login(req, res, next) {
   passport.authenticate('local', (err, account, info) => {
     const error = err || info;
     if (error) {
-      return next(new errs.InvalidCredentialsError());
+      return next(new InternalServer());
     }
     if (!account) {
-      return next(new errs.InvalidCredentialsError());
+      return next(new NotFound());
     }
     if (!account.verified) {
-      return next(new errs.AccountNotVerifiedError());
+      return next(new AccountNotVerifiedError());
     }
     return req.logIn(account, (loginErr) => {
       if (loginErr) return res.status(401).json({ message: loginErr });
@@ -146,12 +152,12 @@ async function checkAuthentication(req, res, next) {
   try {
     const validAccount = await Account.query().findById(req.user.id).eager('[profile, role]');
     if (!validAccount) {
-      return next(new errs.AccountNotFoundError());
+      return next(new NotFound());
     }
     validAccount.stripPassword();
     return responseHandler(null, res, 200, validAccount);
   } catch (error) {
-    return next(new errs.InternalError(error));
+    return next(new InternalServer());
   }
 }
 

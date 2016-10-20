@@ -1,6 +1,6 @@
 import { Model } from 'objection';
 import Account from '../account/account.model';
-import BaseModel from '../BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 import Post from '../post/post.model';
 
 class Attachment extends BaseModel {

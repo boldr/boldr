@@ -1,6 +1,6 @@
 import { Model } from 'objection';
 import Account from '../account/account.model';
-import BaseModel from '../BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 
 class Profile extends BaseModel {
   static get tableName() { return 'profile'; }

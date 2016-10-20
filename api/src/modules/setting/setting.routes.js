@@ -1,5 +1,5 @@
 import express from 'express';
-import Setting from './setting.model';
+
 import * as ctrl from './setting.controller';
 
 const router = express.Router();
