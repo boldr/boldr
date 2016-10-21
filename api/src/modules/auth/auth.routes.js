@@ -5,7 +5,6 @@ import configureLocalPassport from './providers/local';
 import configureJwt from './providers/jwt';
 import configureFacebook from './providers/facebook';
 import * as ctrl from './auth.controller';
-import ensureAuthenticated from './ensureAuthenticated';
 import isAuthenticated from '../../core/authentication/isAuthenticated';
 
 const debug = require('debug')('boldr:auth:routes');
@@ -62,7 +61,7 @@ router.post('/signup', ctrl.register);
  * @apiSuccess (Success 200) {Object} account Current account data
  * @apiError 401 Invalid credentials.
  */
-router.get('/check', ensureAuthenticated, ctrl.checkAuthentication);
+router.get('/check', isAuthenticated, ctrl.checkAuthentication);
 
 /**
  * @api {get} /auth/verification/:verifToken Verify
