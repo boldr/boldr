@@ -1,5 +1,5 @@
 import express from 'express';
-import BaseController from '../BaseController';
+import { BaseController } from '../../core';
 import { processQuery } from '../../utils';
 import Tag from './tag.model';
 import * as ctrl from './tag.controller';

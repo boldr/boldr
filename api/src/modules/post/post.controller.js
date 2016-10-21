@@ -1,8 +1,7 @@
 import findQuery from 'objection-find';
 import slugify from 'slugify';
 import uuid from 'node-uuid';
-import { responseHandler, throwNotFound } from '../../utils';
-import { InternalError, PostNotFoundError, DuplicateSlugError } from '../../utils/errors';
+import { responseHandler, InternalServer, Conflict, NotFound } from '../../core';
 import Tag from '../tag/tag.model';
 import Activity from '../activity/activity.model';
 import Post from './post.model';
@@ -38,7 +37,7 @@ export async function createPost(req, res, next) {
 
   if (checkExisting) {
     // return with error
-    return next(new DuplicateSlugError());
+    return next(new Conflict());
   }
 
   const newPost = await Post.query().insert({
@@ -110,7 +109,7 @@ async function getId(req, res, next) {
       .first();
     return responseHandler(null, res, 200, post);
   } catch (error) {
-    return next(new InternalError(error));
+    return next(new InternalServer());
   }
 }
 
@@ -136,7 +135,7 @@ async function addTag(req, res, next) {
     .findById(req.params.id);
 
   if (!post) {
-    return next(new PostNotFoundError());
+    return next(new NotFound());
   }
 
   const tag = await post

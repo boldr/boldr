@@ -2,23 +2,21 @@
 import Express from 'express';
 import type { $Request, $Response, Middleware, NextFunction } from 'express'; // eslint-disable-line
 import errorHandler from 'errorhandler';
-import { Model } from 'objection';
 import compression from 'compression';
 import cors from 'cors';
 import passport from 'passport';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
+import cookieParser from 'cookie-parser';
 import expressWinston from 'express-winston';
 import morgan from 'morgan';
 import expressValidator from 'express-validator';
 import session from 'express-session';
 import redisClient from './db/redis';
 import conf from './config/config';
-import knex from './db/postgres';
-import winstonInstance from './logger';
+import { default as winstonInstance } from './core/logger';
 import routes from './modules/routes';
 
-Model.knex(knex);
 const RedisStore = require('connect-redis')(session);
 const debug = require('debug')('boldr:ssr-server');
 
@@ -51,7 +49,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(methodOverride('X-HTTP-Method-Override'));
-
+app.use(cookieParser());
 const sessionMiddleware = session({
   store: new RedisStore({ client: redisClient }),
   secret: conf.get('session.secret'),

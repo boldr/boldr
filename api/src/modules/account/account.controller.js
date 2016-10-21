@@ -1,16 +1,15 @@
 /* @flow */
 import type { $Response, $Request, NextFunction } from 'express';
-import { responseHandler } from '../../utils';
-import { GeneralNotFoundError } from '../../utils/errors';
+import { NotFound, BadRequest, responseHandler } from '../../core';
 import Account from './account.model';
 
 const debug = require('debug')('boldr:account-controller');
 
-export async function listAccounts(req: $Request, res: $Response) {
+export async function listAccounts(req: $Request, res: $Response, next: NextFunction) {
   const accounts = await Account.query().eager('[profile, role]').omit(['password']);
   debug(accounts);
   if (!accounts) {
-    return res.status(400).json('There seems to be a lack of accounts to choose from.');
+    return next(new BadRequest());
   }
   return res.status(200).json(accounts);
 }
@@ -20,7 +19,7 @@ export async function getAccount(req: $Request, res: $Response, next: NextFuncti
   .findById(req.params.id)
   .eager('[profile, role]')
   .omit(['password']);
-  if (!account) return next(new GeneralNotFoundError());
+  if (!account) return next(new NotFound());
   debug(account);
   return responseHandler(null, res, 200, account);
 }
@@ -34,7 +33,7 @@ export function updateAccount(req: $Request, res: $Response, next: NextFunction)
   const errors = req.validationErrors();
 
   if (errors) {
-    return res.status(400).json(errors);
+    return next(new BadRequest(errors));
   }
 
   return Account.query()

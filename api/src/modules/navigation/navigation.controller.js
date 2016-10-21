@@ -1,5 +1,5 @@
-import { responseHandler, throwNotFound } from '../../utils';
-import { GeneralNotFoundError, InternalError } from '../../utils/errors';
+import { responseHandler, NotFound, InternalServer } from '../../core';
+
 import Navigation from './navigation.model';
 
 const debug = require('debug')('boldr:navigation-controller');
@@ -9,12 +9,12 @@ async function index(req, res, next) {
     const navigations = await Navigation.query().eager('[links]');
 
     if (!navigations) {
-      return next(new GeneralNotFoundError());
+      return next(new NotFound());
     }
 
     return res.status(200).json(navigations);
   } catch (error) {
-    return next(new InternalError(error));
+    return next(new InternalServer());
   }
 }
 
@@ -27,7 +27,7 @@ async function getId(req, res, next) {
 
     return responseHandler(null, res, 200, navigation);
   } catch (error) {
-    return next(new InternalError(error));
+    return next(new InternalServer(error));
   }
 }
 
@@ -36,9 +36,9 @@ async function update(req, res, next) {
     const updatedNav = await Navigation.query()
       .patchAndFetchById(1, req.body);
 
-    return res.status(201).json(navigation);
+    return res.status(201).json(updatedNav);
   } catch (error) {
-    return next(new InternalError(error));
+    return next(new InternalServer(error));
   }
 }
 

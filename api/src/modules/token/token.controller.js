@@ -3,7 +3,7 @@ import uuid from 'node-uuid';
 import handleMail from '../../mailer';
 import { passwordModifiedEmail, forgotPasswordEmail } from '../../mailer/templates';
 import Account from '../account/account.model';
-import { responseHandler, generateVerifyCode } from '../../utils';
+import { responseHandler, generateHash } from '../../core';
 import Token from './token.model';
 
 /**
@@ -19,7 +19,7 @@ export async function forgottenPassword(req, res, next) {
     return res.status(404).json({ error: 'Unable to locate an account with the provided email.' });
   }
   const mailSubject = '[Boldr] Password Reset';
-  const verificationToken = generateVerifyCode();
+  const verificationToken = generateHash();
   const account = await Account
     .query()
     .findById(user.id);

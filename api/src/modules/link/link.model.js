@@ -1,6 +1,6 @@
 import { Model } from 'objection';
 import Navigation from '../navigation/navigation.model';
-import BaseModel from '../BaseModel';
+import { BaseModel } from '../../core';
 
 class Link extends BaseModel {
   static get tableName() { return 'link'; }

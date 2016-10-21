@@ -1,8 +1,8 @@
 import findQuery from 'objection-find';
 import slugify from 'slugify';
 import uuid from 'node-uuid';
-import { responseHandler, throwNotFound } from '../../utils';
-import { InternalError } from '../../utils/errors';
+
+import { InternalServer, responseHandler } from '../../core';
 import Activity from '../activity/activity.model';
 import Navigation from '../navigation/navigation.model';
 import NavigationLink from '../navigation/navigationLink.model';
@@ -40,8 +40,8 @@ async function create(req, res, next) {
   const navId = req.body.nav_id || 1;
   const existingNav = await Navigation.query().where('id', navId).first();
   if (!existingNav) {
-    debug('if clause; i fucked up ');
-    throw new InternalError();
+
+    throw new InternalServer();
   }
   debug(existingNav, 'existing navigation found');
   const associateLinkNav = await NavigationLink.query().insert({

@@ -1,5 +1,6 @@
 import findQuery from 'objection-find';
-import { searchFilter, responseHandler, throwNotFound } from '../utils';
+import responseHandler from '../response/responseHandler';
+import { textSearch, throwNotFound } from '../../utils';
 
 class BaseController {
   constructor(model, id = 'id', eager) {
@@ -25,10 +26,12 @@ class BaseController {
   index(req, res) {
     return findQuery(this.model)
       .allowEager(this.eager)
-      .registerFilter('search', searchFilter)
+      .registerFilter('search', textSearch)
       .build(req.query.where)
       .eager(req.query.include)
-      // .orderBy(req.query.sort.by, req.query.sort.order)
+      .skipUndefined()
+        
+      .orderBy(req.query.sort.by, req.query.sort.order)
       .page(req.query.page.number, req.query.page.size)
       .then(items => responseHandler(null, res, 200, items))
       .catch(err => responseHandler(err, res));
@@ -38,6 +41,7 @@ class BaseController {
     return this.model.query()
       .findById(req.params[this.id])
       .allowEager(this.eager)
+      .skipUndefined()
       .eager(req.query.eager)
       .then(item => {
         if (!item) return next(new throwNotFound(res));

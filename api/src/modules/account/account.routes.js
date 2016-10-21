@@ -1,5 +1,5 @@
 import express from 'express';
-import BaseController from '../BaseController';
+import { BaseController } from '../../core';
 import Account from './account.model';
 import * as ctrl from './account.controller';
 
@@ -82,7 +82,6 @@ router.patch('/:id', ctrl.updateAccount);
  * @apiError 401 Admin access only.
  * @apiError 404 Account not found.
  */
-
 router.delete('/:id', ctrl.destroyAccount);
 
 export default router;

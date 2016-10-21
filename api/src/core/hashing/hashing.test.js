@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { generateVerifyCode, SALT, randomString } from './hashing';
+import { generateHash, SALT, randomString } from './hashing';
 
 describe('Hashing -- generateVerifyCode()', () => {
   it('should generate a random token', (done) => {
-    const token = generateVerifyCode();
+    const token = generateHash();
     expect(token).to.be.a('string');
     done();
   });

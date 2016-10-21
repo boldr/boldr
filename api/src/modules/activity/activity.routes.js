@@ -1,6 +1,5 @@
 import express from 'express';
-import BaseController from '../BaseController';
-import { processQuery } from '../../utils';
+import { BaseController } from '../../core';
 import Activity from './activity.model';
 import * as ctrl from './activity.controller';
 

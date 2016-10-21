@@ -2,11 +2,12 @@ const path = require('path');
 
 module.exports = {
   development: {
-    client: 'postgresql',
-    connection: {
-      database: process.env.POSTGRES_DB || 'boldr',
+    client: 'pg',
+    connection: process.env.POSTGRES_CONN_URI || {
+      host: process.env.POSTGRES_HOST || 'localhost',
       user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || 'password'
+      password: process.env.POSTGRES_PASSWORD || 'password',
+      database: process.env.POSTGRES_DB || 'boldr'
     },
     migrations: {
       directory: path.resolve(__dirname, '../db/_migrations'),
@@ -22,11 +23,12 @@ module.exports = {
     }
   },
   test: {
-    client: 'postgresql',
-    connection: {
-      database: process.env.POSTGRES_DB || 'boldr_test',
+    client: 'pg',
+    connection: process.env.POSTGRES_CONN_URI || {
+      host: process.env.POSTGRES_HOST || 'localhost',
       user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || 'password'
+      password: process.env.POSTGRES_PASSWORD || 'password',
+      database: process.env.POSTGRES_DB || 'boldr_test'
     },
     migrations: {
       directory: path.resolve(__dirname, '../db/_migrations'),
@@ -42,7 +44,7 @@ module.exports = {
     }
   },
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: process.env.POSTGRES_CONN_URI,
     searchPath: 'knex,public',
     migrations: {
@@ -57,5 +59,4 @@ module.exports = {
       max: 10
     }
   }
-
 };

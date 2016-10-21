@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import BaseModel from '../BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 import Account from '../account/account.model';
 
 class Token extends BaseModel {
