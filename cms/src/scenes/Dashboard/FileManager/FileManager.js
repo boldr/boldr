@@ -6,7 +6,7 @@ import { provideHooks } from 'redial';
 import { S3Uploader, Row, Col } from 'components/index';
 import { API_PREFIX, S3_SIGNING_URL } from 'core/config';
 import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/attachment';
-import FileView from 'components/FileView';
+import FileView from './components/FileView';
 
 type Props = {
   handleFinish: () => void,

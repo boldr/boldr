@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Segment } from 'semantic-ui-react';
 import { Col, Row, BoldrEditor } from 'components/index';
 import inlineStyles from 'theme/inlineStyles';
 import Radio from 'components/md/SelectionControls/Radio';
-import Paper from 'components/md/Papers';
 import RadioButtonGroup from 'components/FormComponents/RadioButtonGroup';
 import renderTextField from 'components/FormComponents/TextField';
 
@@ -28,7 +27,7 @@ class EditorForm extends Component {
       <Row>
         <Col xs>
           <Form onSubmit={ handleSubmit }>
-            <Paper zDepth={ 3 } style={ { padding: '1em' } }>
+            <Segment style={ { padding: '1em' } }>
               <Field name="title" type="text" component={ renderTextField } label="Post Title" />
               <Form.Group widths="equal">
                 <Field name="tags" type="text"
@@ -85,7 +84,7 @@ class EditorForm extends Component {
                   </Field>
                 </Col>
               </Row>
-            </Paper>
+            </Segment>
           </Form>
         </Col>
       </Row>

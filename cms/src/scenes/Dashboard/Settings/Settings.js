@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Icon, Table, Form, Segment } from 'semantic-ui-react';
+import { Button, Icon, Table, Segment } from 'semantic-ui-react';
 import SettingRow from './SettingRow';
 
 type Props = {
@@ -16,7 +16,7 @@ class Settings extends Component {
     this.state = {
       editing: false
     };
-}
+  }
   props: Props;
   render() {
     return (

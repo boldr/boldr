@@ -1,11 +1,9 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Heading, Grid, Col, Row } from 'components/index';
-import { Card, CardText, CardActions } from 'components/md/Cards';
-import TextField from 'components/md/TextFields';
-import { RaisedButton } from 'components/md/Buttons';
+import { Card, Button, Form } from 'semantic-ui-react';
 import inlineStyles from 'theme/inlineStyles';
 import { resetPassword } from 'state/dux/auth';
 
@@ -24,9 +22,9 @@ class ResetPassword extends Component {
     super(props);
     this.state = { password: '', confirm: '' };
 
-    (this:any).handleChange = this.handleChange.bind(this);
-    (this:any).handleConfirmChange = this.handleConfirmChange.bind(this);
-    (this:any).handleReset = this.handleReset.bind(this);
+    (this: any).handleChange = this.handleChange.bind(this);
+    (this: any).handleConfirmChange = this.handleConfirmChange.bind(this);
+    (this: any).handleReset = this.handleReset.bind(this);
   }
   state: State;
   props: Props;
@@ -56,34 +54,28 @@ class ResetPassword extends Component {
           <Col xs={ 12 }>
             <Row xsCenter>
               <Col xs={ 6 }>
-                <Card style={ { marginTop: '150px' } }>
-                  <form onSubmit={ this.handleReset }>
-                    { renderHeader }
-                    <CardText>
-                      <Row>
-                        <TextField
-                          type="password"
-                          name="password"
-                          id="password"
-                          floatingLabelText="New password" style={ inlineStyles.underlineFocusStyle }
-                          autoFocus value={ this.state.password } onChange={ this.handleChange }
-                        />
-                      </Row>
-                      <Row>
-                        <TextField
-                          type="password"
-                          name="password"
-                          id="password"
-                          floatingLabelText="Confirm password" style={ inlineStyles.underlineFocusStyle }
-                          value={ this.state.confirm } onChange={ this.handleConfirmChange }
-                        />
-                      </Row>
-                    </CardText>
-                    <CardActions>
-                      <RaisedButton secondary type="submit" label="Change Password" />
-                    </CardActions>
-                  </form>
-                </Card>
+              <Card style={ { width: '450px', marginTop: '150px' } }>
+                <Form onSubmit={ this.handleReset } className="card__form">
+                <Card.Content>
+                  { renderHeader }
+                  <Card.Meta>
+                    Enter a new password.
+                  </Card.Meta>
+
+                  <Form.Input
+                    label="Password"
+                    name="password"
+                    placeholder="Enter your new password"
+                  />
+                  <Form.Input
+                    label="Confirm password"
+                    name="confirm"
+                    placeholder="Confirm your new password."
+                  />
+                  <Button primary type="submit">Save Password</Button>
+                  </Card.Content>
+                </Form>
+              </Card>
                 </Col>
               </Row>
             </Col>

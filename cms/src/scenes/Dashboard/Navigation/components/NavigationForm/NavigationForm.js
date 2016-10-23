@@ -1,3 +1,9 @@
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { Button } from 'semantic-ui-react';
+import renderTextField, { renderLabel } from 'components/FormComponents/TextField';
+
 export type Props = {
   handleSubmit?: Function,
   reset?: Function,
@@ -6,16 +12,8 @@ export type Props = {
   pristine?: boolean,
 };
 
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import renderTextField, { renderLabel } from 'components/FormComponents/TextField';
-import { FlatButton, RaisedButton } from 'components/md/Buttons';
-import { Row } from 'components/Layout';
-import Divider from 'components/md/Dividers';
-
-let NavigationForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+let NavigationForm = (props: Props) => {
+  const { handleSubmit, reset } = props;
   return (
     <form className="form__navigation" onSubmit={ handleSubmit }>
       <Field name="name" component={ renderTextField } type="text" label="Name" />
@@ -23,8 +21,8 @@ let NavigationForm = props => {
       <Field name="href" component={ renderTextField } type="text" label="Link" />
       <Field name="icon" component={ renderTextField } type="text" label="Icon" />
       <div className="form__footer">
-      <RaisedButton type="submit" label="Save" disabled={ pristine || submitting } style={ { marginRight: '10px' } } />
-      <FlatButton type="button" label="Cancel" onClick={ reset } disabled={ pristine || submitting } />
+      <Button type="submit" primary style={ { marginRight: '10px' } }>Save</Button>
+      <Button type="submit" onClick={ reset } style={ { marginRight: '10px' } }>Reset</Button>
       </div>
     </form>
   );

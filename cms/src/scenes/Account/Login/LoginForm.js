@@ -1,7 +1,7 @@
 // @flow
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 export type Props = {
   handleSubmit?: Function,
@@ -18,10 +18,9 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => ( // e
   />
 );
 
-const LoginForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+const LoginForm = (props: Props) => {
   return (
-      <Form onSubmit={ handleSubmit } className="card__form">
+      <Form onSubmit={ props.handleSubmit } className="card__form">
           <Field
             name="email"
             type="email"
@@ -37,7 +36,7 @@ const LoginForm = props => {
             style={ { marginBottom: '50px' } }
           />
            <Button primary type="submit">Login</Button>
-           <Button disabled={ pristine || submitting } onClick={ reset }>Clear</Button>
+           <Button onClick={ props.reset }>Clear</Button>
 
       </Form>
     );

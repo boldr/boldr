@@ -45,5 +45,4 @@ router.use('/tags', tagRoutes);
 router.use('/types', typeRoutes);
 router.use('/tokens', tokenRoutes);
 
-
 export default router;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import Widget from 'components/Widget';
 
-import { Grid, Col, Row } from '../../../components';
+import { Col, Row } from 'components/index';
 import { loadSiteActivity } from '../Activity/actions';
 import ActivityWidget from './components/ActivityWidget';
 

@@ -1,3 +1,16 @@
+export type Message = {
+  message: String,
+  kind: String,
+  dismissAfter: Number
+};
+
+export type MessageFn = {
+  err: String,
+  message: String,
+  kind: String,
+  dismissAfter: Number
+};
+
 export const MSG_SIGNUP_ERROR = {
   message: 'There was a problem creating your account.', kind: 'error', dismissAfter: 3000
 };

@@ -1,5 +1,10 @@
 import { push } from 'react-router-redux';
 
+import * as types from './constants';
+
+export const showSidebar = () => ({ type: types.SHOW_SIDEBAR });
+export const hideSidebar = () => ({ type: types.HIDE_SIDEBAR });
+
 export function postListClicked() {
   return (dispatch) => {
     dispatch(push('/dashboard/posts'));

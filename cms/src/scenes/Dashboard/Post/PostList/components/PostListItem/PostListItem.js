@@ -1,13 +1,13 @@
 /* @flow */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Link from 'react-router/lib/Link';
 import dateFns from 'date-fns';
-import { Image, Item, Icon, Segment, Divider } from 'semantic-ui-react';
+import { Item, Icon, Segment, Divider } from 'semantic-ui-react';
 
 type Props = {
   article: Object,
   handleArticlePublishClick: Function,
-  handleClickDelete: Function,
+  handleDeleteClick: Function,
   handleArticleDraftClick: Function,
   created_at: string,
   slug: string

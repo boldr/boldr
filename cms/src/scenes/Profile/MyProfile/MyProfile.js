@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 
@@ -6,7 +6,6 @@ import { Card, CardActions, CardTitle, CardText } from 'components/md/Cards';
 import { FlatButton } from 'components/md/Buttons';
 import { getMyProfile } from 'state/dux/profile';
 import PrimaryHeader from 'components/PrimaryHeader';
-import inlineStyles from 'theme/inlineStyles';
 import Avatar from 'components/md/Avatars';
 import ExpansionList from 'components/md/ExpansionPanels/ExpansionList';
 import ExpansionPanel from 'components/md/ExpansionPanels/ExpansionPanel';

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import { fetchSettingsIfNeeded, updateBoldrSettings, getSettings } from 'state/dux/setting';
+import { fetchSettingsIfNeeded, getSettings } from 'state/dux/setting';
 import Settings from './Settings';
 
 export type Props = {
   boldr?: Object,
-  allSettings: Array<Object>,
-  updateBoldrSettings?: Function,
+  allSettings: Array<Object>
 };
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -17,27 +16,16 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-@connect(mapStateToProps, { updateBoldrSettings })
+@connect(mapStateToProps)
 @provideHooks({
   fetch: ({ dispatch }) => dispatch(fetchSettingsIfNeeded())
 })
 class SettingsContainer extends Component {
-  constructor(props: Props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
   props: Props;
-
-  handleSubmit(values, e) {
-    e.preventDefault();
-    console.log(values)
-    // this.props.updateBoldrSettings(values, id);
-  }
 
   render() {
     return (
-      <Settings { ...this.props } handleSubmit={ this.handleSubmit } />
+      <Settings { ...this.props } />
     );
   }
 }

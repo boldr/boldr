@@ -34,6 +34,7 @@
   },
   "rules": {
     "id-match": 0,
-    "no-duplicate-imports": 0
+    "no-duplicate-imports": 0,
+    "react/prefer-stateless-function": 0
     }
 }

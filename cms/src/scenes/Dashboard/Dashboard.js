@@ -1,112 +1,83 @@
-/* @flow */
+/* eslint-disable no-unused-expressions */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Grid, Col, Row } from 'components/index';
+import { Grid, Col } from 'components/index';
 import Authenicated from 'components/hoc.Authenticated';
-import NavigationDrawer from 'components/md/NavigationDrawers';
-import FontIcon from 'components/md/FontIcons';
-import {
-  postListClicked, postEditorClicked, dashboardClicked,
-  fileManagerClicked, membersClicked, settingsClicked, homeClicked,
-  navigationClicked, contentClicked, pagesClicked
-} from './actions';
-
-const DrawerType = {
-  FULL_HEIGHT: 'full-height',
-  CLIPPED: 'clipped',
-  FLOATING: 'floating',
-  PERSISTENT: 'persistent',
-  PERSISTENT_MINI: 'mini'
-};
+import { Icon } from 'semantic-ui-react';
+import Sidebar from './components/Sidebar';
+import Titlebar from './components/Sidebar/Titlebar';
+import SidebarContent from './components/Sidebar/SidebarContent';
+import { showSidebar, hideSidebar } from './actions';
 
 export type Props = {
   children: React$Element<*>,
   toggleOpen?: Function,
-  postListClicked?: Function,
-  postEditorClicked?: Function,
-  dashboardClicked?: Function,
-  fileManagerClicked?: Function,
-  membersClicked?: Function,
-  settingsClicked?: Function,
-  homeClicked?: Function,
-  navigationClicked?: Function,
-  pagesClicked?: Function,
-  contentClicked?: Function,
+  showSidebar?: Function,
+  hideSidebar?: Function,
+  dashboard: ?Object
 };
 
 @Authenicated
 class Dashboard extends PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      docked: false,
+      open: true,
+      transitions: true,
+      touch: true,
+      shadow: true,
+      pullRight: false,
+      touchHandleWidth: 20,
+      dragToggleDistance: 30
+    };
+    (this: any).menuButtonClick = this.menuButtonClick.bind(this);
+    (this: any).onSetOpen = this.onSetOpen.bind(this);
+    (this: any).onSetClose = this.onSetClose.bind(this);
+  }
   props: Props;
+  onSetOpen(open) {
+    this.props.showSidebar();
+  }
+  onSetClose(open) {
+    this.props.hideSidebar();
+  }
+
+  menuButtonClick(ev) {
+    ev.preventDefault();
+    const isOpen = this.props.dashboard.open;
+    isOpen ? this.onSetClose(this.state.open) : this.onSetOpen(this.state.open);
+  }
   render() {
-    const navItems = [
-      {
-        primaryText: 'Post List',
-        leftIcon: <FontIcon>toc</FontIcon>,
-        onClick: this.props.postListClicked
-      },
-      {
-        primaryText: 'Post Editor',
-        leftIcon: <FontIcon>edit</FontIcon>,
-        onClick: this.props.postEditorClicked
-      }, {
-        primaryText: 'Dashboard',
-        leftIcon: <FontIcon>dashboard</FontIcon>,
-        onClick: this.props.dashboardClicked
-      },
-      {
-        primaryText: 'File Manager',
-        leftIcon: <FontIcon>perm_media</FontIcon>,
-        onClick: this.props.fileManagerClicked
-      },
-      {
-        primaryText: 'Members',
-        leftIcon: <FontIcon>people</FontIcon>,
-        onClick: this.props.membersClicked
-      },
-      {
-        primaryText: 'Navigation',
-        leftIcon: <FontIcon>link</FontIcon>,
-        onClick: this.props.navigationClicked
-      },
-      {
-        primaryText: 'Pages',
-        leftIcon: <FontIcon>book</FontIcon>,
-        onClick: this.props.pagesClicked
-      },
-      {
-        primaryText: 'Content',
-        leftIcon: <FontIcon>content_copy</FontIcon>,
-        onClick: this.props.contentClicked
-      },
-      {
-        primaryText: 'Settings',
-        leftIcon: <FontIcon>settings</FontIcon>,
-        onClick: this.props.settingsClicked
-      },
-      {
-        primaryText: 'Home',
-        leftIcon: <FontIcon>home</FontIcon>,
-        onClick: this.props.homeClicked
-      }
-    ];
+    const sidebar = <SidebarContent handleLogoClick={ this.onLogoClick } />;
+
+    const sidebarProps = {
+      sidebar,
+      docked: this.props.dashboard.docked,
+      sidebarClassName: 'rh-sidebar',
+      open: this.props.dashboard.open,
+      touch: this.state.touch,
+      shadow: this.state.shadow,
+      pullRight: this.state.pullRight,
+      touchHandleWidth: this.state.touchHandleWidth,
+      dragToggleDistance: this.state.dragToggleDistance,
+      transitions: this.state.transitions,
+      onSetOpen: this.onSetOpen
+    };
+
     return (
       <Grid fluid>
-        <Row>
-        <NavigationDrawer
-          drawerTitle="Navigation"
-          toolbarTitle="Dashboard"
-          toolbarStyle={ { marginBottom: '25px' } }
-          tabletDrawerType={ DrawerType.PERSISTENT_MINI }
-          desktopDrawerType={ DrawerType.PERSISTENT_MINI }
-          navItems={ navItems }
-        />
-          <Col xs style={ { paddingTop: '6%' } }>
-            <div>
-            { this.props.children }
-            </div>
-          </Col>
-        </Row>
+        <Sidebar { ...sidebarProps }>
+          <Titlebar title="Boldr" icon={
+            <Icon name="menu" onClick={ this.menuButtonClick } />
+          }>
+            <Col xs style={ { paddingTop: '6%' } }>
+              <div>
+              { this.props.children }
+              </div>
+            </Col>
+          </Titlebar>
+        </Sidebar>
       </Grid>
     );
   }
@@ -115,14 +86,9 @@ class Dashboard extends PureComponent {
 function mapStateToProps(state) {
   return {
     router: state.router,
+    dashboard: state.dashboard,
     boldr: state.boldr
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    postListClicked, postEditorClicked, dashboardClicked,
-    fileManagerClicked, membersClicked, settingsClicked, homeClicked, navigationClicked,
-    contentClicked, pagesClicked }, dispatch);
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, { showSidebar, hideSidebar })(Dashboard);

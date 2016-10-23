@@ -1,12 +1,11 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import { Card, Header, Icon } from 'semantic-ui-react';
 
-import { Heading, Grid, Col, Row } from 'components/index';
-import { CardMedia, CardTitle, CardActions } from 'components/md/Cards';
+import { Grid, Col, Row } from 'components/index';
 import { login } from 'state/dux/auth';
 import LoginForm from './LoginForm';
 
@@ -36,7 +35,7 @@ type Props = {
 class Login extends Component {
   constructor(props) {
     super(props);
-    (this:any).handleOnSubmit = this.handleOnSubmit.bind(this);
+    (this: any).handleOnSubmit = this.handleOnSubmit.bind(this);
   }
   props: Props;
 

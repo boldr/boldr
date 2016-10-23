@@ -1,3 +1,6 @@
+import React from 'react';
+import NavigationForm from '../NavigationForm';
+
 export type Props = {
   onFormSubmit?: Function,
   initialValues?: {
@@ -7,10 +10,7 @@ export type Props = {
   },
 };
 
-import React, { PropTypes } from 'react';
-import NavigationForm from '../NavigationForm';
-
-const NavigationEditor = (props) => {
+const NavigationEditor = (props: Props) => {
   return (
     <div>
       <NavigationForm initialValues={ props.initialValues } enableReinitialize onSubmit={ props.onFormSubmit } />

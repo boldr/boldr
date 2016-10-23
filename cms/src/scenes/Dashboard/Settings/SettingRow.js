@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Icon, Table, Form, Segment } from 'semantic-ui-react';
+import { Button, Icon, Table, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { updateBoldrSettings } from 'state/dux/setting';
 

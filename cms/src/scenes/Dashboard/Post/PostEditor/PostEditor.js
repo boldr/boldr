@@ -17,9 +17,9 @@ export type Props = {
 class PostEditor extends Component {
   constructor(props: Props) {
     super(props);
-    (this:any).handleSubmit = this.handleSubmit.bind(this);
+    (this: any).handleSubmit = this.handleSubmit.bind(this);
   }
-  state:Object = {
+  state: Object = {
     editing: true
   };
 //  componentDidMount() {

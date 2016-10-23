@@ -1,13 +1,11 @@
 /* @flow */
 /* eslint-disable react/prefer-stateless-function */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-
-import Dialog from 'components/md/Dialogs';
-import { FlatButton } from 'components/md/Buttons';
-import MembersList from 'components/MembersList';
-import EditMemberForm from 'components/EditMemberForm';
+import { Modal } from 'semantic-ui-react';
+import MembersList from './components/MembersList';
+import EditMemberForm from './components/EditMemberForm';
 import { loadSiteMembers, memberSelected, updateMember } from './actions';
 
 export type Props = {
@@ -25,20 +23,14 @@ class Members extends Component {
     (this: any).toggleUser = this.toggleUser.bind(this);
     (this: any).handleSubmit = this.handleSubmit.bind(this);
   }
-  state: Object = { isOpen: false };
+  state: Object = { open: false };
   props: Props;
 
-  openDialog = () => {
-    this.setState({ isOpen: true });
-  };
-
-  closeDialog = () => {
-    this.setState({ isOpen: false });
-  };
-
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
   toggleUser(userId) {
     this.props.memberSelected(userId);
-    this.setState({ isOpen: true, userId });
+    this.setState({ open: true, userId });
   }
   handleSubmit(values) {
     const userData = {
@@ -52,21 +44,20 @@ class Members extends Component {
     this.props.updateMember(userData);
   }
   render() {
-    const { isOpen } = this.state;
+    const { open } = this.state;
     return (
        <div>
          <MembersList toggleUser={ this.toggleUser } users={ this.props.members.members } />
-         <Dialog
-           title="Update User"
-           isOpen={ isOpen }
-           close={ this.closeDialog }
+         <Modal
+           open={ open }
+           onOpen={ this.open }
+           onClose={ this.close }
          >
-          <EditMemberForm onSubmit={ this.handleSubmit } />
-          <FlatButton
-            label="Save"
-            onClick={ this.handleSubmit }
-          />
-        </Dialog>
+            <Modal.Header>Edit User</Modal.Header>
+            <Modal.Content>
+            <EditMemberForm onSubmit={ this.handleSubmit } />
+            </Modal.Content>
+          </Modal>
        </div>
     );
   }

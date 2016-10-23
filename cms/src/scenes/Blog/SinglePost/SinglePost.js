@@ -1,22 +1,22 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Col, Row, Heading } from 'components/index';
+import { Grid, Col, Row } from 'components/index';
 import Paper from 'components/md/Papers';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
 import PostContent from 'components/PostContent';
 
 export type Props = {
-  isLoading?: boolean,
-  currentPost?: Object,
+  isLoading: boolean,
+  currentPost: Object,
 };
 
 
-const SinglePost = ({ isLoading, currentPost }) => {
+const SinglePost = (props: Props) => {
   const IS = {
     bg: {
-      backgroundImage: `url(${currentPost.feature_image})`,
+      backgroundImage: `url(${props.currentPost.feature_image})`,
       width: '100%',
       paddingTop: '175px'
     },
@@ -31,14 +31,14 @@ const SinglePost = ({ isLoading, currentPost }) => {
           <Col xs={ 12 } md={ 8 } lg={ 9 }>
               <Paper zDepth={ 2 } style={ IS.offSet }>
               {
-                isLoading ?
+                props.isLoading ?
                   <Loader /> :
-                  <PostContent { ...currentPost } />
+                  <PostContent { ...props.currentPost } />
               }
               </Paper>
             </Col>
             <Col xs={ 12 } md={ 4 } lg={ 3 }>
-              <PostSidebar { ...currentPost } />
+              <PostSidebar { ...props.currentPost } />
             </Col>
           </Row>
         </Grid>

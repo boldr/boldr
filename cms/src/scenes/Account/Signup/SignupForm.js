@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 import validate from './validate';
 
 export type Props = {

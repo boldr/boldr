@@ -2,8 +2,7 @@
 import React from 'react';
 import { Divider, Card, Comment } from 'semantic-ui-react';
 import { Heading } from 'components/index';
-import Avatar from 'components/md/Avatars';
-
+import Avatar from '../Avatar';
 
 const Author = (props: { display_name: String, avatar_url: String }) => {
   return (
