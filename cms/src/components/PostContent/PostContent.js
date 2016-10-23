@@ -9,7 +9,10 @@ type Props = {
   feature_image: ?String
 }
 const PostContent = (props: Props) => {
-  function createMarkup() { return { __html: props.content }; }
+  function createMarkup() {
+    return { __html: props.content
+    };
+  }
   return (
     <article style={ { overflow: 'hidden' } }>
       { props.feature_image ?

@@ -1,10 +1,10 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Paper from 'components/md/Papers';
-import Dialog from 'components/md/Dialogs';
-import { FloatingButton } from 'components/md/Buttons';
-import { List, ListItem } from 'components/md/Lists';
+import { Segment, Button, Modal } from 'semantic-ui-react';
+
+import { FloatingButton } from 'components/Buttons';
+import { List, ListItem } from 'components/Lists';
 import { Row, Col } from 'components/index';
 import { updateNavLinks, addNavLinks } from 'state/dux/navigation';
 import NavigationEditor from './components/NavigationEditor';
@@ -25,10 +25,10 @@ class Navigation extends Component {
   constructor() {
     super();
     (this: any).handleItemClick = this.handleItemClick.bind(this);
-    (this: any).closeDialog = this.closeDialog.bind(this);
+
   }
   state: Object = {
-    isOpen: false,
+    open: false,
     link: {
       name: null,
       position: null,
@@ -44,14 +44,9 @@ class Navigation extends Component {
   onFormSubmit = (data) => {
     this.props.addNavLinks(data);
   }
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
   props: Props;
-  openDialog = () => {
-    this.setState({ isOpen: true });
-  };
-
-  closeDialog = () => {
-    this.setState({ isOpen: false });
-  };
 
   handleItemClick(item: Object) {
     this.setState({
@@ -67,7 +62,7 @@ class Navigation extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { isOpen } = this.state;
+    const { open } = this.state;
     const listItems = navigation.primary.links.map((item, i) => {
       return <ListItem key={ i } primaryText={ item.name } onClick={ () => this.handleItemClick(item) } />;
     });
@@ -76,30 +71,33 @@ class Navigation extends Component {
       <div>
         <Row>
           <Col xs>
-          <Paper zDepth={ 2 }>
+          <Segment>
           <List subheader="Navigation Links" className="navigation__list">
             { listItems }
             </List>
-          </Paper>
-          <FloatingButton primary onClick={ this.openDialog }>add</FloatingButton>
+          </Segment>
+          <FloatingButton primary onClick={ this.open }>add</FloatingButton>
           </Col>
           <Col xs={ 12 } md={ 4 }>
-            <Paper zDepth={ 2 }>
+            <Segment>
               <NavigationEditor
                 initialValues={ this.state.link }
                 onFormSubmit={ this.onUpdateFormSubmit }
               />
-            </Paper>
+            </Segment>
           </Col>
         </Row>
-        <Dialog
-          isOpen={ isOpen }
-          title="Add a link"
-          close={ this.closeDialog }
-          dialogStyle={ { width: 520 } }
+        <Modal
+          open={ open }
+          onOpen={ this.open }
+          onClose={ this.close }
         >
+           <Modal.Header>Add a link</Modal.Header>
+           <Modal.Content>
           <NavigationForm onSubmit={ this.onFormSubmit } />
-        </Dialog>
+           </Modal.Content>
+         </Modal>
+
       </div>
     );
   }

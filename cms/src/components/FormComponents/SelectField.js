@@ -1,4 +1,4 @@
-import SelectField from '../md/SelectFields';
+import SelectField from '../SelectFields';
 import createFormComponent from './createFormComponent';
 import mapError from './mapError';
 

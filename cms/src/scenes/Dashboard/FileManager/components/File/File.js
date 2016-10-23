@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Image, Grid, Card } from 'semantic-ui-react';
-import { CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
-import { IconButton } from 'components/md/Buttons';
+
+import { IconButton } from 'components/Buttons';
 
 
 const { Column, Row } = Grid;
@@ -16,16 +16,15 @@ const File = (props) => {
   return (
     <Column key={ props.file.id }>
       <Card>
-         <CardMedia
-           aspectRatio={ CardMedia.aspect.equal }
-           overlay={ <CardTitle title={ props.file.filename } /> }
+         <Card.Image
+           overlay={ <Card.Header title={ props.file.filename } /> }
          >
           <Image src={ props.file.s3url } alt={ props.file.filename } />
-        </CardMedia>
-        <CardActions centered>
+        </Card.Image>
+        <Card.Meta>
           <IconButton>edit</IconButton>
           <IconButton onClick={ handleclick }>delete</IconButton>
-        </CardActions>
+        </Card.Meta>
       </Card>
     </Column>
   );

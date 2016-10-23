@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-es6-class */
 import React, { Component, PropTypes } from 'react';
 import S3Upload from '../../core/services/s3Upload';
-import FileUpload from '../md/FileInputs/FileUpload';
+import FileUpload from '../FileInput/FileUpload';
 
 class S3Uploader extends Component {
   static propTypes = {

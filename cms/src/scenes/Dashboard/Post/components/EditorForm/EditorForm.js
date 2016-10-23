@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Form, Button, Segment } from 'semantic-ui-react';
 import { Col, Row, BoldrEditor } from 'components/index';
 import inlineStyles from 'theme/inlineStyles';
-import Radio from 'components/md/SelectionControls/Radio';
+import Radio from 'components/SelectionControls/Radio';
 import RadioButtonGroup from 'components/FormComponents/RadioButtonGroup';
 import renderTextField from 'components/FormComponents/TextField';
 

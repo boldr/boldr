@@ -2,9 +2,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
-
-import { FlatButton, IconButton } from 'components/md/Buttons';
-import { Card, CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
+import { Card } from 'semantic-ui-react';
+import { FlatButton, IconButton } from 'components/Buttons';
 import Avatar from 'components/Avatar';
 
 type Props = {
@@ -23,29 +22,29 @@ const TagListCard = (props: Props) => {
   const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
 
   const overlay = (
-    <CardTitle
+    <Card.Header
       key="overlay"
       title={ props.title }
       subtitle={ formattedDate }
     >
       <IconButton className="margin-left-auto">star_outline</IconButton>
-    </CardTitle>
+    </Card.Header>
   );
   return (
     <div>
       <Card>
-        <CardMedia overlay={ overlay }>
+        <Card.Image overlay={ overlay }>
           <img className="post__card-image" src={ props.feature_image } height="350px" width="100%" />
-        </CardMedia>
+        </Card.Image>
 
-        <CardActions isExpander>
+        <Card.Meta>
         <Link to={ `/blog/${props.slug}` }>
           <FlatButton label="Read more" secondary />
         </Link>
-        </CardActions>
-        <CardText expandable>
+        </Card.Meta>
+        <Card.Description>
         { props.excerpt }
-        </CardText>
+        </Card.Description>
       </Card>
       </div>
     );

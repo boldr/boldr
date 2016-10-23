@@ -30,7 +30,9 @@
     "__DEVTOOLS__": true,
     "webpackIsomorphicTools": true,
     "React": true,
-    "__DLLS__": 1
+    "__DLLS__": 1,
+    "expect": true,
+    "jest": true
   },
   "rules": {
     "id-match": 0,

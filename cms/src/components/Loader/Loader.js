@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import { CircularProgress } from '../md/Progress';
+import CircularProgress from './CircularProgress';
 
 export default class Loader extends Component {
 

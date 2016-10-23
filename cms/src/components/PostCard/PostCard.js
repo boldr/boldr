@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
 import { Button, Card, Image } from 'semantic-ui-react';

@@ -1,4 +1,4 @@
-import RadioGroup from '../md/SelectionControls/RadioGroup';
+import { RadioGroup } from '../SelectionControls';
 import createFormComponent from './createFormComponent';
 import mapError from './mapError';
 

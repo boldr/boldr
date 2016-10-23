@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Container, Header } from 'semantic-ui-react';
+
 const Footer = (props) => {
   return (
     <footer className="footer__wrap">

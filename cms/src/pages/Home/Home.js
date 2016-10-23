@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import { Header, Icon } from 'semantic-ui-react';
 import PostListing from 'scenes/Blog/PostListing';
-import { Grid, Row, Hero, PrimaryHeader, Footer } from '../../components';
-import { fetchPagesIfNeeded } from '../../state/dux/page';
+import { Grid, Row, Hero, PrimaryHeader, Footer } from 'components/index';
+import { fetchPagesIfNeeded } from 'state/dux/page';
 
 type Props = {
   loaded: Boolean,

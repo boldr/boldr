@@ -52,11 +52,11 @@ export default class Avatar extends PureComponent {
      * The suffix to use for a color. This can be any value but
      * *should* be one of the available `suffixes`.
      */
-    suffix: PropTypes.string,
+    suffix: PropTypes.string
   };
 
   static defaultProps = {
-    suffixes: ['color-1', 'color-2', 'color-3'],
+    suffixes: ['color-1', 'color-2', 'color-3']
   };
 
   _getColor(suffix, suffixes, random) {
@@ -80,15 +80,15 @@ export default class Avatar extends PureComponent {
       suffix,
       suffixes,
       random,
-      ...props,
+      ...props
     } = this.props;
 
     return (
       <div
-        className={cn('md-avatar', className, this._getColor(suffix, suffixes, random))}
-        {...props}
+        className={ cn('md-avatar', className, this._getColor(suffix, suffixes, random)) }
+        { ...props }
       >
-        {src && <img src={src} alt={alt} className="md-img-avatar" />}
+        {src && <img src={ src } alt={ alt } className="md-img-avatar" />}
         {!src &&
           <div className="md-avatar-content">
             {icon || children}
