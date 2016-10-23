@@ -1813,6 +1813,18 @@ cors@^2.8.1:
   dependencies:
     vary "^1"
 
+cosmiconfig@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-2.1.0.tgz#26e384a2055ea4e087050e5e08d53eb4eac8f86e"
+  dependencies:
+    graceful-fs "^4.1.2"
+    js-yaml "^3.4.3"
+    minimist "^1.2.0"
+    object-assign "^4.1.0"
+    os-homedir "^1.0.1"
+    parse-json "^2.2.0"
+    require-from-string "^1.1.0"
+
 crc@3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/crc/-/crc-3.4.0.tgz#4258e351613a74ef1153dfcb05e820c3e9715d7f"
@@ -2751,15 +2763,6 @@ expand-tilde@^1.2.2:
   dependencies:
     os-homedir "^1.0.1"
 
-express-jwt:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/express-jwt/-/express-jwt-5.1.0.tgz#a1c5e3381bc78d2de4d3c51133421c69e004d581"
-  dependencies:
-    async "^1.5.0"
-    express-unless "^0.3.0"
-    jsonwebtoken "~6.2.0"
-    lodash.set "^4.0.0"
-
 express-session@^1.14.1:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.14.1.tgz#600364f0f6bf5dce32649e006770bdeee80aec99"
@@ -2773,10 +2776,6 @@ express-session@^1.14.1:
     parseurl "~1.3.1"
     uid-safe "~2.1.2"
     utils-merge "1.0.0"
-
-express-unless@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/express-unless/-/express-unless-0.3.0.tgz#5c795e7392571512dd28f520b3857a52b21261a2"
 
 express-validator@^2.20.10:
   version "2.20.10"
@@ -2887,6 +2886,12 @@ fbjs@0.1.0-alpha.10:
     core-js "^1.0.0"
     promise "^7.0.3"
     whatwg-fetch "^0.9.0"
+
+fd-slicer@~1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/fd-slicer/-/fd-slicer-1.0.1.tgz#8b5bcbd9ec327c5041bf9ab023fd6750f1177e65"
+  dependencies:
+    pend "~1.2.0"
 
 figures@^1.3.5:
   version "1.7.0"
@@ -2999,6 +3004,10 @@ findup-sync@^0.4.2:
     is-glob "^2.0.1"
     micromatch "^2.3.7"
     resolve-dir "^0.1.0"
+
+"fine-uploader@>=5.11.5 <6.0.0":
+  version "5.11.8"
+  resolved "https://registry.yarnpkg.com/fine-uploader/-/fine-uploader-5.11.8.tgz#a27ca051512a31840a729e044a5edcd220e2929a"
 
 flagged-respawn@^0.3.2:
   version "0.3.2"
@@ -3604,9 +3613,9 @@ https-proxy-agent@1:
     debug "2"
     extend "3"
 
-humps@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/humps/-/humps-1.1.0.tgz#99a05cc80b13ae754a3d1e1a92182f271ef1d98f"
+humps@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/humps/-/humps-2.0.0.tgz#dd4a423e9784626fe7b9f19fde0baff659b40173"
 
 iconv-lite@^0.4.13, iconv-lite@^0.4.5, iconv-lite@~0.4.13, iconv-lite@0.4.13:
   version "0.4.13"
@@ -4265,7 +4274,7 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-joi@^6.10.1, joi@~6.10.1:
+joi@^6.10.1:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/joi/-/joi-6.10.1.tgz#4d50c318079122000fe5f16af1ff8e1917b77e06"
   dependencies:
@@ -4286,7 +4295,7 @@ js-tokens@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-2.0.0.tgz#79903f5563ee778cc1162e6dcf1a0027c97f9cb5"
 
-js-yaml@^3.5.1, js-yaml@~3.6.1, js-yaml@3.x:
+js-yaml@^3.4.3, js-yaml@^3.5.1, js-yaml@~3.6.1, js-yaml@3.x:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.6.1.tgz#6e5fe67d8b205ce4d22fad05b7781e8dadcc4b30"
   dependencies:
@@ -4409,15 +4418,6 @@ jsonwebtoken@^7.1.9:
     ms "^0.7.1"
     xtend "^4.0.1"
 
-jsonwebtoken@~6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-6.2.0.tgz#8233154c6cd9fd8760ad0f5a563f539dd391f2f9"
-  dependencies:
-    joi "~6.10.1"
-    jws "^3.0.0"
-    ms "^0.7.1"
-    xtend "^4.0.1"
-
 jsprim@^1.2.2:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/jsprim/-/jsprim-1.3.1.tgz#2a7256f70412a29ee3670aaca625994c4dcff252"
@@ -4464,9 +4464,9 @@ klaw@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/klaw/-/klaw-1.3.0.tgz#8857bfbc1d824badf13d3d0241d8bbe46fb12f73"
 
-knex@0.12.5:
-  version "0.12.5"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-0.12.5.tgz#47ea9595c83da8d57236eda01938a83320ad5249"
+knex@0.12.6:
+  version "0.12.6"
+  resolved "https://registry.yarnpkg.com/knex/-/knex-0.12.6.tgz#a255f0ea03af2c2c94687a622c08acc1a9463c0e"
   dependencies:
     babel-runtime "^6.11.6"
     bluebird "^3.4.6"
@@ -4555,7 +4555,7 @@ loader-runner@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.2.0.tgz#824c1b699c4e7a2b6501b85902d5b862bf45b3fa"
 
-loader-utils@^0.2.11, loader-utils@^0.2.15, loader-utils@^0.2.3, loader-utils@^0.2.7, loader-utils@~0.2.2, loader-utils@~0.2.5, loader-utils@0.2.x:
+loader-utils@^0.2.11, loader-utils@^0.2.15, loader-utils@^0.2.16, loader-utils@^0.2.3, loader-utils@^0.2.7, loader-utils@~0.2.2, loader-utils@~0.2.5, loader-utils@0.2.x:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.16.tgz#f08632066ed8282835dff88dfb52704765adee6d"
   dependencies:
@@ -4778,10 +4778,6 @@ lodash.reduce@4.5.0:
 lodash.restparam@^3.0.0:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
-
-lodash.set@^4.0.0:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
 
 lodash.some@^4.3.0:
   version "4.6.0"
@@ -5175,6 +5171,12 @@ multimatch@^2.1.0:
     array-union "^1.0.1"
     arrify "^1.0.0"
     minimatch "^3.0.0"
+
+multiparty:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/multiparty/-/multiparty-4.1.2.tgz#54f8ec9712052fa1dfd8ec975056c8230d6f2370"
+  dependencies:
+    fd-slicer "~1.0.0"
 
 mute-stream@0.0.5:
   version "0.0.5"
@@ -5606,9 +5608,9 @@ objection-find@0.2.0:
     bluebird "^2.9.24"
     lodash "^3.9.0"
 
-objection@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/objection/-/objection-0.6.0.tgz#fe65ad29149605188c9e8154626c7044017f6d21"
+objection@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/objection/-/objection-0.6.1.tgz#6d467ce032437f58c08472fcecdfbaa3ed1fddb3"
   dependencies:
     ajv "^4.1.5"
     babel-runtime "^6.6.1"
@@ -5884,6 +5886,10 @@ pbkdf2@^3.0.3:
   dependencies:
     create-hmac "^1.1.2"
 
+pend@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
+
 pg-connection-string@^0.1.3, pg-connection-string@0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-0.1.3.tgz#da1847b20940e42ee1492beaf65d49d91b245df7"
@@ -6023,12 +6029,37 @@ postcss-filter-plugins@^2.0.0:
     postcss "^5.0.4"
     uniqid "^4.0.0"
 
-postcss-loader@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-0.13.0.tgz#72fdaf0d29444df77d3751ce4e69dc40bc99ed85"
+postcss-load-config@^1.0.0-rc:
+  version "1.0.0-rc"
+  resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-1.0.0-rc.tgz#8aed0d0fb94afe2c1ab0ba2ca69da3af5079e2cc"
   dependencies:
-    loader-utils "^0.2.15"
-    postcss "^5.2.0"
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+    postcss-load-options "^1.0.2"
+    postcss-load-plugins "^2.0.0-rc"
+
+postcss-load-options@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/postcss-load-options/-/postcss-load-options-1.0.2.tgz#b99eb5759a588f4b2dd8b6471c6985f72060e7b0"
+  dependencies:
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+
+postcss-load-plugins@^2.0.0-rc:
+  version "2.0.0-rc"
+  resolved "https://registry.yarnpkg.com/postcss-load-plugins/-/postcss-load-plugins-2.0.0-rc.tgz#21242fb78de4d3d8eac9d1fef3863b8b794aa522"
+  dependencies:
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+
+postcss-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-1.0.0.tgz#e3b65d0c8596c1658f79d7db2d291310748d5d2a"
+  dependencies:
+    loader-utils "^0.2.16"
+    object-assign "^4.1.0"
+    postcss "^5.2.4"
+    postcss-load-config "^1.0.0-rc"
 
 postcss-merge-idents@^2.1.5:
   version "2.1.7"
@@ -6192,9 +6223,18 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.0, postcss@^5.2.2:
+postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.2:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.4.tgz#8eb4bee3e5c4e091585b116df32d8db24a535f21"
+  dependencies:
+    chalk "^1.1.3"
+    js-base64 "^2.1.9"
+    source-map "^0.5.6"
+    supports-color "^3.1.2"
+
+postcss@^5.2.4:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.5.tgz#ec428c27dffc7fac65961340a9b022fa4af5f056"
   dependencies:
     chalk "^1.1.3"
     js-base64 "^2.1.9"
@@ -6412,6 +6452,13 @@ react-deep-force-update@^2.0.1:
 "react-dom@^0.14.0 || ^15.0.0", react-dom@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
+
+react-fine-uploader:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-fine-uploader/-/react-fine-uploader-0.1.1.tgz#8c602b5ffa963b90a170bc7bb5b84f699b7dd4d2"
+  dependencies:
+    fine-uploader ">=5.11.5 <6.0.0"
+    object-assign "4.1.0"
 
 react-helmet@^3.1.0:
   version "3.1.0"
@@ -6820,6 +6867,10 @@ require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
 
+require-from-string@^1.1.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/require-from-string/-/require-from-string-1.2.1.tgz#529c9ccef27380adfec9a2f965b649bbee636418"
+
 require-hacker@^2.1.3:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/require-hacker/-/require-hacker-2.1.4.tgz#1683da866119495e0ffcda8ebed9bbcf556849f2"
@@ -6949,9 +7000,9 @@ scmp@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scmp/-/scmp-1.0.0.tgz#a0b272c3fc7292f77115646f00618b0262514e04"
 
-semantic-ui-react@0.56.8:
-  version "0.56.8"
-  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.56.8.tgz#7863abd79bcda343b2cfe248cd0cd6c25ed2af51"
+semantic-ui-react@0.56.10:
+  version "0.56.10"
+  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.56.10.tgz#91059bf2a27f5b749f6414ae22d010b612dbfa69"
   dependencies:
     classnames "^2.1.5"
     debug "^2.2.0"

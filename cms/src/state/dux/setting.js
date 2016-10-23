@@ -90,10 +90,11 @@ function shouldFetchSettings(state) {
   * @exports updateBoldrSettings
   *****************************************************************/
 
-export function updateBoldrSettings(data, id) {
+export function updateBoldrSettings(payload) {
   return dispatch => {
     dispatch(beginUpdateSettings());
-    return api.doUpdateSettings(data, id)
+    console.log(payload)
+    return api.doUpdateSettings(payload)
       .then(response => {
         dispatch(doneUpdateSettings(response));
         dispatch(loadSettings());

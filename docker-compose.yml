@@ -15,7 +15,7 @@ services:
 
   postgres:
     container_name: boldr_pg
-    image: strues/postgres:9.6
+    image: strues/postgres
     restart: always
     environment:
       - PGDATA=/var/lib/postgresql/data

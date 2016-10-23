@@ -16,7 +16,6 @@ global.__DEV__ = process.env.NODE_ENV !== 'production';
 global.__DLLS__ = process.env.WEBPACK_DLLS === '1';
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
-  .development(__DEV__)
   .server(paths.ABS_ROOT, () => {
     require(`${paths.CMS_SRC}/server.js`);
   });

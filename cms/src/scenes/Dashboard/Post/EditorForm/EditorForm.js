@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Button } from 'semantic-ui-react';
-import { Grid, Col, Row, BoldrEditor, S3Uploader } from 'components';
-import { API_PREFIX, S3_SIGNING_URL } from 'core/api/helpers';
+import { Col, Row, BoldrEditor } from 'components/index';
 import inlineStyles from 'theme/inlineStyles';
 import Radio from 'components/md/SelectionControls/Radio';
 import Paper from 'components/md/Papers';
@@ -13,7 +11,7 @@ import renderTextField from 'components/FormComponents/TextField';
 class EditorForm extends Component {
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { handleSubmit } = this.props;
     /**
      * wraps the editor component for embedding into redux-form as an input component
      * @param  {object} input

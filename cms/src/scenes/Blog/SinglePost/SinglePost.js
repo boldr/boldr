@@ -1,16 +1,11 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Link from 'react-router/lib/Link';
-import classNames from 'classnames';
-import { provideHooks } from 'redial';
 import { Grid, Col, Row, Heading } from 'components/index';
 import Paper from 'components/md/Papers';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
-import { getSinglePost } from 'state/dux/post';
 import PostContent from 'components/PostContent';
-import { loadPost } from './actions';
 
 export type Props = {
   isLoading?: boolean,

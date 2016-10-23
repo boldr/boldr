@@ -1,6 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Grid, Row, Col, Heading, PrimaryHeader } from '../../components';
+import { Grid, Row, Heading, PrimaryHeader } from '../../components';
 
 const About = () => {
   return (

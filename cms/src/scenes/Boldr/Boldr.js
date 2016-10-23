@@ -10,8 +10,9 @@ import { fetchSettingsIfNeeded, getSettings } from 'state/dux/setting';
 import { fetchPagesIfNeeded } from 'state/dux/page';
 
 export type Props = {
-  children: React$Element<*>,
-  fetchSettingsIfNeeded: Function
+  children: ReactElement,
+  fetchSettingsIfNeeded: Function,
+  settings: Object
 };
 
 @provideHooks({
@@ -26,7 +27,6 @@ class Boldr extends Component {
   render() {
     return (
       <div>
-      {/* TODO: switch title="boldr" to this.props.setting.title */}
         <Helmet
           title="Boldr"
           titleTemplate={ '%s | powered by Boldr' }

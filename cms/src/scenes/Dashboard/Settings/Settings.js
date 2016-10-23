@@ -1,5 +1,6 @@
-import React from 'react';
-import { Button, Checkbox, Icon, Table, Segment } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { Button, Icon, Table, Form, Segment } from 'semantic-ui-react';
+import SettingRow from './SettingRow';
 
 type Props = {
   boldr?: Object,
@@ -8,13 +9,21 @@ type Props = {
 };
 
 
-const Settings = (props: Props) => {
-  return (
+class Settings extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      editing: false
+    };
+}
+  props: Props;
+  render() {
+    return (
       <Segment>
         <Table compact celled definition>
          <Table.Header>
            <Table.Row>
-             <Table.HeaderCell />
              <Table.HeaderCell>Key</Table.HeaderCell>
              <Table.HeaderCell>Value</Table.HeaderCell>
              <Table.HeaderCell>Description</Table.HeaderCell>
@@ -24,32 +33,27 @@ const Settings = (props: Props) => {
 
         <Table.Body>
            {
-             props.allSettings.map(setting =>
-             <Table.Row key={ setting.id }>
-               <Table.Cell collapsing>
-                 <Checkbox slider />
-               </Table.Cell>
-               <Table.Cell>{ setting.key }</Table.Cell>
-               <Table.Cell>{ setting.value }</Table.Cell>
-               <Table.Cell>{ setting.description }</Table.Cell>
-             </Table.Row>)
+             this.props.allSettings.map(setting =>
+               <SettingRow key={ setting.id } setting={ setting } />
+             )
            }
         </Table.Body>
 
-     <Table.Footer fullWidth>
-       <Table.Row>
-         <Table.HeaderCell />
-         <Table.HeaderCell colSpan="4">
-           <Button floated="right" icon labelPosition="left" primary size="small">
-             <Icon name="setting" /> Add Setting
-           </Button>
-           <Button size="small">Approve</Button>
-         </Table.HeaderCell>
-       </Table.Row>
-     </Table.Footer>
-   </Table>
+         <Table.Footer fullWidth>
+           <Table.Row>
+             <Table.HeaderCell />
+             <Table.HeaderCell colSpan="4">
+               <Button floated="right" icon labelPosition="left" primary size="small">
+                 <Icon name="setting" /> Add Setting
+               </Button>
+               <Button size="small">Approve</Button>
+             </Table.HeaderCell>
+           </Table.Row>
+         </Table.Footer>
+       </Table>
       </Segment>
     );
-};
+  }
+}
 
 export default Settings;

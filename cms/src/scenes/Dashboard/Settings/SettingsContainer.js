@@ -29,9 +29,12 @@ class SettingsContainer extends Component {
 
   props: Props;
 
-  handleSubmit(values, id) {
-    this.props.updateBoldrSettings(values, id);
+  handleSubmit(values, e) {
+    e.preventDefault();
+    console.log(values)
+    // this.props.updateBoldrSettings(values, id);
   }
+
   render() {
     return (
       <Settings { ...this.props } handleSubmit={ this.handleSubmit } />

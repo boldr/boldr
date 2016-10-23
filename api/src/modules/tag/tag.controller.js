@@ -1,4 +1,4 @@
-import { responseHandler } from '../../utils';
+import { responseHandler } from '../../core';
 
 import Tag from './tag.model';
 

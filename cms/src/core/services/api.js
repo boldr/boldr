@@ -91,18 +91,14 @@ export const doAuthCheck = (token) => {
   return request.get(`${API_AUTH}/check`).set('Authorization', `${token}`);
 };
 
-export function doUpdateSettings(data, id) {
-  const payload = {
-    site_url: data.siteUrl,
-    site_favicon: data.favicon,
-    site_name: data.siteName,
-    site_logo: data.siteLogo,
-    google_analytics: data.googleAnalytics,
-    configuration: data.configuration
+export function doUpdateSettings(payload) {
+  const settingId = payload.id;
+  const data = {
+    value: payload.value
   };
-  return request.put(`${API_SETTINGS}/1`)
+  return request.put(`${API_SETTINGS}/${settingId}`)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`)
-    .send(payload);
+    .send(data);
 }
 
 export const doLoadSettings = () => {

@@ -3,19 +3,19 @@ import * as api from 'core/services/api';
 import * as types from '../actionTypes';
 
 const fetchMediaStart = () => {
-  return { type: types.GET_MEDIA_REQUEST };
+  return { type: types.GET_ATTACHMENT_REQUEST };
 };
 // Fetch Articles Success
 export function fetchMediaSuccess(response) {
   return {
-    type: types.GET_MEDIA_SUCCESS,
+    type: types.GET_ATTACHMENT_SUCCESS,
     payload: response.body
   };
 }
 // Fetch Articles Error
 export function fetchMediaFail(err) {
   return {
-    type: types.GET_MEDIA_FAILURE,
+    type: types.GET_ATTACHMENT_FAILURE,
     error: err
   };
 }
@@ -25,9 +25,10 @@ export function fetchMedia() {
     dispatch(fetchMediaStart());
     return api.doFetchMedia()
       .then(response => {
-        if (response.status === 200) {
-          dispatch(fetchMediaSuccess(response));
+        if (response.status !== 200) {
+          dispatch(fetchMediaFail());
         }
+        dispatch(fetchMediaSuccess(response));
       })
       .catch(err => {
         dispatch(fetchMediaFail(err));
@@ -69,19 +70,19 @@ export function uploadFiles(payload) {
 }
 
 const deleteMediaFail = (err) => ({
-  type: types.DELETE_MEDIA_FAILURE,
+  type: types.DELETE_ATTACHMENT_FAILURE,
   error: err
 });
 
 export function deleteMedia(id) {
   return (dispatch) => {
     dispatch({
-      type: types.DELETE_MEDIA_REQUEST
+      type: types.DELETE_ATTACHMENT_REQUEST
     });
     return api.doRemoveMedia(id)
       .then(response => {
         dispatch({
-          type: types.DELETE_MEDIA_SUCCESS,
+          type: types.DELETE_ATTACHMENT_SUCCESS,
           id
         });
       })
@@ -106,14 +107,14 @@ export default function attachmentReducer(state = INITIAL_STATE, action = {}) {
     state = Object.assign({}, INITIAL_STATE, state, { hydrated: true });
   }
   switch (action.type) {
-    case types.GET_MEDIA_REQUEST:
+    case types.GET_ATTACHMENT_REQUEST:
     case types.UPLOAD_REQUEST:
-    case types.DELETE_MEDIA_REQUEST:
+    case types.DELETE_ATTACHMENT_REQUEST:
       return {
         ...state,
         isLoading: true
       };
-    case types.GET_MEDIA_SUCCESS:
+    case types.GET_ATTACHMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -125,14 +126,14 @@ export default function attachmentReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         files: [...state.files, ...action.payload]
       };
-    case types.DELETE_MEDIA_SUCCESS:
+    case types.DELETE_ATTACHMENT_SUCCESS:
       return {
         ...state,
         files: [...state.files].filter((file) => file.id !== parseInt(action.id, 10))
       };
-    case types.GET_MEDIA_FAILURE:
+    case types.GET_ATTACHMENT_FAILURE:
     case types.UPLOAD_FAILURE:
-    case types.DELETE_MEDIA_FAILURE:
+    case types.DELETE_ATTACHMENT_FAILURE:
       return {
         ...state,
         isLoading: false,
