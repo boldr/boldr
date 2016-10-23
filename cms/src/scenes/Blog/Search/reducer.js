@@ -1,10 +1,8 @@
-import request from 'superagent';
-import { combineReducers } from 'redux';
-import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
-import { API_PREFIX, API_POSTS } from 'core/api/helpers';
+import request from 'superagent';
+import { API_PREFIX, API_POSTS } from 'core/config';
 import { notificationSend } from 'state/dux/notifications';
-import { processResponse } from 'core/api/helpers';
+import { processResponse } from 'core/services/api';
 import * as types from './constants';
 
 const requestPosts = () => {

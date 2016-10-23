@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import { API_HOST, API_PORT } from './helpers';
+import { API_HOST, API_PORT } from '../config';
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -55,5 +55,5 @@ export default class ApiClient {
   setJwtToken(token) {
     this.token = token;
   }
-   empty() {}
+  empty() {}
 }

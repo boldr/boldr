@@ -18,7 +18,7 @@ import { trigger } from 'redial';
 import createStore from './state/createStore';
 import getRoutes from './scenes/index';
 import Html from './components/Html';
-import ApiClient from './core/api/ApiClient';
+import ApiClient from './core/services/ApiClient';
 
 const debug = require('debug')('boldr:server');
 

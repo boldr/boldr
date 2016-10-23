@@ -1,10 +1,11 @@
+/* @flow */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { createPost } from 'state/dux/post';
 import NewPost from './NewPost';
 
-export type Props = {dispatch?: Function};
+export type Props = {dispatch: Function};
 
 class NewPostContainer extends Component {
   onFormSubmit = (data) => {

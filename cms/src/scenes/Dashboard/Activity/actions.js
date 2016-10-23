@@ -1,4 +1,4 @@
-import * as api from 'core/api/activity.service';
+import * as api from 'core/services/api';
 import * as types from './constants';
 
 const loadActivities = () => ({

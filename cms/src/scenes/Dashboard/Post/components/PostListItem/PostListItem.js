@@ -26,7 +26,6 @@ const PostListItem = (props: Props) => {
   }
   function handleClickDelete() {
     const postId: String = props.article.id;
-    // $FlowIssue
     props.handleDeleteClick(postId);
   }
   const formattedDate = dateFns.format(props.created_at, 'MM/DD/YYYY');
@@ -36,7 +35,9 @@ const PostListItem = (props: Props) => {
     <div>
     <Segment>
       <Item>
-       <img src={ props.article.feature_image } style={ { width: '100px', height: '100px', float: 'left', marginRight: '15px' } }
+       <img src={ props.article.feature_image }
+         alt="post preview"
+         style={ { width: '100px', height: '100px', float: 'left', marginRight: '15px' } }
        />
        <Item.Content>
         <Item.Header>
@@ -58,7 +59,7 @@ const PostListItem = (props: Props) => {
           <Link to={ `/dashboard/posts/editor/${props.slug}` }>
             <Icon name="edit" size="large" />
           </Link>
-          <Icon name="recycle" size="large" onClick={ handleClickDelete }/>
+          <Icon name="recycle" size="large" onClick={ handleClickDelete } />
         </Item.Extra>
       </Item.Content>
     </Item>

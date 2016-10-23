@@ -9,7 +9,7 @@ import WebFontLoader from 'webfontloader';
 // Non-vendor
 import { TOKEN_KEY } from './core';
 import ReactHotLoader from './components/ReactHotLoader';
-import ApiClient from './core/api/ApiClient';
+import ApiClient from './core/services/ApiClient';
 import createStore from './state/createStore';
 import { checkAuth } from './state/dux/auth';
 

@@ -12,12 +12,10 @@ import {
   API_CATEGORY,
   API_ACTIVITY,
   API_SETTINGS,
-  TOKEN_KEY,
-  processResponse, credentials, jsonHeaders
-} from './api/helpers';
-
-import ApiClient from './api/ApiClient';
-
+  TOKEN_KEY
+} from './config';
+import { processResponse, credentials, jsonHeaders } from './services/api';
+import ApiClient from './services/ApiClient';
 
 export {
   API_PREFIX,

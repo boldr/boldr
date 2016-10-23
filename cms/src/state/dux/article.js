@@ -1,6 +1,7 @@
 import { arrayOf, normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
-import { getAllPosts } from 'core/services/api';
+import * as api from 'core/services/api';
+import { createSelector } from 'reselect';
 import { post as postSchema } from 'core/services/schemas';
 // import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
@@ -38,9 +39,9 @@ export function fetchPostsIfNeeded() {
 export function fetchArticles(post) {
   return (dispatch, getState) => {
     dispatch(requestPosts(post));
-    return getAllPosts()
-       .then(json => {
-         const camelizedJson = camelizeKeys(json);
+    return api.doFetchPosts()
+       .then(response => {
+         const camelizedJson = camelizeKeys(response.body);
          const normalized = normalize(camelizedJson, arrayOf(postSchema));
          const result = normalized.result.reduce((arr, a) => {
            if (arr.indexOf(a) === -1) {
@@ -69,60 +70,37 @@ function shouldFetchPosts(state) {
   }
   return posts;
 }
-
+const FETCH_ARTICLES_REQUEST = 'FETCH_ARTICLES_REQUEST';
+const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS';
+const FETCH_ARTICLES_FAILURE = 'FETCH_ARTICLES_FAILURE';
 const requestPosts = (post) => {
-  return { type: types.FETCH_POSTS_REQUEST, post };
+  return { type: FETCH_ARTICLES_REQUEST, post };
 };
 
 const receivePosts = (entities, posts) => {
   return {
-    type: types.FETCH_POSTS_SUCCESS,
+    type: FETCH_ARTICLES_SUCCESS,
     entities,
     posts
   };
 };
 
 const receivePostsFailed = (err) => ({
-  type: types.FETCH_POSTS_FAILURE, error: err
+  type: FETCH_ARTICLES_FAILURE, error: err
 });
 
-const initialPostState = {
-  isLoading: false,
-  loaded: true,
-  items: []
-};
-
-function post(state = initialPostState, action) {
-  switch (action.type) {
-    case types.FETCH_POSTS_REQUEST:
-      return Object.assign({}, state, {
-        isLoading: true,
-        loaded: false
-      });
-    case types.FETCH_POSTS_SUCCESS:
-      return Object.assign({}, state, {
-        isLoading: false,
-        loaded: true,
-        items: [...state.items, ...action.posts]
-      });
-    case types.FETCH_POSTS_FAILURE:
-      return Object.assign({}, state, {
-        ...state,
-        isLoading: false,
-        error: action.error
-      });
-
-    default:
-      return state;
-  }
-}
+export const getArticles = createSelector(
+  [
+    (state) => state.articles.items,
+    (state) => state.articles.bySlug
+  ],
+  (items, bySlug) => bySlug.map(slug => items[slug])
+);
 
 const INITIAL_STATE = {
-  byId: {
-    isLoading: false,
-    loaded: true,
-    items: []
-  }
+  bySlug: [],
+  items: {},
+  isLoading: false
 };
 /**
  *  postsReducer
@@ -131,15 +109,17 @@ const INITIAL_STATE = {
  */
 export default function articleReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-    case types.FETCH_POSTS_REQUEST:
+    case FETCH_ARTICLES_REQUEST:
       return Object.assign({}, state, {
-        byId: post(state[action.posts], action)
+        isLoading: true
       });
-    case types.FETCH_POSTS_SUCCESS:
+    case FETCH_ARTICLES_SUCCESS:
       return Object.assign({}, state, {
-        byId: post(state[action.posts], action)
+        bySlug: action.posts,
+        items: action.entities.posts,
+        isLoading: false
       });
-    case types.FETCH_POSTS_FAILURE:
+    case FETCH_ARTICLES_FAILURE:
       return {
         ...state,
         isLoading: false,

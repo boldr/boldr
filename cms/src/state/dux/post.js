@@ -1,6 +1,8 @@
 /* @flow */
+import request from 'superagent';
 import * as api from 'core/services/api';
 import * as notif from 'core/notificationMessages';
+import { API_POSTS } from 'core/config';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
 
@@ -173,6 +175,61 @@ const deletePostFail = (err) => ({
   type: types.DELETE_POST_FAILURE,
   error: err
 });
+
+
+export function updatePost(postData) {
+  // const articleSlug = slug(articleData.title);
+  const payload = {
+    title: postData.title,
+    content: postData.content,
+    excerpt: postData.excerpt,
+    feature_image: postData.feature_image,
+    status: postData.status
+  };
+  return dispatch => {
+    dispatch(updatePostDetails(postData));
+    return request
+      .put(`${API_POSTS}/pid/${postData.id}`)
+      .set('Authorization', `${localStorage.getItem('token')}`)
+      .send({
+        // title: articleData.title,
+        content: postData.content,
+        excerpt: postData.excerpt,
+        feature_image: postData.feature_image,
+        tag: postData.tag,
+        status: postData.status
+      })
+      .then(response => {
+        dispatch(updatePostSuccess(response));
+        dispatch(notificationSend({
+          message: 'Updated article.',
+          kind: 'info',
+          dismissAfter: 3000
+        }));
+      })
+      .catch(
+        err => {
+          dispatch(errorUpdatingPost(err.message));
+          dispatch(notificationSend({
+            message: 'There was a problem updating the article.',
+            kind: 'error',
+            dismissAfter: 3000
+          }));
+        });
+  };
+}
+const updatePostDetails = () => {
+  return { type: types.UPDATE_POST_REQUEST };
+};
+const updatePostSuccess = (response) => {
+  return { type: types.UPDATE_POST_SUCCESS };
+};
+const errorUpdatingPost = (err) => {
+  return {
+    type: types.UPDATE_POST_FAILURE,
+    error: err
+  };
+};
 
 
 //

@@ -6,6 +6,7 @@ import { Loader } from 'components/index';
 import { getPosts, fetchPosts } from 'state/dux/post';
 import type { Post } from 'state/dux/post';
 import PostListingGroup from './PostListingGroup';
+import { fetchArticles, getArticles } from 'state/dux/article';
 
 export type Props = {
   posts: Array<Post>,
@@ -14,7 +15,8 @@ export type Props = {
 };
 
 @provideHooks({
-  fetch: ({ dispatch }) => dispatch(fetchPosts())
+  fetch: ({ dispatch }) => dispatch(fetchPosts()),
+  defer: ({ dispatch }) => dispatch(fetchArticles())
 })
 class PostListing extends Component {
   componentDidMount() {
@@ -33,8 +35,9 @@ class PostListing extends Component {
 const mapStateToProps = (state) => {
   return {
     posts: getPosts(state),
-    isLoading: state.posts.isLoading
+    isLoading: state.posts.isLoading,
+    articles: getArticles(state)
   };
 };
 
-export default connect(mapStateToProps, { fetchPosts })(PostListing);
+export default connect(mapStateToProps, { fetchPosts, fetchArticles })(PostListing);

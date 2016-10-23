@@ -1,21 +1,23 @@
-import React, { Component, PropTypes } from 'react';
+/* @flow */
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { createPost } from 'state/dux/post';
-import EditorForm from '../EditorForm';
+import { EditorForm } from '../components';
 
 export type Props = {
-  dispatch?: Function,
+  dispatch: Function,
   posts?: Object,
   params?: Object,
   currentPost?: Object,
   onFormSubmit?: Function,
+  handleSubmit: Function
 };
 
 class NewPost extends Component {
   constructor(props: Props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    (this: any).handleSubmit = this.handleSubmit.bind(this);
   }
 
   props: Props;

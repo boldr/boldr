@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import { Row } from 'components/index';
-import { Image, Item, Header, Segment, Dropdown, Icon, Menu } from 'semantic-ui-react';
-import { changePostStatus, fetchPostsIfNeeded, getPosts, deletePost } from 'state/dux/post';
-import PostListItem from './components/PostListItem';
+import { Item, Segment, Icon, Menu } from 'semantic-ui-react';
+import { fetchPostsIfNeeded, getPosts, deletePost } from 'state/dux/post';
+import { PostListItem } from '../components';
 
 export type Props = {
   children?: React$Element<*>,

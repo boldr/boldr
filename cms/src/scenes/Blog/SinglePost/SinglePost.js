@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, Col, Row } from 'components/index';
-import Paper from 'components/md/Papers';
+import { Segment } from 'semantic-ui-react';
 import Loader from 'components/Loader';
 import PostSidebar from 'components/PostSidebar';
 import PostContent from 'components/PostContent';
@@ -29,13 +29,9 @@ const SinglePost = (props: Props) => {
       <Grid fluid>
         <Row>
           <Col xs={ 12 } md={ 8 } lg={ 9 }>
-              <Paper zDepth={ 2 } style={ IS.offSet }>
-              {
-                props.isLoading ?
-                  <Loader /> :
-                  <PostContent { ...props.currentPost } />
-              }
-              </Paper>
+              <Segment style={ IS.offSet }>
+              <PostContent { ...props.currentPost } />
+              </Segment>
             </Col>
             <Col xs={ 12 } md={ 4 } lg={ 3 }>
               <PostSidebar { ...props.currentPost } />
@@ -49,8 +45,7 @@ const SinglePost = (props: Props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
-    currentPost: state.posts.bySlug[ownProps.params.slug],
-    isLoading: state.currentPost.isLoading
+    currentPost: state.posts.bySlug[ownProps.params.slug]
   };
 };
 

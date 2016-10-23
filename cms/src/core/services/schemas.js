@@ -1,6 +1,6 @@
 import { Schema, arrayOf } from 'normalizr';
 
-const post = new Schema('posts');
+const post = new Schema('posts', { idAttribute: 'slug' });
 const account = new Schema('accounts');
 const tag = new Schema('tags');
 const attachment = new Schema('attachments');

@@ -2,16 +2,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { loadPost, clearCurrentPost, updatePost } from 'scenes/Blog/SinglePost/actions';
-import EditorForm from '../EditorForm';
+import { updatePost } from 'state/dux/post';
+import { EditorForm } from '../components';
 
 export type Props = {
   dispatch: Function,
   posts: Object,
   params: Object,
   currentPost: Object,
-  clearCurrentPost?: Function,
-  loadPost: Function
+  updatePost: Function
 };
 
 class PostEditor extends Component {
@@ -22,9 +21,7 @@ class PostEditor extends Component {
   state: Object = {
     editing: true
   };
-//  componentDidMount() {
-//    this.props.loadPost(this.props.params.slug);
-//  }
+
   props: Props;
   handleSubmit(values) {
     const postData = {
@@ -35,13 +32,10 @@ class PostEditor extends Component {
       id: this.props.currentPost.id || '',
       origSlug: this.props.params.slug || ''
     };
-    this.props.dispatch(updatePost(postData));
+    this.props.updatePost(postData);
   }
 
   render() {
-    if (!this.props.currentPost.content.length) {
-      return <p>Loading...</p>;
-    }
     return (
       <div>
         <EditorForm
@@ -57,8 +51,7 @@ class PostEditor extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts,
-    currentPost: state.posts.bySlug[ownProps.params.slug],
-    isLoading: state.currentPost.isLoading
+    currentPost: state.posts.bySlug[ownProps.params.slug]
   };
 };
-export default connect(mapStateToProps, { loadPost, clearCurrentPost, updatePost })(PostEditor);
+export default connect(mapStateToProps, { updatePost })(PostEditor);

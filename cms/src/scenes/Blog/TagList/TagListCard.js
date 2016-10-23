@@ -3,11 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import dateFns from 'date-fns';
 
-import TagBlock from 'components/TagBlock';
-import FontIcon from 'components/md/FontIcons';
 import { FlatButton, IconButton } from 'components/md/Buttons';
 import { Card, CardMedia, CardTitle, CardActions, CardText } from 'components/md/Cards';
-import Avatar from 'components/md/Avatars';
+import Avatar from 'components/Avatar';
 
 type Props = {
   title: string,

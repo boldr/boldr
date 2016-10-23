@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, Button, Form } from 'semantic-ui-react';
-import { Heading, Grid, Col, Row } from 'components';
+import { Heading, Grid, Col, Row } from 'components/index';
 import inlineStyles from 'theme/inlineStyles';
 import { forgotPassword } from 'state/dux/auth';
 

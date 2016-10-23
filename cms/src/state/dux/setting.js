@@ -93,7 +93,6 @@ function shouldFetchSettings(state) {
 export function updateBoldrSettings(payload) {
   return dispatch => {
     dispatch(beginUpdateSettings());
-    console.log(payload)
     return api.doUpdateSettings(payload)
       .then(response => {
         dispatch(doneUpdateSettings(response));
@@ -148,17 +147,9 @@ const byKey = (state = {}, action) => {
   let nextState;
   switch (action.type) {
     case types.LOAD_SETTINGS_SUCCESS:
-    // case types.LOAD_SETTINGS_SUCCESS:
-
-      let i = 0;
-      for (const prop in action.settings) {
-        i++;
-        if (action.settings.hasOwnProperty(prop)) {
-          console.log('prop', prop);
-          Object.assign(action.settings[prop]);
-        }
-      }
-
+      Object.keys(action.settings).forEach((key) => {
+        Object.assign(action.settings[key]);
+      });
       return {
         ...state,
         ...action.settings

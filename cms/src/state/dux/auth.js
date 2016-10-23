@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux';
-import * as api from 'core/api/auth.service';
-import { TOKEN_KEY } from 'core/services/api';
+import * as api from 'core/services/api';
+import { TOKEN_KEY } from 'core/config';
 import * as notif from 'core/notificationMessages';
 import * as types from '../actionTypes';
 import { notificationSend } from './notifications';
