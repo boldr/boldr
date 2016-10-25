@@ -143,7 +143,7 @@
     "ioredis": "^2.4.0",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.1.9",
-    "knex": "^0.12.3",
+    "knex": "^0.12.6",
     "lodash": "^4.16.2",
     "method-override": "^2.3.6",
     "moment": "^2.15.1",
