@@ -1,56 +1,48 @@
 {
   "env": {
     "api": {
-      "presets": ["latest"],
+      "presets": [["latest", { "es2015": { "modules": "commonjs" }}]],
       "plugins": [
         "transform-class-properties",
         "transform-flow-strip-types",
+        "transform-regenerator",
         ["module-resolver", {
-          "root": ["./api/src"]
-        }]
-      ]
-    },
-    "development": {
-      "presets": ["boldr"],
-      "plugins": [
-        "react-hot-loader/babel",
-        ["module-resolver", {
-          "root": ["./cms/src"],
+          "root": ["./src/api"],
           "alias": {
-             "components": "./cms/src/components",
-             "state": "./cms/src/state",
-             "theme": "./cms/src/theme",
-             "scenes": "./cms/src/scenes"
-           }
-        }]
-      ]
-    },
-    "production": {
-      "presets": ["boldr"],
-      "plugins": [
-        "transform-flow-strip-types",
-        ["module-resolver", {
-          "root": ["./cms/src"],
-          "alias": {
-             "components": "./cms/src/components",
-             "state": "./cms/src/state",
-             "theme": "./cms/src/theme",
-             "scenes": "./cms/src/scenes"
-           }
+            "apicore": "./src/api/core",
+          }
+        }],
+        ["transform-runtime", {
+          "helpers": false,
+          "polyfill": false,
+          "regenerator": true
         }]
       ]
     },
     "test": {
-      "presets": ["boldr"],
+      "presets": [["latest", { "es2015": { "modules": "commonjs" }}], "react"],
       "plugins": [
         "istanbul",
+        "transform-class-properties",
+        "transform-flow-strip-types",
+        "transform-decorators-legacy",
+        "transform-object-rest-spread",
+        "transform-function-bind",
+        "transform-regenerator",
+        ["transform-runtime", {
+          "helpers": false,
+          "polyfill": false,
+          "regenerator": true
+        }],
         ["module-resolver", {
-          "root": ["./cms/src"],
+          "root": ["./src"],
           "alias": {
-             "components": "./cms/src/components",
-             "state": "./cms/src/state",
-             "theme": "./cms/src/theme",
-             "scenes": "./cms/src/scenes"
+            "core": "./src/cms/common/core",
+            "apicore": "./src/api/core",
+            "components": "./src/cms/common/components",
+            "state": "./src/cms/common/state",
+            "theme": "./src/cms/common/theme",
+            "scenes": "./src/cms/common/scenes"
            }
         }]
       ]

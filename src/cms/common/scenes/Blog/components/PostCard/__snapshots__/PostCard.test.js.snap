@@ -1,0 +1,36 @@
+exports[`<PostCard /> renders snapshot 1`] = `
+<div>
+  <Card
+    fluid={true}>
+    <Image
+      as="img"
+      className="post__card-image"
+      src={undefined}
+      ui={true} />
+    <CardContent>
+      <CardHeader />
+      <CardMeta>
+        NaN/NaN/0NaN
+      </CardMeta>
+      <CardDescription />
+    </CardContent>
+    <CardContent
+      extra={true}>
+      <Row
+        componentClass="div">
+        <Link
+          onlyActiveOnIndex={false}
+          style={Object {}}
+          to="/blog/undefined">
+          <Button
+            as="button">
+            Read More
+          </Button>
+        </Link>
+        <Component
+          tags={undefined} />
+      </Row>
+    </CardContent>
+  </Card>
+</div>
+`;

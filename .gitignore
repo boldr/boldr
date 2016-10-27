@@ -26,9 +26,10 @@ boldr-api.paw
 
 
 #### Dist Directories
-cms/dist/
-api/boldr-api/
-.boldrrc.json
+build
+node_modules
+logs
+public/apidoc
 
 #### Runtime data
 pids
@@ -36,7 +37,4 @@ pids
 .storybook
 stories/
 
-node_modules
-cms/static/assets/
-logs/
-cms/static/assets.js
+

@@ -1,13 +1,13 @@
 {
   "name": "boldr",
-  "version": "0.5.5",
+  "version": "0.6.0-alpha.1",
   "description": "Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little Boldr?",
   "main": "bin/ssr.js",
   "directories": {
     "docs": "docs",
     "tools": "tools",
-    "cms": "cms/src",
-    "api": "api/src",
+    "cms": "build/boldrCMS",
+    "api": "build/boldrAPI",
     "bin": "bin"
   },
   "repository": {
@@ -37,129 +37,104 @@
     "yarn": "^0.14.0"
   },
   "betterScripts": {
-    "build:client": {
-      "command": "./node_modules/.bin/webpack --env production --config tools/webpack/webpack.config.client.js",
-      "env": {
-        "DEBUG": "boldr:*",
-        "NODE_ENV": "production",
-        "BABEL_ENV": "production",
-        "SSR_PORT": 3000
-      }
-    },
-    "build:server": {
-      "command": "./node_modules/.bin/webpack --config tools/webpack/webpack.config.node.js",
-      "env": {
-        "NODE_ENV": "production",
-        "BABEL_ENV": "production",
-        "SSR_PORT": 3000
-      }
-    },
     "dev:client": {
-      "command": "node ./tools/webpack/dev.server.js",
+      "command": "node ./tools/development",
       "env": {
         "DEBUG": "boldr:*",
         "NODE_ENV": "development",
-        "BABEL_ENV": "development",
-        "SSR_PORT": 3000,
-        "HMR_PORT": 3001,
-        "WEBPACK_DLLS": 1
-      }
-    },
-    "dev:server": {
-      "command": "node ./bin/dev.js",
-      "env": {
-        "DEBUG": "boldr:*",
-        "NODE_ENV": "development",
-        "BABEL_ENV": "development",
-        "SSR_PORT": 3000,
-        "HMR_PORT": 3001,
-        "WEBPACK_DLLS": 1
+        "BABEL_ENV": "development"
       }
     },
     "dev:api": {
-      "command": "nodemon ./bin/api.js",
+      "command": "nodemon ./src/api/index.js",
       "env": {
         "DEBUG": "boldr:*",
         "NODE_ENV": "development",
         "BABEL_ENV": "api",
-        "API_PORT": 2121
-      }
-    },
-    "test:client": {
-      "command": "jest",
-      "env": {
-        "NODE_ENV": "test",
-        "BABEL_ENV": "test"
-      }
-    },
-    "test:api": {
-      "command": "nyc mocha --compilers js:babel-register --opts ./tools/test/mocha.opts --require ./tools/test/mocha.js './api/src/**/*.test.js'",
-      "env": {
-        "NODE_ENV": "test",
-        "BABEL_ENV": "test",
+        "REDIS_CONN_URI": "redis://127.0.0.1:6379/1",
         "API_PORT": 2121
       }
     }
   },
   "scripts": {
-    "babel": "NODE_ENV=production babel --presets boldr --ignore node_modules",
-    "build": "npm-run-all -s clean build:server build:client build:api",
-    "build:api": "NODE_ENV=production npm run babel -- ./api/src -d ./api/boldr-api",
-    "build:client": "better-npm-run build:client",
-    "build:server": "better-npm-run build:server",
-    "build:dlls": "webpack --verbose --colors --display-error-details --config tools/webpack/dll.config.js",
-    "clean": "rimraf cms/static/assets.js && rimraf cms/static/assets/ && rimraf api/boldr-api/ && rimraf .happypack && rimraf cms/dist",
-    "dev": "npm-run-all --parallel dev:api dev:client dev:server",
+    "apidoc": "apidoc -i src/api -o public/apidoc && apidoc-markdown -p public/apidoc -o docs/apidoc.md",
+    "babel": "NODE_ENV=production babel --ignore node_modules",
+    "build": "npm-run-all -s clean build:client build:api",
+    "build:api": "NODE_ENV=production BABEL_ENV=api npm run babel -- ./src/api -d ./build/boldrAPI",
+    "build:client": "npm run clean && webpack --config ./tools/webpack/client.config.js && webpack --config ./tools/webpack/universalMiddleware.config.js && webpack --config ./tools/webpack/server.config.js",
+    "clean": "rimraf .happypack && rimraf build/",
+    "dev": "npm-run-all --parallel dev:api dev:client",
     "dev:client": "better-npm-run dev:client",
-    "dev:server": "better-npm-run dev:server",
     "dev:api": "better-npm-run dev:api",
-    "knex": "./node_modules/.bin/knex --knexfile api/src/config/knexfile.js",
+    "knex": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "npm run lint -- --fix",
-    "migrate": "./node_modules/.bin/knex --knexfile api/src/config/knexfile.js migrate:latest",
-    "seed": "./node_modules/.bin/knex --knexfile api/src/config/knexfile.js seed:run",
-    "start:prod": "NODE_ENV=production API_PORT=2121 node bin/ssr.js",
-    "test": "npm-run-all -s test:client test:api",
-    "test:client": "better-npm-run test:client",
-    "test:api": "better-npm-run test:api",
+    "migrate": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js migrate:latest",
+    "seed": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js seed:run",
+    "start:cms": "node build/boldrCMS/server",
+    "test": "NODE_ENV=test jest",
     "typecheck": "flow; test $? -eq 0 -o $? -eq 2"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/styleMock.js",
+      "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
+    },
+    "collectCoverage": true,
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testPathDirs": [
+      "<rootDir>/src/cms",
+      "<rootDir>/src/api"
+    ],
+    "setupFiles": [
+      "<rootDir>/tools/test/setup.js"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "text-summary"
+    ]
+  },
+  "apidoc": {
+    "title": "Boldr API Documentation",
+    "url": "https://boldr.io/api/v1"
+  },
   "dependencies": {
-    "aws-sdk": "^2.6.6",
-    "babel-register": "^6.16.3",
+    "app-root-path": "^2.0.1",
+    "aws-sdk": "^2.6.11",
     "bcryptjs": "^2.3.0",
-    "better-npm-run": "0.0.11",
+    "better-npm-run": "^0.0.12",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
     "composable-middleware": "^0.3.0",
-    "compression": "^1.6.2",
     "connect-redis": "^3.1.0",
     "convict": "^1.5.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
-    "crypto-js": "^3.1.6",
-    "date-fns": "^1.4.0",
+    "crypto-js": "^3.1.7",
+    "date-fns": "^1.8.1",
     "debug": "^2.2.0",
     "dotenv": "^2.0.0",
     "draft-js": "^0.9.1",
     "draft-js-export-html": "^0.5.0",
-    "draft-js-import-html": "0.3.0",
+    "draft-js-import-html": "^0.3.1",
     "errorhandler": "^1.4.3",
-    "express": "4.14.0",
+    "express": "^4.14.0",
+    "express-redis-cache": "^0.5.0",
     "express-session": "^1.14.1",
     "express-validator": "^2.20.10",
     "express-winston": "^2.0.0",
     "helmet": "^2.3.0",
     "hpp": "^0.2.1",
-    "http-proxy": "^1.15.1",
+    "http-proxy": "^1.15.2",
     "humps": "^2.0.0",
     "invariant": "^2.2.1",
     "ioredis": "^2.4.0",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.1.9",
-    "knex": "0.12.6",
-    "lodash": "^4.16.2",
+    "knex": "^0.12.6",
+    "lodash": "^4.16.4",
     "lusca": "^1.4.1",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
@@ -169,146 +144,107 @@
     "nodemailer": "^2.6.4",
     "nodemailer-mailgun-transport": "^1.2.2",
     "normalizr": "^2.2.1",
-    "npm-run-all": "^3.1.0",
-    "objection": "0.6.1",
-    "objection-find": "0.2.0",
+    "objection": "^0.6.1",
+    "objection-find": "^0.2.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.1.0",
-    "passport-google-oauth20": "^1.0.0",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "pg": "^6.1.0",
-    "react": "15.3.2",
+    "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-transition-group": "^15.3.2",
-    "react-dom": "15.3.2",
-    "react-dropzone": "^3.7.0",
+    "react-dom": "^15.3.2",
     "react-helmet": "^3.1.0",
     "react-motion": "^0.4.5",
     "react-redux": "^5.0.0-beta.3",
-    "react-router": "^2.8.1",
+    "react-router": "3",
     "react-router-redux": "^4.0.6",
-    "redial": "^0.5.0",
     "redux": "^3.6.0",
-    "redux-form": "^6.0.5",
+    "redux-connect": "^4.0.1",
+    "redux-form": "^6.1.1",
+    "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
-    "semantic-ui-react": "0.56.10",
-    "serialize-javascript": "1.3.0",
+    "semantic-ui-react": "^0.56.12",
+    "serialize-javascript": "^1.3.0",
+    "shrink-ray": "^0.1.3",
     "slugify": "^1.0.2",
-    "source-map-support": "^0.4.3",
     "superagent": "^2.3.0",
     "webfontloader": "^1.6.26",
-    "webpack-isomorphic-tools": "2.6.3",
-    "winston": "^2.2.0",
-    "winston-daily-rotate-file": "^1.3.1"
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "apidoc": "^0.16.1",
-    "assets-webpack-plugin": "^3.4.0",
+    "apidoc-markdown": "^0.2.0",
+    "assets-webpack-plugin": "^3.5.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
-    "babel-eslint": "7.0.0",
+    "babel-eslint": "^7.0.0",
     "babel-jest": "^16.0.0",
     "babel-loader": "^6.2.5",
-    "babel-plugin-istanbul": "^2.0.1",
-    "babel-plugin-module-resolver": "^2.2.0",
-    "babel-plugin-system-import-transformer": "^2.4.0",
-    "babel-plugin-transform-class-properties": "^6.16.0",
-    "babel-plugin-transform-flow-strip-types": "^6.14.0",
-    "babel-preset-boldr": "^1.1.2",
+    "babel-plugin-istanbul": "^2.0.3",
+    "babel-plugin-module-resolver": "2.x",
+    "babel-plugin-transform-class-properties": "^6.18.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
+    "babel-plugin-transform-function-bind": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
+    "babel-plugin-transform-react-constant-elements": "^6.9.1",
+    "babel-plugin-transform-react-jsx-self": "^6.11.0",
+    "babel-plugin-transform-react-jsx-source": "^6.9.0",
+    "babel-plugin-transform-regenerator": "^6.16.1",
+    "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-register": "^6.16.3",
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "chai-enzyme": "^0.5.2",
+    "chokidar": "^1.6.1",
+    "colors": "^1.1.2",
     "css-loader": "^0.25.0",
-    "cssnano": "^3.7.5",
-    "enzyme": "^2.4.1",
-    "eslint": "^3.7.0",
-    "eslint-config-boldr": "1.2.1",
-    "eslint-plugin-flowtype": "^2.20.0",
-    "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "enzyme": "2",
+    "enzyme-to-json": "^1.1.5",
+    "eslint": "^3.8.1",
+    "eslint-config-boldr": "^1.2.1",
+    "eslint-plugin-flowtype": "^2.23.0",
+    "extract-text-webpack-plugin": "2.0.0-beta.4",
     "faker": "^3.1.0",
     "file-loader": "^0.9.0",
     "flow-bin": "^0.33.0",
+    "glob": "7.1.1",
     "happypack": "^2.2.1",
-    "jest": "^16.0.1",
-    "json-loader": "0.5.4",
-    "mocha": "^3.1.0",
+    "jest": "^16.0.2",
+    "jsdom": "^9.8.2",
+    "json-loader": "^0.5.4",
+    "md5": "^2.2.1",
+    "mocha": "^3.1.2",
     "mocha-lcov-reporter": "^1.2.0",
-    "nock": "^8.1.0",
+    "nock": "^9.0.0",
     "node-noop": "^1.0.0",
+    "node-notifier": "^4.6.1",
     "node-sass": "^3.10.1",
-    "nodemon": "^1.10.2",
-    "nyc": "^8.3.1",
-    "postcss-loader": "^1.0.0",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^3.1.1",
+    "postcss-loader": "0.13.0",
     "react-addons-test-utils": "^15.3.2",
     "react-hot-loader": "3.0.0-beta.6",
     "react-test-renderer": "^15.3.2",
-    "redbox-react": "^1.3.1",
-    "redux-logger": "^2.6.1",
     "redux-mock-store": "^1.2.1",
     "regenerator-runtime": "^0.9.5",
-    "rimraf": "2.5.4",
+    "rimraf": "^2.5.4",
     "sass-loader": "^4.0.2",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
-    "supertest": "^2.0.0",
-    "supertest-as-promised": "^4.0.0",
+    "supertest": "^2.0.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.1.0-beta.25",
-    "webpack-dev-middleware": "1.8.4",
-    "webpack-hot-middleware": "2.13.0",
-    "webpack-node-externals": "^1.4.3"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/test/fileMock.js",
-      "^.+\\.(css|scss)$": "<rootDir>/tools/test/styleMock.js"
-    },
-    "collectCoverage": true,
-    "testPathDirs": [
-      "<rootDir>/cms"
-    ],
-    "coverageReporters": [
-      "lcov",
-      "text-summary"
-    ]
-  },
-  "nyc": {
-    "check-coverage": true,
-    "lines": 10,
-    "statements": 10,
-    "functions": 10,
-    "include": [
-      "cms/src/**/*.js",
-      "api/src/**/*.js"
-    ],
-    "exclude": [
-      "node_modules/**",
-      "cms/dist/**",
-      "api/compiled/**",
-      "docs/**",
-      "bin/**",
-      "tools/**",
-      "cms/src/**/*.test.js",
-      "api/src/**/*.test.js"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ],
-    "require": [
-      "babel-register"
-    ],
-    "extension": [
-      ".js"
-    ],
-    "sourceMap": false,
-    "instrument": false
-  },
-  "apidoc": {
-    "title": "Boldr API Documentation",
-    "url": "https://boldr.io/api/v1"
+    "webpack": "2.1.0-beta.25",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.0",
+    "webpack-md5-hash": "^0.0.5",
+    "webpack-node-externals": "^1.5.4"
   }
 }

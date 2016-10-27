@@ -4,12 +4,11 @@ machine:
     - postgresql
   timezone:
     America/Denver
-
-  # Version of ruby to use
   node:
     version:
       6
-
+  pre:
+    - mkdir ~/.yarn-cache
   environment:
     NODE_ENV: test
     CIRCLE_ENV: test
@@ -21,10 +20,28 @@ machine:
     REDIS_PORT: 6379
 
 dependencies:
-  cache_directories:
-    - node_modules
-
   pre:
-    - npm install
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - npm install -g codeclimate-test-reporter
+    - npm prune
+  cache_directories:
+    - ~/.yarn-cache
+    - "node_modules"
+  override:
+    - yarn install
+
+test:
+  pre:
     - NODE_ENV=test npm run migrate
     - NODE_ENV=test npm run seed
+  override:
+    - npm test
+general:
+  branches:
+    only:
+      - /greenkeeper-.*
+      - /feature\/.*
+      - /release\/.*
+      - /hotfix\/.*
+      - master
+      - develop

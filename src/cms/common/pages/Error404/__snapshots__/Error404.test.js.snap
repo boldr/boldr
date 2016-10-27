@@ -1,0 +1,18 @@
+exports[`<Error404 /> renders snapshot 1`] = `
+<div
+  className="error_wrapper">
+  <Boldr
+    helmetMeta={
+      <function HelmetWrapper() {
+                  _classCallCheck(this, HelmetWrapper);
+      
+                  _get(Object.getPrototypeOf(HelmetWrapper.prototype), "constructor", this).apply(this, arguments);
+              }
+        title="404! You might be lost..." />
+    }>
+    <p>
+      Sorry, that page was not found.
+    </p>
+  </Boldr>
+</div>
+`;

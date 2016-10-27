@@ -2,14 +2,20 @@
   "restartable": "rs",
   "ignore": [
     ".git",
-    "node_modules/**/node_modules"
+    "node_modules/**",
+    "coverage/**",
+    "src/**/*.test.js",
+    "src/cms/**",
+    "tools/**",
+    "build/**"
   ],
-  "verbose": true,
+  "verbose": false,
   "watch": [
-    "./api/src"
+    "./src/api"
   ],
   "env": {
     "NODE_ENV": "development",
+    "BABEL_ENV": "api",
     "DEBUG": "boldr:*"
   },
   "ext": "js json"

@@ -1,0 +1,64 @@
+$white: #fff;
+$snow: #fdfdfe;
+$mercury: #e3e6e9;
+$smoke: #8e8d8d;
+$bunker: #2d2d2d;
+$nero: #252525;
+$mirage: rgba(27, 27, 37, 1);
+$near-black: #202022;
+$grape: rgba(64, 64, 78, 1);
+$pinkish: rgb(229, 0, 80);
+$ocean: #1c3050;
+$lapiz: #266a9c;
+$turtle: #11c2bb;
+
+
+$md-black-base: #000;
+$shadow-color: rgba(0, 0, 0, .2);
+$box-shadow: 0 0 5px $shadow-color;
+
+$body-background: $snow;
+$primary-color: $lapiz;
+$main-color: $grape;
+$accent-color: $pinkish;
+$primary-button-bg: $turtle;
+$primary-button-bg-hover: darken($turtle, 5%);
+$topbar-link-color: $snow;
+$topbar-link-hover-color: $accent-color;
+$topbar-background: $near-black;
+
+$selection-color: darken($snow, 3%);
+$link-color: $accent-color;
+$footer-bg: $mirage;
+$text-color: $bunker;
+$import-google-fonts: false;
+$font-name: 'Work Sans' !default;
+$font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+
+$basic-button-bg: $mercury;
+
+$font-size-base: 1em;
+$line-height-base: 1.5em;
+$font-weight-base: 400;
+
+$heading-weight: 300;
+$heading-case: none;
+$window-medium: 768px;
+$window-large: 992px;
+$window-xlarge: 1200px;
+
+$padding: 4px;
+$transition-function: cubic-bezier(.25, .8, .25, 1);
+$transition-duration: .25s;
+$error-color: rgb(244, 67, 54);
+
+$toolbar-height: 64px;
+$toolbar-z-index: 6;
+
+$tiny: 480px;  /* Extra small screen / phone */
+$small: 768px;  /* Small screen / tablet */
+$medium: 992px;  /* Medium screen / desktop */
+$large: 1200px; /* Large screen / wide desktop */
+$grid-width: 1170px;
+$grid-columns: 12;
+$grid-gutter-width: 1.875rem;
