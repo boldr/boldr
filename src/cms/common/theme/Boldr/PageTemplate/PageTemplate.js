@@ -1,17 +1,24 @@
+/* @flow */
 import React from 'react';
-import { PrimaryHeader, Footer, Grid, Col, Row } from 'components/index';
+import { PrimaryHeader, Footer } from '../../../components/index';
 import Boldr from '../Boldr';
 import { HeaderWrapper, ContentWrapper, FooterWrapper } from '../Wrappers';
 
-
-const PageTemplate = ({ header, helmetMeta, hero, children, footer, ...props }) => {
+type Props = {
+  header: ReactElement,
+  helmetMeta?: ReactElement,
+  hero?: ReactElement,
+  children: ReactChildren,
+  footer?: ReactElement
+}
+const PageTemplate = (props: Props) => {
   return (
-    <div>
-      { helmetMeta }
-      <HeaderWrapper>{ header || <PrimaryHeader /> }</HeaderWrapper>
-      { hero }
-      <ContentWrapper>{ children }</ContentWrapper>
-      <FooterWrapper>{ footer || <Footer /> }</FooterWrapper>
+    <div className="boldr__theme-page">
+      { props.helmetMeta }
+      <HeaderWrapper>{ props.header || <PrimaryHeader /> }</HeaderWrapper>
+      { props.hero }
+      <ContentWrapper>{ props.children }</ContentWrapper>
+      <FooterWrapper>{ props.footer || <Footer /> }</FooterWrapper>
     </div>
   );
 };

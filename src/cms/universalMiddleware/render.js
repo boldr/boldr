@@ -25,6 +25,24 @@ function scriptTags(scripts: Array<string>) {
     )
     .join('\n');
 }
+// We use a service worker configured created by the sw-precache webpack plugin,
+// providing us with caching and offline application support.
+// @see https://github.com/goldhand/sw-precache-webpack-plugin
+// Please refer the webpack configuration for more information.
+function serviceWorkerScript() {
+  if (process.env.NODE_ENV === 'production') {
+    return `
+      <script type="text/javascript">
+        (function() {
+          if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+          }
+        })();
+      </script>`;
+  }
+
+  return '';
+}
 
 const styles = styleTags(clientAssets.styles);
 
@@ -77,12 +95,13 @@ function render(reactAppElement: ?ReactElement, preloadedState: ?Object) {
         ${styles}
         ${helmet ? helmet.style.toString() : ''}
         ${polyfillIoScript()}
+         ${serviceWorkerScript()}
       </head>
       <body>
         <div id="app">${reactApp}</div>
 
         <script>${
-          (preloadedState ? `window.PRELOADED_STATE=${serialize(preloadedState)};` : "")
+          (preloadedState ? `window.PRELOADED_STATE=${serialize(preloadedState)};` : '')
         }</script>
         ${scripts}
         ${helmet ? helmet.script.toString() : ''}

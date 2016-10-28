@@ -1,8 +1,9 @@
+/* @flow */
 import React from 'react';
 
-const FooterWrapper = (props) => {
+const FooterWrapper = (props: { children: ReactChildren }) => {
   return (
-    <footer>
+    <footer className="boldr__theme-footer">
       { props.children }
     </footer>
   );

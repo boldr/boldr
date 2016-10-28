@@ -3,13 +3,18 @@ const globSync = require('glob').sync;
 const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const colors = require('colors');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const appRootPath = require('app-root-path').toString();
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const cssnext = require('postcss-cssnext');
+const smartImport = require('postcss-smart-import');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const { removeEmpty, ifElse, merge, happyPackPlugin } = require('../utils');
 const envVars = require('../config/envVars');
 const appName = require('../../package.json').name;
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+
 
 function webpackConfigFactory({ target, mode }, { json }) {
   if (!target || ['client', 'server', 'universalMiddleware'].findIndex(valid => target === valid) === -1) {
@@ -25,21 +30,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
   }
 
   if (!json) {
-    // Our bundle is outputing json for bundle analysis, therefore we don't
-    // want to do this console output as it will interfere with the json output.
-    //
-    // You can run a bundle analysis by executing the following:
-    //
-    // $(npm bin)/webpack \
-    //   --env.mode production \
-    //   --config tools/webpack/client.config.js \
-    //   --json \
-    //   --profile \
-    //   > boldrCMS/client/analysis.json
-    //
-    // And then upload the boldrCMS/client/analysis.json to http://webpack.github.io/analyse/
-    // This allows you to analyse your webpack bundle to make sure it is
-    // optimal.
+    // 1
     console.log(`==> Creating webpack config for "${target}" in "${mode}" mode`);
   }
 
@@ -144,6 +135,15 @@ function webpackConfigFactory({ target, mode }, { json }) {
           }, {})
         )
       ),
+      new ProgressBarPlugin({
+        format:
+          `build [:bar] \n` +
+          `${colors.cyan(':percent')} (:elapsed seconds)\n` +
+          `>>> :msg`,
+        clear: false,
+        complete: '█',
+        incomplete: '░'
+      }),
       // ifProdClient(new LodashModuleReplacementPlugin()),
       ifClient(
         new AssetsPlugin({
@@ -153,11 +153,58 @@ function webpackConfigFactory({ target, mode }, { json }) {
       ),
       ifDev(new webpack.NoErrorsPlugin()),
       ifDevClient(new webpack.HotModuleReplacementPlugin()),
-      ifProdClient(
+      ifClient(
         new webpack.LoaderOptionsPlugin({
-          minimize: true,
-          debug: false
+          minimize: isProd ? true : false,
+          debug: false,
+          context: __dirname,
+          postcss: [
+              smartImport(),
+              cssnext({
+                  // Allow future CSS features to be used, also auto-prefixes the CSS...
+                  browsers: ['last 2 versions', 'IE > 10']
+              })
+          ]
         })
+      ),
+      // Service Worker.
+      // @see https://github.com/goldhand/sw-precache-webpack-plugin
+      // This plugin generates a service worker script which as configured below
+      // will precache all our generated client bundle assets as well as the
+      // index page for our application.
+      // This gives us aggressive caching as well as offline support.
+      // Don't worry about cache invalidation. As we are using the Md5HashPlugin
+      // for our assets, any time their contents change they will be given
+      // unique file names, which will cause the service worker to fetch them.
+      ifProdClient(
+        new SWPrecacheWebpackPlugin(
+          {
+            // Note: The default cache size is 2mb. This can be reconfigured:
+            // maximumFileSizeToCacheInBytes: 2097152,
+            cacheId: `${appName}-sw`,
+            filepath: path.resolve(envVars.BUNDLE_OUTPUT_PATH, './serviceWorker/sw.js'),
+            dynamicUrlToDependencies: (() => {
+              const clientBundleAssets = globSync(
+                path.resolve(appRootPath, envVars.BUNDLE_OUTPUT_PATH, './client/*.js')
+              );
+              return globSync(path.resolve(appRootPath, './public/*'))
+                .reduce((acc, cur) => {
+                  // We will precache our public asset, with it being invalidated
+                  // any time our client bundle assets change.
+                  acc[`/${path.basename(cur)}`] = clientBundleAssets; // eslint-disable-line no-param-reassign,max-len
+                  return acc;
+                },
+                {
+                  // Our index.html page will be precatched and it will be
+                  // invalidated and refetched any time our client bundle
+                  // assets change.
+                  '/': clientBundleAssets,
+                  // Lets cache the call to the polyfill.io service too.
+                  'https://cdn.polyfill.io/v2/polyfill.min.js': clientBundleAssets,
+                });
+            })(),
+          }
+        )
       ),
       happyPackPlugin({
         name: 'happypack-javascript',
@@ -193,7 +240,32 @@ function webpackConfigFactory({ target, mode }, { json }) {
       ifDevClient(
         happyPackPlugin({
           name: 'happypack-devclient-css',
-          loaders: ['style!css?localIdentName=[name]__[local].[hash:base64:5]&sourceMap&importLoaders&-minimize!postcss!sass?outputStyle=expanded&sourceMap'], // eslint-disable-line
+          loaders: [
+                        {path: 'style-loader'},
+                        {
+                            path: 'css-loader',
+                            options: {
+                                importLoaders: 1,
+                                localIdentName: '[local]__[hash:base64:5]',
+                                /* A CSS Module is a CSS file in which all class names and
+                                animation names are scoped locally by default.
+                                https://github.com/css-modules/css-modules */
+                                modules: true,
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            path: 'postcss-loader'
+                          },
+                          {
+                            path: 'sass-loader',
+                            options: {
+                              outputStyle: 'expanded',
+                              sourceMap: true
+                            }
+                          }
+          ]
+          // loaders: ['style!css?localIdentName=[name]__[local].[hash:base64:5]&sourceMap&importLoaders&-minimize!postcss!sass?outputStyle=expanded&sourceMap'], // eslint-disable-line
         })),
       ifProdClient(
         new webpack.optimize.UglifyJsPlugin({

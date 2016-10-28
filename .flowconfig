@@ -6,15 +6,14 @@
 <PROJECT_ROOT>/.*/docs/.*
 <PROJECT_ROOT>/.*/happypack/.*
 .*/node_modules/bcryptjs/.*
-.*/node_modules/fbjs/.*
 .*/node_modules/react-side-effect/.*
 .*/node_modules/editions/.*
-.*/node_modules/fbjs/.*
 .*/node_modules/flow-remove-types/.*
 .*/node_modules/flow-coverage-report/.*
-
+.*/node_modules/draft-js/*
 [libs]
-./node_modules/fbjs/flow/lib
+.*/node_modules/fbjs/.*
+
 flow-typed/npm
 tools/flow/definitions/
 

@@ -1,8 +1,8 @@
 /* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
-import { PrimaryHeader, Footer } from 'components/index';
-import PageTemplate from 'theme/Boldr/PageTemplate';
+import { PrimaryHeader, Footer } from '../../components';
+import PageTemplate from '../../theme/Boldr/PageTemplate';
 
 export type Props = { children: React$Element<*> };
 const Account = (props: Props) => {
