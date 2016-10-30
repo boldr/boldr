@@ -1,5 +1,5 @@
 import * as api from 'core/services/api';
-import { notificationSend } from './notifications';
+import { notificationSend } from 'state/dux/notifications';
 
 const DELETE_ATTACHMENT_REQUEST = 'DELETE_ATTACHMENT_REQUEST';
 const DELETE_ATTACHMENT_SUCCESS = 'DELETE_ATTACHMENT_SUCCESS';

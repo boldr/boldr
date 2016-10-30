@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { PrimaryHeader, Footer } from '../../components';
 import PageTemplate from '../../theme/Boldr/PageTemplate';
 
-export type Props = { children: React$Element<*> };
+export type Props = { children: ReactElement, auth: Object };
 const Account = (props: Props) => {
   return (
     <div>
@@ -17,7 +17,6 @@ const Account = (props: Props) => {
 
 function mapStateToProps(state) {
   return {
-    routing: state.routing,
     auth: state.auth
   };
 }

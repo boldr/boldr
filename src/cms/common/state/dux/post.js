@@ -37,7 +37,7 @@ export type Post = {
   updated_at: String,
   author: Object,
   seo: ?Object
-}
+};
 /**
   * FETCH POST ACTIONS
   * -------------------------

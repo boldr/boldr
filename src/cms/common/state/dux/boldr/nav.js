@@ -1,11 +1,6 @@
 import { createSelector } from 'reselect';
 import { combineReducers } from 'redux';
-import { merge, assign, mapValues, pickBy, uniq } from 'lodash';
 import * as t from './constants';
-
-function mergeEntities(state, entities) {
-  return assign(state, entities || {});
-}
 
 export const listNavLabels = state => state.boldr.nav.labels; // array
 export const getNavEntities = state => state.boldr.nav.byLabel; // objects

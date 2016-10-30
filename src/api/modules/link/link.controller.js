@@ -54,7 +54,7 @@ async function createLink(req, res, next) {
     id: uuid.v4(),
     name: payload.name,
     label: newLink.label,
-    account_id: req.user.id,
+    user_id: req.user.id,
     action: 'New link',
     type: 'create',
     data: { payload },

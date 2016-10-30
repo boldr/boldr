@@ -5,10 +5,7 @@ import { Button, Form } from 'semantic-ui-react';
 import validate from './validate';
 
 export type Props = {
-  handleSubmit?: Function,
-  reset?: Function,
-  submitting?: boolean,
-  pristine?: boolean,
+  handleSubmit?: Function
 };
 const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
   <Form.Input
@@ -20,7 +17,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => ( // e
 );
 
 const SignupForm = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const { handleSubmit } = props;
   return (
     <Form onSubmit={ handleSubmit } className="card__form">
       <Form.Group widths="equal">

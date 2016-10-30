@@ -4,7 +4,7 @@ import { asyncConnect } from 'redux-connect';
 import Widget from 'components/Widget';
 
 import { Col, Row } from 'components/index';
-import { loadSiteActivity } from '../Activity/reducer';
+import { loadSiteActivity } from '../reducer';
 import ActivityWidget from './components/ActivityWidget';
 
 @asyncConnect([{
@@ -33,7 +33,7 @@ class DashboardWidgets extends Component {
           </Col>
         </Row>
         <Row style={ { marginTop: '1.5em' } }>
-          <ActivityWidget { ...this.props.activity } />
+          <ActivityWidget { ...this.props.activities } />
         </Row>
       </div>
     );
@@ -42,7 +42,7 @@ class DashboardWidgets extends Component {
 
 function mapStateToProps(state) {
   return {
-    activity: state.activity
+    activities: state.dashboard.activities
   };
 }
 export default connect(mapStateToProps, { loadSiteActivity })(DashboardWidgets);

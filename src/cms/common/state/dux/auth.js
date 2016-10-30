@@ -4,7 +4,6 @@ import { TOKEN_KEY } from 'core/config';
 import * as notif from 'core/config/notifications';
 import { notificationSend } from './notifications';
 
-
 const LOGIN_REQUEST = 'AUTH/LOGIN_REQUEST';
 const LOGIN_SUCCESS = 'AUTH/LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'AUTH/LOGIN_FAILURE';
@@ -16,12 +15,13 @@ const CHECK_AUTH_FAILURE = 'AUTH/CHECK_AUTH_FAILURE';
 const CREATE_ACCOUNT_REQUEST = 'AUTH/CREATE_ACCOUNT_REQUEST';
 const CREATE_ACCOUNT_SUCCESS = 'AUTH/CREATE_ACCOUNT_SUCCESS';
 const CREATE_ACCOUNT_FAILURE = 'AUTH/CREATE_ACCOUNT_FAILURE';
-const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
-const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
-const FORGOT_PASSWORD_FAILURE = 'FORGOT_PASSWORD_FAILURE';
-const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
-const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
-const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE';
+const FORGOT_PASSWORD_REQUEST = 'AUTH/FORGOT_PASSWORD_REQUEST';
+const FORGOT_PASSWORD_SUCCESS = 'AUTH/FORGOT_PASSWORD_SUCCESS';
+const FORGOT_PASSWORD_FAILURE = 'AUTH/FORGOT_PASSWORD_FAILURE';
+const RESET_PASSWORD_REQUEST = 'AUTH/RESET_PASSWORD_REQUEST';
+const RESET_PASSWORD_SUCCESS = 'AUTH/RESET_PASSWORD_SUCCESS';
+const RESET_PASSWORD_FAILURE = 'AUTH/RESET_PASSWORD_FAILURE';
+
 /**
   * SIGNUP ACTIONS
   * -------------------------
@@ -95,7 +95,7 @@ function loginSuccess(response) {
   return {
     type: LOGIN_SUCCESS,
     token: response.body.token,
-    account: response.body.account
+    user: response.body.user
   };
 }
 
@@ -151,7 +151,7 @@ function checkAuthSuccess(response, token) {
   return {
     type: CHECK_AUTH_SUCCESS,
     token: token, // eslint-disable-line
-    account: response.body.account
+    user: response.body.user
   };
 }
 
@@ -230,7 +230,7 @@ const INITIAL_STATE = {
   isLoading: false,
   token: null,
   hydrated: false,
-  account: {}
+  user: {}
 };
 
 /**
@@ -270,7 +270,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         isAuthenticated: true,
         token: action.token,
-        account: action.account
+        user: action.user
       };
     case LOGOUT_USER:
       return {
@@ -278,7 +278,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
         isLoading: false,
         isAuthenticated: false,
         token: '',
-        account: ''
+        user: ''
       };
     case CREATE_ACCOUNT_SUCCESS:
       return {

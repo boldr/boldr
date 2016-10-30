@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Header, Icon } from 'semantic-ui-react';
 import { Grid, Row, Hero, PrimaryHeader, Footer } from 'components/index';
-import { fetchPagesIfNeeded } from 'state/dux/pages';
+import { fetchPagesIfNeeded } from 'state/index';
 import PostListing from 'scenes/Blog/PostListing';
 import PageTemplate from '../../theme/Boldr/PageTemplate';
 
@@ -14,7 +14,7 @@ type Props = {
   pages: Object,
   entities: Object,
   dispatch: Function
-}
+};
 
 const Home = (props: Props) => {
   return (
@@ -41,8 +41,8 @@ const Home = (props: Props) => {
 
 const mapStateToProps = (state) => {
   return {
-    pages: state.pages,
-    loaded: state.pages.loaded
+    pages: state.boldr.pages,
+    loaded: state.boldr.pages.loaded
   };
 };
 

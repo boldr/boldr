@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Col } from 'components/index';
-import Authenicated from 'components/HOC/Authenticated';
+import { Grid, Col, Authenticated } from '../../components';
 import { Icon } from 'semantic-ui-react';
 import { Sidebar, Titlebar, SidebarContent } from './components/Sidebar';
 import { showSidebar, hideSidebar } from './reducer';
@@ -15,7 +14,7 @@ export type Props = {
   dashboard: ?Object
 };
 
-@Authenicated
+@Authenticated
 class Dashboard extends PureComponent {
   constructor() {
     super();

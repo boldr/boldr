@@ -4,11 +4,12 @@
  */
 import { normalize, arrayOf } from 'normalizr';
 import { camelizeKeys } from 'humps';
+import { push } from 'react-router-redux';
 import { uniq } from 'lodash';
-import * as api from 'core/services/api';
-import * as notif from 'core/config/notifications';
-import { notificationSend } from 'state/dux/notifications';
-import { navigation as navigationSchema, setting as settingSchema } from 'core/services/schemas';
+import * as api from '../../../core/services/api';
+import * as notif from '../../../core/config/notifications';
+import { notificationSend } from '../../../state/dux/notifications';
+import { navigation as navigationSchema, setting as settingSchema, page as pageSchema } from '../../../core/services/schemas';
 import * as t from './constants';
 
 /**
@@ -247,3 +248,107 @@ const failUpdateSettings = (err) => ({
   type: t.UPDATE_SETTINGS_FAILURE,
   error: err
 });
+
+
+/**
+  * FETCH PAGES
+  * -------------------------
+  * @exports fetchPagesIfNeeded
+  * @exports fetchPages
+  *****************************************************************/
+export function fetchPagesIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchPages(getState())) {
+      return dispatch(fetchPages());
+    }
+
+    return Promise.resolve();
+  };
+}
+
+export function fetchPages() {
+  return dispatch => {
+    dispatch(requestPages());
+    return api.doFetchPages()
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(receivePagesFailed());
+        }
+        const camelizedJson = camelizeKeys(response.body);
+        const normalized = normalize(camelizedJson, arrayOf(pageSchema));
+        dispatch(receivePages(normalized));
+      })
+      .catch(err => {
+        dispatch(receivePagesFailed(err));
+      });
+  };
+}
+
+function shouldFetchPages(state) {
+  const pages = state.boldr.pages;
+  if (!pages.length) {
+    console.log('SHOULD FETCH PAGES');
+    return true;
+  }
+  if (pages.length) {
+    console.log(pages, 'SHOULD NOT FETCH PAGES');
+    return false;
+  }
+  return pages;
+}
+
+const requestPages = () => {
+  return { type: t.LOAD_PAGES_REQUEST };
+};
+const receivePages = (normalized) => ({
+  type: t.LOAD_PAGES_SUCCESS,
+  payload: normalized
+});
+const receivePagesFailed = (err) => ({
+  type: t.LOAD_PAGES_FAILURE, error: err
+});
+
+/**
+  * FETCH PAGE
+  * -------------------------
+  * @exports fetchPageByUrl
+  *****************************************************************/
+export function fetchPageByUrl(url) {
+  return dispatch => {
+    dispatch(requestPage());
+    if (url === undefined) {
+      url = 'home';
+    }
+    return api.doFetchPageUrl(url)
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(receivePageFailed());
+        }
+        dispatch(receivePage(response));
+      })
+      .catch(err => {
+        dispatch(receivePageFailed(err));
+      });
+  };
+}
+
+const requestPage = () => {
+  return { type: t.LOAD_PAGE_REQUEST };
+};
+
+const receivePage = (response) => ({
+  type: t.LOAD_PAGE_SUCCESS,
+  payload: response.body
+});
+
+const receivePageFailed = (err) => ({
+  type: t.LOAD_PAGE_FAILURE, error: err
+});
+
+export function loadPages() {
+  return {
+    types: [t.LOAD_PAGES_REQUEST, t.LOAD_PAGES_SUCCESS, t.LOAD_PAGES_FAILURE],
+    schema: arrayOf(pageSchema),
+    promise: (client) => client.get('/pages')
+  };
+}

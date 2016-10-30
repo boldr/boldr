@@ -11,7 +11,7 @@ import express from 'express';
 import type { $Request, $Response, NextFunction } from 'express';
 import shrinkRay from 'shrink-ray';
 import hpp from 'hpp';
-import helmet from 'helmet';
+
 import httpProxy from 'http-proxy';
 import { notEmpty } from '../common/core/utils/guards';
 import universalMiddleware from './middleware/universalMiddleware';
@@ -36,22 +36,6 @@ app.disable('x-powered-by');
 // Prevent HTTP Parameter pollution.
 app.use(hpp());
 
-// Content Security Policy
-app.use(helmet.contentSecurityPolicy({
-  defaultSrc: ["'self'"],
-  scriptSrc: ["'self'"],
-  styleSrc: ["'self'"],
-  imgSrc: ["'self'"],
-  connectSrc: ["'self'", 'ws:'],
-  fontSrc: ["'none'"],
-  objectSrc: ["'none'"],
-  mediaSrc: ["'none'"],
-  frameSrc: ["'none'"],
-}));
-app.use(helmet.xssFilter());
-app.use(helmet.frameguard('deny'));
-app.use(helmet.ieNoOpen());
-app.use(helmet.noSniff());
 // Response compression.
 app.use(shrinkRay());
 app.use('/api/v1', (req: $Request, res: $Response) => {

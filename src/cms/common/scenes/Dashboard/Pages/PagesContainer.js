@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
-import { fetchPagesIfNeeded } from 'state/dux/pages';
+import { fetchPagesIfNeeded } from 'state/index';
 import Pages from './Pages';
 
 export type Props = {

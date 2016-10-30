@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { S3Uploader, Row, Col } from 'components/index';
 import { API_PREFIX, S3_SIGNING_URL } from 'core/config';
-import { uploadFiles, fetchMedia, deleteMedia } from 'state/dux/attachment';
+import { uploadFiles, fetchMedia, deleteMedia } from './reducer';
 import FileView from './components/FileView';
 
 type Props = {

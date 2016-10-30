@@ -19,7 +19,6 @@ type Props = {
 class Signup extends Component {
   constructor(props) {
     super(props);
-    // $FlowFixMe
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
 

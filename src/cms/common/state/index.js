@@ -14,12 +14,6 @@ import {
 } from './dux/notifications';
 
 import {
-  fetchPagesIfNeeded,
-  fetchPages,
-  fetchPageByUrl
-} from './dux/pages';
-
-import {
   fetchPostsIfNeeded,
   fetchPosts,
   createPost,
@@ -34,7 +28,10 @@ import {
   updateNavLinks,
   addNavLinks,
   fetchSettingsIfNeeded,
-  updateBoldrSettings
+  updateBoldrSettings,
+  fetchPagesIfNeeded,
+  fetchPages,
+  fetchPageByUrl
 } from './dux/boldr/actions';
 
 export {

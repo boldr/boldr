@@ -24,12 +24,12 @@ export default (store, connect) => {
     indexRoute: {
       getComponent(nextState, cb) {
         const importModules = Promise.all([
-          System.import('./Activity/reducer'),
+          System.import('./reducer'),
           System.import('./DashboardWidgets')
         ]);
         const renderRoute = loadModule(cb);
         importModules.then(([reducer, component]) => {
-          injectReducer('activity', reducer.default);
+          injectReducer('dashboard', reducer.default);
           renderRoute(component);
         });
 
@@ -64,9 +64,17 @@ export default (store, connect) => {
       {
         path: 'filemanager',
         getComponent(nextState, cb) {
-          System.import('./FileManager')
-        .then(loadModule(cb))
-        .catch(errorLoading);
+          const importModules = Promise.all([
+            System.import('./FileManager/reducer'),
+            System.import('./FileManager')
+          ]);
+          const renderRoute = loadModule(cb);
+          importModules.then(([reducer, component]) => {
+            injectReducer('attachments', reducer.default);
+            renderRoute(component);
+          });
+
+          importModules.catch(errorLoading);
         }
       },
       {

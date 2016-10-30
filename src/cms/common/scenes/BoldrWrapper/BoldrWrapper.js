@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import type { ReactElement } from '../../types/react';
 import { Notifications } from '../../components/index';
-import { fetchPagesIfNeeded, isLoaded as isPagesLoaded } from '../../state/dux/pages';
+import { isLoaded as isPagesLoaded } from '../../state/dux/boldr/pages';
 import { isLoaded as isSettingsLoaded, getSettings } from '../../state/dux/boldr/settings';
-import { fetchSettingsIfNeeded } from '../../state/dux/boldr/actions';
+import { fetchSettingsIfNeeded, fetchPagesIfNeeded } from '../../state/dux/boldr/actions';
 import meta from '../../core/config/base';
 import '../../styles/main.scss';
 

@@ -28,9 +28,9 @@
   font-family: $font-family;
   background: $topbar-background;
   font-weight: normal;
-  border: 1px solid rgba(34, 36, 38, 0.15);
+  border: $topbar-border;
   box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
-  border-radius: 0.28571429rem;
+  border-radius: 0;
   min-height: 2.85714286em;
 }
 .ui.menu:after {
