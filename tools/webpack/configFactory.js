@@ -157,14 +157,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
         new webpack.LoaderOptionsPlugin({
           minimize: isProd ? true : false,
           debug: false,
-          context: __dirname,
-          postcss: [
-              smartImport(),
-              cssnext({
-                  // Allow future CSS features to be used, also auto-prefixes the CSS...
-                  browsers: ['last 2 versions', 'IE > 10']
-              })
-          ]
+          context: __dirname
         })
       ),
       // Service Worker.
