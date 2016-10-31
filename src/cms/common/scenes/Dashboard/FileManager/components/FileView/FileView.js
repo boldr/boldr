@@ -19,9 +19,9 @@ const FileView = props => {
 
 FileView.propTypes = {
   files: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    filename: PropTypes.string.isRequired,
-    s3url: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    filename: PropTypes.string,
+    url: PropTypes.string.isRequired
   }).isRequired).isRequired,
   removeMedia: PropTypes.func
 };

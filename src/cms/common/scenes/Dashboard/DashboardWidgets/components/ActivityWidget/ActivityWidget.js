@@ -7,7 +7,7 @@ const ActivityWidget = (props) => {
     <Header size="large"><Icon name="feed" /> <Header.Content>Recent Activity</Header.Content></Header>
       <Feed>
       {
-        props.actities ? props.activities.map(a =>
+        props.activities.map(a =>
           <Feed.Event key={ a.id }>
             <Feed.Label>
               { a.action }
@@ -21,7 +21,7 @@ const ActivityWidget = (props) => {
               </Feed.Summary>
             </Feed.Content>
           </Feed.Event>
-        ) : <div>No recent activity</div>
+        )
       }
       </Feed>
     </Segment>

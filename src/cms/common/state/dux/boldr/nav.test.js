@@ -5,7 +5,7 @@ describe('Nav Duck', () => {
     expect(
         navReducer(undefined, {})
       ).toEqual({
-        byLabel: {},
+        byLabel: { loaded: false },
         labels: []
       });
   });

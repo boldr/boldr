@@ -1,7 +1,7 @@
 /* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { asyncConnect } from 'redux-connect';
 import { S3Uploader, Row, Col } from 'components/index';
 import { API_PREFIX, S3_SIGNING_URL } from 'core/config';
 import { uploadFiles, fetchMedia, deleteMedia } from './reducer';
@@ -13,12 +13,21 @@ type Props = {
   deleteMedia: () => void,
   uploadFiles: () => void
 };
-
+@asyncConnect([{
+  promise: ({ store: { dispatch, getState } }) => {
+    const promises = [];
+    promises.push(dispatch(fetchMedia()));
+    return Promise.all(promises);
+  }
+}])
 class FileManager extends Component {
   constructor(props) {
     super(props);
     (this: any).handleRemoveMedia = this.handleRemoveMedia.bind(this);
     (this: any).handleFinish = this.handleFinish.bind(this);
+  }
+  componentDidMount() {
+    this.props.fetchMedia();
   }
   props: Props;
 
@@ -72,4 +81,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { uploadFiles, deleteMedia })(FileManager);
+export default connect(mapStateToProps, { uploadFiles, deleteMedia, fetchMedia })(FileManager);

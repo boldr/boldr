@@ -33,7 +33,9 @@ class DashboardWidgets extends Component {
           </Col>
         </Row>
         <Row style={ { marginTop: '1.5em' } }>
-          <ActivityWidget { ...this.props.activities } />
+        {
+          this.props.activities ? <ActivityWidget activities={ this.props.activities } /> : null
+        }
         </Row>
       </div>
     );

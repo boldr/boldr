@@ -12,11 +12,12 @@ const File = (props) => {
   return (
     <Column key={ props.file.id }>
       <Card>
-         <Card.Image
-           overlay={ <Card.Header title={ props.file.filename } /> }
-         >
-          <Image src={ props.file.s3url } alt={ props.file.filename } />
-        </Card.Image>
+      <Card.Header>
+      { props.file.filename }
+      </Card.Header>
+
+          <Image src={ props.file.url } alt={ props.file.filename } />
+
         <Card.Meta>
         <Button icon>
           <Icon name="edit" />
@@ -33,9 +34,9 @@ const File = (props) => {
 File.propTypes = {
   removeMedia: PropTypes.func.isRequired,
   file: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     filename: PropTypes.string.isRequired,
-    s3url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired
   })
 };
 

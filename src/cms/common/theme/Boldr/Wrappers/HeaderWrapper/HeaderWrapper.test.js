@@ -1,17 +1,18 @@
 import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
 import HeaderWrapper from './HeaderWrapper';
 
 describe('<HeaderWrapper />', () => {
-  it('It sets the correct className', () => {
-    const wrapper = shallow(<HeaderWrapper />);
-    expect(wrapper.find('.boldr__theme-header').length).toBe(1);
-  });
+  const store = createStore(() => ({}));
   it('renders children when passed in', () => {
     const wrapper = shallow(
+      <Provider store={ store }>
       <HeaderWrapper>
         <div className="unique" />
       </HeaderWrapper>
+      </Provider>
     );
     expect(wrapper.contains(<div className="unique" />)).toBe(true);
   });

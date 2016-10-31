@@ -360,7 +360,7 @@ export default class FileUpload extends PureComponent {
     delete props.readAs;
 
     return (
-      <FileInput {...props} onChange={this._handleUpload} />
+      <FileInput { ...props } onChange={ this._handleUpload } />
     );
   }
 }

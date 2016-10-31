@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import cn from 'classnames';
+import { Icon } from 'semantic-ui-react';
 import FontIcon from '../FontIcon';
 
 /**
@@ -87,12 +88,12 @@ class FileInput extends PureComponent {
     /**
      * An optional id for the file input field.
      */
-    id: PropTypes.string,
+    id: PropTypes.string
   };
 
   static defaultProps = {
     label: 'Select a file from your computer',
-    iconChildren: 'file_upload',
+    iconChildren: 'file_upload'
   };
 
   constructor(props) {
@@ -122,7 +123,7 @@ class FileInput extends PureComponent {
       secondary,
       flat,
       id,
-      ...props,
+      ...props
     } = this.props;
     delete props.onChange;
 
@@ -131,7 +132,7 @@ class FileInput extends PureComponent {
         style={ style }
         className={ cn(`md-btn md-${flat ? 'flat' : 'raised'}-btn md-file-input-btn`, className, {
           'md-primary': primary,
-          'md-secondary': secondary,
+          'md-secondary': secondary
         }) }
         disabled={ props.disabled }
         htmlFor={ id }
@@ -144,10 +145,7 @@ class FileInput extends PureComponent {
           className="md-file-input"
           onChange={ this._handleChange }
         />
-        <div className="icon-separator">
-          <FontIcon iconClassName={ iconClassName } children={ iconChildren } />
-          <span className="text">{label}</span>
-        </div>
+
       </label>
     );
   }
