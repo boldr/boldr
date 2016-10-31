@@ -95,6 +95,7 @@ Looking for an open source project to contribute to? All types of contributions 
 
 - [`Roadmap`](ROADMAP.md)
 - [`API`](https://docs.boldr.io)
+- [`Theming`](docs/theming.md)  
 - [`Docker`](docs/docker.md)
 - [`Nginx`](docs/nginx.md)
 - [`Troubleshooting`](docs/troubleshooting.md)

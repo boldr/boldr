@@ -1,5 +1,28 @@
-# Pages
+# Theming
 
+Boldr allows developers to theme their website's presentation using a Higher Order Component and child wrapper components.  
+
+Theming takes place in `src/cms/common/theme`. Inside the directory you will find a folder named Boldr. This is the default theme. The Boldr file, inside the directory, is the HOC wrapper for the theme.
+
+```javascript
+// src/cms/common/theme/Boldr/Boldr.js
+export default (ComposedComponent) => {
+  class Boldr extends Component {
+
+    render() {
+      return (
+        <section className="boldr__theme">
+          <ComposedComponent { ...this.props } />
+        </section>
+      );
+    }
+  }
+
+  return Boldr;
+};
+```
+
+### Pages
 Pages are meant to inherit from theme components.
 
 ```javascript
