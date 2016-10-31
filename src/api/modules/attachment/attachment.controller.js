@@ -77,7 +77,7 @@ export async function fromDashboard(req, res, next) {
   await Activity.query().insert({
     id: uuid.v4(),
     name: newAttachment.file_name,
-    account_id: req.user.id,
+    user_id: req.user.id,
     action: 'New upload',
     type: 'create',
     data: { newAttachment },

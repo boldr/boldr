@@ -164,8 +164,8 @@ export function doRemoveMedia(id) {
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`);
 }
 
-export function doFetchTags(tagName) {
-  return fetch(`${API_TAGS}/posts/${tagName}`)
+export function doFetchTags(name) {
+  return fetch(`${API_TAGS}/posts/${name}`)
     .then(response => processResponse(response));
 }
 
@@ -179,6 +179,7 @@ export function doUpdateMember(userData) {
     display_name: userData.display_name,
     first_name: userData.first_name,
     last_name: userData.last_name,
+    avatar_url: userData.avatar_url,
     role: userData.role
   };
   return request

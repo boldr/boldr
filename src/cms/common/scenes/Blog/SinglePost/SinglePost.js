@@ -11,7 +11,6 @@ export type Props = {
   currentPost: Object,
 };
 
-
 const SinglePost = (props: Props) => {
   const IS = {
     bg: {

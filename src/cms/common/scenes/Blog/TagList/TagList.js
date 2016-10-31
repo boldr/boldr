@@ -10,18 +10,25 @@ import TagListCard from './TagListCard';
 export type Props = {tags: Object, requestPostTags: Function};
 
 @asyncConnect([{
-  promise: ({ store: { dispatch, getState } }) => {
+  promise: ({ store: { dispatch, getState }, params: { name } }) => {
     const promises = [];
-    promises.push(dispatch(requestPostTags()));
+    promises.push(dispatch(requestPostTags(name)));
     return Promise.all(promises);
   }
 }])
 class TagList extends Component {
   componentDidMount() {
-    this.props.requestPostTags();
+    this.props.requestPostTags(this.props.params.name);
   }
   props: Props;
   render() {
+    if (!this.props.tags.posts) {
+      return (
+      <div>
+        Loading
+      </div>
+      );
+    }
     return (
       <div>
         <Grid fluid>

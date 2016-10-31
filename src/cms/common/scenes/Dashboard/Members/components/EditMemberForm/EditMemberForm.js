@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form } from 'semantic-ui-react';
+import { Row } from 'components/index';
 
 const EditMemberForm = (props) => {
   const renderField = ({ input, label, type, meta: { touched, error } }) => ( // eslint-disable-line
@@ -39,9 +40,26 @@ const EditMemberForm = (props) => {
               label="Last name"
               component={ renderField }
             />
-            <label><Field name="role" component="input" type="radio" value="1" />Member</label>
-            <label><Field name="role" component="input" type="radio" value="2" />Staff</label>
-            <label><Field name="role" component="input" type="radio" value="3" />Admin</label>
+            <Field
+              name="avatar_url"
+              type="text"
+              label="Avatar URL"
+              component={ renderField }
+            />
+            <Row>
+              <label htmlFor="member">
+                <Field name="role" id="member" component="input" type="radio" value="1" />
+                Member
+              </label>
+              <label htmlFor="staff">
+                <Field name="role" id="staff" component="input" type="radio" value="2" />
+                Staff
+              </label>
+              <label htmlFor="admin">
+                <Field name="role" id="admin" component="input" type="radio" value="3" />
+                Admin
+              </label>
+            </Row>
              <Button primary type="submit">Login</Button>
              <Button disabled={ pristine || submitting } onClick={ reset }>Clear</Button>
 
