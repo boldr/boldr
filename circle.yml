@@ -38,7 +38,7 @@ test:
     - NODE_ENV=test npm run migrate
     - NODE_ENV=test npm run seed
   override:
-    - npm test
+    - npm run test:ci
   post:
     - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < coverage/lcov.info
 general:
