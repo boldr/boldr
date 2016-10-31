@@ -1,5 +1,6 @@
 import express from 'express';
 import cache from '../../core/cache';
+import { checkRole } from '../../core';
 import ensureAuthenticated from '../auth/ensureAuthenticated';
 import { processQuery } from '../../utils';
 import * as ctrl from './post.controller';
@@ -28,7 +29,7 @@ router.route('/')
        * @apiError {Object} 409 There is already a post with this slug. Slugs (titles) must be unique.
        * @apiError {Object} 401 Unauthorized. You must be logged in to create a post.
        */
-      .post(ensureAuthenticated, ctrl.createPost);
+      .post(ensureAuthenticated, checkRole('Admin'), ctrl.createPost);
 
 router.route('/slug/:slug')
       /**

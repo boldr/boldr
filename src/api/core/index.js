@@ -9,6 +9,8 @@ import {
   signToken
 }
 from './authentication';
+import { checkRole, checkScope, checkPermissions } from './middleware/middleware';
+
 import {
   BadRequest,
   Unauthorized,
@@ -42,5 +44,8 @@ export {
   addAuthHeaderFromCookie,
   isAuthenticated,
   setTokenCookie,
-  signToken
+  signToken,
+  checkRole,
+  checkScope,
+  checkPermissions
 };

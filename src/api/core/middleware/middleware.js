@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import User from '../../modules/user/user.model';
 import { GeneralError } from '../errors';
 
 // Middleware usage ... in a route file
@@ -23,7 +24,7 @@ export function checkPermissions({ scope = null, role = null }) {
     }
 
     if (role && !hasRole(user, role)) {
-      return next(new GeneralError(`User doesn\'t have required role. '${role}' role is needed.`));
+      return next(new GeneralError(`User doesn't have required role. '${role}' role is needed.`));
     }
 
     return next();
@@ -37,11 +38,12 @@ export function checkPermissions({ scope = null, role = null }) {
  * @returns {function}
  */
 export function checkRole(role = null) {
-  return (req, res, next) => {
-    const user = req.user;
-
-    if (!hasRole(user, role)) {
-      return next(new GeneralError(`User doesn\'t have required role. '${role}' role is needed.`));
+  return async (req, res, next) => {
+    // const user = req.user;
+    const userInfo = await User.query().findById(req.user.id).eager('role');
+    const userRole = userInfo.role[0].name;
+    if (!userRole === role) {
+      return res.status(403).json('Forbidden. Your role does not have sufficient privileges.');
     }
 
     return next();

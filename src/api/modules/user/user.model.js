@@ -108,8 +108,8 @@ class User extends BaseModel {
     if (!this.role) {
       return false;
     }
-
-    const validRoles = this.role.filter(({ name }) => (name === r));
+    console.log(this.role)
+    const validRoles = this.role[0].filter(({ name }) => (name === r));
 
     return validRoles.length;
   }

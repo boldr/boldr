@@ -1,4 +1,4 @@
-import { getAsyncInjectors } from 'core/utils/injectAsync';
+import { getAsyncInjectors } from '../../core';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -8,14 +8,6 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  // HMR falls over when a Route uses a dynamic component resolution
-  // property (i.e. getComponent or getComponents).  As a workaround for any
-  // of your components that are resolved dynamically require them here
-  require('./DashboardWidgets');
-  require('./Post/PostList');
-  require('./Post/PostEditor');
-}
 export default (store, connect) => {
   const { injectReducer } = getAsyncInjectors(store);
   return {

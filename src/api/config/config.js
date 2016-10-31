@@ -49,11 +49,23 @@ const conf = convict({
       default: 'key-',
       env: 'MG_API'
     },
+    user: {
+      doc: 'The email address used to login to your email',
+      format: String,
+      default: 'user@mail.com',
+      env: 'MAIL_USER'
+    },
+    password: {
+      doc: 'The password to login to your mail account',
+      format: String,
+      default: 'password',
+      env: 'MAIL_PASSWORD'
+    },
     domain: {
       doc: 'The domain used for identification with Mailgun.',
       format: String,
       default: 'boldr.io',
-      env: 'MG_DOMAIN'
+      env: 'MAIL_DOMAIN'
     },
     from: {
       doc: 'The address for outgoing emails to use.',

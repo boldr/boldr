@@ -104,6 +104,21 @@ describe('GET /api/v1/posts/slug/:slug', () => {
 });
 
 describe('POST /api/v1/posts', () => {
+  let token;
+  beforeEach(done => {
+    request()
+     .post('/api/v1/auth/login')
+     .send({
+       email: 'user@boldr.io',
+       password: 'password'
+     })
+     .expect(200)
+     .expect('Content-Type', /json/)
+     .end((err, res) => {
+       token = res.body.token;
+       done();
+     });
+  });
   afterEach(() => {
     server.close();
   });
@@ -118,6 +133,18 @@ describe('POST /api/v1/posts', () => {
           done();
         });
   });
+  // it('It should require admin user permissions', (done) => {
+  //   request()
+  //       .post('/api/v1/posts')
+  //       .set('Accept', 'application/json')
+  //       .set('Authorization', token)
+  //       .send(postData)
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(403);
+  //         // expect(res.body.results).to.be.an('array');
+  //       });
+  //   done();
+  // });
   // it('It should create a new post and save to the database', (done) => {
   //   request()
   //       .post('/api/v1/posts')

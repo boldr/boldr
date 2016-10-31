@@ -142,7 +142,6 @@
     "multer-s3": "^2.3.2",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.6.4",
-    "nodemailer-mailgun-transport": "^1.2.2",
     "normalizr": "^2.2.1",
     "objection": "^0.6.1",
     "objection-find": "^0.2.0",
