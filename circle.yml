@@ -21,7 +21,7 @@ machine:
 
 dependencies:
   pre:
-    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - npm install -g yarn
     - npm install -g codeclimate-test-reporter
     - npm prune
   cache_directories:
@@ -36,6 +36,8 @@ test:
     - NODE_ENV=test npm run seed
   override:
     - npm test
+  post:
+    - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < coverage/lcov.info
 general:
   branches:
     only:
