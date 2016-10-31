@@ -14,7 +14,21 @@ export type Post = {
   status: String,
   author: User,
   seo: ?Object,
-  tags: any
+  tags: Array<Tag>
+};
+
+export type Tag = {
+  id: Number,
+  uuid: String,
+  name: String,
+  description: String
+};
+
+export type Setting = {
+  id: Number,
+  key: String,
+  value: String,
+  description: String
 };
 
 export type User = {

@@ -3,41 +3,29 @@ import request from 'superagent';
 import * as api from 'core/services/api';
 import * as notif from 'core/config/notifications';
 import { API_POSTS } from 'core/config';
+import type { Post } from '../../types/models';
 import { notificationSend } from './notifications';
 
-const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST';
-const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
-const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
-const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
-const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
-const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
-const UPDATE_POST_REQUEST = '@boldr/dashboardUPDATE_POST_REQUEST';
-const UPDATE_POST_SUCCESS = '@boldr/dashboardUPDATE_POST_SUCCESS';
-const UPDATE_POST_FAILURE = '@boldr/dashboardUPDATE_POST_FAILURE';
+const FETCH_POSTS_REQUEST = '@boldr/FETCH_POSTS_REQUEST';
+const FETCH_POSTS_SUCCESS = '@boldr/FETCH_POSTS_SUCCESS';
+const FETCH_POSTS_FAILURE = '@boldr/FETCH_POSTS_FAILURE';
+const LOAD_POST_REQUEST = '@boldr/LOAD_POST_REQUEST';
+const LOAD_POST_SUCCESS = '@boldr/LOAD_POST_SUCCESS';
+const LOAD_POST_FAILURE = '@boldr/LOAD_POST_FAILURE';
+const UPDATE_POST_REQUEST = '@boldr/dashboard/UPDATE_POST_REQUEST';
+const UPDATE_POST_SUCCESS = '@boldr/dashboard/UPDATE_POST_SUCCESS';
+const UPDATE_POST_FAILURE = '@boldr/dashboard/UPDATE_POST_FAILURE';
 const SELECT_POST = 'SELECT_POST';
 const SELECT_POST_SUCCESS = 'SELECT_POST_SUCCESS';
 const SELECT_POST_FAIL = 'SELECT_POST_FAIL';
 const CREATE_POST_REQUEST = '@boldr/dashboardCREATE_POST_REQUEST';
 const CREATE_POST_SUCCESS = '@boldr/dashboardCREATE_POST_SUCCESS';
-const CREATE_POST_FAIL = '@boldr/dashboardCREATE_POST_FAIL';
-const CLEAR_CURRENT_POST = 'CLEAR_CURRENT_POST';
+const CREATE_POST_FAIL = '@boldr/dashboard/CREATE_POST_FAIL';
 const DELETE_POST_FAILURE = '@boldr/dashboard/DELETE_POST_FAILURE';
-const DELETE_POST_REQUEST = '@boldr/dashboardDELETE_POST_REQUEST';
-const DELETE_POST_SUCCESS = '@boldr/dashboardDELETE_POST_SUCCESS';
+const DELETE_POST_REQUEST = '@boldr/dashboard/DELETE_POST_REQUEST';
+const DELETE_POST_SUCCESS = '@boldr/dashboard/DELETE_POST_SUCCESS';
 
-export type Post = {
-  id: String,
-  feature_image: String,
-  title: String,
-  slug: String,
-  content: String,
-  background_image?: String,
-  excerpt: String,
-  created_at: String,
-  updated_at: String,
-  author: Object,
-  seo: ?Object
-};
+
 /**
   * FETCH POST ACTIONS
   * -------------------------

@@ -7,7 +7,14 @@ import * as ctrl from './page.controller';
 const controller = new BaseController(Page);
 
 const router = new express.Router();
-
+/**
+ * @api {get} /pages       Get all pages
+ * @apiName listPages
+ * @apiGroup Pages
+ * @apiPermission public
+ * @apiSuccess {Object[]} roles List of pages.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ */
 router.get('/', ctrl.listPages);
 router.get('/:url', ctrl.getPageByUrl);
 router.post('/', controller.create.bind(controller));

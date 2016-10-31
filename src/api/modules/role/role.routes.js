@@ -6,7 +6,15 @@ import Role from './role.model';
 const controller = new BaseController(Role);
 
 const router = new express.Router();
-
+/**
+ * @api {get} /settings       Get all settings objects
+ * @apiName listSettings
+ * @apiGroup Settings
+ * @apiPermission public
+ * @apiUse listParams
+ * @apiSuccess {Object[]} roles List of roles.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ */
 router.get('/', processQuery, controller.index.bind(controller));
 router.get('/:id', controller.show.bind(controller));
 router.post('/', controller.create.bind(controller));

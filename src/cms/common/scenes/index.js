@@ -3,6 +3,8 @@ import Account from './Account';
 import Blog from './Blog';
 import Dashboard from './Dashboard';
 
+if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
+
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
@@ -13,7 +15,6 @@ const loadModule = (cb) => (componentModule) => {
 
 export default (store) => {
   const connect = (fn) => (nextState, replaceState) => fn(store, nextState, replaceState);
-  if (typeof require.ensure !== 'function') require.ensure = (deps, cb) => cb(require);
 
   return {
     path: '/',
@@ -28,11 +29,9 @@ export default (store) => {
       {
         path: 'about',
         getComponent(nextState, cb) {
-          require.ensure(['../pages/About'], (require) => {
-            const AboutPage = require('../pages/About').default;
-
-            cb(null, AboutPage);
-          });
+          System.import('../pages/About')
+            .then(loadModule(cb))
+            .catch(errorLoading);
         }
       },
       {
