@@ -1,4 +1,3 @@
-import chai, { expect } from 'chai';
 import supertest from 'supertest';
 import server from '../../engine';
 

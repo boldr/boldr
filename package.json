@@ -90,6 +90,9 @@
     "setupFiles": [
       "<rootDir>/tools/test/setup.js"
     ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/(tools|docs|node_modules|bin|flow-typed|public)/"
+    ],
     "coverageReporters": [
       "lcov",
       "text",

@@ -10,25 +10,15 @@ _If you made it this far, I know what you're probably thinking..._ The world doe
 
 **Table of Contents**
 - [Boldr](#boldr)
-
   - [Core Technologies](#core-technologies)
-
 - [Getting Started / Installation](#getting-started-installation)
-
 - [Editor](#editor)
-
 - [Usage](#usage)
-
   - [Development](#development)
   - [Production](#production)
-
 - [Contributing](#contributing)
-
 - [Documentation](#documentation)
-
 - [Demo](#demo)
-
-<!-- /TOC -->
 
  > Your dreams are bold. Your thoughts are bold. So why shouldn't your CMS be a little, **Boldr**?
 
@@ -63,7 +53,6 @@ Quick notes:
 
   - **Frontend**: 3000
   - **Webpack**: 3001 - _dev only_
-  - **Webpack-Isomorphic-Tools**: 8888 - _dev only_
   - **API**: 2121
 
 - Hot reloading doesnt work everywhere due to async/dynamic routes.
@@ -116,7 +105,7 @@ Looking for an open source project to contribute to? All types of contributions 
 |<a href="https://boldr.io/images/dashboard.png"><img src="https://boldr.io/images/dashboard.png" width="460"></a> | <a href="https://boldr.io/images/singlepost.png"><img src="https://boldr.io/images/singlepost.png" width="460"></a> |
 
 
-  
+
 
 
 ## Demo

@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import isAuthenticated from 'apicore/authentication/isAuthenticated';
+import isAuthenticated from '../../core/authentication/isAuthenticated';
 import User from '../user/user.model';
 import configureLocalPassport from './providers/local';
 import configureJwt from './providers/jwt';
