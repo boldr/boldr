@@ -11,32 +11,37 @@ const EditMemberForm = (props) => {
       { ...input }
     />
   );
+
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
       <Form onSubmit={ handleSubmit } className="modal__form">
-
-        {/* <Field
-          name="roleId"
-          component={ SelectField }
-          label="Role ID"
-          position="below"
-          menuItems={ [1, 2, 3, 4, 5] }
-        /> */}
-
             <Field
               name="email"
               type="email"
               label="Email"
               component={ renderField }
             />
-
             <Field
-              name="password"
-              label="Password"
-              type="password"
+              name="first_name"
+              type="text"
+              label="First name"
               component={ renderField }
-              style={ { marginBottom: '50px' } }
             />
+            <Field
+              name="last_name"
+              type="text"
+              label="Last name"
+              component={ renderField }
+            />
+            <Field
+              name="last_name"
+              type="text"
+              label="Last name"
+              component={ renderField }
+            />
+            <label><Field name="role" component="input" type="radio" value="1" />Member</label>
+            <label><Field name="role" component="input" type="radio" value="2" />Staff</label>
+            <label><Field name="role" component="input" type="radio" value="3" />Admin</label>
              <Button primary type="submit">Login</Button>
              <Button disabled={ pristine || submitting } onClick={ reset }>Clear</Button>
 

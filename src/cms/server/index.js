@@ -9,7 +9,6 @@ import path from 'path';
 import appRoot from 'app-root-path';
 import express from 'express';
 import type { $Request, $Response, NextFunction } from 'express';
-import shrinkRay from 'shrink-ray';
 import hpp from 'hpp';
 
 import httpProxy from 'http-proxy';
@@ -36,8 +35,6 @@ app.disable('x-powered-by');
 // Prevent HTTP Parameter pollution.
 app.use(hpp());
 
-// Response compression.
-app.use(shrinkRay());
 app.use('/api/v1', (req: $Request, res: $Response) => {
   proxy.web(req, res, { target: `${proxyTo}/api/v1` });
 });

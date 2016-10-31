@@ -57,7 +57,7 @@ router.post('/', ensureAuthenticated, checkRole('Admin'), controller.create.bind
  * @apiError 404 User not found.
  */
 router.put('/:id', ctrl.updateUser);
-
+router.put('/admin/:id', ctrl.adminUpdateUser);
 /**
  * @api {patch} /users/:id Update user
  * @apiName updateUser

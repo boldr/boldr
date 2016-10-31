@@ -197,14 +197,6 @@ const deletePostFail = (err) => ({
 
 
 export function updatePost(postData) {
-  // const articleSlug = slug(articleData.title);
-  const payload = {
-    title: postData.title,
-    content: postData.content,
-    excerpt: postData.excerpt,
-    feature_image: postData.feature_image,
-    status: postData.status
-  };
   return dispatch => {
     dispatch(updatePostDetails(postData));
     return request

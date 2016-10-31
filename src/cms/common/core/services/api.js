@@ -36,7 +36,7 @@ export function doFetchPosts() {
 
 export function doGetPosts() {
   return fetch(`${API_POSTS}?include=[author,tags]`)
-  .then(processResponse(response));
+  .then(response => processResponse(response));
 }
 
 export function doCreatePost(data) {
@@ -171,7 +171,7 @@ export function doFetchTags(tagName) {
 
 export function doFetchMembers() {
   return request
-    .get(`${API_ACCOUNTS}`);
+    .get(`${API_USERS}`);
 }
 
 export function doUpdateMember(userData) {
@@ -179,10 +179,10 @@ export function doUpdateMember(userData) {
     display_name: userData.display_name,
     first_name: userData.first_name,
     last_name: userData.last_name,
-    roleId: userData.roleId
+    role: userData.role
   };
   return request
-    .put(`${API_ACCOUNTS}/${userData.id}`)
+    .put(`${API_USERS}/admin/${userData.id}`)
     .set('Authorization', `Bearer ${localStorage.getItem(TOKEN_KEY)}`)
     .send(payload);
 }

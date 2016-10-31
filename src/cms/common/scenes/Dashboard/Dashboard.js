@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Col, Authenticated } from '../../components';
 import { Icon } from 'semantic-ui-react';
+import { Grid, Col, Authenticated } from '../../components';
 import { Sidebar, Titlebar, SidebarContent } from './components/Sidebar';
 import { showSidebar, hideSidebar } from './reducer';
 
@@ -67,8 +67,8 @@ class Dashboard extends PureComponent {
         <Sidebar { ...sidebarProps }>
           <Titlebar title="Boldr" icon={
             <Icon name="menu" onClick={ this.menuButtonClick } />
-          }>
-            <Col xs style={ { paddingTop: '6%' } }>
+         }>
+            <Col xs>
               <div>
               { this.props.children }
               </div>

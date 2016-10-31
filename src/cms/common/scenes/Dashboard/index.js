@@ -30,6 +30,14 @@ export default (store, connect) => {
     },
     childRoutes: [
       {
+        path: 'blocks',
+        getComponent(nextState, cb) {
+          System.import('./Blocks')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+        }
+      },
+      {
         path: 'posts',
         getComponent(nextState, cb) {
           System.import('./Post/PostList')

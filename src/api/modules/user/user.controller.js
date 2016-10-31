@@ -35,6 +35,22 @@ export function updateUser(req: $Request, res: $Response, next: NextFunction) {
   if (errors) {
     return next(new BadRequest(errors));
   }
+  if ('role' in req.body) {
+    console.log('role in update member');
+  }
+
+  return User.query()
+    .patchAndFetchById(req.params.id, req.body)
+    .then(user => res.status(202).json(user));
+}
+
+export async function adminUpdateUser(req: $Request, res: $Response, next: NextFunction) {
+  const user = await User.query().findById(req.params.id);
+  if (req.body.role) {
+    await user.$relatedQuery('role').unrelate();
+    await user.$relatedQuery('role').relate({ id: req.body.role });
+    delete req.body.role;
+  }
 
   return User.query()
     .patchAndFetchById(req.params.id, req.body)

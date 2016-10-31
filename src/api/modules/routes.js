@@ -3,6 +3,7 @@ import express from 'express';
 import activityRoutes from './activity/activity.routes';
 import attachmentRoutes from './attachment/attachment.routes';
 import authRoutes from './auth/auth.routes';
+import blockRoutes from './block/block.routes';
 import collectionRoutes from './collection/collection.routes';
 import galleryRoutes from './gallery/gallery.routes';
 import linkRoutes from './link/link.routes';
@@ -44,6 +45,7 @@ router.get('/health-check', (req, res) =>
 router.use('/activities', activityRoutes);
 router.use('/attachments', attachmentRoutes);
 router.use('/auth', authRoutes);
+router.use('/blocks', blockRoutes);
 router.use('/collections', collectionRoutes);
 router.use('/galleries', galleryRoutes);
 router.use('/links', linkRoutes);

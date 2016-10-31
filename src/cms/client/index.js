@@ -4,7 +4,7 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, browserHistory, match } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import WebFontLoader from 'webfontloader';
 import { ReduxAsyncConnect } from 'redux-connect';
@@ -36,8 +36,6 @@ const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.routing
 });
 
-const routes = getRoutes(store, history);
-
 function renderApp() {
   const renderRouter = props =>
   <ReduxAsyncConnect { ...props } helpers={ { client } } filter={ item => !item.deferred } />;
@@ -45,7 +43,7 @@ function renderApp() {
   render(
     <ReactHotLoader>
       <Provider store={ store } key="provider">
-        <Router routes={ routes } history={ history } render={ renderRouter } key={ Math.random() } />
+        <Router routes={ getRoutes(store, history) } history={ history } render={ renderRouter } key={ Math.random() } />
       </Provider>
     </ReactHotLoader>,
     MOUNT_POINT

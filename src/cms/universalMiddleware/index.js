@@ -1,12 +1,10 @@
 /* @flow */
 import type { $Request, $Response, Middleware } from 'express';
 import React from 'react';
-import ReactDOM from 'react-dom/server';
 import { Provider } from 'react-redux';
 // react router
 import match from 'react-router/lib/match';
 import createMemoryHistory from 'react-router/lib/createMemoryHistory';
-import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 // async data fetching
 import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
@@ -42,7 +40,7 @@ function universalReactAppMiddleware(request: $Request, response: $Response) {
   // load the app routes.
   const routes = createRoutes(store);
   // match the url with the route, and data we might need.
-  match({ routes, location: request.url }, (err, redirect, renderProps) => {
+  match({ history, routes, location }, (err, redirect, renderProps) => {
     if (err) {
       response.status(500).json(err);
     } else if (redirect) {

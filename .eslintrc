@@ -20,6 +20,19 @@
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
+    },
+    "import/resolver": {
+      "babel-module": {
+        "root": ["./src"],
+        "alias": {
+          "core": "./src/cms/common/core",
+          "apicore": "./src/api/core",
+          "components": "./src/cms/common/components",
+          "state": "./src/cms/common/state",
+          "theme": "./src/cms/common/theme",
+          "scenes": "./src/cms/common/scenes"
+         }
+      }
     }
   },
   "globals": {

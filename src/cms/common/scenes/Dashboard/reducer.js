@@ -1,9 +1,7 @@
 import { push } from 'react-router-redux';
 import * as api from '../../core/services/api';
+import { API_ACTIVITY } from '../../core/config/endpoints';
 
-const LOAD_ACTIVITY_REQUEST = '@boldr/dashboard/activity/LOAD_ACTIVITY_REQUEST';
-const LOAD_ACTIVITY_SUCCESS = '@boldr/dashboard/activity/LOAD_ACTIVITY_SUCCESS';
-const LOAD_ACTIVITY_FAILURE = '@boldr/dashboard/activity/LOAD_ACTIVITY_FAILURE';
 const LOAD_ACTIVITIES_REQUEST = '@boldr/dashboard/activity/LOAD_ACTIVITIES_REQUEST';
 const LOAD_ACTIVITIES_SUCCESS = '@boldr/dashboard/activity/LOAD_ACTIVITIES_SUCCESS';
 const LOAD_ACTIVITIES_FAILURE = '@boldr/dashboard/activity/LOAD_ACTIVITIES_FAILURE';
@@ -46,6 +44,12 @@ const HIDE_SIDEBAR = '@boldr/dashboard/HIDE_SIDEBAR';
 
 export const showSidebar = () => ({ type: SHOW_SIDEBAR });
 export const hideSidebar = () => ({ type: HIDE_SIDEBAR });
+
+export function blocksClicked() {
+  return (dispatch) => {
+    dispatch(push('/dashboard/blocks'));
+  };
+}
 
 export function postListClicked() {
   return (dispatch) => {

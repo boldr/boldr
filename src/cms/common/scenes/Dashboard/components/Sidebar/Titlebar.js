@@ -9,7 +9,7 @@ const styles = {
   header: {
     backgroundColor: '#1f2225',
     color: '#fff',
-
+    marginBottom: '15px',
     fontSize: '1.5em',
     display: 'flex'
   }
@@ -29,6 +29,10 @@ const Titlebar = (props) => {
 Titlebar.propTypes = {
   style: React.PropTypes.object,
   title: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ]),
+  icon: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.object
   ]),

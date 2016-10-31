@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, { PropTypes } from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
 
 const propTypes = {
@@ -8,7 +7,7 @@ const propTypes = {
 };
 
 const MemberCard = (props) => {
-  function handleToggle() {
+  function handleToggle(user) {
     props.handleToggle(props.user.id);
   }
   return (
@@ -31,7 +30,7 @@ const MemberCard = (props) => {
        </div>
      </Card.Content>
    </Card>
-    );
+  );
 };
 
 MemberCard.propTypes = propTypes;

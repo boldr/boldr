@@ -6,7 +6,7 @@ import { asyncConnect } from 'redux-connect';
 import { Modal } from 'semantic-ui-react';
 import MembersList from './components/MembersList';
 import EditMemberForm from './components/EditMemberForm';
-import { loadSiteMembers, memberSelected, updateMember } from './actions';
+import { loadSiteMembers, memberSelected, updateMember } from './reducer';
 
 export type Props = {
   members: Object,
@@ -29,10 +29,11 @@ class Members extends Component {
     (this: any).handleSubmit = this.handleSubmit.bind(this);
   }
   state: Object = { open: false };
-  props: Props;
+
   componentDidMount() {
     this.props.loadSiteMembers();
   }
+  props: Props;
   open = () => this.setState({ open: true })
   close = () => this.setState({ open: false })
   toggleUser(userId) {
@@ -44,7 +45,7 @@ class Members extends Component {
       display_name: values.display_name,
       first_name: values.first_name,
       last_name: values.last_name,
-      roleId: values.roleId,
+      role: values.role,
       id: this.state.userId
     };
 
@@ -62,7 +63,7 @@ class Members extends Component {
          >
             <Modal.Header>Edit User</Modal.Header>
             <Modal.Content>
-            <EditMemberForm onSubmit={ this.handleSubmit } />
+            <EditMemberForm onSubmit={ this.handleSubmit } initialValues={ this.props.members.selected[0] } />
             </Modal.Content>
           </Modal>
        </div>

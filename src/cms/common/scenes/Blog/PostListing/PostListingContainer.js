@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
-import { getPosts, fetchPosts } from 'state/dux/post';
-import type { Post } from 'state/dux/post'; // eslint-disable-line
+import { getPosts, fetchPosts } from '../../../state';
+import type { Post } from '../../../types/models'; // eslint-disable-line
 import PostListing from './PostListing';
 
 export type Props = {

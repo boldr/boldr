@@ -6,13 +6,12 @@ import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import type { ReactElement } from '../../types/react';
 import { Notifications } from '../../components/index';
-import { isLoaded as isPagesLoaded } from '../../state/dux/boldr/pages';
-import { isLoaded as isSettingsLoaded, getSettings } from '../../state/dux/boldr/settings';
+import { areSettingsLoaded, arePagesLoaded, getSettings } from '../../state/selectors';
 import { fetchSettingsIfNeeded, fetchPagesIfNeeded } from '../../state/dux/boldr/actions';
 import meta from '../../core/config/base';
 import '../../styles/main.scss';
 
-export type Props = {
+type Props = {
   children: ReactElement,
   fetchSettingsIfNeeded: Function,
   fetchPagesIfNeeded: Function,
@@ -22,10 +21,10 @@ export type Props = {
 @asyncConnect([{
   promise: ({ store: { dispatch, getState } }) => {
     const promises = [];
-    if (!isSettingsLoaded(getState())) {
+    if (!areSettingsLoaded(getState())) {
       promises.push(dispatch(fetchSettingsIfNeeded()));
     }
-    if (!isPagesLoaded(getState())) {
+    if (!arePagesLoaded(getState())) {
       promises.push(dispatch(fetchPagesIfNeeded()));
     }
     return Promise.all(promises);
@@ -39,13 +38,12 @@ class BoldrWrapper extends Component {
   props: Props;
   render() {
     return (
-    <div>
-      <Helmet { ...meta.boldr } script={ [] } />
-
-      { this.props.children }
-      <Notifications />
-    </div>
-  );
+      <div>
+        <Helmet { ...meta.boldr } script={ [] } />
+        { this.props.children }
+        <Notifications />
+      </div>
+    );
   }
 }
 

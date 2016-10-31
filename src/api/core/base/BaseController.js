@@ -30,7 +30,7 @@ class BaseController {
       .build(req.query.where)
       .eager(req.query.include)
       .skipUndefined()
-        
+
       .orderBy(req.query.sort.by, req.query.sort.order)
       .page(req.query.page.number, req.query.page.size)
       .then(items => responseHandler(null, res, 200, items))

@@ -6,7 +6,7 @@ machine:
     America/Denver
   node:
     version:
-      6
+      7
   pre:
     - mkdir ~/.yarn-cache
   environment:

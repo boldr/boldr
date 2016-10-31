@@ -34,6 +34,17 @@ import {
   fetchPageByUrl
 } from './dux/boldr/actions';
 
+import {
+  getSettings,
+  areSettingsLoaded,
+  getPosts,
+  listNavLabels,
+  getNavEntities,
+  getByLabel,
+  getNavs,
+  arePagesLoaded
+} from './selectors';
+
 export {
   signup,
   login,
@@ -57,5 +68,13 @@ export {
   updateNavLinks,
   fetchSettingsIfNeeded,
   addNavLinks,
-  updateBoldrSettings
+  updateBoldrSettings,
+  getSettings,
+  areSettingsLoaded,
+  getPosts,
+  listNavLabels,
+  getNavEntities,
+  getByLabel,
+  getNavs,
+  arePagesLoaded
 };

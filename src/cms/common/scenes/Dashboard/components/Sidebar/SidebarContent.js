@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Icon, Menu } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import {
   postListClicked, postEditorClicked, dashboardClicked,
   fileManagerClicked, membersClicked, settingsClicked, homeClicked,
-  navigationClicked, contentClicked, pagesClicked
+  navigationClicked, contentClicked, pagesClicked, blocksClicked
 } from '../../reducer';
 import Titlebar from './Titlebar';
 
@@ -28,6 +28,7 @@ type Props = {
   navigationClicked?: Function,
   pagesClicked?: Function,
   contentClicked?: Function,
+  blocksClicked?: Function,
   style: Object
 }
 
@@ -67,6 +68,9 @@ class SidebarContent extends Component {
                <Menu.Header>Build</Menu.Header>
 
                <Menu.Menu>
+               <Menu.Item name="Blocks" onClick={ this.props.blocksClicked }>
+                 Blocks
+               </Menu.Item>
                  <Menu.Item name="Navigation" onClick={ this.props.navigationClicked }>
                    Navigation
                  </Menu.Item>
@@ -89,14 +93,14 @@ class SidebarContent extends Component {
            </Menu>
       </div>
     </Titlebar>
-  );
+    );
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     postListClicked, postEditorClicked, dashboardClicked,
     fileManagerClicked, membersClicked, settingsClicked, homeClicked, navigationClicked,
-    contentClicked, pagesClicked }, dispatch);
+    contentClicked, pagesClicked, blocksClicked }, dispatch);
 };
 
 export default connect(null, mapDispatchToProps)(SidebarContent);
