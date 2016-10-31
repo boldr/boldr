@@ -22,7 +22,6 @@ WebFontLoader.load({
 const preloadedState = window.PRELOADED_STATE || {};
 const client = new ApiClient();
 const store = configureStore(browserHistory, client, preloadedState);
-const { dispatch, getState } = store;
 
 const token = localStorage.getItem(TOKEN_KEY);
 
@@ -35,7 +34,7 @@ const MOUNT_POINT = document.querySelector('#app');
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.routing
 });
-
+const routes = getRoutes(store, history);
 function renderApp() {
   const renderRouter = props =>
   <ReduxAsyncConnect { ...props } helpers={ { client } } filter={ item => !item.deferred } />;
@@ -43,7 +42,7 @@ function renderApp() {
   render(
     <ReactHotLoader>
       <Provider store={ store } key="provider">
-        <Router routes={ getRoutes(store, history) } history={ history } render={ renderRouter } key={ Math.random() } />
+        <Router routes={ routes } history={ history } render={ renderRouter } key={ Math.random() } />
       </Provider>
     </ReactHotLoader>,
     MOUNT_POINT

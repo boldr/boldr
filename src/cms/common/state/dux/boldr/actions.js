@@ -180,11 +180,9 @@ function loadBoldrSettings() {
 function shouldFetchSettings(state) {
   const settings = state.boldr.settings.keys;
   if (!settings.length) {
-    console.log('SHOULD FETCH SETTINGS');
     return true;
   }
   if (settings.length) {
-    console.log(settings, 'SHOULD NOT FETCH SETTINGS');
     return false;
   }
   return settings;
@@ -287,11 +285,9 @@ export function fetchPages() {
 function shouldFetchPages(state) {
   const pages = state.boldr.pages;
   if (!pages.length) {
-    console.log('SHOULD FETCH PAGES');
     return true;
   }
   if (pages.length) {
-    console.log(pages, 'SHOULD NOT FETCH PAGES');
     return false;
   }
   return pages;

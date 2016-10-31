@@ -29,6 +29,9 @@ export const getNavs = createSelector(
   //  (state) => state.boldr.nav.byLabel
   (labels, byLabel) => labels.map(label => byLabel[label])
 );
+export function isNavLoaded(globalState) {
+  return globalState.boldr.nav && globalState.boldr.nav.byLabel.loaded;
+}
 
 // pages
 export function arePagesLoaded(globalState) {

@@ -1,18 +1,7 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Menu, Dropdown, Button, Container } from 'semantic-ui-react';
-import { push } from 'react-router-redux';
-import { createSelector } from 'reselect';
-import { asyncConnect } from 'redux-connect';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import _ from 'lodash';
-import { logout } from '../../state/dux/auth';
-// import { goHome } from 'state/dux/boldr';
-import { getByLabel } from '../../state/dux/boldr/nav';
-import { getSettings, isLoaded as isNavigationLoaded } from '../../state/dux/boldr/settings';
-import { loadMainNav } from '../../state/dux/boldr/actions';
 
 type Props = {
   navigate: () => void,
@@ -21,60 +10,19 @@ type Props = {
   settings: Object,
   boldr: Object,
   auth: Object,
-  handleDashClick: () => void
+  handleItemClick: () => void,
+  handleDashClick: () => void,
+  handleLoginClick: () => void,
+  handleSignupClick: () => void,
+  handleProfileClick: () => void,
+  handlePreferencesClick: () => void,
+  handleLogoClick: () => void,
+  handleLogoutClick: () => void,
 };
 
-@asyncConnect([{
-  promise: ({ store: { dispatch, getState } }) => {
-    const promises = [];
-    // if (!isNavigationLoaded(getState())) {
-    promises.push(dispatch(loadMainNav()));
-    // }
-    return Promise.all(promises);
-  }
-}])
-class PrimaryHeader extends Component {
-
-  state = {
-    activeItem: ''
-  }
-  componentDidMount() {
-    this.props.actions.loadMainNav();
-  }
+class PrimaryHeader extends PureComponent {
   props: Props;
 
-  handleItemClick = (e, { name, href }) => {
-    this.setState({
-      activeItem: name
-    });
-    this.props.navigate(`${href}`);
-  }
-
-  handleLoginClick = (e) => {
-    this.props.navigate('/account/login');
-  }
-
-  handleSignupClick = (e) => {
-    this.props.navigate('/account/signup');
-  }
-
-  handleProfileClick = (e) => {
-    this.props.navigate('/profile');
-  }
-  handlePreferencesClick = (e) => {
-    this.props.navigate('/account/preferences');
-  }
-  handleLogoClick = (e) => {
-    this.props.navigate('/');
-  }
-
-  handleLogoutClick = (e) => {
-    this.props.actions.logout();
-  }
-
-  handleDashClick = (e) => {
-    this.props.navigate('/dashboard');
-  }
   /**
    * @method renderUnauthenticated
    * shows the menu with options for unauthenticated users
@@ -82,10 +30,10 @@ class PrimaryHeader extends Component {
   renderUnauthenticated() {
     return (
       <Menu.Menu position="right">
-       <Menu.Item onClick={ this.handleLoginClick }>
+       <Menu.Item onClick={ this.props.handleLoginClick }>
          <Button secondary>Login</Button>
        </Menu.Item>
-       <Menu.Item onClick={ this.handleSignupClick }>
+       <Menu.Item onClick={ this.props.handleSignupClick }>
          <Button primary>Sign Up</Button>
        </Menu.Item>
       </Menu.Menu>
@@ -99,14 +47,14 @@ class PrimaryHeader extends Component {
   renderAuthenticated() {
     return (
       <Menu.Menu position="right">
-      <Dropdown as={ Menu.Item } text="Account">
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={ this.handleProfileClick }>Profile</Dropdown.Item>
-          <Dropdown.Item onClick={ this.handlePreferencesClick }>Preferences</Dropdown.Item>
-          <Dropdown.Item onClick={ this.handleLogoutClick }>Logout</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-       <Menu.Item onClick={ this.handleDashClick }>
+        <Menu.Item as={ Dropdown } text="Account">
+           <Dropdown.Menu>
+           <Dropdown.Item onClick={ this.props.handleProfileClick }>Profile</Dropdown.Item>
+           <Dropdown.Item onClick={ this.props.handlePreferencesClick }>Preferences</Dropdown.Item>
+           <Dropdown.Item onClick={ this.props.handleLogoutClick }>Logout</Dropdown.Item>
+           </Dropdown.Menu>
+         </Menu.Item>
+       <Menu.Item onClick={ this.props.handleDashClick }>
          <Button primary>Dashboard</Button>
        </Menu.Item>
       </Menu.Menu>
@@ -114,7 +62,6 @@ class PrimaryHeader extends Component {
   }
 
   render() {
-    const { activeItem } = this.state;
     if (!this.props.navigation) {
       return (
         <h1>loading</h1>
@@ -125,8 +72,8 @@ class PrimaryHeader extends Component {
         key={ item.id }
         name={ item.name }
         href={ item.href }
-        active={ activeItem === item.name }
-        onClick={ this.handleItemClick }
+        onClick={ this.props.handleItemClick }
+        link
       >
         { item.name }
       </Menu.Item>
@@ -137,7 +84,7 @@ class PrimaryHeader extends Component {
       <Container>
         <Menu.Item>
           <img src={ this.props.settings[2].value }
-            alt="logo" onClick={ this.handleLogoClick } role="button" tabIndex="0"
+            alt="logo" onClick={ this.props.handleLogoClick } role="button" tabIndex="0"
           />
         </Menu.Item>
         { renderedMenuItems }
@@ -148,21 +95,4 @@ class PrimaryHeader extends Component {
   }
 }
 
-const mapStateToProps = (state: Object) => {
-  return {
-    boldr: state.boldr,
-    settings: getSettings(state),
-    auth: state.auth,
-    navigation: getByLabel(state, 'main')
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return { // goHome, logout,
-    actions: bindActionCreators({ logout, pushState: push, loadMainNav }, dispatch),
-    navigate: (url) => dispatch(push(url)),
-    dispatch
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrimaryHeader);
+export default PrimaryHeader;

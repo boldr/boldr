@@ -72,7 +72,7 @@
     "migrate": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js migrate:latest",
     "seed": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js seed:run",
     "start:cms": "node build/boldrCMS/server",
-    "test:ci": "NODE_ENV=test jest -i",
+    "test:ci": "NODE_ENV=test CI=true jest",
     "test": "NODE_ENV=test jest",
     "typecheck": "flow; test $? -eq 0 -o $? -eq 2"
   },
@@ -216,7 +216,7 @@
     "flow-bin": "^0.34.0",
     "glob": "7.1.1",
     "happypack": "^2.2.1",
-    "jest": "^16.0.2",
+    "jest-cli": "^16.0.2",
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
     "md5": "^2.2.1",

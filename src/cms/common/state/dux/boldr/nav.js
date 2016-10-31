@@ -18,7 +18,7 @@ export const getNavs = createSelector(
   (labels, byLabel) => labels.map(label => byLabel[label])
 );
 
-const byLabel = (state = {}, action) => {
+const byLabel = (state = { loaded: false }, action) => {
   let nextState;
   switch (action.type) {
     case t.LOAD_NAVIGATION_SUCCESS:
@@ -27,7 +27,8 @@ const byLabel = (state = {}, action) => {
       });
       return {
         ...state,
-        ...action.payload.entities.navigations
+        ...action.payload.entities.navigations,
+        loaded: true
 
       };
     default:

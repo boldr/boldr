@@ -42,6 +42,7 @@ import {
   getNavEntities,
   getByLabel,
   getNavs,
+  isNavLoaded,
   arePagesLoaded
 } from './selectors';
 
@@ -76,5 +77,6 @@ export {
   getNavEntities,
   getByLabel,
   getNavs,
-  arePagesLoaded
+  arePagesLoaded,
+  isNavLoaded
 };

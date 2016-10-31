@@ -1,4 +1,3 @@
-import { injectReducer } from '../state/reducers';
 import BoldrWrapper from './BoldrWrapper';
 import Account from './Account';
 import Blog from './Blog';
