@@ -1,6 +1,9 @@
 import express from 'express';
 import ensureAuthenticated from '../auth/ensureAuthenticated';
 import * as ctrl from './attachment.controller';
+import { BaseController } from '../../core';
+import Attachment from './attachment.model';
+const controller = new BaseController(Attachment);
 
 const router = express.Router();
 
@@ -44,7 +47,7 @@ router.post('/', ensureAuthenticated, ctrl.uploadFiles.single('photo'), ctrl.sin
  */
 router.post('/dashboard', ensureAuthenticated, ctrl.fromDashboard);
 router.post('/articles', ctrl.uploadArticle.single('photo'), ctrl.singleUpload);
-
+router.delete('/:id', controller.destroy.bind(controller));
 router.get('/aws/bucket', ctrl.getAllAWS);
 
 export default router;

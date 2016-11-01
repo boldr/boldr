@@ -160,7 +160,7 @@ export function doCreatePage(payload) {
 
 export function doRemoveMedia(id) {
   return request
-    .delete(`${API_PAGES}/${id}`)
+    .delete(`${API_ATTACHMENTS}/${id}`)
     .set('Authorization', `${localStorage.getItem(TOKEN_KEY)}`);
 }
 

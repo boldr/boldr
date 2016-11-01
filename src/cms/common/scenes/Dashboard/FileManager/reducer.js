@@ -138,7 +138,7 @@ export default function attachmentReducer(state = INITIAL_STATE, action = {}) {
     case DELETE_ATTACHMENT_SUCCESS:
       return {
         ...state,
-        files: [...state.files].filter((file) => file.id !== parseInt(action.id, 10))
+        files: [...state.files].filter((file) => file.id !== action.id)
       };
     case GET_ATTACHMENT_FAILURE:
     case UPLOAD_ATTACHMENT_FAILURE:

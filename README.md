@@ -51,15 +51,17 @@ Quick notes:
 
 - Ports
 
-  - **Frontend**: 3000
-  - **Webpack**: 3001 - _dev only_
-  - **API**: 2121
+  - **Frontend**: 3000 - _this is also the ssr server_  
+  - **Webpack**: 3001 - _dev only_  
+  - **API**: 2121  
 
-- Hot reloading doesnt work everywhere due to async/dynamic routes.
+- Hot reloading doesn't work everywhere due to async/dynamic routes.
 
 ### Development
 
-**Starting it up** -- Run `npm run dev`
+**Setup the Database** -- Modify the config settings with your database information. Then simply run `npm run migrate` and `npm run seed`.  
+
+**Starting it up** -- Run `npm run dev`  
 
 After Boldr has started visit <http://localhost:3000>. The admin account is already created and you may login using these credentials:
 
@@ -74,9 +76,9 @@ After Boldr has started visit <http://localhost:3000>. The admin account is alre
 $ npm run build
 ```
 
-The build process outputs the frontend and server-side rendering app in `cms/dist`. It then runs the API code through babel and outputs to `api/boldr-api`.
-
-You will need to place a copy of your .env file into the root of where BoldrAPI will be running.
+The build process outputs the frontend and server-side rendering app in `build/boldrCMS`. It then runs the API code through babel and outputs to `build/boldrAPI`.  
+**Finally:**  
+`npm run start:prod`
 
 ## Contributing
 
@@ -94,7 +96,7 @@ Looking for an open source project to contribute to? All types of contributions 
 ## Documentation
 
 - [`Roadmap`](ROADMAP.md)
-- [`API`](https://docs.boldr.io)
+- [`API`](docs/apidoc.md)
 - [`Theming`](docs/theming.md)  
 - [`Docker`](docs/docker.md)
 - [`Nginx`](docs/nginx.md)
@@ -104,9 +106,6 @@ Looking for an open source project to contribute to? All types of contributions 
 | <a href="https://boldr.io/images/home.png"><img src="https://boldr.io/images/home.png" width="460"></a>| <a href="https://boldr.io/images/postlist.png"><img src="https://boldr.io/images/postlist.png" width="460"></a> |
 |---|---|
 |<a href="https://boldr.io/images/dashboard.png"><img src="https://boldr.io/images/dashboard.png" width="460"></a> | <a href="https://boldr.io/images/singlepost.png"><img src="https://boldr.io/images/singlepost.png" width="460"></a> |
-
-
-
 
 
 ## Demo

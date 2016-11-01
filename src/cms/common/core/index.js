@@ -12,6 +12,7 @@ import {
   API_CATEGORY,
   API_ACTIVITY,
   API_SETTINGS,
+  API_BLOCKS,
   TOKEN_KEY
 } from './config';
 
@@ -29,6 +30,7 @@ export {
   API_LINKS,
   API_TAG,
   API_ACTIVITY,
+  API_BLOCKS,
   API_CATEGORY,
   API_PAGE,
   API_SETTINGS,

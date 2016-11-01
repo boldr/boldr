@@ -23,6 +23,9 @@ Your dreams are bold. Your thoughts are bold. So why shouldn&#39;t your CMS be a
 	- [GitHub Callback](#github-callback)
 	- [Verify](#verify)
 	
+- [Blocks](#blocks)
+	- [Get all blocks](#get-all-blocks)
+	
 - [Links](#links)
 	- [Create a new navigation link](#create-a-new-navigation-link)
 	- [Delete a link](#delete-a-link)
@@ -37,11 +40,25 @@ Your dreams are bold. Your thoughts are bold. So why shouldn&#39;t your CMS be a
 	- [Return a specific navigation by its id.](#return-a-specific-navigation-by-its-id.)
 	- [Update a navigation](#update-a-navigation)
 	
+- [Pages](#pages)
+	- [Get all pages](#get-all-pages)
+	
 - [Post](#post)
 	- [Create a new post](#create-a-new-post)
 	- [Retrieve a post by its id.](#retrieve-a-post-by-its-id.)
 	- [Retrieve a post by its slug.](#retrieve-a-post-by-its-slug.)
 	- [Retrieve all posts](#retrieve-all-posts)
+	
+- [Settings](#settings)
+	- [Get all settings objects](#get-all-settings-objects)
+	
+- [Tag](#tag)
+	- [Retrieve all tags](#retrieve-all-tags)
+	- [Get a specific tag by its id.](#get-a-specific-tag-by-its-id.)
+	- [Create a new tag](#create-a-new-tag)
+	- [Returns all posts associated with the tag.](#returns-all-posts-associated-with-the-tag.)
+	- [Returns all posts associated with the tag.](#returns-all-posts-associated-with-the-tag.)
+	- [Update a tag](#update-a-tag)
 	
 - [Token](#token)
 	- [Send email](#send-email)
@@ -247,6 +264,15 @@ curl -i http://localhost:3000/api/v1/attachments/1
 |---------|-----------|--------------------------------------|
 | verification			| String			|  <p>{token}</p>							|
 
+# Blocks
+
+## Get all blocks
+
+
+
+	GET /blocks
+
+
 # Links
 
 ## Create a new navigation link
@@ -293,7 +319,7 @@ curl -i http://localhost:3000/api/v1/attachments/1
 
 
 
-	PATCH /links/:id
+	PUT /links/:id
 
 
 ### Parameters
@@ -348,7 +374,7 @@ curl -i http://localhost:3000/api/v1/attachments/1
 
 
 
-	PUT /navigations/:id
+	PATCH /navigations/:id
 
 
 ### Parameters
@@ -356,6 +382,15 @@ curl -i http://localhost:3000/api/v1/attachments/1
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | id			| Number			|  <p>The id of the link</p>							|
+
+# Pages
+
+## Get all pages
+
+
+
+	GET /pages
+
 
 # Post
 
@@ -400,6 +435,105 @@ curl -i http://localhost:3000/api/v1/attachments/1
 | page			| Number			| **optional** <p>Page number.</p>							|
 | limit			| Number			| **optional** <p>Amount of returned items.</p>							|
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+
+# Settings
+
+## Get all settings objects
+
+
+
+	GET /settings
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| include			| String[]			|  <p>Eager load relationships such as /posts?include=[author]</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+
+# Tag
+
+## Retrieve all tags
+
+
+
+	GET /tags
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| include			| String[]			|  <p>Eager load relationships such as /posts?include=[author]</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+
+## Get a specific tag by its id.
+
+
+
+	GET /tags/:id
+
+
+## Create a new tag
+
+
+
+	POST /tags
+
+### Headers
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| Authorization			| String			|  <p>{token}</p>							|
+
+## Returns all posts associated with the tag.
+
+
+
+	GET /tags/:id/posts
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| id			| Number			|  <p>The tag id</p>							|
+
+## Returns all posts associated with the tag.
+
+
+
+	GET /tags/posts/:name
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| name			| String			|  <p>The tag name</p>							|
+
+## Update a tag
+
+
+
+	PUT /tags/:id
+
+### Headers
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| Authorization			| String			|  <p>{token}</p>							|
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| id			| Number			|  <p>The tag id</p>							|
 
 # Token
 

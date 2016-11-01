@@ -32,9 +32,17 @@ export default (store, connect) => {
       {
         path: 'blocks',
         getComponent(nextState, cb) {
-          System.import('./Blocks')
-          .then(loadModule(cb))
-          .catch(errorLoading);
+          const importModules = Promise.all([
+            System.import('./Blocks/reducer'),
+            System.import('./Blocks')
+          ]);
+          const renderRoute = loadModule(cb);
+          importModules.then(([reducer, component]) => {
+            injectReducer('blocks', reducer.default);
+            renderRoute(component);
+          });
+
+          importModules.catch(errorLoading);
         }
       },
       {
