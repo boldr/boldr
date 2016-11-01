@@ -1,13 +1,17 @@
 /* @flow */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import { Grid, Col, Row } from 'components/Layout';
 import { requestPostTags } from 'state/dux/tag';
 import TagListCard from './TagListCard';
 
-export type Props = {tags: Object, requestPostTags: Function};
+type Props = {
+  tags: Object,
+  params: Object,
+  requestPostTags: () => void
+};
 
 @asyncConnect([{
   promise: ({ store: { dispatch, getState }, params: { name } }) => {

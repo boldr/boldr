@@ -1,8 +1,7 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button } from 'semantic-ui-react';
-import renderTextField, { renderLabel } from 'components/FormComponents/TextField';
+import renderTextField from 'components/FormComponents/TextField';
 
 export type Props = {
   handleSubmit?: Function,
@@ -12,7 +11,7 @@ export type Props = {
   pristine?: boolean,
 };
 
-let NavigationForm = (props: Props) => {
+let NavigationForm = (props: Props) => { // eslint-disable-line
   const { handleSubmit, reset } = props;
   return (
     <form className="form__navigation" onSubmit={ handleSubmit }>

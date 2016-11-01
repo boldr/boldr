@@ -95,7 +95,7 @@ function render(reactAppElement: ?ReactElement, preloadedState: ?Object) {
         ${styles}
         ${helmet ? helmet.style.toString() : ''}
         ${polyfillIoScript()}
-         ${serviceWorkerScript()}
+        ${serviceWorkerScript()}
       </head>
       <body>
         <div id="app">${reactApp}</div>

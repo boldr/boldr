@@ -2,6 +2,8 @@ const CPU_COUNT = require('os').cpus().length;
 const HappyPack = require('happypack');
 const notifier = require('node-notifier');
 const colors = require('colors');
+const execSync = require('child_process').execSync;
+const appRootPath = require('app-root-path').toString();
 
 // This determines how many threads a HappyPack instance can spin up.
 // See the plugins section of the webpack configuration for more.
@@ -62,10 +64,15 @@ function createNotification(options = {}) {
   }
 }
 
+function exec(command) {
+  execSync(command, { stdio: 'inherit', cwd: appRootPath });
+}
+
 module.exports = {
   removeEmpty,
   ifElse,
   merge,
+  exec,
   happyPackPlugin,
   createNotification,
 };

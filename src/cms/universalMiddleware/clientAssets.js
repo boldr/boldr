@@ -26,7 +26,7 @@ if (!fs.existsSync(assetsBundleFilePath)) {
 const assetsBundleFileContents = JSON.parse(
   fs.readFileSync(assetsBundleFilePath, 'utf8')
 );
-const chunks = Object.keys(assetsBundleFileContents).map((key) => assetsBundleFileContents[key])
+
 // Convert the assets json it into an object that contains all the paths to our
 // javascript and css files.  Doing this is required as for production
 // configurations we add a hash to our filenames, therefore we won't know the

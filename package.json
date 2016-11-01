@@ -66,6 +66,8 @@
     "dev": "npm-run-all --parallel dev:api dev:client",
     "dev:client": "better-npm-run dev:client",
     "dev:api": "better-npm-run dev:api",
+    "flow": "node ./tools/scripts/flow",
+    "flow:defs": "flow-typed install -f 0.34 --overwrite",
     "knex": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "npm run lint -- --fix",
@@ -73,8 +75,7 @@
     "seed": "./node_modules/.bin/knex --knexfile src/api/config/knexfile.js seed:run",
     "start:cms": "node build/boldrCMS/server",
     "test:ci": "NODE_ENV=test CI=true jest -w 2",
-    "test": "NODE_ENV=test jest",
-    "typecheck": "flow; test $? -eq 0 -o $? -eq 2"
+    "test": "NODE_ENV=test jest"
   },
   "jest": {
     "moduleNameMapper": {
@@ -114,7 +115,6 @@
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
-    "composable-middleware": "^0.3.0",
     "connect-redis": "^3.1.0",
     "convict": "^1.5.0",
     "cookie-parser": "^1.4.3",
@@ -220,7 +220,6 @@
     "glob": "7.1.1",
     "happypack": "^2.2.1",
     "jest-cli": "^16.0.2",
-    "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
     "md5": "^2.2.1",
     "mocha": "^3.1.2",
@@ -237,8 +236,6 @@
     "progress-bar-webpack-plugin": "^1.9.0",
     "react-addons-test-utils": "^15.3.2",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-test-renderer": "^15.3.2",
-    "redux-mock-store": "^1.2.1",
     "regenerator-runtime": "^0.9.5",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.2",

@@ -3,7 +3,6 @@ import { generateHash, randomString, SALT } from './hashing';
 import logger from './logger';
 import responseHandler from './response';
 import {
-  addAuthHeaderFromCookie,
   isAuthenticated,
   setTokenCookie,
   signToken
@@ -41,7 +40,6 @@ export {
   generateHash,
   randomString,
   SALT,
-  addAuthHeaderFromCookie,
   isAuthenticated,
   setTokenCookie,
   signToken,

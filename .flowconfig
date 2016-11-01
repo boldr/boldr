@@ -34,4 +34,4 @@ module.name_mapper='^\(apicore\)\/\(.*\)$' -> '<PROJECT_ROOT>/src/api/core/\1/\2
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
 [version]
-0.33.0
+0.34.0

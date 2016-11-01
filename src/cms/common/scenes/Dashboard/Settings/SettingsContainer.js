@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
-import { fetchSettingsIfNeeded } from 'state/index';
-import { getSettings } from 'state/dux/boldr/settings';
+import { fetchSettingsIfNeeded, getSettings } from 'state/index';
 import Settings from './Settings';
 
 export type Props = {
   boldr?: Object,
-  allSettings: Array<Object>
+  allSettings: Array<Object>,
+  fetchSettingsIfNeeded: () => void
 };
 
 @asyncConnect([{
@@ -18,10 +18,10 @@ export type Props = {
   }
 }])
 class SettingsContainer extends Component {
-  props: Props;
   componentDidMount() {
     this.props.fetchSettingsIfNeeded();
   }
+  props: Props;
   render() {
     return (
       <Settings { ...this.props } />

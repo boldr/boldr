@@ -16,7 +16,7 @@
   "ecmaFeatures": {
     "defaultParams": true
   },
-  "plugins": ["flowtype"],
+  "plugins": ["flowtype", "import"],
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true

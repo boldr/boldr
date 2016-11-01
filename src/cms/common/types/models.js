@@ -2,19 +2,20 @@
 /* eslint-disable import/prefer-default-export */
 
 export type Post = {
-  id: String,
-  feature_image: String,
-  title: String,
-  slug: String,
-  content: String,
+  id?: String,
+  feature_image?: String,
+  title?: String,
+  slug?: String,
+  content?: String,
   background_image?: String,
   excerpt: String,
-  created_at: String,
-  updated_at: String,
-  status: String,
-  author: User,
+  created_at?: String,
+  updated_at?: String,
+  status?: String,
+  author?: User,
   seo: ?Object,
-  tags: Array<Tag>
+  tags: Array<Tag>,
+  tag: ?Number
 };
 
 export type Tag = {

@@ -37,7 +37,7 @@ const SinglePost = (props: Props) => {
           </Row>
         </Grid>
       </div>
-    );
+  );
 };
 
 const mapStateToProps = (state, ownProps) => {

@@ -205,6 +205,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           path: 'babel',
           query: {
             babelrc: false,
+            cacheDirectory: './.wp_cache',
             presets: [['latest', { 'es2015': { 'modules': false }}], 'react'],
             plugins: removeEmpty([
               'transform-function-bind',

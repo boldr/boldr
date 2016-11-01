@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import { Item, Segment, Icon, Menu } from 'semantic-ui-react';
-import { fetchPostsIfNeeded, getPosts, deletePost } from 'state/dux/post';
+import { fetchPostsIfNeeded, getPosts, deletePost } from '../../../../state/dux/post';
 import { PostListItem } from '../components';
+import type { Post } from '../../../../types/models';
 
 export type Props = {
-  children?: React$Element<*>,
-  posts: Object,
-  dispatch?: Function,
-  deletePost: Function,
+  children?: ReactElement,
+  posts: Array<Post>,
+  dispatch?: () => void,
+  deletePost: () => void,
+  fetchPostsIfNeeded: () => void,
   current?: Object
 };
 @asyncConnect([{
@@ -26,11 +28,10 @@ class PostList extends Component {
     (this: any).handleArticleClick = this.handleArticleClick.bind(this);
     (this: any).handleDeleteClick = this.handleDeleteClick.bind(this);
   }
-
-  props: Props;
   componentDidMount() {
     this.props.fetchPostsIfNeeded();
   }
+  props: Props;
   // postId is a uuid, not an integer
   handleArticleClick(postId: string): void {
 

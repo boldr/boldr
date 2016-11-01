@@ -19,10 +19,10 @@ export type Props = {
   }
 }])
 class PagesContainer extends Component {
-  props: Props;
   componentDidMount() {
     this.props.fetchPagesIfNeeded();
   }
+  props: Props;
   render() {
     return (
       <Pages { ...this.props } />

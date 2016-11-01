@@ -115,7 +115,7 @@ const receivePostsFailed = (err) => ({
  * @param  {Object} data        The data from the form / post editor
  * @return {Object}             Response object.
  */
-export function createPost(data) {
+export function createPost(data: Post) {
   return (dispatch) => {
     dispatch(beginCreatePost());
     return api.doCreatePost(data)
@@ -137,7 +137,7 @@ const beginCreatePost = () => {
   return { type: CREATE_POST_REQUEST };
 };
 
-const createPostSuccess = (response) => {
+const createPostSuccess = (response: Object) => {
   return {
     type: CREATE_POST_SUCCESS,
     payload: response.body
@@ -157,7 +157,7 @@ const errorCreatingPost = (err) => {
   * @exports deletePost
   *****************************************************************/
 
-export function deletePost(id) {
+export function deletePost(id: String) {
   return (dispatch) => {
     dispatch({
       type: DELETE_POST_REQUEST
@@ -184,7 +184,7 @@ const deletePostFail = (err) => ({
 });
 
 
-export function updatePost(postData) {
+export function updatePost(postData: Post) {
   return dispatch => {
     dispatch(updatePostDetails(postData));
     return request

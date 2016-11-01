@@ -7,7 +7,7 @@ import { Sidebar, Titlebar, SidebarContent } from './components/Sidebar';
 import { showSidebar, hideSidebar } from './reducer';
 
 export type Props = {
-  children: React$Element<*>,
+  children: ReactElement,
   toggleOpen?: Function,
   showSidebar?: Function,
   hideSidebar?: Function,

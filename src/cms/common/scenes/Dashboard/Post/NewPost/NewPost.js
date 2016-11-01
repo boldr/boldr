@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 
 import { createPost } from 'state/dux/post';
 import { EditorForm } from '../components';
+import type { Post } from '../../../../types/models';
 
 export type Props = {
-  dispatch: Function,
-  posts?: Object,
+  dispatch: () => void,
   params?: Object,
   currentPost?: Object,
-  onFormSubmit?: Function,
-  handleSubmit: Function
+  onFormSubmit?: () => void,
+  handleSubmit: () => void,
+  posts?: Object
 };
 
 class NewPost extends Component {
@@ -23,7 +24,7 @@ class NewPost extends Component {
   props: Props;
 
   handleSubmit(values) {
-    const postData = {
+    const postData: Post = {
       title: values.title,
       tags: values.tags,
       status: values.status,
