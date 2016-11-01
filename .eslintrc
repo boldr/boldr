@@ -4,35 +4,25 @@
     "browser": true,
     "es6": true,
     "node": true,
-    "mocha": true
+    "mocha": true,
   },
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2017,
     "impliedStrict": true,
     "sourceType": "module",
-    "jsx": true
+    "jsx": true,
   },
   "ecmaFeatures": {
-    "defaultParams": true
+    "defaultParams": true,
   },
   "plugins": ["flowtype", "import"],
   "settings": {
     "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
+      "onlyFilesWithFlowAnnotation": true,
     },
     "import/resolver": {
-      "babel-module": {
-        "root": ["./src"],
-        "alias": {
-          "core": "./src/cms/common/core",
-          "apicore": "./src/api/core",
-          "components": "./src/cms/common/components",
-          "state": "./src/cms/common/state",
-          "theme": "./src/cms/common/theme",
-          "scenes": "./src/cms/common/scenes"
-         }
-      }
+      "babel-module": {}
     }
   },
   "globals": {
@@ -50,6 +40,7 @@
   "rules": {
     "id-match": 0,
     "no-duplicate-imports": 0,
-    "react/prefer-stateless-function": 0
+    "react/prefer-stateless-function": 0,
+    "import/no-unresolved": 0
     }
 }

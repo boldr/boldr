@@ -6,12 +6,6 @@
         "transform-class-properties",
         "transform-flow-strip-types",
         "transform-regenerator",
-        ["module-resolver", {
-          "root": ["./src/api"],
-          "alias": {
-            "apicore": "./src/api/core",
-          }
-        }],
         ["transform-runtime", {
           "helpers": false,
           "polyfill": false,
@@ -35,10 +29,9 @@
           "regenerator": true
         }],
         ["module-resolver", {
-          "root": ["./src"],
+          "root": ["./src/cms/common"],
           "alias": {
             "core": "./src/cms/common/core",
-            "apicore": "./src/api/core",
             "components": "./src/cms/common/components",
             "state": "./src/cms/common/state",
             "theme": "./src/cms/common/theme",

@@ -66,7 +66,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           /\.(eot|woff|woff2|ttf|otf)$/,
           /\.(svg|png|jpg|jpeg|gif|ico)$/,
           /\.(mp4|mp3|ogg|swf|webp)$/,
-          /\.(css|scss|sass|sss|less)$/
+          /\.(css|scss)$/
         ]
       }))
     ]),
@@ -111,11 +111,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
         '.js',
         '.jsx',
         '.json',
-        '.scss',
-        '.eot',
-        '.woff',
-        '.ttf',
-        '.woff2'
       ]
     },
     plugins: removeEmpty([
@@ -216,7 +211,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
               'transform-react-jsx-source',
               ifDevClient('react-hot-loader/babel'),
                 ['module-resolver', {
-                  root: ['./src'],
+                  root: ['./src/cms/common'],
                   alias: {
                     core: './src/cms/common/core',
                     common: './src/cms/common',
@@ -235,32 +230,30 @@ function webpackConfigFactory({ target, mode }, { json }) {
         happyPackPlugin({
           name: 'happypack-devclient-css',
           loaders: [
-                        {path: 'style-loader'},
-                        {
-                            path: 'css-loader',
-                            options: {
-                                importLoaders: 1,
-                                localIdentName: '[local]__[hash:base64:5]',
-                                /* A CSS Module is a CSS file in which all class names and
-                                animation names are scoped locally by default.
-                                https://github.com/css-modules/css-modules */
-                                modules: true,
-                                sourceMap: true
-                            }
-                        },
-                        {
-                            path: 'postcss-loader'
-                          },
-                          {
-                            path: 'sass-loader',
-                            options: {
-                              outputStyle: 'expanded',
-                              sourceMap: true
-                            }
-                          }
+            { path: 'style-loader' },
+            {
+              path: 'css-loader',
+              options: {
+                importLoaders: 1,
+                localIdentName: '[local]__[hash:base64:5]',
+                /* A CSS Module is a CSS file in which all class names and
+                animation names are scoped locally by default.
+                https://github.com/css-modules/css-modules */
+                modules: true,
+                sourceMap: true
+              }
+            },
+            { path: 'postcss-loader' },
+            {
+              path: 'sass-loader',
+              options: {
+                outputStyle: 'expanded',
+                sourceMap: true
+              }
+            }
           ]
-          // loaders: ['style!css?localIdentName=[name]__[local].[hash:base64:5]&sourceMap&importLoaders&-minimize!postcss!sass?outputStyle=expanded&sourceMap'], // eslint-disable-line
-        })),
+        })
+      ),
       ifProdClient(
         new webpack.optimize.UglifyJsPlugin({
           // sourceMap: true,
@@ -313,7 +306,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           'regenerator': true
         }],
               ['module-resolver', {
-                root: ['./src'],
+                root: ['./src/cms/common'],
                 alias: {
                   core: './src/cms/common/core',
                   components: './src/cms/common/components',

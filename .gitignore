@@ -13,6 +13,7 @@ lib-cov
 
 ## Webpack
 .happypack/**
+.wp_cache/**
 cms/static/assets/**
 cms/static/assets.js
 tools/webpack/dlls/**
@@ -36,5 +37,3 @@ pids
 *.pid
 .storybook
 stories/
-
-

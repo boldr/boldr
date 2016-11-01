@@ -5,14 +5,19 @@
 <PROJECT_ROOT>/.*/static/.*
 <PROJECT_ROOT>/.*/docs/.*
 <PROJECT_ROOT>/.*/happypack/.*
+<PROJECT_ROOT>/.*wp_cache/.*
 .*/node_modules/bcryptjs/.*
 .*/node_modules/react-side-effect/.*
 .*/node_modules/editions/.*
 .*/node_modules/flow-remove-types/.*
 .*/node_modules/flow-coverage-report/.*
 .*/node_modules/draft-js/*
+.*node_modules/cjson.*
+.*node_modules/fbjs.*
+.*node_modules/npm.*
+.*node_modules/config-chain.*
+
 [libs]
-.*/node_modules/fbjs/.*
 
 flow-typed/npm
 tools/flow/definitions/

@@ -95,7 +95,7 @@
       "<rootDir>/(tools|docs|node_modules|bin|flow-typed|public)/"
     ],
     "preprocessorIgnorePatterns": [
-    "/node_modules/"
+      "/node_modules/"
     ],
     "coverageReporters": [
       "lcov",
@@ -213,6 +213,7 @@
     "eslint-config-boldr": "^1.2.1",
     "eslint-import-resolver-babel-module": "^2.0.1",
     "eslint-plugin-flowtype": "^2.25.0",
+    "eslint-plugin-import": "^2.0.1",
     "extract-text-webpack-plugin": "2.0.0-beta.4",
     "faker": "^3.1.0",
     "file-loader": "^0.9.0",

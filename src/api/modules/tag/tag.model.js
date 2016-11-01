@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import BaseModel from 'apicore/base/BaseModel';
+import BaseModel from '../../core/base/BaseModel';
 import Post from '../post/post.model';
 
 class Tag extends BaseModel {
