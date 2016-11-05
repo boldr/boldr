@@ -203,7 +203,7 @@
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
-    "chai-enzyme": "^0.5.2",
+    "chai-enzyme": "^0.6.0",
     "chokidar": "^1.6.1",
     "colors": "^1.1.2",
     "css-loader": "^0.25.0",
