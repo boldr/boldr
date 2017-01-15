@@ -1,53 +1,71 @@
-
+import { combineReducers } from 'redux';
 import * as t from './constants';
+
+export const STATE_KEY = 'pages';
 
 /**
   * PAGE REDUCER
   * -------------------------
   * @exports pagesReducer
   *****************************************************************/
-const initialState = {
-  loaded: false,
-  byLabel: {},
-  labels: [],
-  meta: {},
-  filter: {},
-};
 
-export default function pagesReducer(state = initialState, action = {}) {
+const all = (state = {}, action) => {
   switch (action.type) {
-    case t.FETCH_PAGES_REQUEST:
-    case t.FETCH_PAGE_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
     case t.FETCH_PAGES_SUCCESS:
       return {
-        loading: false,
-        loaded: true,
-        byLabel: action.payload.entities.pages,
-        labels: action.payload.result,
-      };
-    case t.FETCH_PAGE_SUCCESS:
-      return {
         ...state,
-        loading: false,
-        loaded: true,
-        data: action.payload,
+        ...action.payload.entities.templates,
       };
-    case t.FETCH_PAGES_FAILURE:
-    case t.FETCH_PAGE_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-      };
+
     default:
       return state;
   }
-}
+};
 
-export function isLoaded(globalState) {
-  return globalState.boldr.pages && globalState.boldr.pages.loaded;
-}
+const ids = (state = [], action) => {
+  switch (action.type) {
+    case t.FETCH_PAGES_SUCCESS:
+      return action.payload.result;
+    default:
+      return state;
+  }
+};
+
+
+const isFetching = (state = false, action) => {
+  switch (action.type) {
+    case t.FETCH_PAGES_REQUEST:
+    case t.FETCH_PAGE_REQUEST:
+      return true;
+    case t.FETCH_PAGES_SUCCESS:
+    case t.FETCH_PAGE_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+//
+// const currentTemplate = (state = {}, action) => {
+//   switch (action.type) {
+//     case t.SELECT_POST:
+//       return {
+//         ...state,
+//         ...action.post,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+/**
+ *  postsReducer
+ * @param  {Object} state       The initial state
+ * @param  {Object} action      The action object
+ */
+
+
+export default combineReducers({
+  all,
+  ids,
+  isFetching,
+});

@@ -1,16 +1,15 @@
-
 /* @flow */
+
 import React, { Component } from 'react';
 import { provideHooks } from 'redial';
 import { connect } from 'react-redux';
 import { LAYOUTS } from '../../../core/constants';
 import { changeLayout } from '../../../state/modules/boldr/ui';
 import { getPosts, fetchPostsIfNeeded } from '../../../state/modules/blog/posts';
-import { getTagsList } from '../../../state/modules/blog/selectors';
 import { fetchTagsIfNeeded } from '../../../state/modules/blog/tags/actions';
 import { getTags } from '../../../state/modules/blog/tags/selectors';
 import type { Post, UI } from '../../../types/models'; // eslint-disable-line
-import PostListing from './PostListing';
+import VisiblePostListing from './VisiblePostListing';
 
 type Props = {
   posts: Array<Post>,
@@ -49,7 +48,7 @@ export class PostListingContainer extends Component {
   }
   render() {
     return (
-      <PostListing
+      <VisiblePostListing
         posts={ this.props.posts }
         listTags={ this.props.listTags }
         layout={ this.props.ui.layout }

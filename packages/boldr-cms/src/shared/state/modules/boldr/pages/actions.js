@@ -1,12 +1,12 @@
-import { normalize, arrayOf } from 'normalizr';
-import { push } from 'react-router-redux';
+import { normalize, arrayOf, schema } from 'normalizr';
 import { camelizeKeys } from 'humps';
+import { push } from 'react-router-redux';
 import * as api from '../../../../core/api';
 import { page as pagesSchema } from '../../../../core/schemas';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../notifications/notifications';
 import * as t from './constants';
-
+import { page as pageSchema, arrayOfPage } from './schema';
 /**
   * FETCH PAGES
   * -------------------------
@@ -29,8 +29,8 @@ export function fetchPages() {
     return api.getAllPages()
       .then(response => {
         const camelizedJson = camelizeKeys(response.body);
-        const normalized = normalize(camelizedJson, arrayOf(pagesSchema));
-        return dispatch(receivePages(normalized));
+        const normalizedData = normalize(camelizedJson, arrayOfPage);
+        return dispatch(receivePages(normalizedData));
       })
       .catch(err => {
         dispatch(receivePagesFailed(err));
@@ -39,7 +39,7 @@ export function fetchPages() {
 }
 
 function shouldFetchPages(state) {
-  const pages = state.boldr.pages.labels;
+  const templates = state.boldr.templates.labels;
   if (!pages.length) {
     return true;
   }
@@ -52,9 +52,9 @@ function shouldFetchPages(state) {
 const requestPages = () => {
   return { type: t.FETCH_PAGES_REQUEST };
 };
-const receivePages = (normalized) => ({
+const receivePages = (normalizedData) => ({
   type: t.FETCH_PAGES_SUCCESS,
-  payload: normalized,
+  payload: normalizedData,
 });
 const receivePagesFailed = (err) => ({
   type: t.FETCH_PAGES_FAILURE, error: err,
@@ -65,17 +65,14 @@ const receivePagesFailed = (err) => ({
   * -------------------------
   * @exports fetchPageByUrl
   *****************************************************************/
-export function fetchPageByUrl(url) {
+export function fetchPageByUrl(resource) {
   return dispatch => {
     dispatch(requestPage());
-    if (url === undefined) {
-      url = 'home';
+    if (resource === undefined) {
+      resource = 'home';
     }
-    return api.getPageByUrl(url)
+    return api.getPageByUrl(resource)
       .then(response => {
-        if (response.status !== 200 || response.status !== 304) {
-          dispatch(receivePageFailed());
-        }
         dispatch(receivePage(response));
       })
       .catch(err => {

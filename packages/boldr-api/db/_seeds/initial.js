@@ -8,12 +8,15 @@ const tables = [
   'post',
   'role',
   'tag',
+  'user_role',
   'post_tag',
   'menu',
   'menu_detail',
+  'template',
   'page',
   'menu_menu_detail',
   'setting',
+  'template_page',
 ];
 
 function seed(knex, Promise) {
@@ -111,7 +114,7 @@ function seed(knex, Promise) {
 <p><br></p>
 <p>&nbsp;Donec eget tortor id ipsum maximus commodo nec eu quam. Aliquam erat volutpat. Nunc tincidunt est sit amet justo placerat egestas. Vestibulum efficitur, neque tempor feugiat lacinia, turpis ex efficitur urna, ullamcorper porta ligula lorem id neque. Quisque interdum risus at nisl finibus varius. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.In euismod gravida tortor in placerat. Aenean blandit blandit efficitur. Cras a accumsan augue, at tincidunt massa. Vivamus eleifend sem sed nibh tempor laoreet. Quisque blandit turpis vitae bibendum mattis. Nulla sagittis quam eget diam feugiat ultricies. Aliquam varius tellus et turpis viverra tempus. Nam sit amet ex suscipit, convallis tortor at, malesuada felis. Vestibulum arcu eros, bibendum sit amet tempus placerat, pharetra nec tortor. Ut scelerisque quam non magna tincidunt, nec varius massa blandit.</p>
 <p><br></p>`,
-        status: 'published',
+        published: true,
         user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
       }),
       knex('post').insert({
@@ -130,7 +133,7 @@ function seed(knex, Promise) {
 <p><br></p>
 <p>&nbsp;Donec eget tortor id ipsum maximus commodo nec eu quam. Aliquam erat volutpat. Nunc tincidunt est sit amet justo placerat egestas. Vestibulum efficitur, neque tempor feugiat lacinia, turpis ex efficitur urna, ullamcorper porta ligula lorem id neque. Quisque interdum risus at nisl finibus varius. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.In euismod gravida tortor in placerat. Aenean blandit blandit efficitur. Cras a accumsan augue, at tincidunt massa. Vivamus eleifend sem sed nibh tempor laoreet. Quisque blandit turpis vitae bibendum mattis. Nulla sagittis quam eget diam feugiat ultricies. Aliquam varius tellus et turpis viverra tempus. Nam sit amet ex suscipit, convallis tortor at, malesuada felis. Vestibulum arcu eros, bibendum sit amet tempus placerat, pharetra nec tortor. Ut scelerisque quam non magna tincidunt, nec varius massa blandit.</p>
 <p><br></p>`,
-        status: 'published',
+        published: false,
         user_id: 'f11d3ebf-4ae6-4578-ba65-0c8f48b7f41f',
       }),
       knex('post').insert({
@@ -149,7 +152,7 @@ function seed(knex, Promise) {
 <p><br></p>
 <p>&nbsp;Donec eget tortor id ipsum maximus commodo nec eu quam. Aliquam erat volutpat. Nunc tincidunt est sit amet justo placerat egestas. Vestibulum efficitur, neque tempor feugiat lacinia, turpis ex efficitur urna, ullamcorper porta ligula lorem id neque. Quisque interdum risus at nisl finibus varius. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.In euismod gravida tortor in placerat. Aenean blandit blandit efficitur. Cras a accumsan augue, at tincidunt massa. Vivamus eleifend sem sed nibh tempor laoreet. Quisque blandit turpis vitae bibendum mattis. Nulla sagittis quam eget diam feugiat ultricies. Aliquam varius tellus et turpis viverra tempus. Nam sit amet ex suscipit, convallis tortor at, malesuada felis. Vestibulum arcu eros, bibendum sit amet tempus placerat, pharetra nec tortor. Ut scelerisque quam non magna tincidunt, nec varius massa blandit.</p>
 <p><br></p>`,
-        status: 'published',
+        published: true,
         user_id: '1b062e26-df71-48ce-b363-4ae9b966e7a0',
       }),
     ]))
@@ -220,8 +223,28 @@ function seed(knex, Promise) {
       }),
     ]))
     .then(() => Promise.all([
+      knex('template').insert({
+        id: 1,
+        uuid: 'c23891fb-88c2-4e91-b95d-c652f15eab0c',
+        name: 'base',
+        label: 'Base',
+        resource: '/',
+        meta: {},
+        content: {},
+      }),
+      knex('template').insert({
+        id: 2,
+        uuid: 'd42f91fb-88c2-4e91-b95d-c652f15eab0c',
+        name: 'content',
+        label: 'Content',
+        resource: 'content',
+        meta: {},
+        content: {},
+      }),
+    ]))
+    .then(() => Promise.all([
       knex('page').insert({
-        id: 'c23891fb-88c2-4e91-b95d-c652f15eab0c',
+        id: '87d1e9b3-b32e-474e-9246-6dce1b21a72d',
         name: 'Home',
         label: 'home',
         url: 'home',
@@ -236,6 +259,33 @@ function seed(knex, Promise) {
           title: 'Home',
           description: 'The home page',
         },
+      }),
+      knex('page').insert({
+        id: '0a277a50-b482-4b86-b0e7-83fdd3a372af',
+        name: 'About',
+        label: 'about',
+        url: 'about',
+        layout: {
+          showHero: true,
+          showPosts: true,
+        },
+        data: {},
+        status: 'published',
+        restricted: false,
+        meta: {
+          title: 'About',
+          description: 'The about page',
+        },
+      }),
+    ]))
+    .then(() => Promise.all([
+      knex('template_page').insert({
+        template_id: 1,
+        page_id: '87d1e9b3-b32e-474e-9246-6dce1b21a72d',
+      }),
+      knex('template_page').insert({
+        template_id: 2,
+        page_id: '0a277a50-b482-4b86-b0e7-83fdd3a372af',
       }),
     ]))
     .then(() => Promise.all([
