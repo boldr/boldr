@@ -16,7 +16,6 @@ import createRoutes from '../../../shared/scenes';
 import ApiClient from '../../../shared/core/api/apiClient';
 import configureStore from '../../../shared/state/store';
 import config from '../../../../config';
-import generateHTML from './generateHTML';
 import ServerHTML from './ServerHTML';
 
 /**
