@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { provideHooks } from 'redial';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'material-ui/List';
+import List from 'react-md/lib/Lists/List';
 import Paper from 'react-md/lib/Papers';
 import { Row, Col } from '../../../components';
 import { fetchTagsIfNeeded, getTags, selectTag, clearTag } from '../../../state/modules/blog/tags';

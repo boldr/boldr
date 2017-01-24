@@ -13,8 +13,8 @@ function HTML(props) {
     <html lang="en">
     <head>
       <title>{title}</title>
-      <meta name="application-name" content={title} />
-      <meta name="description" content={description} />
+      <meta name="application-name" content={ title } />
+      <meta name="description" content={ description } />
       <meta charSet="utf-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,7 +47,7 @@ function HTML(props) {
       { headerElements }
     </head>
     <body>
-    <div id="app" dangerouslySetInnerHTML={{ __html: appBodyString }} />
+    <div id="app" dangerouslySetInnerHTML={ { __html: appBodyString } } />
     { bodyElements }
     </body>
     </html>

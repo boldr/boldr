@@ -9,7 +9,7 @@ import appRootDir from 'app-root-dir';
 import WebpackMd5Hash from 'webpack-md5-hash';
 import { removeEmpty, ifElse, merge, happyPackPlugin } from '../utils';
 import type { BuildOptions } from '../types';
-import config, { clientConfig } from '../../config';
+import config from '../../config';
 
 export default function webpackConfigFactory(buildOptions: BuildOptions) {
   const { target, mode } = buildOptions;
@@ -173,7 +173,7 @@ export default function webpackConfigFactory(buildOptions: BuildOptions) {
               options: {
                 importLoaders: 1,
                 localIdentName: '[local]__[hash:base64:5]',
-                modules: true,
+                modules: false,
                 sourceMap: true,
               },
             },

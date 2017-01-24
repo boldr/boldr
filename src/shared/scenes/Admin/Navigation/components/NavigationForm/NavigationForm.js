@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from 'react-md/lib/Buttons';
-import { TextField } from 'redux-form-material-ui';
+import TextField from '../../../../../components/Form/TextField';
 
 export type Props = {
   handleSubmit?: Function,
@@ -19,10 +19,10 @@ let NavigationForm = (props: Props) => { // eslint-disable-line
   const { handleSubmit, reset } = props;
   return (
     <form className="form__navigation" onSubmit={ handleSubmit }>
-      <Field name="name" component={ TextField } type="text" floatingLabelText="Name" />
-      <Field name="position" component={ TextField } type="text" floatingLabelText="Position" />
-      <Field name="link" component={ TextField } type="text" floatingLabelText="Link" />
-      <Field name="icon" component={ TextField } type="text" floatingLabelText="Icon" />
+      <Field name="name" component={ TextField } type="text" label="Name" />
+      <Field name="position" component={ TextField } type="text" label="Position" />
+      <Field name="link" component={ TextField } type="text" label="Link" />
+      <Field name="icon" component={ TextField } type="text" label="Icon" />
       <div className="form__footer">
         <Button type="submit" label="Save" style={ style } raised primary />
         <Button label="Reset" onClick={ reset } style={ style } raised secondary />

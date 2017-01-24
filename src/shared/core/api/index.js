@@ -190,7 +190,7 @@ export const doUpdateMember = (userData) => {
     avatar_url: userData.avatar_url,
     role: userData.role,
   };
-  apiClient.put(`/users/admin/${userData.id}`, { data: payload });
+  return apiClient.put(`/users/admin/${userData.id}`, { data: userData });
 };
 
 /**

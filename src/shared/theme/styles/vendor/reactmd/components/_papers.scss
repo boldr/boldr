@@ -12,6 +12,7 @@ $md-paper-transition-time: $md-transition-time * 2 !default;
   @for $i from 0 through 5 {
     .md-paper--#{$i} {
       @include md-box-shadow($i);
+      background-color: #fff;
     }
 
     @if $i == 0 and $include-media {

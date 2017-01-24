@@ -29,10 +29,10 @@ class DashboardLayout extends Component {
         >
           <Grid fluid>
             <Col xs>
-              <div style={ { marginTop: '75px', padding: '1.5em' } }>
+
 
                 { this.props.children }
-              </div>
+
             </Col>
           </Grid>
         </NavigationDrawer>

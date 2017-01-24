@@ -13,7 +13,7 @@ type Props = {
 };
 const ActivityWidget = (props: Props) => {
   return (
-    <div className="boldr-widget__activity">
+
     <Paper zDepth={ 2 } style={ { padding: '1em' } }>
       <Heading top="5px" align="left" size={ 4 } color="#555">
         <FontIcon style={ { paddingTop: '5px' } }>new_releases</FontIcon> Recent Activity
@@ -31,7 +31,7 @@ const ActivityWidget = (props: Props) => {
       }
       </List>
       </Paper>
-    </div>
+
   );
 };
 

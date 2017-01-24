@@ -115,7 +115,7 @@ export async function loginUser(req, res, next) {
     return next(new UserNotVerifiedError());
   }
   const validAuth = await user.authenticate(req.body.password);
-  if (!validAuth) return next(new Unauthorized(err));
+  if (!validAuth) return next(new Unauthorized());
   // remove the password from the response.
   user.stripPassword();
   // sign the token
