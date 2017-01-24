@@ -1,7 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'react-md/lib/Buttons';
 import { TextField } from 'redux-form-material-ui';
 
 export type Props = {
@@ -25,8 +24,8 @@ let NavigationForm = (props: Props) => { // eslint-disable-line
       <Field name="link" component={ TextField } type="text" floatingLabelText="Link" />
       <Field name="icon" component={ TextField } type="text" floatingLabelText="Icon" />
       <div className="form__footer">
-        <RaisedButton type="submit" label="Save" style={ style } primary />
-        <FlatButton label="Reset" onClick={ reset } secondary />
+        <Button type="submit" label="Save" style={ style } raised primary />
+        <Button label="Reset" onClick={ reset } style={ style } raised secondary />
       </div>
     </form>
   );

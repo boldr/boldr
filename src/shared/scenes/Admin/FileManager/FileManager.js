@@ -1,11 +1,10 @@
 /* @flow */
 import React, { Component } from 'react';
 import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
+import Button from 'react-md/lib/Buttons';
+import FontIcon from 'react-md/lib/FontIcons';
 import { S3Uploader, Row, Col, Modal } from '../../../components/index';
 import FileView from './components/FileView';
 
@@ -25,9 +24,9 @@ const FileManager = (props: Props) => {
     <div>
       <Toolbar>
         <ToolbarGroup firstChild>
-          <RaisedButton onClick={ openModal } label="Upload File" primary />
+          <Button onClick={ openModal } label="Upload File" raised primary />
           <IconMenu iconButtonElement={
-              <IconButton touch><NavigationExpandMoreIcon /></IconButton>
+              <Button icon><FontIcon>expand_more</FontIcon></Button>
             }
           >
           <MenuItem primaryText="More Info" />

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 import SettingIcon from 'material-ui/svg-icons/action/settings';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
+import Paper from 'react-md/lib/Papers';
 import type { Setting } from '../../../types/models';
 import { showModal, hideModal } from '../../../state/modules/boldr/ui';
 import { Modal } from '../../../components/index';

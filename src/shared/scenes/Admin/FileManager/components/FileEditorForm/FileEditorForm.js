@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import { RadioButton } from 'material-ui/RadioButton';
+import Button from 'react-md/lib/Buttons';
 import { RadioButtonGroup, TextField } from 'redux-form-material-ui';
 import { Row, Col } from '../../../../../components/Layout';
 
@@ -35,8 +33,8 @@ const FileEditorForm = (props: Props) => {
           component={ TextField }
         />
         <Row>
-          <RaisedButton type="submit" label="Save" style={ style } primary />
-          <FlatButton label="Reset" onClick={ reset } secondary />
+          <Button type="submit" label="Save" style={ style } raised primary />
+          <Button label="Reset" onClick={ reset } flat secondary />
         </Row>
       </form>
   );

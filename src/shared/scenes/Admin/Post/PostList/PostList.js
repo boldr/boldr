@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
-import Paper from 'material-ui/Paper';
-import List from 'material-ui/List';
+import Paper from 'react-md/lib/Papers';
+import List from 'react-md/lib/Lists/List';
 import type { Post } from '../../../../types/models';
 import { PostListItem } from '../components';
 

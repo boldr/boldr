@@ -1,7 +1,7 @@
 /* @flow */
 import React, { Component } from 'react';
 import { List, ListItem } from 'material-ui/List';
-import Paper from 'material-ui/Paper';
+import Paper from 'react-md/lib/Papers';
 import IconButton from 'material-ui/IconButton';
 import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
