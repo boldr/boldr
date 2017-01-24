@@ -7,6 +7,7 @@ import Divider from 'react-md/lib/Dividers';
 import FontIcon from 'react-md/lib/FontIcons';
 import Paper from 'react-md/lib/Papers';
 import { Heading } from '../../../../components/index';
+import ActivityItem from '../ActivityItem';
 
 type Props = {
   activities: Array<Object>
@@ -19,17 +20,13 @@ const ActivityWidget = (props: Props) => {
         <FontIcon style={ { paddingTop: '5px' } }>new_releases</FontIcon> Recent Activity
       </Heading>
     <Divider />
-      <List>
+      <div>
       {
         props.activities.map(a =>
-          <ListItem key={ a.id }
-            leftAvatar={ <Avatar src={ a.owner.avatar_url } role="presentation" /> }
-            primaryText={ a.actionType.type }
-
-          />,
+          <ActivityItem key={ a.id } {...a} />
         )
       }
-      </List>
+      </div>
       </Paper>
 
   );

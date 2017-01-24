@@ -30,7 +30,6 @@ function Html(props) {
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png" />
       <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png" />
       <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png" />
       <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#00a9d9" />
       <link rel="icon" type="image/png" href="/favicons/favicon-196x196.png" sizes="196x196" />
       <link rel="icon" type="image/png" href="/favicons/favicon-128.png" sizes="128x128" />

@@ -23,17 +23,17 @@ const Dashboard = (props: Props) => {
   return (
       <div>
         <Row>
-          <Col xs={ 12 } md={ 9 }>
+          <Col xs={ 12 } md={ 6 }>
             <Row>
-              <Col xs={ 6 } md={ 6 }>
+              <Col xs={ 6 } md={ 3 }>
                 <StatsWidget stats={ props.stats } />
               </Col>
-              <Col xs={ 6 } md={ 6 }>
+              <Col xs={ 6 } md={ 3 }>
                 <Widget name="Widget C" />
               </Col>
             </Row>
           </Col>
-          <Col xs={ 12 } md={ 3 }>
+          <Col xs={ 12 } md={ 6 }>
             {
               props.activities
               ? <ActivityWidget activities={ props.activities } />
