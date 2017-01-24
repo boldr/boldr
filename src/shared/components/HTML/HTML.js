@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-function HTML(props) {
+function Html(props) {
   const {
     title,
     description,
@@ -54,20 +54,18 @@ function HTML(props) {
   );
 }
 
-HTML.propTypes = {
+Html.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   appBodyString: PropTypes.string,
   headerElements: PropTypes.node,
   bodyElements: PropTypes.node,
 };
 
-HTML.defaultProps = {
+Html.defaultProps = {
   appBodyString: '',
   headerElements: null,
   bodyElements: null,
 };
 
-// EXPORT
-
-export default HTML;
+export default Html;

@@ -103,7 +103,7 @@ class Navigation extends Component {
           </Col>
         </Row>
          <Modal
-           open={ this.props.ui.modal }
+           visible={ this.props.ui.modal }
            title="Add a link"
            onClose={ this.closeModal }
          >

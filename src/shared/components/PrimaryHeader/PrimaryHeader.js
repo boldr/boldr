@@ -37,9 +37,7 @@ class PrimaryHeader extends Component {
       />,
     );
 
-    const actions = [
-      renderedMenuItems,
-    ];
+    const actions = [];
 
     if (!this.props.auth.isAuthenticated) {
       actions.push(
@@ -64,7 +62,9 @@ class PrimaryHeader extends Component {
             />
           }
           actions={ actions }
-        />
+        >
+          { renderedMenuItems }
+      </Toolbar>
       </div>
     );
   }

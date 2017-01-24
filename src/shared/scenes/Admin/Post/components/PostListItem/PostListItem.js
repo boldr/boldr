@@ -6,11 +6,6 @@ import { format } from 'date-fns';
 import ListItem from 'react-md/lib/Lists/ListItem';
 import Avatar from 'react-md/lib/Avatars';
 import Divider from 'react-md/lib/Dividers';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import { grey400 } from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
-import MenuItem from 'material-ui/MenuItem';
 import { selectPost } from '../../../../../state/modules/blog/posts/actions';
 
 type Props = {
@@ -28,21 +23,21 @@ type Props = {
 };
 
 const PostListItem = (props: Props) => {
-  const iconButtonElement = (
-    <IconButton
-      touch
-      tooltip="more"
-      tooltipPosition="bottom-left"
-    >
-      <MoreVertIcon color={ grey400 } />
-    </IconButton>
-  );
-  const rightIconMenu = (
-    <IconMenu iconButtonElement={ iconButtonElement }>
-      <MenuItem>Edit</MenuItem>
-      <MenuItem onClick={ handleClickDelete }>Delete</MenuItem>
-    </IconMenu>
-  );
+  // const iconButtonElement = (
+  //   <IconButton
+  //     touch
+  //     tooltip="more"
+  //     tooltipPosition="bottom-left"
+  //   >
+  //     <MoreVertIcon color={ grey400 } />
+  //   </IconButton>
+  // );
+  // const rightIconMenu = (
+  //   <IconMenu iconButtonElement={ iconButtonElement }>
+  //     <MenuItem>Edit</MenuItem>
+  //     <MenuItem onClick={ handleClickDelete }>Delete</MenuItem>
+  //   </IconMenu>
+  // );
   function handlePublishClick() {
     const postId:String = props.id;
     const postStatus = 'draft';
@@ -66,8 +61,8 @@ const PostListItem = (props: Props) => {
   return (
     <div className="bldr__postlist-item">
       <ListItem
-        rightIconButton={ rightIconMenu }
-        leftAvatar={ <Avatar src={ props.feature_image } /> }
+        // rightIconButton={ rightIconMenu }
+        leftAvatar={ <Avatar src={ props.feature_image } role="presentation" /> }
         primaryText={
           // $FlowIssue
           <Link to={ `/admin/posts/editor/${props.slug}` } onClick={ transitionPost }>

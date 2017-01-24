@@ -2,10 +2,6 @@
 
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import { RadioButton } from 'material-ui/RadioButton';
-import { RadioButtonGroup } from 'redux-form-material-ui';
 import Button from 'react-md/lib/Buttons';
 import SelectField from 'react-md/lib/SelectFields';
 import TextField from '../../../../../components/Form/TextField';
@@ -41,30 +37,35 @@ const EditMemberForm = (props: Props) => {
   return (
       <form onSubmit={ handleSubmit } className="boldr-form__generic">
         <Field
+          id="email"
           name="email"
           type="email"
           label="Email"
           component={ TextField }
         />
         <Field
+          id="first_name"
           name="first_name"
           type="text"
           label="First name"
           component={ TextField }
         />
         <Field
+          id="last_name"
           name="last_name"
           type="text"
           label="Last name"
           component={ TextField }
         />
         <Field
-          name="last_name"
+          id="display_name"
+          name="display_name"
           type="text"
-          label="Last name"
+          label="Display name"
           component={ TextField }
         />
         <Field
+          id="avatar_url"
           name="avatar_url"
           type="text"
           label="Avatar URL"
