@@ -5,10 +5,8 @@ import FontIcon from 'react-md/lib/FontIcons';
 import Link from 'react-router/lib/Link';
 import IndexLink from 'react-router/lib/IndexLink';
 
-
-import toTitle from '../../../core/utils/StringUtils/toTitle';
-import toPageTitle from '../../../core/utils/StringUtils/toPageTitle';
-import flatten from '../../../core/utils/ListUtils/flatten';
+import { toTitle } from '../../../core/utils/StringUtils';
+import flatten from '../../../core/utils/ArrayUtils/flatten';
 import adminRoutes from './adminRoutes';
 
 function mapToNavItems(route, parents = []) {
@@ -19,7 +17,7 @@ function mapToNavItems(route, parents = []) {
       key: route,
       to: `${prefix}${route}`,
       className: 'md-text-capitalize',
-      primaryText: toTitle(route).replace(' Helper', 's'),
+      primaryText: toTitle(route),
     };
   }
 

@@ -53,6 +53,9 @@ export const getAllPosts = () =>
 export const getPostById = (postId) =>
   apiClient.get(`/posts/pid/${postId}`);
 
+export const getPostBySlug = (slug) =>
+  apiClient.get(`/posts/slug/${slug}`);
+
 export const delPostById = (postId) =>
   apiClient.del(`/posts/pid/${postId}`);
 

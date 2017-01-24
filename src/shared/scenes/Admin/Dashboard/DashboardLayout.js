@@ -6,6 +6,14 @@ import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import { Grid, Col } from '../../../components/index';
 import navItems from './buildAdminNav';
 
+const styled = require('styled-components').default;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 25px;
+  box-sizing: border-box;
+`;
 type Props = {
   children: ReactElement,
   dashboard: ?Object,
@@ -29,10 +37,9 @@ class DashboardLayout extends Component {
         >
           <Grid fluid>
             <Col xs>
-
-
-                { this.props.children }
-
+              <Wrapper>
+              { this.props.children }
+            </Wrapper>
             </Col>
           </Grid>
         </NavigationDrawer>

@@ -46,6 +46,12 @@ export default function webpackConfigFactory(buildOptions: BuildOptions) {
     node: {
       __dirname: true,
       __filename: true,
+      global: true,
+      crypto: 'empty',
+      process: true,
+      module: false,
+      clearImmediate: false,
+      setImmediate: false,
     },
     externals: removeEmpty([
       ifNode(
