@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   padding-top: 1em;
   width: 90%;
 `;
+
 const Footer = styled.div`
   margin: 0 auto;
   display: inherit;
@@ -46,16 +47,6 @@ const fab = {
 
 @connect()
 class NewPostForm extends Component {
-  constructor(props: Props) {
-    super();
-    this.state = {
-      visible: false,
-      position: 'right',
-    };
-    (this: any)._toggleRight = this._toggleRight.bind(this);
-    (this: any)._closeDrawer = this._closeDrawer.bind(this);
-    (this: any)._handleToggle = this._handleToggle.bind(this);
-  }
 
   props: Props;
 
@@ -74,17 +65,6 @@ class NewPostForm extends Component {
     this.props.dispatch(uploadPostImage(payload));
   }
 
-  _handleToggle(visible) {
-    this.setState({ visible });
-  }
-
-  _closeDrawer() {
-    this.setState({ visible: false });
-  }
-
-  _toggleRight() {
-    this.setState({ visible: !this.state.visible, position: 'right' });
-  }
   render() {
     const { handleSubmit } = this.props;
     /**
@@ -94,89 +74,71 @@ class NewPostForm extends Component {
      * @return {element} BoldrEditor
      */
     const renderEditor = ({ input, label }) => (<TextEditor { ...input } label={ label } />);
-    const close = <Button icon onClick={ this._closeDrawer }>close</Button>;
-    const header = (
-      <Toolbar
-        nav={ close }
-        actions={ null }
-        className="md-divider-border md-divider-border--bottom"
-      />
-    );
+
     return (
       <Row>
         <Col xs>
 
           <form onSubmit={ handleSubmit }>
-            <Drawer
-              { ...this.state }
-              onVisibilityToggle={ this._handleToggle }
-              type={ Drawer.DrawerTypes.TEMPORARY }
-              header={ header }
-              style={ { zIndex: 1001, width: '350px' } }
-            >
-              <Wrapper>
-                <Field
-                  id="post-title"
-                  name="title"
-                  type="text"
-                  component={ TextField }
-                  label="Post Title"
-                />
+            <Field
+              id="post-title"
+              name="title"
+              type="text"
+              component={ TextField }
+              label="Post Title"
+            />
 
-                <Field name="tags" type="text"
-                  id="post-tags"
-                  helpText="Separate using commas"
-                  component={ TextField }
-                  label="Tags"
-                />
+            <Field name="tags" type="text"
+              id="post-tags"
+              helpText="Separate using commas"
+              component={ TextField }
+              label="Tags"
+            />
 
-                <Subheader primaryText="Upload a feature image" />
-                <S3Uploader
-                  signingUrl="/s3/sign"
-                  server="/api/v1"
-                  accept="image/*"
-                  onProgress={ S3Uploader.onUploadProgress }
-                  onError={ S3Uploader.onUploadError }
-                  onFinish={ this.onUploadFinish }
+            <Subheader primaryText="Upload a feature image" />
+            <S3Uploader
+              signingUrl="/s3/sign"
+              server="/api/v1"
+              accept="image/*"
+              onProgress={ S3Uploader.onUploadProgress }
+              onError={ S3Uploader.onUploadError }
+              onFinish={ this.onUploadFinish }
 
-                  uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
-                  contentDisposition="auto"
-                />
+              uploadRequestHeaders={ { 'x-amz-acl': 'public-read' } }
+              contentDisposition="auto"
+            />
 
 
-              <Field name="excerpt"
-                id="post-excerpt"
-                type="text"
-                component={ TextField }
-                label="Excerpt"
-                helpText="A brief overview or area from your post to highlight"
-                rows={ 2 }
-                maxRows={ 4 }
-              />
-              <Footer>
-                <Row>
-                  <Col xs={ 12 } md={ 6 }>
-                    <Heading size={ 4 }>Post Status:</Heading>
-                  </Col>
-                  <Col xs={ 12 } md={ 6 }>
-                    <div>
-                      <label>
-                        <Field name="published" component="input" type="radio" value="false" /> Draft</label>{ ' ' }
-                      <label>
-                        <Field name="published" component="input" type="radio" value="true" /> Publish
-                      </label>
-                    </div>
-                  </Col>
-                </Row>
-                <Button raised primary type="submit" label="Save Post" />
-              </Footer>
-            </Wrapper>
-          </Drawer>
+            <Field name="excerpt"
+              id="post-excerpt"
+              type="text"
+              component={ TextField }
+              label="Excerpt"
+              placeholder="Grab the reader's attention."
+              helpText="A brief overview or area from your post to highlight"
+              rows={ 2 }
+              maxRows={ 4 }
+              className="md-cell md-cell--top"
+            />
+            <Row>
+              <Col xs={ 12 } md={ 6 }>
+                <Heading size={ 4 }>Post Status:</Heading>
+              </Col>
+              <Col xs={ 12 } md={ 6 }>
+                <div>
+                  <label>
+                    <Field id="draft" name="published" component="input" type="radio" value="false" /> Draft</label>
+                  <label>
+                    <Field id="published" name="published" component="input" type="radio" value="true" /> Publish
+                  </label>
+                </div>
+              </Col>
+            </Row>
+
           <Field name="content" component={ renderEditor } />
+        <Button raised primary type="submit" label="Save Post" />
         </form>
-        <Button floating onClick={ this._toggleRight } style={ fab } secondary>
-          <FontIcon>forward</FontIcon>
-        </Button>
+
         </Col>
       </Row>
     );
