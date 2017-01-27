@@ -2,21 +2,15 @@ import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import Button from 'react-md/lib/Buttons/Button';
-import Toolbar from 'react-md/lib/Toolbars';
 import FontIcon from 'react-md/lib/FontIcons';
-import Subheader from 'react-md/lib/Subheaders';
 import TextField from '../../../../../components/Form/TextField';
 import { TextEditor } from '../../../../../components/TextEditor';
-import { Col, Row, Heading, S3Uploader } from '../../../../../components/index';
+import { Col, Row, Heading, S3Uploader, FormGroup } from '../../../../../components/index';
 import { uploadPostImage } from '../../../../../state/modules/admin/attachments/actions';
-
-const styled = require('styled-components').default;
 
 type Props = {
   handleSubmit?: Function,
-  editing?: boolean,
   reset?: Function,
-  isEditing?: boolean,
   submitting?: boolean,
   fields?: Object,
   dispatch: Function,
@@ -58,47 +52,46 @@ class EditPostForm extends Component {
     return (
       <Row>
         <Col xs>
-
           <form onSubmit={ handleSubmit }>
+            <FormGroup>
             <Field
+              id="post-title"
               name="title"
               type="text"
               component={ TextField }
               label="Post Title"
             />
-            <Field name="feature_image" type="text"
-              helpText="URL for your image"
-              component={ TextField }
-              label="Feature Image"
-            />
-            <Field name="excerpt"
+          </FormGroup>
+            <FormGroup>
+              <Field name="feature_image" type="text"
+                helpText="URL for your image"
+                component={ TextField }
+                label="Feature Image"
+              />
+            </FormGroup>
+
+          <Field name="content" component={ renderEditor } />
+          <FormGroup>
+            <Field
+              name="excerpt"
               id="post-excerpt"
               type="text"
               component={ TextField }
               label="Excerpt"
-              helpText="A brief overview or area from your post to highlight"
-              rows={ 2 }
-              maxRows={ 4 }
+
             />
-            <Row>
-              <Col xs={ 12 } md={ 6 }>
-                <Heading size={ 4 }>Post Status:</Heading>
-              </Col>
-              <Col xs={ 12 } md={ 6 }>
-                <div>
-                  <label>
-                    <Field name="published" component="input" type="radio" value="false" /> Draft</label>{ ' ' }
-                  <label>
-                    <Field name="published" component="input" type="radio" value="true" /> Publish
-                  </label>
-                </div>
-              </Col>
-            </Row>
+          </FormGroup>
+          <FormGroup>
+            <Heading size={ 6 }>Post Status:</Heading>
+            <label>
+              <Field id="draft" name="published" component="input" type="radio" value="false" /> Draft</label>
+            <label>
+              <Field id="published" name="published" component="input" type="radio" value="true" /> Publish
+            </label>
+          </FormGroup>
 
-          <Field name="content" component={ renderEditor } />
-          <Button raised primary type="submit" label="Save Post" />
+        <Button raised primary type="submit" label="Save Post" />
         </form>
-
         </Col>
       </Row>
     );
