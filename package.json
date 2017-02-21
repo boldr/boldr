@@ -245,7 +245,7 @@
     "eslint-plugin-flowtype": "^2.30.0",
     "eslint-plugin-react": "^6.10.0",
     "extract-text-webpack-plugin": "2.0.0-rc.3",
-    "faker": "^3.1.0",
+    "faker": "^4.0.0",
     "file-loader": "0.10.0",
     "flow-bin": "0.39.0",
     "flow-typed": "2.0.0",
