@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import Link from 'react-router/lib/Link';
+import Link from 'react-router-dom/Link';
 import Avatar from 'react-md/lib/Avatars';
 import FontIcon from 'react-md/lib/FontIcons';
 import Chip from 'react-md/lib/Chips';

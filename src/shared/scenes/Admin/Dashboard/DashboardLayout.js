@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
-import Link from 'react-router/lib/Link';
+import Link from 'react-router-dom/Link';
 import { connect } from 'react-redux';
 import Avatar from 'react-md/lib/Avatars';
 import Button from 'react-md/lib/Buttons';

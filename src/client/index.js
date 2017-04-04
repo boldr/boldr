@@ -3,10 +3,9 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Provider } from 'react-redux';
-import Router from 'react-router/lib/Router';
-import match from 'react-router/lib/match';
-import browserHistory from 'react-router/lib/browserHistory';
-import { syncHistoryWithStore } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
+import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import WebFontLoader from 'webfontloader';
 
 import AppRoot from '../shared/components/AppRoot';
@@ -24,11 +23,10 @@ WebFontLoader.load({
 const domNode = document.getElementById('app');
 // Superagent helper
 const apiClient = new ApiClient();
-
+const history = createHistory();
 const preloadedState = window.__PRELOADED_STATE__;
-const store = configureStore(preloadedState, browserHistory, apiClient);
+const store = configureStore(preloadedState, history, apiClient);
 
-const history = syncHistoryWithStore(browserHistory, store);
 const routes = createRoutes(store, history);
 const { dispatch } = store;
 
@@ -39,21 +37,16 @@ if (token) {
 }
 
 const renderApp = () => {
-  const { pathname, search, hash } = window.location;
-  const location = `${pathname}${search}${hash}`;
-  match(
-    {
-      routes,
-      location,
-    },
-    () => {
-      render(
-        <AppRoot store={ store }>
-          <Router history={ history } routes={ routes } helpers={ apiClient } />
-        </AppRoot>,
-        domNode,
-      );
-    },
+  const App = require('../shared/scenes/App').default;
+  render(
+    <AppRoot store={ store }>
+      <ConnectedRouter history={ history }>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ConnectedRouter>
+    </AppRoot>,
+    domNode,
   );
 };
 
@@ -77,7 +70,7 @@ if (module.hot) {
       render(<RedBox error={ error } />, domNode);
     }
   };
-  module.hot.accept('../shared/scenes', () => {
+  module.hot.accept('../shared/scenes/App', () => {
     setImmediate(() => {
       // Preventing the hot reloading error from react-router
       unmountComponentAtNode(domNode);

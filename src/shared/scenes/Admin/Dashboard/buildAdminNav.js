@@ -2,8 +2,8 @@
 import React from 'react';
 import Avatar from 'react-md/lib/Avatars';
 import FontIcon from 'react-md/lib/FontIcons';
-import Link from 'react-router/lib/Link';
-import IndexLink from 'react-router/lib/IndexLink';
+import Link from 'react-router-dom/Link';
+import NavLink from 'react-router-dom/NavLink';
 import { toTitle, flatten } from 'boldr-utils';
 import adminRoutes from './adminRoutes';
 
@@ -11,7 +11,7 @@ function mapToNavItems(route, parents = []) {
   const prefix = `${parents.length ? '/' : ''}${parents.join('/')}/`;
   if (typeof route === 'string') {
     return {
-      component: IndexLink,
+      component: NavLink,
       key: route,
       to: `${prefix}${route}`,
       className: 'md-text-capitalize',
@@ -61,7 +61,7 @@ function mapToNavItems(route, parents = []) {
   }
 
   if (path === '') {
-    resolvedComponent = IndexLink;
+    resolvedComponent = NavLink;
   } else if (component) {
     resolvedComponent = component;
   } else if (props.href) {

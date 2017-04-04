@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 // import { toggleTodo } from '../actions';
 import { getPublishedPosts } from '../../../../state/modules/blog/posts/reducer';
 import PostList from './PostList';

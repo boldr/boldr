@@ -3,7 +3,7 @@
 /* eslint-disable  react/jsx-no-bind */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import Link from 'react-router/lib/Link';
+import Link from 'react-router-dom/Link';
 import { format } from 'date-fns';
 import Button from 'react-md/lib/Buttons';
 import FontIcon from 'react-md/lib/FontIcons';

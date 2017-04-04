@@ -23,13 +23,15 @@ type Props = {
 };
 
 export class PostListingContainer extends Component {
-  static fetchData(dispatch) {
-    return Promise.all([dispatch(fetchPostsIfNeeded()), dispatch(fetchTagsIfNeeded())]);
-  }
+  static defaultProps: {
+    fetchPostsIfNeeded: () => {},
+    fetchTagsIfNeeded: () => {},
+  };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    PostListingContainer.fetchData(dispatch);
+    console.log('mounted');
+    this.props.fetchPostsIfNeeded();
+    this.props.fetchTagsIfNeeded();
   }
 
   props: Props;
@@ -60,4 +62,5 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(PostListingContainer);
+export default connect(mapStateToProps, { fetchTagsIfNeeded,
+  fetchPostsIfNeeded })(PostListingContainer);

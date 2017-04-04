@@ -1,4 +1,5 @@
 /* @flow */
+import type { Store as ReduxStore } from 'redux';
 
 export type ApiAction<T> = {
   key: string,

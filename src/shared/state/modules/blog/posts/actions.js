@@ -28,12 +28,12 @@ export function togglePostLayoutView() {
  * or they arent required to be refreshed.
  */
 export function fetchPostsIfNeeded() {
-  return (dispatch: Function, getState: Function) => {
+  return (dispatch: Function, getState: Function, axios: any) => {
     if (shouldFetchPosts(getState())) {
-      return dispatch(fetchPosts());
+      return dispatch(fetchPosts(axios));
     }
 
-    return Promise.resolve();
+    return null;
   };
 }
 
@@ -41,19 +41,19 @@ export function fetchPostsIfNeeded() {
  * Function to retrieve posts from the api.
  * @return {Array} Posts returned as an array of post objects.
  */
-export const fetchPosts = () => {
-  return async (dispatch: Function) => {
-    try {
-      dispatch(requestPosts());
-
-      const data = await api.getAllPosts();
-      const posts = data.body.results;
-      const normalizedPosts = normalize(posts, arrayOfPost);
-      // console.log(normalized)
-      dispatch(receivePosts(normalizedPosts));
-    } catch (err) {
-      dispatch(receivePostsFailed(err));
-    }
+export const fetchPosts = (axios) => {
+  return (dispatch: Function) => {
+    dispatch(requestPosts());
+    return axios.get('/api/v1/posts?include=[author,tags]')
+      .then((res) => {
+        const posts = res.data.results;
+        const normalizedPosts = normalize(posts, arrayOfPost);
+        // console.log(normalized)
+        dispatch(receivePosts(normalizedPosts));
+      })
+      .catch((err) => {
+        dispatch(receivePostsFailed(err));
+      });
   };
 };
 
