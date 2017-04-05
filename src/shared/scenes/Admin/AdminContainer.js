@@ -5,7 +5,7 @@ import Link from 'react-router-dom/Link';
 import { connect } from 'react-redux';
 import Avatar from 'react-md/lib/Avatars';
 import Button from 'react-md/lib/Buttons';
-import { renderRoutes } from 'react-router-config'
+import { renderRoutes } from 'react-router-config';
 
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import styled from 'styled-components';
@@ -31,6 +31,7 @@ type Props = {
   me: Object,
   location: Object,
   ui: Object,
+  routes: Array<Object>,
   onMediaTypeChange: Function,
 };
 
@@ -140,8 +141,8 @@ class AdminContainer extends PureComponent {
           {renderRoutes(this.props.routes)}
           <Switch>
 
-          {this.props.children}
-        </Switch>
+            {this.props.children}
+          </Switch>
         </Wrapper>
       </NavigationDrawer>
     );

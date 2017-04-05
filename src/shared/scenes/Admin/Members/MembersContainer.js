@@ -10,7 +10,7 @@ type Props = {
   members: Object,
   dispatch: Function,
   memberSelected: Function,
-  loadSiteMembers: Function,
+  loadSiteMembers: () => {},
   updateMember: Function,
   hideModal: () => void,
   showModal: () => void,
@@ -18,10 +18,10 @@ type Props = {
 };
 
 export class MembersContainer extends Component {
-  static fetchData(dispatch) {
-    return Promise.all([dispatch(loadSiteMembers())]);
-  }
-
+  static defaultProps: {
+    profile: {},
+    loadSiteMembers: () => {},
+  };
   constructor(props: Props) {
     super(props);
     (this: any).toggleUser = this.toggleUser.bind(this);
@@ -32,8 +32,7 @@ export class MembersContainer extends Component {
   state: Object = { userId: '' };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    MembersContainer.fetchData(dispatch);
+    this.props.dispatch(loadSiteMembers());
   }
   props: Props;
 

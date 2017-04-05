@@ -24,7 +24,7 @@ export class PostListContainer extends Component {
     (this: any).handleDeleteClick = this.handleDeleteClick.bind(this);
   }
   componentDidMount() {
-    this.props.fetchPostsIfNeeded();
+    this.props.dispatch(fetchPostsIfNeeded());
   }
 
   props: Props;

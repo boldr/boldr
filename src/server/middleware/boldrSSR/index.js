@@ -7,10 +7,6 @@ import { matchRoutes } from 'react-router-config';
 
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import Helmet from 'react-helmet';
-
-import AppRoot from '../../../shared/components/AppRoot';
-import createRoutes from '../../../shared/scenes';
-
 import configureStore from '../../../shared/state/store';
 import App from '../../../shared/scenes/App';
 import routes from '../../../shared/routes';
@@ -20,11 +16,11 @@ const debug = require('debug')('boldr:ssrMW');
 
 function renderAppToString(store, routerContext, req) {
   return renderToString(
-    <AppRoot store={ store }>
+    <Provider store={ store }>
       <StaticRouter location={ req.url } context={ routerContext }>
         <App />
       </StaticRouter>
-    </AppRoot>,
+    </Provider>,
   );
 }
 

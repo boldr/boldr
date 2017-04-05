@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import _ from 'lodash';
 import classnames from 'classnames';
-import { renderRoutes } from 'react-router-config'
+import { renderRoutes } from 'react-router-config';
 
 import { StyleClasses } from '../../theme/theme';
 

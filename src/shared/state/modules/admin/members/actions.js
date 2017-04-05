@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { notificationSend } from '../../notifications/notifications';
 import * as api from '../../../../core/api';
 import * as notif from '../../../../core/constants';
@@ -13,7 +14,7 @@ export const fetchMembers = (axios: any): ThunkAction =>
     dispatch({ type: t.LOAD_MEMBERS_REQUEST });
 
     return axios
-      .get('/api/v1/users')
+      .get('/api/v1/users?include=[roles]')
       .then(res => {
         dispatch({ type: t.LOAD_MEMBERS_SUCCESS,
           payload: res.data.results });
@@ -43,22 +44,6 @@ function shouldFetchMembers(state) {
   }
   return members;
 }
-const loadMembers = () => ({
-  type: t.LOAD_MEMBERS_REQUEST,
-});
-
-const loadMembersSuccess = response => {
-  return {
-    type: t.LOAD_MEMBERS_SUCCESS,
-    payload: response.body.results,
-  };
-};
-
-const failedToLoadMembers = err => ({
-  type: t.LOAD_MEMBERS_FAILURE,
-  loading: false,
-  error: err,
-});
 
 /**
   * UPDATE MEMBER ACTIONS
