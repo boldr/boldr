@@ -17,6 +17,7 @@ type Props = {
   helmetMeta?: ReactElement,
   hero?: ReactElement,
   children: ReactChildren,
+  fetchMenusIfNeeded: () => void,
   footer?: ReactElement,
   navigate: Function,
   dispatch: Function,
@@ -76,13 +77,12 @@ const mapDispatchToProps = dispatch => {
 
 @connect(mapStateToProps, mapDispatchToProps)
 class BaseTemplate extends PureComponent {
-  static fetchData(dispatch, params) {
-    return Promise.all([dispatch(fetchMenusIfNeeded())]);
-  }
-  componentDidMount() {
-    const { dispatch } = this.props;
+  static defaultProps: {
+    fetchMenusIfNeeded: () => {},
+  };
 
-    BaseTemplate.fetchData(dispatch);
+  componentDidMount() {
+    this.props.actions.fetchMenusIfNeeded();
   }
   handleLogoClick = e => {
     this.props.navigate('/');

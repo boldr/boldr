@@ -1,11 +1,11 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import { Grid, Row, Col, Heading, StyleClasses } from 'boldr-ui';
-import { getPosts } from '../../../state/modules/blog/posts';
+import { getPosts, fetchPostIfNeeded } from '../../../state/modules/blog/posts';
 import { PostSidebar, PostContent, PostComments, PostTitle } from '../components';
 
 const BASE_ELEMENT = StyleClasses.SINGLE_POST;
@@ -16,6 +16,8 @@ export type Props = {
   entities: Object,
   currentPost: Object,
   sidebarClassName: ?string,
+  match: Object,
+  fetchPostIfNeeded: (slug: string) => void,
   dispatch: Function,
   params: Object,
 };
@@ -27,8 +29,19 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-@connect(mapStateToProps)
-class SinglePost extends Component {
+@connect(mapStateToProps, { fetchPostIfNeeded })
+class SinglePost extends PureComponent {
+  static defaultProps: {
+    currentPost: {},
+    match: {params: {slug: ''}},
+    fetchPostIfNeeded: () => {},
+  };
+
+  componentDidMount() {
+    const { fetchPostIfNeeded, match: { params } } = this.props;
+
+    fetchPostIfNeeded(params.slug);
+  }
   props: Props;
 
   displaySinglePost = () => {

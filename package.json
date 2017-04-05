@@ -154,6 +154,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^19.0.2",
     "md5": "2.2.1",
+    "moxios": "^0.4.0",
     "nock": "^9.0.11",
     "node-sass": "^4.5.2",
     "postcss": "^5.2.16",

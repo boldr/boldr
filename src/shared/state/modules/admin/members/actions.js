@@ -8,30 +8,29 @@ import * as t from '../../actionTypes';
   * -------------------------
   * @exports loadSiteMembers
   *****************************************************************/
+export const fetchMembers = (axios: any): ThunkAction =>
+  (dispatch: Dispatch) => {
+    dispatch({ type: t.LOAD_MEMBERS_REQUEST });
 
-export function fetchMembers() {
-  return dispatch => {
-    dispatch(loadMembers());
-    return api
-      .getAllMembers()
-      .then(response => {
-        if (response.status !== 200) {
-          dispatch(failedToLoadMembers());
-        }
-        dispatch(loadMembersSuccess(response));
+    return axios
+      .get('/api/v1/users')
+      .then(res => {
+        dispatch({ type: t.LOAD_MEMBERS_SUCCESS,
+          payload: res.data.results });
       })
       .catch(err => {
-        dispatch(failedToLoadMembers(err));
+        dispatch({ type: t.LOAD_MEMBERS_FAILURE,
+          error: err });
       });
   };
-}
+
 export function loadSiteMembers() {
   return (dispatch, getState) => {
     if (shouldFetchMembers(getState())) {
-      return dispatch(fetchMembers());
+      return dispatch(fetchMembers(axios));
     }
-
-    return Promise.resolve();
+    /* istanbul ignore next */
+    return null;
   };
 }
 function shouldFetchMembers(state) {

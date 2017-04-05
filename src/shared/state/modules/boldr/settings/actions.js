@@ -1,6 +1,5 @@
 import { normalize, arrayOf } from 'normalizr';
 import { push } from 'react-router-redux';
-import { camelizeKeys } from 'humps';
 import * as api from '../../../../core/api';
 
 import * as notif from '../../../../core/constants';
@@ -39,7 +38,6 @@ export function loadBoldrSettings() {
     return api
       .getAllSettings()
       .then(response => {
-        const camelizedJson = camelizeKeys(response.body);
         const settingData = normalize(response.body, arrayOfSetting);
         return dispatch(doneLoadSettings(settingData));
       })

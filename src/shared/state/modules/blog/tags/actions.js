@@ -1,5 +1,4 @@
 import { normalize, arrayOf, schema } from 'normalizr';
-import { camelizeKeys } from 'humps';
 import merge from 'lodash/merge';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../notifications/notifications';
@@ -13,80 +12,62 @@ import { tag as tagSchema, arrayOfTag } from './schema';
   * @exports fetchTags
   * @exports fetchTagsIfNeeded
   *****************************************************************/
-
 /**
- * @function fetchTagsIfNeeded
- * @description Function that determines whether or not tags need to be
- * fetched from the api. Dispatches either the fetchTags Function
- * or returns the resolved promise if the tags are up to date.
- * @return {Promise} Tags Promise that resolves when tags are fetched
- * or they arent required to be refreshed.
- */
-export function fetchTagsIfNeeded() {
-  return (dispatch: Function, getState: Function) => {
+   * @function fetchTagsIfNeeded
+   * @description Function that determines whether or not tags need to be
+   * fetched from the api. Dispatches either the fetchTags Function
+   * or returns the resolved promise if the tags are up to date.
+   * @return {Promise} Tags Promise that resolves when tags are fetched
+   * or they arent required to be refreshed.
+   */
+/* istanbul ignore next */
+export const fetchTagsIfNeeded = (): ThunkAction =>
+  (dispatch: Dispatch, getState: GetState, axios: any) => {
+    /* istanbul ignore next */
     if (shouldFetchTags(getState())) {
-      return dispatch(fetchTags());
+      /* istanbul ignore next */
+      return dispatch(fetchTags(axios));
     }
 
-    return Promise.resolve();
+    /* istanbul ignore next */
+    return null;
   };
-}
-
 /**
  * Function to retrieve tags from the api.
  * @return {Array} Tags returned as an array of tag objects.
  */
-export function fetchTags() {
-  return (dispatch: Function) => {
-    dispatch(requestTags());
-    return api
-      .getAllTags()
-      .then(response => {
-        if (response.status !== 200) {
-          dispatch(receiveTagsFailed());
-        }
+export const fetchTags = (axios: any): ThunkAction =>
+  (dispatch: Dispatch) => {
+    dispatch({ type: t.FETCH_TAGS_REQUEST });
 
-        const camelizedJson = camelizeKeys(response.body);
-        const normalizedData = normalize(response.body, arrayOfTag);
-        // console.log(normalized)
-        dispatch(receiveTags(normalizedData));
+    return axios
+      .get('/api/v1/tags?include=posts')
+      .then(res => {
+        const normalizedData = normalize(res.data, arrayOfTag);
+        dispatch({
+          type: t.FETCH_TAGS_SUCCESS,
+          payload: normalizedData,
+        });
       })
       .catch(err => {
-        dispatch(receiveTagsFailed(err));
+        dispatch({
+          type: t.FETCH_TAGS_FAILURE,
+          error: err,
+        });
       });
   };
-}
 
 /**
  * Called by fetchTagsIfNeeded to retrieve the state containing tags
  * @param  {Object} state   The blog state which contains tags
  */
-function shouldFetchTags(state) {
+function shouldFetchTags(state: Reducer) {
   const tags = state.blog.tags.ids;
   if (!tags.length) {
     return true;
   }
-  if (tags.length) {
-    return false;
-  }
-  return tags;
+  return false;
 }
-
-const requestTags = () => {
-  return { type: t.FETCH_TAGS_REQUEST };
-};
-
-const receiveTags = normalizedData => {
-  return {
-    type: t.FETCH_TAGS_SUCCESS,
-    payload: normalizedData,
-  };
-};
-
-const receiveTagsFailed = err => ({
-  type: t.FETCH_TAGS_FAILURE,
-  error: err,
-});
 
 /**
   * SELECT TAG ACTIONS
@@ -112,6 +93,52 @@ export function clearTag(tag: Object) {
   * -------------------------
   * @exports fetchTaggedPost
   *****************************************************************/
+export const fetchTagPosts = (name: string, axios: any): ThunkAction =>
+  (dispatch: Dispatch) => {
+    dispatch({
+      type: t.FETCH_TAGGED_POST_REQUEST,
+      name,
+    });
+
+    return axios
+      .get(`/api/v1/tags/${name}/posts`)
+      .then(res => {
+        dispatch({
+          type: t.FETCH_TAGGED_POST_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: t.FETCH_TAGGED_POST_FAILURE,
+          error: err,
+        });
+      });
+  };
+/* istanbul ignore next */
+export const fetchTagPostsIfNeeded = (name: string): ThunkAction =>
+  (dispatch: Dispatch, getState: GetState, axios: any) => {
+    /* istanbul ignore next */
+    if (shouldFetchTagPosts(getState(), name)) {
+      /* istanbul ignore next */
+      return dispatch(fetchTagPosts(name, axios));
+    }
+
+    /* istanbul ignore next */
+    return null;
+  };
+/* istanbul ignore next */
+const shouldFetchTagPosts = (state: Reducer, name: string): boolean => {
+  // In development, we want to allow dispatching actions from here
+  // or the hot reloading of reducers wont update the component state
+  if (process.env.NODE_ENV === 'development') return true;
+
+  const singleTag = state.blog.tags.ids;
+
+  if (singleTag && state.blog.tags.isFetching) return false;
+
+  return true;
+};
 
 export function fetchTaggedPost(name) {
   return (dispatch: Function) => {

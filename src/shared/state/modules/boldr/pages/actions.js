@@ -1,5 +1,4 @@
 import { normalize, arrayOf, schema } from 'normalizr';
-import { camelizeKeys } from 'humps';
 import { push } from 'react-router-redux';
 import * as api from '../../../../core/api';
 import * as notif from '../../../../core/constants';
@@ -29,8 +28,7 @@ export function fetchPages() {
     return api
       .getAllPages()
       .then(response => {
-        const camelizedJson = camelizeKeys(response.body);
-        const normalizedData = normalize(camelizedJson, arrayOfPage);
+        const normalizedData = normalize(response.body, arrayOfPage);
         return dispatch(receivePages(normalizedData));
       })
       .catch(err => {

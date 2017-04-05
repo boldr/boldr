@@ -1,6 +1,7 @@
 /* @flow */
 import React, { Component, PropTypes } from 'react';
 import Button from 'react-md/lib/Buttons';
+
 import classNames from 'classnames/bind';
 import cxN from 'classnames';
 
@@ -120,7 +121,7 @@ class MainHeader extends Component {
     }
     if (this.props.me.roleId === 3) {
       actions.push(
-        <Button key="dash" onClick={ this.props.handleDashClick } icon primary tooltipLabel="Dashboard">
+        <Button key="dash" href="/admin" icon primary tooltipLabel="Dashboard">
           dashboard
         </Button>,
       );

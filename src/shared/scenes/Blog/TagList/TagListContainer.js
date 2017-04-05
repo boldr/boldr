@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Col, Row, Loader } from 'boldr-ui';
 import { getPosts } from '../../../state/modules/blog/posts';
-import { fetchTaggedPost } from '../../../state/modules/blog/tags/actions';
+import { fetchTagsIfNeeded, fetchTagPostsIfNeeded } from '../../../state/modules/blog/tags/actions';
 import TagList from './TagList';
 
 type Props = {
@@ -12,19 +12,21 @@ type Props = {
   isFetching: boolean,
   posts: Array<Object>,
   params: Object,
+  match: Object,
   listTags: Object,
-  dispatch: () => void,
+  fetchTagPostsIfNeeded: () => void,
 };
 
 export class TagListContainer extends Component {
-  static fetchData(dispatch, params) {
-    return Promise.all([dispatch(fetchTaggedPost(params.name))]);
-  }
-  componentDidMount() {
-    const { dispatch, params } = this.props;
+  static defaultProps: {
+    match: {params: {name: ''}},
+    fetchTagPostsIfNeeded: () => {},
+  };
 
-    // Fetching data for client side rendering
-    TagListContainer.fetchData(dispatch, params);
+  componentDidMount() {
+    const { fetchTagPostsIfNeeded, match: { params } } = this.props;
+
+    fetchTagPostsIfNeeded(params.name);
   }
 
   props: Props;
@@ -45,4 +47,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(TagListContainer);
+export default connect(mapStateToProps, { fetchTagPostsIfNeeded })(TagListContainer);

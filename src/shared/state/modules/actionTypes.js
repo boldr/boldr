@@ -127,9 +127,9 @@ export const FETCH_POSTS_REQUEST = '@boldr/blog/FETCH_POSTS_REQUEST';
 export const FETCH_POSTS_SUCCESS = '@boldr/blog/FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_FAILURE = '@boldr/blog/FETCH_POSTS_FAILURE';
 
-export const GET_POST_REQUEST = '@boldr/blog/GET_POST_REQUEST';
-export const GET_POST_SUCCESS = '@boldr/blog/GET_POST_SUCCESS';
-export const GET_POST_FAILURE = '@boldr/blog/GET_POST_FAILURE';
+export const FETCH_POST_REQUEST = '@boldr/blog/FETCH_POST_REQUEST';
+export const FETCH_POST_SUCCESS = '@boldr/blog/FETCH_POST_SUCCESS';
+export const FETCH_POST_FAILURE = '@boldr/blog/FETCH_POST_FAILURE';
 
 export const UPDATE_POST_REQUEST = '@boldr/admin/posts/UPDATE_POST_REQUEST';
 export const UPDATE_POST_SUCCESS = '@boldr/admin/posts/UPDATE_POST_SUCCESS';

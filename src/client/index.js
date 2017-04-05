@@ -13,21 +13,17 @@ import App from '../shared/components/App';
 import configureStore from '../shared/state/store';
 import { checkAuth } from '../shared/state/modules/auth/actions';
 import { getToken } from '../shared/core/authentication/token';
-import ApiClient from '../shared/core/api/apiClient';
-import createRoutes from '../shared/scenes';
 
 WebFontLoader.load({
   google: { families: ['Roboto:200,400,600', 'Material Icons'] },
 });
 // Get the DOM Element that will host our React application.
 const domNode = document.getElementById('app');
-// Superagent helper
-const apiClient = new ApiClient();
+
 const history = createHistory();
 const preloadedState = window.__PRELOADED_STATE__;
-const store = configureStore(preloadedState, history, apiClient);
+const store = configureStore(preloadedState, history);
 
-const routes = createRoutes(store, history);
 const { dispatch } = store;
 
 const token = getToken();

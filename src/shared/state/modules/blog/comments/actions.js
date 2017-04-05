@@ -1,6 +1,5 @@
 /* @flow */
 import { normalize, arrayOf, schema } from 'normalizr';
-import { camelizeKeys } from 'humps';
 import merge from 'lodash/merge';
 import * as api from '../../../../core/api';
 import * as notif from '../../../../core/constants';
@@ -23,7 +22,6 @@ export function newComment(data: Object, postId: string) {
         if (response.status !== 201) {
           dispatch(errorAddingComment(response));
         }
-        const camelizedJson = camelizeKeys(response.body);
         // const normalized = normalize(camelizedJson, arrayOf(postSchema, { idAttribute: 'slug' }));
         const normalizedData = normalize(response.body, commentSchema);
         dispatch(newCommentSuccess(normalizedData));
