@@ -7,6 +7,7 @@ import { matchRoutes } from 'react-router-config';
 
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import Helmet from 'react-helmet';
+import { loadBoldrSettings } from '../../../shared/state/modules/boldr/settings/actions';
 import configureStore from '../../../shared/state/store';
 import App from '../../../shared/scenes/App';
 import routes from '../../../shared/routes';
@@ -41,15 +42,6 @@ function boldrSSR(req, res, next) {
   const routerContext = {};
   const { dispatch, getState } = store;
 
-  // Check if the render result contains a redirect, if so we need to set
-  // the specific status and redirect header and end the response
-  if (routerContext.url) {
-    res.status(301).setHeader('Location', routerContext.url);
-    res.end();
-
-    return;
-  }
-
   // Load data on server-side
   const loadBranchData = () => {
     const branch = matchRoutes(routes, req.url);
@@ -67,6 +59,7 @@ function boldrSSR(req, res, next) {
   // Send response after all the action(s) are dispathed
   loadBranchData()
     .then(() => {
+      store.dispatch(loadBoldrSettings());
       // Checking is page is 404
       const status = routerContext.status === '404' ? 404 : 200;
 
@@ -85,6 +78,16 @@ function boldrSSR(req, res, next) {
           preloadedState={ store.getState() }
         />,
       );
+
+      // Check if the render result contains a redirect, if so we need to set
+      // the specific status and redirect header and end the response
+      if (routerContext.url) {
+        res.status(301).setHeader('Location', routerContext.url);
+        res.end();
+
+        return;
+      }
+      
       // Pass the route and initial state into html template
       return res.status(status).send(`<!DOCTYPE html>${html}`);
     })

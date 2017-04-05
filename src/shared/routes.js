@@ -118,14 +118,14 @@ export default [
           ]),
       },
       {
-        path: '/admin/posts/editor/:slug',
-        exact: true,
-        component: PostEditor,
-      },
-      {
         path: '/admin/posts/new',
         exact: true,
         component: NewPostContainer,
+      },
+      {
+        path: '/admin/posts/editor/:slug',
+        // exact: true,
+        component: PostEditor,
       },
       {
         path: '/admin/filemanager',
@@ -134,7 +134,7 @@ export default [
       },
       {
         path: '/admin/filemanager/:id/editor',
-        exact: true,
+        // exact: true,
         component: FileEditor,
       },
       {
@@ -165,7 +165,7 @@ export default [
       },
       {
         path: '/admin/tags/:name',
-        exact: true,
+        // exact: true,
         component: TaggedPost,
         loadData: async (dispatch: Dispatch, params: Object) =>
           Promise.all([

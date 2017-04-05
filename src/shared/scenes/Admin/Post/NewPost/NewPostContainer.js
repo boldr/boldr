@@ -41,10 +41,6 @@ class NewPostContainer extends Component {
   }
 }
 
-NewPostContainer.contextTypes = {
-  router: PropTypes.object,
-};
-
 const mapStateToProps = state => {
   return {
     postImage: state.attachments.postImage,

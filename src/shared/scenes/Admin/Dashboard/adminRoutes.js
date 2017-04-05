@@ -1,10 +1,5 @@
 export default [
   {
-    path: '',
-    icon: 'home',
-    primaryText: 'Home',
-  },
-  {
     path: 'admin',
     icon: 'dashboard',
     primaryText: 'Dashboard',
@@ -14,21 +9,14 @@ export default [
     divider: true,
   },
   {
-    primaryText: 'Posts',
+    icon: 'list',
+    primaryText: 'List Posts',
     path: 'admin/posts',
-    icon: 'library_books',
-    nestedItems: [
-      {
-        icon: 'list',
-        primaryText: 'List Posts',
-        path: '',
-      },
-      {
-        icon: 'note_add',
-        primaryText: 'Create Post',
-        path: 'new',
-      },
-    ],
+  },
+  {
+    icon: 'note_add',
+    primaryText: 'Create Post',
+    path: 'admin/posts/new',
   },
   {
     primaryText: 'Tags',

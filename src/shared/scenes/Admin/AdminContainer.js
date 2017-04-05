@@ -10,7 +10,9 @@ import { renderRoutes } from 'react-router-config';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import styled from 'styled-components';
 import { Grid, Col, Row } from 'boldr-ui';
-import { Route, Switch } from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import Switch from 'react-router-dom/Switch';
+
 import _ from 'lodash';
 
 import { loadSiteActivity, fetchStats } from '../../state/modules/admin/dashboard/actions';

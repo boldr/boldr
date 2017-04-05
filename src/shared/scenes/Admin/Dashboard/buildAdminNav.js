@@ -65,7 +65,7 @@ function mapToNavItems(route, parents = []) {
   } else if (component) {
     resolvedComponent = component;
   } else if (props.href) {
-    resolvedComponent = 'a';
+    resolvedComponent = NavLink;
   } else if (!nestedItems) {
     resolvedComponent = Link;
   }
