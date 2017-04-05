@@ -16,7 +16,7 @@ export default [
   {
     icon: 'note_add',
     primaryText: 'Create Post',
-    path: 'admin/posts/new',
+    path: 'admin/new-post',
   },
   {
     primaryText: 'Tags',

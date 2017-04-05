@@ -113,6 +113,7 @@ export default [
       {
         path: '/admin/posts',
         exact: true,
+        strict: true,
         component: PostListContainer,
         loadData: async (dispatch: Dispatch) =>
           Promise.all([
@@ -120,14 +121,16 @@ export default [
           ]),
       },
       {
-        path: '/admin/posts/new',
+        path: '/admin/new-post',
         exact: true,
         component: NewPostContainer,
       },
       {
-        path: '/admin/posts/editor/:slug',
+        path: '/admin/post-editor/:slug',
         exact: true,
         component: PostEditor,
+        loadData: async (dispatch: Dispatch, params: Object) =>
+          Promise.all([await dispatch(fetchPostIfNeeded(params.slug))]),
       },
       {
         path: '/admin/filemanager',
@@ -139,7 +142,7 @@ export default [
           ]),
       },
       {
-        path: '/admin/filemanager/:id',
+        path: '/admin/file-editor/:id',
         exact: true,
         component: FileEditor,
       },
@@ -175,10 +178,7 @@ export default [
         path: '/admin/tags/:name',
         // exact: true,
         component: TaggedPost,
-        loadData: async (dispatch: Dispatch, params: Object) =>
-          Promise.all([
-            await dispatch(fetchTagPostsIfNeeded(params.name)),
-          ]),
+      
       },
     ],
   },

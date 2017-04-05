@@ -25,15 +25,15 @@ type Props = {
 class TaggedPost extends Component {
   static defaultProps: {
   currentTag: {},
-  match: { params: { name: '' } },
-  fetchTagPostsIfNeeded: () => {},
+  // match: { params: { name: '' } },
+  // fetchTagPostsIfNeeded: () => {},
 };
 
-  componentDidMount() {
-    const { fetchTagPostsIfNeeded, match: { params } } = this.props;
-
-    fetchTagPostsIfNeeded(params.name);
-  }
+  // componentDidMount() {
+  //   const { fetchTagPostsIfNeeded, match: { params } } = this.props;
+  //
+  //   fetchTagPostsIfNeeded(params.name);
+  // }
 
   props: Props;
   render() {

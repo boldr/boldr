@@ -262,7 +262,6 @@ export function selectedFile(file: Object) {
 export function selectFile(file) {
   return dispatch => {
     dispatch(selectedFile(file));
-    return dispatch(push(`/admin/filemanager/${file.id}/editor`));
   };
 }
 

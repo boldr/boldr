@@ -33,7 +33,7 @@ class PostTable extends PureComponent {
         <TableColumn style={ { maxWidth: '125px' } }>
           <Avatar src={ `${config('apiUrl')}${p.featureImage}` } role="presentation" />
         </TableColumn>
-        <TableColumn><Link to={ `/admin/posts/editor/${p.slug}` }>{p.title}</Link></TableColumn>
+        <TableColumn><Link to={ `/admin/post-editor/${p.slug}` }>{p.title}</Link></TableColumn>
         <TableColumn>{p.published ? <span>Published</span> : <span>Draft</span>}</TableColumn>
         <TableColumn>{format(p.createdAt, 'MMMM Do YYYY')}</TableColumn>
         <TableColumn>

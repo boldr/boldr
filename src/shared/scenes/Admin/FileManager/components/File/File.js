@@ -7,7 +7,7 @@ import Media, { MediaOverlay } from 'react-md/lib/Media';
 import Avatar from 'react-md/lib/Avatars';
 import Button from 'react-md/lib/Buttons';
 import FontIcon from 'react-md/lib/FontIcons';
-
+import Link from 'react-router-dom/Link';
 import config from '../../../../../../../config';
 
 type Props = {
@@ -40,9 +40,11 @@ const File = (props: Props) => {
         </MediaOverlay>
       </Media>
       <CardActions>
-        <Button icon onClick={ handleSelect }>
-          <FontIcon>mode_edit</FontIcon>
-        </Button>
+        <Link to={ `/admin/file-editor/${props.file.id}` }>
+          <Button icon onClick={ handleSelect }>
+            <FontIcon>mode_edit</FontIcon>
+          </Button>
+        </Link>
         <Button icon onClick={ handleclick }>
           <FontIcon>delete_forever</FontIcon>
         </Button>
