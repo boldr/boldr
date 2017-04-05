@@ -12,31 +12,34 @@ import { detail, menu } from './schema';
   * @exports fetchMenus
   *****************************************************************/
 
-export function fetchMenusIfNeeded() {
-  return (dispatch, getState) => {
+/* istanbul ignore next */
+export const fetchMenusIfNeeded = (): ThunkAction =>
+  (dispatch: Dispatch, getState: GetState, axios: any) => {
+    /* istanbul ignore next */
     if (shouldFetchMenus(getState())) {
-      return dispatch(fetchMenus());
+      /* istanbul ignore next */
+      return dispatch(fetchMenus(axios));
     }
 
-    return Promise.resolve();
+    /* istanbul ignore next */
+    return null;
   };
-}
 
-export function fetchMenus() {
-  return dispatch => {
-    dispatch(beginFetchMenus());
-    return api
-      .getMainNav()
-      .then(response => {
-        const menuData = response.body;
-        return dispatch(fetchMenusSuccess(menuData));
+export const fetchMenus = (axios: any): ThunkAction =>
+  (dispatch: Dispatch) => {
+    dispatch({ type: t.GET_MAIN_MENU_REQUEST });
+
+    return axios
+      .get('/api/v1/menus/1')
+      .then(res => {
+        dispatch({ type: t.GET_MAIN_MENU_SUCCESS,
+          payload: res.data });
       })
-      .catch(error => {
-        dispatch(fetchMenusError(error));
+      .catch(err => {
+        dispatch({ type: t.GET_MAIN_MENU_SUCCESS,
+          error: err });
       });
   };
-}
-
 function shouldFetchMenus(state) {
   const menu = state.boldr.menu.main.details;
   if (!menu.length) {

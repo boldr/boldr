@@ -19,7 +19,7 @@ import AdminContainer from './scenes/Admin/AdminContainer';
 import PostListContainer from './scenes/Admin/Post/PostList/PostListContainer';
 import PostEditor from './scenes/Admin/Post/PostEditor';
 import NewPostContainer from './scenes/Admin/Post/NewPost/NewPostContainer';
-import FileManager from './scenes/Admin/FileManager';
+import FileManagerContainer from './scenes/Admin/FileManager/FileManagerContainer';
 import FileEditor from './scenes/Admin/FileManager/FileEditor';
 import Navigation from './scenes/Admin/Navigation';
 import Members from './scenes/Admin/Members';
@@ -30,7 +30,9 @@ import TaggedPost from './scenes/Admin/Tags/components/TaggedPost';
 import Error404 from './pages/Error404';
 import type { Dispatch } from './types/redux';
 import { loadSiteMembers } from './state/modules/admin/members';
+import { fetchMedia } from './state/modules/attachments/actions';
 import { fetchProfileIfNeeded } from './state/modules/users';
+import { fetchMenusIfNeeded } from './state/modules/boldr/menu/actions';
 import { fetchPostsIfNeeded, fetchPostIfNeeded } from './state/modules/blog/posts';
 import { fetchTagsIfNeeded, fetchTagPostsIfNeeded } from './state/modules/blog/tags/actions';
 
@@ -124,23 +126,29 @@ export default [
       },
       {
         path: '/admin/posts/editor/:slug',
-        // exact: true,
+        exact: true,
         component: PostEditor,
       },
       {
         path: '/admin/filemanager',
         exact: true,
-        component: FileManager,
+        component: FileManagerContainer,
+        loadData: async (dispatch: Dispatch) =>
+          Promise.all([
+            await dispatch(fetchMedia()),
+          ]),
       },
       {
-        path: '/admin/filemanager/:id/editor',
-        // exact: true,
+        path: '/admin/filemanager/:id',
+        exact: true,
         component: FileEditor,
       },
       {
         path: '/admin/navigation',
         exact: true,
         component: Navigation,
+        loadData: async (dispatch: Dispatch) =>
+          Promise.all([await dispatch(fetchMenusIfNeeded())]),
       },
       {
         path: '/admin/members',

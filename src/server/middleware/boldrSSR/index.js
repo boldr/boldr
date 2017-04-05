@@ -87,7 +87,7 @@ function boldrSSR(req, res, next) {
 
         return;
       }
-      
+
       // Pass the route and initial state into html template
       return res.status(status).send(`<!DOCTYPE html>${html}`);
     })

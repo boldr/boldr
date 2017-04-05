@@ -15,7 +15,7 @@ type Props = {
   selectFile: Function,
   file?: {
     id?: string,
-    file_name?: string,
+    fileName?: string,
     url?: string,
   },
 };
@@ -34,9 +34,9 @@ const File = (props: Props) => {
   return (
     <Card className="boldr-filecard">
       <Media>
-        <img src={ `${config('apiUrl')}${props.file.url}` } alt={ props.file.file_name } role="presentation" />
+        <img src={ `${config('apiUrl')}${props.file.url}` } alt={ props.file.fileName } role="presentation" />
         <MediaOverlay>
-          <CardTitle title={ props.file.file_name || 'foo' } />
+          <CardTitle title={ props.file.fileName || 'foo' } />
         </MediaOverlay>
       </Media>
       <CardActions>

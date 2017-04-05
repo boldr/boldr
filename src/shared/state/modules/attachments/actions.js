@@ -15,31 +15,34 @@ const token = getToken();
   * @exports fetchMedia
   *****************************************************************/
 
-export function fetchAttachments() {
-  return dispatch => {
-    dispatch(fetchMediaStart());
-    return api
-      .getAllAttachments()
-      .then(response => {
-        if (response.status !== 200) {
-          dispatch(fetchMediaFail());
-        }
-        dispatch(fetchMediaSuccess(response));
+export const fetchAttachments = (axios: any): ThunkAction =>
+  (dispatch: Dispatch) => {
+    dispatch({ type: t.GET_ATTACHMENT_REQUEST });
+
+    return axios
+      .get('/api/v1/attachments')
+      .then(res => {
+        dispatch({ type: t.GET_ATTACHMENT_SUCCESS,
+          payload: res.data });
       })
       .catch(err => {
-        dispatch(fetchMediaFail(err));
+        dispatch({ type: t.GET_ATTACHMENT_FAILURE,
+          error: err });
       });
   };
-}
-export function fetchMedia() {
-  return (dispatch, getState) => {
+/* istanbul ignore next */
+export const fetchMedia = (): ThunkAction =>
+  (dispatch: Dispatch, getState: GetState, axios: any) => {
+    /* istanbul ignore next */
     if (shouldFetchAttachments(getState())) {
-      return dispatch(fetchAttachments());
+      /* istanbul ignore next */
+      return dispatch(fetchAttachments(axios));
     }
 
-    return Promise.resolve();
+    /* istanbul ignore next */
+    return null;
   };
-}
+
 function shouldFetchAttachments(state) {
   const attachments = state.attachments.files;
   if (!attachments.length) {
