@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import { Field, reduxForm } from 'redux-form';
 import Button from 'react-md/lib/Buttons';
 import classnames from 'classnames';
-import { StyleClasses } from '../../../../theme/theme';
+import { StyleClasses, InputField } from 'boldr-ui';
 import FieldEditor from '../../../Admin/Post/NewPost/components/NewPostForm/FieldEditor';
-import { InputField } from '../../../../components';
 
 type Props = {
   handleSubmit?: Function,

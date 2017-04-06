@@ -21,12 +21,16 @@ export const fetchAttachments = (axios: any): ThunkAction =>
     return axios
       .get('/api/v1/attachments')
       .then(res => {
-        dispatch({ type: t.GET_ATTACHMENT_SUCCESS,
-          payload: res.data });
+        dispatch({
+          type: t.GET_ATTACHMENT_SUCCESS,
+          payload: res.data,
+        });
       })
       .catch(err => {
-        dispatch({ type: t.GET_ATTACHMENT_FAILURE,
-          error: err });
+        dispatch({
+          type: t.GET_ATTACHMENT_FAILURE,
+          error: err,
+        });
       });
   };
 /* istanbul ignore next */
@@ -176,9 +180,8 @@ export function deleteMedia(id) {
     dispatch({
       type: t.DELETE_ATTACHMENT_REQUEST,
     });
-    return api
-      .delAttachment(id)
-      .then(response => {
+    return Axios.delete(`/api/v1/attachments/${id}`)
+      .then(res => {
         dispatch({
           type: t.DELETE_ATTACHMENT_SUCCESS,
           id,
@@ -186,15 +189,13 @@ export function deleteMedia(id) {
         dispatch(notificationSend(notif.MSG_FILE_REMOVED));
       })
       .catch(err => {
-        dispatch(deleteMediaFail(err));
+        dispatch({
+          type: t.DELETE_ATTACHMENT_FAILURE,
+          error: err,
+        });
       });
   };
 }
-
-const deleteMediaFail = err => ({
-  type: t.DELETE_ATTACHMENT_FAILURE,
-  error: err,
-});
 
 /**
   * UPDATE FILE ACTIONS
@@ -204,12 +205,10 @@ const deleteMediaFail = err => ({
 
 export function updateAttachment(attachmentData) {
   return (dispatch: Function) => {
-    console.log('action', attachmentData);
     dispatch(updateAttachmentReq());
-    return api
-      .updateFileProperties(attachmentData)
-      .then(response => {
-        dispatch(updateAttachmentSuccess(response));
+    return Axios.put(`/api/v1/attachments/${attachmentData.id}`, attachmentData)
+      .then(res => {
+        dispatch(updateAttachmentSuccess(res));
         dispatch(
           notificationSend({
             message: 'Updated attachment.',
@@ -270,95 +269,59 @@ export function selectFile(file) {
   *****************************************************************/
 
 export function uploadProfileImage(payload) {
-  console.log(payload);
   return dispatch => {
-    dispatch(beginUploadProfileImage());
-    return request
-      .post('/api/v1/attachments')
-      .attach(payload.name, payload)
-      .set('Authorization', `Bearer ${token}`)
-      .then(response => {
-        if (!response.status === 201) {
-          dispatch(uploadProfileImageFail(response));
-          dispatch(notificationSend(notif.MSG_UPLOAD_ERROR));
-        }
+    dispatch({
+      type: t.UPLOAD_PROFILE_IMG_REQUEST,
+    });
+    const data = new FormData();
+    data.append('payload.name', payload);
+    return Axios.post('/api/v1/attachments', data)
+      .then(res => {
         const userData = {
-          id: response.body.user_id,
-          profile_image: response.body.url,
+          id: res.data.user_id,
+          profileImage: res.data.url,
         };
+        dispatch({
+          type: t.UPLOAD_PROFILE_IMG_SUCCESS,
+          payload: res.data,
+        });
         dispatch(editProfile(userData));
-        dispatch(uploadProfileImageSuccess(response));
         dispatch(notificationSend(notif.MSG_UPLOAD_SUCCESS));
       })
       .catch(err => {
-        dispatch(uploadProfileImageFail(err));
+        dispatch({
+          type: t.UPLOAD_PROFILE_IMG_FAILURE,
+          error: err,
+        });
         dispatch(notificationSend(notif.MSG_UPLOAD_ERROR));
       });
   };
 }
 
-function beginUploadProfileImage() {
-  return {
-    type: t.UPLOAD_PROFILE_IMG_REQUEST,
-  };
-}
-
-function uploadProfileImageSuccess(response) {
-  return {
-    type: t.UPLOAD_PROFILE_IMG_SUCCESS,
-    payload: response.body,
-  };
-}
-
-function uploadProfileImageFail(err) {
-  return {
-    type: t.UPLOAD_PROFILE_IMG_FAILURE,
-    error: err,
-  };
-}
 export function uploadAvatarImage(payload) {
   return dispatch => {
-    dispatch(beginUploadAvatarImage());
-    return request
-      .post('/api/v1/attachments')
-      .attach(payload.name, payload)
-      .set('Authorization', `Bearer ${token}`)
-      .then(response => {
-        if (!response.status === 201) {
-          dispatch(uploadAvatarImageFail(response));
-          dispatch(notificationSend(notif.MSG_UPLOAD_ERROR));
-        }
+    dispatch({ type: t.UPLOAD_AVATAR_IMG_REQUEST });
+    const data = new FormData();
+    data.append('payload.name', payload);
+    return Axios.post('/api/v1/attachments', data)
+      .then(res => {
         const userData = {
-          id: response.body.user_id,
-          avatarUrl: response.body.url,
+          id: res.data.user_id,
+          avatarUrl: res.data.url,
         };
         dispatch(editProfile(userData));
-        dispatch(uploadAvatarImageSuccess(response));
+        dispatch({
+          type: t.UPLOAD_AVATAR_IMG_SUCCESS,
+          payload: res.data,
+        });
         dispatch(notificationSend(notif.MSG_UPLOAD_SUCCESS));
       })
       .catch(err => {
-        dispatch(uploadAvatarImageFail(err));
+        dispatch({
+          type: t.UPLOAD_AVATAR_IMG_FAILURE,
+          error: err,
+        });
         dispatch(notificationSend(notif.MSG_UPLOAD_ERROR));
       });
-  };
-}
-
-function beginUploadAvatarImage() {
-  return {
-    type: t.UPLOAD_AVATAR_IMG_REQUEST,
-  };
-}
-
-function uploadAvatarImageSuccess(response) {
-  return {
-    type: t.UPLOAD_AVATAR_IMG_SUCCESS,
-    payload: response.body,
-  };
-}
-
-function uploadAvatarImageFail(err) {
-  return {
-    type: t.UPLOAD_AVATAR_IMG_FAILURE,
-    error: err,
   };
 }

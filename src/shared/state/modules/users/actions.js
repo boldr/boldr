@@ -141,10 +141,9 @@ const shouldFetchProfile = (state: Reducer, username: string): boolean => {
 export function editProfile(userData) {
   return dispatch => {
     dispatch(beginUpdateProfile());
-    return api
-      .doUpdateProfile(userData)
-      .then(response => {
-        dispatch(doneUpdateProfile(response));
+    return Axios.put(`/api/v1/users/${userData.id}`, { data: userData })
+      .then(res => {
+        dispatch(doneUpdateProfile(res));
         dispatch(notificationSend(notif.MSG_EDIT_PROFILE_SUCCESS));
       })
       .catch(err => {
@@ -158,10 +157,10 @@ const beginUpdateProfile = () => {
   return { type: t.EDIT_PROFILE_REQUEST };
 };
 
-const doneUpdateProfile = response => {
+const doneUpdateProfile = res => {
   return {
     type: t.EDIT_PROFILE_SUCCESS,
-    payload: response.body,
+    payload: res.data,
   };
 };
 

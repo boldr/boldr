@@ -17,7 +17,7 @@ const TagList = (props: Props) => {
     return <Loader />;
   }
   return (
-    <div style={ { paddingTop: 50 } }>
+    <div>
       <Grid fluid>
         <Row>
           {props.posts.map(post => (

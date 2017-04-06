@@ -7,7 +7,6 @@ import ForgotPassword from './scenes/Account/ForgotPassword';
 import ResetPassword from './scenes/Account/ResetPassword';
 import Verify from './scenes/Account/Verify';
 import ProfileContainer from './scenes/Profile/ProfileContainer';
-import BlogContainer from './scenes/Blog/BlogContainer';
 import PostListingContainer from './scenes/Blog/PostListing/PostListingContainer';
 import SinglePost from './scenes/Blog/SinglePost/SinglePost';
 import TagListContainer from './scenes/Blog/TagList/TagListContainer';

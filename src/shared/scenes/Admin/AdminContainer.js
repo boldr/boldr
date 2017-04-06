@@ -128,7 +128,7 @@ class AdminContainer extends PureComponent {
         toolbarClassName="boldr-adminbar"
         desktopMinWidth={ 900 }
         onMediaTypeChange={ this._handleMediaTypeChange }
-        defaultMedia={ this.props.ui.defaultMedia }
+        defaultMedia="desktop"
         navItems={ navItems(pathname) }
         drawerType={ NavigationDrawer.DrawerTypes.PERSISTENT_MINI }
         toolbarActions={ toolbarActionItems }

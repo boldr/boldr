@@ -2,12 +2,13 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { LAYOUTS } from '../../../core/constants';
 import { changeLayout } from '../../../state/modules/boldr/ui';
 import { getPosts, fetchPostsIfNeeded } from '../../../state/modules/blog/posts';
 import { fetchTagsIfNeeded } from '../../../state/modules/blog/tags/actions';
 import { getTags } from '../../../state/modules/blog/tags/selectors';
-
+import BaseTemplate from '../../../templates/BaseTemplate';
 import VisiblePostListing from './VisiblePostListing';
 
 type Props = {
@@ -29,7 +30,6 @@ export class PostListingContainer extends Component {
   };
 
   componentDidMount() {
-    console.log('mounted');
     this.props.fetchPostsIfNeeded();
     this.props.fetchTagsIfNeeded();
   }
@@ -42,13 +42,15 @@ export class PostListingContainer extends Component {
   };
   render() {
     return (
-      <VisiblePostListing
-        posts={ this.props.posts }
-        listTags={ this.props.listTags }
-        layout={ this.props.layout }
-        handleChangeLayout={ this.handleChangeLayout }
-        isFetching={ this.props.isFetching }
-      />
+      <BaseTemplate helmetMeta={ <Helmet title="Blog Posts" /> }>
+        <VisiblePostListing
+          posts={ this.props.posts }
+          listTags={ this.props.listTags }
+          layout={ this.props.layout }
+          handleChangeLayout={ this.handleChangeLayout }
+          isFetching={ this.props.isFetching }
+        />
+      </BaseTemplate>
     );
   }
 }
@@ -62,5 +64,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchTagsIfNeeded,
-  fetchPostsIfNeeded })(PostListingContainer);
+export default connect(mapStateToProps, {
+  fetchTagsIfNeeded,
+  fetchPostsIfNeeded,
+})(PostListingContainer);

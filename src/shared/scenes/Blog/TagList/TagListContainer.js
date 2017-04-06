@@ -3,7 +3,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Col, Row, Loader } from 'boldr-ui';
+import Helmet from 'react-helmet';
 import { getPosts } from '../../../state/modules/blog/posts';
+import BaseTemplate from '../../../templates/BaseTemplate';
 import { fetchTagsIfNeeded, fetchTagPostsIfNeeded } from '../../../state/modules/blog/tags/actions';
 import TagList from './TagList';
 
@@ -31,10 +33,15 @@ export class TagListContainer extends Component {
 
   props: Props;
   render() {
+    const { match: { params } } = this.props;
     if (this.props.isFetching) {
       return <Loader />;
     }
-    return <TagList isFetching={ this.props.isFetching } listTags={ this.props.listTags } posts={ this.props.posts } />;
+    return (
+      <BaseTemplate helmetMeta={ <Helmet title={ `Posts tagged ${params.name}` } /> }>
+        <TagList isFetching={ this.props.isFetching } listTags={ this.props.listTags } posts={ this.props.posts } />
+      </BaseTemplate>
+    );
   }
 }
 
