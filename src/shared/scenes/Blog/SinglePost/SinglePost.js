@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import classnames from 'classnames';
 import { Grid, Row, Col, Heading, StyleClasses } from 'boldr-ui';
 import { getPosts, fetchPostIfNeeded } from '../../../state/modules/blog/posts';
-import { PostSidebar, PostContent, PostComments, PostTitle } from '../components';
+import { PostSidebar, PostContent, PostTitle } from '../components';
 import BaseTemplate from '../../../templates/BaseTemplate';
 
 const BASE_ELEMENT = StyleClasses.SINGLE_POST;
@@ -59,13 +59,6 @@ class SinglePost extends PureComponent {
             <Row>
               <Col sm={ 12 } md={ 8 } lg={ 9 }>
                 <PostContent { ...currentPost } />
-                {!currentPost.comments
-                  ? null
-                  : <PostComments
-                    comments={ currentPost.comments.map(c => entities.comments[c]) }
-                    postId={ currentPost.id }
-                    userEntities={ entities.users }
-                  />}
               </Col>
               {!currentPost.tags
                 ? null

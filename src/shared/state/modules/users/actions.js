@@ -141,7 +141,7 @@ const shouldFetchProfile = (state: Reducer, username: string): boolean => {
 export function editProfile(userData) {
   return dispatch => {
     dispatch(beginUpdateProfile());
-    return Axios.put(`/api/v1/users/${userData.id}`, { data: userData })
+    return Axios.put(`/api/v1/users/${userData.id}`, userData)
       .then(res => {
         dispatch(doneUpdateProfile(res));
         dispatch(notificationSend(notif.MSG_EDIT_PROFILE_SUCCESS));

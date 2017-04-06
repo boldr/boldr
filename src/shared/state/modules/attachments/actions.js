@@ -309,6 +309,7 @@ export function uploadAvatarImage(payload) {
           id: res.data.user_id,
           avatarUrl: res.data.url,
         };
+        console.log('user', userData);
         dispatch(editProfile(userData));
         dispatch({
           type: t.UPLOAD_AVATAR_IMG_SUCCESS,

@@ -49,7 +49,7 @@ export const fetchPosts = (axios: any): ThunkAction =>
     dispatch({ type: t.FETCH_POSTS_REQUEST });
 
     return axios
-      .get('/api/v1/posts?include=[author,tags,comments,comments.commenter,comments.replies]')
+      .get('/api/v1/posts?include=[author,tags]')
       .then(res => {
         const posts = res.data.results;
         const normalizedPosts = normalize(posts, arrayOfPost);
