@@ -69,14 +69,13 @@ export type Reducer = {
   blog: BlogReducer,
 };
 
-
 export type Action =
   { type: '@boldr/blog/FETCH_POSTS_REQUEST' } |
-  { type: '@boldr/blog/FETCH_POSTS_SUCCESS', data: Array<Object> } |
+  { type: '@boldr/blog/FETCH_POSTS_SUCCESS', payload: NormalizrPayload } |
   { type: '@boldr/blog/FETCH_POSTS_FAILURE', err: any } |
-  { type: '@boldr/blog/FETCH_POST_REQUEST', userId: string } |
-  { type: '@boldr/blog/FETCH_POST_SUCCESS', userId: string, data: Object } |
-  { type: '@boldr/blog/FETCH_POST_FAILURE', userId: string, err: any };
+  { type: '@boldr/blog/FETCH_POST_REQUEST', slug: string } |
+  { type: '@boldr/blog/FETCH_POST_SUCCESS', slug: string, payload: Post } |
+  { type: '@boldr/blog/FETCH_POST_FAILURE', slug: string, err: any };
 
 export type Store = ReduxStore<Reducer, Action>;
 // eslint-disable-next-line no-use-before-define

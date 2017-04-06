@@ -1,7 +1,7 @@
 /* @flow */
 import { combineReducers } from 'redux';
-import { removeByKey, removeIdFromArray } from 'boldr-utils';
-import * as api from '../../../../core/api';
+import removeByKey from 'boldr-utils/es/objects/removeByKey';
+import removeIdFromArray from 'boldr-utils/es/arrays/removeIdFromArray';
 import * as notif from '../../../../core/constants';
 
 import { notificationSend } from '../../../../state/modules/notifications';

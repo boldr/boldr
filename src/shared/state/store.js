@@ -1,16 +1,19 @@
+/* eslint-disable dot-notation */
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import { getToken } from '../core/authentication/token';
 import rootReducer from './reducers';
-import createMiddleware from './middleware/clientMiddleware';
+
+const isBrowser = typeof window === 'object';
+const token = isBrowser ? getToken() : null;
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 
 export default function configureStore(preloadedState, history) {
   const reduxRouterMiddleware = routerMiddleware(history);
 
-  // const middleware = [thunk.withExtraArgument(axios), reduxRouterMiddleware];
-
-  // const enhancers = [applyMiddleware(...middleware)];
   const middlewares = [thunk.withExtraArgument(axios), reduxRouterMiddleware];
 
   const enhancers = [

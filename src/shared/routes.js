@@ -1,8 +1,4 @@
 /* @flow */
-
-// import type { Dispatch } from './types';
-import { fetchSettingsIfNeeded } from './state/modules/boldr/settings';
-
 import Home from './pages/Home';
 import About from './pages/About';
 import LoginContainer from './scenes/Account/Login/LoginContainer';
@@ -26,12 +22,14 @@ import Members from './scenes/Admin/Members';
 import Settings from './scenes/Admin/Settings';
 import TagsContainer from './scenes/Admin/Tags/TagsContainer';
 import TaggedPost from './scenes/Admin/Tags/components/TaggedPost';
-
 import Error404 from './pages/Error404';
+
 import type { Dispatch } from './types/redux';
-import { loadSiteMembers } from './state/modules/admin/members';
+import { fetchSettingsIfNeeded } from './state/modules/boldr/settings';
+import { fetchMembersIfNeeded } from './state/modules/admin/members';
 import { fetchMedia } from './state/modules/attachments/actions';
 import { fetchProfileIfNeeded } from './state/modules/users';
+import { fetchStatsIfNeeded, fetchActivityIfNeeded } from './state/modules/admin/dashboard/actions';
 import { fetchMenusIfNeeded } from './state/modules/boldr/menu/actions';
 import { fetchPostsIfNeeded, fetchPostIfNeeded } from './state/modules/blog/posts';
 import { fetchTagsIfNeeded, fetchTagPostsIfNeeded } from './state/modules/blog/tags/actions';
@@ -53,7 +51,6 @@ export default [
     component: PostListingContainer,
     loadData: async (dispatch: Dispatch) =>
       Promise.all([
-        // Register your server-side call action(s) here
         await dispatch(fetchPostsIfNeeded()),
         await dispatch(fetchTagsIfNeeded()),
       ]),
@@ -99,7 +96,6 @@ export default [
   },
   {
     path: '/profiles/:username',
-
     component: ProfileContainer,
     loadData: async (dispatch: Dispatch, params: Object) =>
       Promise.all([
@@ -158,7 +154,7 @@ export default [
         exact: true,
         component: Members,
         loadData: async (dispatch: Dispatch) =>
-          Promise.all([await dispatch(loadSiteMembers())]),
+          Promise.all([await dispatch(fetchMembersIfNeeded())]),
       },
       {
         path: '/admin/settings',
@@ -178,7 +174,7 @@ export default [
         path: '/admin/tags/:name',
         // exact: true,
         component: TaggedPost,
-      
+
       },
     ],
   },

@@ -94,9 +94,9 @@ export const SELECT_FILE = '@boldr/attachment/SELECT_FILE';
  * @type {String}
  */
 
-export const LOAD_ACTIVITIES_REQUEST = '@boldr/admin/activity/LOAD_ACTIVITIES_REQUEST';
-export const LOAD_ACTIVITIES_SUCCESS = '@boldr/admin/activity/LOAD_ACTIVITIES_SUCCESS';
-export const LOAD_ACTIVITIES_FAILURE = '@boldr/admin/activity/LOAD_ACTIVITIES_FAILURE';
+export const FETCH_ACTIVITY_REQUEST = '@boldr/admin/activity/FETCH_ACTIVITY_REQUEST';
+export const FETCH_ACTIVITY_SUCCESS = '@boldr/admin/activity/FETCH_ACTIVITY_SUCCESS';
+export const FETCH_ACTIVITY_FAILURE = '@boldr/admin/activity/FETCH_ACTIVITY_FAILURE';
 
 export const SHOW_SIDEBAR = '@boldr/admin/SHOW_SIDEBAR';
 export const HIDE_SIDEBAR = '@boldr/admin/HIDE_SIDEBAR';

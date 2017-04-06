@@ -1,6 +1,6 @@
 import { normalize, arrayOf, schema } from 'normalizr';
 import { push } from 'react-router-redux';
-import * as api from '../../../../core/api';
+import Axios from 'axios';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../notifications/notifications';
 import * as t from '../../actionTypes';
@@ -25,8 +25,7 @@ export function fetchPagesIfNeeded() {
 export function fetchPages() {
   return dispatch => {
     dispatch(requestPages());
-    return api
-      .getAllPages()
+    return Axios.get('/api/v1/pages')
       .then(response => {
         const normalizedData = normalize(response.body, arrayOfPage);
         return dispatch(receivePages(normalizedData));
@@ -70,10 +69,9 @@ export function fetchPageByUrl(resource) {
     if (resource === undefined) {
       resource = 'home';
     }
-    return api
-      .getPageByUrl(resource)
-      .then(response => {
-        dispatch(receivePage(response));
+    return Axios.get(`/api/v1/pages/${resource}`)
+      .then(res => {
+        dispatch(receivePage(res));
       })
       .catch(err => {
         dispatch(receivePageFailed(err));
@@ -85,9 +83,9 @@ const requestPage = () => {
   return { type: t.FETCH_PAGE_REQUEST };
 };
 
-const receivePage = response => ({
+const receivePage = res => ({
   type: t.FETCH_PAGE_SUCCESS,
-  payload: response.body,
+  payload: res.data,
 });
 
 const receivePageFailed = err => ({

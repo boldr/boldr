@@ -1,6 +1,6 @@
 import membersReducer, { STATE_KEY } from './reducer';
-import { loadSiteMembers } from './actions';
+import { fetchMembersIfNeeded } from './actions';
 
 export default membersReducer;
 
-export { STATE_KEY, loadSiteMembers };
+export { STATE_KEY, fetchMembersIfNeeded };

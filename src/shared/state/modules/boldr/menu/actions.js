@@ -1,5 +1,5 @@
 import { normalize, schema } from 'normalizr';
-import * as api from '../../../../core/api';
+import Axios from 'axios';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../notifications/notifications';
 import * as t from '../../actionTypes';
@@ -29,7 +29,7 @@ export const fetchMenus = (axios: any): ThunkAction =>
   (dispatch: Dispatch) => {
     dispatch({ type: t.GET_MAIN_MENU_REQUEST });
 
-    return axios
+    return Axios
       .get('/api/v1/menus/1')
       .then(res => {
         dispatch({ type: t.GET_MAIN_MENU_SUCCESS,
@@ -80,10 +80,9 @@ function fetchMenusSuccess(menuData) {
 export function updateMenuDetails(data) {
   return dispatch => {
     dispatch(beginUpdateMenuDetails());
-    return api
-      .doUpdateMenuDetails(data)
-      .then(response => {
-        dispatch(updateMenuDetailsSuccess(response));
+    return Axios.put(`/api/v1/menu-details/${data.id}`, data)
+      .then(res => {
+        dispatch(updateMenuDetailsSuccess(res));
         dispatch(notificationSend(notif.MSG_UPDATE_LINK_SUCCESS));
       })
       .catch(err => {
@@ -99,10 +98,10 @@ function beginUpdateMenuDetails() {
   };
 }
 
-function updateMenuDetailsSuccess(response) {
+function updateMenuDetailsSuccess(res) {
   return {
     type: t.UPDATE_MENU_SUCCESS,
-    payload: response.body,
+    payload: res.data,
   };
 }
 
@@ -120,14 +119,28 @@ function updateMenuDetailsFailure(err) {
   *****************************************************************/
 
 export function addMenuDetail(values) {
+  const data = {
+    name: values.name,
+    href: values.href,
+    mobile_href: values.mobile_href,
+    has_dropdown: values.has_dropdown,
+    css_classname: values.css_classname,
+    icon: values.icon,
+    menu_id: 1,
+    order: values.order,
+    children: {
+      key: values.key,
+      items: values.items,
+    },
+  };
   return dispatch => {
     dispatch(beginAddMenuDetail());
-    return api.doAddNavigationLinks(values).then(response => {
-      if (!response.status === 201) {
-        dispatch(addMenuDetailFailure(response));
+    return Axios.post('/api/v1/menu-details', data).then(res => {
+      if (!res.status === 201) {
+        dispatch(addMenuDetailFailure(res));
         dispatch(notificationSend(notif.MSG_ADD_LINK_ERROR));
       }
-      dispatch(addMenuDetailSuccess(response));
+      dispatch(addMenuDetailSuccess(res));
       dispatch(notificationSend(notif.MSG_ADD_LINK_SUCCESS));
     });
   };
@@ -139,10 +152,10 @@ function beginAddMenuDetail() {
   };
 }
 
-function addMenuDetailSuccess(response) {
+function addMenuDetailSuccess(res) {
   return {
     type: t.ADD_MENU_DETAIL_SUCCESS,
-    payload: response.body,
+    payload: res.data,
   };
 }
 

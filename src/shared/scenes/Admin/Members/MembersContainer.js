@@ -3,14 +3,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { showModal, hideModal } from '../../../state/modules/boldr/ui/actions';
-import { loadSiteMembers, memberSelected, updateMember } from '../../../state/modules/admin/members/actions';
+import { fetchMembersIfNeeded, memberSelected, updateMember } from '../../../state/modules/admin/members/actions';
 import Members from './Members';
 
 type Props = {
   members: Object,
   dispatch: Function,
   memberSelected: Function,
-  loadSiteMembers: () => {},
+  fetchMembersIfNeeded: () => {},
   updateMember: Function,
   hideModal: () => void,
   showModal: () => void,
@@ -20,7 +20,7 @@ type Props = {
 export class MembersContainer extends Component {
   static defaultProps: {
     profile: {},
-    loadSiteMembers: () => {},
+    fetchMembersIfNeeded: () => {},
   };
   constructor(props: Props) {
     super(props);
@@ -32,7 +32,7 @@ export class MembersContainer extends Component {
   state: Object = { userId: '' };
 
   componentDidMount() {
-    this.props.dispatch(loadSiteMembers());
+    this.props.dispatch(fetchMembersIfNeeded());
   }
   props: Props;
 

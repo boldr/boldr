@@ -1,6 +1,5 @@
 import { push } from 'react-router-redux';
-import axios from 'axios';
-import * as api from '../../../core/api';
+import Axios from 'axios';
 import { setToken, removeToken } from '../../../core/authentication/token';
 import * as notif from '../../../core/constants';
 import { notificationSend } from '../notifications/notifications';
@@ -17,9 +16,8 @@ export function forgotPassword(email) {
     dispatch({
       type: t.FORGOT_PASSWORD_REQUEST,
     });
-    return api
-      .doForgotPassword(email)
-      .then(response => {
+    return Axios.post('/api/v1/tokens/forgot-password', { data: email })
+      .then(res => {
         dispatch({
           type: t.FORGOT_PASSWORD_SUCCESS,
         });
@@ -45,13 +43,12 @@ export function resetPassword(password, token) {
     dispatch({
       type: t.RESET_PASSWORD_REQUEST,
     });
-    return api
-      .doResetPassword(password, token)
-      .then(response => {
+    return Axios.post(`/api/v1/tokens/reset-password/${token}`, { data: password })
+      .then(res => {
         dispatch({
           type: t.RESET_PASSWORD_SUCCESS,
         });
-        push('/login');
+        push('/account/login');
         dispatch(notificationSend(notif.MSG_RESET_PW_SUCCESS));
       })
       .catch(err =>
@@ -73,14 +70,12 @@ export function verifyAccount(token) {
     dispatch({
       type: t.VERIFY_ACCOUNT_REQUEST,
     });
-    return api
-      .doVerifyAccount(token)
-      .then(response => {
-        push('/login');
+    return Axios.get(`/auth/verification/${token}`)
+      .then(res => {
+        push('/account/login');
         dispatch({
           type: t.VERIFY_ACCOUNT_SUCCESS,
         });
-        dispatch(push('/'));
         dispatch(notificationSend(notif.MSG_VERIFY_USER_SUCCESS));
       })
       .catch(err =>

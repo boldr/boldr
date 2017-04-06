@@ -4,8 +4,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
-import BrowserRouter from 'react-router-dom/BrowserRouter';
-import { ConnectedRouter } from 'react-router-redux';
+import ConnectedRouter from 'react-router-redux/ConnectedRouter';
 import WebFontLoader from 'webfontloader';
 
 import configureStore from '../shared/state/store';
@@ -15,12 +14,8 @@ import { getToken } from '../shared/core/authentication/token';
 WebFontLoader.load({
   google: { families: ['Roboto:200,400,600', 'Material Icons'] },
 });
-// Get the DOM Element that will host our React application.
+
 const domNode = document.querySelector('#app');
-// Does the user's browser support the HTML5 history API?
-// If the user's browser doesn't support the HTML5 history API then we
-// will force full page refreshes on each page change.
-const supportsHistory = 'pushState' in window.history;
 const history = createHistory();
 const preloadedState = window.__PRELOADED_STATE__;
 const store = configureStore(preloadedState, history);
@@ -34,13 +29,11 @@ if (token) {
 }
 
 const renderApp = () => {
-  const App = require('../shared/scenes/App').default;
+  const App = require('../shared/components/App').default;
   render(
     <Provider store={ store }>
       <ConnectedRouter history={ history }>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App />
       </ConnectedRouter>
     </Provider>,
     domNode,
@@ -61,14 +54,14 @@ if (module.hot) {
   module.hot.accept('./index.js');
   const reRenderApp = () => {
     try {
-      renderApp(require('../shared/scenes/App').default);
+      renderApp(require('../shared/components/App').default);
     } catch (error) {
       const RedBox = require('redbox-react').default;
 
       render(<RedBox error={ error } />, domNode);
     }
   };
-  module.hot.accept('../shared/scenes/App', () => {
+  module.hot.accept('../shared/components/App', () => {
     setImmediate(() => {
       // Preventing the hot reloading error from react-router
       unmountComponentAtNode(domNode);

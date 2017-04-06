@@ -1,7 +1,7 @@
 /* @flow */
 import { normalize, arrayOf, schema } from 'normalizr';
 import merge from 'lodash/merge';
-import * as api from '../../../../core/api';
+import Axios from 'axios';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../../../state/modules/notifications/notifications';
 import * as t from '../../actionTypes';
@@ -167,10 +167,9 @@ export function selectPost(post: Object) {
 export function createPost(data: Post) {
   return (dispatch: Function) => {
     dispatch(beginCreatePost());
-    return api
-      .createPost(data)
-      .then(response => {
-        const normalizedData = normalize(response.body, postSchema);
+    return Axios.post('/api/v1/posts', data)
+      .then(res => {
+        const normalizedData = normalize(res.data, postSchema);
         dispatch(createPostSuccess(normalizedData));
         dispatch(notificationSend(notif.MSG_CREATE_POST_SUCCESS));
       })
@@ -205,32 +204,26 @@ const errorCreatingPost = err => {
   * @exports deletePost
   *****************************************************************/
 
-export function deletePost(id: String) {
+export function deletePost(id: string) {
   return (dispatch: Function) => {
     dispatch({
       type: t.DELETE_POST_REQUEST,
     });
-    return api
-      .delPostById(id)
-      .then(response => {
-        if (response.status !== 204) {
-          dispatch(deletePostFail(response));
-        }
+    return Axios.delete(`/api/v1/posts/${id}`)
+      .then(res => {
         dispatch({
           type: t.DELETE_POST_SUCCESS,
           id,
         });
       })
       .catch(err => {
-        dispatch(deletePostFail(err));
+        dispatch({
+          type: t.DELETE_POST_FAILURE,
+          error: err,
+        });
       });
   };
 }
-
-const deletePostFail = err => ({
-  type: t.DELETE_POST_FAILURE,
-  error: err,
-});
 
 /**
   * UPDATE POST ACTIONS
@@ -240,12 +233,13 @@ const deletePostFail = err => ({
 
 export function updatePost(postData: Post) {
   return (dispatch: Function) => {
-    console.log('action', postData);
     dispatch(updatePostDetails(postData));
-    return api
-      .putPostId(postData)
-      .then(response => {
-        dispatch(updatePostSuccess(response));
+    return Axios.put(`/api/v1/posts/${postData.id}`, postData)
+      .then(res => {
+        dispatch({
+          type: t.UPDATE_POST_SUCCESS,
+          payload: res.data,
+        });
         dispatch(
           notificationSend({
             message: 'Updated article.',

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { bindActionCreators } from 'redux';
 import { Loader } from 'boldr-ui';
-import BaseTemplate from '../../pages/templates/Base';
+import { BaseTemplate } from '../../templates';
 import { fetchProfileIfNeeded } from '../../state/modules/users';
 import { uploadProfileImage, uploadAvatarImage } from '../../state/modules/attachments/actions';
 import { hideModal, showModal, openDrawer, closeDrawer } from '../../state/modules/boldr/ui/actions';

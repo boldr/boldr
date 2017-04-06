@@ -4,7 +4,8 @@ import Avatar from 'react-md/lib/Avatars';
 import FontIcon from 'react-md/lib/FontIcons';
 import Link from 'react-router-dom/Link';
 import NavLink from 'react-router-dom/NavLink';
-import { toTitle, flatten } from 'boldr-utils';
+import toTitle from 'boldr-utils/es/strings/toTitle';
+import flatten from 'boldr-utils/es/arrays/flatten';
 import adminRoutes from './adminRoutes';
 
 function mapToNavItems(route, parents = []) {

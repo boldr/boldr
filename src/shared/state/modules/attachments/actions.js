@@ -1,6 +1,5 @@
 import { push } from 'react-router-redux';
-import request from 'superagent';
-import * as api from '../../../core/api';
+import Axios from 'axios';
 import { getToken } from '../../../core/authentication/token';
 import * as notif from '../../../core/constants';
 import { notificationSend } from '../notifications/notifications';
@@ -82,16 +81,15 @@ function fetchMediaFail(err) {
 export function uploadFiles(payload) {
   return dispatch => {
     dispatch(beginUpload());
-    return request
-      .post('/api/v1/attachments')
-      .attach(payload.name, payload)
-      .set('Authorization', `Bearer ${token}`)
-      .then(response => {
-        if (!response.status === 201) {
-          dispatch(uploadFail(response));
+    const data = new FormData();
+    data.append('payload.name', payload);
+    return Axios.post('/api/v1/attachments', data)
+      .then(res => {
+        if (!res.status === 201) {
+          dispatch(uploadFail(res));
           dispatch(notificationSend(notif.MSG_UPLOAD_ERROR));
         }
-        dispatch(uploadSuccess(response));
+        dispatch(uploadSuccess(res));
         dispatch(notificationSend(notif.MSG_UPLOAD_SUCCESS));
       })
       .catch(err => {
@@ -106,10 +104,10 @@ function beginUpload() {
   };
 }
 
-function uploadSuccess(response) {
+function uploadSuccess(res) {
   return {
     type: t.UPLOAD_ATTACHMENT_SUCCESS,
-    payload: response.body,
+    payload: res.data,
   };
 }
 
@@ -129,16 +127,15 @@ function uploadFail(err) {
 export function uploadPostImage(payload) {
   return dispatch => {
     dispatch(beginUploadPostImage());
-    return request
-      .post('/api/v1/attachments')
-      .attach(payload.name, payload)
-      .set('Authorization', `Bearer ${token}`)
-      .then(response => {
-        if (!response.status === 201) {
-          dispatch(uploadPostImageFail(response));
+    const data = new FormData();
+    data.append('payload.name', payload);
+    return Axios.post('/api/v1/attachments', data)
+      .then(res => {
+        if (!res.status === 201) {
+          dispatch(uploadPostImageFail(res));
           dispatch(notificationSend(notif.MSG_UPLOAD_ERROR));
         }
-        dispatch(uploadPostImageSuccess(response));
+        dispatch(uploadPostImageSuccess(res));
         dispatch(notificationSend(notif.MSG_UPLOAD_SUCCESS));
       })
       .catch(err => {
@@ -154,10 +151,10 @@ function beginUploadPostImage() {
   };
 }
 
-function uploadPostImageSuccess(response) {
+function uploadPostImageSuccess(res) {
   return {
     type: t.UPLOAD_POST_IMG_SUCCESS,
-    payload: response.body,
+    payload: res.data,
   };
 }
 

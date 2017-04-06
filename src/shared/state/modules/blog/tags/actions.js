@@ -1,8 +1,8 @@
 import { normalize, arrayOf, schema } from 'normalizr';
 import merge from 'lodash/merge';
+import Axios from 'axios';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../notifications/notifications';
-import * as api from '../../../../core/api';
 import * as t from '../../actionTypes';
 import { tag as tagSchema, arrayOfTag } from './schema';
 
@@ -91,7 +91,7 @@ export function clearTag(tag: Object) {
 /**
   * FETCH TAGGED POST ACTIONS
   * -------------------------
-  * @exports fetchTaggedPost
+  * @exports fetchTagPosts
   *****************************************************************/
 export const fetchTagPosts = (name: string, axios: any): ThunkAction =>
   (dispatch: Dispatch) => {
@@ -140,39 +140,6 @@ const shouldFetchTagPosts = (state: Reducer, name: string): boolean => {
   return true;
 };
 
-export function fetchTaggedPost(name) {
-  return (dispatch: Function) => {
-    dispatch(requestTaggedPost());
-    return api
-      .doFetchTagPosts(name)
-      .then(response => {
-        if (response.status !== 200) {
-          dispatch(receiveTaggedPostFailed());
-        }
-        const data = response.body;
-        dispatch(receiveTaggedPost(data));
-      })
-      .catch(err => {
-        dispatch(receiveTaggedPostFailed(err));
-      });
-  };
-}
-const requestTaggedPost = () => {
-  return { type: t.FETCH_TAGGED_POST_REQUEST };
-};
-
-const receiveTaggedPost = data => {
-  return {
-    type: t.FETCH_TAGGED_POST_SUCCESS,
-    payload: data,
-  };
-};
-
-const receiveTaggedPostFailed = err => ({
-  type: t.FETCH_TAGGED_POST_FAILURE,
-  error: err,
-});
-
 /**
   * CREATE TAG ACTIONS
   * -------------------------
@@ -180,14 +147,18 @@ const receiveTaggedPostFailed = err => ({
   *****************************************************************/
 
 export function createTag(values) {
+  const data = {
+    name: values.name,
+    description: values.description,
+  };
   return dispatch => {
     dispatch(beginAddTag());
-    return api.doAddTag(values).then(response => {
-      if (!response.status === 201) {
-        dispatch(addTagFailure(response));
+    return Axios.post('/api/v1/tags', data).then(res => {
+      if (!res.status === 201) {
+        dispatch(addTagFailure(res));
         dispatch(notificationSend(notif.MSG_ADD_TAG_FAILURE));
       }
-      dispatch(addTagSuccess(response));
+      dispatch(addTagSuccess(res));
       dispatch(notificationSend(notif.MSG_ADD_TAG_SUCCESS));
     });
   };
@@ -199,17 +170,17 @@ function beginAddTag() {
   };
 }
 
-function addTagSuccess(response) {
+function addTagSuccess(res) {
   return {
     type: t.ADD_TAG_SUCCESS,
-    payload: response.body,
+    payload: res.data,
   };
 }
 
-function addTagFailure(err) {
+function addTagFailure(res) {
   return {
     type: t.ADD_TAG_FAILURE,
-    error: err,
+    error: res.err,
   };
 }
 
@@ -224,9 +195,8 @@ export function deleteTag(id) {
     dispatch({
       type: t.DELETE_TAG_REQUEST,
     });
-    return api
-      .doDeleteTag(id)
-      .then(response => {
+    return Axios.delete(`/api/v1/tags/${id}`)
+      .then(res => {
         dispatch({
           type: t.DELETE_TAG_SUCCESS,
           id,

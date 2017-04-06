@@ -4,12 +4,11 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createMemoryHistory';
 import { StaticRouter } from 'react-router-dom';
 import { matchRoutes } from 'react-router-config';
-
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import Helmet from 'react-helmet';
-import { loadBoldrSettings } from '../../../shared/state/modules/boldr/settings/actions';
+
 import configureStore from '../../../shared/state/store';
-import App from '../../../shared/scenes/App';
+import App from '../../../shared/components/App';
 import routes from '../../../shared/routes';
 import ServerHTML from './ServerHTML';
 
@@ -46,8 +45,6 @@ function boldrSSR(req, res, next) {
   const loadBranchData = () => {
     const branch = matchRoutes(routes, req.url);
     const promises = branch.map(({ route, match }) => {
-      console.log(route, 'route');
-      console.log('match', match);
       // Dispatch the action(s) through the loadData method of "./routes.js"
       if (route.loadData) return route.loadData(store.dispatch, match.params);
 
@@ -59,7 +56,6 @@ function boldrSSR(req, res, next) {
   // Send response after all the action(s) are dispathed
   loadBranchData()
     .then(() => {
-      store.dispatch(loadBoldrSettings());
       // Checking is page is 404
       const status = routerContext.status === '404' ? 404 : 200;
 

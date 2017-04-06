@@ -1,7 +1,7 @@
 /* @flow */
 import { normalize, arrayOf, schema } from 'normalizr';
 import merge from 'lodash/merge';
-import * as api from '../../../../core/api';
+import Axios from 'axios';
 import * as notif from '../../../../core/constants';
 import { notificationSend } from '../../notifications/notifications';
 import * as t from '../../actionTypes';
@@ -14,16 +14,19 @@ import { comment as commentSchema } from './schema';
   *****************************************************************/
 
 export function newComment(data: Object, postId: string) {
+  const payload = {
+    content: data.content,
+    raw_content: data.raw_content,
+  };
   return (dispatch: Function) => {
     dispatch(beginNewComment());
-    return api
-      .doNewPostComment(data, postId)
-      .then(response => {
-        if (response.status !== 201) {
-          dispatch(errorAddingComment(response));
+    return Axios.post(`/posts/${postId}/comments`, { data: payload })
+      .then(res => {
+        if (res.status !== 201) {
+          dispatch(errorAddingComment(res));
         }
         // const normalized = normalize(camelizedJson, arrayOf(postSchema, { idAttribute: 'slug' }));
-        const normalizedData = normalize(response.body, commentSchema);
+        const normalizedData = normalize(res.data, commentSchema);
         dispatch(newCommentSuccess(normalizedData));
         dispatch(notificationSend(notif.MSG_NEW_COMMENT_SUCCESS));
       })

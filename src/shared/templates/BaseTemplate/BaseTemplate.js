@@ -5,12 +5,12 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Footer } from 'boldr-ui';
-import { fetchTemplateResource } from '../../../state/modules/boldr/templates/actions';
-import { fetchMenusIfNeeded, getByLabel } from '../../../state/modules/boldr/menu';
-import { logout } from '../../../state/modules/auth/actions';
-import { selectMe } from '../../../state/modules/users';
-import { MainHeader } from '../../../components/index';
-import type { ReactElement, ReactChildren } from '../../../types/react';
+
+import { fetchMenusIfNeeded, getByLabel } from '../../state/modules/boldr/menu';
+import { logout } from '../../state/modules/auth/actions';
+import { selectMe } from '../../state/modules/users';
+import MainHeader from '../../components/Header';
+import type { ReactElement, ReactChildren } from '../../types/react';
 
 type Props = {
   header: ReactElement,
@@ -87,9 +87,7 @@ class BaseTemplate extends PureComponent {
   handleLogoClick = e => {
     this.props.navigate('/');
   };
-  handleDashClick = e => {
-    this.props.navigate('/admin');
-  };
+
   handleProfileClick = e => {
     this.props.navigate(`/profiles/${this.props.me.username}`);
   };
@@ -111,7 +109,6 @@ class BaseTemplate extends PureComponent {
           handleProfileClick={ this.handleProfileClick }
           handleLogoClick={ this.handleLogoClick }
           handleLogoutClick={ this.handleLogoutClick }
-          handleDashClick={ this.handleDashClick }
         />
         {this.props.hero ? this.props.hero : null}
 

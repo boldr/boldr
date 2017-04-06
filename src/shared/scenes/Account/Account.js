@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import BaseTemplate from '../../pages/templates/Base';
+import { BaseTemplate } from '../../templates';
 import type { ReactElement } from '../../types/react';
 
 type Props = {children: ReactElement, auth: Object}; // eslint-disable-line

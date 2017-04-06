@@ -67,7 +67,8 @@ const FileListItem = props => {
 };
 
 FileListItem.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
+  file: PropTypes.object,
   selectFile: PropTypes.func,
   /**
    * A function which returns the media element to render in the background.

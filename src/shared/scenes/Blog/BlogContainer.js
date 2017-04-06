@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import Helmet from 'react-helmet';
-import BaseTemplate from '../../pages/templates/Base';
+import { BaseTemplate } from '../../templates';
 import type { ReactChildren } from '../../types/react';
 
 const BlogContainer = (props: {children: ReactChildren}) => {

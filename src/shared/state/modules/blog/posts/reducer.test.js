@@ -1,7 +1,7 @@
 import { FETCH_POSTS_REQUEST, FETCH_POST_FAILURE } from '../../actionTypes';
 import postsReducer from './reducer';
 
-describe('Post Duck', () => {
+describe('Post reducer', () => {
   it('Should return the initial state', () => {
     expect(postsReducer(undefined, {})).toEqual({
       all: {},

@@ -10,12 +10,8 @@ import { renderRoutes } from 'react-router-config';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import styled from 'styled-components';
 import { Grid, Col, Row } from 'boldr-ui';
-import Route from 'react-router-dom/Route';
-import Switch from 'react-router-dom/Switch';
 
-import _ from 'lodash';
-
-import { loadSiteActivity, fetchStats } from '../../state/modules/admin/dashboard/actions';
+import { fetchActivityIfNeeded, fetchStatsIfNeeded } from '../../state/modules/admin/dashboard/actions';
 import { updateMedia, updateDrawerType } from '../../state/modules/boldr/ui/actions';
 import navItems from './Dashboard/buildAdminNav';
 
@@ -26,8 +22,8 @@ type State = {
 };
 
 type Props = {
-  loadSiteActivity: () => void,
-  fetchStats: () => void,
+  fetchActivityIfNeeded: () => void,
+  fetchStatsIfNeeded: () => void,
   children: any,
   dashboard: ?Object,
   me: Object,
@@ -59,13 +55,11 @@ const UserName = styled.div`
   margin-right: 50px;
   font-weight: 700;
 `;
-const RouteWithSubRoutes = route => (
-  <Route path={ route.path } render={ props => <route.component { ...props } routes={ route.routes } /> } />
-);
+
 class AdminContainer extends PureComponent {
   static defaultProps: {
-    loadSiteActivity: () => {},
-    fetchStats: () => {},
+    fetchActivityIfNeeded: () => {},
+    fetchStatsIfNeeded: () => {},
   };
 
   constructor(props: Props) {
@@ -84,8 +78,8 @@ class AdminContainer extends PureComponent {
   }
   state: State;
   componentDidMount() {
-    this.props.loadSiteActivity();
-    this.props.fetchStats();
+    // this.props.fetchActivityIfNeeded();
+    // this.props.fetchStatsIfNeeded();
   }
   props: Props;
   _handleToggle(visible) {
@@ -140,11 +134,7 @@ class AdminContainer extends PureComponent {
         toolbarActions={ toolbarActionItems }
       >
         <Wrapper>
-          {renderRoutes(this.props.routes)}
-          <Switch>
-
-            {this.props.children}
-          </Switch>
+          { renderRoutes(this.props.routes) }
         </Wrapper>
       </NavigationDrawer>
     );
@@ -165,7 +155,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  loadSiteActivity,
-  fetchStats,
+  fetchActivityIfNeeded,
+  fetchStatsIfNeeded,
   onMediaTypeChange: updateMedia,
 })(AdminContainer);
