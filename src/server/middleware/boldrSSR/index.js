@@ -8,7 +8,7 @@ import styleSheet from 'styled-components/lib/models/StyleSheet';
 import Helmet from 'react-helmet';
 
 import configureStore from '../../../shared/state/store';
-import App from '../../../shared/components/App';
+import renderRoutes from '../../../shared/core/addRoutes';
 import routes from '../../../shared/routes';
 import ServerHTML from './ServerHTML';
 
@@ -18,7 +18,7 @@ function renderAppToString(store, routerContext, req) {
   return renderToString(
     <Provider store={ store }>
       <StaticRouter location={ req.url } context={ routerContext }>
-        <App />
+        {renderRoutes(routes)}
       </StaticRouter>
     </Provider>,
   );

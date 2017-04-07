@@ -5,15 +5,17 @@ import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 import uuid from 'uuid';
 import classnames from 'classnames';
-import { renderRoutes } from 'react-router-config';
+// import { renderRoutes } from 'react-router-config';
 import { StyleClasses } from 'boldr-ui';
 import Notifications from '../../components/Notification';
+import renderRoutes from '../../core/addRoutes';
 
 const BASE_ELEMENT = StyleClasses.APP;
 
-import routes from '../../routes';
+// import routes from '../../routes';
 
 type Props = {
+  route: Object,
   className: string,
 };
 
@@ -32,15 +34,12 @@ class App extends Component {
   static displayName = 'App';
   props: Props;
   render() {
-    const { className } = this.props;
+    const { className, route } = this.props;
 
     const classes = classnames('boldr', BASE_ELEMENT, className);
     return (
       <div className={ classes }>
-        <Switch>
-          {routes.map(route => routeWithSubRoutes(route))}
-          {renderRoutes(routes)}
-        </Switch>
+        {renderRoutes(route.routes)}
         <Notifications />
       </div>
     );

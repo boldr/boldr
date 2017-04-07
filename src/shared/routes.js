@@ -1,4 +1,5 @@
 /* @flow */
+import App from './components/App';
 import Home from './pages/Home';
 import About from './pages/About';
 import LoginContainer from './scenes/Account/Login/LoginContainer';
@@ -35,150 +36,143 @@ import { fetchTagsIfNeeded, fetchTagPostsIfNeeded } from './state/modules/blog/t
 
 export default [
   {
-    path: '/',
-    exact: true,
-    component: Home,
-  },
-  {
-    path: '/about',
-    exact: true,
-    component: About,
-  },
-  {
-    path: '/blog',
-    exact: true,
-    component: PostListingContainer,
-    loadData: async (dispatch: Dispatch) =>
-      Promise.all([
-        await dispatch(fetchPostsIfNeeded()),
-        await dispatch(fetchTagsIfNeeded()),
-      ]),
-  },
-  {
-    path: '/blog/:slug',
-    exact: true,
-    component: SinglePost,
-    loadData: async (dispatch: Dispatch, params: Object) =>
-      Promise.all([await dispatch(fetchPostIfNeeded(params.slug))]),
-  },
-  {
-    path: '/blog/tags/:name',
-    exact: true,
-    component: TagListContainer,
-    loadData: async (dispatch: Dispatch, params: Object) =>
-      Promise.all([await dispatch(fetchTagPostsIfNeeded(params.name))]),
-  },
-  {
-    path: '/account/login',
-    exact: true,
-    component: LoginContainer,
-  },
-  {
-    path: '/account/signup',
-    exact: true,
-    component: SignupContainer,
-  },
-  {
-    path: '/account/forgot-password',
-    exact: true,
-    component: ForgotPassword,
-  },
-  {
-    path: '/account/reset-password/:token',
-    exact: true,
-    component: ResetPassword,
-  },
-  {
-    path: '/account/verify/:token',
-    exact: true,
-    component: Verify,
-  },
-  {
-    path: '/profiles/:username',
-    component: ProfileContainer,
-    loadData: async (dispatch: Dispatch, params: Object) =>
-      Promise.all([
-        await dispatch(fetchProfileIfNeeded(params.username)),
-      ]),
-  },
-  {
-    path: '/admin',
-    component: AdminContainer,
+    component: App,
     routes: [
       {
-        path: '/admin/posts',
+        path: '/',
         exact: true,
-        strict: true,
-        component: PostListContainer,
+        component: Home,
+      },
+      {
+        path: '/about',
+        exact: true,
+        component: About,
+      },
+      {
+        path: '/blog',
+        exact: true,
+        component: PostListingContainer,
         loadData: async (dispatch: Dispatch) =>
-          Promise.all([
-            await dispatch(fetchPostsIfNeeded()),
-          ]),
+          Promise.all([await dispatch(fetchPostsIfNeeded()), await dispatch(fetchTagsIfNeeded())]),
       },
       {
-        path: '/admin/new-post',
+        path: '/blog/:slug',
         exact: true,
-        component: NewPostContainer,
-      },
-      {
-        path: '/admin/post-editor/:slug',
-        exact: true,
-        component: PostEditor,
+        component: SinglePost,
         loadData: async (dispatch: Dispatch, params: Object) =>
           Promise.all([await dispatch(fetchPostIfNeeded(params.slug))]),
       },
       {
-        path: '/admin/filemanager',
+        path: '/blog/tags/:name',
         exact: true,
-        component: FileManagerContainer,
-        loadData: async (dispatch: Dispatch) =>
-          Promise.all([
-            await dispatch(fetchMedia()),
-          ]),
+        component: TagListContainer,
+        loadData: async (dispatch: Dispatch, params: Object) =>
+          Promise.all([await dispatch(fetchTagPostsIfNeeded(params.name))]),
       },
       {
-        path: '/admin/file-editor/:id',
+        path: '/account/login',
         exact: true,
-        component: FileEditor,
+        component: LoginContainer,
       },
       {
-        path: '/admin/navigation',
+        path: '/account/signup',
         exact: true,
-        component: Navigation,
-        loadData: async (dispatch: Dispatch) =>
-          Promise.all([await dispatch(fetchMenusIfNeeded())]),
+        component: SignupContainer,
       },
       {
-        path: '/admin/members',
+        path: '/account/forgot-password',
         exact: true,
-        component: Members,
-        loadData: async (dispatch: Dispatch) =>
-          Promise.all([await dispatch(fetchMembersIfNeeded())]),
+        component: ForgotPassword,
       },
       {
-        path: '/admin/settings',
+        path: '/account/reset-password/:token',
         exact: true,
-        component: Settings,
+        component: ResetPassword,
       },
       {
-        path: '/admin/tags',
+        path: '/account/verify/:token',
         exact: true,
-        component: TagsContainer,
-        loadData: async (dispatch: Dispatch) =>
-          Promise.all([
-            await dispatch(fetchTagsIfNeeded()),
-          ]),
+        component: Verify,
       },
       {
-        path: '/admin/tags/:name',
-        // exact: true,
-        component: TaggedPost,
-
+        path: '/profiles/:username',
+        component: ProfileContainer,
+        loadData: async (dispatch: Dispatch, params: Object) =>
+          Promise.all([await dispatch(fetchProfileIfNeeded(params.username))]),
+      },
+      {
+        path: '/admin',
+        component: AdminContainer,
+        auth: {
+          required: true,
+          redirect: '/account/login',
+          status: 307,
+        },
+        routes: [
+          {
+            path: '/admin/posts',
+            exact: true,
+            strict: true,
+            component: PostListContainer,
+            loadData: async (dispatch: Dispatch) => Promise.all([await dispatch(fetchPostsIfNeeded())]),
+          },
+          {
+            path: '/admin/new-post',
+            exact: true,
+            component: NewPostContainer,
+          },
+          {
+            path: '/admin/post-editor/:slug',
+            exact: true,
+            component: PostEditor,
+            loadData: async (dispatch: Dispatch, params: Object) =>
+              Promise.all([await dispatch(fetchPostIfNeeded(params.slug))]),
+          },
+          {
+            path: '/admin/filemanager',
+            exact: true,
+            component: FileManagerContainer,
+            loadData: async (dispatch: Dispatch) => Promise.all([await dispatch(fetchMedia())]),
+          },
+          {
+            path: '/admin/file-editor/:id',
+            exact: true,
+            component: FileEditor,
+          },
+          {
+            path: '/admin/navigation',
+            exact: true,
+            component: Navigation,
+            loadData: async (dispatch: Dispatch) => Promise.all([await dispatch(fetchMenusIfNeeded())]),
+          },
+          {
+            path: '/admin/members',
+            exact: true,
+            component: Members,
+            loadData: async (dispatch: Dispatch) => Promise.all([await dispatch(fetchMembersIfNeeded())]),
+          },
+          {
+            path: '/admin/settings',
+            exact: true,
+            component: Settings,
+          },
+          {
+            path: '/admin/tags',
+            exact: true,
+            component: TagsContainer,
+            loadData: async (dispatch: Dispatch) => Promise.all([await dispatch(fetchTagsIfNeeded())]),
+          },
+          {
+            path: '/admin/tags/:name',
+            // exact: true,
+            component: TaggedPost,
+          },
+        ],
+      },
+      {
+        path: '*',
+        component: Error404,
       },
     ],
-  },
-  {
-    path: '*',
-    component: Error404,
   },
 ];

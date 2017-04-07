@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import ConnectedRouter from 'react-router-redux/ConnectedRouter';
 import WebFontLoader from 'webfontloader';
-
+import { renderRoutes } from 'react-router-config';
+import routes from '../shared/routes';
 import configureStore from '../shared/state/store';
 import { checkAuth } from '../shared/state/modules/auth/actions';
 import { getToken } from '../shared/core/authentication/token';
@@ -29,11 +30,11 @@ if (token) {
 }
 
 const renderApp = () => {
-  const App = require('../shared/components/App').default;
+  // const App = require('../shared/components/App').default;
   render(
     <Provider store={ store }>
       <ConnectedRouter history={ history }>
-        <App />
+        {renderRoutes(routes)}
       </ConnectedRouter>
     </Provider>,
     domNode,
@@ -54,14 +55,14 @@ if (module.hot) {
   module.hot.accept('./index.js');
   const reRenderApp = () => {
     try {
-      renderApp(require('../shared/components/App').default);
+      renderApp(require('../shared/routes'));
     } catch (error) {
       const RedBox = require('redbox-react').default;
 
       render(<RedBox error={ error } />, domNode);
     }
   };
-  module.hot.accept('../shared/components/App', () => {
+  module.hot.accept('../shared/routes', () => {
     setImmediate(() => {
       // Preventing the hot reloading error from react-router
       unmountComponentAtNode(domNode);

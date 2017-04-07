@@ -5,10 +5,9 @@ import Link from 'react-router-dom/Link';
 import { connect } from 'react-redux';
 import Avatar from 'react-md/lib/Avatars';
 import Button from 'react-md/lib/Buttons';
-import { renderRoutes } from 'react-router-config';
 import styled from 'styled-components';
 import { Grid, Col, Row } from 'boldr-ui';
-
+import renderRoutes from '../../core/addRoutes';
 import { fetchActivityIfNeeded, fetchStatsIfNeeded } from '../../state/modules/admin/dashboard/actions';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
@@ -22,7 +21,7 @@ type Props = {
   me: Object,
   location: Object,
   ui: Object,
-  routes: Array<Object>,
+  route: Object,
 };
 class AdminContainer extends Component {
   static defaultProps: {
@@ -33,7 +32,7 @@ class AdminContainer extends Component {
   props: Props;
 
   render() {
-    const { location: { pathname, search } } = this.props;
+    const { route, location: { pathname, search } } = this.props;
 
     return (
       <div className="boldrui-dashboard">
@@ -42,7 +41,7 @@ class AdminContainer extends Component {
           <Sidebar { ...this.props } />
           <main className="main">
             <Grid>
-              {renderRoutes(this.props.routes)}
+              {renderRoutes(route.routes)}
             </Grid>
           </main>
         </div>
