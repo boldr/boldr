@@ -1,6 +1,5 @@
 /* @flow */
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import draftToHtml from 'draftjs-to-html';
 

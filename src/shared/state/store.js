@@ -25,8 +25,7 @@ export default function configureStore(preloadedState, history) {
 
   // Creating the store
   const store = createStore(rootReducer, preloadedState, compose(...enhancers));
-
-  // Hot reload
+  
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
