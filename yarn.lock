@@ -6368,6 +6368,12 @@ prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.5.6:
   dependencies:
     fbjs "^0.8.9"
 
+prop-types@^15.5.7:
+  version "15.5.7"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.7.tgz#231c4f29cdd82e355011d4889386ca9059544dd1"
+  dependencies:
+    fbjs "^0.8.9"
+
 propagate@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/propagate/-/propagate-0.4.0.tgz#f3fcca0a6fe06736a7ba572966069617c130b481"
