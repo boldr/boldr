@@ -1,13 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
-import About from './About';
+import Anchor from './Anchor';
 
-describe('<About />', () => {
-  const wrapper = shallow(<About />);
-  it('renders <About /> without breaking', () => {
-    expect(wrapper.find('div').length).toBe(1);
-  });
+describe('<Anchor />', () => {
+  const wrapper = shallow(<Anchor />);
   it('renders snapshot', () => {
     expect(shallowToJson(wrapper)).toMatchSnapshot();
   });

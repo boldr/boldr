@@ -20,7 +20,9 @@ type Props = {
 @connect()
 class App extends Component {
   static displayName = 'App';
-
+  componentDidMount() {
+    this.props.dispatch(fetchSettingsIfNeeded());
+  }
   props: Props;
   render() {
     const { className, route } = this.props;
