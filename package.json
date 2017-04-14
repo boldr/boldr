@@ -58,7 +58,6 @@
     "lint": "eslint src",
     "nuke": "rimraf .happypack && rimraf boldrCMS && rimraf node_modules/.cache",
     "precommit": "lint-staged",
-    "prepush": "npm run test",
     "start": "node bin/boldr",
     "test:ci": "NODE_ENV=test jest -w 4 -u --config=internal/jest/jest.json --forceExit",
     "test": "better-npm-run test"
