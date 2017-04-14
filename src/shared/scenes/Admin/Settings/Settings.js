@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Helmet from 'react-helmet';
 import { ExpansionList, TextField } from 'boldr-ui';
 
@@ -13,7 +13,7 @@ type Props = {
   siteFav: Object,
 };
 
-class Settings extends Component {
+class Settings extends PureComponent {
   props: Props;
 
   render() {

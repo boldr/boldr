@@ -1,5 +1,4 @@
 /* @fllow */
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectSettings, selectSettingFromList } from '../../../state/modules/boldr/settings';
 import Settings from './Settings';
