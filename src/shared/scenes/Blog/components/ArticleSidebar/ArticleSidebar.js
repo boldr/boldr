@@ -28,8 +28,7 @@ const ArticleSidebar = (props: Props) => {
   );
 };
 
-export default graphql(
-  gql`
+export const SIDEBAR_QUERY = gql`
   query ($id: String!) {
       userById(id: $id) {
         username,
@@ -45,12 +44,12 @@ export default graphql(
         }
       }
   }
-`,
-  {
-    options: props => ({
-      variables: {
-        id: props.authorId,
-      },
-    }),
-  },
-)(ArticleSidebar);
+`;
+
+export default graphql(SIDEBAR_QUERY, {
+  options: props => ({
+    variables: {
+      id: props.authorId,
+    },
+  }),
+})(ArticleSidebar);
