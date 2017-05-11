@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint-disable global-require */
+import 'isomorphic-fetch';
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -9,7 +10,8 @@ import WebFontLoader from 'webfontloader';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
+import { ApolloProvider } from 'react-apollo';
+import { browserClient } from '../shared/core/apollo';
 import muiTheme from '../shared/templates/muiTheme';
 import renderRoutes from '../shared/core/addRoutes';
 import routes from '../shared/routes';
@@ -33,9 +35,10 @@ WebFontLoader.load({
 //   whyDidYouUpdate(React);
 // }
 const domNode = document.getElementById('app');
+const client = browserClient();
 const history = createHistory();
 const preloadedState = window.__PRELOADED_STATE__;
-const store = configureStore(history, preloadedState);
+const store = configureStore(client, history, preloadedState);
 
 const { dispatch } = store;
 
@@ -52,13 +55,13 @@ const renderApp = () => {
   });
   // const App = require('../shared/components/App').default;
   render(
-    <Provider store={store}>
+    <ApolloProvider store={store} client={client}>
       <ConnectedRouter history={history} routes={routes[0].routes}>
         <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
           {renderRoutes(routes)}
         </MuiThemeProvider>
       </ConnectedRouter>
-    </Provider>,
+    </ApolloProvider>,
     domNode,
   );
 };

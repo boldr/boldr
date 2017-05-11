@@ -2,7 +2,6 @@
 /* @flow */
 import React, { Children } from 'react';
 import serialize from 'serialize-javascript';
-// $FlowIssue
 import { ifElse, removeNil } from 'boldr-utils';
 import type { Head } from 'react-helmet';
 import ClientConfig from '../../../config/components/ClientConfig';

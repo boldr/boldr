@@ -164,7 +164,11 @@ export default function webpackConfigFactory(buildOptions) {
             entryOnly: false,
           }),
       ),
-      ifDev(() => new CircularDependencyPlugin()),
+      ifDev(() => new CircularDependencyPlugin({
+        exclude: /a\.js|node_modules/,
+        // show a warning when there is a circular dependency
+        failOnError: false,
+      })),
       ifDev(() => new CaseSensitivePathsPlugin()),
       ifProdClient(() => new WebpackMd5Hash()),
       new webpack.EnvironmentPlugin({

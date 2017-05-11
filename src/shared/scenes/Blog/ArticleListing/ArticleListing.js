@@ -3,7 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Grid, Row, Col, Loader, FontIcon } from 'boldr-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { gql, graphql } from 'react-apollo';
 import { FeaturedArticle, ArticleCard } from '../components';
+import { mergeData } from '../../../core/apollo';
 
 type Props = {
   features: Array<Article>,
@@ -13,6 +15,25 @@ type Props = {
   listTags: Object,
   handleChangeLayout: () => void,
 };
+
+const query = gql`
+  query {
+    articles(offset:0,limit:20) {
+      id,
+      title,
+      slug,
+      featureImage
+      featured
+      published
+      createdAt
+      excerpt
+      tags {
+        id,
+        name
+      },
+    }
+  }
+`;
 const CardSpacer = styled.div`
   margin-bottom: 50px;
 `;
@@ -25,59 +46,41 @@ const style = {
   right: '20px',
   bottom: '70px',
 };
-const ArticleListing = (props: Props) => {
-  if (props.isFetching) {
-    return <Loader />;
+
+@graphql(query)
+class ArticleListing extends React.Component {
+  renderArticles = () => {
+    const { articles } = this.props.data;
+    return articles.map(article => (
+      <Col key={article.id} xs={12} md={4}>
+        <CardSpacer>
+          <ArticleCard article={article} listTags={this.props.listTags} />
+        </CardSpacer>
+      </Col>
+    ));
+  };
+
+  render() {
+    if (this.props.isFetching) {
+      return <Loader />;
+    }
+
+    if (this.props.data.loading) {
+      return <Loader />;
+    }
+
+    return (
+      <Grid>
+        <FeaturedArea>
+          {this.props.features.map(article => (
+            <Col key={article.id} xs={12}>
+              <FeaturedArticle {...article} listTags={this.props.listTags} />
+            </Col>
+          ))}
+        </FeaturedArea>
+        {!this.props.data.loading && this.renderArticles()}
+      </Grid>
+    );
   }
-
-  const gridView = (
-    <Row>
-      {props.articles.map(article => (
-        <Col key={article.id} xs={12} md={4}>
-          <CardSpacer>
-            <ArticleCard {...article} listTags={props.listTags} />
-          </CardSpacer>
-        </Col>
-      ))}
-    </Row>
-  );
-
-  const listView = (
-    <div>
-      {props.articles.map(article => (
-        <Col key={article.id} xs={12}>
-          <ArticleCard {...article} listTags={props.listTags} />
-        </Col>
-      ))}
-    </div>
-  );
-
-  return (
-    <Grid>
-      <FeaturedArea>
-        {props.features.map(article => (
-          <Col key={article.id} xs={12}>
-            <FeaturedArticle {...article} listTags={props.listTags} />
-          </Col>
-        ))}
-      </FeaturedArea>
-      {props.layout === 'grid' ? gridView : listView}
-      {props.layout === 'grid'
-        ? <FloatingActionButton
-            secondary
-            style={style}
-            onTouchTap={props.handleChangeLayout}
-          >
-            <FontIcon>view_list</FontIcon>
-          </FloatingActionButton>
-        : <FloatingActionButton
-            style={style}
-            onTouchTap={props.handleChangeLayout}
-          >
-            <FontIcon>view_module</FontIcon>
-          </FloatingActionButton>}
-    </Grid>
-  );
-};
-
+}
 export default ArticleListing;

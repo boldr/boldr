@@ -1,17 +1,18 @@
 /* @flow */
+import 'isomorphic-fetch';
 import React from 'react';
 import type { $Response, $Request } from 'express';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { Provider } from 'react-redux';
 import createHistory from 'history/createMemoryHistory';
 import { StaticRouter } from 'react-router-dom';
 import { matchRoutes } from 'react-router-config';
+import { ApolloProvider, getDataFromTree } from 'react-apollo';
 // $FlowIssue
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import Helmet from 'react-helmet';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
+import { serverClient } from '../../shared/core/apollo';
 import { configureStore } from '../../shared/state';
 import renderRoutes from '../../shared/core/addRoutes';
 import routes from '../../shared/routes';
@@ -19,22 +20,6 @@ import muiTheme from '../../shared/templates/muiTheme';
 import CreateHtml from './CreateHtml';
 
 const debug = require('debug')('boldr:ssrMW');
-
-function renderAppToString(
-  store: Object,
-  routerContext: Object,
-  req: $Request,
-) {
-  return renderToString(
-    <Provider store={store}>
-      <StaticRouter location={req.url} context={routerContext}>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
-          {renderRoutes(routes)}
-        </MuiThemeProvider>
-      </StaticRouter>
-    </Provider>,
-  );
-}
 
 async function boldrSSR(req: $Request, res: $Response) {
   if (typeof res.locals.nonce !== 'string') {
@@ -44,41 +29,42 @@ async function boldrSSR(req: $Request, res: $Response) {
   const { nonce } = res.locals;
   global.navigator = { userAgent: req.headers['user-agent'] };
 
-  // take our array of route objects and match them to the
-  // request.
-  const routeIsMatched = matchRoutes(routes, req.url);
+  // Create a new server Apollo client for this request
+  const client = serverClient();
 
   const history = createHistory({ initialEntries: [req.url] });
-  const store = configureStore(history, {
+  const store = configureStore(client, history, {
     boldr: { settings: { meta: { initialPageLoad: true } } },
   });
 
   const routerContext = {};
-  // Load data on server-side
-  const loadComponentData = () => {
-    const promises = routeIsMatched.map(({ route, match }) => {
-      // Dispatch the action(s) through the loadData method of "./routes.js"
-      if (route.loadData) {
-        return route.loadData(store.dispatch, match.params);
-      }
 
-      return Promise.resolve(null);
-    });
-    return Promise.all(promises);
-  };
-  // Send response after all the action(s) are dispathed
-  await loadComponentData()
+  // Generate the HTML from our React tree.  We're wrapping the result
+  // in `react-router`'s <StaticRouter> which will pull out URL info and
+  // store it in our empty `route` object
+  const appComponent = (
+    <StaticRouter location={req.url} context={routerContext}>
+      <ApolloProvider store={store} client={client}>
+        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+          {renderRoutes(routes)}
+        </MuiThemeProvider>
+      </ApolloProvider>
+    </StaticRouter>
+  );
+
+  // Wait for GraphQL data to be available in our initial render,
+  // before dumping HTML back to the client
+  await getDataFromTree(appComponent)
     .then(() => {
       // Checking is page is 404
       const status = routerContext.status === '404' ? 404 : 200;
       // render the application wrapped with provider, static router and the
       // store.
-      const reactAppString = renderAppToString(store, routerContext, req);
 
       const helmet = Helmet.rewind();
       // render styled-components styleSheets to string.
       const styles = styleSheet.rules().map(rule => rule.cssText).join('\n');
-
+      const reactAppString = renderToString(appComponent);
       const html = renderToStaticMarkup(
         <CreateHtml
           reactAppString={reactAppString}

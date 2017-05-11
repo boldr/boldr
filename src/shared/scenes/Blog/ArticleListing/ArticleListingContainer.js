@@ -22,7 +22,6 @@ type Props = {
   handleChangeLayout: () => void,
   fetchArticlesIfNeeded: () => void,
 };
-
 export class ArticleListingContainer extends Component {
   static defaultProps: {
     fetchArticlesIfNeeded: () => {},
