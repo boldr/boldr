@@ -2,16 +2,31 @@
 import PropTypes from 'prop-types';
 // Apollo client library
 import { createNetworkInterface, ApolloClient } from 'react-apollo';
+import { getToken } from './authentication/token';
 
 // ----------------------
-
+const token = getToken();
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:3000/graphql',
   opts: {
     credentials: 'include',
   },
 });
+networkInterface.use([
+  {
+    applyMiddleware(req, next) {
+      if (!req.options.headers) {
+        req.options.headers = {};
+      }
 
+      // get the authentication token from local storage if it exists
+      if (token) {
+        req.options.headers.authorization = `Bearer ${token}`;
+      }
+      next();
+    },
+  },
+]);
 // Helper function to create a new Apollo client, by merging in
 // passed options alongside the defaults
 function createClient(opt = {}) {

@@ -28,6 +28,7 @@ declare type Article = {
   createdAt: string,
   updatedAt: ?string,
   published: ?boolean,
+  featured: ?boolean,
   author: ?User,
   tags: ?Array<Tag>,
   attachments: ?Object,

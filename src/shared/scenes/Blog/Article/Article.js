@@ -70,14 +70,14 @@ class Article extends PureComponent {
     background-attachment: fixed;
     background-image: url(${articleBySlug.featureImage});
     align-items: center;
-    background-position-x: 0px;
-    background-position-y: 0px;
+    background-position-x: 50%;
+    background-position-y: 50%;
     margin-bottom: 30px;
+
   `;
     return <PostBg><ArticleTitle title={articleBySlug.title} /></PostBg>;
   };
   render() {
-    // const { currentArticle } = this.props;
     if (this.props.data.loading) {
       return <Loader />;
     }

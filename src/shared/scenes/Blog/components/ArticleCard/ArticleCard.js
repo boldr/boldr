@@ -50,7 +50,7 @@ export const ArticleCard = (props: Props) => {
                 <FlatButton
                   primary
                   label="Read More"
-                  onTouchTap={transitionPost}
+                  onClick={transitionPost}
                 />
               </Link>
             </Col>

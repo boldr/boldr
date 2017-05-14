@@ -29,7 +29,7 @@ export default function configureStore(apolloClient, history, preloadedState) {
 
   const enhancers = [
     applyMiddleware(...middlewares),
-    IS_DEV &&
+    __IS_DEV__ &&
       typeof window === 'object' &&
       typeof window.devToolsExtension !== 'undefined'
       ? window.devToolsExtension()

@@ -13,7 +13,7 @@
     }
   },
   "globals": {
-    "__SERVER__": true,
+    "__IS_DEV__": true,
     "__USE_PROXY__": true,
   },
   "rules": {
