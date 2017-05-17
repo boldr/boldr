@@ -5,7 +5,6 @@ import type { $Response, $Request } from 'express';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import createHistory from 'history/createMemoryHistory';
 import { StaticRouter } from 'react-router-dom';
-import { matchRoutes } from 'react-router-config';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 // $FlowIssue
 import styleSheet from 'styled-components/lib/models/StyleSheet';

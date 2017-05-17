@@ -7,14 +7,17 @@ import type { Head } from 'react-helmet';
 import ClientConfig from '../../../config/components/ClientConfig';
 import Html from '../../shared/components/Html';
 
-import getClientBundleEntryAssets from './getClientBundleEntryAssets';
+import getAssets from './getAssets';
+
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
 
 function KeyedComponent({ children }) {
   return Children.only(children);
 }
 
 // Resolve the assets (js/css) for the client bundle's entry chunk.
-const clientEntryAssets = getClientBundleEntryAssets();
+const clientEntryAssets = getAssets();
 
 /**
  * Takes a stylesheet file path and creates an html
@@ -68,8 +71,8 @@ function CreateHtml(props: CreateHtmlProps) {
     ...ifElse(helmet)(() => helmet.base.toComponent(), []),
     ...ifElse(helmet)(() => helmet.meta.toComponent(), []),
     ...ifElse(helmet)(() => helmet.link.toComponent(), []),
-    ifElse(clientEntryAssets && clientEntryAssets.index.css)(() =>
-      createStyleElement(clientEntryAssets.index.css),
+    ifElse(clientEntryAssets && clientEntryAssets.app.css)(() =>
+      createStyleElement(clientEntryAssets.app.css),
     ),
     ...ifElse(helmet)(() => helmet.style.toComponent(), []),
   ]);
@@ -83,18 +86,20 @@ function CreateHtml(props: CreateHtmlProps) {
     createScriptElement(
       'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Symbol',
     ),
-    ifElse(process.env.BUILD_FLAG_IS_DEV)(() =>
-      createScriptElement(`/assets/__dev_vendor_dll__.js?t=${Date.now()}`),
+    ifElse(isProd && clientAssets && clientAssets.common)(() =>
+      createScriptElement(clientAssets.common.js),
     ),
-    ifElse(!process.env.BUILD_FLAG_IS_DEV)(() =>
-      createScriptElement(clientEntryAssets.common.js),
+    ifElse(isProd && clientAssets && clientAssets.vendor.js)(() =>
+      createScriptElement(clientAssets.vendor.js),
     ),
-    ifElse(!process.env.BUILD_FLAG_IS_DEV)(() =>
-      createScriptElement(clientEntryAssets.vendor.js),
+    ifElse(isDev)(() =>
+      createScriptElement(
+        `http://localhost:3001/assets/__vendor_dlls__.js?t=${Date.now()}`,
+      ),
     ),
 
-    ifElse(clientEntryAssets && clientEntryAssets.index.js)(() =>
-      createScriptElement(clientEntryAssets.index.js),
+    ifElse(clientAssets && clientAssets.app.js)(() =>
+      createScriptElement(clientAssets.app.js),
     ),
     ...ifElse(helmet)(() => helmet.script.toComponent(), []),
   ]);

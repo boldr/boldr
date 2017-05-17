@@ -1,10 +1,10 @@
 /**
  * This file resolves the entry assets available from our client bundle.
  */
+/* @flow */
 
 import fs from 'fs';
-import { resolve as pathResolve } from 'path';
-import appRootDir from 'app-root-dir';
+import { ABSOLUTE_ASSETSMANIFEST_PATH, IS_DEVELOPMENT } from '../config';
 
 let resultCache;
 
@@ -21,34 +21,22 @@ let resultCache;
  *     to the render logic.  Having this method allows us to easily fetch
  *     the respective assets simply by using a chunk name. :)
  */
-export default function getClientBundleEntryAssets() {
+export default function getAssets() {
   // Return the assets json cache if it exists.
   // In development mode we always read the assets json file from disk to avoid
   // any cases where an older version gets cached.
-  if (!process.env.BUILD_FLAG_IS_DEV && resultCache) {
+  if (!IS_DEVELOPMENT && resultCache) {
     return resultCache;
   }
 
-  const assetsFilePath = pathResolve(
-    appRootDir.get(),
-    // bundle output path
-    './boldrCMS/client',
-    // bundleAssetsFileName
-    'assets.json',
-  );
-
-  if (!fs.existsSync(assetsFilePath)) {
-    throw new Error(`We could not find the "${assetsFilePath}" file.`);
-  }
-
-  const readAssetsJSONFile = () =>
-    JSON.parse(fs.readFileSync(assetsFilePath, 'utf8'));
-  const assetsJSONCache = readAssetsJSONFile();
-  if (typeof assetsJSONCache === 'undefined') {
+  if (!fs.existsSync(ABSOLUTE_ASSETSMANIFEST_PATH)) {
     throw new Error(
-      'No asset data found for expected "index" entry chunk of client bundle.',
+      `We could not find the "${ABSOLUTE_ASSETSMANIFEST_PATH}" file, which contains a list of the assets of the client bundle.  Please ensure that the client bundle has been built.`,
     );
   }
+  const readAssetsJSONFile = () =>
+    JSON.parse(fs.readFileSync(ABSOLUTE_ASSETSMANIFEST_PATH, 'utf8'));
+  const assetsJSONCache = readAssetsJSONFile();
   resultCache = assetsJSONCache;
   return resultCache;
 }

@@ -5,7 +5,7 @@
   "author": "Steven Truesdell <steven@strues.io>",
   "betterScripts": {
     "dev": {
-      "command": "babel-node internal/development",
+      "command": "boldr-dx dev",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "boldr:*",
@@ -94,6 +94,8 @@
     "babel-preset-env": "1.4.0",
     "babili-webpack-plugin": "^0.0.11",
     "better-npm-run": "^0.0.15",
+    "boldr-dx": "0.3.0-beta.4",
+    "boldr-plugin-webpack": "^0.1.1",
     "cache-loader": "^1.0.3",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "chokidar": "1.7.0",
@@ -174,12 +176,12 @@
   "scripts": {
     "analyze": "babel-node internal/scripts/analyze --client",
     "babel": "NODE_ENV=production babel --ignore node_modules",
-    "build": "NODE_ENV=production USE_PROXY=false babel-node --max_old_space_size=4096 internal/scripts/build --optimize",
+    "build": "NODE_ENV=production boldr-dx build",
     "build:proxy": "NODE_ENV=production USE_PROXY=true babel-node internal/scripts/build --optimize",
     "build:test": "babel-node internal/scripts/build",
     "clean": "babel-node internal/scripts/clean",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "dev": "better-npm-run dev",
+    "dev": "NODE_ENV=development boldr-dx dev",
     "flow": "babel-node internal/scripts/flow",
     "flow:defs": "flow-typed install --overwrite",
     "format": "prettier --single-quote=true --jsx-bracket-same-line=false --trailing-comma=all --write \"src/**/*.js\"",
