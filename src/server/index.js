@@ -6,7 +6,6 @@ const debug = require('debug')('boldr:server');
 const port = 3000;
 const server = http.createServer(app);
 // Create an http listener for our express app.
-server.listen(port, () => console.log(`Server listening on port ${port}`));
 
 process.on('SIGINT', () => {
   console.info('shutting down!');
@@ -19,5 +18,8 @@ process.on('uncaughtException', error => {
   console.error(error.stack);
   process.exit(1);
 });
+const listener = server.listen(port, () => {
+  console.log(`🚀  Server running on port: ${port}`);
+});
 
-export default server;
+export default listener;

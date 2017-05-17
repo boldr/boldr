@@ -56,7 +56,7 @@ function buildDevDlls(bundleName, bundleConfig) {
 
   function buildVendorDLL() {
     return new Promise((resolve, reject) => {
-      logger.info(`The following 🚧 dependencies have been included:\n\t-${devDLLDependencies.join('\n\t-')}\n`); // eslint-disable-line
+      logger.info(`The following  🚧 dependencies have been included:\n\t-${devDLLDependencies.join('\n\t-')}\n`); // eslint-disable-line
       const webpackConfig = webpackConfigFactory();
       const vendorDLLCompiler = webpack(webpackConfig);
       vendorDLLCompiler.run(err => {

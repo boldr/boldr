@@ -25,10 +25,6 @@ class HotClientServer {
       quiet: true,
       noInfo: true,
       lazy: false,
-      watchOptions: {
-        aggregateTimeout: 300,
-        poll: true,
-      },
       stats: {
         colors: true,
       },

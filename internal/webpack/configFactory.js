@@ -12,8 +12,6 @@ import WebpackMd5Hash from 'webpack-md5-hash';
 import NamedModulesPlugin from 'webpack/lib/NamedModulesPlugin';
 import { removeNil, mergeDeep, ifElse, logger } from 'boldr-utils';
 import config from '../../config';
-import { happyPackPlugin } from '../utils';
-import withServiceWorker from './withServiceWorker'; // eslint-disable-line
 
 const ROOT_DIR = appRootDir.get();
 
@@ -86,7 +84,7 @@ export default function webpackConfigFactory(buildOptions) {
   const ifProdClient = ifElse(isProd && isClient);
 
   logger.start(
-    `Creating ${isProd ? 'an optimized' : 'a development'} bundle for the "${target}"`,// eslint-disable-line
+    `Creating ${isProd ? 'an optimized' : 'a development'} bundle for the "${target}"`, // eslint-disable-line
   );
 
   const bundleConfig = config(['bundles', target]);
@@ -96,7 +94,8 @@ export default function webpackConfigFactory(buildOptions) {
     throw new Error();
   }
 
-  let webpackConfig = {// eslint-disable-line
+  const webpackConfig = {
+    // eslint-disable-line
     target: isClient ? 'web' : 'node',
 
     entry: removeEmptyKeys({
@@ -164,7 +163,14 @@ export default function webpackConfigFactory(buildOptions) {
             entryOnly: false,
           }),
       ),
-      ifDev(() => new CircularDependencyPlugin()),
+      ifDev(
+        () =>
+          new CircularDependencyPlugin({
+            exclude: /a\.js|node_modules/,
+            // show a warning when there is a circular dependency
+            failOnError: false,
+          }),
+      ),
       ifDev(() => new CaseSensitivePathsPlugin()),
       ifProdClient(() => new WebpackMd5Hash()),
       new webpack.EnvironmentPlugin({
@@ -175,9 +181,7 @@ export default function webpackConfigFactory(buildOptions) {
         BUILD_FLAG_IS_DEV: isDev,
       }),
       new webpack.DefinePlugin({
-        IS_DEV: JSON.stringify(isDev),
-        __SERVER__: JSON.stringify(isServer),
-        DEBUG: JSON.stringify(process.env.DEBUG),
+        __IS_DEV__: JSON.stringify(isDev),
         __USE_PROXY__: JSON.stringify(process.env.USE_PROXY),
       }),
 
@@ -191,100 +195,6 @@ export default function webpackConfigFactory(buildOptions) {
       ifDev(() => new webpack.NoEmitOnErrorsPlugin()),
       ifDevClient(() => new webpack.HotModuleReplacementPlugin()),
 
-      happyPackPlugin({
-        name: 'hp-js',
-        loaders: [
-          {
-            path: 'babel-loader',
-            query: {
-              babelrc: false,
-              compact: true,
-              cacheDirectory: true,
-              sourceMaps: false,
-              comments: false,
-              presets: [
-                ifClient([
-                  'env',
-                  {
-                    useBuiltIns: true,
-                    debug: false,
-                    modules: false,
-                    targets: {
-                      node: 'current',
-                    },
-                    exclude: [
-                      'transform-async-to-generator',
-                      'transform-regenerator',
-                    ], // eslint-disable-line
-                  },
-                ]),
-                ifNode([
-                  'env',
-                  {
-                    useBuiltIns: true,
-                    debug: false,
-                    modules: false,
-                    targets: {
-                      node: 'current',
-                    },
-                    exclude: [
-                      'transform-async-to-generator',
-                      'transform-regenerator',
-                    ], // eslint-disable-line
-                  },
-                ]),
-                'stage-2',
-                'react',
-              ].filter(x => x != null),
-              plugins: [
-                'syntax-dynamic-import',
-                'syntax-flow',
-                'syntax-trailing-function-commas',
-                'transform-decorators-legacy',
-                'fast-async',
-                ifClient([
-                  'react-loadable/babel',
-                  {
-                    server: true,
-                    webpack: true,
-                  },
-                ]),
-                ifNode('dynamic-import-node'),
-                ifClient('dynamic-import-webpack'),
-                ifClient(['transform-react-jsx', { useBuiltIns: true }]),
-                ifProd('transform-flow-strip-types'),
-                ifProdClient([
-                  'transform-react-remove-prop-types',
-                  { removeImport: true },
-                ]),
-                ifDev('transform-react-jsx-self'),
-                ifDev('transform-react-jsx-source'),
-              ].filter(x => x != null),
-            },
-          },
-        ],
-      }),
-      happyPackPlugin({
-        name: 'hp-scss',
-        loaders: [
-          { path: 'style-loader' },
-          {
-            path: 'css-loader',
-            use: {
-              importLoaders: 2,
-              localIdentName: '[name]__[local]___[hash:base64:5]',
-              sourceMap: true,
-              modules: true,
-            },
-          },
-          {
-            path: 'postcss-loader',
-          },
-          {
-            path: 'sass-loader',
-          },
-        ],
-      }),
       ifDevClient(() => new NamedModulesPlugin()),
       ifProdClient(() => new webpack.HashedModuleIdsPlugin()),
       ifProdClient(() => new BabiliPlugin({}, { comments: false })),
@@ -324,10 +234,35 @@ export default function webpackConfigFactory(buildOptions) {
       rules: removeNil([
         {
           test: /\.jsx?$/,
-          use: ['cache-loader', 'happypack/loader?id=hp-js'],
+          use: [
+            'cache-loader',
+            {
+              loader: 'babel-loader',
+              options: {
+                babelrc: false,
+                compact: true,
+                cacheDirectory: true,
+                sourceMaps: false,
+                comments: false,
+                presets: [
+                  'env',
+                  ifClient('boldr/browser'),
+                  ifNode('boldr/node'),
+                ].filter(x => x != null),
+                plugins: [
+                  ifClient([
+                    'react-loadable/babel',
+                    {
+                      server: true,
+                      webpack: true,
+                    },
+                  ]),
+                ].filter(x => x != null),
+              },
+            },
+          ],
           exclude: [
             /node_modules/,
-            path.resolve(ROOT_DIR, './.happypack'),
             path.resolve(ROOT_DIR, './boldrCMS'),
             path.resolve(ROOT_DIR, './internal'),
             path.resolve(ROOT_DIR, './.cache-loader'),
@@ -343,7 +278,20 @@ export default function webpackConfigFactory(buildOptions) {
           mergeDeep(
             { test: /(\.scss|\.css)$/ },
             ifDevClient({
-              loaders: ['happypack/loader?id=hp-scss'],
+              loaders: [
+                'style-loader',
+                {
+                  loader: 'css-loader',
+                  options: {
+                    importLoaders: 2,
+                    localIdentName: '[name]__[local]___[hash:base64:5]',
+                    sourceMap: true,
+                    modules: true,
+                  },
+                },
+                'postcss-loader',
+                'sass-loader',
+              ],
             }),
             ifProdClient(() => ({
               loader: ExtractTextPlugin.extract({
@@ -371,9 +319,5 @@ export default function webpackConfigFactory(buildOptions) {
       ]),
     },
   };
-  // if (isProd && isClient) {
-  //   webpackConfig = withServiceWorker(webpackConfig, bundleConfig);
-  // }
-  // Apply the configuration middleware.
   return config('plugins.webpackConfig')(webpackConfig, buildOptions);
 }
